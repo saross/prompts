@@ -1,0 +1,1 @@
+Repo for prompt engineering work. Contains prompts generated during Theseus' Ship research and the accompanying LLM paper, as well as other work.
