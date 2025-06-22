@@ -1,1 +1,1 @@
-Repo for prompt engineering work. Contains prompts generated during Theseus' Ship research and the accompanying LLM paper, as well as other work.
+Repo for prompt engineering work. Contains prompts generated during Theseus' Ship research and the accompanying LLM paper, general writing guides / research philosophy / collaboration guides, as well as work related to my role at the ARDC.

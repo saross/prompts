@@ -1,0 +1,29 @@
+# RAiD in Global PID Strategies
+## Question/Task
+I am the Product Manager for RAiD at the Australian Research Data Commons, the ISO Registration Authority for RAiD. We are monitoring mentions of RAiD in relevant contexts to understand our operating environment.
+
+Please conduct thorough research and produce a comprehensive report detailing mentions of the Research Activity Identifier (RAiD; ISO 23527) from January 2020 to present, with particular emphasis on the past 12 months. Focus on mentions in:
+- National Persistent Identifier (PID) strategies or statements
+- PID requirements or recommendations from grant funders
+- Research organisations' documentation or policies
+- Scholarly and professional societies' communications
+- Research infrastructure providers' documentation
+
+## Report Structure
+Please structure your report with:
+- Executive summary (1-2 paragraphs highlighting key findings)
+- Methodology section describing your search strategy
+- Findings organised by context category (national strategies, funder policies, etc.)
+- Table summarising all mentions with source, date, and brief context
+- Analysis of emerging patterns or trends in RAiD adoption/positioning
+- Appendix with links to all primary sources
+
+## Research Approach
+- **Search Strategy**: Use varied search terms including "Research Activity Identifier", "RAiD", "ISO 23527", "persistent identifier for research projects", etc. Document search terms used.
+- **Global Scope**: Conduct a thorough global search without geographic limitations, as the ARDC has global responsibilities as the ISO Registration Authority.
+- **Key Sources**: Include searches of research funders' websites (e.g., ARC, NHMRC, UKRI, NIH, ERC), national research infrastructure organisations, and documentation from other PID providers including ORCID, DataCite, and CrossRef. Also examine relevant scholarly and professional societies.
+- **Source Hierarchy**: Prioritise if sources conflict: official documentation → news sources → blogs or community sources.
+- **Non-English Content**: For non-English sources, note the language and provide translated key excerpts relevant to RAiD. Do not limit searches to English-language sources.
+- **Documentation**: Maintain a complete list of sources examined, including those where RAiD was not mentioned.
+- **Rigour**: Base all claims on supporting evidence. Extrapolate from evidence when appropriate, but indicate uncertainty clearly. Seek multiple confirming sources for each significant claim.
+- **Analysis**: Assess how RAiD is positioned relative to other PIDs (such as DOIs, ORCIDs) and identify any emerging trends in adoption or perception.
