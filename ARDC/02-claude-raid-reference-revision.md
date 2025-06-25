@@ -1,6 +1,6 @@
 Hi Claude,
 
-You and I are continuing work on the RAiD Reference Documentation. We are now working on Section [X]: [Section Title]. 
+You and I are continuing work on the RAiD Reference Documentation. We are now working on Section [X.X]: [Section Title]. 
 
 Please follow this systematic process:
 
@@ -8,8 +8,8 @@ Please follow this systematic process:
 1. First, briefly confirm you can access the current documentation artifact and identify what content already exists for this section
 2. Conduct a **comprehensive** search of project knowledge relevant to Section [X], using multiple targeted searches to ensure thorough coverage
 3. Generate a structured review report containing:
-   - **Current State Content**: Factual information about RAiD's existing features, capabilities, and processes
-   - **Additions/Elaborations**: New content from project knowledge that should be incorporated
+   - **Current State Content**: Factual information about RAiD's existing features, capabilities, and processes (e.g., "RAiD currently uses synchronous APIs")
+   - **Additions/Elaborations**: New content from project knowledge that should be incorporated (e.g., "Technical specification found but not yet documented")
    - **Clarifications/Refinements**: Existing content that could be improved based on project knowledge
    - **Contradictions**: Any conflicts between current content and project knowledge (or within project knowledge itself)
    - **Missing Information**: Gaps where we lack necessary information in project knowledge
@@ -23,14 +23,6 @@ After presenting your findings, wait for my responses before making any changes.
 - Indicate which suggestions to implement
 - Add new ideas prompted by your review
 
-## Phase 3: Implementation
-Only after Phase 2 is complete, update the section's documentation artifact by:
-- Making only the agreed-upon changes
-- Preserving all existing content unless explicitly directed otherwise
-- Maintaining consistent style and terminology using the style 'Academic Eloquence'
-- Adding items to maintenance lists where appropriate
-- Clearly distinguishing current features from future enhancements (if any future content is included)
-
 ## Key Principles
 - **Document current reality first**: Focus on what RAiD currently is and does, not what it might become
 - **Distinguish aspirational content**: If future plans must be mentioned, clearly mark them as "planned", "under consideration", or place in "future enhancement" section - including changes or extensions *you* recommend (and that we agree on). Reference Section 10.6 (Development Roadmap) for detailed future plans
@@ -42,4 +34,8 @@ Only after Phase 2 is complete, update the section's documentation artifact by:
 - Flag any cross-references that may need updating
 - Note items that might be better suited for other sections
 
+Pay special attention to 'RAiD Documentation Clarifications and Updates (Updated).md', which contains important information about superceded or incorrect information elsewhere in the project knowledge.
+
 Do not begin making changes until we've completed the review and discussion phases.
+
+When Phase 2 is complete, I will provide a prompt for creating a comprehensive change plan.
