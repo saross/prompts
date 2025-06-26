@@ -5,8 +5,8 @@ You and I are continuing work on the RAiD Reference Documentation. We are now wo
 Please follow this systematic process:
 
 ## Phase 1: Initial Content Review
-1. First, briefly confirm you can access the current documentation artifact and identify what content already exists for this section
-2. Conduct a **comprehensive** search of project knowledge relevant to Section [X], using multiple targeted searches to ensure thorough coverage
+1. First, briefly confirm you can access the current documentation artifact for the entire Section (Section [X]: [Section Title]) and identify what content already exists for this section
+2. Conduct a **comprehensive** search of project knowledge relevant to Section [X], using multiple targeted searches to ensure thorough coverage; briefly name *key* sources in project knowledge
 3. Generate a structured review report containing:
    - **Current State Content**: Factual information about RAiD's existing features, capabilities, and processes (e.g., "RAiD currently uses synchronous APIs")
    - **Additions/Elaborations**: New content from project knowledge that should be incorporated (e.g., "Technical specification found but not yet documented")

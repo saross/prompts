@@ -1,6 +1,6 @@
 # Prompt for Updating Progress Tracking Document
 
-We have completed Section [X.X]: [Section Title], update the "RAiD Reference Documentation - Progress Tracking and Task List.md" document (current version v[N] → v[N+1]).
+We have completed Section [X.X]. Now please update the "RAiD Reference Documentation - Progress Tracking and Task List.md" document (current version v[N] → v[N+1]). Note that this document is cumulative; *do not remove or change existing content unless* it has been superceded*.
 
 ## 1. Mark Section Complete
 Under "Completed ✓" or "In Progress", add:
@@ -54,8 +54,6 @@ Add new:
 - **Content Decisions**: How to present specific content
 - **Terminology Consistency**: New terms/corrections
 
-Note: Update "RAiD Documentation Clarifications and Updates.md" separately if significant clarifications made.
-
 ## 5. Prepare for Next Section
 - Update "In Progress"/"To Do" status
 - Update "Next Steps" with next target and considerations
@@ -67,4 +65,4 @@ Note: Update "RAiD Documentation Clarifications and Updates.md" separately if si
 - Ensure consistency throughout
 - Present as complete markdown artifact
 
-Key principle: Be specific, include section numbers, maintain structure, flag items needing attention.
+Key principle: Be specific, include section numbers, maintain structure, flag items needing attention. 
