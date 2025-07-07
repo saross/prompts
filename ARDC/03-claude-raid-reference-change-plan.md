@@ -1,6 +1,6 @@
 # Comprehensive Change Plan Creation
 
-Following our review and clarification discussion for Section [X.X]: [Section Title], please create a comprehensive change plan using these specifications:
+Following our review and clarification discussion for Section [X.X], please create a comprehensive change plan using these specifications:
 
 ## Change Plan Requirements
 

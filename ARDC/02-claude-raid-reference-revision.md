@@ -1,6 +1,6 @@
 Hi Claude,
 
-You and I are continuing work on the RAiD Reference Documentation. We are now working on Section [X.X]: [Section Title]. 
+You and I are continuing work on the RAiD Reference Documentation. We are now working on Section [3.5]. 
 
 Please follow this systematic process:
 
@@ -14,6 +14,7 @@ Please follow this systematic process:
    - **Contradictions**: Any conflicts between current content and project knowledge (or within project knowledge itself)
    - **Missing Information**: Gaps where we lack necessary information in project knowledge
    - **Aspirational Content**: Identify any content that describes future plans, recommendations, or "should have" features rather than current reality; mark all such content clearly using consistent terminology, or place in a dedicated section.
+   - **Structure and Organisation**: Suggest changes to the structure of Section [X] that reduce redundancy, improve consistency, and optimise the section for later use by LLMs.
 
 ## Phase 2: Interactive Refinement
 After presenting your findings, wait for my responses before making any changes. I will:

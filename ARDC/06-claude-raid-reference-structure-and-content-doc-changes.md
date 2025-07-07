@@ -1,6 +1,6 @@
 # Prompt for Updating "Changes to RAiD Structure and Content Coverage Analysis"
 
-We have completed Section [X.X]. Please update the 'Changes to RAiD Structure and Content Coverage Analysis' document to capture meaningful differences between planned and implemented content. 
+We have completed Section [3.4]. Please update the 'Changes to RAiD Structure and Content Coverage Analysis' document to capture meaningful differences between planned and implemented content. 
 
 **Important**: If this document doesn't exist in project knowledge, create a new one titled "Changes to RAiD Structure and Content Coverage Analysis (Section [X])". This document accumulates changes throughout Section [X] development and will be removed after applying updates to the master structure document.
 

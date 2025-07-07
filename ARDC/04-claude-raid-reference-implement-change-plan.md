@@ -1,6 +1,6 @@
 ## Implementation Prompt for Subsection Change Plans
 
-**Pre-implementation**: Confirm you have the approved change plan for Section [X.X]
+**Pre-implementation**: Confirm you have the approved change plan for Section [3.4] *and* to the latest target document 'Section [X]: [Title] (Updated...).md' in Project Knowledge.
 
 **Document**: Update 'Section [X]: [Title] (Updated...).md' in Project Knowledge, changing title to '(Updated through Section [X.X])'
 

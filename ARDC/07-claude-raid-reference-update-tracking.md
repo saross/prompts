@@ -1,6 +1,6 @@
 # Prompt for Updating Progress Tracking Document
 
-We have completed Section [X.X]. Now please update the "RAiD Reference Documentation - Progress Tracking and Task List.md" document (current version v[N] → v[N+1]). Note that this document is cumulative; *do not remove or change existing content unless* it has been superceded*.
+We have completed Section [3.4]. Now please update the "RAiD Reference Documentation - Progress Tracking and Task List.md" document (current version v[N] → v[N+1]). Note that this document is cumulative; *do not remove or change existing content unless* it has been superceded*.
 
 ## 1. Mark Section Complete
 Under "Completed ✓" or "In Progress", add:
