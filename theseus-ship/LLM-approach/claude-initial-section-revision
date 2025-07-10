@@ -1,0 +1,33 @@
+## Optimised Prompt for Section Revision
+
+I need help revising the [FINDINGS] section of an academic paper. My goals are to:
+- Consolidate and reorganise content by theme without repetition
+- Preserve our academic voice and style (the 'Academic Eloquence' style as a basis, combine with what you've observed from previous sections)
+- Maintain all LaTeX formatting and citations exactly
+- Focus on structure and flow, taking a light touch with text revision
+- Defer analysis/critique to Discussion section
+
+Please review the attached text and:
+1. First, identify major thematic groupings in the current content
+2. Propose a reorganised structure with clear subsections
+3. Note any redundancies or opportunities for consolidation
+4. Identify material that belongs in Discussion rather than this section
+
+Let's work iteratively: you'll make suggestions, I'll approve/modify them, then you'll implement. We'll handle subsection divisions first, then proceed to finer-grained revision within each subsection.
+
+For context, here's what this section needs to accomplish: 'Findings' should present outcomes of the research, NOT commentary or analysis better situated under 'Discussion' later. In particular, I want to present what we were able to accomplish, along with objective presentation of shortcomings / failure. I'd like to include such things as: 
+
+- How many references each LLM service in 'research mode' found in the context of the total number of papers located by me (as a human researcher), and by any means.
+- How many references significant human correction of the reference.
+- How many references were incorrect to the extent that they could not be used.
+- How many tools were found via search of journals in the contenxt of how many were known from open-archaeo on GitHub.
+- How many of those tools were confabulated or insufficiently described to be found.
+- What metadata, and what quality of metadata, was able to be discovered and applied to tools. 
+- Regarding sightings in the wild / evidence of life of the tools, how did LLM-generated evidence compare to commits in GitHub (our 'gold standard' for signs of life)?
+- Regarding sightings / evidence, what were the specific failures, i.e., clear signs of life that a human would see immediately but were missed by the LLM (e.g., the statementment on a webpage that 'this project began in XXXX year' but the LLM only took the much-later date of the website as evidence, not the content of the website).
+- Regarding ideation and composition, how were the LLMs helpful and how did they fail? This evaluation is more subjective and we'll need to be careful what we include here and what under 'discussion'. 
+- Regarding revision, how did the LLMs help and how did they fail (same caveat as previous point)?
+
+Some of this information is present in the existing draft, and some isn't. Please ask me specific questions to acquire the missing information. 
+
+The section text, along with earlier sections for style and context, is attached. Please confirm you understand the task and propose our initial approach to reorganisation.
