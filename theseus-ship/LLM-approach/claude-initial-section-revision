@@ -15,7 +15,13 @@ Please review the attached text and:
 
 Let's work iteratively: you'll make suggestions, I'll approve/modify them, then you'll implement. We'll handle subsection divisions first, then proceed to finer-grained revision within each subsection.
 
-For context, here's what this section needs to accomplish: 'Findings' should present outcomes of the research, NOT commentary or analysis better situated under 'Discussion' later. In particular, I want to present what we were able to accomplish, along with objective presentation of shortcomings / failure. I'd like to include such things as: 
+For context, here's what this section needs to accomplish: 'Findings' should present outcomes of the research, NOT commentary or analysis better situated under 'Discussion' later. In particular, I want to present what we were able to accomplish, along with objective presentation of shortcomings / failure. 
+
+Regarding structure, I'd like to:
+- Get your opinion on the approach of going through lab-by-lab rather than thematically (noting that the 'discussion' section will be thematic; I'm not sure if the contrasting presentation is helpful or not).
+- Ensure that subsections under each lab are divided up the same and title the same, with parallel structures (noting that not all labs' tools were used for all phases of research, so a subsection can be missing, but if it exists it should align with parallel subsections under other labs). Note that the 'minor' LLM services we looked at (HuggingFace 'deep research'; Elicit; Perplexity) may not have these sections, which is fine. 
+
+Regarding content, I'd like to include such things as: 
 
 - How many references each LLM service in 'research mode' found in the context of the total number of papers located by me (as a human researcher), and by any means.
 - How many references significant human correction of the reference.
