@@ -85,12 +85,14 @@ What type of text data do you need?
 | Field Type | Storage | Max Length | Use When | Avoid When |
 |------------|---------|------------|----------|------------|
 | **TextField** | String | ~200 chars | Names, codes, identifiers | Long narratives |
-| **MultilineText** | String | 10,000 chars | Descriptions, notes, observations | Single identifiers |
+| **MultilineText** | String | 10,000 chars* | Descriptions, notes, observations | Single identifiers |
 | **TemplatedString** | String | Auto-generated | HRIDs, derived identifiers | User input needed |
 | **Email** | String | Email format | Contact information | Non-email data |
 | **Address** | JSON | Complex object | Structured addresses | Simple text sufficient |
 | **QRCodeFormField** | String | Scanned value | Mobile barcode capture | Web platform |
 | **RichText** | None | Display only | Instructions, headers | Data capture |
+
+*See [Common Characteristics > Performance Boundaries] for performance implications beyond 10,000 characters
 
 ### Selection Strategy
 
@@ -146,7 +148,7 @@ When using the Designer interface, follow these simple rules:
 - Only "Email" uses the base TextField component
 
 This mapping table is essential for:
-- Debugging field behaviour issues
+- Debugging field behaviour issues (see [Troubleshooting Guide > Critical Issues Table])
 - Writing JSON configurations manually
 - Understanding error messages that reference component names
 - Migrating between Designer versions
@@ -460,9 +462,10 @@ Single-line text input for brief, unconstrained textual data. Primary choice for
 2. **FAIMSTextField** (faims-custom): Enhanced with expandable help, resizable UI
 
 #### TextField-Specific Validation {important}
-See [Common Characteristics > Validation Patterns] for standard rules
+See [Common Characteristics > Common Validation Patterns] for standard rules
 
 #### TextField-Specific Issues {important}
+For solutions, see [Troubleshooting Guide > Quick Fixes Table]
 - Users exceed 50 character recommendation
 - Mobile keyboards cover input
 - Pattern validation errors unclear
@@ -509,6 +512,7 @@ Extended text entry for narrative content, detailed observations, and interpreta
 - Whitespace-only input converts to empty string
 - Internal scrolling when content exceeds visible area
 - No rich text formatting - plain text only
+- Performance degrades beyond 10,000 characters (see [Common Characteristics > Performance Boundaries])
 
 #### MultilineText-Specific Features {important}
 - Enter key creates new lines (not form submission)
@@ -521,7 +525,7 @@ Extended text entry for narrative content, detailed observations, and interpreta
 - Fixed height can hide content
 - Performance degrades beyond 10,000 characters (see [Common Characteristics > Performance Boundaries])
 - Line breaks may not preserve in some exports
-- Voice input creates run-on text (Android): Manual paragraph breaks needed
+- Voice input creates run-on text (Android): Manual paragraph breaks needed (see [Troubleshooting Guide > Common Problems Table])
 
 ### TemplatedString (Templated String Field in Designer) {essential}
 <!-- keywords: hrid, template, mustache, auto-generate, identifier -->
@@ -606,6 +610,7 @@ Auto-generates text values from other fields using Mustache templates. **MANDATO
 - No duplicate checking
 
 #### Email-Specific Troubleshooting {important}
+Also see [Troubleshooting Guide > Common Problems Table] for general validation issues
 - **Validation too strict**: Actually permissive; check for spaces
 - **Plus addresses rejected**: Supported; check other issues
 - **Keyboard missing @**: Ensure `InputProps.type` set to "email"
@@ -787,82 +792,49 @@ See [Common Characteristics > Validation Patterns > Validation Behavior]
 **Cause**: QRCodeFormField marked required  
 **Solution**: Remove required validation or implement manual entry field
 
-### Performance Issues {important}
+### Critical Issues Table {important}
 
-#### Performance Degradation {important}
-**Symptom**: Form becomes sluggish  
-**Solutions by field**:
-- TextField: Keep under 50 characters
-- MultilineText: Stay below 10,000 characters
-- TemplatedString: Limit to 50 variables, 1-3 per form
-- Email: Keep under 254 characters
-- RichText: <50 words per field, <1000 total
-- Address: Monitor JSON payload size  
-See [Common Characteristics > Performance Boundaries]
+| Symptom | Field Type | Cause | Immediate Action | Fix | Prevent |
+|---------|------------|-------|------------------|-----|---------|
+| Form cannot be submitted on web | QRCodeFormField | Required validation breaks web platform | Remove required validation | Never mark QRCodeFormField as required | Pair with TextField for web fallback |
+| Maximum call stack exceeded | TemplatedString | Circular reference between templates | Remove circular references | Templates cannot reference other TemplatedStrings | Validate template references before deployment |
+| App crashes with multiple fields | RichText | Memory leak accumulation (>10 fields) | Restart app immediately | Limit to <10 RichText fields, <1000 total words | Monitor RichText count and content volume |
+| XSS vulnerability exposed | TemplatedString | HTML escaping disabled with user input | Remove user text fields from templates | Use controlled vocabularies only | Never include free-text fields in templates |
+| Data disappears while typing | Address | Race condition when tabbing quickly | Save form immediately | Allow 500ms pause between field entries | Train users on deliberate entry |
+| Form won't load | Any field | Wrong component name or namespace | Check browser console | Verify exact component names and namespaces | Use documentation component mapping |
+| Field permanently shows "Empty" | Address | initialValue set to "" instead of null | Change initialValue to null | Address must use null not empty string | Check all JSON field types |
+| Scanner never completes | QRCodeFormField | Multiple barcodes or movement during scan | Isolate single barcode | Hold steady 3-4 seconds for 10-scan validation | Train on scanning requirements |
+| Validation prevents all edits | Any field | Required added to populated field | Remove required temporarily | Test validation before applying to existing data | Add validation only to new fields |
 
-#### Mobile App Crashes {important}
-**Affects**: RichText  
-**Symptom**: App crashes or becomes unresponsive with multiple RichText fields  
-**Causes**: Memory leak accumulation, no HTML cleanup  
-**Solutions**:
-1. Limit total content to <1000 words across all RichText fields
-2. Reduce number of RichText fields (<10 recommended)
-3. Split large content across conditional fields
-4. Restart app periodically to clear memory
+### Common Problems Table {important}
 
-### Export Issues {important}
+| Symptom | When | Why | Try This | If That Fails | Long Term |
+|---------|------|-----|----------|---------------|-----------|
+| Required field not showing error | After form submission attempt | Field hasn't been "touched" | Click field then click away | Check validation schema order | Train users on validation timing |
+| Email validation too strict | Entering institutional addresses | Actually permissive - check for spaces | Remove all spaces from email | Check for typos in address | Document accepted formats |
+| Content exceeds field boundaries | TextField >50 chars | Single-line limitation | Switch to MultilineText | Reduce content length | Set character limits upfront |
+| Tables/blockquotes disappear | RichText at runtime | DOMPurify strips unsupported elements | Use formatted lists or Base64 images | Create image of complex content | Document runtime limitations |
+| External images don't display | RichText content | Security blocks external URLs | Convert to Base64 embedded images | Use images <100KB only | Train on image requirements |
+| Line breaks lost in export | MultilineText CSV export | Reader settings issue | Configure CSV reader for multiline | Use specific delimiter settings | Document export requirements |
+| JSON in single column | Address CSV export | Complex object export behavior | Post-process with Python/scripts | Extract needed fields only | Provide extraction scripts |
+| @ symbol missing on keyboard | Email field mobile | Wrong keyboard type | Ensure InputProps.type="email" | Type @ manually | Test on target devices |
+| Performance degrades | >30 text fields per section | Form evaluation overhead | Paginate form sections | Reduce fields per section | Design with limits in mind |
+| No character counter shown | TextField/MultilineText | Not built into component | Add count to helperText | Use FAIMSTextField variant | Set expectations clearly |
 
-#### Data Truncation or Formatting {important}
-**Symptom**: Data truncated or formatted incorrectly  
-**Field-Specific Solutions**:
-- CSV: Verify quote escaping for special characters
-- Shapefile: Remember 254 character limit (TextField)
-- Line breaks: May need specific CSV reader settings (MultilineText)
-- Address: Complete JSON in single column - requires post-processing
-- RichText: Never exported - content only in notebook definition
+### Quick Fixes Table {important}
 
-### Input/Display Issues {important}
-
-#### Cannot Enter Values {important}
-**QRCodeFormField**: Component lacks text input capability - add separate TextField  
-**RichText**: By design - display-only component
-
-#### Content Missing at Runtime {important}
-**Affects**: RichText  
-**Symptom**: Tables, blockquotes, or formatting disappear  
-**Cause**: DOMPurify removes unsupported elements  
-**Solutions**:
-1. Use formatted lists instead of tables
-2. Create image of table and embed as Base64
-3. Use indented text with clear spacing
-4. Consider PDF attachment for complex tables
-
-#### External Images Don't Display {important}
-**Affects**: RichText  
-**Cause**: Security blocks all external image URLs (hardcoded)  
-**Solution**: Use Base64 embedded images only (<100KB recommended)
-
-### Field-Specific Issues {important}
-
-#### Address Field Race Condition {important}
-**Symptom**: Data disappears when quickly tabbing between fields  
-**Cause**: State update race condition  
-**Solution**: 
-- Allow 500ms pause between entries
-- Use Tab key rather than mouse
-- Save form frequently
-- Consider separate TextFields for critical data
-
-#### QRCodeFormField Scanner Issues {important}
-**Scanner won't complete**: 
-- Ensure single barcode visible
-- Hold steady 3-4 seconds
-- Clean barcode if dirty
-- Isolate from other barcodes
-
-**Permission denied**:
-- Settings > Apps > Fieldmark > Permissions > Camera > Enable
-- Reload app after permission grant
+| Want To | Use This | Not This | Because | Example |
+|---------|----------|----------|---------|---------|
+| Single-line text in Designer | FAIMS Text Field | Text Field | "Text Field" creates multiline | FAIMSTextField component |
+| Multi-line text in Designer | Text Field | FAIMS Text Field | Despite confusing name | MultipleTextField component |
+| Email with validation | Email field | Custom TextField config | Email field pre-configured | Includes type="email" automatically |
+| Manual barcode entry | Paired TextField | QRCodeFormField alone | QRCode is mobile-only | Add fallback TextField |
+| Display instructions | RichText | TemplatedString | RichText for static content | TemplatedString needs field references |
+| Structured address | Address field | Multiple TextFields | Unless JSON complexity an issue | Consider data extraction needs |
+| Character limit enforcement | validationSchema with yup.max | inputProps.maxLength alone | Validation provides user feedback | ["yup.max", 50, "Maximum 50 characters"] |
+| Template with user input | Controlled vocabulary fields | Free text fields | XSS vulnerability risk | Use Select/RadioGroup in templates |
+| Fix "Empty" Address display | initialValue: null | initialValue: "" | Address requires null | JSON fields need null not empty string |
+| Prevent race condition | 500ms pause between fields | Rapid tabbing | Address field state updates | Train deliberate data entry |
 
 ### Debug Checklists {comprehensive}
 
@@ -907,6 +879,28 @@ See [Common Characteristics > Performance Boundaries]
 - [ ] No tables or blockquotes
 - [ ] Images Base64 encoded
 - [ ] Test on mobile for memory issues
+
+### Field-Specific Issues {important}
+
+#### Address Field Race Condition {important}
+**Symptom**: Data disappears when quickly tabbing between fields  
+**Cause**: State update race condition  
+**Solution**: 
+- Allow 500ms pause between entries
+- Use Tab key rather than mouse
+- Save form frequently
+- Consider separate TextFields for critical data
+
+#### QRCodeFormField Scanner Issues {important}
+**Scanner won't complete**: 
+- Ensure single barcode visible
+- Hold steady 3-4 seconds
+- Clean barcode if dirty
+- Isolate from other barcodes
+
+**Permission denied**:
+- Settings > Apps > Fieldmark > Permissions > Camera > Enable
+- Reload app after permission grant
 
 ---
 
@@ -1005,6 +999,7 @@ See [Common Characteristics > Performance Boundaries]
 ### TemplatedString Examples {important}
 
 #### Complex HRID with System Variables {important}
+For security considerations with user variables, see [Common Characteristics > Security Considerations]
 ```json
 {
   "record-identifier": {
@@ -1177,26 +1172,8 @@ Reviewing existing text fields?
 - `BREAKS` Adding required validation to populated fields
 - `BREAKS` Modifying TemplatedString pattern after data collection
 
-### Training Requirements {important}
-
-#### Basic Training (All Users)
-- Platform-specific keyboard behaviors
-- Understanding validation timing
-- When to use annotations vs main field
-- Character limit awareness
-
-#### Advanced Training (Data Managers)
-- JSON structure of Address fields
-- TemplatedString pattern design
-- Export format handling
-- QRCodeFormField platform limitations
-
-#### Field Supervisor Training
-- Choosing appropriate text field types
-- Vocabulary development strategies
-- Quality assurance protocols
-
 ### Migration Procedures
+For ready-to-use scripts, see [Migration Script Templates] below
 
 #### Designer Version Migration {comprehensive}
 
@@ -1246,6 +1223,294 @@ When content regularly exceeds 50 characters:
 3. Set as `hridField` in viewset
 4. Test with sample data
 5. Note: Existing records won't auto-update
+
+### Training Requirements {important}
+
+#### Basic Training (All Users)
+- Platform-specific keyboard behaviors
+- Understanding validation timing
+- When to use annotations vs main field
+- Character limit awareness
+
+#### Advanced Training (Data Managers)
+- JSON structure of Address fields
+- TemplatedString pattern design
+- Export format handling
+- QRCodeFormField platform limitations
+
+#### Field Supervisor Training
+- Choosing appropriate text field types
+- Vocabulary development strategies
+- Quality assurance protocols
+
+### Migration Script Templates {comprehensive}
+
+Ready-to-use migration scripts for common text field conversions:
+
+#### Template 1: TextField to MultilineText Migration
+```javascript
+// Complete migration script for expanding single-line to multi-line fields
+const migrateTextFieldToMultiline = (records, fieldName) => {
+  const migrated = [];
+  const oversized = [];
+  
+  records.forEach((record, index) => {
+    const content = record[fieldName];
+    if (content && content.length > 50) {
+      oversized.push({
+        index,
+        recordId: record._id,
+        length: content.length,
+        preview: content.substring(0, 100) + '...'
+      });
+    }
+    // Content migrates as-is, just the field config changes
+    migrated.push(record);
+  });
+  
+  console.log(`Total records: ${records.length}`);
+  console.log(`Oversized content (>50 chars): ${oversized.length}`);
+  
+  // Update field configuration
+  const newConfig = {
+    "component-namespace": "formik-material-ui",
+    "component-name": "MultipleTextField",  // Changed from TextField
+    "component-parameters": {
+      "multiline": true,
+      "InputProps": {
+        "rows": 4  // Adjust based on average content length
+      }
+    }
+  };
+  
+  return {migrated, oversized, newConfig};
+};
+
+// Usage
+const results = migrateTextFieldToMultiline(allRecords, 'description_field');
+if (results.oversized.length > 0) {
+  console.log('Records with long content:', results.oversized);
+}
+```
+
+#### Template 2: Adding TemplatedString HRID to Existing Notebook
+```javascript
+// Script to generate HRIDs for existing records without them
+const addHRIDsToExistingRecords = (records, pattern) => {
+  const updated = [];
+  const conflicts = [];
+  const usedHRIDs = new Set();
+  
+  // First pass: collect existing HRIDs if any
+  records.forEach(record => {
+    if (record.hrid_field) {
+      usedHRIDs.add(record.hrid_field);
+    }
+  });
+  
+  // Second pass: generate HRIDs for records without them
+  records.forEach((record, index) => {
+    if (!record.hrid_field) {
+      // Generate HRID based on pattern and existing fields
+      let hrid = pattern
+        .replace('{{site}}', record.site || 'UNKNOWN')
+        .replace('{{date}}', record.date || new Date().toISOString().split('T')[0])
+        .replace('{{counter}}', String(index + 1).padStart(4, '0'));
+      
+      // Check for conflicts
+      let suffix = 1;
+      const baseHRID = hrid;
+      while (usedHRIDs.has(hrid)) {
+        hrid = `${baseHRID}-${suffix}`;
+        suffix++;
+        conflicts.push({recordId: record._id, attemptedHRID: baseHRID, finalHRID: hrid});
+      }
+      
+      record.hrid_field = hrid;
+      usedHRIDs.add(hrid);
+      updated.push({recordId: record._id, newHRID: hrid});
+    }
+  });
+  
+  console.log(`Generated HRIDs for ${updated.length} records`);
+  if (conflicts.length > 0) {
+    console.log(`Resolved ${conflicts.length} HRID conflicts`);
+  }
+  
+  return {records, updated, conflicts};
+};
+
+// Usage
+const hridPattern = '{{site}}-{{date}}-{{counter}}';
+const results = addHRIDsToExistingRecords(allRecords, hridPattern);
+```
+
+#### Template 3: Address Field JSON Data Extraction
+```python
+import pandas as pd
+import json
+
+def extract_address_components(csv_file, address_field='site_address'):
+    """
+    Extract structured address data from JSON-stored Address fields
+    """
+    # Read CSV with Address field as string
+    df = pd.read_csv(csv_file, dtype={address_field: str})
+    
+    # Initialize component columns
+    components = ['house_number', 'road', 'suburb', 'state', 'postcode', 'display_name']
+    for component in components:
+        df[f'addr_{component}'] = ''
+    
+    # Process each row
+    processed = 0
+    errors = []
+    
+    for idx, row in df.iterrows():
+        try:
+            if pd.notna(row[address_field]) and row[address_field]:
+                # Parse JSON
+                addr_data = json.loads(row[address_field])
+                
+                # Extract display name
+                if 'display_name' in addr_data:
+                    df.at[idx, 'addr_display_name'] = addr_data['display_name']
+                
+                # Extract address components
+                if 'address' in addr_data:
+                    addr = addr_data['address']
+                    for component in ['house_number', 'road', 'suburb', 'state', 'postcode']:
+                        if component in addr:
+                            df.at[idx, f'addr_{component}'] = addr[component]
+                
+                processed += 1
+        except json.JSONDecodeError as e:
+            errors.append({'row': idx, 'error': str(e)})
+        except Exception as e:
+            errors.append({'row': idx, 'error': str(e)})
+    
+    print(f"Successfully processed {processed} address fields")
+    if errors:
+        print(f"Errors in {len(errors)} rows: {errors[:5]}")  # Show first 5 errors
+    
+    # Save processed data
+    output_file = csv_file.replace('.csv', '_addresses_extracted.csv')
+    df.to_csv(output_file, index=False)
+    print(f"Saved to: {output_file}")
+    
+    return df
+
+# Usage
+df = extract_address_components('export.csv', 'site_address')
+
+# Additional analysis examples
+print("\nAddress Statistics:")
+print(f"Records with addresses: {df['addr_display_name'].notna().sum()}")
+print(f"Unique suburbs: {df['addr_suburb'].nunique()}")
+print(f"State distribution:\n{df['addr_state'].value_counts()}")
+```
+
+#### Template 4: Sanitizing User Input for TemplatedString
+```javascript
+// Sanitize user text fields before including in templates
+const sanitizeForTemplate = (record, fieldName) => {
+  let value = record[fieldName] || '';
+  
+  // Remove HTML/Script tags
+  value = value.replace(/<[^>]*>/g, '');
+  
+  // Remove potential template injection
+  value = value.replace(/{{.*?}}/g, '');
+  
+  // Remove SQL injection characters
+  value = value.replace(/['";\\]/g, '');
+  
+  // Keep only alphanumeric, spaces, and basic punctuation
+  value = value.replace(/[^a-zA-Z0-9\s\-_.,]/g, '');
+  
+  // Trim and limit length
+  value = value.trim().substring(0, 50);
+  
+  return value;
+};
+
+// Batch sanitization before template evaluation
+const sanitizeAllTextFields = (records, textFields) => {
+  const sanitized = records.map(record => {
+    const clean = {...record};
+    textFields.forEach(field => {
+      if (clean[field]) {
+        clean[`${field}_raw`] = clean[field];  // Keep original
+        clean[field] = sanitizeForTemplate(clean, field);
+      }
+    });
+    return clean;
+  });
+  
+  return sanitized;
+};
+
+// Usage
+const textFieldsToSanitize = ['user_notes', 'description', 'comments'];
+const safeRecords = sanitizeAllTextFields(records, textFieldsToSanitize);
+
+// Now safe to use in templates:
+// "{{site}}-{{sanitized_user_notes}}-{{counter}}"
+```
+
+#### Template 5: Character Limit Validation Check
+```javascript
+// Pre-migration check for character limits
+const validateCharacterLimits = (records, limits) => {
+  const violations = [];
+  
+  Object.entries(limits).forEach(([fieldName, maxLength]) => {
+    records.forEach((record, index) => {
+      const value = record[fieldName];
+      if (value && value.length > maxLength) {
+        violations.push({
+          recordId: record._id || index,
+          field: fieldName,
+          currentLength: value.length,
+          maxLength: maxLength,
+          preview: value.substring(0, 100) + '...',
+          overflow: value.length - maxLength
+        });
+      }
+    });
+  });
+  
+  // Group violations by field
+  const byField = violations.reduce((acc, v) => {
+    if (!acc[v.field]) acc[v.field] = [];
+    acc[v.field].push(v);
+    return acc;
+  }, {});
+  
+  // Summary report
+  console.log('\n=== Character Limit Validation Report ===');
+  Object.entries(byField).forEach(([field, items]) => {
+    console.log(`\n${field} (max: ${limits[field]} chars):`);
+    console.log(`  - Violations: ${items.length}`);
+    console.log(`  - Max overflow: ${Math.max(...items.map(i => i.overflow))} chars`);
+    console.log(`  - Affected records: ${items.slice(0, 3).map(i => i.recordId).join(', ')}...`);
+  });
+  
+  return violations;
+};
+
+// Usage
+const fieldLimits = {
+  'site_code': 50,      // TextField recommended
+  'description': 10000, // MultilineText maximum
+  'email': 254,         // RFC compliance
+  'identifier': 30      // Custom limit
+};
+
+const violations = validateCharacterLimits(allRecords, fieldLimits);
+if (violations.length > 0) {
+  console.log(`\nAction required for ${violations.length} field values`);
+}
 
 ### Field-Specific Best Practices {comprehensive}
 
