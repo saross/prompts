@@ -1,8 +1,8 @@
 # Prompt 2: Add Additional Field
 
-## Add [FieldName] to Consolidated Document
+## Add [Display] to Consolidated Document
 
-Load and add the [FieldName] complete third-draft documentation to the existing [N]-field consolidated document.
+Load and add the [Display] complete third-draft documentation to the existing [3]-field consolidated document.
 
 ### PRESERVATION DIRECTIVE
 **Preserve 100% of content from both the new field documentation and existing consolidated document.**
@@ -21,12 +21,12 @@ Load and add the [FieldName] complete third-draft documentation to the existing 
    - Keep ALL warnings, edge cases, technical notes
    - Existing content remains unchanged
 
-3. **Critical items for [FieldName]**:
+3. **Critical items for [Display]**:
    - [Field-specific warnings to emphasize]
    - [Field-specific unique features]
 
 ### Quality Checks
-- [ ] ALL sections from [FieldName] documentation present
+- [ ] ALL sections from [Display] documentation present
 - [ ] ALL JSON examples included
 - [ ] Existing document content unchanged
 - [ ] [DUPLICATE] tags mark shared patterns

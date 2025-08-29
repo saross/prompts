@@ -1,8 +1,8 @@
 # Prompt 1: Initial Two-Document Merge
 
-## Merge [Field1] and [Field2] Documentation
+## Merge [Email] and [Address] Documentation
 
-Load and merge the [Field1] and [Field2] complete third-draft documentation files.
+Load and merge the [Email] and [Address] complete third-draft documentation files.
 
 ### PRESERVATION DIRECTIVE
 **This is a MERGING operation, not summarization. Preserve 100% of content from both documents.**

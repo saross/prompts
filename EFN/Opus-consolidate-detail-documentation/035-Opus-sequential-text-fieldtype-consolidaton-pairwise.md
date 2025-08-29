@@ -1,8 +1,8 @@
 # Merge Two Consolidated Document Halves
 
 Combine two pre-deduplicated documents:
-- Part 1: [Fields 1-3] consolidated and clean
-- Part 2: [Fields 4-7] consolidated and clean
+- Part 1: [Text Fields 1-3] consolidated and clean (see project knowledge: 'Merged TextField and MultilineText Documentation - Complete.md')
+- Part 2: [Text Fields 4-7] consolidated and clean (see project knowledge: 'Email and Address Fields - Merged Documentation.md')
 
 ## CRITICAL DIRECTIVE
 **Both inputs are already deduplicated. Preserve ALL content - only identify NEW duplicates that exist BETWEEN the two halves.**
@@ -25,7 +25,7 @@ Combine two pre-deduplicated documents:
    - If both have same troubleshooting issue, merge solutions and list ALL affected fields
 
 ## Quality Checks
-- [ ] All [N] fields have complete sections in order
+- [ ] All [7] fields have complete sections in order
 - [ ] Both Common Characteristics sections fully merged
 - [ ] Both Troubleshooting guides fully combined  
 - [ ] All JSON examples present
