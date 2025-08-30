@@ -1,8 +1,11 @@
 # Prompt 2: Add Additional Field
 
-## Add [Display] to Consolidated Document
+## Add [BasicAutoIncrementer] to Consolidated Document
 
-Load and add the [Display] complete third-draft documentation to the existing [3]-field consolidated document.
+Load and add the [BasicAutoIncrementer] complete third-draft documentation to the existing [2]-field consolidated document.
+
+Source: BasicAutoIncrementer Field - Complete Third-Draft Documentation.md
+
 
 ### CORE DIRECTIVE
 Preserve 100% of content from both the new field documentation and existing consolidated document.
@@ -16,7 +19,7 @@ Preserve 100% of content from both the new field documentation and existing cons
    - Maintain existing content unchanged
 
 2. **Duplication Handling**
-   When [Display] content overlaps with existing fields:
+   When [BasicAutoIncrementer] content overlaps with existing fields:
    - Mark in existing location: [SHARED-START: topic name]
    - Mark in Display section: [SHARED-END: topic name - see above]
    - If implementations differ: use [VARIANT-EXISTING] and [VARIANT-DISPLAY]
@@ -28,13 +31,13 @@ Preserve 100% of content from both the new field documentation and existing cons
    - Validation rules: Note if Display uses same patterns
    - Platform behaviors: Add Display column to existing tables
 
-4. **Critical items for [Display]**:
+4. **Critical items for [BasicAutoIncrementer]**:
    - [Field-specific warnings to emphasize]
    - [Field-specific unique features]
    - [Known compatibility issues with other fields]
 
 ### Preservation Checklist
-- [ ] Every section from [Display] documentation
+- [ ] Every section from [BasicAutoIncrementer] documentation
 - [ ] All JSON examples from Display
 - [ ] All warnings, edge cases, technical notes
 - [ ] All troubleshooting items

@@ -19,7 +19,7 @@ All four components share a fundamental dependency on HTML5 native input types (
 | Component | Status | Critical Notes |
 |-----------|--------|----------------|
 | **DateTimeNow** | ✅ Production Ready | Default choice for all timestamps |
-| **DateTimePicker** | ❌ DEPRECATED | No timezone stored - makes timestamps ambiguous across records from different zones |
+| **DateTimePicker** | ⚠️ Discouraged | No timezone stored - timestamps ambiguous when devices/locations change |
 | **DatePicker** | ✅ Production Ready | Use when time irrelevant |
 | **MonthPicker** | ✅ Production Ready | Prevents false precision |
 
@@ -27,7 +27,7 @@ All four components share a fundamental dependency on HTML5 native input types (
 
 **In Designer, select:**
 - 📅 **"DateTime with Now button"** → Creates DateTimeNow (RECOMMENDED)
-- ⚠️ **"DateTime"** → Creates DateTimePicker (DEPRECATED - DO NOT USE)
+- ⚠️ **"DateTime"** → Creates DateTimePicker (Discouraged - lacks timezone, use DateTimeNow instead)
 - 📆 **"Date"** → Creates DatePicker for date-only
 - 📋 **"Month"** → Creates MonthPicker for month-year
 
@@ -84,16 +84,16 @@ Recording temporal data?
 │  ├─ YES → DatePicker
 │  └─ NO → MonthPicker (avoids false precision)
 │
-└─ Are you migrating from legacy system?
-└─ ONLY if required → DateTimePicker (⚠️ DEPRECATED)
-└─ Plan immediate migration to DateTimeNow
+└─ Working in single timezone with no travel?
+   ├─ Maybe → DateTimePicker (⚠️ timezone ambiguity risk)
+   └─ NO → DateTimeNow (always safer choice)
 
 ### Quick Decision Matrix
 
 | Field Type | Storage Format | Timezone Handling | Synchronisation Safety | When to Use |
 |------------|---------------|-------------------|------------------------|-------------|
 | **DateTimeNow** | ISO 8601 with timezone | ✅ Preserved (UTC) | ✅ Excellent | Default choice for all timestamps |
-| **DateTimePicker** | Local string, no timezone | ❌ Ambiguous | ⚠️ Problematic | Legacy only - avoid in new projects |
+| **DateTimePicker** | Local string, no timezone | ❌ Ambiguous | ⚠️ Risky | Single-timezone projects only |
 | **DatePicker** | Date-only string | N/A | ✅ Good | Administrative dates without time |
 | **MonthPicker** | Month string (YYYY-MM) | N/A | ✅ Good | Historical sources, avoiding false precision |
 
@@ -101,7 +101,7 @@ Recording temporal data?
 1. **Default to DateTimeNow** for all datetime fields unless specific reasons exist otherwise
 2. **Use DatePicker** only when time components genuinely irrelevant
 3. **Deploy MonthPicker** for month-year precision to avoid spurious accuracy
-4. **Avoid DateTimePicker** except for legacy compatibility
+4. **Consider DateTimePicker** only for single-location projects with no device travel
 
 ## Designer Capabilities vs JSON Enhancement {essential}
 
@@ -112,7 +112,7 @@ The Designer interface provides basic field creation for all date/time fields:
 | Field Type | Designer Creates | Designer Configures | JSON-Only Features |
 |------------|------------------|---------------------|-------------------|
 | **DateTimeNow** | ✅ Basic field | Label, Required, Helper text | `is_auto_pick`, timezone documentation, fullWidth |
-| **DateTimePicker** | ✅ Basic field | Label, Required, Helper text | ⚠️ DEPRECATED - timezone documentation critical |
+| **DateTimePicker** | ✅ Basic field | Label, Required, Helper text | ⚠️ Document timezone assumptions explicitly |
 | **DatePicker** | ✅ Basic field | Label, Required, Helper text | Format specifications, variant styles |
 | **MonthPicker** | ✅ Basic field | Label, Required, Helper text | Platform-specific configurations |
 
@@ -145,12 +145,13 @@ These limitations necessitate JSON editing for production deployments.
 | Designer UI Label | JSON component-name | Component Namespace | Description |
 |-------------------|---------------------|---------------------|-------------|
 | DateTime with Now button | DateTimeNow | faims-custom | Timezone-aware timestamp with UTC storage |
-| DateTime | DateTimePicker | faims-custom | ⚠️ DEPRECATED - Legacy field without timezone |
+| DateTime | DateTimePicker | faims-custom | ⚠️ DISCOURAGED - No timezone storage |
 | Date | DatePicker | faims-custom | Date without time component |
 | Month | MonthPicker | faims-custom | Month-year only (no day precision) |
 
 ⚠️ **Critical Notes**:
-- "DateTime" in Designer creates the DEPRECATED DateTimePicker - avoid for new projects
+- "DateTime" in Designer creates DateTimePicker - discouraged due to timezone ambiguity
+- "DateTime with Now button" (DateTimeNow) can be used as normal picker too - "Now" is optional
 - "DateTime with Now button" is the safe timezone-aware option
 - All date/time fields require JSON editing for full configuration
 - Designer cannot configure auto-population (`is_auto_pick`) - requires JSON
@@ -397,6 +398,18 @@ const estimateStorage = (recordCount, dateFields) => {
 - Time components lost in conversion
 - Timezone information not preserved
 
+
+### Understanding DateTimeNow - Not Just for "Now" {essential}
+
+Despite its name, **DateTimeNow is a full datetime picker** that happens to have an optional "Now" button:
+- ✅ Use it as a regular datetime picker (ignore the "Now" button)
+- ✅ Stores timezone information (UTC) preventing ambiguity
+- ✅ Works perfectly for past/future dates
+- ✅ The "Now" button is just a convenience feature
+
+**Common Misconception**: "I need to record a past date, so I cannot use DateTimeNow"
+**Reality**: DateTimeNow is for ALL datetime needs, not just current timestamps
+
 ## Individual Field Reference
 
 ### DateTimeNow (DateTime with Now button in Designer) {essential}
@@ -489,10 +502,10 @@ Timezone-aware timestamp capture with automatic current time option. Stores time
 }
 ```
 
-### DateTimePicker (DateTime in Designer - DEPRECATED) {essential}
-<!-- keywords: datetime, local, legacy, deprecated, problematic -->
+### DateTimePicker (DateTime in Designer - DISCOURAGED) {essential}
+<!-- keywords: datetime, local, legacy, discouraged, problematic -->
 
-**⚠️ DEPRECATED - DO NOT USE IN NEW PROJECTS**
+**⚠️ DISCOURAGED - Use DateTimeNow instead unless single-timezone project**
 
 #### Purpose {essential}
 Legacy datetime field that stores timestamps without timezone information, causing data corruption in multi-site projects. Originally designed for single-location deployments, it becomes problematic when teams span timezones as the same timestamp represents different absolute times in different locations.
@@ -500,11 +513,47 @@ Legacy datetime field that stores timestamps without timezone information, causi
 **Storage Format**: Local datetime string (e.g., `2024-03-15T14:30`)  
 **Problems**: Timezone ambiguity, synchronisation failures, data interpretation issues
 
-#### Why Deprecated {essential}
+#### Why Discouraged {essential}
 - ❌ **No timezone information** stored
 - ❌ **Synchronisation failures** across sites
 - ❌ **Data corruption** when teams span timezones
 - ❌ **Ambiguous timestamps** (14:30 in Sydney ≠ 14:30 in Perth)
+
+### ⚠️ DateTimePicker Usage Warning {essential}
+
+**This field is DISCOURAGED but not deprecated**. Understanding when it might be acceptable:
+
+#### Acceptable Use Cases (Rare)
+- Single-site project with no travel
+- All devices remain in same timezone
+- No international collaboration
+- Historical data migration where timezone is unknown
+
+#### Why DateTimeNow is Usually Better
+- Prevents "2pm Sydney = 2pm London" confusion
+- Survives device timezone changes
+- Enables accurate cross-site synchronization
+- Future-proofs your data for collaboration
+
+#### If You Must Use DateTimePicker
+**Document these assumptions**:
+```json
+"helperText": "Time recorded in Sydney timezone (UTC+10/+11)",
+"meta": {
+  "annotation": {
+    "include": true,
+    "label": "Timezone context (if device was elsewhere)"
+  }
+}
+```
+
+#### Common Scenario: Fieldwork Travel
+Team based in Sydney conducting fieldwork in Greece:
+- Devices may still show Sydney time
+- DateTimePicker would record ambiguous "14:30"
+- Is that Sydney time or Athens time?
+- DateTimeNow removes this ambiguity
+
 
 #### Field-Specific Troubleshooting {important}
 
@@ -515,7 +564,7 @@ Legacy datetime field that stores timestamps without timezone information, causi
 | String comparison | Date ranges fail | String not date compare | Post-process validation |
 
 #### Migration Requirements {important}
-**Designer creates this deprecated field** but should never be used for new projects. JSON enhancement critical for documenting assumed timezone before migration.
+**Designer creates this disrecommended field** but discouraged for new projects due to timezone ambiguity. JSON enhancement critical for documenting assumed timezone before migration.
 
 1. Export existing data with documented timezone assumptions
 2. Convert strings to ISO 8601 with explicit timezone
@@ -761,13 +810,13 @@ Common date field error messages and their meanings:
 }
 ```
 
-### DateTimePicker Patterns (DEPRECATED - DO NOT USE)
+### DateTimePicker Patterns (DISCOURAGED - Use DateTimeNow Instead)
 
 ```json
 // BASE: Legacy only - migrate ASAP!
 {
   "component-namespace": "faims-custom",
-  "component-name": "DateTimePicker",  // ⚠️ DEPRECATED
+  "component-name": "DateTimePicker",  // ⚠️ DISCOURAGED - lacks timezone
   "type-returned": "faims-core::DateTime",
   "component-parameters": {
     "name": "legacy-datetime",
@@ -1928,7 +1977,7 @@ For ancient history and archaeology spanning BCE/CE, use numeric fields rather t
 - `VERSION` 2025-08
 
 ### DateTimePicker
-- `RULE` DEPRECATED - never use in new projects
+- `RULE` DISCOURAGED - avoid in multi-timezone projects
 - `RULE` No timezone information stored - corrupts multi-site data
 - `ERROR` "Synchronisation conflict" = timezone ambiguity between sites
 - `QUIRK` Storage format looks like ISO but lacks timezone (2024-03-15T14:30)
@@ -2414,13 +2463,13 @@ For ancient history and archaeology spanning BCE/CE, use numeric fields rather t
 }
 ```
 
-### DateTimePicker Patterns (DEPRECATED - DO NOT USE)
+### DateTimePicker Patterns (DISCOURAGED - Use DateTimeNow Instead)
 
 ```json
 // BASE: Legacy only - migrate ASAP!
 {
   "component-namespace": "faims-custom",
-  "component-name": "DateTimePicker",  // ⚠️ DEPRECATED
+  "component-name": "DateTimePicker",  // ⚠️ DISCOURAGED - lacks timezone
   "type-returned": "faims-core::DateTime",
   "component-parameters": {
     "name": "legacy-datetime",
@@ -2452,7 +2501,7 @@ For ancient history and archaeology spanning BCE/CE, use numeric fields rather t
 
 ### Component Status Summary
 - **Production Ready**: DateTimeNow, DatePicker, MonthPicker
-- **DEPRECATED**: DateTimePicker (timezone corruption risk - DO NOT USE)
+- **DISCOURAGED**: DateTimePicker (timezone ambiguity risk - use with caution)
 - **Beta Features**: None
 - **Mobile-Only Features**: None (all work cross-platform with UI variations)
 - **Display-Only**: None (all capture data)
@@ -2513,7 +2562,7 @@ Version 2.0 restores approximately 30% of technical implementation details that 
 3. Platform picker variance cannot be configured
 4. String storage despite type declarations
 5. Excel date corruption on direct CSV open
-6. DateTimePicker timezone corruption (deprecated)
+6. DateTimePicker timezone ambiguity (discouraged)
 7. MonthPicker Excel misinterpretation
 
 ### Critical Warnings Highlighted
