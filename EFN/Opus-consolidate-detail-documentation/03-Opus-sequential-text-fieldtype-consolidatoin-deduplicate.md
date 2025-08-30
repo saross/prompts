@@ -1,85 +1,133 @@
-# Deduplicate the [7]-Field Document
+# Prompt 3: Deduplicate the [7]-Field Document
 
-Take the merged document with [DUPLICATE] tags and reorganize to remove redundancy while preserving ALL information.
+Take the merged document with [SHARED]/[VARIANT] tags and reorganize to remove redundancy while preserving ALL information.
 
-## CRITICAL DIRECTIVE
-**Deduplication = MOVING content to shared sections, never DELETING.** Every piece of information must remain in the document, just better organized.
+## CORE DIRECTIVE
+Deduplication = MOVING content to shared sections, never DELETING. Every piece of information must remain accessible.
 
 ## Instructions
 
-### Step 1: Move Duplicated Content to Common Sections
+### Step 1: Process Shared Content Markers
 
-Review all [DUPLICATE] tags and move shared content to:
+Review all [SHARED-START] and [SHARED-END] pairs:
+- Content between SHARED-START markers goes to Common Characteristics
+- Content at SHARED-END locations becomes a reference
+- Preserve field-specific details within moved content
 
-**Common Characteristics**:
-- Shared Limitations (affecting 2+ fields)
-- Common Validation Patterns
-- Platform Behaviors (iOS/Android/Web)
-- Performance Boundaries
-- Security Considerations
+Review all [VARIANT] markers:
+- Move to Common Characteristics with clear field attribution
+- Create comparison table if multiple variants exist
+- Note implementation differences explicitly
 
-**Troubleshooting Guide**:
-- Merge similar issues into single entries
-- Note which fields are affected
+### Step 2: Organize Common Sections
 
-### Step 2: Replace with Specific References
+**Common Characteristics** subsections:
+- Shared Limitations (note which fields affected)
+- Common Validation Patterns (preserve field variations)
+- Platform Behaviors (maintain field-specific columns)
+- Performance Boundaries (list per field)
+- Security Considerations (note field-specific risks)
 
-In individual field sections, replace moved content with clear references:
-- `See [Common Characteristics > Shared Limitations > Performance]`
-- `See [Troubleshooting Guide > Validation Not Displaying]`
+Format shared content as:
+```
+**Topic Name** [affects: Field1, Field2, Field3]
+Common behavior description...
+- Field1: specific detail
+- Field2: specific detail
+- Field3: uses default
+```
 
-**Keep in Individual Sections**:
-- Field-specific configuration
-- Unique behaviors for that field
-- Field-specific examples (even if similar structure)
-- Unique validation rules
-- Field-specific troubleshooting
+### Step 3: Create References
 
-### Step 3: Handle Partial Duplicates
+Replace moved content with precise references:
+- At SHARED-END locations: `See [Common Characteristics > Topic Name]`
+- For variants: `See [Common Characteristics > Topic Name > Field Variant]`
+- Include differentiator if needed: `(this field: 50 char limit)`
 
-When content is SIMILAR but not IDENTICAL:
-- **Trivial differences** → Move to common section, note variations: "TextField: 50 chars, MultilineText: 10,000 chars"
-- **Significant differences** → Keep in individual sections
-- **When unsure** → Keep in both with cross-reference
+### Step 4: Handle Complex Cases
 
-## Quality Checks
+**Similar but Different Content**:
+- Threshold test: >70% identical = move to common
+- <70% identical = keep separate
+- Edge cases = keep both, cross-reference
 
-**Before/After Counts** (must match):
-- Total warnings: ___
-- Total JSON examples: ___
-- Total validation rules: ___
-- All [DUPLICATE] tags addressed: Yes/No
+**Variant Handling**:
+- 2 variants: Show side-by-side comparison
+- 3+ variants: Create comparison table
+- Implementation differences: Preserve all details
 
-**Expected Changes**:
-- Individual sections: 40-60% shorter
-- Word count: 20-40% reduction overall
-- Common sections: Expanded with organized subsections
+## Verification Checklist
 
-## Example
+**Marker Resolution**:
+- [ ] All [SHARED-START/END] pairs processed
+- [ ] All [VARIANT] tags addressed
+- [ ] References created for all moved content
 
-**BEFORE** (in TextField):
-> Performance degrades above 50 characters [DUPLICATE]
+**Content Preservation** (counts must match):
+- Total warnings: ___ before = ___ after
+- Total JSON examples: ___ before = ___ after  
+- Total validation rules: ___ before = ___ after
+- Total troubleshooting items: ___ before = ___ after
 
-**BEFORE** (in MultilineText):
-> Performance degrades above 10,000 characters [DUPLICATE]
+**Structure Validation**:
+- [ ] Common Characteristics expanded with subsections
+- [ ] Individual sections contain unique content only
+- [ ] All references use [Section > Subsection] format
+- [ ] Variant differences explicitly documented
 
-**AFTER** (in Common Characteristics):
-> **Performance Boundaries**
-> - TextField: 50 characters
-> - MultilineText: 10,000 characters
-> - Form becomes sluggish when exceeded
+## Example Transformation
 
-**AFTER** (in individual sections):
-> Performance: See [Common Characteristics > Performance Boundaries]
+**BEFORE**:
+```
+[NumberInput section]
+[SHARED-START: validation-timing]
+Validation only displays after field is "touched" (focused then blurred)
+[SHARED-END: validation-timing]
+
+[ControlledNumber section]  
+[SHARED-END: validation-timing - see above]
+```
+
+**AFTER Common Characteristics**:
+```
+### Validation Behavior [affects: NumberInput, ControlledNumber]
+Validation only displays after field is "touched" (focused then blurred)
+```
+
+**AFTER Individual Sections**:
+```
+[NumberInput section]
+Validation: See [Common Characteristics > Validation Behavior]
+
+[ControlledNumber section]
+Validation: See [Common Characteristics > Validation Behavior]
+```
+
+## Variant Example
+
+**BEFORE**:
+```
+[VARIANT-NumberInput]: Accepts any numeric value
+[VARIANT-ControlledNumber]: Requires min/max constraints
+```
+
+**AFTER Common Characteristics**:
+```
+### Numeric Constraints
+| Field | Constraint Requirement | Default Behavior |
+|-------|----------------------|------------------|
+| NumberInput | Optional | Accepts any numeric value |
+| ControlledNumber | Required | Must define min/max range |
+```
 
 ## DO NOT
-- ❌ Delete any content
-- ❌ Summarize when moving  
-- ❌ Create vague references like "See above"
-- ❌ Merge different issues that look similar
-- ❌ Remove examples because they seem redundant
+- ❌ Delete any information
+- ❌ Merge truly different behaviors
+- ❌ Create ambiguous references
+- ❌ Lose field-specific details
+- ❌ Combine different error messages
 
-## Final Test
-Can you answer YES to: "Could I recreate the original separate documents from this reorganized version?"
+## Final Validation
+Can you trace every piece of information from the original documents to its location in the deduplicated version?
 
-Output the deduplicated document with ALL information preserved in its new organization.
+Output the deduplicated document with ALL information preserved in optimized organization.

@@ -1,45 +1,60 @@
-# Prompt 1: Initial Two-Document Merge
+# Prompt 1: Complete Content Preservation Merge
 
-## Merge [Email] and [Address] Documentation
+Review: 'Fieldmark Documentation Consolidation - Context and Goals.md' in project knowledge.
 
-Load and merge the [Email] and [Address] complete third-draft documentation files.
+## Task: Merge [Number-Input] and [Controlled-Number] Documentation
 
-### PRESERVATION DIRECTIVE
-**This is a MERGING operation, not summarization. Preserve 100% of content from both documents.**
+Merge these complete third-draft documentation files with 100% content preservation:
+- NumberInput Field - Complete Third-Draft Documentation.md  
+- ControlledNumber Field - Complete Third-Draft Documentation.md
 
-### Instructions
+### CORE DIRECTIVE
+This is a MERGING operation. Preserve every word, example, note, and warning from both documents.
 
-1. **Create merged document structure**:
-   - Combined overview explaining both field types
-   - Shared characteristics section (mark duplicates, don't remove)
-   - Individual field sections with ALL original content
-   - Include EVERY subsection from originals
+### Merge Structure
+1. **Combined Overview Section**
+   - Both field descriptions
+   - Combined use cases (list all from both)
+   - Relationship between the two fields
 
-2. **Preservation rules**:
-   - Do NOT summarize or compress any content
-   - Do NOT remove anything even if redundant
-   - Mark duplicated content with [DUPLICATE] tags
-   - Include ALL JSON examples
-   - Preserve ALL warnings, edge cases, technical notes
+2. **Shared Characteristics Section**
+   - Mark duplicates with: [SHARED: topic name]
+   - Include both versions if they differ
+   - Preserve all technical specifications
 
-3. **Section completeness** - verify each field includes (if present in original):
-   - Overview / Common Use Cases / Core Configuration
-   - Validation Rules / Display Behaviour / Interaction Patterns
-   - Conditional Logic / Data Storage / Common Patterns
-   - Troubleshooting / Implementation Notes / Best Practices
-   - Known Issues / See Also references
+3. **Individual Field Sections**
+   - Complete NumberInput section (all original content)
+   - Complete ControlledNumber section (all original content)
+   - Keep sections clearly separated
 
-### Quality Checks
-- [ ] Word count approximately sum of both originals
-- [ ] Every JSON example from both originals present
-- [ ] All numbered lists complete (e.g., 6 use cases = 6 in merged)
-- [ ] All warnings and security notices preserved
-- [ ] [DUPLICATE] tags applied to repeated content
+### Preservation Checklist
+- [ ] Every JSON example from both documents
+- [ ] All validation rules and patterns
+- [ ] All troubleshooting items
+- [ ] All warnings (⚠️), notes, tips
+- [ ] All edge cases and known issues
+- [ ] All code snippets and configurations
+- [ ] All cross-references and "See Also" items
+- [ ] All implementation notes
+- [ ] All best practices
+
+### Duplication Handling
+When content appears in both documents:
+1. Include both versions
+2. Mark first occurrence: [SHARED-START: topic]
+3. Mark second occurrence: [SHARED-END: topic - see above]
+4. If versions differ, include both with [VARIANT-A] and [VARIANT-B]
+
+### Verification Metrics
+- Combined line count: ~700-900 lines (sum of originals)
+- JSON examples: [count] from NumberInput + [count] from ControlledNumber
+- Sections: All original sections from both documents
 
 ### DO NOT
-- ❌ Combine similar sections
-- ❌ Summarize verbose descriptions
-- ❌ Remove "redundant" examples
-- ❌ Skip comprehensive content
+- Remove "redundant" content
+- Combine similar sections
+- Summarize or compress
+- Skip any content as "obvious"
+- Reorganize beyond basic grouping
 
-Output the complete merged document with ALL content preserved.
+Output the complete merged document with clear section separators.

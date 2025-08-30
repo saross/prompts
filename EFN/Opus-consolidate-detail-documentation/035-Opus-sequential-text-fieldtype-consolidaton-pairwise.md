@@ -1,44 +1,104 @@
-# Merge Two Consolidated Document Halves
+# Optional: Merge Two Consolidated Document Halves
 
 Combine two pre-deduplicated documents:
-- Part 1: [Text Fields 1-3] consolidated and clean (see project knowledge: 'Merged TextField and MultilineText Documentation - Complete.md')
-- Part 2: [Text Fields 4-7] consolidated and clean (see project knowledge: 'Email and Address Fields - Merged Documentation.md')
+- Part 1: [Number Fields 1-3] consolidated and clean
+- Part 2: [Number Fields 4-7] consolidated and clean
 
-## CRITICAL DIRECTIVE
-**Both inputs are already deduplicated. Preserve ALL content - only identify NEW duplicates that exist BETWEEN the two halves.**
+## CORE DIRECTIVE
+Both inputs are already deduplicated. Preserve ALL content - only identify NEW shared patterns that exist BETWEEN the two halves.
 
 ## Instructions
 
-1. **Merge Structures**:
-   - Combine overviews → single comprehensive overview listing all fields
-   - Merge Common Characteristics sections → unified section
-   - Place all Individual Field sections in order
-   - Combine Troubleshooting Guides → single guide
+### 1. Merge Document Structures
+**Combine sections in this order**:
+- Overview → Comprehensive overview listing all [7] fields
+- Field Selection Guide → Combined decision tree and matrix
+- Designer Capabilities → Merged tables with all fields
+- Common Characteristics → Unified section (see step 2)
+- Individual Field Reference → All [7] fields in logical order
+- Troubleshooting Guide → Combined tables
+- JSON Examples → All patterns from both
+- Migration and Best Practices → Merged content
 
-2. **Mark Between-Half Duplicates**:
-   - Add [DUPLICATE] tags where same content appears in BOTH halves
-   - Don't remove anything - just mark for final cleanup
-   - Example: If both halves mention "Performance degrades at X", mark it
+### 2. Handle Between-Half Shared Content
 
-3. **Handle Overlaps in Common Sections**:
-   - If both have "Performance Boundaries", combine listings: "Fields 1-3: X limit, Fields 4-7: Y limit"
-   - If both have same troubleshooting issue, merge solutions and list ALL affected fields
+**Mark shared patterns between documents**:
+- First occurrence: [SHARED-START: topic name - Part1/Part2]
+- Second occurrence: [SHARED-END: topic name - see above]
+- Different implementations: [VARIANT-PART1] and [VARIANT-PART2]
 
-## Quality Checks
-- [ ] All [7] fields have complete sections in order
-- [ ] Both Common Characteristics sections fully merged
-- [ ] Both Troubleshooting guides fully combined  
-- [ ] All JSON examples present
-- [ ] All warnings preserved
-- [ ] [DUPLICATE] tags added for between-half patterns
+**Common Characteristics merging**:
+- Combine subsections preserving all content
+- Note which fields affected: [affects: Field1, Field2, Field3...]
+- Create comparison tables for variants
+
+**Example**:
+```
+Part 1: "Performance degrades at 50 characters for TextField"
+Part 2: "Performance degrades at 100 items for SelectField"
+→ Mark as [SHARED-START: performance-degradation] at first occurrence
+```
+
+### 3. Merge Tables and Lists
+
+**Troubleshooting tables**:
+- Combine entries, expanding "Field Type" column
+- Merge similar issues, list ALL affected fields
+- Preserve unique solutions for each part
+
+**Performance/Platform tables**:
+- Add columns for new fields
+- Preserve all thresholds and metrics
+- Note part-specific behaviors
+
+**Designer mapping**:
+- Combine into single comprehensive table
+- Maintain all UI name variations
+
+### 4. Preserve Part-Specific Content
+
+**Keep distinct**:
+- Field-specific examples (even if similar structure)
+- Unique validation patterns
+- Part-specific workarounds
+- Different error messages
+
+## Verification Checklist
+
+**Structure**:
+- [ ] All [7] fields present in Individual Field Reference
+- [ ] Overview lists all fields correctly
+- [ ] Designer mapping complete for all fields
+
+**Content Preservation**:
+- [ ] All JSON examples from both parts
+- [ ] All warnings and security notes
+- [ ] All troubleshooting items
+- [ ] All performance metrics
+
+**Marking**:
+- [ ] Between-half duplicates marked with SHARED tags
+- [ ] Variants marked appropriately
+- [ ] No within-part deduplication (already clean)
+
+## Quality Metrics
+- Expected length: ~95% of sum of both parts
+- New SHARED markers: Only for between-half patterns
+- Field count: [7] complete sections
+- JSON examples: Sum of both parts
 
 ## DO NOT
-- ❌ Delete content that appears in both halves
-- ❌ Re-deduplicate within sections (already clean)
-- ❌ Summarize when merging
-- ❌ Remove "redundant" examples
+- ❌ Delete content appearing in both halves
+- ❌ Re-deduplicate within each part
+- ❌ Summarize when combining
+- ❌ Reorganize already-structured content
+- ❌ Apply new structure (maintain existing)
 
-## Success Test
-The merged document should be approximately the sum of both halves' length, with [DUPLICATE] tags marking only content that appears in BOTH documents.
+## Success Validation
+The merged document should:
+1. Contain ALL content from both halves
+2. Have SHARED/VARIANT tags only for between-half patterns
+3. Maintain the structure from input documents
+4. Be ready for final deduplication pass
 
-Output the complete merged document.
+Output the complete merged document with between-half patterns marked.
