@@ -629,6 +629,8 @@ validationSchema: [
 ## Individual Field Reference {essential}
 
 ### NumberInput (Number Input in Designer) {essential}
+#### JSON Anti-patterns❌ **NEVER: String initialValue for number**```json{  "component-name": "NumberField",  "initialValue": "0"  // ERROR: Must be number, not string}```✅ **ALWAYS: Use numeric type**```json{  "initialValue": 0  // Correct: number type}```❌ **NEVER: Wrong validation order**```json{  "validationSchema": [    ["yup.min", 0],  // ERROR: Type not declared first    ["yup.number"]  ]}```✅ **ALWAYS: Type first, then constraints**```json{  "validationSchema": [    ["yup.number"],    ["yup.min", 0]  ]}```
+#### Common Spec Mappings- "Enter quantity" → NumberField with min validation- "Record measurement" → NumberField with decimal places- "Count items" → NumberField with integer validation- "Temperature reading" → NumberField with range validation
 <!-- keywords: numeric, decimal, float, measurement, calculation, validation, null -->
 
 #### Purpose {essential}
@@ -771,6 +773,28 @@ Standard numeric data entry supporting floating-point values, null states, and c
 ```
 
 ### ControlledNumber (Controlled Number in Designer) {essential}
+
+⚠️ **CRITICAL WARNING**: ControlledNumber is a Designer-only abstraction, NOT a real component in the codebase. It maps to NumberField in JSON.
+
+#### JSON Anti-patterns
+
+❌ **NEVER: This component doesn't exist in codebase**
+```json
+{
+  "component-name": "ControlledNumber"  // ERROR: Not a real component
+}
+```
+✅ **ALWAYS: Use NumberField**
+```json
+{
+  "component-name": "NumberField",
+  "component-namespace": "faims-custom"
+}
+```
+
+#### Common Spec Mappings
+- Designer-only abstraction → Maps to NumberField in JSON
+- Not a real component → Always use NumberField
 <!-- keywords: range, bounded, min-max, constrained, rating, percentage -->
 
 #### Purpose {essential}
@@ -875,6 +899,8 @@ Designer-accessible bounded numeric input for non-technical users needing range 
 ```
 
 ### BasicAutoIncrementer (Basic Auto-incrementer in Designer) {essential}
+#### JSON Anti-patterns❌ **NEVER: Expecting number type from counter**```json{  "component-name": "BasicAutoIncrementer",  // Returns "BAI-001" not 1}```✅ **UNDERSTAND: Returns formatted string**```json{  // Returns: "BAI-001", "BAI-002", etc.  // Not: 1, 2, 3}```❌ **NEVER: Using as required field**```json{  "component-name": "BasicAutoIncrementer",  "validationSchema": [["yup.string"], ["yup.required"]]  // ERROR}```✅ **ALWAYS: Auto-generated fields are never required**```json{  "component-name": "BasicAutoIncrementer"  // No validation needed - auto-populates}```
+#### Common Spec Mappings- "Auto ID" → BasicAutoIncrementer (generates BAI-001, BAI-002...)- "Sequential number" → BasicAutoIncrementer with prefix- "Counter field" → BasicAutoIncrementer (string output)- Note: Returns string, not number
 <!-- keywords: sequence, identifier, auto-increment, catalog, specimen, string -->
 
 #### Purpose {essential}
@@ -2614,6 +2640,25 @@ Current Field Type?
 ```
 
 ---
+
+
+## JSON Anti-patterns Quick Index {comprehensive}
+
+Anti-patterns have been distributed to their respective field sections for better context locality. This index provides a quick reference:
+
+### Anti-pattern Categories by Field
+
+- **NumberField**: Type validation, initialValue format, decimal handling → [NumberField Anti-patterns](#numberinput)
+- **BasicAutoIncrementer**: String vs number output, prefix patterns → [BasicAutoIncrementer Anti-patterns](#basicautoincrementer)
+- **ControlledNumber**: Designer abstraction, JSON mapping → [ControlledNumber Anti-patterns](#controllednumber)
+
+### Common Anti-pattern Themes
+
+1. **Type Confusion**: String vs number types in validation
+2. **Validation Order**: Type declaration before constraints
+3. **Auto-generated Fields**: Never mark as required
+4. **Designer Abstractions**: Components that only exist in UI
+5. **Platform Limitations**: iOS negative number input issues
 
 ## Quick Diagnosis Tables (2025-08) {important}
 

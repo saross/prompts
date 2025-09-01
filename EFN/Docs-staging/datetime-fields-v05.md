@@ -623,8 +623,83 @@ Timezone-aware timestamp capture with automatic current time option. Stores time
 }
 ```
 
+
+#### JSON Anti-patterns
+
+❌ **NEVER: Wrong namespace (faims3 doesn't exist)**
+```json
+{
+  "component-name": "DateTimeNow",
+  "component-namespace": "faims3"  // ERROR: Wrong namespace - no faims3
+}
+```
+✅ **ALWAYS: Use faims-custom namespace**
+```json
+{
+  "component-name": "DateTimeNow",
+  "component-namespace": "faims-custom"  // Correct namespace
+}
+```
+
+❌ **NEVER: Invalid timezone**
+```json
+{
+  "meta": {
+    "timezone": "Sydney"  // ERROR: Not a valid IANA timezone
+  }
+}
+```
+✅ **ALWAYS: Use IANA timezone identifiers**
+```json
+{
+  "meta": {
+    "timezone": "Australia/Sydney"  // Correct IANA format
+  }
+}
+```
+
+#### Common Spec Mappings
+- "Record timestamp" → DateTimeNow with auto-populate
+- "Event date and time" → DateTimeNow with timezone
+- "Observation datetime" → DateTimeNow with helperText
+- "Sample collection time" → DateTimeNow, usually required
+
 ### DateTimePicker (DateTime in Designer - DISCOURAGED) {essential}
 <!-- keywords: datetime, local, legacy, discouraged, problematic -->
+
+
+#### JSON Anti-patterns
+
+⚠️ **WARNING: This component is discouraged - use DateTimeNow instead**
+
+❌ **NEVER: Using DateTimePicker for new forms**
+```json
+{
+  "component-name": "DateTimePicker"  // DISCOURAGED
+}
+```
+✅ **ALWAYS: Use DateTimeNow for timezone support**
+```json
+{
+  "component-name": "DateTimeNow",
+  "component-namespace": "faims-custom"
+}
+```
+
+❌ **NEVER: Expecting timezone handling**
+```json
+{
+  "component-name": "DateTimePicker",
+  "meta": {
+    "timezone": "UTC"  // IGNORED - No timezone support
+  }
+}
+```
+
+#### Common Spec Mappings
+⚠️ **DISCOURAGED - Use DateTimeNow instead**
+- Migration only - not for new forms
+- Convert to DateTimeNow when updating
 
 **⚠️ DISCOURAGED - Use DateTimeNow instead unless single-timezone project**
 
@@ -730,6 +805,41 @@ Date-only selection for administrative and observational records where time comp
 | Manual entry fails | Invalid date error | Format confusion | Use picker interface |
 | Need timestamp too | Date-only field | Add DateTimeNow field |
 
+
+#### JSON Anti-patterns
+
+❌ **NEVER: Wrong date format in initialValue**
+```json
+{
+  "initialValue": "15/03/2024"  // ERROR: Invalid format
+}
+```
+✅ **ALWAYS: Use ISO 8601 format**
+```json
+{
+  "initialValue": "2024-03-15"  // YYYY-MM-DD format
+}
+```
+
+❌ **NEVER: Including time in date-only field**
+```json
+{
+  "initialValue": "2024-03-15T10:30:00Z"  // ERROR: Time not supported
+}
+```
+✅ **ALWAYS: Date only, no time**
+```json
+{
+  "initialValue": "2024-03-15"
+}
+```
+
+#### Common Spec Mappings
+- "Date of birth" → DatePicker (no time needed)
+- "Event date" → DatePicker with validation
+- "Deadline" → DatePicker with min/max constraints
+- "Anniversary date" → DatePicker, often optional
+
 ### MonthPicker (Month in Designer) {essential}
 <!-- keywords: month, year, month-year, precision, historical -->
 
@@ -769,6 +879,41 @@ Month-year selection that deliberately avoids false daily precision, particularl
 | Need specific day | Too coarse for requirement | Month-only storage | Use DatePicker instead |
 | Historical dates | Pre-1900 dates problematic | Browser limitations | Consider text field |
 | Comparison issues | Sorting incorrect | String comparison | Ensure YYYY-MM format |
+
+
+#### JSON Anti-patterns
+
+❌ **NEVER: Wrong month format**
+```json
+{
+  "initialValue": "March 2024"  // ERROR: Invalid format
+}
+```
+✅ **ALWAYS: Use YYYY-MM format**
+```json
+{
+  "initialValue": "2024-03"  // Correct format
+}
+```
+
+❌ **NEVER: Including day in month field**
+```json
+{
+  "initialValue": "2024-03-15"  // ERROR: Day not supported
+}
+```
+✅ **ALWAYS: Year and month only**
+```json
+{
+  "initialValue": "2024-03"
+}
+```
+
+#### Common Spec Mappings
+- "Reporting period" → MonthPicker
+- "Month of observation" → MonthPicker with helperText
+- "Billing month" → MonthPicker with validation
+- "Season indicator" → MonthPicker (month precision adequate)
 
 ## Troubleshooting Guide {important}
 
@@ -2083,7 +2228,7 @@ For ancient history and archaeology spanning BCE/CE, use numeric fields rather t
 - **TextField**: For arbitrary date format entry with validation patterns
 - **Select/RadioGroup**: For period taxonomies and controlled date vocabularies (see Periodo)
 - **NumberInput**: For year-only entry or date component separation
-- **ControlledNumber**: For constrained year ranges with validation
+- **ControlledNumber**: For constrained year ranges (⚠️ Designer-only, maps to NumberField in JSON)
 - **External Vocabularies**: 
   - Periodo (periodo.github.io) for archaeological/historical periods
   - Getty AAT for hierarchical chronological terms
@@ -2305,6 +2450,26 @@ For ancient history and archaeology spanning BCE/CE, use numeric fields rather t
 - `VERSION` 2025-08
 
 ---
+
+
+## JSON Anti-patterns Quick Index {comprehensive}
+
+Anti-patterns have been distributed to their respective field sections for better context locality. This index provides a quick reference:
+
+### Anti-pattern Categories by Field
+
+- **DateTimeNow**: Component namespace, timezone format, Now button behavior → [DateTimeNow Anti-patterns](#datetimenow)
+- **DateTimePicker**: Deprecation warnings, migration guidance → [DateTimePicker Anti-patterns](#datetimepicker)
+- **DatePicker**: Date format, ISO 8601 compliance → [DatePicker Anti-patterns](#datepicker)
+- **MonthPicker**: Month format, YYYY-MM pattern → [MonthPicker Anti-patterns](#monthpicker)
+
+### Common Anti-pattern Themes
+
+1. **Component Namespaces**: All datetime components use faims-custom namespace
+2. **Date Formats**: ISO 8601 (YYYY-MM-DD) requirements
+3. **Timezone Handling**: IANA identifiers, UTC storage
+4. **Validation Order**: Type declaration before constraints
+5. **Migration Patterns**: Moving from deprecated components
 
 ## Enhanced Quick Diagnosis Tables (2025-08) {comprehensive}
 

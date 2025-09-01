@@ -624,8 +624,9 @@ Single-line text input for brief, unconstrained textual data. Primary choice for
 ```
 
 #### TextField Variants {important}
-1. **Standard TextField** (formik-material-ui): Default with basic features
+1. **Standard TextField** (formik-material-ui): Default with basic features, used for Email
 2. **FAIMSTextField** (faims-custom): Enhanced with expandable help, resizable UI
+3. **Basic TextField** (core-material-ui): Raw MUI component, rarely used directly
 
 #### TextField-Specific Validation {important}
 See [Common Characteristics > Common Validation Patterns] for standard rules
@@ -638,6 +639,75 @@ For solutions, see [Troubleshooting Guide > Quick Fixes Table]
 - No character counter displayed
 - Mobile keyboard wrong type: Configure InputProps.type (`"email"`, `"tel"`, `"url"`)
 - FAIMSTextField features missing: Check namespace and advancedHelperText
+
+
+#### JSON Anti-patterns
+
+❌ **NEVER: Wrong initialValue type**
+```json
+{
+  "component-name": "TextField",
+  "initialValue": null  // ERROR: "Cannot read property 'length' of null"
+}
+```
+✅ **ALWAYS: Use empty string for text fields**
+```json
+{
+  "initialValue": ""  // Correct for all string-type fields
+}
+```
+
+❌ **NEVER: Validation schema in wrong order**
+```json
+{
+  "validationSchema": [
+    ["yup.required", "Required"],  // ERROR: "yup.required is not a function"
+    ["yup.string"]
+  ]
+}
+```
+✅ **ALWAYS: Type declaration first**
+```json
+{
+  "validationSchema": [
+    ["yup.string"],  // Type first
+    ["yup.required", "Required"]  // Then constraints
+  ]
+}
+```
+
+❌ **NEVER: Wrong component name for enhanced variant**
+```json
+{
+  "component-namespace": "faims-custom",
+  "component-name": "TextField"  // ERROR: Component not found
+}
+```
+✅ **ALWAYS: Match namespace to component**
+```json
+// Option 1: FAIMS enhanced text field
+{
+  "component-namespace": "faims-custom",
+  "component-name": "FAIMSTextField"  // Enhanced version
+}
+// Option 2: Formik TextField (for Email or basic text)
+{
+  "component-namespace": "formik-material-ui",
+  "component-name": "TextField"  // Standard version
+}
+// Option 3: Core MUI (rarely needed)
+{
+  "component-namespace": "core-material-ui",
+  "component-name": "TextField"  // Basic MUI component
+}
+```
+
+
+#### Common Spec Mappings
+- "Enter [identifier/code]" → TextField with pattern validation
+- "Record [name/label]" → TextField with maxLength
+- "Input [reference]" → TextField with required validation
+- "Type [brief description]" → TextField (if <50 chars expected)
 
 ### MultilineText / MultipleTextField (Text Field in Designer) {essential}
 <!-- keywords: multiline, textarea, paragraph, narrative -->
@@ -693,6 +763,61 @@ Extended text entry for narrative content, detailed observations, and interpreta
 - Line breaks may not preserve in some exports
 - Voice input creates run-on text (Android): Manual paragraph breaks needed (see [Troubleshooting Guide > Common Problems Table])
 
+
+#### JSON Anti-patterns
+
+❌ **NEVER: Wrong component name**
+```json
+{
+  "component-name": "MultilineTextField",  // ERROR: Component doesn't exist
+  "component-parameters": {
+    "multiline": true
+  }
+}
+```
+❌ **NEVER: Use "MultilineText" as component name**
+```json
+{
+  "component-name": "MultilineText",  // ERROR: Not the actual component name
+}
+```
+✅ **ALWAYS: Use MultipleTextField**
+```json
+{
+  "component-name": "MultipleTextField",  // Correct component name
+  "component-parameters": {
+    "multiline": true,
+    "InputProps": {"rows": 4}
+  }
+}
+```
+
+❌ **NEVER: Missing multiline flag**
+```json
+{
+  "component-name": "MultipleTextField",
+  "component-parameters": {
+    "rows": 4  // ERROR: rows alone doesn't work
+  }
+}
+```
+✅ **ALWAYS: Set multiline and use InputProps.rows**
+```json
+{
+  "component-parameters": {
+    "multiline": true,
+    "InputProps": {"rows": 4}  // Correct structure
+  }
+}
+```
+
+
+#### Common Spec Mappings
+- "Describe [observation]" → MultilineText with 4-6 rows
+- "Notes on [subject]" → MultilineText with helperText
+- "Comments" → MultilineText, usually optional
+- "Detailed description" → MultilineText with 8+ rows
+
 ### TemplatedString (Templated String Field in Designer) {essential}
 <!-- keywords: hrid, template, mustache, auto-generate, identifier -->
 **Designer Label**: Templated String Field
@@ -737,6 +862,87 @@ Auto-generates text values from other fields using Mustache templates. **MANDATO
 - **Shows [object Object]**: Using complex field types - only use for conditional checking
 - **Not updating**: Check for circular references between templates
 
+
+#### JSON Anti-patterns
+
+❌ **NEVER: User text input without sanitization (CRITICAL SECURITY RISK)**
+```json
+{
+  "template": "Record: {{user-text-field}}"
+  // If user enters: <script>alert('XSS')</script>
+  // HTML escaping is DISABLED (formUtilities.ts line 27) - script WILL execute!
+}
+```
+✅ **ALWAYS: Use controlled vocabularies or sanitize**
+```json
+{
+  "template": "{{record-type}}-{{counter}}"  // record-type is a Select field
+  // OR implement sanitization in preprocessing layer
+
+❌ **NEVER: Include any user-editable field in templates**
+```json
+// ALL OF THESE ARE DANGEROUS:
+{
+  "template": "Site: {{site_name}}"  // XSS if site_name is TextField
+}
+{
+  "template": "{{description}}-{{id}}"  // XSS if description is user input
+}
+{
+  "template": "Notes: {{field_notes}}"  // XSS if field_notes is MultilineText
+}
+```
+
+✅ **ALWAYS: Use only system-generated or controlled fields**
+```json
+// SAFE PATTERNS:
+{
+  "template": "{{_USER}}-{{_YYYY}}-{{auto_increment}}"
+}
+{
+  "template": "{{record_type}}-{{counter}}"  // IF record_type is Select/Radio
+}
+{
+  "template": "SITE-{{_MM}}{{_DD}}-{{_id}}"
+}
+```
+}
+```
+
+❌ **NEVER: Reference another TemplatedString**
+```json
+{
+  "template": "{{other-template}}-{{number}}"  // ERROR: Circular reference risk
+  // where other-template is also a TemplatedString
+}
+```
+✅ **ALWAYS: Reference only non-template fields**
+```json
+{
+  "template": "{{site}}-{{date}}-{{counter}}"  // All are basic input fields
+}
+```
+
+❌ **NEVER: Reference fields from different forms**
+```json
+{
+  "template": "{{parent.field}}-{{local-field}}"  // ERROR: Can't access parent
+}
+```
+✅ **ALWAYS: Keep all referenced fields in same form**
+```json
+{
+  "template": "{{field1}}-{{field2}}"  // Both in same form
+}
+```
+
+
+#### Common Spec Mappings
+- "Auto-generate ID" → TemplatedString with counter
+- "Create identifier" → TemplatedString with date/user pattern
+- "Reference number" → TemplatedString with prefix-counter
+- "HRID field" → TemplatedString (REQUIRED in every notebook)
+
 ### Email {essential}
 <!-- keywords: email, validation, address, contact -->
 
@@ -780,6 +986,53 @@ Also see [Troubleshooting Guide > Common Problems Table] for general validation 
 - **Validation too strict**: Actually permissive; check for spaces
 - **Plus addresses rejected**: Supported; check other issues
 - **Keyboard missing @**: Ensure `InputProps.type` set to "email"
+
+
+#### JSON Anti-patterns
+
+❌ **NEVER: Wrong type-returned**
+```json
+{
+  "component-name": "TextField",
+  "type-returned": "faims-core::Email",  // ERROR: Mismatched types
+  "component-parameters": {
+    "InputProps": {"type": "email"}
+  }
+}
+```
+✅ **ALWAYS: Email fields return String**
+```json
+{
+  "type-returned": "faims-core::String",  // Correct - emails are strings
+  "component-parameters": {
+    "InputProps": {"type": "email"}
+  }
+}
+```
+
+❌ **NEVER: Look for an Email component**
+```json
+{
+  "component-namespace": "ANY-namespace",
+  "component-name": "Email"  // ERROR: No Email component exists in ANY namespace
+}
+```
+✅ **ALWAYS: Use TextField with email type**
+```json
+{
+  "component-name": "TextField",
+  "component-parameters": {
+    "InputProps": {"type": "email"}
+  }
+}
+```
+
+
+#### Common Spec Mappings
+- "Contact email" → Email field with validation
+- "Researcher email" → Email with domain restriction
+- "Notification address" → Email, often optional
+- "Primary contact" → Email with required validation
 
 ### Address {essential}
 <!-- keywords: address, geocode, json, australian, beta -->
@@ -836,6 +1089,63 @@ df['postcode'] = df['address_data'].apply(lambda x: x['address']['postcode'])
 - **JSON expertise required**: Post-processing needed for analysis
 - **Touch target concern**: Edit button below WCAG minimum
 
+
+#### JSON Anti-patterns
+
+❌ **NEVER: Wrong initialValue for Address**
+```json
+{
+  "component-name": "AddressField",
+  "initialValue": ""  // ERROR: Field shows "Empty" permanently
+}
+```
+✅ **ALWAYS: Use null for Address fields**
+```json
+{
+  "component-name": "AddressField",
+  "initialValue": null  // Correct for JSON-type fields
+}
+```
+
+❌ **NEVER: Wrong validation schema**
+```json
+{
+  "validationSchema": [
+    ["yup.string"]  // ERROR: Address returns JSON object
+  ]
+}
+```
+✅ **ALWAYS: Use object validation**
+```json
+{
+  "validationSchema": [
+    ["yup.object"],
+    ["yup.nullable"]  // Allow empty state
+  ]
+}
+```
+
+❌ **NEVER: Wrong type-returned**
+```json
+{
+  "component-name": "AddressField",
+  "type-returned": "faims-core::String"  // ERROR: Returns complex object
+}
+```
+✅ **ALWAYS: Address returns JSON**
+```json
+{
+  "type-returned": "faims-core::JSON"  // Correct type
+}
+```
+
+
+#### Common Spec Mappings
+- "Site location" → Address field with map integration
+- "Postal address" → Address with validation
+- "Physical location" → Address with coordinate extraction
+- "Office address" → Address, usually optional
+
 ### QRCodeFormField {essential}
 <!-- keywords: barcode, scanner, mobile-only, qrcode -->
 
@@ -890,6 +1200,53 @@ df['postcode'] = df['address_data'].apply(lambda x: x['address']['postcode'])
 - **Web platform**: Completely non-functional, disabled interface
 - **No manual entry**: Pair with TextField for fallback
 
+
+#### JSON Anti-patterns
+
+❌ **NEVER: Mark as required (CRITICAL PLATFORM ISSUE)**
+```json
+{
+  "component-name": "QRCodeFormField",
+  "validationSchema": [
+    ["yup.string"],
+    ["yup.required", "Scan required"]  // ERROR: Breaks ALL web users!
+  ]
+}
+```
+✅ **ALWAYS: Keep optional or pair with TextField**
+```json
+{
+  "component-name": "QRCodeFormField",
+  "validationSchema": [["yup.string"]]  // Never add required
+  // Pair with TextField for web fallback
+}
+```
+
+❌ **NEVER: Assume cross-platform functionality**
+```json
+{
+  "component-name": "QRCodeFormField",
+  "component-parameters": {
+    "helperText": "Scan or type barcode"  // ERROR: No typing capability
+  }
+}
+```
+✅ **ALWAYS: Document platform limitation**
+```json
+{
+  "component-parameters": {
+    "helperText": "Scan barcode (mobile only)"
+  }
+}
+```
+
+
+#### Common Spec Mappings
+- "Scan barcode" → QRCodeFormField + TextField fallback
+- "Equipment ID" → QRCodeFormField for mobile scanning
+- "Sample code" → QRCodeFormField with manual entry option
+- "QR code data" → QRCodeFormField, never required
+
 ### RichText {essential}
 <!-- keywords: display, markdown, instructions, static, memory-leak -->
 
@@ -940,6 +1297,119 @@ df['postcode'] = df['address_data'].apply(lambda x: x['address']['postcode'])
 - **No interactivity**: Pure display component
 
 ---
+
+
+#### JSON Anti-patterns
+
+❌ **NEVER: Expect data storage**
+```json
+{
+  "component-name": "RichText",
+  "component-parameters": {
+    "name": "important-data",  // ERROR: Never stores data
+    "content": "Enter notes here"
+  }
+}
+```
+✅ **ALWAYS: Use only for display**
+```json
+{
+  "component-name": "RichText",
+  "component-parameters": {
+    "content": "## Instructions\n\nThis is display-only text"
+  }
+}
+```
+
+❌ **NEVER: Include user-generated content in RichText**
+```json
+// DANGEROUS - XSS RISK:
+{
+  "content": "User said: {{user_comment}}"  // Script injection risk
+}
+{
+  "content": "# {{title_from_user}}"  // XSS if title contains scripts
+}
+```
+
+✅ **ALWAYS: Use static, developer-controlled content only**
+```json
+// SAFE:
+{
+  "content": "## Field Instructions\n\nPlease complete all required fields"
+}
+{
+  "content": "### Validation Rules\n\n- Minimum 3 characters\n- No special characters"
+}
+```
+
+❌ **NEVER: External image URLs**
+```json
+{
+  "content": "![Diagram](https://example.com/image.png)"  
+  // ERROR: External images blocked by security
+}
+```
+✅ **ALWAYS: Use Base64 embedded images**
+```json
+{
+  "content": "![Diagram](data:image/png;base64,iVBORw0KGg...)"
+  // Images must be <100KB for performance
+}
+```
+
+❌ **NEVER: Tables in content**
+```json
+{
+  "content": "| Header | Value |\n|--------|-------|\n| Data | 123 |"
+  // Tables stripped at runtime despite Designer support
+}
+```
+✅ **ALWAYS: Use lists or embedded images**
+```json
+{
+  "content": "**Data Values:**\n- Header: 123\n- Other: 456"
+  // Or embed table as Base64 image
+}
+```
+
+### The Most Expensive Mistakes
+
+1. **QRCodeFormField with required validation** = Web users permanently blocked from submission
+2. **TemplatedString with user text fields** = XSS vulnerability, security breach possible
+3. **Circular TemplatedString references** = Form crashes with stack overflow
+4. **RichText >10 fields on mobile** = Memory leak causes app crash, data loss
+5. **Address with initialValue: ""** = Field becomes permanently invalid, no recovery
+6. **MultilineText wrong component name** = Field doesn't render, form incomplete
+7. **Email as custom component** = Component not found, form won't load
+8. **TextField with null initialValue** = Runtime errors, validation fails
+9. **Validation schema wrong order** = No validation applied, data integrity compromised
+10. **External images in RichText** = Content missing, user confusion
+11. **Designer name as component name** = Component not found, form fails to load
+12. **Wrong namespace for component** = Component not found errors, debugging confusion
+
+### Prevention Checklist
+
+Before deploying any notebook:
+- [ ] All text fields use `initialValue: ""`
+- [ ] Address fields use `initialValue: null`
+- [ ] No QRCodeFormField has required validation
+- [ ] All TemplatedStrings avoid user text input
+- [ ] MultilineText uses "MultipleTextField" component
+- [ ] Email fields are TextField with type="email"
+- [ ] RichText has no tables or external images
+- [ ] Validation schemas have type declaration first
+- [ ] No circular template references exist
+- [ ] Platform limitations documented in helper text
+
+---
+
+
+#### Common Spec Mappings
+- "Instructions" → RichText with markdown formatting
+- "Guidelines" → RichText with numbered lists
+- "Warning text" → RichText with bold/emphasis
+- "Form header" → RichText with heading markdown
 
 ## Troubleshooting Guide {important}
 
@@ -2657,457 +3127,27 @@ RichText
 
 ---
 
-## JSON Anti-Patterns - What NOT to Do (2025-08) {comprehensive}
+## JSON Anti-patterns Quick Index {comprehensive}
 
-### Critical Mistakes That Break Forms
+Anti-patterns have been distributed to their respective field sections for better context locality. This index provides a quick reference:
 
-#### Component Name Confusion {important}
+### Anti-pattern Categories by Field
 
-⚠️ **CRITICAL: Designer names ≠ Component names**
+- **TextField**: Pattern validation, length constraints, special characters → [TextField Anti-patterns](#textfield)
+- **MultilineText**: Row configuration, text overflow, voice input → [MultilineText Anti-patterns](#multilinetext)
+- **TemplatedString**: Template syntax, variable access, counters → [TemplatedString Anti-patterns](#templatedstring)
+- **Email**: Validation patterns, domain restrictions, format checking → [Email Anti-patterns](#email)
+- **Address**: Geocoding, validation, component extraction → [Address Anti-patterns](#address)
+- **QRCodeFormField**: Mobile-only usage, fallback handling, required fields → [QRCodeFormField Anti-patterns](#qrcodeformfield)
+- **RichText**: Markdown limitations, table handling, formatting → [RichText Anti-patterns](#richtext)
 
-❌ **NEVER: Assume Designer names match JSON**
-```json
-{
-  "component-name": "FAIMS Text Field"  // ERROR: Not a valid component name
-}
-```
-✅ **ALWAYS: Use actual component names**
-```json
-{
-  "component-namespace": "faims-custom",
-  "component-name": "FAIMSTextField"  // Correct for Designer's "FAIMS Text Field"
-}
-```
+### Common Anti-pattern Themes
 
-❌ **NEVER: Use Designer's "Text Field" as component name**
-```json
-{
-  "component-name": "Text Field"  // ERROR: Not a valid component name
-}
-```
-✅ **ALWAYS: Use MultipleTextField for multi-line**
-```json
-{
-  "component-namespace": "formik-material-ui",
-  "component-name": "MultipleTextField"  // Correct for Designer's "Text Field"
-}
-```
-
-❌ **NEVER: Try to create plain TextField through Designer**
-```json
-{
-  "component-name": "TextField"  // Only available via Email field
-}
-```
-✅ **ALWAYS: Use FAIMSTextField for single-line or Email for validated input**
-```json
-{
-  "component-namespace": "faims-custom",
-  "component-name": "FAIMSTextField"  // For general single-line text
-}
-```
-
-#### TextField Anti-Patterns
-
-❌ **NEVER: Wrong initialValue type**
-```json
-{
-  "component-name": "TextField",
-  "initialValue": null  // ERROR: "Cannot read property 'length' of null"
-}
-```
-✅ **ALWAYS: Use empty string for text fields**
-```json
-{
-  "initialValue": ""  // Correct for all string-type fields
-}
-```
-
-❌ **NEVER: Validation schema in wrong order**
-```json
-{
-  "validationSchema": [
-    ["yup.required", "Required"],  // ERROR: "yup.required is not a function"
-    ["yup.string"]
-  ]
-}
-```
-✅ **ALWAYS: Type declaration first**
-```json
-{
-  "validationSchema": [
-    ["yup.string"],  // Type first
-    ["yup.required", "Required"]  // Then constraints
-  ]
-}
-```
-
-❌ **NEVER: Wrong component name for enhanced variant**
-```json
-{
-  "component-namespace": "faims-custom",
-  "component-name": "TextField"  // ERROR: Component not found
-}
-```
-✅ **ALWAYS: Match namespace to component**
-```json
-{
-  "component-namespace": "faims-custom",
-  "component-name": "FAIMSTextField"  // Correct name for custom namespace
-}
-```
-
-#### MultilineText Anti-Patterns
-
-❌ **NEVER: Wrong component name**
-```json
-{
-  "component-name": "MultilineTextField",  // ERROR: Component doesn't exist
-  "component-parameters": {
-    "multiline": true
-  }
-}
-```
-❌ **NEVER: Use "MultilineText" as component name**
-```json
-{
-  "component-name": "MultilineText",  // ERROR: Not the actual component name
-}
-```
-✅ **ALWAYS: Use MultipleTextField**
-```json
-{
-  "component-name": "MultipleTextField",  // Correct component name
-  "component-parameters": {
-    "multiline": true,
-    "InputProps": {"rows": 4}
-  }
-}
-```
-
-❌ **NEVER: Missing multiline flag**
-```json
-{
-  "component-name": "MultipleTextField",
-  "component-parameters": {
-    "rows": 4  // ERROR: rows alone doesn't work
-  }
-}
-```
-✅ **ALWAYS: Set multiline and use InputProps.rows**
-```json
-{
-  "component-parameters": {
-    "multiline": true,
-    "InputProps": {"rows": 4}  // Correct structure
-  }
-}
-```
-
-#### TemplatedString Anti-Patterns
-
-❌ **NEVER: User text input without sanitization (CRITICAL SECURITY RISK)**
-```json
-{
-  "template": "Record: {{user-text-field}}"
-  // If user enters: <script>alert('XSS')</script>
-  // HTML escaping is DISABLED (formUtilities.ts line 27) - script WILL execute!
-}
-```
-✅ **ALWAYS: Use controlled vocabularies or sanitize**
-```json
-{
-  "template": "{{record-type}}-{{counter}}"  // record-type is a Select field
-  // OR implement sanitization in preprocessing layer
-
-❌ **NEVER: Include any user-editable field in templates**
-```json
-// ALL OF THESE ARE DANGEROUS:
-{
-  "template": "Site: {{site_name}}"  // XSS if site_name is TextField
-}
-{
-  "template": "{{description}}-{{id}}"  // XSS if description is user input
-}
-{
-  "template": "Notes: {{field_notes}}"  // XSS if field_notes is MultilineText
-}
-```
-
-✅ **ALWAYS: Use only system-generated or controlled fields**
-```json
-// SAFE PATTERNS:
-{
-  "template": "{{_USER}}-{{_YYYY}}-{{auto_increment}}"
-}
-{
-  "template": "{{record_type}}-{{counter}}"  // IF record_type is Select/Radio
-}
-{
-  "template": "SITE-{{_MM}}{{_DD}}-{{_id}}"
-}
-```
-}
-```
-
-❌ **NEVER: Reference another TemplatedString**
-```json
-{
-  "template": "{{other-template}}-{{number}}"  // ERROR: Circular reference risk
-  // where other-template is also a TemplatedString
-}
-```
-✅ **ALWAYS: Reference only non-template fields**
-```json
-{
-  "template": "{{site}}-{{date}}-{{counter}}"  // All are basic input fields
-}
-```
-
-❌ **NEVER: Reference fields from different forms**
-```json
-{
-  "template": "{{parent.field}}-{{local-field}}"  // ERROR: Can't access parent
-}
-```
-✅ **ALWAYS: Keep all referenced fields in same form**
-```json
-{
-  "template": "{{field1}}-{{field2}}"  // Both in same form
-}
-```
-
-#### Email Anti-Patterns
-
-❌ **NEVER: Wrong type-returned**
-```json
-{
-  "component-name": "TextField",
-  "type-returned": "faims-core::Email",  // ERROR: Mismatched types
-  "component-parameters": {
-    "InputProps": {"type": "email"}
-  }
-}
-```
-✅ **ALWAYS: Email fields return String**
-```json
-{
-  "type-returned": "faims-core::String",  // Correct - emails are strings
-  "component-parameters": {
-    "InputProps": {"type": "email"}
-  }
-}
-```
-
-❌ **NEVER: Create custom Email component**
-```json
-{
-  "component-namespace": "formik-material-ui",
-  "component-name": "Email"  // ERROR: No such component
-}
-```
-✅ **ALWAYS: Use TextField with email type**
-```json
-{
-  "component-name": "TextField",
-  "component-parameters": {
-    "InputProps": {"type": "email"}
-  }
-}
-```
-
-#### Address Anti-Patterns
-
-❌ **NEVER: Wrong initialValue for Address**
-```json
-{
-  "component-name": "AddressField",
-  "initialValue": ""  // ERROR: Field shows "Empty" permanently
-}
-```
-✅ **ALWAYS: Use null for Address fields**
-```json
-{
-  "component-name": "AddressField",
-  "initialValue": null  // Correct for JSON-type fields
-}
-```
-
-❌ **NEVER: Wrong validation schema**
-```json
-{
-  "validationSchema": [
-    ["yup.string"]  // ERROR: Address returns JSON object
-  ]
-}
-```
-✅ **ALWAYS: Use object validation**
-```json
-{
-  "validationSchema": [
-    ["yup.object"],
-    ["yup.nullable"]  // Allow empty state
-  ]
-}
-```
-
-❌ **NEVER: Wrong type-returned**
-```json
-{
-  "component-name": "AddressField",
-  "type-returned": "faims-core::String"  // ERROR: Returns complex object
-}
-```
-✅ **ALWAYS: Address returns JSON**
-```json
-{
-  "type-returned": "faims-core::JSON"  // Correct type
-}
-```
-
-#### QRCodeFormField Anti-Patterns
-
-❌ **NEVER: Mark as required (CRITICAL PLATFORM ISSUE)**
-```json
-{
-  "component-name": "QRCodeFormField",
-  "validationSchema": [
-    ["yup.string"],
-    ["yup.required", "Scan required"]  // ERROR: Breaks ALL web users!
-  ]
-}
-```
-✅ **ALWAYS: Keep optional or pair with TextField**
-```json
-{
-  "component-name": "QRCodeFormField",
-  "validationSchema": [["yup.string"]]  // Never add required
-  // Pair with TextField for web fallback
-}
-```
-
-❌ **NEVER: Assume cross-platform functionality**
-```json
-{
-  "component-name": "QRCodeFormField",
-  "component-parameters": {
-    "helperText": "Scan or type barcode"  // ERROR: No typing capability
-  }
-}
-```
-✅ **ALWAYS: Document platform limitation**
-```json
-{
-  "component-parameters": {
-    "helperText": "Scan barcode (mobile only)"
-  }
-}
-```
-
-#### RichText Anti-Patterns
-
-❌ **NEVER: Expect data storage**
-```json
-{
-  "component-name": "RichText",
-  "component-parameters": {
-    "name": "important-data",  // ERROR: Never stores data
-    "content": "Enter notes here"
-  }
-}
-```
-✅ **ALWAYS: Use only for display**
-```json
-{
-  "component-name": "RichText",
-  "component-parameters": {
-    "content": "## Instructions\n\nThis is display-only text"
-  }
-}
-```
-
-❌ **NEVER: Include user-generated content in RichText**
-```json
-// DANGEROUS - XSS RISK:
-{
-  "content": "User said: {{user_comment}}"  // Script injection risk
-}
-{
-  "content": "# {{title_from_user}}"  // XSS if title contains scripts
-}
-```
-
-✅ **ALWAYS: Use static, developer-controlled content only**
-```json
-// SAFE:
-{
-  "content": "## Field Instructions\n\nPlease complete all required fields"
-}
-{
-  "content": "### Validation Rules\n\n- Minimum 3 characters\n- No special characters"
-}
-```
-
-❌ **NEVER: External image URLs**
-```json
-{
-  "content": "![Diagram](https://example.com/image.png)"  
-  // ERROR: External images blocked by security
-}
-```
-✅ **ALWAYS: Use Base64 embedded images**
-```json
-{
-  "content": "![Diagram](data:image/png;base64,iVBORw0KGg...)"
-  // Images must be <100KB for performance
-}
-```
-
-❌ **NEVER: Tables in content**
-```json
-{
-  "content": "| Header | Value |\n|--------|-------|\n| Data | 123 |"
-  // Tables stripped at runtime despite Designer support
-}
-```
-✅ **ALWAYS: Use lists or embedded images**
-```json
-{
-  "content": "**Data Values:**\n- Header: 123\n- Other: 456"
-  // Or embed table as Base64 image
-}
-```
-
-### The Most Expensive Mistakes
-
-1. **QRCodeFormField with required validation** = Web users permanently blocked from submission
-2. **TemplatedString with user text fields** = XSS vulnerability, security breach possible
-3. **Circular TemplatedString references** = Form crashes with stack overflow
-4. **RichText >10 fields on mobile** = Memory leak causes app crash, data loss
-5. **Address with initialValue: ""** = Field becomes permanently invalid, no recovery
-6. **MultilineText wrong component name** = Field doesn't render, form incomplete
-7. **Email as custom component** = Component not found, form won't load
-8. **TextField with null initialValue** = Runtime errors, validation fails
-9. **Validation schema wrong order** = No validation applied, data integrity compromised
-10. **External images in RichText** = Content missing, user confusion
-11. **Designer name as component name** = Component not found, form fails to load
-12. **Wrong namespace for component** = Component not found errors, debugging confusion
-
-### Prevention Checklist
-
-Before deploying any notebook:
-- [ ] All text fields use `initialValue: ""`
-- [ ] Address fields use `initialValue: null`
-- [ ] No QRCodeFormField has required validation
-- [ ] All TemplatedStrings avoid user text input
-- [ ] MultilineText uses "MultipleTextField" component
-- [ ] Email fields are TextField with type="email"
-- [ ] RichText has no tables or external images
-- [ ] Validation schemas have type declaration first
-- [ ] No circular template references exist
-- [ ] Platform limitations documented in helper text
-
----
+1. **Component Naming**: Designer UI names vs JSON component names
+2. **Validation**: Pattern matching, format constraints, custom rules
+3. **Platform Limitations**: Mobile-specific features, browser constraints
+4. **Data Types**: String vs object storage, format conversions
+5. **User Experience**: Helper text, error messages, default values
 
 ## Quick Diagnosis Tables (2025-08) {important}
 
