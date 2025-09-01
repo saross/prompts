@@ -23,13 +23,17 @@ All four components share a fundamental dependency on HTML5 native input types (
 | **DatePicker** | ✅ Production Ready | Use when time irrelevant |
 | **MonthPicker** | ✅ Production Ready | Prevents false precision |
 
-### Quick Designer Reference
+## Designer Usage Guide {essential}
+
+### What to Select in Designer
 
 **In Designer, select:**
 - 📅 **"DateTime with Now button"** → Creates DateTimeNow (RECOMMENDED)
 - ⚠️ **"DateTime"** → Creates DateTimePicker (Discouraged - lacks timezone, use DateTimeNow instead)
 - 📆 **"Date"** → Creates DatePicker for date-only
 - 📋 **"Month"** → Creates MonthPicker for month-year
+
+### When JSON Enhancement is Required
 
 **All fields require JSON editing for:**
 - Auto-population (`is_auto_pick: true`)
@@ -38,7 +42,7 @@ All four components share a fundamental dependency on HTML5 native input types (
 - Full width display
 - Conditional visibility
 
-### Common Use Cases
+### Quick Use Case Examples
 
 **Administrative Metadata**:
 - Record creation timestamps (DateTimeNow with `is_auto_pick`)
@@ -57,6 +61,81 @@ All four components share a fundamental dependency on HTML5 native input types (
 - Cross-field temporal validation (start before end)
 - Timezone display customisation
 
+
+## ⚠️ CRITICAL DATA INTEGRITY RISKS {essential}
+
+**Timezone Data Corruption with DateTimePicker**:
+- **Risk**: Same timestamp means different absolute times in different locations
+- **Impact**: Multi-site data synchronization failures, incorrect event ordering
+- **Mitigation**: NEVER use DateTimePicker for multi-location projects
+- **Safe Alternative**: Always use DateTimeNow (stores UTC with timezone)
+
+**Audit Trail Vulnerabilities**:
+- **Risk**: User-editable timestamps even with `is_auto_pick`
+- **Impact**: Forensic timeline corruption, backdating capability
+- **Mitigation**: Pair with read-only TemplatedString for display
+- **Validation**: Server-side timestamp verification required
+
+**Format Assumption Risks**:
+- **Risk**: MM/DD vs DD/MM interpretation varies by locale
+- **Impact**: Date corruption, especially for days 1-12
+- **Mitigation**: Always use YYYY-MM-DD format, picker interface only
+- **Training**: Document expected format in helperText
+
+---
+
+## What These Fields Cannot Do {important}
+
+### Time Processing Limitations {important}
+- **Timezone conversion** - No automatic timezone conversion between locations
+- **Recurring events** - No support for repeating date patterns
+- **Duration calculation** - Cannot calculate time between dates automatically
+- **Working days** - No business day calculations
+- **Relative dates** - Cannot express "3 days from now" or "last Tuesday"
+
+### Validation Limitations {important}
+- **Cross-field validation** - Cannot enforce date ranges across fields
+- **Future/past restrictions** - No dynamic "must be future date" validation
+- **Age calculations** - Cannot validate minimum age requirements
+- **Holiday detection** - No awareness of public holidays or weekends
+- **Leap year validation** - Limited to browser implementation
+
+### Display Limitations {important}
+- **Custom formats** - Cannot change date display format per locale
+- **Calendar systems** - No support for non-Gregorian calendars
+- **Partial dates** - Cannot represent uncertainty (e.g., "circa 1850")
+- **Date ranges** - No native support for start-end date pairs
+- **Natural language** - Cannot parse "next Monday" or "Q3 2024"
+
+## Common Use Cases {important}
+
+### Timestamp Recording
+- **Creation timestamps** → DateTimeNow with `is_auto_pick: true`
+- **Modification tracking** → DateTimeNow (manual update)
+- **Event timing** → DateTimeNow with "Now" button
+- **Sample collection** → DateTimeNow (preserves timezone)
+
+### Date-Only Recording
+- **Birth dates** → DatePicker (time irrelevant)
+- **Artifact dates** → DatePicker with certainty selector
+- **Publication dates** → DatePicker or MonthPicker
+- **Historical events** → DatePicker with approximate flag
+
+### Period Recording
+- **Excavation seasons** → MonthPicker (avoids false precision)
+- **Quarterly reports** → MonthPicker with helper text
+- **Academic years** → Two DatePickers (start/end)
+- **Project phases** → MonthPicker for month-level granularity
+
+### Data Quality Patterns
+- **Immutable timestamps** → DateTimeNow with `is_auto_pick` + read-only display
+- **Timezone consistency** → Always use DateTimeNow for multi-site projects
+- **Excel-safe dates** → DatePicker with import instructions
+- **Approximate dates** → DatePicker + certainty dropdown
+
+---
+
+---
 ## Field Selection Guide {essential}
 
 ### Field Selection Decision Tree
@@ -162,7 +241,49 @@ This mapping is essential for:
 - Writing JSON configurations manually
 - Migrating from DateTimePicker to DateTimeNow
 
-## Common Characteristics
+## Component Namespace Errors {important}
+
+### Troubleshooting "Component not found" Errors
+
+If you see errors like "Unknown namespace" or "No component DateTimeNow in namespace", verify the namespace matches the component:
+
+| Component | Required Namespace | Common Error |
+|-----------|-------------------|--------------|
+| DateTimeNow | faims-custom | Using formik-material-ui causes failure |
+| DateTimePicker | faims-custom | Not available in formik-material-ui |
+| DatePicker | faims-custom | Not available in formik-material-ui |
+| MonthPicker | faims-custom | Not available in formik-material-ui |
+
+**Actual Error Messages from Codebase**:
+- `Unknown namespace [namespace]` - occurs when using wrong namespace
+- `No component [componentName] in namespace [namespace]` - occurs when component exists but in different namespace
+
+**Quick Fix Pattern**:
+```json
+// ❌ Wrong namespace
+{
+  "component-namespace": "formik-material-ui",
+  "component-name": "DateTimeNow"  // Will fail!
+}
+
+// ✅ Correct namespace
+{
+  "component-namespace": "faims-custom",
+  "component-name": "DateTimeNow"  // Works!
+}
+```
+
+### Common Namespace Mistakes
+
+1. **Using Designer names in JSON**: Designer shows "DateTime with Now button" but JSON needs "DateTimeNow"
+2. **Assuming MUI namespace**: All datetime components use "faims-custom", not Material-UI namespaces
+3. **Copy-paste errors**: Copying from text field examples with "formik-material-ui" namespace
+
+### Technical Implementation Note
+
+All date/time components are registered in the "faims-custom" namespace in the component registry (`bundle_components.ts`). There are no date/time components in other namespaces, making namespace errors particularly common when developers assume standard Material-UI patterns.
+
+## Common Characteristics {important}
 
 ### Configuration Rules {important}
 
@@ -410,7 +531,7 @@ Despite its name, **DateTimeNow is a full datetime picker** that happens to have
 **Common Misconception**: "I need to record a past date, so I cannot use DateTimeNow"
 **Reality**: DateTimeNow is for ALL datetime needs, not just current timestamps
 
-## Individual Field Reference
+## Individual Field Reference {essential}
 
 ### DateTimeNow (DateTime with Now button in Designer) {essential}
 <!-- keywords: timestamp, timezone, UTC, auto-populate, current -->
@@ -695,6 +816,21 @@ Common date field error messages and their meanings:
 | `3rd March 2024` | MonthPicker in Excel | Excel misinterpreted YYYY-MM | Import as text column, never auto-open |
 | `Form cannot be submitted` | Required date fields | Empty or invalid date | Check field has been touched/populated |
 
+
+### Quick Reference Matrix {important}
+
+| If you see... | First try... | Then try... | Last resort... |
+|---------------|--------------|-------------|----------------|
+| Timezone confusion | Switch to DateTimeNow | Document timezone assumptions | Single-site deployment only |
+| "Invalid Date" error | Use date picker interface | Check browser locale | Enter in YYYY-MM-DD format |
+| Excel corrupts dates | Import as text column | Use Text Import Wizard | Export as JSON |
+| Auto-pick not working | Check JSON has `is_auto_pick: true` | Verify DateTimeNow component | Manual timestamp |
+| Dates off by one day | Check timezone boundaries | Verify UTC conversion | Use DatePicker if time irrelevant |
+| Cannot enter historical date | Verify no min date constraint | Check browser support | Use text field with validation |
+| Month picker shows day | Expected behavior - ignore day | Add helper text explanation | Use custom component |
+| iOS picker blocks form | Known iOS behavior | Train users to expect it | Consider alternative UI |
+| "Now" button missing | Check component is DateTimeNow | Verify mobile browser | Manual entry |
+| Form won't submit | Check required date populated | Verify field touched | Remove required validation |
 ### Quick Reference Table {important}
 
 | Symptom | Field Type | Likely Cause | Quick Fix | Prereq | Speed | Freq | Admin | Prevention | Version |
@@ -1972,6 +2108,10 @@ For ancient history and archaeology spanning BCE/CE, use numeric fields rather t
   "created_time": {"component-name": "DateTimeNow", "is_auto_pick": true}
   ```
 - `FIX` Train users: mobile "Now" button typically bottom-right of picker
+- `TEST` Verify UTC storage: Save "3pm local", export should show "Z" suffix
+- `TEST` Auto-pick protection: Set `is_auto_pick: true`, try to modify after creation
+- `TEST` Historical dates: Enter date from 1800s, verify acceptance
+- `TEST` Now button location: Check position on iOS vs Android vs desktop
 - `XREF` See [Individual Field Reference > DateTimeNow]
 - `XREF` See [Troubleshooting Guide > Critical Issues]
 - `VERSION` 2025-08
@@ -1991,6 +2131,9 @@ For ancient history and archaeology spanning BCE/CE, use numeric fields rather t
   const newValue = new Date(oldValue + timezone).toISOString();
   ```
 - `FIX` If stuck with legacy, document timezone in field label: "Time (Sydney UTC+10)"
+- `TEST` Timezone loss: Save "14:30", export CSV, verify no "Z" or timezone indicator
+- `TEST` Cross-site confusion: Enter same time in different locations, compare exports
+- `TEST` Migration need: Check if stored values lack timezone information
 - `XREF` See [Migration Warnings Index > Safe Migrations]
 - `XREF` See [Field Selection Guide > Quick Decision Matrix]
 - `VERSION` 2025-08
@@ -2015,6 +2158,9 @@ For ancient history and archaeology spanning BCE/CE, use numeric fields rather t
   }
   ```
 - `FIX` Excel import: use Text Import Wizard, never open CSV directly
+- `TEST` Locale issues: Enter 01/02/2024, verify interpretation (Jan 2 vs Feb 1)
+- `TEST` Excel corruption: Export dates to CSV, open in Excel, check format changes
+- `TEST` iOS picker: Open on iPhone, verify full-screen behavior blocks form
 - `XREF` See [Individual Field Reference > DatePicker]
 - `XREF` See [Troubleshooting Guide > Excel Date Format Corruption]
 - `VERSION` 2025-08
@@ -2038,6 +2184,9 @@ For ancient history and archaeology spanning BCE/CE, use numeric fields rather t
   df['month'] = df['month_field'].str[5:7].astype(int)
   ```
 - `FIX` Add helper text: "Select month and year only (day ignored)"
+- `TEST` Verify format: Save selection, export should show "YYYY-MM" only
+- `TEST` Day appending: Check if "-01" gets added on export or display
+- `TEST` Browser support: Test HTML5 month input on Safari, Firefox, Chrome
 - `XREF` See [Individual Field Reference > MonthPicker]
 - `XREF` See [Troubleshooting Guide > When Format Issues Occur]
 - `VERSION` 2025-08
@@ -2195,7 +2344,7 @@ For ancient history and archaeology spanning BCE/CE, use numeric fields rather t
 
 ---
 
-## Migration Warnings Index (2025-08) {essential}
+## Migration Warnings Index (2025-08) {comprehensive}
 
 ### Safe Migrations (No Data Loss)
 
@@ -2490,7 +2639,7 @@ For ancient history and archaeology spanning BCE/CE, use numeric fields rather t
 
 ---
 
-## Metadata
+## Metadata {comprehensive}
 
 **Documentation Version**: 2025-08 v2.1 (Designer Integration)  
 **Components**: DateTimeNow, DateTimePicker, DatePicker, MonthPicker  

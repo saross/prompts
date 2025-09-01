@@ -22,9 +22,40 @@ The **component name paradox** (NumberInput using "NumberField" in JSON) results
 
 The **type mismatches** (ControlledNumber declaring Integer but accepting decimals, BasicAutoIncrementer in "Number Fields" but returning strings) reflect the Designer interface's limitations in representing complex type systems to non-technical users.
 
----
+### Component Status Summary {essential}
 
-### 📋 Designer Quick Guide {essential}
+| Component | Maturity | iOS Support | Offline | Known Issues | Recommended |
+|-----------|----------|-------------|---------|--------------|-------------|
+| NumberInput | Stable | ⚠️ No minus key | ✅ Full | 🟡 7 medium | ✅ Yes |
+| ControlledNumber | Stable | ⚠️ No minus key | ✅ Full | 🔴 Type mismatch | ⚠️ Conditional |
+| BasicAutoIncrementer | Stable | ✅ Full | ✅ With ranges | 🔴 No duplicate detection | ⚠️ With protocols |
+
+## Designer Usage Guide {essential}
+
+### What to Select in Designer
+
+When using the Designer interface, follow these simple rules:
+
+🔢 **For numeric measurements and calculations**: Select **"Number Input"**
+- Use for: measurements, counts, ratings, scientific data
+- Creates: NumberField component (note the name mismatch)
+- ⚠️ iOS users cannot enter negative numbers directly (must copy-paste)
+
+📊 **For bounded numeric values**: Select **"Controlled Number"**
+- Use for: ratings (1-5), scores (0-100), bounded measurements
+- Creates: ControlledNumber component with min/max enforcement
+- Provides slider interface in addition to text input
+
+🔤 **For sequential identifiers**: Select **"Basic Auto-incrementer"**
+- Use for: sample IDs, context numbers, sequential codes
+- Creates: BasicAutoIncrementer (returns STRING not number)
+- ⚠️ Must be wrapped in TemplatedString to prevent Excel corruption
+
+❌ **NEVER select "Number Field"** (deprecated)
+- This legacy option still appears in Designer but should not be used
+- Always choose "Number Input" instead for numeric data
+
+### Quick Reference Table
 
 | Designer Label | JSON component-name | Returns | Designer Config | Key Purpose |
 |----------------|-------------------|---------|-----------------|-------------|
@@ -37,35 +68,7 @@ The **type mismatches** (ControlledNumber declaring Integer but accepting decima
 ***⚠️ **Critical**: Returns strings not numbers despite "Number Fields" category  
 ****Note: Do not confuse with deprecated "Number Field" - always use "Number Input"**
 
----
-
-### Component Status Summary {essential}
-
-| Component | Maturity | iOS Support | Offline | Known Issues | Recommended |
-|-----------|----------|-------------|---------|--------------|-------------|
-| NumberInput | Stable | ⚠️ No minus key | ✅ Full | 🟡 7 medium | ✅ Yes |
-| ControlledNumber | Stable | ⚠️ No minus key | ✅ Full | 🔴 Type mismatch | ⚠️ Conditional |
-| BasicAutoIncrementer | Stable | ✅ Full | ✅ With ranges | 🔴 No duplicate detection | ⚠️ With protocols |
-
-### What These Fields Cannot Do
-
-**Calculation Limitations**:
-- Complex calculations - No in-field formulas or computed values
-- Dynamic ranges - Cannot set min/max based on other field values
-- Cross-field validation - Cannot validate sum/product relationships
-- Unit conversions - No automatic conversion between units
-
-**Display Limitations**:
-- Locale formatting - No automatic thousands/decimal separators
-- Custom keyboards - Cannot override platform numeric input
-- Real-time formatting - No live currency or percentage display
-
-**Integration Limitations**:
-- External sensor input - No direct Bluetooth/USB sensor integration
-- Barcode scanning - Cannot scan numeric barcodes (use QRCodeFormField)
-- Voice calculation - Cannot process "add five to previous value"
-
-### What These Fields Cannot Do
+### Field Limitations
 
 **Calculation Limitations**:
 - Complex calculations - No in-field formulas or computed values
@@ -98,6 +101,81 @@ The **type mismatches** (ControlledNumber declaring Integer but accepting decima
 
 If you see "Number Field" in Designer, always choose "Number Input" instead. Existing notebooks using the deprecated Number Field should be migrated to Number Input for better data integrity.
 
+
+## ⚠️ CRITICAL PRECISION AND SECURITY RISKS {essential}
+
+**Silent Precision Loss**:
+- **Risk**: Values beyond 15-17 significant digits silently truncated
+- **Impact**: Scientific data corruption, financial calculation errors
+- **Example**: 9007199254740993 becomes 9007199254740992
+- **Mitigation**: Document precision limits, use string fields for IDs
+
+**iOS Negative Number Entry**:
+- **Risk**: Cannot enter negative values on iOS numeric keyboard
+- **Impact**: Data collection failure, workaround confusion
+- **Mitigation**: Provide TextField alternative or document copy-paste method
+- **Training**: Essential for field teams using iOS devices
+
+**Excel ID Corruption**:
+- **Risk**: Excel converts numeric IDs (strips leading zeros, scientific notation)
+- **Impact**: Specimen ID "0001234" becomes "1234", data linkage broken
+- **Mitigation**: Always use BasicAutoIncrementer for IDs, not NumberInput
+- **Export**: Wrap in TemplatedString for Excel protection
+
+---
+
+## What These Fields Cannot Do {important}
+
+### Numeric Processing Limitations {important}
+- **Complex calculations** - No formulas or expressions (e.g., field1 + field2)
+- **Unit conversion** - Cannot convert between units automatically
+- **Currency formatting** - No thousand separators or currency symbols
+- **Percentage display** - Cannot show as percentage (stores decimal)
+- **Fraction input** - Cannot enter or display fractions (e.g., 1/3)
+
+### Validation Limitations {important}
+- **Cross-field validation** - Cannot validate sum across multiple fields
+- **Dynamic ranges** - Cannot set min/max based on other fields
+- **Custom increments** - Cannot enforce specific step values reliably
+- **Precision validation** - Cannot enforce exact decimal places
+- **Business rules** - No complex validation logic (e.g., "if X then Y must be > Z")
+
+### Display Limitations {important}
+- **Formatted display** - No comma separators (1,000,000)
+- **Scientific notation control** - Cannot prevent auto-conversion at 1e7
+- **Leading zeros** - NumberInput strips them (use BasicAutoIncrementer)
+- **Custom number formats** - No phone numbers, credit cards, etc.
+- **Negative number entry** - iOS keyboard lacks minus key
+
+## Common Use Cases {important}
+
+### Measurements and Observations
+- **Dimensions** → NumberInput with min: 0, precision helper text
+- **Counts** → NumberInput with integer validation
+- **Percentages** → NumberInput with min: 0, max: 100
+- **Ratings** → ControlledNumber with defined scale (1-5, 1-10)
+
+### Scientific Data
+- **Coordinates** → NumberInput with high precision (6+ decimals)
+- **Temperature** → NumberInput (allows negatives)
+- **pH values** → NumberInput with min: 0, max: 14
+- **Concentrations** → NumberInput with scientific notation support
+
+### Identifiers and Codes
+- **Sequential IDs** → BasicAutoIncrementer (zero-padded strings)
+- **Sample numbers** → BasicAutoIncrementer + TemplatedString wrapper
+- **Plot numbers** → NumberInput if calculations needed
+- **Reference codes** → BasicAutoIncrementer for Excel safety
+
+### Data Quality Patterns
+- **Optional measurements** → NumberInput with `nullable()` validation
+- **Bounded values** → ControlledNumber for strict ranges
+- **Excel-safe IDs** → BasicAutoIncrementer (prevents number conversion)
+- **Precision documentation** → Helper text stating decimal places
+
+---
+
+---
 ## Field Selection Guide {essential}
 
 ### Decision Tree {essential}
@@ -165,15 +243,80 @@ Need numeric/sequential functionality?
 - ✅ Required: Custom validation patterns
 - ❌ Never: Core functionality fully Designer-accessible
 
-### Designer Component Mapping {essential}
+## Designer Component Mapping {essential}
 
-| Designer UI Label | JSON component-name | Critical Notes |
-|-------------------|-------------------|----------------|
-| "Number Input" | `"NumberField"` | ⚠️ Name inversion - frequent error source |
-| "Controlled Number" | `"ControlledNumber"` | ✅ Names match |
-| "Basic Auto-incrementer" | `"BasicAutoIncrementer"` | ✅ Names match |
+### Designer UI vs JSON Component Names
 
-## Common Characteristics
+| Designer UI Label | JSON component-name | Component Namespace | Description |
+|-------------------|---------------------|---------------------|-------------|
+| Number Input | NumberField | faims-custom | Standard numeric input with validation |
+| Controlled Number | ControlledNumber | faims-custom | Bounded numeric with slider |
+| Basic Auto-incrementer | BasicAutoIncrementer | faims-custom | Sequential ID generator (returns string) |
+| ~~Number Field~~ | ~~TextField~~ | ~~formik-material-ui~~ | **DEPRECATED - Do not use** |
+
+⚠️ **Critical Notes**:
+- "Number Input" in Designer creates "NumberField" in JSON - this name mismatch is a common error source
+- "Number Field" (deprecated) still appears in Designer - always use "Number Input" instead
+- BasicAutoIncrementer returns strings despite being in "Number Fields" category
+- All number fields use namespace "faims-custom" except the deprecated Number Field
+- Designer cannot configure iOS negative number workarounds - requires JSON
+
+This mapping is essential for:
+- Understanding Designer limitations
+- Debugging component not found errors
+- Writing JSON configurations manually
+- Migrating from deprecated Number Field
+
+## Component Namespace Errors {important}
+
+### Troubleshooting "Component not found" Errors
+
+If you see errors like "Unknown namespace" or "No component NumberField in namespace", verify the namespace matches the component:
+
+| Component | Required Namespace | Common Error |
+|-----------|-------------------|--------------|
+| NumberField | faims-custom | Using formik-material-ui causes failure |
+| ControlledNumber | faims-custom | Component doesn't exist in codebase (Designer-only) |
+| BasicAutoIncrementer | faims-custom | Using core-material-ui causes failure |
+| ~~TextField (deprecated)~~ | formik-material-ui | The deprecated "Number Field" uses this |
+
+**Actual Error Messages from Codebase**:
+- `Unknown namespace [namespace]` - occurs when using wrong namespace
+- `No component [componentName] in namespace [namespace]` - occurs when component exists but in different namespace
+- `Error with numeric input, please enter a valid number.` - NumberField validation error (not namespace related)
+
+**Quick Fix Pattern**:
+```json
+// ❌ Wrong namespace
+{
+  "component-namespace": "formik-material-ui",
+  "component-name": "NumberField"  // Will fail!
+}
+
+// ✅ Correct namespace
+{
+  "component-namespace": "faims-custom",
+  "component-name": "NumberField"  // Works!
+}
+```
+
+### Common Namespace Mistakes
+
+1. **Component name paradox**: Designer shows "Number Input" but JSON requires "NumberField"
+2. **ControlledNumber confusion**: This appears in Designer but isn't registered as a separate component in the codebase
+3. **Deprecated field namespace**: The old "Number Field" uses "formik-material-ui:TextField" with type="number"
+4. **Copy-paste from text fields**: Using "formik-material-ui" namespace from TextField examples
+
+### Technical Implementation Note
+
+Number components are registered in the "faims-custom" namespace in the component registry (`bundle_components.ts`):
+- `NumberField` is registered at line 327 as "Number Input Field"
+- `BasicAutoIncrementer` is registered at line 189
+- `ControlledNumber` does NOT appear in the component registry (may be a Designer abstraction over NumberField with specific props)
+
+The deprecated "Number Field" actually uses the generic TextField component from formik-material-ui with `type="number"` configuration.
+
+## Common Characteristics {important}
 
 ### Configuration Rules {important}
 
@@ -483,7 +626,7 @@ validationSchema: [
 }
 ```
 
-## Individual Field Reference
+## Individual Field Reference {essential}
 
 ### NumberInput (Number Input in Designer) {essential}
 <!-- keywords: numeric, decimal, float, measurement, calculation, validation, null -->
@@ -497,6 +640,7 @@ Standard numeric data entry supporting floating-point values, null states, and c
 - ✅ **Flexible validation** - Complete control via JSON
 - ✅ **Dual validation** - HTML5 + Yup schema
 - ⚠️ **Component name paradox** - Designer "Number Input" → JSON "NumberField"
+- ✅ **Styled spin buttons** - Custom CSS with gray background, border, pointer cursor
 
 #### Configuration Parameters {important}
 
@@ -976,6 +1120,7 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
 
 | Error Message | Field | Meaning | Solution |
 |---------------|-------|---------|----------|
+| "Error with numeric input, please enter a valid number." | NumberInput | Invalid input (NaN or null) | Enter valid numeric value |
 | "Component 'NumberInput' not found" | NumberInput | Wrong JSON component name | Use `"NumberField"` not `"NumberInput"` |
 | "Must be a number" | All numeric | Empty field or invalid input | Add `["yup.nullable"]` or enter valid number |
 | "yup.required is not a function" | All | Wrong validation order | Put type first: `["yup.number"], ["yup.required"]` |
@@ -987,6 +1132,21 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
 | "Precision lost" | NumberInput | >17 significant digits | JavaScript IEEE 754 limitation |
 | "Cannot read property 'length' of null" | NumberInput | Wrong initialValue type | Use null for numbers, not strings |
 
+
+### Quick Reference Matrix {important}
+
+| If you see... | First try... | Then try... | Last resort... |
+|---------------|--------------|-------------|----------------|
+| "Component NumberInput not found" | Change to "NumberField" in JSON | Check component-namespace | Recreate field in Designer |
+| Cannot enter negative on iOS | Copy from Notes app | Use TextField with pattern | Document workaround |
+| Excel corrupts IDs | Use BasicAutoIncrementer | Wrap in TemplatedString | Export as JSON |
+| "Must be a number" on empty | Add `nullable()` validation | Make field required | Set initialValue: 0 |
+| Decimals in ControlledNumber | Add `yup.integer()` validation | Accept decimal storage | Use NumberInput |
+| Scientific notation appears | Add helper text explanation | Use TextField for display | Accept notation |
+| Precision lost >17 digits | Document limitation | Use string field | Reduce precision |
+| Cannot skip ControlledNumber | Switch to NumberInput | Accept 0 default | Make optional |
+| Touch targets too small | Custom CSS for sizing | Train users | Accept limitation |
+| Voice input fails | Train "one zero zero zero" | Manual entry | Provide number pad |
 ### Debug Checklists {comprehensive}
 
 **NumberInput Checklist**:
@@ -1205,7 +1365,7 @@ Current Field Type?
       └─ Implement range allocation protocol
 ```
 
-### Migration Warnings Index {comprehensive}
+### Migration Quick Reference {comprehensive}
 
 ⚠️ **NumberField → NumberInput**:
 - Component name changes to "NumberField" (paradox)
@@ -1311,86 +1471,6 @@ Current Field Type?
 
 ## Field Quirks Index (2025-08) {comprehensive}
 
-### NumberInput
-- `RULE` Designer shows "Number Input"
-- `QUIRK` JSON requires "NumberField" 
-- `FIX` Always use "NumberField" in component-name
-- `VERSION` 2025-08
-
-- `RULE` Accepts any numeric value
-- `QUIRK` iOS keyboard lacks minus key
-- `FIX` Copy-paste or use TextField for negatives
-- `VERSION` 2025-08
-
-### ControlledNumber
-- `RULE` Declares type "faims-core::Integer"
-- `QUIRK` Accepts and stores decimal values
-- `FIX` Add yup.integer() validation if needed
-- `VERSION` 2025-08
-
-- `RULE` Designer sets initial value
-- `QUIRK` Always 0, not configurable
-- `FIX` May need to adjust min to 0
-- `VERSION` 2025-08
-
-### BasicAutoIncrementer
-- `RULE` Listed under "Number Fields"
-- `QUIRK` Returns string not number
-- `FIX` Never use for calculations
-- `VERSION` 2025-08
-
-- `RULE` Generates sequential identifiers
-- `QUIRK` No duplicate detection across devices
-- `FIX` Maintain external range allocation log
-- `VERSION` 2025-08
-
-## Performance Thresholds Table (2025-08) {essential}
-
-| Field | Metric | Threshold | Performance Impact |
-|-------|--------|-----------|-------------------|
-| **NumberInput** | Validation complexity | >10 rules | Noticeable lag on blur |
-| **NumberInput** | Form field count | >50 fields | Initial render slowdown |
-| **ControlledNumber** | Range size | >1,000,000 | No impact (HTML5) |
-| **BasicAutoIncrementer** | Active ranges | >100 | UI sluggish in settings |
-| **BasicAutoIncrementer** | Range size | >100,000 | Memory pressure |
-| **All fields** | Records count | >10,000 | Export processing delay |
-
-## Field Interaction Matrix (2025-08) {important}
-
-| Primary Field | Interacts With | Interaction Type | Notes |
-|---------------|----------------|------------------|-------|
-| **NumberInput** | Conditional logic | Value comparison | Null requires special handling |
-| **ControlledNumber** | Conditional logic | Value comparison | 0 default may trigger conditions |
-| **BasicAutoIncrementer** | TemplatedString | Composition | Essential for Excel protection |
-| **BasicAutoIncrementer** | Conditional logic | String comparison | Use "is"/"contains" not ">" |
-| **All numeric** | Calculations | Source values | BasicAutoIncrementer excluded (string) |
-
-## Quick Diagnosis Tables (2025-08) {important}
-
-### Symptom → Field → Solution {important}
-
-| Symptom | Likely Field | Quick Check | Solution |
-|---------|--------------|-------------|----------|
-| "Field not found" error | NumberInput | component-name value | Change to "NumberField" |
-| Arithmetic fails | BasicAutoIncrementer | Return type | It's a string, not number |
-| Cannot enter negative | NumberInput/Controlled | iOS device? | Copy-paste workaround |
-| Excel corrupts ID | BasicAutoIncrementer | Export format | Add TemplatedString wrapper |
-| Decimals in Integer | ControlledNumber | Type declaration | Known issue, add validation |
-| Cannot skip field | ControlledNumber | Null support | Switch to NumberInput |
-
-### Error Message → Cause {important}
-
-| Error Message | Field | Cause | Fix |
-|---------------|-------|-------|-----|
-| "Must be a number" | NumberInput/Controlled | Empty field | Add nullable() or make required |
-| "Field is required" | Any | Missing value | Enter value or change required |
-| "Value must be at least X" | NumberInput/Controlled | Below minimum | Check range configuration |
-| "Invalid format" | BasicAutoIncrementer | Validation pattern | Check regex in validationSchema |
-
----
-
-## Field Quirks Index (2025-08) {comprehensive}
-
 ### Common Number Field Quirks
 - `QUIRK` iOS numeric keyboard universally lacks minus key for negative number entry
   - `ERROR` User cannot enter negative values on iOS devices
@@ -1453,6 +1533,10 @@ Current Field Type?
   - `XREF` See [Individual Field Reference > NumberInput > Storage Characteristics]
 - `QUIRK` Trailing zeros never preserved (42.000 → 42)
   - `ERROR` Format requirements lost, precision appears reduced
+- `QUIRK` Spin buttons have custom styling (gray background #9F9F9F, 2px black border)
+  - `INFO` Styled for better visibility with 8px padding, border-radius 4px
+  - `FIX` Override with custom CSS if different styling needed
+  - `TEST` Inspect element to verify webkit-inner-spin-button styles
   - `FIX` Use TextField if trailing zeros critical
   - `TEST` Enter 3.1400, check stored value
   - `XREF` See [Individual Field Reference > NumberInput > Storage Characteristics]
@@ -1609,7 +1693,7 @@ Current Field Type?
 
 ---
 
-## Migration Warnings Index (2025-08) {essential}
+## Migration Warnings Index (2025-08) {comprehensive}
 
 ### Safe Migrations (No Data Loss)
 - `SAFE` Deprecated Number Field → NumberInput when adding nullable validation
@@ -2694,7 +2778,21 @@ Current Field Type?
 
 ---
 
-## Metadata
+## Field Interaction Matrix (2025-08) {important}
+
+| Primary Field | Interacts With | Interaction Type | Notes |
+|---------------|----------------|------------------|-------|
+| **NumberInput** | Conditional logic | Value comparison | Null requires special handling |
+| **ControlledNumber** | Conditional logic | Value comparison | 0 default may trigger conditions |
+| **BasicAutoIncrementer** | TemplatedString | Composition | Essential for Excel protection |
+| **BasicAutoIncrementer** | Conditional logic | String comparison | Use "is"/"contains" not ">" |
+| **All numeric** | Calculations | Source values | BasicAutoIncrementer excluded (string) |
+
+| "Invalid format" | BasicAutoIncrementer | Validation pattern | Check regex in validationSchema |
+
+---
+
+## Metadata {comprehensive}
 
 **Document Version**: 3.0.0  
 **Last Updated**: 2025-08  

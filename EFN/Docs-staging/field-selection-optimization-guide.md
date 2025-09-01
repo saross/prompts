@@ -5,6 +5,21 @@ This document outlines the additional information needed in field documentation 
 
 ---
 
+## ⚠️ Critical Field Selection Warnings {essential}
+
+### Platform & Security Constraints
+- **iOS negative numbers**: NumberField keyboard lacks minus key - consider TextField alternative
+- **XSS vulnerability**: TemplatedString with user input can execute scripts (HTML escaping disabled)
+- **Timezone data loss**: DateTimePicker stores local time without timezone - use DateTimeNow
+- **QR scanning**: QRCodeFormField is mobile-only - always provide TextField fallback
+- **Component name paradox**: Designer "Number Input" → JSON "NumberField" (common error source)
+
+### Data Integrity Risks
+- **Excel ID corruption**: Numeric IDs lose leading zeros - use BasicAutoIncrementer + TemplatedString
+- **Precision loss**: Numbers >15-17 digits silently truncated - use strings for long IDs
+- **Date format confusion**: MM/DD vs DD/MM varies by locale - use picker interface only
+
+
 ## Export & Analysis Considerations {essential}
 
 ### TextField vs MultilineText
@@ -76,7 +91,7 @@ This document outlines the additional information needed in field documentation 
 #### MEDIUM QUALITY (Guided entry)
 - **TextField with pattern validation**: Enforces format (e.g., site codes)
 - **NumberField with min/max**: Keeps values in reasonable range
-- **TemplatedString**: Auto-generated IDs, consistent format
+- **TemplatedString**: Auto-generated IDs, consistent format (⚠️ XSS risk if user input included)
 - **Email field**: Format validation built-in
 
 #### LOW QUALITY (Free text, user-dependent)
@@ -93,10 +108,10 @@ This document outlines the additional information needed in field documentation 
 | "Enter [noun]" | TextField, Select | Size of vocabulary, need for consistency |
 | "Describe [noun]" | MultilineText, Select + Other field | Expected length, analysis needs |
 | "Record [noun]" | TextField, Select, RelatedRecordSelector | Whether it references other data |
-| "Count/Number of" | NumberField, Counter, TextField | Precision needs, whether ranges occur |
-| "Measure [dimension]" | NumberField | Always, unless units vary |
+| "Count/Number of" | NumberField, BasicAutoIncrementer, TextField | Precision needs, whether ranges occur |
+| "Measure [dimension]" | NumberField | Always, unless units vary (⚠️ iOS lacks minus key) |
 | "Select all that apply" | MultiSelect, Checkbox group | Number of options (<5 use Checkbox) |
-| "Date/Time when" | DateTime, DateField, TextField | Precision needed, relative dates |
+| "Date/Time when" | DateTimeNow, DatePicker, TextField | ⚠️ Use DateTimeNow for timezone safety |
 | "Location of" | TakePoint, MapField, TextField | GPS availability, precision needs |
 | "Photo of" | TakePhoto, FileUpload | Mobile vs desktop, immediate vs later |
 | "Identify [object]" | Select, TextField with validation | Vocabulary size, expertise level |
@@ -300,3 +315,41 @@ With this additional information integrated into field documentation, automated 
 - Performance considerations
 
 The key is providing not just "what" each field does, but "when" and "why" to choose it over alternatives.
+
+---
+
+## Quick Verification Tests {essential}
+
+After field selection, verify your choices:
+
+### Data Quality Tests
+- ✓ Can invalid data be entered? (If yes, add validation)
+- ✓ Will Excel corrupt the data? (If yes, use string fields)
+- ✓ Is precision preserved? (If no, document limits)
+- ✓ Does it work on all platforms? (If no, provide fallbacks)
+
+### User Experience Tests
+- ✓ Can iOS users enter all values? (Negative numbers?)
+- ✓ Is the field accessible on mobile? (QR code fallback?)
+- ✓ Are timezone assumptions clear? (Use DateTimeNow)
+- ✓ Will users understand validation? (Add helperText)
+
+---
+
+## See Also {essential}
+
+For detailed field documentation:
+- **Text Fields**: `text-fields-revised-corrected.md` - Complete guide including XSS warnings
+- **DateTime Fields**: `datetime-fields-revised-corrected.md` - Critical timezone guidance
+- **Number Fields**: `number-fields-revised.md` - iOS limitations and precision issues
+
+For implementation:
+- **Field Quirks Index**: Check each document's quirks section for TEST procedures
+- **Quick Reference Matrix**: Troubleshooting tables in each document
+- **JSON Examples**: Complete patterns with diff notation in each guide
+
+---
+
+**Last Updated**: 2025-08
+**Purpose**: LLM-first optimization guide for automated field selection
+**Critical Focus**: Platform limitations, security vulnerabilities, data integrity
