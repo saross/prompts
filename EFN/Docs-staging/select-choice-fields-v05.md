@@ -19,7 +19,7 @@ All fields share static vocabulary requirements—options must be predefined at 
 
 ### Data Capture Fields (1-5)
 
-1. **Checkbox** ✅ PRODUCTION - Boolean states, returns `faims-core::Boolean`
+1. **Checkbox** ✅ PRODUCTION - Boolean states, returns `faims-core::Bool`
 2. **Select** ✅ PRODUCTION - Single dropdown selection, returns `faims-core::String`  
 3. **MultiSelect** ✅ PRODUCTION - Multiple selection, returns `faims-core::Array`
 4. **RadioGroup** 🟡 DEPRECATED - Single visible selection, returns `faims-core::String`
@@ -91,7 +91,7 @@ What type of selection do you need?
 │
 ├─ Boolean/binary state?
 │  ├─ YES → Checkbox
-│  │  ├─ Returns: faims-core::Boolean  
+│  │  ├─ Returns: faims-core::Bool  
 │  │  ├─ Best for: Consent, presence/absence
 │  │  └─ ⚠️ Label not clickable (bug)
 │  └─ NO → Continue
@@ -633,7 +633,7 @@ All selection fields require predefined option lists configured at design time. 
 **Universal Validation Schema Structure**:
 ```json
 "validationSchema": [
-  ["yup.string"],                    // Base type validation (yup.boolean for Checkbox, yup.array for MultiSelect)
+  ["yup.string"],                    // Base type validation (yup.bool for Checkbox, yup.array for MultiSelect)
   ["yup.required", "Error message"], // Optional required validation
   // Additional validators vary by field type
 ]
@@ -642,7 +642,7 @@ All selection fields require predefined option lists configured at design time. 
 #### Standard Validation Rules [affects: All fields] {important}
 
 **Type Validation** (Always included):
-- **Checkbox**: `["yup.boolean"]` - Validates true/false/null values
+- **Checkbox**: `["yup.bool"]` - Validates true/false/null values
 - **Select/RadioGroup/AdvancedSelect**: `["yup.string"]` - Validates string values
 - **MultiSelect**: `["yup.array"]` - Validates array structure
 
@@ -662,11 +662,30 @@ All selection fields require predefined option lists configured at design time. 
 - **RadioGroup**: ⚠️ **Color only** - Red styling but no error text
 - **AdvancedSelect**: ❌ **No error display** - Silent validation failures
 
-**Validation Timing**:
-- **On mount**: All fields validate but don't show errors (not touched)
-- **On change**: Immediate validation, touched state set
-- **On blur**: Revalidation and error display (where supported)
-- **On submit**: All fields validated, form blocked if any invalid
+#### Validation Timing Behavior [affects: All fields] {important}
+
+**Validation Lifecycle**:
+- **On mount**: Validation runs but errors hidden until touched
+  - Initial validation determines field state
+  - Errors stored but not displayed
+  - Field remains in "pristine" state
+- **On change**: Immediate validation with field marked as touched
+  - Validation runs synchronously on every value change
+  - Field transitions from "pristine" to "touched"
+  - Errors display immediately (where component supports it)
+- **On blur**: Re-validates and displays any errors
+  - Final validation when user leaves field
+  - Updates error state if value changed
+  - Mobile may delay blur event until next field focus
+- **On submit**: All fields validated, all errors shown
+  - Forces all fields to "touched" state
+  - Blocks submission if any validation fails
+  - Shows all error messages (where supported)
+
+**Platform Differences**:
+- **Mobile**: Blur events may be delayed or skipped during rapid navigation
+- **Desktop**: Blur events fire consistently on focus change
+- **Touch devices**: Tap-outside may not trigger blur on some components
 
 ### Security Considerations {important}
 
@@ -1025,14 +1044,17 @@ All choice fields use Material-UI components consistently across platforms rathe
 | Designer Label | Checkbox |
 | Component Name | Checkbox |
 | Namespace | faims-custom |
-| Type Returned | faims-core::Boolean |
+| Type Returned | faims-core::Bool |
 | Error Display | ✅ Full (only field with proper errors) |
 | Mobile Support | ✅ Full (label not clickable) |
 | Accessibility | ❌ Poor (no ARIA) |
+| Touch Targets | 24×24px icon, 48×48px target |
+| Performance | 20-30 optimal, 50+ degraded, 100+ unusable |
+| Storage | Boolean (true/false, null→false) |
 
 ### Purpose {essential}
 
-The Checkbox field provides binary state capture through a Material-UI checkbox component, returning `faims-core::Boolean` values. As the **only boolean field type in Fieldmark**, Checkbox serves dual purposes: simple true/false data capture and consent/acknowledgment workflows. Unlike RadioGroup and Select which return strings, Checkbox returns actual boolean primitives, making it ideal for programmatic logic.
+The Checkbox field provides binary state capture through a Material-UI checkbox component, returning `faims-core::Bool` values. As the **only boolean field type in Fieldmark**, Checkbox serves dual purposes: simple true/false data capture and consent/acknowledgment workflows. Unlike RadioGroup and Select which return strings, Checkbox returns actual boolean primitives, making it ideal for programmatic logic.
 
 **When to use:**
 - Binary archaeological indicators - Presence/absence of features (charcoal present, bioturbation observed)
@@ -1047,7 +1069,7 @@ The Checkbox field provides binary state capture through a Material-UI checkbox 
 {
   "component-namespace": "faims-custom",
   "component-name": "Checkbox",
-  "type-returned": "faims-core::Boolean",
+  "type-returned": "faims-core::Bool",
   "component-parameters": {
     "name": "terms-accept",
     "label": "I accept the terms and conditions",
@@ -1055,7 +1077,7 @@ The Checkbox field provides binary state capture through a Material-UI checkbox 
     "required": true
   },
   "validationSchema": [
-    ["yup.boolean"],
+    ["yup.bool"],
     ["yup.oneOf", [true], "You must accept the terms to proceed"]
   ],
   "initialValue": false
@@ -1066,10 +1088,11 @@ The Checkbox field provides binary state capture through a Material-UI checkbox 
 
 - ✅ **Boolean primitive values** - Returns true/false, not strings
 - ✅ **Best error display** - Only choice field showing both red color and error messages
-- ✅ **Immediate validation feedback** - Errors appear after interaction
+- ✅ **Immediate validation feedback** - Errors appear on change event after interaction
 - ✅ **Conditional logic support** - Works with boolean operators (equal: true/false)
-- ⚠️ **Label not clickable** - Users must click checkbox directly, not label text (UX failure)
+- ⚠️ **Label not clickable** - Must click 24×24px checkbox icon directly, not label text (iOS requires 44×44px minimum)
 - ⚠️ **Required validation misleading** - "Required" allows false but prevents null/undefined
+- ⚠️ **Performance limits** - Degrades at 50+ checkboxes per form, unusable at 100+ (use MultiSelect instead)
 - ❌ **No ARIA attributes** - Fails WCAG 2.1 Level A requirements
 - 🐛 **Label association broken** - Screen readers cannot announce field purpose
 
@@ -1098,7 +1121,7 @@ The Checkbox field provides binary state capture through a Material-UI checkbox 
 
 | Validation Type | Configuration | Actual Behaviour | Error Message | Designer Support |
 |-----------------|---------------|------------------|---------------|------------------|
-| Boolean type | `["yup.boolean"]` | Accepts true/false/null/undefined | "Must be a boolean" | ✅ Default |
+| Boolean type | `["yup.bool"]` | Accepts true/false/null/undefined | "Must be a boolean" | ✅ Default |
 | Required field | `["yup.required"]` | **Misleading!** Prevents null/undefined but allows false | "This field is required" | ✅ Checkbox |
 | Must be checked | `["yup.oneOf", [true], "Message"]` | Only accepts true (checkbox must be checked) | Custom message | ❌ JSON only |
 | Must be unchecked | `["yup.oneOf", [false]]` | Only accepts false | "Must be unchecked" | ❌ JSON only |
@@ -1110,6 +1133,11 @@ The Checkbox field provides binary state capture through a Material-UI checkbox 
 - For consent forms use: `["yup.oneOf", [true], "You must accept"]`
 - Designer's "required" checkbox creates confusion
 
+**Validation Timing:**
+- Validates on change (immediate feedback after first interaction)
+- Errors display on blur (user leaves field)
+- All validation runs on form submit attempt
+
 ### Checkbox-Specific Issues {important}
 
 - **Label not clickable** - Users must tap/click the small checkbox target, violating standard checkbox behavior
@@ -1118,6 +1146,12 @@ The Checkbox field provides binary state capture through a Material-UI checkbox 
 - **Accessibility failures** - Missing aria-required, aria-invalid, aria-describedby attributes
 - **Screen reader incompatible** - Label not programmatically associated with checkbox
 - **Initial state limitation** - Designer always forces `initialValue: false`
+
+**Platform-Specific Behaviors:**
+- **iOS**: Touch target below 44×44px Apple HIG standard, no native checkbox styling
+- **Android**: Material Design 48×48px touch target not met, uses Material checkbox appearance
+- **Desktop**: Hover states work correctly, click target matches visual 24×24px size
+- **All platforms**: Label click does not toggle checkbox (Material-UI limitation)
 
 ### Field-Specific Troubleshooting {important}
 
@@ -1138,7 +1172,7 @@ The Checkbox field provides binary state capture through a Material-UI checkbox 
   "terms-accept": {
     "component-namespace": "faims-custom",
     "component-name": "Checkbox",
-    "type-returned": "faims-core::Boolean",
+    "type-returned": "faims-core::Bool",
     "component-parameters": {
       "name": "terms-accept",
       "label": "I accept the terms and conditions",
@@ -1146,7 +1180,7 @@ The Checkbox field provides binary state capture through a Material-UI checkbox 
       "required": true
     },
     "validationSchema": [
-      ["yup.boolean"],
+      ["yup.bool"],
       ["yup.oneOf", [true], "You must accept the terms to proceed"]
     ],
     "initialValue": false
@@ -1160,13 +1194,13 @@ The Checkbox field provides binary state capture through a Material-UI checkbox 
   "include-detailed": {
     "component-namespace": "faims-custom",
     "component-name": "Checkbox",
-    "type-returned": "faims-core::Boolean",
+    "type-returned": "faims-core::Bool",
     "component-parameters": {
       "name": "include-detailed",
       "label": "Record detailed measurements",
       "helperText": "Check to show additional measurement fields"
     },
-    "validationSchema": [["yup.boolean"]],
+    "validationSchema": [["yup.bool"]],
     "initialValue": false,
     "meta": {
       "persistent": true
@@ -1181,13 +1215,13 @@ The Checkbox field provides binary state capture through a Material-UI checkbox 
   "peer-reviewed": {
     "component-namespace": "faims-custom",
     "component-name": "Checkbox",
-    "type-returned": "faims-core::Boolean",
+    "type-returned": "faims-core::Bool",
     "component-parameters": {
       "name": "peer-reviewed",
       "label": "Data peer reviewed",
       "advancedHelperText": "Check after secondary verification completed"
     },
-    "validationSchema": [["yup.boolean"]],
+    "validationSchema": [["yup.bool"]],
     "initialValue": false,
     "meta": {
       "displayParent": true,
@@ -1203,7 +1237,7 @@ The Checkbox field provides binary state capture through a Material-UI checkbox 
   "heritage-present": {
     "component-namespace": "faims-custom",
     "component-name": "Checkbox",
-    "type-returned": "faims-core::Boolean",
+    "type-returned": "faims-core::Bool",
     "component-parameters": {
       "name": "heritage-present",
       "label": "Aboriginal heritage identified",
@@ -1211,7 +1245,7 @@ The Checkbox field provides binary state capture through a Material-UI checkbox 
       "required": true
     },
     "validationSchema": [
-      ["yup.boolean"],
+      ["yup.bool"],
       ["yup.oneOf", [true, false], "Must explicitly indicate heritage status"]
     ],
     "initialValue": false,
@@ -1270,6 +1304,9 @@ The Checkbox field provides binary state capture through a Material-UI checkbox 
 | Error Display | ❌ No error messages shown |
 | Mobile Support | ⚠️ Limited (performance issues >20 options) |
 | Accessibility | ❌ Poor (no ARIA, on roadmap) |
+| Touch Targets | Full row clickable (48px height) |
+| Performance | ≤15 expanded optimal, 20+ dropdown, 50+ degraded |
+| Storage | Array of strings, empty array valid |
 
 ### Purpose {essential}
 
@@ -1566,6 +1603,9 @@ The MultiSelect field enables multiple value selection from predefined option li
 | Error Display | ❌ Red color only, no error messages |
 | Mobile Support | ⚠️ Limited (problematic deselection, performance issues) |
 | Accessibility | ❌ Critical violations (no ARIA, keyboard issues) |
+| Touch Targets | 42px radio buttons (below iOS 44px standard) |
+| Performance | 3-7 optimal, 10+ degraded, 20+ unusable |
+| Storage | String, no null state after selection |
 
 ### Purpose {essential}
 
@@ -1766,6 +1806,41 @@ The RadioGroup field provides single selection from 2–10 mutually exclusive op
 }
 ```
 
+#### Binary Choice Alternative (Use Select Instead)
+```json
+{
+  "component-namespace": "faims-custom",
+  "component-name": "RadioGroup",
+  "type-returned": "faims-core::String",
+  "component-parameters": {
+    "name": "has-features",
+    "label": "Heritage Features Present",
+    "helperText": "⚠️ DEPRECATED: Use Select or Checkbox instead",
+    "ElementProps": {
+      "options": [
+        {"value": "yes", "label": "Yes"},
+        {"value": "no", "label": "No"}
+      ]
+    }
+  },
+  "validationSchema": [
+    ["yup.string"],
+    ["yup.required", "Required (but won't display)"]
+  ],
+  "initialValue": ""
+}
+```
+**Better Alternative**: Use Checkbox for true boolean logic:
+```json
+{
+  "component-name": "Checkbox",
+  "type-returned": "faims-core::Bool",
+  "component-parameters": {
+    "label": "Heritage Features Present"
+  }
+}
+```
+
 ### JSON Anti-patterns
 
 ```json
@@ -1820,6 +1895,9 @@ The RadioGroup field provides single selection from 2–10 mutually exclusive op
 | Error Display | ❌ No error messages shown |
 | Mobile Support | ✅ Good (consistent Material-UI across platforms) |
 | Accessibility | ⚠️ Limited (basic keyboard support, missing ARIA) |
+| Touch Targets | Native picker on mobile, dropdown on desktop |
+| Performance | 50 options acceptable, 100+ degraded, 200+ unusable |
+| Storage | String, empty string for no selection |
 
 ### Purpose {essential}
 
@@ -2109,6 +2187,9 @@ The Select field provides single-choice selection from a dropdown list, offering
 | Error Display | ❌ No error messages shown |
 | Mobile Support | ❌ Broken (fixed width causes scrolling, small touch targets) |
 | Accessibility | ❌ Poor (limited keyboard support, no ARIA) |
+| Touch Targets | Fixed 500px width causes mobile scrolling |
+| Performance | 50 nodes optimal, 100+ degraded, 500+ unusable |
+| Storage | String path with " > " delimiter |
 
 ### Purpose {essential}
 
@@ -2568,7 +2649,7 @@ interface TreeNode {
 #### Field-Specific Checks {comprehensive}
 
 **Checkbox Checks:**
-- [ ] Using `faims-core::Boolean` type
+- [ ] Using `faims-core::Bool` type
 - [ ] Initial value is boolean (not string)
 - [ ] For "must accept": using yup.oneOf([true])
 - [ ] Not expecting label to be clickable
@@ -2635,7 +2716,7 @@ See Individual Field Reference section for detailed field-specific issues.
   "terms-acceptance": {
     "component-namespace": "faims-custom",
     "component-name": "Checkbox",
-    "type-returned": "faims-core::Boolean",
+    "type-returned": "faims-core::Bool",
     "component-parameters": {
       "name": "terms-acceptance",
       "id": "terms-acceptance",
@@ -2644,7 +2725,7 @@ See Individual Field Reference section for detailed field-specific issues.
       "helperText": "You must accept the terms to continue"
     },
     "validationSchema": [
-      ["yup.boolean"],
+      ["yup.bool"],
       ["yup.oneOf", [true], "You must accept the terms"]
     ],
     "initialValue": false
@@ -2658,7 +2739,7 @@ See Individual Field Reference section for detailed field-specific issues.
   "include-photos": {
     "component-namespace": "faims-custom",
     "component-name": "Checkbox",
-    "type-returned": "faims-core::Boolean",
+    "type-returned": "faims-core::Bool",
     "component-parameters": {
       "name": "include-photos",
       "id": "include-photos",
@@ -3112,7 +3193,7 @@ function migrateCheckboxesToMultiSelect(checkboxFields) {
   "field-name": {
     "component-namespace": "faims-custom",
     "component-name": "Checkbox",
-    "type-returned": "faims-core::Boolean",
+    "type-returned": "faims-core::Bool",
     "component-parameters": {
       "label": "Yes/No Question?"
     },
@@ -3167,9 +3248,9 @@ function migrateCheckboxesToMultiSelect(checkboxFields) {
   "must-accept": {
     "component-namespace": "faims-custom",
     "component-name": "Checkbox",
-    "type-returned": "faims-core::Boolean",
+    "type-returned": "faims-core::Bool",
     "validationSchema": [
-      ["yup.boolean"],
+      ["yup.bool"],
       ["yup.oneOf", [true], "Must be checked"]
     ]
   }
@@ -3182,7 +3263,7 @@ function migrateCheckboxesToMultiSelect(checkboxFields) {
   "optional-flag": {
     "component-namespace": "faims-custom",
     "component-name": "Checkbox",
-    "type-returned": "faims-core::Boolean",
+    "type-returned": "faims-core::Bool",
     "component-parameters": {
       "required": false
     }
