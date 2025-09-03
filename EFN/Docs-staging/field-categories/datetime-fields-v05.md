@@ -2438,7 +2438,7 @@ Anti-patterns have been distributed to their respective field sections for bette
 4. **Validation Order**: Type declaration before constraints
 5. **Migration Patterns**: Moving from deprecated components
 
-## Enhanced Quick Diagnosis Tables (2025-08) {comprehensive}
+## Quick Diagnosis Tables (2025-08) {comprehensive}
 
 ### 🔴 Critical Issues Table
 

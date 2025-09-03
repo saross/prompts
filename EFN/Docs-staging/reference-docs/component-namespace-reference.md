@@ -11,7 +11,7 @@
 | **DateTime Fields** | `faims-custom` | DateTime, DateTimeNow |
 | **Selection Fields** | `faims-custom` | Checkbox, MultiSelect, RadioGroup, Select, AdvancedSelect |
 | **Media Fields** | `faims-custom` | TakePhoto, FileUploader |
-| **Location Fields** | `faims-custom` | MapFormField, TakePoint |
+| **Location Fields** | `faims-custom` / `mapping-plugin` | TakePoint (custom) / MapFormField (plugin) |
 | **Relationship** | `faims-custom` | RelatedRecordSelector |
 
 ### The Golden Rule
@@ -50,8 +50,8 @@ Over 90% of Fieldmark components use the `faims-custom` namespace. Only basic te
 - `FileUploader` - File upload
 
 **Location Fields:**
-- `MapFormField` - Map-based location selection
-- `TakePoint` - GPS coordinate capture
+- `TakePoint` - GPS coordinate capture (`faims-custom`)
+- `MapFormField` - Map-based location selection (`mapping-plugin`)
 
 **Relationship Fields:**
 - `RelatedRecordSelector` - Link to other records
@@ -147,7 +147,7 @@ The Designer UI uses different display names than the JSON component names:
 | "Take Photo" | `TakePhoto` | `faims-custom` |
 | "Upload File" | `FileUploader` | `faims-custom` |
 | "GPS Point" | `TakePoint` | `faims-custom` |
-| "Map Location" | `MapFormField` | `faims-custom` |
+| "Map Location" | `MapFormField` | `mapping-plugin` |
 
 ### Namespace Evolution
 
