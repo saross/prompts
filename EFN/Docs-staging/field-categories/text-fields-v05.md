@@ -47,28 +47,89 @@ This naming inconsistency is a known issue that creates significant confusion. A
 
 ---
 
+## Designer Usage Guide {essential}
 
-## ⚠️ CRITICAL SECURITY VULNERABILITIES {essential}
+### What to Select in Designer
 
-**XSS (Cross-Site Scripting) Risks in Text Fields**:
+When using the Designer interface, follow these simple rules:
 
-**TemplatedString** - HTML escaping DISABLED (formUtilities.ts line 27):
-- **Risk**: User input in templates can execute malicious scripts
-- **Impact**: Complete session hijacking, data theft
-- **Mitigation**: NEVER include user input directly in templates
-- **Safe**: `{{_YYYY}}-{{auto_increment}}`
-- **UNSAFE**: `{{user_entered_field}}`
+📝 **For single-line text input**: Select **"FAIMS Text Field"**
+- Use for: identifiers, names, brief labels, codes
+- Creates: FAIMSTextField component
+- Helper text in Designer: "Single-line text input for free-form entries"
 
-**RichText** - Raw HTML rendering without comprehensive sanitization:
-- **Risk**: Malicious markdown can bypass DOMPurify
-- **Impact**: Script execution, data exfiltration
-- **Mitigation**: Use only for trusted, static content
-- **Alternative**: Use MultipleTextField for user content
+📄 **For multi-line text input**: Select **"Text Field"**  
+- Use for: descriptions, notes, observations, narratives
+- Creates: MultipleTextField component
+- Helper text in Designer: "Multi-line text area for longer notes"
 
-**Address Field** - JSON injection potential:
-- **Risk**: Malformed JSON can crash field processing
-- **Impact**: Form submission failures, data loss
-- **Mitigation**: Validate JSON structure before storage
+✉️ **For email addresses**: Select **"Email"**
+- Use for: validated email input
+- Creates: TextField component with email configuration
+- Includes automatic email validation
+
+---
+
+## Field Selection Guide {essential}
+
+### Decision Tree
+
+```
+What type of text data do you need?
+│
+├─ Display-only content?
+│  └─ YES → RichText
+│     ├─ Returns: None (display only)
+│     └─ Best for: Instructions, headers
+│
+├─ Auto-generated identifier or derived value?
+│  └─ YES → TemplatedString  
+│     ├─ Returns: faims-core::String
+│     ├─ Configure as hridField for record IDs
+│     └─ ⚠️ XSS vulnerability if used with user input
+│
+├─ Barcode/QR code scanning?
+│  └─ YES → QRCodeFormField
+│     ├─ Returns: faims-core::String
+│     ├─ Mobile only (web shows disabled)
+│     └─ Pair with TextField for web fallback
+│
+├─ Structured data capture?
+│  ├─ Email address?
+│  │  └─ YES → Email (TextField variant)
+│  │     ├─ Returns: faims-core::String
+│  │     └─ HTML5 email validation
+│  │
+│  └─ Street address?
+│     └─ YES → Address
+│        ├─ Returns: faims-core::JSON
+│        └─ Google Places autocomplete
+│
+└─ User-entered text?
+   ├─ Single line (<200 chars)?
+   │  └─ YES → TextField/FAIMSTextField
+   │     ├─ Returns: faims-core::String
+   │     ├─ Designer: "FAIMS Text Field"
+   │     └─ Consider FAIMSTextField for rich help
+   │
+   └─ Multiple lines or >200 chars?
+      └─ YES → MultilineText
+         ├─ Returns: faims-core::String  
+         ├─ Designer: "Text Field" with multiline
+         └─ Configure rows (3-10 typical)
+```
+
+---
+
+## ⚠️ Critical Security Warning {essential}
+
+See [Security Considerations Reference](security-considerations-reference.md) for comprehensive security guidelines, testing procedures, and mitigation strategies.
+
+**Text Field Critical Security Notes**:
+- **TemplatedString**: HTML escaping DISABLED (formUtilities.ts line 27) - NEVER include user input in templates
+- **RichText**: Never include user-generated content despite DOMPurify sanitization
+- **Address**: JSON injection possible - validate structure server-side
+- **All text fields**: No input sanitization by default - implement server-side validation
 
 ---
 
@@ -121,92 +182,48 @@ This naming inconsistency is a known issue that creates significant confusion. A
 - **Data entry comments** → MultipleTextField with timestamp
 
 ---
----
-## Field Selection Guide {essential}
 
-### Quick Decision Tree
+### Decision Matrix
 
-What type of text data do you need?
-│
-├─ Display-only content?
-│  └─ YES → RichText
-│
-├─ Auto-generated identifier or derived value?
-│  └─ YES → TemplatedString
-│     └─ Configure as hridField for record identification
-│
-├─ Barcode/QR code scanning?
-│  └─ YES → QRCodeFormField (mobile only)
-│     └─ Pair with TextField for web fallback
-│
-├─ Structured data capture?
-│  ├─ Email address?
-│  │  └─ YES → Email (TextField with type="email")
-│  │
-│  └─ Street address?
-│     └─ YES → Address (JSON storage)
-│
-└─ User-entered text?
-   ├─ Brief content (<50 characters)?
-   │  └─ YES → TextField
-   │     └─ Consider FAIMSTextField variant if rich help needed
-   │
-   └─ Extended content (>50 characters)?
-      └─ YES → MultilineText
-         └─ Configure rows based on expected content
+| Field Type | Returns | Max Length | Designer Name | Critical Issues |
+|------------|---------|------------|---------------|----------------|
+| **TextField** | String | ~200 chars* | "FAIMS Text Field" | Performance >10K chars |
+| **MultilineText** | String | 10,000 chars* | "Text Field" | Browser crash >50K |
+| **TemplatedString** | String | Auto-generated | "Templated String Field" | XSS with user input |
+| **Email** | String | Email format | "Email Field" | Platform validation varies |
+| **Address** | JSON | Complex object | "Address Field" | Requires Google API |
+| **QRCodeFormField** | String | Scanned value | "QR Code Field" | Mobile only |
+| **RichText** | None | Display only | "RichText" | No data capture |
 
-### Quick Decision Matrix
-
-| Field Type | Storage | Max Length | Use When | Avoid When |
-|------------|---------|------------|----------|------------|
-| **TextField** | String | ~200 chars (recommended) | Names, codes, identifiers | Long narratives |
-| **MultilineText** | String | 10,000 chars* | Descriptions, notes, observations | Single identifiers |
-| **TemplatedString** | String | Auto-generated | HRIDs, derived identifiers | User input needed |
-| **Email** | String | Email format | Contact information | Non-email data |
-| **Address** | JSON | Complex object | Structured addresses | Simple text sufficient |
-| **QRCodeFormField** | String | Scanned value | Mobile barcode capture | Web platform |
-| **RichText** | None | Display only | Instructions, headers | Data capture |
-
-*See [Common Characteristics > Performance Boundaries] for performance implications beyond 10,000 characters
+*Performance degrades significantly beyond these thresholds
 
 ### Selection Strategy
 
-1. **Default to TextField** for most text input unless specific reasons exist
-2. **Use MultilineText** only when narratives exceed single line  
-3. **Deploy TemplatedString** as hridField (mandatory for every notebook)
-4. **Consider structured fields** (Email, Address) only when structure adds value
+1. **Default to TextField** (FAIMSTextField) for most text input
+2. **Use MultilineText** only when content exceeds single line
+3. **Deploy TemplatedString** as hridField (mandatory for notebooks)
+4. **Consider structured fields** (Email, Address) only when validation/structure adds value
 5. **Avoid QRCodeFormField** unless mobile-only deployment confirmed
-6. **Reserve RichText** for static instructions only (no data capture)
+
+**Platform Considerations**:
+- Mobile: All fields work, QRCode camera enabled
+- Web: QRCode shows disabled state
+- iOS: Email keyboard includes @ symbol
+- Android: Address autocomplete may fail in some regions
+
+**Accessibility Requirements**:
+- TextField/MultilineText: WCAG AA compliant
+- Address: Complex navigation, may confuse screen readers
+- QRCode: Camera interface not accessible
+- RichText: Ensure semantic HTML for screen readers
 
 ---
-
-## Designer Usage Guide {essential}
-
-### What to Select in Designer
-
-When using the Designer interface, follow these simple rules:
-
-📝 **For single-line text input**: Select **"FAIMS Text Field"**
-- Use for: identifiers, names, brief labels, codes
-- Creates: FAIMSTextField component
-- Helper text in Designer: "Single-line text input for free-form entries"
-
-📄 **For multi-line text input**: Select **"Text Field"**  
-- Use for: descriptions, notes, observations, narratives
-- Creates: MultipleTextField component
-- Helper text in Designer: "Multi-line text area for longer notes"
-
-✉️ **For email addresses**: Select **"Email"**
-- Use for: validated email input
-- Creates: TextField component with email configuration
-- Includes automatic email validation
-
----
-
 
 ## Designer Capabilities vs JSON Enhancement {essential}
 
 ### What Designer Can Configure
+
+For complete meta properties documentation (annotation, uncertainty, persistence), see [Meta Properties Reference](meta-properties-reference.md).
 
 The Designer interface provides basic field creation for all text fields:
 
@@ -275,24 +292,14 @@ You MUST edit JSON directly for:
 
 ### Designer Limitations {important}
 
-The Designer interface cannot:
-- **Configure character limits** or enforce specific input patterns
-- **Create conditional field visibility** based on text content
-- **Implement cross-field validation** (e.g., matching passwords)
-- **Set up XSS prevention** for TemplatedString user inputs
-- **Configure platform-specific behaviors** (QR code fallbacks)
-- **Optimize performance** for large text fields (>10,000 chars)
-- **Create field pairing** (QR scanner + manual entry fallback)
-- **Control export behavior** (Address JSON, RichText invisibility)
-- **Set debounce timings** for Address race conditions
-- **Configure auto-complete** or suggestion lists
+See [Designer Limitations Reference](designer-limitations-reference.md) for testing, validation, and configuration constraints that apply to all fields.
 
-These limitations necessitate JSON editing for production deployments requiring:
-- Data quality enforcement
-- Security hardening
-- Platform-specific optimization
-- Complex validation rules
-- Field interdependencies
+**Text Field-Specific Limitations**:
+- **Character limits**: Cannot enforce maximum character counts or input patterns
+- **XSS prevention**: Cannot configure security for TemplatedString user inputs
+- **Platform behaviors**: Cannot set QR code fallbacks or mobile-specific settings
+- **Address timing**: Cannot configure debounce for Address race conditions
+- **Auto-complete**: Cannot enable suggestion lists or auto-formatting
 
 ## Designer Component Mapping {essential}
 
@@ -321,74 +328,29 @@ This mapping table is essential for:
 
 ---
 
-## Component Selection Decision Tree {important}
-
-### Which Component Should You Use?
-
-```
-Need text input?
-├─ Single line?
-│  ├─ Email validation needed?
-│  │  └─ Use: Email field → TextField (formik-material-ui) with email config
-│  └─ General text?
-│     └─ Use: FAIMS Text Field → FAIMSTextField (faims-custom)
-└─ Multiple lines?
-   └─ Use: Text Field → MultipleTextField (formik-material-ui)
-```
-
-### Manual JSON Configuration
-
-If writing JSON directly (not using Designer):
-- **Single-line with advanced help**: FAIMSTextField (faims-custom)
-- **Single-line basic**: TextField (formik-material-ui) - but not available in Designer
-- **Multi-line**: MultipleTextField (formik-material-ui) with multiline:true
-- **Email**: TextField (formik-material-ui) with email InputProps
-
-⚠️ **TextField Component Access Warning**: 
-The base TextField component (formik-material-ui) cannot be created directly through Designer. 
-It's only used internally by the Email field. For general single-line text, always use 
-FAIMSTextField via "FAIMS Text Field" in Designer. If you encounter a plain TextField in 
-existing JSON, it likely needs migration to FAIMSTextField.
 
 ---
 
 ## Component Namespace Errors {important}
 
-### Troubleshooting "Component not found" Errors
+See [Component Namespace Reference](component-namespace-reference.md) for complete namespace documentation, error troubleshooting, and case sensitivity rules.
 
-If you see "Component not found" or similar errors, verify the namespace matches the component:
+### Text Field-Specific Notes
 
-| Component | Required Namespace | Common Error |
-|-----------|-------------------|--------------|
-| FAIMSTextField | faims-custom | Using formik-material-ui causes failure |
-| MultipleTextField | formik-material-ui | Using faims-custom causes failure |
-| TextField | formik-material-ui | Only works with Email configuration |
-| TemplatedStringField | faims-custom | Using formik-material-ui causes failure |
-| QRCodeFormField | qrcode | Using faims-custom causes failure |
-| AddressField | faims-custom | Using formik-material-ui causes failure |
+**Mixed namespaces in text fields**:
+- Basic text: `formik-material-ui` (TextField, MultipleTextField)
+- Custom text: `faims-custom` (FAIMSTextField, TemplatedStringField, Address)
+- Special case: `qrcode` namespace for QRCodeFormField
 
-**Quick Fix Pattern**:
-```json
-// ❌ Wrong namespace
-{
-  "component-namespace": "formik-material-ui",
-  "component-name": "FAIMSTextField"  // Will fail!
-}
-
-// ✅ Correct namespace
-{
-  "component-namespace": "faims-custom",
-  "component-name": "FAIMSTextField"  // Works!
-}
-```
-
-### Technical Implementation Note
-
-Both TextField and MultipleTextField components in the formik-material-ui namespace use the same underlying FormikTextField component from the formik-mui library. The difference lies in their configuration parameters:
-- **TextField**: Standard single-line configuration
-- **MultipleTextField**: Includes `multiline: true` and `rows` parameters
-
-This explains why both components share similar behavior but present differently in the interface.
+**Quick Reference for Text Fields**:
+| Component | Namespace | Notes |
+|-----------|-----------|-------|
+| TextField | `formik-material-ui` | Basic single-line |
+| MultipleTextField | `formik-material-ui` | Multi-line textarea |
+| FAIMSTextField | `faims-custom` | Enhanced single-line |
+| TemplatedStringField | `faims-custom` | Auto-generated |
+| Address | `faims-custom` | Structured address |
+| QRCodeFormField | `qrcode` | Scanner (unique namespace) |
 
 ---
 
@@ -396,62 +358,25 @@ This explains why both components share similar behavior but present differently
 
 ### Security Considerations {important}
 
-#### Input Sanitization {important}
-**All text input fields (TextField, MultipleTextField, TemplatedString, Email, Address, QRCodeFormField)**:
-- No input sanitisation by default
-- XSS prevention relies entirely on display layer
-- SQL injection prevention requires backend validation
+See [Security Considerations Reference](security-considerations-reference.md) for detailed security analysis, XSS prevention, and SQL injection mitigation.
 
-#### Field-Specific Security Issues {important}
-- **TemplatedString CRITICAL**: HTML escaping disabled (formUtilities.ts line 27), creating injection risk
-- **QRCodeFormField**: No validation of scanned content
-- **RichText**: Aggressive DOMPurify sanitization at runtime, external images blocked (hardcoded empty array)
-
-**Recommendation**: Consider field-level encryption for sensitive data
-
-#### Security Best Practices {comprehensive}
-
-For TemplatedString templates with user input:
-```javascript
-1. Validate against allowed pattern
-2. Strip HTML/JavaScript characters
-3. Use controlled vocabularies where possible
-4. Never include free-text fields in templates
-5. Test with malicious input:
-   - <script>alert('XSS')</script>
-   - '; DROP TABLE records; --
-   - ${evil.code}
-```
+**Text Field-Specific Security Requirements**:
+- **TemplatedString**: HTML escaping disabled - critical XSS risk with user input
+- **QRCodeFormField**: No content validation - verify scanned data server-side
+- **RichText**: DOMPurify sanitization present but never trust with user content
+- **All fields**: Implement server-side validation and sanitization
 
 ### Performance Boundaries {important}
 
-| Field Type | Recommended Limit | Enforced Limit | Impact Beyond Limit |
-|------------|-------------------|------------|-------------------|
-| TextField | 50 characters | None | Mobile viewport issues |
-| MultilineText | 10,000 characters | ~1MB | Performance degradation |
-| TemplatedString | 50 variables | None tested | Form responsiveness |
-| Email | 254 characters (RFC) | None enforced | Compatibility issues |
-| Address | No limits | None | JSON payload size increase |
-| QRCodeFormField | Raw barcode length | Device memory | Scan may fail |
-| RichText | 50 words per field | 1000 total words | Performance degradation, mobile crashes |
+See [Performance Thresholds Reference](performance-thresholds-reference.md) for comprehensive performance limits, testing scenarios, and optimization triggers.
 
-#### Form Design Guidelines {important}
-- Maximum 30 text fields per section
-- Maximum 3 TemplatedString fields per form
-- Maximum 10 RichText fields per notebook
-- Use conditional logic to hide unused fields
-- Paginate forms with >50 total fields
-- Monitor sync payload with large text content
-
-#### Content Limits by Context {comprehensive}
-| Context | TextField | MultilineText | TemplatedString | RichText |
-|---------|-----------|---------------|-----------------|----------|
-| Mobile Form | 30 chars | 2,000 chars | 2-3 components | 50 words |
-| Desktop Form | 50 chars | 10,000 chars | 3-4 components | 50 words |
-| Paper Label | 15 chars | N/A | 2 components | N/A |
-| Export | 254 chars* | No limit | As generated | Never exported |
-
-*Shapefile DBF limitation
+**Text Field-Specific Performance Notes**:
+- **TextField**: 50 character recommendation for mobile viewports
+- **MultilineText**: Performance degrades >10,000 characters (~1MB CouchDB limit)
+- **TemplatedString**: Max 3 per form, 50 variables per template
+- **RichText**: Max 10 per notebook, 50 words per field (1000 total)
+- **QRCodeFormField**: Performance limited by device memory and camera
+- **Address**: No limits but increases JSON payload size significantly
 
 ### Common Validation Patterns {important}
 
@@ -466,11 +391,14 @@ For TemplatedString templates with user input:
 | object | `["yup.object"]` | JSON structure | Address field |
 
 #### Validation Behavior {important}
-**Touch-Based Validation (TextField, MultipleTextField, TemplatedString, Email, Address)**:
-- Errors display only after field is "touched" (focused then blurred)
-- Required validation prevents form submission
-- Pattern validation occurs on every value change
-- Field must gain focus then blur to show errors
+
+For universal validation timing behavior, see [Validation Timing Reference](validation-timing-reference.md).
+
+**Text Field-Specific Behaviors**:
+- **Keystroke validation**: Text fields validate on EVERY character entry (performance impact)
+- **No debouncing**: Each keystroke triggers full validation cycle
+- **Complex regex impact**: Pattern matching on every keystroke can cause noticeable lag
+- **Touch requirement**: Errors display only after field is "touched" (focused then blurred)
 
 **TemplatedString Specific**:
 - Validates output, not template syntax
@@ -530,15 +458,14 @@ For TemplatedString templates with user input:
 
 #### Export Behavior {important}
 
-| Field | CSV Export | JSON Export | Special Handling |
-|-------|------------|-------------|------------------|
-| TextField | Plain text string | String value | Quoted if contains commas |
-| MultilineText | Plain text with line breaks | String value | May need specific CSV reader settings |
-| TemplatedString | Generated value | String value | As generated from template |
-| Email | Plain text string | String value | Quoted if contains commas |
-| Address | Complete JSON in single column | Nested object | Requires post-processing |
-| QRCodeFormField | Plain text string | String value | No metadata about scan |
-| RichText | **Never exported** | **Never exported** | Content only in notebook definition |
+See [Data Export Reference](data-export-reference.md) for comprehensive export documentation including CSV/JSON formats, special character handling, and Excel issues.
+
+**Text Field-Specific Export Notes**:
+- **RichText**: Never exported - for form definition only
+- **Address**: CSV exports as JSON string in cell requiring parsing; JSON preserves nested structure  
+- **TemplatedString**: Only exports generated value, template not included
+- **MultipleTextField**: Line breaks preserved but may break some CSV readers
+- **QRCodeFormField**: Exports scanned value only, no scan metadata
 
 #### Component Architecture {comprehensive}
 
@@ -2711,31 +2638,18 @@ Requirement for full field definition despite non-participation in data operatio
 
 ---
 
-## Performance Thresholds Table (2025-08) {essential}
+## Performance Thresholds Summary {essential}
 
-| Field Type | Metric | Threshold | Consequence | Platform | Version |
-|------------|--------|-----------|-------------|----------|---------|
-| TextField | Character count | 50 chars | Mobile viewport issues | Mobile | 2025-08 |
-| TextField | Character count | 254 chars | Shapefile DBF export limit | All | 2025-08 |
-| TextField | Fields per section | 30 fields | Form lag begins | All | 2025-08 |
-| MultilineText | Character count | 10,000 chars | Performance degradation | All | 2025-08 |
-| MultilineText | Character count | ~1MB | CouchDB document limit | All | 2025-08 |
-| MultilineText | Row display | >10 rows | Scrolling issues | Mobile | 2025-08 |
-| TemplatedString | Variables referenced | 50 vars | Form responsiveness degrades | All | 2025-08 |
-| TemplatedString | Fields per form | 3 fields | Recommended maximum | All | 2025-08 |
-| Email | Character count | 254 chars | RFC 5321 compatibility limit | All | 2025-08 |
-| Address | JSON payload | No limit | Database performance impact | All | 2025-08 |
-| Address | Field updates | <500ms gap | Race condition data loss | All | 2025-08 |
-| QRCodeFormField | Scan attempts | 10 scans | Required for validation | Mobile | 2025-08 |
-| QRCodeFormField | Hold duration | 3-4 seconds | Scanner completion time | Mobile | 2025-08 |
-| RichText | Fields per notebook | 10 fields | Memory issues begin | Mobile | 2025-08 |
-| RichText | Total word count | 1000 words | App crash likely | Mobile | 2025-08 |
-| RichText | Words per field | 50 words | Performance impact | Mobile | 2025-08 |
-| RichText | Image size | 100KB | Rendering delay | All | 2025-08 |
-| RichText | Parse time | 20-50ms | Per-render overhead | All | 2025-08 |
-| All text fields | Fields per section | 30 fields | Form lag | All | 2025-08 |
-| All fields | Total per form | 50 fields | Requires pagination | All | 2025-08 |
-| All fields | Sync payload | >5MB | Sync failures possible | Mobile | 2025-08 |
+See [Performance Thresholds Reference](performance-thresholds-reference.md) for detailed metrics and testing scenarios.
+
+**Text Field Critical Thresholds**:
+- **TextField**: 50 chars (mobile viewport), 254 chars (shapefile limit)
+- **MultilineText**: 10,000 chars degradation, ~1MB CouchDB limit
+- **TemplatedString**: Max 3 per form, 50 variables per template
+- **RichText**: 10 per notebook, 50 words per field, 1000 total words
+- **QRCodeFormField**: 10 scans for validation, 3-4 second hold time
+- **Address**: <500ms between updates to avoid race conditions
+- **Form limits**: 30 text fields per section, 50 total per form
 
 ---
 
@@ -3359,6 +3273,19 @@ Anti-patterns have been distributed to their respective field sections for bette
 - `CONDITIONAL` Removing fields from TemplatedString = Safe but changes future HRIDs
 - `CONDITIONAL` Adding fields to TemplatedString = Only affects new records
 - `VERSION` 2025-08
+
+---
+
+## See Also {comprehensive}
+
+- **Number Fields**: For numeric-only input with validation
+- **DateTime Fields**: For structured temporal data capture
+- **Select/Choice Fields**: For controlled vocabularies and predefined options
+- **Reference Documents**:
+  - [Validation Timing Reference](validation-timing-reference.md) - Universal validation behavior
+  - [Security Considerations Reference](security-considerations-reference.md) - XSS prevention for TemplatedString
+  - [Data Export Reference](data-export-reference.md) - CSV/JSON export handling
+  - [Accessibility Reference](accessibility-reference.md) - Touch targets and WCAG compliance
 
 ---
 

@@ -102,7 +102,7 @@ When using the Designer interface, follow these simple rules:
 If you see "Number Field" in Designer, always choose "Number Input" instead. Existing notebooks using the deprecated Number Field should be migrated to Number Input for better data integrity.
 
 
-## ⚠️ CRITICAL PRECISION AND SECURITY RISKS {essential}
+## ⚠️ Critical Precision and Security Risks {essential}
 
 **Silent Precision Loss**:
 - **Risk**: Values beyond 15-17 significant digits silently truncated
@@ -178,27 +178,37 @@ If you see "Number Field" in Designer, always choose "Number Input" instead. Exi
 ---
 ## Field Selection Guide {essential}
 
-### Decision Tree {essential}
+### Decision Tree
 
 ```
 Need numeric/sequential functionality?
 ├─ Need actual numeric values for calculations?
-│  ├─ Yes
-│  │  ├─ Need range validation?
-│  │  │  ├─ Can edit JSON? → NumberInput with validation
-│  │  │  └─ Designer only? → ControlledNumber
-│  │  └─ Need null support?
-│  │     ├─ Yes → NumberInput (JSON required)
-│  │     └─ No → ControlledNumber (Designer OK)
-│  └─ No (need identifiers)
-│     └─ Need sequential IDs? → BasicAutoIncrementer
-└─ Need specific format?
-   ├─ Leading zeros? → BasicAutoIncrementer
+│  ├─ YES → Need range validation?
+│  │  ├─ Can edit JSON?
+│  │  │  └─ YES → NumberInput
+│  │  │     ├─ Returns: faims-core::Number
+│  │  │     └─ Full validation control
+│  │  └─ Designer only?
+│  │     └─ YES → ControlledNumber
+│  │        ├─ Returns: faims-core::Number
+│  │        └─ Min/max in Designer
+│  │
+│  └─ NO → Need sequential identifiers?
+│     └─ YES → BasicAutoIncrementer
+│        ├─ Returns: faims-core::String (with zeros)
+│        ├─ Format: "00001", "00002", etc.
+│        └─ ⚠️ Excel strips leading zeros
+│
+└─ Need specific numeric format?
    ├─ Scientific notation? → NumberInput
-   └─ Standard numbers? → NumberInput/ControlledNumber
+   │  └─ Supports 1.23e-7 format
+   ├─ Leading zeros? → BasicAutoIncrementer
+   │  └─ Or TemplatedString wrapper
+   └─ Negative on iOS? → TextField with pattern
+      └─ ⚠️ iOS keyboard lacks minus key
 ```
 
-### Quick Decision Matrix {essential}
+### Decision Matrix
 
 | Requirement | NumberInput | ControlledNumber | BasicAutoIncrementer |
 |-------------|------------|------------------|---------------------|
@@ -209,16 +219,31 @@ Need numeric/sequential functionality?
 | **Excel safety** | ✅ Standard | ✅ Standard | ⚠️ Needs wrapper |
 | **iOS negatives** | ❌ Copy-paste | ❌ Copy-paste | ✅ N/A |
 
-### Selection Strategy {essential}
+### Selection Strategy
 
-1. **Default choice**: NumberInput for maximum flexibility
-2. **Designer users**: ControlledNumber when bounds needed, JSON not available
-3. **Identifiers only**: BasicAutoIncrementer with TemplatedString wrapper
-4. **iOS deployment**: Consider TextField with pattern if negatives required
+1. **Default to NumberInput** for maximum flexibility and null support
+2. **Use ControlledNumber** when Designer-only and bounds needed
+3. **Deploy BasicAutoIncrementer** for sequential IDs (wrap with TemplatedString for Excel)
+4. **Consider TextField with pattern** for iOS negative number entry
+5. **Avoid scientific notation** unless specifically required
+
+**Platform Considerations**:
+- iOS: No minus key on number keyboard, use copy-paste
+- Android: Full numeric keyboard available
+- Desktop: Browser spinners ~20×20px (too small)
+- Excel: Strips leading zeros, corrupts large numbers
+
+**Accessibility Requirements**:
+- Spinner controls far below 44px WCAG minimum
+- Generic "must be number" errors unhelpful
+- No aria-live regions for validation
+- Consider larger touch targets via CSS
 
 ## Designer Capabilities vs JSON Enhancement {essential}
 
 ### What Designer Can Configure {essential}
+
+For complete meta properties documentation (annotation, uncertainty, persistence), see [Meta Properties Reference](meta-properties-reference.md).
 
 | Field | Designer Configurable | JSON-Only Features |
 |-------|----------------------|-------------------|
@@ -269,52 +294,24 @@ This mapping is essential for:
 
 ## Component Namespace Errors {important}
 
-### Troubleshooting "Component not found" Errors
+See [Component Namespace Reference](component-namespace-reference.md) for complete namespace documentation, error troubleshooting, and Designer name mapping.
 
-If you see errors like "Unknown namespace" or "No component NumberField in namespace", verify the namespace matches the component:
+### Number Field-Specific Notes
 
-| Component | Required Namespace | Common Error |
-|-----------|-------------------|--------------|
-| NumberField | faims-custom | Using formik-material-ui causes failure |
-| ControlledNumber | faims-custom | Component doesn't exist in codebase (Designer-only) |
-| BasicAutoIncrementer | faims-custom | Using core-material-ui causes failure |
-| ~~TextField (deprecated)~~ | formik-material-ui | The deprecated "Number Field" uses this |
+**All number fields use the same namespace**:
+- Namespace: `faims-custom` for ALL number components
+- Exception: Deprecated "Number Field" uses `formik-material-ui:TextField` with type="number"
 
-**Actual Error Messages from Codebase**:
-- `Unknown namespace [namespace]` - occurs when using wrong namespace
-- `No component [componentName] in namespace [namespace]` - occurs when component exists but in different namespace
-- `Error with numeric input, please enter a valid number.` - NumberField validation error (not namespace related)
+**Quick Reference for Number Fields**:
+| Component | Namespace | Designer Name | Notes |
+|-----------|-----------|---------------|-------|
+| NumberField | `faims-custom` | Number Input | Primary numeric field |
+| BasicAutoIncrementer | `faims-custom` | Auto-incrementer | Returns string, not number |
+| ControlledNumber | `faims-custom` | Controlled Number | Designer-only abstraction |
 
-**Quick Fix Pattern**:
-```json
-// ❌ Wrong namespace
-{
-  "component-namespace": "formik-material-ui",
-  "component-name": "NumberField"  // Will fail!
-}
-
-// ✅ Correct namespace
-{
-  "component-namespace": "faims-custom",
-  "component-name": "NumberField"  // Works!
-}
-```
-
-### Common Namespace Mistakes
-
-1. **Component name paradox**: Designer shows "Number Input" but JSON requires "NumberField"
-2. **ControlledNumber confusion**: This appears in Designer but isn't registered as a separate component in the codebase
-3. **Deprecated field namespace**: The old "Number Field" uses "formik-material-ui:TextField" with type="number"
-4. **Copy-paste from text fields**: Using "formik-material-ui" namespace from TextField examples
-
-### Technical Implementation Note
-
-Number components are registered in the "faims-custom" namespace in the component registry (`bundle_components.ts`):
-- `NumberField` is registered at line 327 as "Number Input Field"
-- `BasicAutoIncrementer` is registered at line 189
-- `ControlledNumber` does NOT appear in the component registry (may be a Designer abstraction over NumberField with specific props)
-
-The deprecated "Number Field" actually uses the generic TextField component from formik-material-ui with `type="number"` configuration.
+**Common confusion**: 
+- Designer shows "Number Input" but JSON requires "NumberField"
+- BasicAutoIncrementer returns strings like "BAI-001", not numbers
 
 ## Common Characteristics {important}
 
@@ -391,21 +388,18 @@ NumberInput and ControlledNumber use JavaScript's double-precision floating-poin
 
 ### Validation Timing Behavior {important}
 
-#### Validation Lifecycle [affects: NumberInput, ControlledNumber] {important}
+See [Validation Timing Reference](validation-timing-reference.md) for complete universal validation behavior.
 
-| Event | Initial State | Touched Field | Validation Runs | Error Display |
-|-------|--------------|---------------|-----------------|---------------|
-| **Mount** | No validation | N/A | No | No |
-| **Focus** | No change | No | No | No |
-| **Change** | Validate | Yes | Yes* | Only if touched |
-| **Blur** | Mark touched | Yes | Yes | Yes if invalid |
-| **Submit** | Force touched | Yes | Yes | Yes for all |
+#### Number Field-Specific Behaviors {important}
 
-*HTML5 constraints check immediately, Yup validation on blur
+**Dual Validation Systems**:
+- **HTML5 constraints**: Check immediately on keystroke (min, max, step)
+- **Yup validation**: Runs per standard timing (mount, change, blur, submit)
+- **Parse attempts**: Every keystroke attempts numeric parsing
 
-**Performance Impact**:
+**Performance Considerations**:
 - Complex test functions impact responsiveness
-- >10 validation rules cause noticeable lag
+- >10 validation rules cause noticeable lag  
 - Consider debouncing for real-time validation
 - Batch validation for related fields
 
@@ -435,83 +429,28 @@ Voice input requires exact numeric formatting for successful recognition:
 
 ### Security Considerations {important}
 
-⚠️ **All Fields - Security Requirements**:
-- Server-side validation essential (client-side can be bypassed)
-- Rate limiting for rapid submissions
-- Input sanitization before storage
+See [Security Considerations Reference](security-considerations-reference.md) for comprehensive security guidelines and attack mitigation strategies.
 
-**Field-Specific Risks**:
-- **NumberInput/ControlledNumber**: Overflow attacks, scientific notation masking
-- **BasicAutoIncrementer**: Enumeration attacks, information leakage through sequences
-
-#### Attack Vectors and Mitigations {important}
-
-| Attack Type | Affected Fields | Risk | Mitigation |
-|------------|-----------------|------|------------|
-| **Overflow attacks** | NumberInput, ControlledNumber | DoS, data corruption | Server-side bounds checking |
-| **Scientific notation masking** | NumberInput, ControlledNumber | Bypass limits (1e308) | Parse and validate actual value |
-| **Precision exhaustion** | NumberInput | Storage overflow | Limit significant digits |
-| **Enumeration via sequences** | BasicAutoIncrementer | Information disclosure | Randomize within ranges |
-| **Race conditions** | BasicAutoIncrementer | Duplicate IDs | Server-side uniqueness check |
-| **Type confusion** | All fields | Logic bypass | Strict type checking |
-
-**Required Server-Side Validations**:
-```javascript
-// Example for NumberInput
-function validateNumericInput(value) {
-  // Check for special values
-  if (!isFinite(value)) {
-    throw new Error('Invalid number');
-  }
-  
-  // Enforce reasonable bounds
-  if (Math.abs(value) > 1e10) {
-    throw new Error('Value exceeds reasonable bounds');
-  }
-  
-  // Check precision
-  const decimalPlaces = (value.toString().split('.')[1] || '').length;
-  if (decimalPlaces > 10) {
-    throw new Error('Excessive precision');
-  }
-  
-  return true;
-}
-```
+**Number Field-Specific Security Risks**:
+- **Overflow attacks**: Scientific notation (1e308) can bypass validation
+- **Precision attacks**: >17 digits cause silent data corruption
+- **BasicAutoIncrementer**: Sequential IDs enable enumeration attacks
+- **Type confusion**: JavaScript number coercion bypasses validation
 
 ### Performance Boundaries {important}
 
-| Metric | NumberInput | ControlledNumber | BasicAutoIncrementer |
-|--------|------------|------------------|---------------------|
-| **Initial render** | ~50ms | ~50ms | ~30ms (hidden) |
-| **Validation time** | 1-5ms | 1-5ms | None |
-| **Memory usage** | 8 bytes | 8 bytes | String length |
-| **Large dataset** | Good | Good | Degrades >10k ranges |
-| **Generation speed** | N/A | N/A | <1ms |
+See [Performance Thresholds Reference](performance-thresholds-reference.md) for comprehensive performance limits, testing scenarios, and optimization triggers.
 
-#### Detailed Performance Metrics {important}
+**Number Field-Specific Performance Notes**:
+- **Validation complexity**: >10 rules causes 50-200ms blur lag
+- **Memory consumption**: ~8KB per field, 8 bytes per numeric value
+- **Form limits**: >50 numeric fields causes 2+ second initial render
+- **Precision limit**: JavaScript loses precision beyond 17 digits
+- **BasicAutoIncrementer**: Degrades with >10,000 ID ranges
 
-| Operation | NumberInput | ControlledNumber | BasicAutoIncrementer | Impact Threshold |
-|-----------|-------------|------------------|---------------------|------------------|
-| **Initial mount** | 45-55ms | 45-55ms | 25-35ms | >100ms noticeable |
-| **Validation (simple)** | 1-2ms | 1-2ms | N/A | >10ms sluggish |
-| **Validation (complex)** | 5-50ms | 5-50ms | N/A | >50ms poor UX |
-| **Blur event processing** | 10-15ms | 10-15ms | N/A | >30ms lag |
-| **Memory per field** | ~8KB | ~8KB | ~4KB | - |
-| **Memory per value** | 8 bytes | 8 bytes | string.length | - |
-| **Large form (100 fields)** | 800KB | 800KB | 400KB | >5MB concern |
-
-#### Performance Optimization Strategies {important}
-
-**For Large Datasets (>1000 records)**:
-- Implement virtual scrolling for form rendering
-- Debounce validation with 300ms delay
-- Use memoization for expensive calculations
-- Consider server-side validation for complex rules
-
-**For Complex Validation (>10 rules)**:
+**Optimization for Complex Validation**:
 ```javascript
-// Debounced validation example
+// Debounce validation for >10 rules
 validationSchema: [
   ["yup.number"],
   ["yup.test", "debounced-check", "Value validation",
@@ -546,83 +485,30 @@ validationSchema: [
 
 ### Accessibility Compliance {important}
 
-| WCAG 2.1 Criterion | Level | NumberInput | ControlledNumber | BasicAutoIncrementer | Notes |
-|----------------|-------|-------------|------------------|---------------------|-------|
-| **1.3.5 Identify Input Purpose** | AA | ✅ Pass | ✅ Pass | ✅ Pass | type="number" provides semantic meaning |
-| **2.1.1 Keyboard** | A | ⚠️ Partial | ⚠️ Partial | ✅ Pass | iOS lacks minus key |
-| **2.5.5 Target Size** | AAA | ❌ Fail | ❌ Fail | N/A | Spinner controls ~36px < 44px minimum |
-| **3.3.2 Labels or Instructions** | A | ✅ Pass | ✅ Pass | ✅ Pass | Label and helperText support |
-| **3.3.3 Error Suggestion** | AA | ⚠️ Partial | ⚠️ Partial | N/A | Generic "must be number" message |
-| **4.1.3 Status Messages** | AA | ❌ Fail | ❌ Fail | N/A | No aria-live regions |
+See [Accessibility Reference](accessibility-reference.md) for comprehensive WCAG compliance status, touch target requirements, and screen reader support.
 
-#### Accessibility Context {important}
-
-**Field Operation Challenges**:
-- **Gloved operation**: Archaeological excavation sites
-- **Wet conditions**: Marine research, rain
-- **Low visibility**: Cave systems, dawn/dusk surveys  
-- **Motor impairments**: Tremors affect spinner precision
-- **Screen readers**: Cannot announce validation state changes
-
-**Recommended Enhancements**:
-```css
-/* Increase touch targets */
-.MuiInput-input[type="number"]::-webkit-inner-spin-button {
-  width: 44px;
-  height: 44px;
-}
-```
+**Number Field-Specific Issues**:
+- Spinner controls (~20×20px) far below 44px WCAG minimum
+- iOS keyboard lacks minus key for negative numbers  
+- Generic "must be number" error messages not helpful
+- No aria-live regions for validation state changes
+- Tremors/gloves make precise spinner interaction difficult
 
 ### Export Behavior {important}
 
-#### CSV Export [affects: All fields] {important}
+See [Data Export Reference](data-export-reference.md) for comprehensive export documentation including CSV/JSON formats, special character handling, and Excel issues.
 
-| Field | Null/Empty | Numeric | String | Excel Risk |
-|-------|------------|---------|--------|------------|
-| **NumberInput** | (empty) | `42.5` | N/A | None |
-| **ControlledNumber** | (empty) | `42.5` | N/A | None |
-| **BasicAutoIncrementer** | (empty) | N/A | `"00042"` | ⚠️ Strips zeros |
-
-#### CSV Export Edge Cases {important}
-
-| Value Type | NumberInput/Controlled | BasicAutoIncrementer | Excel Behavior | Mitigation |
-|------------|------------------------|----------------------|----------------|------------|
-| **Leading zeros** | N/A | "00042" | Strips to 42 | Protect with TemplatedString |
-| **Scientific notation** | 1.23e-7 | N/A | Preserves | May need formatting |
-| **Very large numbers** | 123456789012345 | N/A | Shows as 1.23457E+14 | Format as text if needed |
-| **Null values** | (empty cell) | (empty cell) | Blank | Document interpretation |
-| **Infinity** | (empty cell) | N/A | #NUM! error | Validate bounds |
-| **Precision >15 digits** | Truncated | N/A | Rounded | Document limitation |
-
-**Excel Auto-Corrections**:
-- Dates: "1-2" becomes "2-Jan"
-- Fractions: "1/2" becomes "0.5"
-- Phone numbers: Strips leading zeros
-- Large numbers: Converts to scientific notation
-
-**Prevention Strategy**:
-```json
-// Force text interpretation with TemplatedString
-{
-  "component-name": "TemplatedStringField",
-  "template": "'{{identifier_field}}",  // Leading apostrophe
-  "name": "excel_safe_id"
-}
-```
-
-#### JSON Export [affects: All fields] {important}
-
-```json
-// NumberInput/ControlledNumber
-{
-  "field_name": 42.5,
-  "null_field": null
-}
-
-// BasicAutoIncrementer
-{
-  "specimen_id": "00042",
-  "empty_field": ""
+**Number Field-Specific Export Notes**:
+- **BasicAutoIncrementer**: Exports as string with leading zeros - Excel will strip these (e.g., "00042" becomes 42)
+- **Scientific notation**: Numbers like 1.23e-7 preserved in CSV but may need formatting in Excel
+- **Very large numbers**: Numbers >15 digits lose precision in Excel (123456789012345 becomes 1.23457E+14)
+- **Infinity/NaN**: Export as empty cells in CSV, may cause #NUM! errors in Excel
+- **Prevention**: Use TemplatedString wrapper with leading apostrophe for Excel-safe IDs:
+  ```json
+  {
+    "component-name": "TemplatedStringField",
+    "template": "'{{identifier_field}}",  // Leading apostrophe
+    "name": "excel_safe_id"
 }
 ```
 
@@ -1690,30 +1576,17 @@ Current Field Type?
 - `VERSION` 2025-08
 
 ---
-## Performance Thresholds Table (2025-08) {comprehensive}
+## Performance Thresholds Summary {comprehensive}
 
-| Field Type | Metric | Threshold | Degradation | Mitigation | XREF |
-|------------|--------|-----------|-------------|------------|------|
-| **NumberInput** | Validation rules | >10 | Blur lag 50-200ms | Simplify validation logic | [Common Characteristics > Validation Patterns] |
-| **NumberInput** | Form fields | >50 | Initial render +2s | Implement pagination | [Common Characteristics > Performance Boundaries] |
-| **NumberInput** | Precision digits | >17 | Silent truncation | Document limits | [Field Quirks Index > NumberInput] |
-| **ControlledNumber** | Range size | 1,000,000+ | None (HTML5) | No mitigation needed | [Common Characteristics > Performance Boundaries] |
-| **ControlledNumber** | Initial render | ~50ms | Standard | Acceptable | [Common Characteristics > Performance Boundaries] |
-| **BasicAutoIncrementer** | Active ranges | >100 | Settings UI lag | Archive old ranges | [Individual Field Reference > BasicAutoIncrementer] |
-| **BasicAutoIncrementer** | Range size | >100,000 | Memory pressure | Split into sub-ranges | [Individual Field Reference > BasicAutoIncrementer] |
-| **BasicAutoIncrementer** | Generation | <1ms | None | Already optimal | [Common Characteristics > Performance Boundaries] |
-| **All Fields** | Export rows | >10,000 | CSV generation +5s | Batch exports | [Common Characteristics > Export Behavior] |
-| **All Fields** | Touch targets | 36px | WCAG fail | Custom CSS | [Common Characteristics > Accessibility Compliance] |
-| **Mobile** | Numeric keyboard | N/A | iOS minus missing | TextField alternative | [Common Characteristics > Platform Behaviors] |
-| **Voice Input** | Recognition | N/A | Natural language fails | Train exact format | [Common Characteristics > Voice Input Requirements] |
+See [Performance Thresholds Reference](performance-thresholds-reference.md) for detailed metrics and testing scenarios.
 
-### Critical Performance Notes {important}
-- **NumberInput** validation complexity directly impacts blur event performance - keep under 10 rules
-- **BasicAutoIncrementer** range management degrades significantly on mobile beyond 100 ranges
-- **Forms with >50 fields** should implement progressive disclosure or pagination
-- **Export performance** degrades linearly - consider batch processing for >10,000 records
-- **Precision loss** is silent and irreversible beyond 15-17 significant digits (IEEE 754 limitation)
-- **Deprecated Number Field** has worse performance than Number Input - migrate immediately
+**Number Field Critical Thresholds**:
+- **Validation rules**: >10 causes 50-200ms blur lag
+- **Form fields**: >50 causes 2+ second render delay
+- **Precision limit**: >17 digits silently truncated (IEEE 754)
+- **BasicAutoIncrementer**: >100 ranges causes UI lag, >100,000 IDs causes memory pressure
+- **Export**: >10,000 rows adds 5+ seconds generation time
+- **Touch targets**: 36px default (below 44px WCAG minimum)
 
 `VERSION` 2025-08
 
@@ -2350,29 +2223,6 @@ Current Field Type?
 }
 ```
 
-### Accessibility Patterns
-
-```json
-// PATTERN: Increased touch targets for WCAG compliance
-{
-  "component-name": "NumberField",
-  "name": "accessible_number",
-  "className": "large-touch-target",
-  // Custom CSS required:
-  // .large-touch-target input[type="number"]::-webkit-inner-spin-button {
-  //   width: 44px;
-  //   height: 44px;
-  // }
-}
-
-// PATTERN: Screen reader support
-{
-  "component-name": "NumberField",
-  "aria-label": "Temperature in degrees Celsius",
-  "aria-describedby": "temp-help",
-  "helperText": "Enter temperature between -50 and 50"
-}
-```
 
 ### Performance Optimization Patterns
 
@@ -2834,6 +2684,45 @@ Anti-patterns have been distributed to their respective field sections for bette
 | **All numeric** | Calculations | Source values | BasicAutoIncrementer excluded (string) |
 
 | "Invalid format" | BasicAutoIncrementer | Validation pattern | Check regex in validationSchema |
+
+## See Also {comprehensive}
+
+- **Text Fields**: For string identifiers or formatted numbers (phone, postal codes)
+- **TemplatedString**: For wrapping BasicAutoIncrementer to prevent Excel corruption
+- **DateTime Fields**: For temporal data (use instead of Unix timestamps)
+- **Select/Choice Fields**: For predefined numeric ranges or categories
+- **Reference Documents**:
+  - [Performance Thresholds Reference](performance-thresholds-reference.md) - Form size limits
+  - [Data Export Reference](data-export-reference.md) - Excel number corruption issues
+  - [Formik Integration Reference](formik-integration-reference.md) - Null vs empty handling
+  - [Accessibility Reference](accessibility-reference.md) - Spinner target size issues
+
+---
+
+## Error Message Quick Reference {important}
+
+### Common Validation Errors (User Visible)
+| Message | Component | Trigger | Resolution |
+|---------|-----------|---------|------------|
+| "Must be a number" | NumberInput, ControlledNumber | Non-numeric input | Enter valid number |
+| "Minimum is N" | ControlledNumber | Below min bound | Enter larger value |
+| "Maximum is N" | ControlledNumber | Above max bound | Enter smaller value |
+| "Field is required" | All number fields | Empty submission | Enter a value |
+
+### iOS-Specific Issues (Platform Errors)
+| Issue | Component | Symptom | Workaround |
+|-------|-----------|---------|------------|
+| Cannot enter negative | NumberInput, ControlledNumber | No minus key | Copy-paste negative |
+| Scientific notation rejected | NumberInput | 1.23e-7 fails | Enter decimal form |
+| Decimal point issues | All number fields | Locale conflicts | Check device settings |
+
+### Silent Failures (No Error Shown)
+| Issue | Component | Detection | Prevention |
+|-------|-----------|-----------|------------|
+| Precision loss >15 digits | NumberInput | Check stored value | Use string field |
+| Leading zeros stripped | BasicAutoIncrementer | Excel corruption | Wrap with TemplatedString |
+| NaN saved as null | NumberInput | Check database | Add validation |
+| Infinity becomes null | NumberInput | Silent conversion | Add bounds check |
 
 ---
 

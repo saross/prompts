@@ -2,43 +2,63 @@
 
 ## Directory Structure
 
-### 📁 Main Field Documentation (v05)
-- `text-fields-v05.md` - Text input fields (137KB)
-- `number-fields-v05.md` - Numeric input fields (110KB)
+### 📁 field-categories/
+Main field category documentation (v05 - LLM-optimized):
+- `text-fields-v05.md` - Text input fields (134KB)
+- `number-fields-v05.md` - Numeric input fields (105KB)  
 - `datetime-fields-v05.md` - Date and time fields (105KB)
-- **`select-choice-fields-v05.md`** - Selection fields (~150KB) ✅ COMPLETE
-- `media-fields-v05.md` - Media capture fields (pending)
+- `select-choice-fields-v05.md` - Selection fields (135KB)
+
+### 📁 reference-docs/
+Centralized reference documentation (extracted common content):
+- `accessibility-reference.md` - WCAG compliance and touch targets
+- `component-namespace-reference.md` - Component naming and troubleshooting
+- `data-export-reference.md` - CSV/JSON export behavior
+- `designer-limitations-reference.md` - Designer UI constraints
+- `formik-integration-reference.md` - Formik state management
+- `meta-properties-reference.md` - Annotation and uncertainty
+- `performance-thresholds-reference.md` - Performance estimates
+- `security-considerations-reference.md` - XSS and security
+- `validation-timing-reference.md` - Universal validation behavior
 
 ### 📁 detail-singlefield-docs/
-Source documentation for individual fields, organized by category:
-- `choice/` - Checkbox, MultiSelect, RadioGroup, Select, AdvancedSelect
-- `location/` - MapForm, TakePoint
-- `media/` - FileUploader, TakePhoto
-- `number/` - BasicAutoIncrementer
+Source documentation for individual fields:
+- `choice/` - Individual choice field documentation
+- `datetime/` - Individual datetime field documentation
+- `location/` - MapForm, TakePoint documentation
+- `media/` - FileUploader, TakePhoto documentation
+- `number/` - Individual number field documentation
+- `text/` - Individual text field documentation
+- `other/` - Additional field types
+
+### 📁 detail-crossfield-docs/
+Cross-cutting documentation:
+- `conditional-logic.md` - Field dependencies and conditions
+- `field-selection-best-practices.md` - Choosing the right field
+- `navigation.md` - Form navigation patterns
+- `notebook-structure.md` - Notebook organization
+- `patterns.md` - Common implementation patterns
+- `quick-start.md` - Getting started guide
+- `summary-table.md` - Field comparison matrix
+- `validation.md` - Validation strategies
 
 ### 📁 prompts/
-Consolidation prompts for generating v05 documentation:
-- `consolidation-prompt-choice-fields-v5-lossless.md` - Latest lossless extraction prompt
-- `consolidation-prompt-choice-fields-v4-llm-optimal.md` - LLM-optimized structure
-- Earlier versions (v1-v3) for historical reference
+Consolidation prompts for documentation generation
 
 ### 📁 reports/
-Analysis and planning documents:
-- `accuracy-check-report.md` - Codebase verification of choice fields documentation
-- `content-omissions-report.md` - Gap analysis of generated vs source
-- `enhancement-plan-revised.md` - Plan for adding missing content
-- `llm-structure-balance-analysis.md` - LLM optimization vs consistency
-- `remaining-additions-checklist.md` - Final content additions tracking
-- `standalone-documents-proposal.md` - Strategy for standalone references
-- `structure-alignment-analysis.md` - Comparison across v05 documents
-- `structure-verification.md` - LLM-optimal structure compliance check
+Analysis, planning, and historical documentation
 
-### 📁 Standalone References
-- `component-mapping-table.md` - Designer UI to JSON component mapping
-- `field-selection-optimization-guide.md` - Field selection best practices
-- `llm-optimal-structure-v4.md` - LLM-optimized documentation structure specification
+## Recent Updates (2025-09-03)
 
-## Recent Updates (2025-09-02)
+### ✅ Completed - Documentation Centralization
+1. Created 9 reference documents extracting ~2,000 lines of redundant content per field doc
+2. Standardized decision trees across all 4 field category documents
+3. Aligned all documents to LLM-optimal template structure
+4. Added Error Message Quick Reference to number and datetime docs
+5. Added "See Also" cross-references to all field documents
+6. Reorganized folder structure for better navigation
+
+## Previous Updates (2025-09-02)
 
 ### ✅ Completed - Morning Session
 1. Generated comprehensive `select-choice-fields-v05.md` using v4 LLM-optimized prompt

@@ -84,7 +84,7 @@ All fields share static vocabulary requirements—options must be predefined at 
 
 ## Field Selection Guide {essential}
 
-### Quick Decision Tree
+### Decision Tree
 
 ```
 What type of selection do you need?
@@ -118,7 +118,7 @@ What type of selection do you need?
    └─ ⚠️ No error display, CSV comma issues
 ```
 
-### Quick Decision Matrix
+### Decision Matrix
 
 | Need | Field Type | Returns | Pros | Critical Issues |
 |------|------------|---------|------|----------------|
@@ -130,33 +130,26 @@ What type of selection do you need?
 
 ### Selection Strategy
 
-**Production-Ready Approach**:
 1. **Default to Select** for single selection (most reliable)
-2. **Use Checkbox** only for true boolean states
-3. **Use MultiSelect** for multiple selection from same vocabulary
-4. **Avoid RadioGroup** (deprecated) and **AdvancedSelect** (beta)
+2. **Use Checkbox** only for true boolean states  
+3. **Deploy MultiSelect** for multiple selection from same vocabulary
+4. **Avoid RadioGroup** (deprecated) and AdvancedSelect (beta)
+5. **Prioritize Checkbox** for critical workflows needing error display
 
-**Error Display Priority**:
-- **Critical workflows**: Use Checkbox (only field with error messages)
-- **Standard workflows**: Use Select/MultiSelect with clear helper text
-- **Never use RadioGroup** for required fields (no error feedback)
-
-### Platform Considerations
-
-**Mobile-First Design**:
-- **Checkbox**: Train users to tap checkbox, not label
-- **Select**: Excellent mobile dropdown experience
-- **MultiSelect**: Limit to ≤20 options for performance
-- **RadioGroup**: Accessibility violations, avoid
-- **AdvancedSelect**: Mobile broken, desktop only
+**Platform Considerations**:
+- Mobile: Train users to tap checkbox icon (not label)
+- Select: Excellent mobile dropdown experience
+- MultiSelect: Limit to ≤20 options for performance
+- RadioGroup: Accessibility violations, avoid entirely
+- AdvancedSelect: Mobile broken, desktop only
 
 **Accessibility Requirements**:
-- **Checkbox**: Best error support but ARIA violations
-- **Select/MultiSelect**: Limited ARIA, compensate with clear helper text
-- **RadioGroup**: Multiple WCAG violations, use Select instead
-- **AdvancedSelect**: Not accessible, use alternatives
+- Checkbox: Only field with error display, but label not clickable
+- Select/MultiSelect: No error display, use clear helper text
+- RadioGroup: Multiple WCAG violations, use Select instead
+- AdvancedSelect: Not accessible, use cascading Selects instead
 
-## ⚠️ CRITICAL SECURITY VULNERABILITIES {essential}
+## ⚠️ Critical Security Vulnerabilities {essential}
 
 ### Input Sanitization Issues
 
@@ -379,11 +372,13 @@ When switching between Designer and JSON editing, **Designer changes can overwri
 
 ### What Designer CAN Configure
 
+For complete meta properties documentation, see [Meta Properties Reference](meta-properties-reference.md).
+
 **Checkbox**:
 - ✅ Label, helper text, and advanced helper text
 - ✅ Required validation (checkbox adds `yup.required`)
 - ✅ Field name and ID assignment
-- ✅ Annotation and uncertainty metadata toggles
+- ✅ Annotation and uncertainty toggles (see Meta Properties Reference)
 - ✅ Basic conditional logic for field visibility
 
 **Select**:
@@ -459,126 +454,31 @@ When switching between Designer and JSON editing, **Designer changes can overwri
 
 ### Designer Limitations {important}
 
-**Functional Gaps**:
-- **No preview capability**: Cannot see field appearance or test interaction before deployment
-- **No field type conversion**: Cannot change RadioGroup to Select without complete recreation
-- **No import/export**: Cannot share option configurations between projects
-- **No validation testing**: Cannot verify validation schemas work correctly
+See [Designer Limitations Reference](designer-limitations-reference.md) for testing, validation, and configuration constraints that apply to all fields.
 
-**Performance Impacts**:
-- **Markdown processing**: All option labels processed through markdown parser, causing performance issues with >20 options
-- **No optimization warnings**: Designer doesn't indicate when option counts will cause performance problems
-- **No mobile testing**: Cannot verify mobile usability before deployment
-
-**Accessibility Gaps**:
-- **No accessibility testing**: Designer provides no indication of ARIA compliance or screen reader support
-- **No keyboard navigation testing**: Cannot verify keyboard accessibility before deployment
-- **No contrast checking**: No verification that color combinations meet WCAG standards
-
-**Data Integrity Issues**:
+**Selection Field-Specific Limitations**:
+- **Markdown processing performance**: All option labels processed through markdown parser, causing lag with >20 options
 - **No option validation**: Designer doesn't validate that option values are unique or contain valid characters
-- **No export testing**: Cannot verify CSV export behavior with complex option values
-- **No conditional logic validation**: Cannot test that conditional operators work correctly with field values
+- **No bulk option management**: Cannot import/export option lists or edit multiple options at once
 
 ## Component Namespace Errors {important}
 
-### Troubleshooting "Component not found" Errors
+See [Component Namespace Reference](component-namespace-reference.md) for complete namespace documentation, error troubleshooting, and Designer name mapping.
 
-**Most Common Error Sources**:
+### Selection Field-Specific Notes
 
-1. **Incorrect Namespace Specification**:
-```json
-// WRONG - Missing or incorrect namespace
-{
-  "component-name": "Select",
-  "component-namespace": "material-ui"  // Incorrect
-}
+**All selection fields use the same namespace**:
+- Namespace: `faims-custom` for ALL selection fields (Checkbox, MultiSelect, RadioGroup, Select, AdvancedSelect)
+- Never use `formik-material-ui` for selection fields
 
-// CORRECT - All choice fields use faims-custom
-{
-  "component-name": "Select",
-  "component-namespace": "faims-custom"  // Correct
-}
-```
-
-2. **Case Sensitivity Issues**:
-```json
-// WRONG - Incorrect capitalization
-{
-  "component-name": "checkbox",        // Should be "Checkbox"
-  "component-name": "multiselect",     // Should be "MultiSelect"  
-  "component-name": "advancedselect"   // Should be "AdvancedSelect"
-}
-
-// CORRECT - Exact case matching required
-{
-  "component-name": "Checkbox",        // Capital C
-  "component-name": "MultiSelect",     // Capital M and S
-  "component-name": "AdvancedSelect"   // Capital A and S
-}
-```
-
-3. **Designer vs JSON Name Confusion**:
-```json
-// WRONG - Using Designer display names
-{
-  "component-name": "Select Multiple",        // Designer label
-  "component-name": "Select one option",     // Designer label
-  "component-name": "Select Field"           // Designer label
-}
-
-// CORRECT - JSON component names
-{
-  "component-name": "MultiSelect",     // Not "Select Multiple"
-  "component-name": "RadioGroup",      // Not "Select one option"  
-  "component-name": "Select"           // Not "Select Field"
-}
-```
-
-### Common Namespace Confusion Points
-
-**All Choice Fields Use Same Namespace**:
-- **Namespace**: `faims-custom` for ALL choice fields
-- **Not**: `formik-material-ui` (used for text fields)
-- **Not**: `faims-core` (used for system components)
-
-**Complete Component Reference**:
-```json
-{
-  "checkbox-field": {
-    "component-namespace": "faims-custom",
-    "component-name": "Checkbox"
-  },
-  "select-field": {
-    "component-namespace": "faims-custom", 
-    "component-name": "Select"
-  },
-  "multiselect-field": {
-    "component-namespace": "faims-custom",
-    "component-name": "MultiSelect" 
-  },
-  "radiogroup-field": {
-    "component-namespace": "faims-custom",
-    "component-name": "RadioGroup"
-  },
-  "advancedselect-field": {
-    "component-namespace": "faims-custom",
-    "component-name": "AdvancedSelect"
-  }
-}
-```
-
-**Error Message Patterns**:
-- `"Component not found: material-ui/Checkbox"` → Wrong namespace
-- `"Component not found: faims-custom/checkbox"` → Wrong case
-- `"Component not found: faims-custom/Select Multiple"` → Using Designer name
-
-**Debug Checklist**:
-- [ ] Verify `component-namespace: "faims-custom"` for all choice fields
-- [ ] Check exact capitalization of component names
-- [ ] Confirm using JSON names, not Designer display labels
-- [ ] Validate JSON syntax with proper quotes and commas
-- [ ] Test component reference in isolation before adding complex configuration
+**Quick Reference for Selection Fields**:
+| Component | Namespace | Case-Sensitive Name |
+|-----------|-----------|-------------------|
+| Checkbox | `faims-custom` | `Checkbox` (capital C) |
+| MultiSelect | `faims-custom` | `MultiSelect` (capitals M, S) |
+| RadioGroup | `faims-custom` | `RadioGroup` (capitals R, G) |
+| Select | `faims-custom` | `Select` (capital S) |
+| AdvancedSelect | `faims-custom` | `AdvancedSelect` (capitals A, S) |
 
 ## Common Characteristics {important}
 
@@ -664,139 +564,34 @@ All selection fields require predefined option lists configured at design time. 
 
 #### Validation Timing Behavior [affects: All fields] {important}
 
-**Validation Lifecycle**:
-- **On mount**: Validation runs but errors hidden until touched
-  - Initial validation determines field state
-  - Errors stored but not displayed
-  - Field remains in "pristine" state
-- **On change**: Immediate validation with field marked as touched
-  - Validation runs synchronously on every value change
-  - Field transitions from "pristine" to "touched"
-  - Errors display immediately (where component supports it)
-- **On blur**: Re-validates and displays any errors
-  - Final validation when user leaves field
-  - Updates error state if value changed
-  - Mobile may delay blur event until next field focus
-- **On submit**: All fields validated, all errors shown
-  - Forces all fields to "touched" state
-  - Blocks submission if any validation fails
-  - Shows all error messages (where supported)
+See [Validation Timing Reference](validation-timing-reference.md) for complete universal validation behavior.
 
-**Platform Differences**:
-- **Mobile**: Blur events may be delayed or skipped during rapid navigation
-- **Desktop**: Blur events fire consistently on focus change
-- **Touch devices**: Tap-outside may not trigger blur on some components
+**Selection Field-Specific Notes**:
+- **Binary state changes**: Selection fields validate on discrete state changes rather than keystroke
+- **No partial validation**: Selection is either valid or invalid, no intermediate states
+- **Error display limitations**: Select and AdvancedSelect cannot display error messages even when validation fails
 
 ### Security Considerations {important}
 
-#### Input Sanitization {important}
+See [Security Considerations Reference](security-considerations-reference.md) for comprehensive security guidelines, validation strategies, and attack mitigation.
 
-**HTML Content Processing** [affects: All fields]:
-- All option labels processed through DOMPurify for XSS prevention
-- **Risk**: Malformed HTML in option configuration can break form rendering
-- **RadioGroup additional risk**: Markdown processing creates additional attack vectors through markdown-it parser
-- **Mitigation**: Validate all option text during configuration, avoid complex HTML in labels
-
-**Option Value Validation** [affects: All fields]:
-- **Critical gap**: No validation that submitted values match defined options
-- **Risk**: Malicious clients can submit arbitrary values not in option lists
-- **Impact**: Database pollution, conditional logic bypass, data integrity failures
-- **Mitigation**: Implement server-side validation for all choice field submissions
-
-#### Field-Specific Security Issues {important}
-
-**CSV Injection via MultiSelect** [affects: MultiSelect]:
-- Option values containing commas, quotes, or Excel formulas can break CSV parsing
-- **Risk**: Formula injection when CSV opened in spreadsheet applications
-- **Example**: Option value `=SUM(A1:A10)` could execute in Excel
-- **Mitigation**: Sanitize option values, escape special characters, validate CSV export format
-
-**Path Traversal in AdvancedSelect** [affects: AdvancedSelect]:
-- Node names containing " > " delimiter can corrupt hierarchy path parsing
-- **Risk**: Data integrity loss, hierarchy structure corruption
-- **Mitigation**: Validate all node names exclude path delimiter strings
-
-**Conditional Logic Bypass** [affects: All fields]:
-- Client-side conditional logic can be disabled to submit hidden field data
-- **Risk**: Required dependent fields bypassed, data integrity violations
-- **Example**: "Other" text field required when "Other" selected, but client submits empty
-- **Mitigation**: Server must validate all conditional field requirements
-
-#### Security Best Practices {comprehensive}
-
-**Configuration Security**:
-- Validate all option values during configuration phase
-- Avoid special characters in option values (commas, quotes, formulas)
-- Sanitize option labels before deployment
-- Document all validation rules for server-side implementation
-
-**Runtime Security**:
-- Never trust client-submitted values match defined options
-- Validate all conditional field relationships on server
-- Implement server-side validation for all validation schemas
-- Log validation failures for security monitoring
-
-**Export Security**:
-- Sanitize all exported data before CSV generation
-- Use proper CSV escaping for option values containing commas
-- Validate export format before delivery
-- Consider JSON export for complex option values
-
-**Data Integrity**:
-- Implement server-side option validation
-- Audit persistent field values across record types
-- Monitor for unexpected value patterns in submissions
-- Maintain referential integrity between option definitions and stored values
+**Selection Field-Specific Security Issues**:
+- **Option validation gap**: No server-side validation that submitted values match defined options
+- **CSV injection**: MultiSelect option values with formulas (=SUM) execute in Excel
+- **Markdown XSS vectors**: RadioGroup markdown processing creates additional attack surface
+- **AdvancedSelect path traversal**: Node names with " > " delimiter corrupt hierarchy
+- **Conditional bypass**: Client can disable conditional logic to submit invalid data
 
 ### Performance Boundaries {important}
 
-#### Form Design Guidelines {important}
+See [Performance Thresholds Reference](performance-thresholds-reference.md) for comprehensive performance limits, testing scenarios, and optimization triggers.
 
-**Field Count Limits per Form** [affects: All fields]:
-- **Optimal**: ≤10 choice fields per form section
-- **Acceptable**: 15-20 choice fields with performance monitoring
-- **Degraded**: 25+ choice fields cause noticeable interaction lag
-- **Unusable**: 50+ choice fields may crash mobile browsers
-
-**Combined Performance Impact** [affects: All fields]:
-Total DOM nodes = (Number of fields) × (Average options per field) × (DOM nodes per option)
-- Each RadioGroup option: ~8 DOM nodes
-- Each Select option: ~4 DOM nodes  
-- Each MultiSelect option: ~6 DOM nodes (checklist mode)
-- Large forms with many options compound exponentially
-
-#### Content Limits by Context {comprehensive}
-
-**Option Count Thresholds by Field Type**:
-
-**Checkbox** [affects: Checkbox]:
-- **Optimal**: Single checkbox per use case
-- **Acceptable**: Multiple related checkboxes (≤5) for related boolean states
-- **Alternative needed**: >5 related checkboxes should use MultiSelect instead
-
-**Select** [affects: Select]:
-- **Optimal**: 3-20 options for best user experience
-- **Acceptable**: 21-50 options with minor performance impact
-- **Degraded**: 51-100 options cause noticeable dropdown lag
-- **Unusable**: >100 options severely impact mobile performance
-- **Alternative**: Break large vocabularies into categories or use search-enabled alternatives
-
-**MultiSelect** [affects: MultiSelect]:
-- **Expanded Checklist Mode**:
-  - **Optimal**: ≤15 options for mobile compatibility
-  - **Acceptable**: 16-25 options on desktop only
-  - **Unusable**: >25 options cause severe scroll and touch issues
-- **Dropdown Mode**:
-  - **Optimal**: ≤30 options for good performance
-  - **Acceptable**: 31-75 options with performance monitoring
-  - **Degraded**: >75 options cause significant lag
-
-**RadioGroup** [affects: RadioGroup] 🟡 DEPRECATED:
-- **Optimal**: 3-7 options (inherent layout limits)
-- **Acceptable**: 8-15 options but performance issues start
-- **Degraded**: >15 options cause severe markdown processing lag
-- **Unusable**: >30 options may freeze mobile browsers
-- **Alternative**: Use Select instead for >7 options
+**Selection Field-Specific Performance Notes**:
+- **Markdown processing**: RadioGroup/Select with >20 options causes significant lag when markdown enabled
+- **DOM node multiplication**: Total nodes = fields × options × nodes-per-option (RadioGroup: ~8, Select: ~4, MultiSelect: ~6)
+- **RadioGroup deprecation**: Use Select for >7 options due to severe performance issues
+- **MultiSelect expanded mode**: Maximum 15 options for mobile, 25 for desktop
+- **AdvancedSelect**: Beta component with poor performance above 50 nodes
 
 **AdvancedSelect** [affects: AdvancedSelect] 🔴 BETA:
 - **Total Node Limits**:
@@ -942,16 +737,14 @@ All choice fields use Material-UI components consistently across platforms rathe
 
 #### Export Behavior {important}
 
-**CSV Export Limitations** [affects: All fields]:
-- **Value-only export**: Only selected values exported, not human-readable labels (except Designer-created Select fields)
-- **No structure preservation**: Hierarchical relationships flattened to strings
-- **Special character issues**: Commas in option values break CSV parsing
-- **No automatic escaping**: Special characters not automatically escaped for safe spreadsheet import
+See [Data Export Reference](data-export-reference.md) for comprehensive export documentation including CSV/JSON formats, special character handling, and Excel issues.
 
-**JSON Export Behavior** [affects: All fields]:
-- **Flat structure**: Complex selections flattened to primitive values
-- **No metadata**: Option definitions not included in export
-- **Type consistency**: Boolean/String/Array types preserved correctly
+**Selection Field-Specific Export Notes**:
+- **Value vs Label**: Exports values not labels (except Designer-created Select with value=label)
+- **MultiSelect CSV**: Comma-joined values problematic if options contain commas
+- **AdvancedSelect**: Exports path string with " > " delimiter, not hierarchical structure
+- **Checkbox**: Exports as boolean true/false, not "TRUE"/"FALSE" strings
+- **No option definitions**: Export doesn't include available options, only selected values
 
 #### Component Architecture {comprehensive}
 
@@ -1282,7 +1075,7 @@ The Checkbox field provides binary state capture through a Material-UI checkbox 
 - Designer "Required" → `required: true` + `["yup.required"]` (misleading)
 - Designer Label → `label` property
 - Designer Helper Text → `helperText` property
-- Designer Annotation toggle → `meta.annotation.include`
+- Designer Annotation toggle → `meta.annotation.include` (see [Meta Properties Reference](meta-properties-reference.md))
 
 **Conditional logic mappings:**
 - Boolean true condition → `{"operator": "equal", "value": true}`
@@ -3163,25 +2956,16 @@ function migrateCheckboxesToMultiSelect(checkboxFields) {
 - **Android**: MultiSelect may show modal
 - **Desktop**: Dropdown behavior varies
 
-## Performance Thresholds Table (2025-08) {essential}
+## Performance Thresholds Summary {essential}
 
-| Metric | Optimal | Acceptable | Degraded | Unusable |
-|--------|---------|------------|----------|----------|
-| Options count | <20 | 20-50 | 50-100 | >100 |
-| Form fields | <10 | 10-30 | 30-50 | >50 |
-| Validation time | <100ms | 100-300ms | 300-1000ms | >1000ms |
-| Render time | <50ms | 50-200ms | 200-500ms | >500ms |
-| Memory usage | <10MB | 10-50MB | 50-100MB | >100MB |
+See [Performance Thresholds Reference](performance-thresholds-reference.md) for detailed metrics.
 
-### Component-Specific Thresholds
-
-| Component | Max Options | Max Instances | Notes |
-|-----------|-------------|---------------|-------|
-| Checkbox | N/A | 100 | Individual components |
-| MultiSelect | 100 | 20 | Memory intensive with expanded |
-| RadioGroup | 20 | 10 | Deprecated, poor performance |
-| Select | 200 | 30 | Native optimization helps |
-| AdvancedSelect | 50 | 5 | Beta, poor performance |
+**Quick Reference - Selection Field Limits**:
+- Options with markdown: <20 (optimal), >50 (unusable)
+- Options without markdown: <50 (optimal), >100 (unusable)  
+- RadioGroup: Max 20 options (deprecated for larger lists)
+- MultiSelect expanded: Max 15 options (mobile), 25 (desktop)
+- AdvancedSelect: Max 50 nodes (beta, poor performance)
 
 ## JSON Patterns Cookbook (2025-08) {comprehensive}
 
@@ -3434,6 +3218,23 @@ function migrateCheckboxesToMultiSelect(checkboxFields) {
 | AdvancedSelect | Select | 🔴 High | Hierarchy | Complex |
 | MultiSelect | Select | 🔴 High | Multiple values | Complex |
 | Text | Select | 🟢 Low | None | Simple |
+
+## See Also {comprehensive}
+
+- **Text Fields**: For open-ended responses or pattern-validated input
+- **Number Fields**: For numeric ranges (use instead of Select with numbers)
+- **DateTime Fields**: For temporal selections (not period taxonomies)
+- **External Vocabularies**:
+  - Getty AAT for controlled terminology
+  - Periodo for archaeological/historical periods
+  - Heritage Data for regional vocabularies
+- **Reference Documents**:
+  - [Component Namespace Reference](component-namespace-reference.md) - Namespace troubleshooting
+  - [Meta Properties Reference](meta-properties-reference.md) - Annotation/uncertainty setup
+  - [Data Export Reference](data-export-reference.md) - CSV array handling issues
+  - [Accessibility Reference](accessibility-reference.md) - Touch target problems
+
+---
 
 ## Error Message Quick Reference (2025-08) {important}
 

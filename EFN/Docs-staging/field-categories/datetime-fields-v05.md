@@ -62,7 +62,7 @@ All four components share a fundamental dependency on HTML5 native input types (
 - Timezone display customisation
 
 
-## ⚠️ CRITICAL DATA INTEGRITY RISKS {essential}
+## ⚠️ Critical Data Integrity Risks {essential}
 
 **Timezone Data Corruption with DateTimePicker**:
 - **Risk**: Same timestamp means different absolute times in different locations
@@ -138,8 +138,9 @@ All four components share a fundamental dependency on HTML5 native input types (
 ---
 ## Field Selection Guide {essential}
 
-### Field Selection Decision Tree
+### Decision Tree
 
+```
 Recording temporal data?
 │
 ├─ Is it a cultural/archaeological period?
@@ -152,22 +153,33 @@ Recording temporal data?
 └─ Is it a calendar date/time?
 │
 ├─ Do you need exact time (hours/minutes)?
-│  ├─ YES → DateTimeNow (stores in UTC)
+│  ├─ YES → DateTimeNow
+│  │  ├─ Returns: faims-core::String (ISO 8601 UTC)
+│  │  └─ Best for: Timestamps, multi-site projects
 │  └─ NO → Continue...
 │
 ├─ Is this a multi-site project across timezones?
-│  ├─ YES → DateTimeNow (prevents timezone corruption)
+│  ├─ YES → DateTimeNow
+│  │  ├─ Prevents timezone corruption
+│  │  └─ Stores UTC with timezone preserved
 │  └─ NO → Continue...
 │
 ├─ Do you know the specific day?
 │  ├─ YES → DatePicker
-│  └─ NO → MonthPicker (avoids false precision)
+│  │  ├─ Returns: faims-core::String (YYYY-MM-DD)
+│  │  └─ Best for: Administrative dates
+│  └─ NO → MonthPicker
+│     ├─ Returns: faims-core::String (YYYY-MM)
+│     └─ Avoids false precision
 │
 └─ Working in single timezone with no travel?
-   ├─ Maybe → DateTimePicker (⚠️ timezone ambiguity risk)
+   ├─ Maybe → DateTimePicker
+   │  ├─ Returns: faims-core::String (local datetime)
+   │  └─ ⚠️ Timezone ambiguity risk
    └─ NO → DateTimeNow (always safer choice)
+```
 
-### Quick Decision Matrix
+### Decision Matrix
 
 | Field Type | Storage Format | Timezone Handling | Synchronisation Safety | When to Use |
 |------------|---------------|-------------------|------------------------|-------------|
@@ -176,15 +188,31 @@ Recording temporal data?
 | **DatePicker** | Date-only string | N/A | ✅ Good | Administrative dates without time |
 | **MonthPicker** | Month string (YYYY-MM) | N/A | ✅ Good | Historical sources, avoiding false precision |
 
-### Selection Strategy {essential}
+### Selection Strategy
+
 1. **Default to DateTimeNow** for all datetime fields unless specific reasons exist otherwise
 2. **Use DatePicker** only when time components genuinely irrelevant
 3. **Deploy MonthPicker** for month-year precision to avoid spurious accuracy
 4. **Consider DateTimePicker** only for single-location projects with no device travel
+5. **Avoid date fields entirely** for cultural periods or ancient history
+
+**Platform Considerations**:
+- iOS: Native date picker, excellent UX
+- Android: Varies by device/version, generally good
+- Desktop: Browser HTML5 pickers, inconsistent
+- All platforms: "Now" button location varies
+
+**Accessibility Requirements**:
+- Native pickers generally meet WCAG touch targets
+- Format expectations unclear without helperText
+- Platform variance confuses users switching devices
+- Screen readers may miss "Now" button
 
 ## Designer Capabilities vs JSON Enhancement {essential}
 
 ### What Designer Can Configure
+
+For complete meta properties documentation (annotation, uncertainty, persistence), see [Meta Properties Reference](meta-properties-reference.md).
 
 The Designer interface provides basic field creation for all date/time fields:
 
@@ -208,14 +236,13 @@ You MUST edit JSON directly for:
 
 ### Designer Limitations
 
-The Designer interface cannot:
-- Configure auto-population for timestamps
-- Set platform-specific display parameters
-- Create conditional date ranges
-- Implement post-validation for date sequences
-- Configure timezone handling
+See [Designer Limitations Reference](designer-limitations-reference.md) for testing, validation, and configuration constraints that apply to all fields.
 
-These limitations necessitate JSON editing for production deployments.
+**DateTime Field-Specific Limitations**:
+- Cannot configure auto-population for timestamps
+- Cannot set platform-specific display formats
+- Cannot create conditional date ranges or date sequence validation
+- Cannot configure timezone handling preferences
 
 ## Designer Component Mapping {essential}
 
@@ -243,43 +270,23 @@ This mapping is essential for:
 
 ## Component Namespace Errors {important}
 
-### Troubleshooting "Component not found" Errors
+See [Component Namespace Reference](component-namespace-reference.md) for complete namespace documentation, error troubleshooting, and Designer name mapping.
 
-If you see errors like "Unknown namespace" or "No component DateTimeNow in namespace", verify the namespace matches the component:
+### DateTime Field-Specific Notes
 
-| Component | Required Namespace | Common Error |
-|-----------|-------------------|--------------|
-| DateTimeNow | faims-custom | Using formik-material-ui causes failure |
-| DateTimePicker | faims-custom | Not available in formik-material-ui |
-| DatePicker | faims-custom | Not available in formik-material-ui |
-| MonthPicker | faims-custom | Not available in formik-material-ui |
+**All datetime fields use the same namespace**:
+- Namespace: `faims-custom` for ALL datetime components
+- Never use `formik-material-ui` for datetime fields
 
-**Actual Error Messages from Codebase**:
-- `Unknown namespace [namespace]` - occurs when using wrong namespace
-- `No component [componentName] in namespace [namespace]` - occurs when component exists but in different namespace
+**Quick Reference for DateTime Fields**:
+| Component | Namespace | Designer Name | Notes |
+|-----------|-----------|---------------|-------|
+| DateTime | `faims-custom` | Date and Time | Standard picker |
+| DateTimeNow | `faims-custom` | DateTime with Now button | Has capture button |
 
-**Quick Fix Pattern**:
-```json
-// ❌ Wrong namespace
-{
-  "component-namespace": "formik-material-ui",
-  "component-name": "DateTimeNow"  // Will fail!
-}
-
-// ✅ Correct namespace
-{
-  "component-namespace": "faims-custom",
-  "component-name": "DateTimeNow"  // Works!
-}
-```
-
-### Common Namespace Mistakes
-
-1. **Using Designer names in JSON**: Designer shows "DateTime with Now button" but JSON needs "DateTimeNow"
-2. **Assuming MUI namespace**: All datetime components use "faims-custom", not Material-UI namespaces
-3. **Copy-paste errors**: Copying from text field examples with "formik-material-ui" namespace
-
-### Technical Implementation Note
+**Common confusion**:
+- Designer shows descriptive names, JSON needs exact component names
+- All datetime components are in `faims-custom`, despite using MUI pickers internally
 
 All date/time components are registered in the "faims-custom" namespace in the component registry (`bundle_components.ts`). There are no date/time components in other namespaces, making namespace errors particularly common when developers assume standard Material-UI patterns.
 
@@ -330,6 +337,16 @@ All date/time fields suffer from validation poverty:
 ]
 ```
 
+#### Validation Timing Behavior {important}
+
+See [Validation Timing Reference](validation-timing-reference.md) for complete universal validation behavior.
+
+**DateTime Field-Specific Notes**:
+- **Complex parsing**: Every change attempts ISO 8601 date parsing
+- **Picker bypass**: Native date/time pickers may skip change events
+- **Manual entry validation**: Validates partial dates during typing (causes confusion)
+- **Format attempts**: Tries multiple date formats on each change
+
 #### Missing Validation Capabilities
 - **No temporal range validation**: Cannot enforce min/max dates
 - **No cross-field validation**: Cannot ensure end date after start date
@@ -361,22 +378,14 @@ const validateDates = (record) => {
 
 ### Security Considerations {important}
 
-#### Timezone Information Disclosure
-- **DateTimeNow**: Exposes user's timezone in stored data
-- **Risk**: Can reveal geographic location of data entry
-- **Mitigation**: Document this behavior for sensitive projects
+See [Security Considerations Reference](security-considerations-reference.md) for comprehensive security guidelines and validation requirements.
 
-#### Validation Poverty Risks
-- **No server-side validation**: Client-side only, easily bypassed
-- **Future date acceptance**: No way to prevent post-dated records
+**DateTime Field-Specific Security Issues**:
+- **Timezone disclosure**: DateTimeNow exposes user location via timezone
+- **Validation poverty**: No server-side date validation possible
 - **Format injection**: String storage allows malformed dates
-- **Audit trail gaps**: User-editable timestamps compromise forensics
-
-#### Data Integrity Vulnerabilities
-1. **DateTimePicker timezone loss**: Silent data corruption across timezones
-2. **User timestamp modification**: Even auto-picked times can be edited
-3. **Cross-site date confusion**: MM/DD vs DD/MM format assumptions
-4. **Backdating capability**: Cannot prevent historical timestamp forgery
+- **Audit compromise**: User-editable timestamps break forensic trails
+- **DateTimePicker**: Timezone loss causes silent data corruption
 
 ### Performance Boundaries {important}
 
@@ -433,11 +442,12 @@ const estimateStorage = (recordCount, dateFields) => {
 ```
 
 #### Performance Optimization Techniques
-1. **Paginate forms** with many date fields (>20 per page)
-2. **Lazy load** date pickers (initialize only on focus)
+See [Performance Thresholds Reference](performance-thresholds-reference.md#performance-optimization-triggers) for optimization guidelines.
+
+Key optimizations for date fields:
+1. **Paginate forms** with >20 date fields per page
+2. **Use MonthPicker** when possible (smallest storage footprint)
 3. **Batch process** timezone conversions in background
-4. **Archive** records older than active field season
-5. **Use MonthPicker** when possible (smallest storage footprint)
 6. **Avoid** TemplatedString references to date fields (causes re-renders)
 7. **Disable** auto-populate during bulk imports
 
@@ -469,55 +479,27 @@ const estimateStorage = (recordCount, dateFields) => {
 
 ### Accessibility Compliance {important}
 
-#### Current Compliance Status
-- **Keyboard navigation**: ✅ Supported via native HTML5 inputs
-- **Screen reader support**: ⚠️ Varies by platform and browser
-- **Touch targets**: ✅ Platform native pickers meet size requirements
-- **Color contrast**: ✅ Uses system defaults
-- **Focus indicators**: ✅ Browser default focus styles
+See [Accessibility Reference](accessibility-reference.md) for comprehensive WCAG compliance status, touch target requirements, and screen reader support.
 
-#### Known Accessibility Issues
-1. **Platform variance**: Different interfaces may confuse users switching devices
-2. **"Now" button discovery**: Location varies, may be missed by screen readers
-3. **Format expectations**: No clear indication of expected input format
-4. **Error messages**: Validation errors may not be announced properly
-5. **UTC display**: Timezone notation may confuse users
-
-#### Accessibility Recommendations
-- Provide clear helperText explaining expected format
-- Document timezone handling explicitly
-- Train users on platform-specific interfaces
-- Consider adding format examples in labels
-- Test with screen readers on target platforms
+**DateTime Field-Specific Issues**:
+- Platform variance confuses users switching between devices  
+- "Now" button location varies, may be missed by screen readers
+- Format expectations unclear without helperText
+- UTC display notation may confuse users
+- Native pickers generally meet touch target requirements
 
 ### Export Behavior {important}
 
-#### CSV Export Characteristics
-- **DateTimeNow**: Exports as ISO 8601 string with timezone (e.g., `2024-03-15T14:30:00.000Z`)
-- **DateTimePicker**: Exports as local datetime string (e.g., `2024-03-15T14:30`)
-- **DatePicker**: Exports as date string (e.g., `2024-03-15`)
-- **MonthPicker**: Exports as month string (e.g., `2024-03`)
+See [Data Export Reference](data-export-reference.md) for comprehensive export documentation including CSV/JSON formats, special character handling, and Excel issues.
 
-#### Excel Import Issues
-⚠️ **Critical**: Excel auto-converts date formats on open
-- **Prevention**: Always use Text Import Wizard
-- **MonthPicker specific**: `2024-03` interpreted as "3rd March 2024"
-- **Regional settings**: DD/MM vs MM/DD causes corruption
-
-#### JSON Export Format
-```json
-{
-  "timestamp_field": "2024-03-15T14:30:00.000Z",
-  "date_field": "2024-03-15",
-  "month_field": "2024-03",
-  "legacy_datetime": "2024-03-15T14:30"
-}
-```
-
-#### Shapefile Export
-- Date fields truncated to date-only format
-- Time components lost in conversion
-- Timezone information not preserved
+**DateTime Field-Specific Export Notes**:
+- **DateTimeNow**: ISO 8601 with timezone (e.g., `2024-03-15T14:30:00.000Z`)
+- **DateTimePicker**: Local datetime without timezone (e.g., `2024-03-15T14:30`)
+- **DatePicker**: Date only (e.g., `2024-03-15`)
+- **MonthPicker**: Month string (e.g., `2024-03`) - Excel misinterprets as "3rd March 2024"
+- **Excel corruption**: All date formats auto-convert on double-click open - use Text Import Wizard
+- **Regional issues**: DD/MM vs MM/DD confusion causes data corruption
+- **Shapefile export**: Truncates to date-only, loses time and timezone
 
 
 ### Understanding DateTimeNow - Not Just for "Now" {essential}
@@ -2365,32 +2347,17 @@ For ancient history and archaeology spanning BCE/CE, use numeric fields rather t
 
 ---
 
-## Performance Thresholds Table (2025-08) {comprehensive}
+## Performance Thresholds Summary {comprehensive}
 
-| Field Type | Metric | Threshold | Degradation | Mitigation | XREF |
-|------------|--------|-----------|-------------|------------|------|
-| **DateTimeNow** | Timezone conversion latency | 100ms | Adds per record | Batch operations | [Common Characteristics > Performance Boundaries] |
-| **DateTimeNow** | Storage per timestamp | 30 bytes | Linear growth | Archive old records | [Migration and Best Practices > Training Requirements] |
-| **DateTimeNow** | Date range reliability | 1900-2100 | Browser-dependent errors | Validate year in range | [Common Characteristics > Validation Patterns] |
-| **DateTimePicker** | Multi-site sync corruption | >1 site | Immediate | Never use - migrate to DateTimeNow | [Individual Field Reference > DateTimePicker] |
-| **DateTimePicker** | Storage per timestamp | 20 bytes | Linear growth | Not recommended | [Common Characteristics > Performance Boundaries] |
-| **DatePicker** | Storage per date | 10 bytes | Linear growth | Optimal for date-only | [Common Characteristics > Performance Boundaries] |
-| **DatePicker** | Excel row limit | 65,000 | Excel compatibility fails | Split exports | [Troubleshooting Guide] |
-| **MonthPicker** | Storage per month | 7 bytes | Linear growth | Most efficient | [Common Characteristics > Performance Boundaries] |
-| **MonthPicker** | Excel misinterpretation | Any YYYY-MM | 100% occurrence | Import as text column | [Field Quirks Index > MonthPicker] |
-| **All Date Fields** | Fields per form | 10,000 | Browser memory crash | Paginate forms | [Common Characteristics > Performance Boundaries] |
-| **All Date Fields** | CSV export rows | 65,000 | Excel import fails | Use database tools | [Common Characteristics > Export Behavior] |
-| **All Date Fields** | Validation rules | 0 (none) | No constraints possible | Post-process validation | [Common Characteristics > Validation Patterns] |
-| **All Date Fields** | BCE date support | None | Not supported | Use TextField workaround | [Field Quirks Index > Common Date/Time Quirks] |
-| **Mobile Pickers** | Touch target size | 44x44px | Usability issues | Platform default only | [Common Characteristics > Platform Behaviors] |
-| **Desktop Entry** | Manual typing reliability | <50% | Format parsing errors | Train picker usage | [Troubleshooting Guide] |
+See [Performance Thresholds Reference](performance-thresholds-reference.md) for detailed metrics and testing scenarios.
 
-### Critical Performance Notes {important}
-- DateTimeNow synchronisation adds 100ms per timestamp due to UTC conversion
-- Forms with >10,000 date fields exhaust browser memory (4GB typical limit)
-- Excel corrupts date formats 100% of time when opening CSV directly
-- MonthPicker most storage-efficient but highest corruption risk in Excel
-- No date field supports temporal validation - all require external validation
+**DateTime Field Critical Thresholds**:
+- **DateTimeNow**: 100ms timezone conversion overhead per record
+- **Memory limit**: ~100 date fields before browser exhaustion (2MB per field)
+- **Storage**: DateTimeNow (30 bytes), DatePicker (10 bytes), MonthPicker (7 bytes)
+- **Excel limit**: 65,000 rows for CSV compatibility
+- **Reliable date range**: 1900-2100 only
+- **Form pagination trigger**: >20 date fields per page
 
 `VERSION` 2025-08
 
@@ -2801,6 +2768,32 @@ Anti-patterns have been distributed to their respective field sections for bette
   }
 }
 ```
+
+## Error Message Quick Reference {important}
+
+### Common Validation Errors (User Visible)
+| Message | Component | Trigger | Resolution |
+|---------|-----------|---------|------------|
+| "Invalid date" | All date fields | Malformed input | Use picker interface |
+| "Field is required" | All date fields | Empty submission | Select a date |
+| "Date must be in the past" | DateTimeNow | Future date blocked | Select past date |
+| "Invalid format" | DatePicker | Manual typing | Use calendar picker |
+
+### Platform-Specific Issues
+| Issue | Platform | Component | Workaround |
+|-------|----------|-----------|------------|
+| Different picker UI | iOS vs Android | All fields | Train on both platforms |
+| "Now" button hidden | Desktop browsers | DateTimeNow | Scroll in picker |
+| Timezone not shown | Mobile | DateTimePicker | Check device settings |
+| Month format varies | Excel import | MonthPicker | Use Text Import Wizard |
+
+### Silent Failures (No Error Shown)
+| Issue | Component | Detection | Prevention |
+|-------|-----------|-----------|------------|
+| Wrong timezone saved | DateTimePicker | Check UTC offset | Use DateTimeNow |
+| Excel date corruption | All fields | Wrong date shown | Import as text |
+| BCE dates rejected | All fields | Negative years fail | Use number fields |
+| Milliseconds lost | DateTimeNow | Precision loss | Document limitation |
 
 ---
 
