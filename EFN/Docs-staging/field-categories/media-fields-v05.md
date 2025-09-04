@@ -473,78 +473,247 @@ Integrates platform-native camera functionality with gallery selection through u
 
 ## Troubleshooting Guide {important}
 
-### Silent Failures Diagnostic
-**FileUploader Silent Rejections:**
-1. Check `maximum_file_size` vs actual file
-2. Verify `maximum_number_of_files` not exceeded
-3. Confirm `minimum_file_size` met
-4. Add explicit limits to helper text
+### Issue 1: Silent File Rejection (FileUploader)
+**Symptoms**: Files appear to upload but disappear without error message
 
-**TakePhoto Performance Issues:**
-1. Count existing photos in field
-2. Check available device storage
-3. Monitor browser memory usage
-4. Verify IndexedDB quota available
+**Diagnosis Steps**:
+1. Check browser console for size limit messages
+2. Count existing files in field
+3. Verify file size in bytes
+4. Test with smaller file
 
-### Validation Not Working
+**Common Causes & Solutions**:
+- **File too large**: `maximum_file_size` exceeded silently
+  - Solution: Add explicit size limits to helper text
+  - Example: "Maximum 10MB per file" 
+- **Too many files**: `maximum_number_of_files` reached
+  - Solution: Document limit clearly, consider increasing
+- **File too small**: `minimum_file_size` not met (rare)
+  - Solution: Check for 0-byte files
+
+**Prevention**: Always specify limits in helper text since validation doesn't show errors
+
+### Issue 2: Required Validation Not Working (Both Fields)
+**Symptoms**: Form submits with empty required media fields
+
+**Root Cause**: 
+- FileUploader uses `yup.mixed()` which cannot validate arrays
+- TakePhoto requires manual `yup.required` addition
+
+**Solutions**:
 ```json
-// FileUploader - Required validation broken
-"validationSchema": [["yup.mixed"]]  // Cannot validate arrays
+// FileUploader - BROKEN, use helper text instead
+"validationSchema": [["yup.mixed"]]  // ❌ Cannot validate arrays
+"helperText": "⚠️ REQUIRED: Upload at least one document"
 
-// TakePhoto - Manual validation required
+// TakePhoto - Manual configuration needed
 "validationSchema": [
   ["yup.array"],
-  ["yup.required", "Photos required"]  // Add manually
+  ["yup.required", "Photos required"],  // ✅ Add manually
+  ["yup.min", 1, "At least one photo required"]
 ]
 ```
 
-### Platform Permission Recovery
-- **iOS:** Settings → Privacy → Camera → [App Name]
-- **Android:** Settings → Apps → [App] → Permissions
-- **Web:** Reload page and accept permission prompt
+### Issue 3: Browser Memory Exhaustion
+**Symptoms**: Browser tab crashes or becomes unresponsive during upload
+
+**Diagnosis**:
+1. Open browser DevTools → Performance Monitor
+2. Watch memory usage during file selection
+3. Check if files exceed 50MB each
+4. Count total size of all uploads
+
+**Solutions by File Size**:
+- **<10MB**: Should work on all devices
+- **10-50MB**: May struggle on older mobile devices
+- **50-100MB**: High crash risk, desktop only
+- **>100MB**: Not recommended, will likely fail
+
+**Mitigation Strategies**:
+1. Compress images before upload
+2. Split large PDFs into sections
+3. Use external links for very large files
+4. Process files in smaller batches
+
+### Issue 4: Camera Permission Denied (TakePhoto)
+**Symptoms**: Camera button disabled or "Permission denied" error
+
+**Platform-Specific Recovery**:
+
+**iOS**:
+1. Settings → Privacy & Security → Camera
+2. Find app in list and toggle ON
+3. May need to fully quit and restart app
+4. "Allow Once" requires re-permission each session
+
+**Android**:
+1. Settings → Apps → [App Name] → Permissions
+2. Enable Camera permission
+3. Check "Don't ask again" wasn't selected
+4. Clear app cache if permission stuck
+
+**Web Browser**:
+1. Click padlock icon in address bar
+2. Reset camera permission
+3. Reload page
+4. Accept permission prompt
+
+### Issue 5: Photos Not Syncing (TakePhoto)
+**Symptoms**: Photos visible locally but not on other devices
+
+**Diagnosis Checklist**:
+- [ ] Check sync status indicator
+- [ ] Verify "Get attachments" setting enabled
+- [ ] Confirm network connectivity
+- [ ] Check available cloud storage
+
+**Common Causes**:
+1. **"Get attachments" disabled**: Enable in notebook settings
+2. **Sync timeout**: Photos >10MB may timeout
+3. **Quota exceeded**: Check CouchDB attachment limits
+4. **Network interruption**: Retry sync manually
+
+**Solutions**:
+1. Enable "Get attachments" in sync settings
+2. Reduce photo quality if consistently failing
+3. Sync over WiFi for large photo sets
+4. Check server attachment quota
 
 ## JSON Examples {comprehensive}
 
-### Mixed Media Documentation
+### Example 1: Basic File Upload with Size Limits
 ```json
 {
-  "excavation-media": {
+  "supporting-documents": {
     "component-namespace": "faims-custom",
     "component-name": "FileUploader",
     "type-returned": "faims-attachment::Files",
     "component-parameters": {
-      "label": "Excavation Media",
-      "name": "excavation-media",
-      "helperText": "Upload photos, videos, plans (max 25MB each, up to 10 files)",
-      "advancedHelperText": "## Accepted Files\n\n**Images:** JPG, PNG, TIFF\n**Video:** MP4, MOV\n**Documents:** PDF plans, CSV data\n\nFiles over 25MB will be silently rejected.",
+      "label": "Supporting Documents",
+      "name": "supporting-documents",
+      "helperText": "Upload permits, maps, protocols (max 10MB each)",
       "multiple": true,
-      "maximum_file_size": 26214400,
-      "maximum_number_of_files": 10,
-      "minimum_file_size": 100
+      "maximum_file_size": 10485760,
+      "minimum_file_size": 1024
     },
     "validationSchema": [["yup.mixed"]],
+    "initialValue": null
+  }
+}
+```
+
+### Example 2: Required Single Photo Capture
+```json
+{
+  "artifact-photo": {
+    "component-namespace": "faims-custom",
+    "component-name": "TakePhoto",
+    "type-returned": "faims-attachment::Files",
+    "component-parameters": {
+      "label": "Artifact Photo",
+      "name": "artifact-photo",
+      "helperText": "Photograph artifact with scale",
+      "required": true,
+      "multiple": false
+    },
+    "validationSchema": [
+      ["yup.mixed"],
+      ["yup.required", "Artifact photo required"]
+    ],
+    "initialValue": null
+  }
+}
+```
+
+### Example 3: Multiple File Upload with Count Restriction
+```json
+{
+  "site-documentation": {
+    "component-namespace": "faims-custom",
+    "component-name": "FileUploader",
+    "type-returned": "faims-attachment::Files",
+    "component-parameters": {
+      "label": "Site Documentation",
+      "name": "site-documentation",
+      "helperText": "Upload up to 5 files (photos, PDFs, spreadsheets)",
+      "advancedHelperText": "## File Requirements\n\n- Maximum 5 files total\n- Each file max 25MB\n- Accepted: JPG, PNG, PDF, XLSX, CSV",
+      "multiple": true,
+      "maximum_file_size": 26214400,
+      "maximum_number_of_files": 5
+    },
+    "validationSchema": [["yup.mixed"]],
+    "initialValue": null
+  }
+}
+```
+
+### Example 4: Conditional Photo Documentation
+```json
+{
+  "damage-photos": {
+    "component-namespace": "faims-custom",
+    "component-name": "TakePhoto",
+    "type-returned": "faims-attachment::Files",
+    "component-parameters": {
+      "label": "Damage Documentation",
+      "name": "damage-photos",
+      "helperText": "Photograph all damaged areas",
+      "multiple": true
+    },
+    "validationSchema": [
+      ["yup.array"],
+      ["yup.min", 1, "At least one damage photo required"]
+    ],
     "initialValue": null,
     "condition": {
       "operator": "equal",
-      "field": "excavation-complete",
-      "value": "yes"
+      "field": "condition-assessment",
+      "value": "damaged"
     }
   }
 }
 ```
 
-### Staged Photography Workflow
+### Example 5: PDF-Only Document Upload
 ```json
 {
-  "before-photos": {
+  "permits": {
+    "component-namespace": "faims-custom",
+    "component-name": "FileUploader",
+    "type-returned": "faims-attachment::Files",
+    "component-parameters": {
+      "label": "Heritage Permits",
+      "name": "permits",
+      "helperText": "Upload PDF permits only (max 10MB each)",
+      "advancedHelperText": "⚠️ **PDF Files Only**\n\nPlease convert all documents to PDF before uploading.\nNon-PDF files will need to be removed.",
+      "multiple": true,
+      "maximum_file_size": 10485760
+    },
+    "validationSchema": [["yup.mixed"]],
+    "initialValue": null,
+    "meta": {
+      "annotation": {
+        "include": true,
+        "label": "Permit conditions and restrictions"
+      }
+    }
+  }
+}
+```
+
+### Example 6: Staged Photography Workflow
+```json
+{
+  "before-excavation": {
     "component-namespace": "faims-custom",
     "component-name": "TakePhoto",
     "type-returned": "faims-attachment::Files",
     "component-parameters": {
       "label": "Before Excavation",
-      "name": "before-photos",
-      "helperText": "Document initial conditions (2-5 photos)",
-      "required": true
+      "name": "before-excavation",
+      "helperText": "Document initial state (2-5 photos)",
+      "required": true,
+      "multiple": true
     },
     "validationSchema": [
       ["yup.array"],
@@ -554,26 +723,398 @@ Integrates platform-native camera functionality with gallery selection through u
     ],
     "initialValue": null
   },
-  "after-photos": {
+  "after-excavation": {
     "component-namespace": "faims-custom",
     "component-name": "TakePhoto",
     "type-returned": "faims-attachment::Files",
     "component-parameters": {
       "label": "After Excavation",
-      "name": "after-photos",
-      "helperText": "Document final state (2-5 photos)",
-      "required": true
+      "name": "after-excavation",
+      "helperText": "Document final state (2-5 photos)"
     },
     "validationSchema": [
       ["yup.array"],
-      ["yup.required", "After photos required"],
-      ["yup.min", 2, "Minimum 2 photos"],
-      ["yup.max", 5, "Maximum 5 photos"]
+      ["yup.min", 2, "Minimum 2 photos"]
     ],
     "initialValue": null,
     "condition": {
       "operator": "is-truthy",
-      "field": "before-photos"
+      "field": "before-excavation"
+    }
+  }
+}
+```
+
+### Example 7: Large Media Files with Warning
+```json
+{
+  "video-documentation": {
+    "component-namespace": "faims-custom",
+    "component-name": "FileUploader",
+    "type-returned": "faims-attachment::Files",
+    "component-parameters": {
+      "label": "Video Documentation",
+      "name": "video-documentation",
+      "helperText": "Upload video files (max 100MB)",
+      "advancedHelperText": "## ⚠️ Large File Warning\n\n- Files over 50MB may cause sync delays\n- Ensure stable WiFi before syncing\n- Consider compressing videos first",
+      "multiple": false,
+      "maximum_file_size": 104857600
+    },
+    "validationSchema": [["yup.mixed"]],
+    "initialValue": null
+  }
+}
+```
+
+### Example 8: Mixed Media Documentation
+```json
+{
+  "excavation-media": {
+    "component-namespace": "faims-custom",
+    "component-name": "FileUploader",
+    "type-returned": "faims-attachment::Files",
+    "component-parameters": {
+      "label": "Excavation Media",
+      "name": "excavation-media",
+      "helperText": "Photos, videos, plans (max 25MB each, 10 files total)",
+      "multiple": true,
+      "maximum_file_size": 26214400,
+      "maximum_number_of_files": 10
+    },
+    "validationSchema": [["yup.mixed"]],
+    "initialValue": null
+  }
+}
+```
+
+### Example 9: Progressive Photo Requirements
+```json
+{
+  "context-photos": {
+    "component-namespace": "faims-custom",
+    "component-name": "TakePhoto",
+    "type-returned": "faims-attachment::Files",
+    "component-parameters": {
+      "label": "Context Photos",
+      "name": "context-photos",
+      "helperText": "North, South, East, West views plus overhead",
+      "multiple": true
+    },
+    "validationSchema": [
+      ["yup.array"],
+      ["yup.required", "Context photos required"],
+      ["yup.min", 5, "Need all 5 standard views"]
+    ],
+    "initialValue": null
+  }
+}
+```
+
+### Example 10: Data Files with Metadata
+```json
+{
+  "analysis-data": {
+    "component-namespace": "faims-custom",
+    "component-name": "FileUploader",
+    "type-returned": "faims-attachment::Files",
+    "component-parameters": {
+      "label": "Analysis Data Files",
+      "name": "analysis-data",
+      "helperText": "Upload CSV, XLSX data files",
+      "multiple": true,
+      "maximum_file_size": 5242880,
+      "maximum_number_of_files": 3
+    },
+    "validationSchema": [["yup.mixed"]],
+    "initialValue": null,
+    "meta": {
+      "annotation": {
+        "include": true,
+        "label": "Data collection methods and parameters"
+      },
+      "uncertainty": {
+        "include": true,
+        "label": "Data quality concerns"
+      }
+    }
+  }
+}
+```
+
+### Example 11: Emergency Documentation Mode
+```json
+{
+  "salvage-photos": {
+    "component-namespace": "faims-custom",
+    "component-name": "TakePhoto",
+    "type-returned": "faims-attachment::Files",
+    "component-parameters": {
+      "label": "Salvage Documentation",
+      "name": "salvage-photos",
+      "helperText": "Quick capture - as many as needed",
+      "multiple": true
+    },
+    "validationSchema": [["yup.mixed"]],
+    "initialValue": null,
+    "condition": {
+      "operator": "equal",
+      "field": "recording-type",
+      "value": "emergency-salvage"
+    }
+  }
+}
+```
+
+### Example 12: Structured Upload Workflow
+```json
+{
+  "plans": {
+    "component-namespace": "faims-custom",
+    "component-name": "FileUploader",
+    "type-returned": "faims-attachment::Files",
+    "component-parameters": {
+      "label": "Site Plans",
+      "name": "plans",
+      "helperText": "Upload georeferenced plans (PDF/TIFF)",
+      "multiple": true,
+      "maximum_file_size": 52428800,
+      "maximum_number_of_files": 3
+    },
+    "validationSchema": [["yup.mixed"]],
+    "initialValue": null
+  },
+  "sections": {
+    "component-namespace": "faims-custom",
+    "component-name": "FileUploader",
+    "type-returned": "faims-attachment::Files",
+    "component-parameters": {
+      "label": "Section Drawings",
+      "name": "sections",
+      "helperText": "Upload section drawings (PDF/JPG)",
+      "multiple": true,
+      "maximum_file_size": 26214400,
+      "maximum_number_of_files": 5
+    },
+    "validationSchema": [["yup.mixed"]],
+    "initialValue": null,
+    "condition": {
+      "operator": "is-truthy",
+      "field": "plans"
+    }
+  }
+}
+```
+
+### Example 13: Performance-Optimized Configuration
+```json
+{
+  "field-photos": {
+    "component-namespace": "faims-custom",
+    "component-name": "TakePhoto",
+    "type-returned": "faims-attachment::Files",
+    "component-parameters": {
+      "label": "Field Photos",
+      "name": "field-photos",
+      "helperText": "Max 10 photos to prevent sync issues",
+      "multiple": true
+    },
+    "validationSchema": [
+      ["yup.array"],
+      ["yup.max", 10, "Maximum 10 photos for performance"]
+    ],
+    "initialValue": null
+  }
+}
+```
+
+### Example 14: Compliance Documentation
+```json
+{
+  "compliance-docs": {
+    "component-namespace": "faims-custom",
+    "component-name": "FileUploader",
+    "type-returned": "faims-attachment::Files",
+    "component-parameters": {
+      "label": "Compliance Documentation",
+      "name": "compliance-docs",
+      "helperText": "Safety certificates, insurance, permits",
+      "advancedHelperText": "## Required Documents\n\n1. Public liability insurance\n2. Safety management plan\n3. Heritage permit\n4. Landowner consent",
+      "required": true,
+      "multiple": true,
+      "maximum_file_size": 10485760,
+      "minimum_file_size": 1024,
+      "maximum_number_of_files": 10
+    },
+    "validationSchema": [
+      ["yup.mixed"],
+      ["yup.required", "Compliance documentation required"]
+    ],
+    "initialValue": null
+  }
+}
+```
+
+### Example 15: Artifact Photography Standards
+```json
+{
+  "artifact-images": {
+    "component-namespace": "faims-custom",
+    "component-name": "TakePhoto",
+    "type-returned": "faims-attachment::Files",
+    "component-parameters": {
+      "label": "Artifact Photography",
+      "name": "artifact-images",
+      "helperText": "Multiple angles with scale",
+      "advancedHelperText": "## Photography Requirements\n\n- Front view with scale\n- Back view\n- Profile views if relevant\n- Detail shots of diagnostic features",
+      "required": true,
+      "multiple": true
+    },
+    "validationSchema": [
+      ["yup.array"],
+      ["yup.required", "Artifact photos required"],
+      ["yup.min", 2, "Minimum front and back views"]
+    ],
+    "initialValue": null,
+    "meta": {
+      "annotation": {
+        "include": true,
+        "label": "Photography conditions and issues"
+      }
+    }
+  }
+}
+```
+
+### Example 16: Conditional Document Upload
+```json
+{
+  "permit-documents": {
+    "component-namespace": "faims-custom",
+    "component-name": "FileUploader",
+    "type-returned": "faims-attachment::Files",
+    "component-parameters": {
+      "label": "Permit Documentation",
+      "name": "permit-documents",
+      "helperText": "Upload permits and approvals (Max 10MB each)",
+      "multiple": true,
+      "maximum_file_size": 10485760,
+      "maximum_number_of_files": 5
+    },
+    "validationSchema": [["yup.mixed"]],
+    "condition": {
+      "operator": "equal",
+      "field": "site-type",
+      "value": "restricted"
+    }
+  }
+}
+```
+
+### Example 17: Large File Warning Configuration
+```json
+{
+  "video-documentation": {
+    "component-namespace": "faims-custom",
+    "component-name": "FileUploader",
+    "type-returned": "faims-attachment::Files",
+    "component-parameters": {
+      "label": "Video Files",
+      "name": "video-documentation",
+      "helperText": "⚠️ WARNING: Max 100MB per file. Videos will impact sync performance.",
+      "advancedHelperText": "## Video Guidelines\n\n- Compress videos before upload\n- Consider frame extraction for analysis\n- Upload will timeout after 120 seconds",
+      "multiple": false,
+      "maximum_file_size": 104857600,
+      "minimum_file_size": 1024
+    },
+    "validationSchema": [["yup.mixed"]],
+    "meta": {
+      "annotation": {
+        "include": true,
+        "label": "Video content description"
+      }
+    }
+  }
+}
+```
+
+### Example 18: Multi-Stage Photo Workflow
+```json
+{
+  "excavation-progress": {
+    "component-namespace": "faims-custom",
+    "component-name": "TakePhoto",
+    "type-returned": "faims-attachment::Files",
+    "component-parameters": {
+      "label": "Excavation Stage Photos",
+      "name": "excavation-progress",
+      "helperText": "Document each 10cm level",
+      "advancedHelperText": "## Photo Protocol\n\n1. Overview from fixed photo point\n2. Plan view with north arrow\n3. Representative profile\n4. Any features or finds in situ",
+      "multiple": true
+    },
+    "validationSchema": [
+      ["yup.array"],
+      ["yup.min", 3, "Minimum 3 photos per level"],
+      ["yup.max", 20, "Maximum 20 photos for performance"]
+    ],
+    "meta": {
+      "annotation": {
+        "include": true,
+        "label": "Depth and stage notes"
+      },
+      "uncertainty": {
+        "include": true,
+        "label": "Photo quality issues"
+      }
+    }
+  }
+}
+```
+
+### Example 19: Emergency Documentation Fallback
+```json
+{
+  "emergency-capture": {
+    "component-namespace": "faims-custom",
+    "component-name": "TakePhoto",
+    "type-returned": "faims-attachment::Files",
+    "component-parameters": {
+      "label": "Emergency Documentation",
+      "name": "emergency-capture",
+      "helperText": "Quick capture - quality secondary to speed",
+      "multiple": true
+    },
+    "validationSchema": [["yup.array"]],
+    "condition": {
+      "operator": "equal",
+      "field": "documentation-type",
+      "value": "emergency"
+    }
+  }
+}
+```
+
+### Example 20: Mixed Media Archive Upload
+```json
+{
+  "archive-materials": {
+    "component-namespace": "faims-custom",
+    "component-name": "FileUploader",
+    "type-returned": "faims-attachment::Files",
+    "component-parameters": {
+      "label": "Archive Materials",
+      "name": "archive-materials",
+      "helperText": "PDFs, images, spreadsheets accepted. Max 50MB each.",
+      "advancedHelperText": "## Accepted Formats\n\n- Documents: PDF, DOC, DOCX\n- Images: JPG, PNG, TIFF\n- Data: CSV, XLS, XLSX\n- Archives: ZIP (under 50MB)",
+      "multiple": true,
+      "maximum_file_size": 52428800,
+      "maximum_number_of_files": 10
+    },
+    "validationSchema": [["yup.mixed"]],
+    "meta": {
+      "annotation": {
+        "include": true,
+        "label": "Archive catalog numbers and descriptions"
+      }
     }
   }
 }
@@ -603,7 +1144,7 @@ Integrates platform-native camera functionality with gallery selection through u
 4. **Server validation:** Implement if public-facing
 5. **Storage limits:** Set maximum sizes via JSON
 
-## Field Quirks Index (2025-01) {comprehensive}
+## Field Quirks Index (2025-01-03) {comprehensive}
 
 ### FileUploader Quirks
 - Required validation completely broken
@@ -639,7 +1180,7 @@ See [Performance Thresholds Reference](../reference-docs/performance-thresholds-
 | Sync timeout | 120 seconds | 120 seconds | Upload fails |
 | Storage quota | 1GB Safari / 6GB Chrome | Same | Capture fails |
 
-## JSON Patterns Cookbook (2025-01) {comprehensive}
+## JSON Patterns Cookbook (2025-01-03) {comprehensive}
 
 ### Pattern: Conditional Media Requirements
 ```json
@@ -714,20 +1255,28 @@ See [Performance Thresholds Reference](../reference-docs/performance-thresholds-
 }
 ```
 
-## Quick Diagnosis Tables (2025-01) {important}
+## Quick Diagnosis Tables (2025-01-03) {important}
 
 ### Media Field Issues Diagnosis
-| Symptom | Field | Likely Cause | Quick Fix |
-|---------|-------|--------------|-----------|
-| Field not rendering | Both | Wrong namespace | Use `faims-custom` |
-| Files disappearing | FileUploader | Size limit exceeded | Check maximum_file_size |
-| Can't require field | Both | Validation broken | Add yup.required manually |
-| No camera option | FileUploader | Wrong field type | Use TakePhoto instead |
-| No GPS coordinates | TakePhoto | Web platform | Use native app |
-| Slow form | TakePhoto | Too many photos | Limit to 20 maximum |
-| Upload fails | Both | Network timeout | Check file sizes |
+| Symptom | Field | Likely Cause | Quick Fix | Platform | Prevention |
+|---------|-------|--------------|-----------|----------|------------|
+| Field not rendering | Both | Wrong namespace | Use `faims-custom` | All | Check spelling |
+| Files disappearing | FileUploader | Size limit exceeded | Check maximum_file_size | All | Document limits |
+| Can't require field | Both | Validation broken | Add yup.required manually | All | Use helper text |
+| No camera option | FileUploader | Wrong field type | Use TakePhoto instead | All | Field selection |
+| No GPS coordinates | TakePhoto | Web platform | Use native app | Web | Platform choice |
+| Slow form | TakePhoto | Too many photos | Limit to 20 maximum | Mobile | Set max validation |
+| Upload fails | Both | Network timeout | Check file sizes | All | <50MB files |
+| Permission denied | TakePhoto | Camera access blocked | Check settings | All | Pre-setup |
+| Memory crash | Both | Files too large | Reduce file size | Mobile | Compress first |
+| No progress bar | Both | Not implemented | Inform users to wait | All | Set expectations |
+| EXIF stripped | Both | Security feature | Cannot preserve | All | Document separately |
+| Sync timeout | Both | Large attachments | Use WiFi, smaller files | Mobile | Batch uploads |
+| Photos local only | TakePhoto | "Get attachments" off | Enable in settings | All | Check settings |
+| Wrong component | Both | Copy-paste error | Verify component-name | All | Double-check |
+| Empty array error | Both | Wrong initial value | Use null not [] | All | Correct init |
 
-## Field Interaction Matrix (2025-01) {important}
+## Field Interaction Matrix (2025-01-03) {important}
 
 ### Media Fields with Other Field Types
 | Field Combination | Interaction | Common Pattern |
@@ -739,7 +1288,7 @@ See [Performance Thresholds Reference](../reference-docs/performance-thresholds-
 | FileUploader + TextField | Description | File source notes |
 | Media + TemplatedString | Identification | Generate file identifiers |
 
-## Migration Warnings Index (2025-01) {comprehensive}
+## Migration Warnings Index (2025-01-03) {comprehensive}
 
 ### Critical Migration Issues
 1. **Required validation breaks** when moving to Fieldmark
@@ -751,11 +1300,17 @@ See [Performance Thresholds Reference](../reference-docs/performance-thresholds-
 7. **Orphaned attachments** accumulate without cleanup
 
 ## See Also {comprehensive}
-- **Text Fields**: For detailed media descriptions
-- **Number Fields**: For GPS coordinate manual entry
-- **Select Fields**: For media categorization
-- **Location Fields**: For precise georeferencing
-- **Reference Documents:**
+
+### Other Field Categories
+- **[Text Fields](./text-fields-v05.md)**: For detailed media descriptions and captions
+- **[Number Fields](./number-fields-v05.md)**: For file size tracking and GPS coordinates
+- **[DateTime Fields](./datetime-fields-v05.md)**: For capture timestamps
+- **[Select/Choice Fields](./select-choice-fields-v05.md)**: For media type categorization
+- **[Location Fields](./location-fields-v05.md)**: For georeferenced photo locations
+- **[Relationship Field](./relationship-field-v05.md)**: For linking media to records
+- **[Display Field](./display-field-v05.md)**: For media capture instructions
+
+### Reference Documents
   - [Validation Timing Reference](../reference-docs/validation-timing-reference.md)
   - [Data Export Reference](../reference-docs/data-export-reference.md) - Binary data handling
   - [Security Considerations](../reference-docs/security-considerations-reference.md) - Upload vulnerabilities

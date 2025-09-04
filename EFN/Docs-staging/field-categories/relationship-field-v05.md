@@ -101,19 +101,28 @@ Need to connect records?
 - Immutable after relationship creation
 - JSON configuration only
 
-## ⚠️ Critical Performance Risks {essential}
-**Performance Degradation Thresholds:**
+## ⚠️ Critical Security Risks {essential}
+See [Security Considerations Reference](../reference-docs/security-considerations-reference.md) for general security patterns.
+
+**Relationship-Specific Security Concerns:**
+- **No access control** - Any user can modify any relationship
+- **Orphan creation** - Deleting parents leaves orphaned children
+- **No cascade delete** - Manual cleanup required
+- **Sync conflicts** - Simultaneous edits can corrupt relationships
+- **Data exposure** - All relationships visible to all users
+
+**Critical Performance Risks:**
 - **<20 relationships**: Optimal performance
 - **20-50 relationships**: Acceptable with minor lag
 - **50-100 relationships**: Noticeable delays, UI sluggish
 - **100-200 relationships**: Severe degradation
 - **200+ relationships**: Essentially unusable
 
-**Mitigation Strategies:**
-- Split into multiple focused fields
-- Implement pagination (custom development)
-- Use hierarchical organization
-- Archive historical relationships
+**Mitigation Requirements:**
+- Split into multiple focused fields for performance
+- Document deletion procedures to prevent orphans
+- Implement access policies through training
+- Archive historical relationships regularly
 - Consider alternative designs for large datasets
 
 ## What This Field Cannot Do {important}
@@ -136,13 +145,28 @@ Need to connect records?
 - **Specialist analysis** - Primary→specialist records
 
 ## Designer Component Mapping {essential}
-| Designer Option | JSON Configuration | Notes |
-|-----------------|-------------------|-------|
-| Field Type → RelatedRecordSelector | `"component-name": "RelatedRecordSelector"` | |
-| Related Form | `"related_type": "FormID"` | Target viewset ID |
-| Relationship Type | `"relation_type": "Child"` or `"is-related-to"` | |
-| Allow Multiple | `"multiple": true` | Changes validation |
-| Required | `"required": true` | With validation schema |
+
+### Designer UI vs JSON Component Names
+
+| Designer UI Label | JSON component-name | Component Namespace | Description |
+|------------------|--------------------|--------------------|-------------|
+| RelatedRecordSelector | RelatedRecordSelector | faims-custom | Bidirectional record relationships |
+
+### Designer Configuration Options
+
+| Designer Option | JSON Parameter | Values | Description |
+|----------------|----------------|---------|-------------|
+| Related Form | `related_type` | Form viewset ID | Target form for relationships |
+| Relationship Type | `relation_type` | "Child" or "is-related-to" | Hierarchical vs peer relationships |
+| Allow Multiple | `multiple` | true/false | Single or multiple relationships |
+| Allow Link to Existing | `allowLinkToExisting` | true/false | Enable linking vs only creation |
+| Required | Via validation schema | yup.required | Must be set with validation |
+
+⚠️ **Critical Notes**:
+- Only one relationship field type exists (RelatedRecordSelector)
+- Vocabulary pairs for "is-related-to" require JSON editing
+- Performance degrades severely beyond 50 relationships
+- Reciprocal updates only occur after synchronization
 
 ## Designer Capabilities vs JSON Enhancement {essential}
 
@@ -213,10 +237,21 @@ See [Validation Timing Reference](../reference-docs/validation-timing-reference.
 ```
 
 ### Platform Behaviors {important}
-**All Platforms:**
-- Touch targets ~36px (below 44px WCAG)
-- No gesture support
-- Autocomplete search by HRID only
+
+**iOS Specific:**
+- Touch targets 36px (below 44px WCAG minimum)
+- Scroll momentum can skip items in long lists
+- Selection modal height limited to 70% viewport
+
+**Android Specific:**
+- Performance degrades 20% faster than iOS with many relationships
+- Slower autocomplete response (200ms additional lag)
+- Back button may close modal unexpectedly
+
+**Web Platform:**
+- Better performance for large relationship sets
+- Keyboard navigation partially supported
+- Mouse hover shows full HRID text
 
 **Mobile Specific:**
 - Constrained viewport issues
@@ -341,10 +376,98 @@ Enables bidirectional connections between records, supporting both hierarchical 
 
 ## Troubleshooting Guide {important}
 
-### Performance Issues
-1. Count relationships in field
-2. Check device specifications
-3. Monitor network latency
+### Issue 1: Severe Performance Degradation
+**Symptoms**: UI becomes sluggish, selection modal slow to open, app may freeze
+
+**Diagnosis Steps**:
+1. Count total relationships in the field
+2. Check if approaching 50 relationship threshold
+3. Monitor browser/app memory usage
+4. Test on different device to isolate issue
+
+**Performance Thresholds**:
+- **<20 relationships**: Optimal performance
+- **20-50 relationships**: Noticeable slowdown
+- **50-100 relationships**: Severe degradation
+- **100-200 relationships**: Nearly unusable
+- **>200 relationships**: App crashes likely
+
+**Solutions**:
+1. Split into multiple relationship fields by category
+2. Archive completed relationships regularly
+3. Use hierarchical Child relationships instead of flat lists
+4. Consider external reference system for large networks
+
+### Issue 2: Reciprocal Updates Not Appearing
+**Symptoms**: Related record doesn't show reverse relationship
+
+**Root Cause**: Offline mode delays reciprocal updates until sync
+
+**Diagnosis**:
+- Check sync status indicator
+- Verify both records have been synced
+- Confirm vocabulary pair configuration
+- Test with forced sync
+
+**Solutions**:
+1. **Immediate**: Force sync and refresh both records
+2. **Workaround**: Document relationships externally while offline
+3. **Prevention**: Sync before major relationship changes
+4. **Training**: Explain delayed reciprocals to users
+
+### Issue 3: Orphaned Records After Deletion
+**Symptoms**: Child records exist without parent, shown as "orphaned"
+
+**Understanding the Behavior**:
+- Deleting parent with Child relationships creates orphans
+- Orphaned records remain in database
+- No automatic cascade delete
+- Orphans marked but not removed
+
+**Solutions**:
+1. **Manual cleanup**: Delete orphans individually
+2. **Reassignment**: Link orphans to new parent
+3. **Prevention**: Delete children before parent
+4. **Policy**: Document deletion procedures
+
+### Issue 4: Cannot Find Records to Link
+**Symptoms**: Known records don't appear in selection modal
+
+**Common Causes**:
+1. **No HRID**: Records without TemplatedString field won't display properly
+2. **Wrong form type**: Checking incorrect related_type
+3. **Not synced**: New records not yet synchronized
+4. **Search syntax**: Autocomplete requires exact HRID prefix
+
+**Solutions by Cause**:
+- **Missing HRID**: Add TemplatedString field to related form
+- **Wrong type**: Verify related_type matches target form
+- **Sync issue**: Force sync and retry
+- **Search issue**: Use exact HRID format (case-sensitive)
+
+### Issue 5: Validation Errors Not Clear
+**Symptoms**: Form won't submit but no clear error on relationship field
+
+**Diagnosis Checklist**:
+- [ ] Check if field marked as required
+- [ ] Verify multiple setting matches validation schema
+- [ ] Count relationships against any max validation
+- [ ] Test with single vs array validation
+
+**Common Validation Issues**:
+```json
+// WRONG - Single relationship with array validation
+"multiple": false,
+"validationSchema": [["yup.array"]]  // Mismatch!
+
+// CORRECT - Single relationship
+"multiple": false,
+"validationSchema": [["yup.string"]]
+
+// CORRECT - Multiple relationships
+"multiple": true,
+"validationSchema": [["yup.array"]]
+```
 4. Review sync payload size
 5. Consider field splitting
 
@@ -364,62 +487,691 @@ Enables bidirectional connections between records, supporting both hierarchical 
 
 ## JSON Examples {comprehensive}
 
-### Hierarchical Parent-Child
+### Example 1: Basic Parent-Child Hierarchy
 ```json
 {
-  "contexts": {
+  "child-contexts": {
     "component-namespace": "faims-custom",
     "component-name": "RelatedRecordSelector",
     "type-returned": "faims-core::Relationship",
     "component-parameters": {
-      "name": "contexts",
-      "label": "Contexts in Trench",
+      "name": "child-contexts",
+      "label": "Contexts",
       "related_type": "Context",
       "relation_type": "Child",
       "multiple": true,
-      "allowLinkToExisting": false,
-      "helperText": "Create contexts within this trench"
-    }
+      "allowLinkToExisting": false
+    },
+    "validationSchema": [["yup.array"]],
+    "initialValue": []
   }
 }
 ```
 
-### Required Single Parent
+### Example 2: Required Single Parent
 ```json
 {
-  "parent_site": {
+  "parent-trench": {
     "component-namespace": "faims-custom",
     "component-name": "RelatedRecordSelector",
     "type-returned": "faims-core::Relationship",
     "component-parameters": {
-      "name": "parent_site",
-      "label": "Parent Site",
-      "related_type": "Site",
+      "name": "parent-trench",
+      "label": "Parent Trench",
+      "related_type": "Trench",
       "relation_type": "Child",
       "multiple": false,
       "required": true,
-      "allowLinkToExisting": true
+      "allowLinkToExisting": true,
+      "helperText": "Select the trench this context belongs to"
     },
     "validationSchema": [
       ["yup.string"],
-      ["yup.required", "Site required"]
-    ]
+      ["yup.required", "Parent trench required"]
+    ],
+    "initialValue": null
   }
 }
 ```
 
-### Sample Relationships
+### Example 3: Stratigraphic Relationships with Vocabulary
 ```json
 {
-  "related_samples": {
+  "stratigraphic-relationships": {
+    "component-namespace": "faims-custom",
+    "component-name": "RelatedRecordSelector",
+    "type-returned": "faims-core::Relationship",
     "component-parameters": {
+      "name": "stratigraphic-relationships",
+      "label": "Stratigraphic Relationships",
+      "related_type": "Context",
       "relation_type": "is-related-to",
+      "multiple": true,
+      "allowLinkToExisting": true,
+      "relation_linked_vocabPair": [
+        ["cuts", "is cut by"],
+        ["fills", "is filled by"],
+        ["is above", "is below"],
+        ["abuts", "abuts"],
+        ["same as", "same as"]
+      ],
+      "helperText": "Define relationships with other contexts"
+    },
+    "validationSchema": [["yup.array"]],
+    "initialValue": []
+  }
+}
+```
+
+### Example 4: Find Assemblage Grouping
+```json
+{
+  "related-finds": {
+    "component-namespace": "faims-custom",
+    "component-name": "RelatedRecordSelector",
+    "type-returned": "faims-core::Relationship",
+    "component-parameters": {
+      "name": "related-finds",
+      "label": "Related Finds",
+      "related_type": "Find",
+      "relation_type": "is-related-to",
+      "multiple": true,
+      "allowLinkToExisting": true,
+      "relation_linked_vocabPair": [
+        ["part of set", "includes"],
+        ["matches", "matches"],
+        ["associated with", "associated with"]
+      ]
+    },
+    "validationSchema": [["yup.array"]],
+    "initialValue": [],
+    "meta": {
+      "annotation": {
+        "include": true,
+        "label": "Relationship justification"
+      }
+    }
+  }
+}
+```
+
+### Example 5: Sample Chain of Custody
+```json
+{
+  "sample-relationships": {
+    "component-namespace": "faims-custom",
+    "component-name": "RelatedRecordSelector",
+    "type-returned": "faims-core::Relationship",
+    "component-parameters": {
+      "name": "sample-relationships",
+      "label": "Sample Relationships",
+      "related_type": "Sample",
+      "relation_type": "is-related-to",
+      "multiple": true,
       "relation_linked_vocabPair": [
         ["subsample of", "has subsample"],
+        ["split from", "split into"],
         ["control for", "controlled by"],
-        ["compared with", "compared with"]
+        ["duplicate of", "duplicate of"]
       ]
+    },
+    "validationSchema": [["yup.array"]],
+    "initialValue": []
+  }
+}
+```
+
+### Example 6: Site-Trench-Context Hierarchy
+```json
+{
+  "trenches": {
+    "component-namespace": "faims-custom",
+    "component-name": "RelatedRecordSelector",
+    "type-returned": "faims-core::Relationship",
+    "component-parameters": {
+      "name": "trenches",
+      "label": "Trenches within Site",
+      "related_type": "Trench",
+      "relation_type": "Child",
+      "multiple": true,
+      "allowLinkToExisting": false,
+      "related_type_label": "Trench Record",
+      "helperText": "Create new trenches for this site"
+    },
+    "validationSchema": [["yup.array"]],
+    "initialValue": []
+  }
+}
+```
+
+### Example 7: Feature Cross-References
+```json
+{
+  "related-features": {
+    "component-namespace": "faims-custom",
+    "component-name": "RelatedRecordSelector",
+    "type-returned": "faims-core::Relationship",
+    "component-parameters": {
+      "name": "related-features",
+      "label": "Related Features",
+      "related_type": "Feature",
+      "relation_type": "is-related-to",
+      "multiple": true,
+      "allowLinkToExisting": true,
+      "relation_linked_vocabPair": [
+        ["built on", "supports"],
+        ["replaces", "replaced by"],
+        ["contemporary with", "contemporary with"],
+        ["connected to", "connected to"]
+      ]
+    },
+    "validationSchema": [["yup.array"]],
+    "initialValue": []
+  }
+}
+```
+
+### Example 8: Specialist Analysis Links
+```json
+{
+  "specialist-analyses": {
+    "component-namespace": "faims-custom",
+    "component-name": "RelatedRecordSelector",
+    "type-returned": "faims-core::Relationship",
+    "component-parameters": {
+      "name": "specialist-analyses",
+      "label": "Specialist Analyses",
+      "related_type": "Analysis",
+      "relation_type": "Child",
+      "multiple": true,
+      "allowLinkToExisting": false,
+      "helperText": "Create analysis records for this context"
+    },
+    "validationSchema": [["yup.array"]],
+    "initialValue": [],
+    "meta": {
+      "annotation": {
+        "include": true,
+        "label": "Analysis type and specialist"
+      }
     }
+  }
+}
+```
+
+### Example 9: Conditional Parent Requirement
+```json
+{
+  "parent-structure": {
+    "component-namespace": "faims-custom",
+    "component-name": "RelatedRecordSelector",
+    "type-returned": "faims-core::Relationship",
+    "component-parameters": {
+      "name": "parent-structure",
+      "label": "Parent Structure",
+      "related_type": "Structure",
+      "relation_type": "Child",
+      "multiple": false,
+      "allowLinkToExisting": true,
+      "required": true
+    },
+    "validationSchema": [
+      ["yup.string"],
+      ["yup.required", "Parent structure required"]
+    ],
+    "initialValue": null,
+    "condition": {
+      "operator": "equal",
+      "field": "element-type",
+      "value": "structural-element"
+    }
+  }
+}
+```
+
+### Example 10: Artifact Comparanda
+```json
+{
+  "comparanda": {
+    "component-namespace": "faims-custom",
+    "component-name": "RelatedRecordSelector",
+    "type-returned": "faims-core::Relationship",
+    "component-parameters": {
+      "name": "comparanda",
+      "label": "Comparative Examples",
+      "related_type": "Artifact",
+      "relation_type": "is-related-to",
+      "multiple": true,
+      "allowLinkToExisting": true,
+      "relation_linked_vocabPair": [
+        ["similar to", "similar to"],
+        ["typologically earlier", "typologically later"],
+        ["same type as", "same type as"]
+      ]
+    },
+    "validationSchema": [["yup.array"]],
+    "initialValue": [],
+    "meta": {
+      "uncertainty": {
+        "include": true,
+        "label": "Confidence in comparison"
+      }
+    }
+  }
+}
+```
+
+### Example 11: Documentation Attachments
+```json
+{
+  "related-documentation": {
+    "component-namespace": "faims-custom",
+    "component-name": "RelatedRecordSelector",
+    "type-returned": "faims-core::Relationship",
+    "component-parameters": {
+      "name": "related-documentation",
+      "label": "Related Documentation",
+      "related_type": "Document",
+      "relation_type": "is-related-to",
+      "multiple": true,
+      "relation_linked_vocabPair": [
+        ["documented in", "documents"],
+        ["referenced in", "references"],
+        ["illustrated in", "illustrates"]
+      ]
+    },
+    "validationSchema": [["yup.array"]],
+    "initialValue": []
+  }
+}
+```
+
+### Example 12: Survey Unit Hierarchy
+```json
+{
+  "survey-units": {
+    "component-namespace": "faims-custom",
+    "component-name": "RelatedRecordSelector",
+    "type-returned": "faims-core::Relationship",
+    "component-parameters": {
+      "name": "survey-units",
+      "label": "Survey Units",
+      "related_type": "SurveyUnit",
+      "relation_type": "Child",
+      "multiple": true,
+      "allowLinkToExisting": false,
+      "helperText": "Create survey units within this area"
+    },
+    "validationSchema": [
+      ["yup.array"],
+      ["yup.min", 1, "At least one survey unit required"]
+    ],
+    "initialValue": []
+  }
+}
+```
+
+### Example 13: Temporal Relationships
+```json
+{
+  "temporal-relationships": {
+    "component-namespace": "faims-custom",
+    "component-name": "RelatedRecordSelector",
+    "type-returned": "faims-core::Relationship",
+    "component-parameters": {
+      "name": "temporal-relationships",
+      "label": "Temporal Relationships",
+      "related_type": "Phase",
+      "relation_type": "is-related-to",
+      "multiple": true,
+      "relation_linked_vocabPair": [
+        ["earlier than", "later than"],
+        ["contemporary with", "contemporary with"],
+        ["transitions to", "transitions from"],
+        ["overlaps with", "overlaps with"]
+      ]
+    },
+    "validationSchema": [["yup.array"]],
+    "initialValue": []
+  }
+}
+```
+
+### Example 14: Performance-Limited Configuration
+```json
+{
+  "limited-relationships": {
+    "component-namespace": "faims-custom",
+    "component-name": "RelatedRecordSelector",
+    "type-returned": "faims-core::Relationship",
+    "component-parameters": {
+      "name": "limited-relationships",
+      "label": "Related Records (Max 30)",
+      "related_type": "Record",
+      "relation_type": "is-related-to",
+      "multiple": true,
+      "helperText": "⚠️ LIMIT 30 relationships for performance"
+    },
+    "validationSchema": [
+      ["yup.array"],
+      ["yup.max", 30, "Maximum 30 relationships allowed"]
+    ],
+    "initialValue": []
+  }
+}
+```
+
+### Example 15: Excavation Team Assignment
+```json
+{
+  "team-members": {
+    "component-namespace": "faims-custom",
+    "component-name": "RelatedRecordSelector",
+    "type-returned": "faims-core::Relationship",
+    "component-parameters": {
+      "name": "team-members",
+      "label": "Team Members",
+      "related_type": "Person",
+      "relation_type": "is-related-to",
+      "multiple": true,
+      "allowLinkToExisting": true,
+      "relation_linked_vocabPair": [
+        ["excavated by", "excavated"],
+        ["recorded by", "recorded"],
+        ["supervised by", "supervised"]
+      ]
+    },
+    "validationSchema": [["yup.array"]],
+    "initialValue": []
+  }
+}
+```
+
+### Example 16: Conservation Treatment Chain
+```json
+{
+  "conservation-history": {
+    "component-namespace": "faims-custom",
+    "component-name": "RelatedRecordSelector",
+    "type-returned": "faims-core::Relationship",
+    "component-parameters": {
+      "name": "conservation-history",
+      "label": "Conservation History",
+      "related_type": "Treatment",
+      "relation_type": "is-related-to",
+      "multiple": true,
+      "relation_linked_vocabPair": [
+        ["treated with", "applied to"],
+        ["follows", "precedes"],
+        ["reverses", "reversed by"]
+      ]
+    },
+    "validationSchema": [["yup.array"]],
+    "initialValue": [],
+    "meta": {
+      "annotation": {
+        "include": true,
+        "label": "Treatment notes"
+      }
+    }
+  }
+}
+```
+
+### Example 17: Building Components
+```json
+{
+  "building-elements": {
+    "component-namespace": "faims-custom",
+    "component-name": "RelatedRecordSelector",
+    "type-returned": "faims-core::Relationship",
+    "component-parameters": {
+      "name": "building-elements",
+      "label": "Building Elements",
+      "related_type": "Element",
+      "relation_type": "Child",
+      "multiple": true,
+      "allowLinkToExisting": false,
+      "helperText": "Create elements within this building"
+    },
+    "validationSchema": [["yup.array"]],
+    "initialValue": []
+  }
+}
+```
+
+### Example 18: Publication References
+```json
+{
+  "publications": {
+    "component-namespace": "faims-custom",
+    "component-name": "RelatedRecordSelector",
+    "type-returned": "faims-core::Relationship",
+    "component-parameters": {
+      "name": "publications",
+      "label": "Published In",
+      "related_type": "Publication",
+      "relation_type": "is-related-to",
+      "multiple": true,
+      "allowLinkToExisting": true,
+      "relation_linked_vocabPair": [
+        ["published in", "includes"],
+        ["cited in", "cites"],
+        ["figure in", "illustrates"]
+      ]
+    },
+    "validationSchema": [["yup.array"]],
+    "initialValue": []
+  }
+}
+```
+
+### Example 19: Interpretive Associations
+```json
+{
+  "interpretations": {
+    "component-namespace": "faims-custom",
+    "component-name": "RelatedRecordSelector",
+    "type-returned": "faims-core::Relationship",
+    "component-parameters": {
+      "name": "interpretations",
+      "label": "Interpretive Links",
+      "related_type": "Interpretation",
+      "relation_type": "is-related-to",
+      "multiple": true,
+      "relation_linked_vocabPair": [
+        ["interpreted as", "interpretation of"],
+        ["supports interpretation", "supported by"],
+        ["contradicts", "contradicted by"]
+      ]
+    },
+    "validationSchema": [["yup.array"]],
+    "initialValue": [],
+    "meta": {
+      "uncertainty": {
+        "include": true,
+        "label": "Interpretive confidence"
+      }
+    }
+  }
+}
+```
+
+### Example 20: Storage Location Chain
+```json
+{
+  "storage-history": {
+    "component-namespace": "faims-custom",
+    "component-name": "RelatedRecordSelector",
+    "type-returned": "faims-core::Relationship",
+    "component-parameters": {
+      "name": "storage-history",
+      "label": "Storage History",
+      "related_type": "Storage",
+      "relation_type": "is-related-to",
+      "multiple": true,
+      "relation_linked_vocabPair": [
+        ["stored in", "contains"],
+        ["moved from", "moved to"],
+        ["temporarily in", "temporarily holds"]
+      ]
+    },
+    "validationSchema": [["yup.array"]],
+    "initialValue": []
+  }
+}
+```
+
+### Example 21: Conditional Relationship Field
+```json
+{
+  "specialist-samples": {
+    "component-namespace": "faims-custom",
+    "component-name": "RelatedRecordSelector",
+    "type-returned": "faims-core::Relationship",
+    "component-parameters": {
+      "name": "specialist-samples",
+      "label": "Specialist Analysis Samples",
+      "related_type": "Sample",
+      "relation_type": "Child",
+      "multiple": true,
+      "related_type_label": "Analysis Sample",
+      "allowLinkToExisting": false
+    },
+    "validationSchema": [
+      ["yup.array"],
+      ["yup.min", 1, "At least one sample required"]
+    ],
+    "condition": {
+      "operator": "equal",
+      "field": "requires-analysis",
+      "value": "yes"
+    },
+    "initialValue": []
+  }
+}
+```
+
+### Example 22: Cross-Referenced Features
+```json
+{
+  "cross-references": {
+    "component-namespace": "faims-custom",
+    "component-name": "RelatedRecordSelector",
+    "type-returned": "faims-core::Relationship",
+    "component-parameters": {
+      "name": "cross-references",
+      "label": "Cross-Referenced Features",
+      "related_type": "Feature",
+      "relation_type": "is-related-to",
+      "multiple": true,
+      "relation_linked_vocabPair": [
+        ["references", "referenced by"],
+        ["supersedes", "superseded by"],
+        ["duplicates", "duplicates"],
+        ["contradicts", "contradicted by"],
+        ["supports", "supported by"]
+      ],
+      "helperText": "⚠️ Performance limit: 50 relationships maximum"
+    },
+    "validationSchema": [
+      ["yup.array"],
+      ["yup.max", 50, "Maximum 50 relationships for performance"]
+    ],
+    "initialValue": []
+  }
+}
+```
+
+### Example 23: Equipment Assignment Tracking
+```json
+{
+  "equipment-used": {
+    "component-namespace": "faims-custom",
+    "component-name": "RelatedRecordSelector",
+    "type-returned": "faims-core::Relationship",
+    "component-parameters": {
+      "name": "equipment-used",
+      "label": "Equipment Used",
+      "related_type": "Equipment",
+      "relation_type": "is-related-to",
+      "multiple": true,
+      "relation_linked_vocabPair": [
+        ["used equipment", "used in operation"],
+        ["borrowed", "loaned to"],
+        ["damaged", "damaged during"]
+      ],
+      "allowLinkToExisting": true,
+      "advancedHelperText": "## Equipment Protocol\n\n- Log all equipment at start of day\n- Note any damage immediately\n- Update if equipment changed"
+    },
+    "validationSchema": [["yup.array"]],
+    "meta": {
+      "annotation": {
+        "include": true,
+        "label": "Equipment condition notes"
+      }
+    },
+    "initialValue": []
+  }
+}
+```
+
+### Example 24: Publication Citations Network
+```json
+{
+  "related-publications": {
+    "component-namespace": "faims-custom",
+    "component-name": "RelatedRecordSelector",
+    "type-returned": "faims-core::Relationship",
+    "component-parameters": {
+      "name": "related-publications",
+      "label": "Related Publications",
+      "related_type": "Publication",
+      "relation_type": "is-related-to",
+      "multiple": true,
+      "relation_linked_vocabPair": [
+        ["cites", "cited by"],
+        ["responds to", "response from"],
+        ["builds upon", "foundation for"],
+        ["critiques", "critiqued by"],
+        ["corroborates", "corroborated by"]
+      ],
+      "helperText": "Build citation network for literature review"
+    },
+    "validationSchema": [["yup.array"]],
+    "initialValue": []
+  }
+}
+```
+
+### Example 25: Emergency Contact Chain
+```json
+{
+  "emergency-contacts": {
+    "component-namespace": "faims-custom",
+    "component-name": "RelatedRecordSelector",
+    "type-returned": "faims-core::Relationship",
+    "component-parameters": {
+      "name": "emergency-contacts",
+      "label": "Emergency Contact Chain",
+      "related_type": "Personnel",
+      "relation_type": "is-related-to",
+      "multiple": true,
+      "relation_linked_vocabPair": [
+        ["primary contact for", "primary contact of"],
+        ["backup contact for", "backup contact of"],
+        ["supervisor of", "supervised by"],
+        ["medical contact for", "medical contact of"]
+      ],
+      "allowLinkToExisting": true,
+      "required": true
+    },
+    "validationSchema": [
+      ["yup.array"],
+      ["yup.required", "Emergency contacts required"],
+      ["yup.min", 2, "Minimum 2 contacts required"]
+    ],
+    "initialValue": []
   }
 }
 ```
@@ -447,7 +1199,7 @@ Enables bidirectional connections between records, supporting both hierarchical 
 - Consider alternatives for large datasets
 - Test on lowest-spec devices
 
-## Field Quirks Index (2025-01) {comprehensive}
+## Field Quirks Index (2025-01-03) {comprehensive}
 - Vocabulary pairs immutable after use
 - Reciprocals delayed until sync
 - Performance cliff at 50 relationships
@@ -469,7 +1221,7 @@ See [Performance Thresholds Reference](../reference-docs/performance-thresholds-
 | Severe | 100-200 | Very slow |
 | Unusable | >200 | System failure |
 
-## JSON Patterns Cookbook (2025-01) {comprehensive}
+## JSON Patterns Cookbook (2025-01-03) {comprehensive}
 
 ### Pattern: Conditional Relationships
 ```json
@@ -517,18 +1269,28 @@ See [Performance Thresholds Reference](../reference-docs/performance-thresholds-
 }
 ```
 
-## Quick Diagnosis Tables (2025-01) {important}
+## Quick Diagnosis Tables (2025-01-03) {important}
 
 ### Relationship Issues Diagnosis
-| Symptom | Likely Cause | Quick Fix |
-|---------|--------------|-----------|
-| Slow UI | >50 relationships | Split field |
-| No reciprocals | Offline mode | Wait for sync |
-| Validation fails | Wrong schema type | Check multiple setting |
-| Orphaned records | Parent deleted | Manual cleanup |
-| Can't find record | HRID not configured | Add TemplatedString |
+| Symptom | Likely Cause | Quick Fix | Platform | Prevention |
+|---------|--------------|-----------|----------|------------|
+| Slow UI | >50 relationships | Split field | All | Design limits |
+| No reciprocals | Offline mode | Wait for sync | All | Sync first |
+| Validation fails | Wrong schema type | Check multiple setting | All | Test config |
+| Orphaned records | Parent deleted | Manual cleanup | All | Delete order |
+| Can't find record | HRID not configured | Add TemplatedString | All | Form design |
+| Modal won't open | Too many records | Reduce relationships | Mobile | Limit to 50 |
+| Autocomplete broken | Case mismatch | Use exact case | All | Document format |
+| Wrong vocabulary | Config locked | Cannot change | All | Plan carefully |
+| Duplicate relationships | No validation | Manual check | All | User training |
+| Crash on selection | Memory exhaustion | Restart app | Mobile | Regular cleanup |
+| Lost relationships | Sync conflict | Check server | All | Avoid simultaneous |
+| Can't delete relationship | UI limitation | Edit JSON | All | Known issue |
+| Performance lag | Network latency | Work offline | All | Local-first |
+| Touch targets small | 36px height | Use desktop | Mobile | WCAG issue |
+| Back button closes | Android behavior | Save first | Android | Platform quirk |
 
-## Field Interaction Matrix (2025-01) {important}
+## Field Interaction Matrix (2025-01-03) {important}
 
 ### Relationships with Other Fields
 | Field Combination | Interaction | Pattern |
@@ -538,7 +1300,7 @@ See [Performance Thresholds Reference](../reference-docs/performance-thresholds-
 | RelatedRecordSelector + Conditions | Limited | Existence only |
 | Multiple RelatedRecordSelectors | Caution | Performance impact |
 
-## Migration Warnings Index (2025-01) {comprehensive}
+## Migration Warnings Index (2025-01-03) {comprehensive}
 
 ### Critical Migration Issues
 1. **Vocabulary pairs immutable** - Cannot change after creation
@@ -550,10 +1312,17 @@ See [Performance Thresholds Reference](../reference-docs/performance-thresholds-
 7. **Touch target issues** - Mobile accessibility
 
 ## See Also {comprehensive}
-- **Text Fields**: TemplatedString for HRIDs
-- **Number Fields**: AutoIncrementer for IDs
-- **Select Fields**: Alternative for simple vocabularies
-- **Reference Documents:**
+
+### Other Field Categories
+- **[Text Fields](./text-fields-v05.md)**: TemplatedString for meaningful HRIDs
+- **[Number Fields](./number-fields-v05.md)**: AutoIncrementer feeding HRIDs
+- **[DateTime Fields](./datetime-fields-v05.md)**: Temporal relationship tracking
+- **[Select/Choice Fields](./select-choice-fields-v05.md)**: Alternative for simple vocabularies
+- **[Media Fields](./media-fields-v05.md)**: Attaching files to relationships
+- **[Location Fields](./location-fields-v05.md)**: Spatial relationships
+- **[Display Field](./display-field-v05.md)**: Relationship instructions
+
+### Reference Documents
   - [Validation Timing Reference](../reference-docs/validation-timing-reference.md)
   - [Component Namespace Reference](../reference-docs/component-namespace-reference.md)
   - [Data Export Reference](../reference-docs/data-export-reference.md)

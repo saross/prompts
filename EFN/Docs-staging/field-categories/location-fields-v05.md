@@ -247,7 +247,7 @@ See [Security Considerations Reference](../reference-docs/security-consideration
 - CSV export maintains full precision
 
 ### Performance Boundaries {important}
-See [Performance Thresholds Reference](../reference-docs/performance-thresholds-reference.md) for general limits.
+See [Performance Thresholds Reference](../reference-docs/performance-thresholds-reference.md#location-field-thresholds-estimates) for detailed metrics including GPS acquisition times, map performance by vertex count, and battery consumption.
 
 **Location-Specific Performance:**
 - **GPS acquisition timeout:** 10 seconds default (TakePoint)
@@ -531,7 +531,29 @@ Interactive geometry creation through web-based mapping, enabling spatial featur
 
 ## JSON Examples {comprehensive}
 
-### High-Accuracy GPS with Quality Documentation
+### Example 1: Basic GPS Point Capture
+```json
+{
+  "site-location": {
+    "component-namespace": "faims-custom",
+    "component-name": "TakePoint",
+    "type-returned": "faims-pos::Location",
+    "component-parameters": {
+      "label": "Site Location",
+      "name": "site-location",
+      "helperText": "Capture GPS coordinates",
+      "required": true
+    },
+    "validationSchema": [
+      ["yup.object"],
+      ["yup.required", "Site location required"]
+    ],
+    "initialValue": null
+  }
+}
+```
+
+### Example 2: High-Accuracy GPS with Timeout
 ```json
 {
   "precise-location": {
@@ -539,9 +561,9 @@ Interactive geometry creation through web-based mapping, enabling spatial featur
     "component-name": "TakePoint",
     "type-returned": "faims-pos::Location",
     "component-parameters": {
-      "label": "Precise GPS (Wait for <5m)",
+      "label": "Precise GPS Location",
       "name": "precise-location",
-      "helperText": "Wait for accuracy indicator below 5 metres",
+      "helperText": "Wait for accuracy <5m (45 second timeout)",
       "timeout": 45000,
       "enableHighAccuracy": true,
       "maximumAge": 0,
@@ -549,7 +571,7 @@ Interactive geometry creation through web-based mapping, enabling spatial featur
     },
     "validationSchema": [
       ["yup.object"],
-      ["yup.required", "High-accuracy GPS required"]
+      ["yup.required", "Precise GPS required"]
     ],
     "meta": {
       "annotation": {
@@ -558,61 +580,419 @@ Interactive geometry creation through web-based mapping, enabling spatial featur
       },
       "uncertainty": {
         "include": true,
-        "label": "Accuracy >5m accepted"
+        "label": "Accuracy concerns"
       }
     }
   }
 }
 ```
 
-### Complex Boundary with Vertex Limit Warning
+### Example 3: Simple Polygon Drawing
 ```json
 {
-  "excavation-boundary": {
+  "site-boundary": {
+    "component-namespace": "mapping-plugin",
+    "component-name": "MapFormField",
+    "type-returned": "faims-core::JSON",
+    "component-parameters": {
+      "label": "Site Boundary",
+      "name": "site-boundary",
+      "featureType": "Polygon",
+      "zoom": 18,
+      "helperText": "Draw site perimeter on map"
+    },
+    "validationSchema": [["yup.object"]],
+    "initialValue": null
+  }
+}
+```
+
+### Example 4: Complex Excavation Area with Center
+```json
+{
+  "excavation-area": {
     "component-namespace": "mapping-plugin",
     "component-name": "MapFormField",
     "type-returned": "faims-core::JSON",
     "component-parameters": {
       "label": "Excavation Area",
-      "name": "excavation-boundary",
+      "name": "excavation-area",
       "featureType": "Polygon",
       "zoom": 19,
-      "center": [151.1234, -33.5678],
-      "helperText": "Draw excavation boundary. LIMIT 500 VERTICES for performance. No undo available.",
+      "center": [151.2093, -33.8688],
+      "helperText": "Draw excavation boundary (max 500 vertices)",
       "fullWidth": true,
       "required": true
     },
     "validationSchema": [
       ["yup.object"],
       ["yup.required", "Excavation boundary required"]
+    ]
+  }
+}
+```
+
+### Example 5: Survey Transect Line
+```json
+{
+  "survey-transect": {
+    "component-namespace": "mapping-plugin",
+    "component-name": "MapFormField",
+    "type-returned": "faims-core::JSON",
+    "component-parameters": {
+      "label": "Survey Transect",
+      "name": "survey-transect",
+      "featureType": "LineString",
+      "zoom": 16,
+      "helperText": "Draw survey walking route"
+    },
+    "validationSchema": [["yup.object"]],
+    "initialValue": null
+  }
+}
+```
+
+### Example 6: Find Spot Location
+```json
+{
+  "find-location": {
+    "component-namespace": "mapping-plugin",
+    "component-name": "MapFormField",
+    "type-returned": "faims-core::JSON",
+    "component-parameters": {
+      "label": "Find Spot",
+      "name": "find-location",
+      "featureType": "Point",
+      "zoom": 20,
+      "helperText": "Click map to mark find location",
+      "required": true
+    },
+    "validationSchema": [
+      ["yup.object"],
+      ["yup.required", "Find location required"]
     ],
-    "condition": {
-      "operator": "equal",
-      "field": "site-type",
-      "value": "excavation"
+    "meta": {
+      "annotation": {
+        "include": true,
+        "label": "Location method and accuracy"
+      }
     }
   }
 }
 ```
 
-### Rapid Waypoint Collection
+### Example 7: Rapid Survey Waypoints
 ```json
 {
-  "traverse-point": {
+  "waypoint": {
     "component-namespace": "faims-custom",
     "component-name": "TakePoint",
     "type-returned": "faims-pos::Location",
     "component-parameters": {
-      "label": "Quick Waypoint",
-      "name": "traverse-point",
-      "helperText": "Fast capture for survey traverse",
+      "label": "Survey Waypoint",
+      "name": "waypoint",
+      "helperText": "Quick capture for traverse",
       "timeout": 5000,
       "maximumAge": 3000,
       "enableHighAccuracy": false
+    },
+    "validationSchema": [["yup.object"]],
+    "initialValue": null
+  }
+}
+```
+
+### Example 8: Conditional Location Capture
+```json
+{
+  "structure-location": {
+    "component-namespace": "faims-custom",
+    "component-name": "TakePoint",
+    "type-returned": "faims-pos::Location",
+    "component-parameters": {
+      "label": "Structure GPS",
+      "name": "structure-location",
+      "helperText": "Capture center point of structure",
+      "enableHighAccuracy": true,
+      "timeout": 30000
+    },
+    "validationSchema": [
+      ["yup.object"],
+      ["yup.required", "Structure location required"]
+    ],
+    "condition": {
+      "operator": "equal",
+      "field": "feature-type",
+      "value": "structure"
     }
   }
 }
 ```
+
+### Example 9: MultiPolygon for Complex Sites
+```json
+{
+  "site-areas": {
+    "component-namespace": "mapping-plugin",
+    "component-name": "MapFormField",
+    "type-returned": "faims-core::JSON",
+    "component-parameters": {
+      "label": "Site Areas",
+      "name": "site-areas",
+      "featureType": "MultiPolygon",
+      "zoom": 17,
+      "helperText": "Draw multiple disconnected areas",
+      "advancedHelperText": "## Drawing Tips\n\n- Complete first polygon\n- Click draw tool again for next\n- Each polygon separate feature"
+    },
+    "validationSchema": [["yup.object"]],
+    "initialValue": null
+  }
+}
+```
+
+### Example 10: Battery-Optimized GPS
+```json
+{
+  "check-in-location": {
+    "component-namespace": "faims-custom",
+    "component-name": "TakePoint",
+    "type-returned": "faims-pos::Location",
+    "component-parameters": {
+      "label": "Daily Check-in",
+      "name": "check-in-location",
+      "helperText": "Morning location verification",
+      "timeout": 10000,
+      "enableHighAccuracy": false,
+      "maximumAge": 60000
+    },
+    "validationSchema": [["yup.object"]],
+    "initialValue": null
+  }
+}
+```
+
+### Example 11: Geofence Area Definition
+```json
+{
+  "restricted-zone": {
+    "component-namespace": "mapping-plugin",
+    "component-name": "MapFormField",
+    "type-returned": "faims-core::JSON",
+    "component-parameters": {
+      "label": "Restricted Area",
+      "name": "restricted-zone",
+      "featureType": "Polygon",
+      "zoom": 18,
+      "center": [144.9631, -37.8136],
+      "helperText": "Define no-entry zone",
+      "fullWidth": true
+    },
+    "validationSchema": [["yup.object"]],
+    "meta": {
+      "annotation": {
+        "include": true,
+        "label": "Restriction reason and authority"
+      }
+    }
+  }
+}
+```
+
+### Example 12: Survey Grid Square
+```json
+{
+  "grid-square": {
+    "component-namespace": "mapping-plugin",
+    "component-name": "MapFormField",
+    "type-returned": "faims-core::JSON",
+    "component-parameters": {
+      "label": "Survey Grid Square",
+      "name": "grid-square",
+      "featureType": "Polygon",
+      "zoom": 20,
+      "helperText": "Draw 10m x 10m survey square",
+      "advancedHelperText": "Try to maintain square shape.\nUse satellite view for alignment."
+    },
+    "validationSchema": [
+      ["yup.object"],
+      ["yup.required", "Grid square required"]
+    ]
+  }
+}
+```
+
+### Example 13: Emergency Location Fallback
+```json
+{
+  "emergency-location": {
+    "component-namespace": "faims-custom",
+    "component-name": "TakePoint",
+    "type-returned": "faims-pos::Location",
+    "component-parameters": {
+      "label": "Emergency Position",
+      "name": "emergency-location",
+      "helperText": "Any accuracy accepted - for safety",
+      "timeout": 3000,
+      "enableHighAccuracy": false,
+      "maximumAge": 300000
+    },
+    "validationSchema": [["yup.object"]],
+    "initialValue": null
+  }
+}
+```
+
+### Example 14: Feature Centroid Marking
+```json
+{
+  "feature-center": {
+    "component-namespace": "mapping-plugin",
+    "component-name": "MapFormField",
+    "type-returned": "faims-core::JSON",
+    "component-parameters": {
+      "label": "Feature Center Point",
+      "name": "feature-center",
+      "featureType": "Point",
+      "zoom": 21,
+      "helperText": "Mark exact center of feature",
+      "required": true
+    },
+    "validationSchema": [
+      ["yup.object"],
+      ["yup.required", "Center point required"]
+    ],
+    "condition": {
+      "operator": "is-truthy",
+      "field": "feature-boundary"
+    }
+  }
+}
+```
+
+### Example 15: Performance-Optimized Polygon
+```json
+{
+  "simplified-boundary": {
+    "component-namespace": "mapping-plugin",
+    "component-name": "MapFormField",
+    "type-returned": "faims-core::JSON",
+    "component-parameters": {
+      "label": "Simplified Boundary",
+      "name": "simplified-boundary",
+      "featureType": "Polygon",
+      "zoom": 17,
+      "helperText": "⚠️ LIMIT 100 VERTICES - Generalize complex shapes",
+      "advancedHelperText": "## Performance Warning\n\nUse fewer points for better performance.\nDetailed shapes can crash mobile devices."
+    },
+    "validationSchema": [["yup.object"]],
+    "initialValue": null
+  }
+}
+```
+
+### Example 16: Sampling Location with Metadata
+```json
+{
+  "sample-location": {
+    "component-namespace": "faims-custom",
+    "component-name": "TakePoint",
+    "type-returned": "faims-pos::Location",
+    "component-parameters": {
+      "label": "Sample Collection Point",
+      "name": "sample-location",
+      "helperText": "GPS where sample collected",
+      "enableHighAccuracy": true,
+      "timeout": 20000,
+      "required": true
+    },
+    "validationSchema": [
+      ["yup.object"],
+      ["yup.required", "Sample location required"]
+    ],
+    "meta": {
+      "annotation": {
+        "include": true,
+        "label": "Collection method and depth"
+      },
+      "uncertainty": {
+        "include": true,
+        "label": "Location precision notes"
+      }
+    }
+  }
+}
+```
+
+## Migration Scenarios {comprehensive}
+
+### Scenario 1: Converting TakePoint to MapFormField
+**Context**: Project moves from simple GPS points to visual boundary mapping
+
+**Challenge**: Data formats completely incompatible
+- TakePoint returns `faims-pos::Location` (GeoJSON Feature)
+- MapFormField returns `faims-core::JSON` (GeoJSON FeatureCollection)
+- No automatic conversion available
+
+**Migration Steps**:
+1. Export existing data as JSONL
+2. Extract coordinates from TakePoint records
+3. Manually create MapFormField GeoJSON structure
+4. Import converted data or re-collect
+
+### Scenario 2: Legacy Coordinate Format Handling
+**Context**: Migrating from decimal degrees minutes (DDM) to decimal degrees (DD)
+
+**Challenge**: Historical data in various formats
+- Degrees Minutes Seconds: 33° 52' 7.68" S
+- Decimal Degrees Minutes: 33° 52.128' S
+- Decimal Degrees: -33.8688
+
+**Solution**: Pre-process before import
+- Use external conversion tools
+- Create TextField for manual entry as fallback
+- Document original format in annotations
+
+### Scenario 3: Offline Map Deployment
+**Context**: Moving to offline-capable deployment
+
+**Current Status**: Experimental feature (mostly working)
+- Offline maps generally "just work" after download
+- Intermittent rendering error being addressed by tech lead
+- Feature marked experimental until rendering fix complete
+
+**Simple Setup**:
+1. Download region while online
+2. Maps cache automatically
+3. Works offline with cached tiles
+
+**Known Issue**: Occasional tile rendering glitch (under investigation)
+
+### Scenario 4: GPS Accuracy Requirements Change
+**Context**: Moving from consumer to survey-grade requirements
+
+**Challenge**: TakePoint cannot enforce accuracy thresholds
+- Shows 14+ decimal places regardless of true accuracy
+- No rejection of poor readings
+- No averaging or RTK support
+
+**Workarounds**:
+1. Add manual accuracy field for verification
+2. Use annotation to document GPS conditions
+3. Consider external GPS with FileUploader
+4. Train users on accuracy interpretation
+
+### Scenario 5: Performance-Critical Scaling
+**Context**: Project scaling beyond performance limits
+
+**Current Limits**:
+- TakePoint: 1000-2000 points before degradation
+- MapFormField: 500 vertices optimal, 2000 crash threshold
+
+**Migration Strategies**:
+1. Split data collection across multiple notebooks
+2. Simplify geometries before capture
+3. Use point clusters instead of detailed polygons
+4. Archive completed data regularly
 
 ## Migration and Best Practices {comprehensive}
 
@@ -643,7 +1023,7 @@ Interactive geometry creation through web-based mapping, enabling spatial featur
 - Consider external GPS for survey-grade needs
 - Use JSONL backup for complete metadata
 
-## Field Quirks Index (2025-01) {comprehensive}
+## Field Quirks Index (2025-01-03) {comprehensive}
 
 ### TakePoint Quirks
 - Shows 14+ decimal places regardless of accuracy
@@ -681,7 +1061,7 @@ See [Performance Thresholds Reference](../reference-docs/performance-thresholds-
 | GPS warm-up | 30-60 seconds | N/A | Accuracy improvement |
 | Battery drain | Medium | Low | Per capture |
 
-## JSON Patterns Cookbook (2025-01) {comprehensive}
+## JSON Patterns Cookbook (2025-01-03) {comprehensive}
 
 ### Pattern: Conditional Location Capture
 ```json
@@ -752,20 +1132,28 @@ See [Performance Thresholds Reference](../reference-docs/performance-thresholds-
 }
 ```
 
-## Quick Diagnosis Tables (2025-01) {important}
+## Quick Diagnosis Tables (2025-01-03) {important}
 
 ### Location Field Issues Diagnosis
-| Symptom | Field | Likely Cause | Quick Fix |
-|---------|-------|--------------|-----------|
-| No GPS signal | TakePoint | Indoor/airplane | Go outside |
-| 14+ decimals | TakePoint | False precision | Check accuracy value |
-| Validation silent | MapFormField | No error display | Check form submission |
-| Vertices vanish | MapFormField | iOS rapid tap | Tap slowly |
-| Poor accuracy | TakePoint | GPS not ready | Wait 30-60s |
-| Tiles missing | MapFormField | No cache | Download offline maps |
-| No metadata | TakePoint | Web platform | Use mobile app |
+| Symptom | Field | Likely Cause | Quick Fix | Platform | Prevention |
+|---------|-------|--------------|-----------|----------|------------|
+| No GPS signal | TakePoint | Indoor/airplane | Go outside | All | Pre-warm GPS |
+| 14+ decimals | TakePoint | False precision | Check accuracy value | All | User training |
+| Validation silent | MapFormField | No error display | Check form submission | All | Helper text |
+| Vertices vanish | MapFormField | iOS rapid tap | Tap slowly | iOS | Tap training |
+| Poor accuracy | TakePoint | GPS not ready | Wait 30-60s | All | Patience protocol |
+| Tiles missing | MapFormField | No cache | Download offline maps | All | Pre-download |
+| No metadata | TakePoint | Web platform | Use mobile app | Web | Platform choice |
+| Timeout errors | TakePoint | Weak signal | Increase timeout | All | JSON config |
+| "Location unavailable" | TakePoint | Permission denied | Check settings | All | Setup checklist |
+| Frozen drawing | MapFormField | Too many vertices | Simplify shape | Mobile | Vertex limits |
+| GPS stuck | TakePoint | OS cache | Open Maps app | Mobile | GPS refresh |
+| No altitude | TakePoint | Platform limit | Document as N/A | Web | Expectation setting |
+| Self-intersecting | MapFormField | No validation | Manual check | All | Training |
+| Battery drain | Both | Continuous GPS | Space captures | Mobile | Usage pattern |
+| Accuracy drift | TakePoint | Multipath/weather | Multiple attempts | All | Best-of-3 protocol |
 
-## Field Interaction Matrix (2025-01) {important}
+## Field Interaction Matrix (2025-01-03) {important}
 
 ### Location Fields with Other Field Types
 | Field Combination | Interaction | Common Pattern |
@@ -776,7 +1164,7 @@ See [Performance Thresholds Reference](../reference-docs/performance-thresholds-
 | MapFormField + Annotation | Quality documentation | Accuracy notes |
 | TakePoint + Conditions | Null checking only | Cannot check accuracy |
 
-## Migration Warnings Index (2025-01) {comprehensive}
+## Migration Warnings Index (2025-01-03) {comprehensive}
 
 ### Critical Migration Issues
 1. **Format incompatibility** - Cannot convert between TakePoint/MapFormField
@@ -788,10 +1176,17 @@ See [Performance Thresholds Reference](../reference-docs/performance-thresholds-
 7. **Performance limits lower** - Vertex counts critical
 
 ## See Also {comprehensive}
-- **Media Fields**: TakePhoto for geotagged images
-- **Text Fields**: Manual coordinate entry fallback
-- **Number Fields**: Separate lat/lon fields alternative
-- **Reference Documents:**
+
+### Other Field Categories
+- **[Text Fields](./text-fields-v05.md)**: Manual coordinate entry fallback
+- **[Number Fields](./number-fields-v05.md)**: Separate lat/lon fields alternative
+- **[DateTime Fields](./datetime-fields-v05.md)**: Timestamps for location capture
+- **[Select/Choice Fields](./select-choice-fields-v05.md)**: Location type classification
+- **[Media Fields](./media-fields-v05.md)**: TakePhoto for geotagged images
+- **[Relationship Field](./relationship-field-v05.md)**: Linking locations to records
+- **[Display Field](./display-field-v05.md)**: GPS capture instructions
+
+### Reference Documents
   - [Validation Timing Reference](../reference-docs/validation-timing-reference.md)
   - [Data Export Reference](../reference-docs/data-export-reference.md) - Coordinate format handling
   - [Security Considerations](../reference-docs/security-considerations-reference.md) - Location privacy

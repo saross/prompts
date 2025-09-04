@@ -328,10 +328,90 @@ Track these metrics in production:
 - Validation Timing Reference for validation performance
 - Individual field documentation for field-specific thresholds
 
+## Location Field Thresholds (Estimates)
+
+### GPS Acquisition Times (TakePoint)
+
+**Note:** GPS acquisition varies significantly based on environmental factors, satellite visibility, and device hardware.
+
+| Platform | Cold Start | Warm Start | Indoor | Environmental Factors |
+|----------|------------|------------|--------|----------------------|
+| iOS | 3-8s | 1-3s | 15-30s | Best accuracy, A-GPS assisted |
+| Android | 5-15s | 2-5s | 20-45s | Variable by device/manufacturer |
+| Web | 2-5s | 1-2s | 10-20s | Browser-based, lower accuracy |
+
+**Factors affecting acquisition:**
+- Cold start: First GPS use after reboot or location services re-enabled
+- Warm start: GPS used within last hour
+- Indoor: Significant signal degradation through buildings
+- Urban canyon: Tall buildings create multipath interference
+
+### Map Performance (MapFormField)
+
+**Note:** Performance degrades exponentially with vertex count. Mobile devices particularly affected.
+
+| Vertices | Desktop | iOS | Android | Performance Impact |
+|----------|---------|-----|---------|-------------------|
+| <100 | Instant | Instant | Instant | Optimal - recommended for all platforms |
+| 100-300 | <100ms | <200ms | <300ms | Good - acceptable for most uses |
+| 300-500 | <200ms | <400ms | <600ms | Acceptable - noticeable on older devices |
+| 500-1000 | <500ms | <1s | 1-2s | Poor - significant lag, avoid on mobile |
+| 1000-2000 | 1-2s | 2-4s | 4-8s | Critical - high crash risk |
+| >2000 | 2-5s | Crash risk | Crash likely | Not supported |
+
+**Additional constraints:**
+- GPU acceleration disabled for compatibility
+- No WebGL fallback implemented
+- Memory not released between edits
+
+### Battery Consumption (Location Features)
+
+**Note:** Battery drain estimates based on typical usage patterns. Actual consumption varies by device age and battery health.
+
+| Operation | Battery/Hour | Continuous Use | Notes |
+|-----------|--------------|----------------|-------|
+| TakePoint (high accuracy) | 8-12% | Not recommended | GPS constantly active |
+| TakePoint (balanced) | 4-6% | Acceptable | Standard accuracy mode |
+| MapFormField (active drawing) | 2-3% | Sustainable | CPU for rendering only |
+| MapFormField (map visible) | <1% | Negligible | Static map display |
+| Combined usage | 10-15% | Limited time | Both features active |
+
+**Battery optimization tips:**
+- Space TakePoint captures at least 60 seconds apart
+- Use `enableHighAccuracy: false` when 10-15m accuracy acceptable
+- Close map view when not actively drawing
+- Consider external battery pack for all-day fieldwork
+
+### Storage Requirements (Offline Maps)
+
+| Coverage Area | Zoom Levels | Approximate Size | Download Time (4G) |
+|--------------|-------------|------------------|-------------------|
+| City district (25 km²) | 10-18 | 50-100 MB | 1-2 minutes |
+| Survey area (100 km²) | 12-19 | 100-200 MB | 2-4 minutes |
+| Regional (1000 km²) | 8-16 | 200-500 MB | 5-10 minutes |
+| Country subset | 6-14 | 500MB-1GB | 10-20 minutes |
+
+**Storage considerations:**
+- Browser storage typically limited to 50% of free disk space
+- Mobile apps may have lower limits (varies by OS)
+- Tile cache persists until explicitly cleared
+- Consider selective download of work areas only
+
+### Location Data Limits
+
+| Metric | TakePoint | MapFormField | Impact |
+|--------|-----------|--------------|---------|
+| Points per notebook | 1000-2000 | N/A | Performance degrades beyond |
+| Vertices per feature | N/A | 500 optimal, 2000 max | Drawing responsiveness |
+| Coordinate precision | 14+ decimals shown | User-controlled | False precision displayed |
+| GPS timeout | 10s default, 45s max | N/A | Acquisition wait time |
+| Accuracy display | Always shown | Not captured | Metres to 1 decimal |
+
 ### Version
-Last updated: 2025-09-03
+Last updated: 2025-09-04
 Applies to: Fieldmark v3 (all versions)
 Performance metrics: Empirically estimated August 2025
+Location metrics: Added January 2025
 
 ### Feedback and Contributions
 
