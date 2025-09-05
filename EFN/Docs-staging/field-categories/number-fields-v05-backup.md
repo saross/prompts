@@ -9,32 +9,6 @@ The Number Input category encompasses three distinct field types for numeric and
 - **Controlled Number** - Designer-accessible bounded numeric input  
 - **Basic Auto-incrementer** - Sequential string identifier generator
 
-### DESIGNER QUICK GUIDE
-
-**For Standard Numeric Values**: Choose "Number Input" - handles decimals, measurements, counts
-**For Bounded Values**: Choose "Controlled Number" - includes sliders, min/max validation  
-**For Sequential IDs**: Choose "Basic Auto-incrementer" - generates "BAI-001" style strings
-**NEVER Use**: "Number Field" (deprecated) - appears in Designer but has known issues
-
-**Critical iOS Warning**: No direct negative number entry on iOS - users must copy-paste negative values
-
-### CRITICAL NAMING DISAMBIGUATION
-
-⚠️ **CONFUSING NAMES - READ CAREFULLY**:
-
-- ✅ **"Number Input"** (Designer label) → Creates `NumberField` component (recommended)
-- ❌ **"Number Field"** (Designer label) → Creates deprecated `TextField` component (avoid)
-- 📊 **"Controlled Number"** (Designer label) → Creates `TextField` with numeric configuration (formik-material-ui namespace, NOT a separate component)
-- 🔤 **"Basic Auto-incrementer"** → Creates `BasicAutoIncrementer` (returns STRINGS, not numbers)
-
-The naming confusion exists because:
-1. "Number Input" was created to replace the problematic "Number Field", but the JSON component name stayed as `NumberField` for backwards compatibility
-2. "Controlled Number" isn't actually a distinct component but rather a pre-configured TextField with bounded validation
-
-### Field Capabilities Summary
-
-Number fields provide numeric data entry with three specialized approaches: unrestricted decimal input (NumberInput), bounded validation with UI controls (ControlledNumber), and sequential string identifier generation (BasicAutoIncrementer). All support offline operation and cross-platform deployment, with iOS limitations on negative number entry requiring alternative input methods.
-
 ### Historical Context {important}
 
 The three-field structure reflects Fieldmark's evolution from simpler numeric inputs to better-formed inputs and complex identification systems:
@@ -94,32 +68,23 @@ When using the Designer interface, follow these simple rules:
 ***⚠️ **Critical**: Returns strings not numbers despite "Number Fields" category  
 ****Note: Do not confuse with deprecated "Number Field" - always use "Number Input"**
 
-### When JSON Enhancement is Required
+### Field Limitations
 
-**NumberInput**:
-- ✅ Required: Range validation, decimal precision, integer-only
-- ✅ Required: Custom error messages
-- ❌ Never: Step increments not supported (use BasicAutoIncrementer instead)
+**Calculation Limitations**:
+- Complex calculations - No in-field formulas or computed values
+- Dynamic ranges - Cannot set min/max based on other field values
+- Cross-field validation - Cannot validate sum/product relationships
+- Unit conversions - No automatic conversion between units
 
-**ControlledNumber**:
-- ⚠️ Optional: Additional validation beyond min/max
-- ⚠️ Optional: True integer enforcement
-- ⚠️ Optional: Custom error messages
+**Display Limitations**:
+- Locale formatting - No automatic thousands/decimal separators
+- Custom keyboards - Cannot override platform numeric input
+- Real-time formatting - No live currency or percentage display
 
-**BasicAutoIncrementer**:
-- ✅ Required: Custom validation patterns
-- ❌ Never: Core functionality fully Designer-accessible
-- ❌ Never: Integration with TemplatedString works in Designer
-
-### Designer Limitations {important}
-
-[Link to Designer Limitations Reference](../reference-docs/designer-limitations-reference.md)
-
-**Number Field-Specific Designer Limitations**:
-- **NumberInput**: Cannot set range validation (min/max) through Designer
-- **NumberInput**: Cannot configure decimal precision or integer-only mode
-- **All fields**: Cannot add custom validation messages
-- **All fields**: Cannot configure input masks or formatting patterns
+**Integration Limitations**:
+- External sensor input - No direct Bluetooth/USB sensor integration
+- Barcode scanning - Cannot scan numeric barcodes (use QRCodeFormField)
+- Voice calculation - Cannot process "add five to previous value"
 
 ### ⚠️ CRITICAL: Deprecated Field Warning {essential}
 
@@ -136,6 +101,81 @@ When using the Designer interface, follow these simple rules:
 
 If you see "Number Field" in Designer, always choose "Number Input" instead. Existing notebooks using the deprecated Number Field should be migrated to Number Input for better data integrity.
 
+
+## ⚠️ Critical Precision and Security Risks {essential}
+
+**Silent Precision Loss**:
+- **Risk**: Values beyond 15-17 significant digits silently truncated
+- **Impact**: Scientific data corruption, financial calculation errors
+- **Example**: 9007199254740993 becomes 9007199254740992
+- **Mitigation**: Document precision limits, use string fields for IDs
+
+**iOS Negative Number Entry**:
+- **Risk**: Cannot enter negative values on iOS numeric keyboard
+- **Impact**: Data collection failure, workaround confusion
+- **Mitigation**: Provide TextField alternative or document copy-paste method
+- **Training**: Essential for field teams using iOS devices
+
+**Excel ID Corruption**:
+- **Risk**: Excel converts numeric IDs (strips leading zeros, scientific notation)
+- **Impact**: Specimen ID "0001234" becomes "1234", data linkage broken
+- **Mitigation**: Always use BasicAutoIncrementer for IDs, not NumberInput
+- **Export**: Wrap in TemplatedString for Excel protection
+
+---
+
+## What These Fields Cannot Do {important}
+
+### Numeric Processing Limitations {important}
+- **Complex calculations** - No formulas or expressions (e.g., field1 + field2)
+- **Unit conversion** - Cannot convert between units automatically
+- **Currency formatting** - No thousand separators or currency symbols
+- **Percentage display** - Cannot show as percentage (stores decimal)
+- **Fraction input** - Cannot enter or display fractions (e.g., 1/3)
+
+### Validation Limitations {important}
+- **Cross-field validation** - Cannot validate sum across multiple fields
+- **Dynamic ranges** - Cannot set min/max based on other fields
+- **Custom increments** - Cannot enforce specific step values reliably
+- **Precision validation** - Cannot enforce exact decimal places
+- **Business rules** - No complex validation logic (e.g., "if X then Y must be > Z")
+
+### Display Limitations {important}
+- **Formatted display** - No comma separators (1,000,000)
+- **Scientific notation control** - Cannot prevent auto-conversion at 1e7
+- **Leading zeros** - NumberInput strips them (use BasicAutoIncrementer)
+- **Custom number formats** - No phone numbers, credit cards, etc.
+- **Negative number entry** - iOS keyboard lacks minus key
+
+## Common Use Cases {important}
+
+### Measurements and Observations
+- **Dimensions** → NumberInput with min: 0, precision helper text
+- **Counts** → NumberInput with integer validation
+- **Percentages** → NumberInput with min: 0, max: 100
+- **Ratings** → ControlledNumber with defined scale (1-5, 1-10)
+
+### Scientific Data
+- **Coordinates** → NumberInput with high precision (6+ decimals)
+- **Temperature** → NumberInput (allows negatives)
+- **pH values** → NumberInput with min: 0, max: 14
+- **Concentrations** → NumberInput with scientific notation support
+
+### Identifiers and Codes
+- **Sequential IDs** → BasicAutoIncrementer (zero-padded strings)
+- **Sample numbers** → BasicAutoIncrementer + TemplatedString wrapper
+- **Plot numbers** → NumberInput if calculations needed
+- **Reference codes** → BasicAutoIncrementer for Excel safety
+
+### Data Quality Patterns
+- **Optional measurements** → NumberInput with `nullable()` validation
+- **Bounded values** → ControlledNumber for strict ranges
+- **Excel-safe IDs** → BasicAutoIncrementer (prevents number conversion)
+- **Precision documentation** → Helper text stating decimal places
+
+---
+
+---
 ## Field Selection Guide {essential}
 
 ### Decision Tree
@@ -199,83 +239,34 @@ Need numeric/sequential functionality?
 - No aria-live regions for validation
 - Consider larger touch targets via CSS
 
-## ⚠️ Critical Security Risks {essential}
+## Designer Capabilities vs JSON Enhancement {essential}
 
-**Silent Precision Loss**:
-- **Risk**: Values beyond 15-17 significant digits silently truncated
-- **Impact**: Scientific data corruption, financial calculation errors
-- **Example**: 9007199254740993 becomes 9007199254740992
-- **Mitigation**: Document precision limits, use string fields for IDs
+### What Designer Can Configure {essential}
 
-**iOS Negative Number Entry**:
-- **Risk**: Cannot enter negative values on iOS numeric keyboard
-- **Impact**: Data collection failure, workaround confusion
-- **Mitigation**: Provide TextField alternative or document copy-paste method
-- **Training**: Essential for field teams using iOS devices
+For complete meta properties documentation (annotation, uncertainty, persistence), see [Meta Properties Reference](meta-properties-reference.md).
 
-**Excel ID Corruption**:
-- **Risk**: Excel converts numeric IDs (strips leading zeros, scientific notation)
-- **Impact**: Specimen ID "0001234" becomes "1234", data linkage broken
-- **Mitigation**: Always use BasicAutoIncrementer for IDs, not NumberInput
-- **Export**: Wrap in TemplatedString for Excel protection
+| Field | Designer Configurable | JSON-Only Features |
+|-------|----------------------|-------------------|
+| **NumberInput** | • Label<br>• Required<br>• Helper text<br>• Initial value<br>• Persistent | • Min/max bounds<br>• Decimal precision<br>• Integer enforcement<br>• Custom validation<br>• Step increments |
+| **ControlledNumber** | • Label<br>• Required<br>• Helper text<br>• Min/max bounds<br>• Initial value (0) | • Integer enforcement<br>• Custom validation<br>• Step increments<br>• Alternative initial |
+| **BasicAutoIncrementer** | • Label<br>• Form ID<br>• Digit count<br>• Helper text | • Validation patterns<br>• Custom formatting<br>• Integration setup |
 
----
+### When JSON Enhancement is Required {important}
 
-## What These Fields Cannot Do {important}
+**NumberInput**:
+- ✅ Required: Range validation, decimal precision, integer-only
+- ✅ Required: Custom error messages
+- ✅ Required: Step increments
 
-### Numeric Processing Limitations {important}
-- **Complex calculations** - No formulas or expressions (e.g., field1 + field2)
-- **Unit conversion** - Cannot convert between units automatically
-- **Currency formatting** - No thousand separators or currency symbols
-- **Percentage display** - Cannot show as percentage (stores decimal)
-- **Fraction input** - Cannot enter or display fractions (e.g., 1/3)
+**ControlledNumber**:
+- ⚠️ Optional: Additional validation beyond min/max
+- ⚠️ Optional: True integer enforcement
+- ⚠️ Optional: Custom error messages
 
-### Validation Limitations {important}
-- **Cross-field validation** - Cannot validate sum across multiple fields
-- **Dynamic ranges** - Cannot set min/max based on other fields
-- **Custom increments** - Cannot enforce specific step values (use BasicAutoIncrementer for sequential steps)
-- **Precision validation** - Cannot enforce exact decimal places
-- **Business rules** - No complex validation logic (e.g., "if X then Y must be > Z")
-
-### Display Limitations {important}
-- **Formatted display** - No comma separators (1,000,000)
-- **Scientific notation control** - Cannot prevent auto-conversion at 1e7
-- **Leading zeros** - NumberInput strips them (use BasicAutoIncrementer)
-- **Custom number formats** - No phone numbers, credit cards, etc.
-- **Negative number entry** - iOS keyboard lacks minus key
-
-### Integration Limitations {important}
-- **External sensor input** - No direct Bluetooth/USB sensor integration
-- **Barcode scanning** - Cannot scan numeric barcodes (use QRCodeFormField)
-- **Voice calculation** - Cannot process "add five to previous value"
-- **Complex calculations** - No in-field formulas or computed values
-- **Unit conversions** - No automatic conversion between units
-
-## Common Use Cases {important}
-
-### Measurements and Observations
-- **Dimensions** → NumberInput with min: 0, precision helper text
-- **Counts** → NumberInput with integer validation
-- **Percentages** → NumberInput with min: 0, max: 100
-- **Ratings** → ControlledNumber with defined scale (1-5, 1-10)
-
-### Scientific Data
-- **Coordinates** → NumberInput with high precision (6+ decimals)
-- **Temperature** → NumberInput (allows negatives)
-- **pH values** → NumberInput with min: 0, max: 14
-- **Concentrations** → NumberInput with scientific notation support
-
-### Identifiers and Codes
-- **Sequential IDs** → BasicAutoIncrementer (zero-padded strings)
-- **Sample numbers** → BasicAutoIncrementer + TemplatedString wrapper
-- **Plot numbers** → NumberInput if calculations needed
-- **Reference codes** → BasicAutoIncrementer for Excel safety
-
-### Data Quality Patterns
-- **Optional measurements** → NumberInput with `nullable()` validation
-- **Bounded values** → ControlledNumber for strict ranges
-- **Excel-safe IDs** → BasicAutoIncrementer (prevents number conversion)
-- **Precision documentation** → Helper text stating decimal places
+**BasicAutoIncrementer**:
+- ✅ Required: Integration with TemplatedString
+- ✅ Required: Custom validation patterns
+- ❌ Never: Core functionality fully Designer-accessible
 
 ## Designer Component Mapping {essential}
 
@@ -291,35 +282,15 @@ Need numeric/sequential functionality?
 ⚠️ **Critical Notes**:
 - "Number Input" in Designer creates "NumberField" in JSON - this name mismatch is a common error source
 - "Number Field" (deprecated) still appears in Designer - always use "Number Input" instead
-- BasicAutoIncrementer returns `faims-core::String`, not numbers despite being in "Number Fields"
+- BasicAutoIncrementer returns strings despite being in "Number Fields" category
 - All number fields use namespace "faims-custom" except the deprecated Number Field
 - Designer cannot configure iOS negative number workarounds - requires JSON
 
-### Designer Configuration Options
-
-| Designer Option | JSON Parameter | Values | Description |
-|-----------------|---------------|---------|-------------|
-| Label | `label` | string | Field display name |
-| Required | `validationSchema` | `[["yup.required"]]` | Makes field mandatory |
-| Helper Text | `helperText` | string | Guidance text below field |
-| Min Value | `component-parameters.min` | number | Minimum allowed value |
-| Max Value | `component-parameters.max` | number | Maximum allowed value |
-| Initial Value | `initialValue` | number/0 | Default value when field loads |
-| Form ID | `component-parameters.form_id` | string | For BasicAutoIncrementer prefix |
-| Digit Count | `component-parameters.numDigits` | number | ID padding (001 vs 00001) |
-
-## Designer Capabilities vs JSON Enhancement {essential}
-
-### What Designer Can Configure {essential}
-
-For complete meta properties documentation (annotation, uncertainty, persistence), see [Meta Properties Reference](meta-properties-reference.md).
-
-| Field | Designer Configurable | JSON-Only Features |
-|-------|----------------------|-------------------|
-| **NumberInput** | • Label<br>• Required<br>• Helper text<br>• Initial value<br>• Persistent | • Min/max bounds<br>• Decimal precision<br>• Integer enforcement<br>• Custom validation<br>• Step increments |
-| **ControlledNumber** | • Label<br>• Required<br>• Helper text<br>• Min/max bounds<br>• Initial value (0) | • Integer enforcement<br>• Custom validation<br>• Step increments<br>• Alternative initial |
-| **BasicAutoIncrementer** | • Label<br>• Form ID<br>• Digit count<br>• Helper text | • Validation patterns<br>• Custom formatting<br>• Integration setup |
-
+This mapping is essential for:
+- Understanding Designer limitations
+- Debugging component not found errors
+- Writing JSON configurations manually
+- Migrating from deprecated Number Field
 
 ## Component Namespace Errors {important}
 

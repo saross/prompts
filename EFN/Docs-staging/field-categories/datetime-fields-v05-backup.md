@@ -4,7 +4,7 @@
 
 **Component Names**: `DateTimeNow`, `DateTimePicker`, `DatePicker`, `MonthPicker`  
 **Namespace**: `faims-custom`  
-**Type Returned**: Declared as faims-core::String or faims-core::String (actual storage is strings in various formats - see Storage Formats section)
+**Type Returned**: Declared as faims-core::DateTime or faims-core::Date (actual storage is strings in various formats - see Storage Formats section)
 
 The date and time field subsystem provides four interconnected components for temporal data capture in archaeological fieldwork. These fields serve predominantly administrative and observational metadata functions — recording when data was collected, when specimens were photographed, or when excavations commenced. They explicitly do **not** address interpretive archaeological dating, which requires specialist vocabularies, uncertainty quantification, and period taxonomies better served by controlled choice fields or structured text inputs.
 
@@ -13,34 +13,6 @@ The date and time field subsystem provides four interconnected components for te
 All four components share a fundamental dependency on HTML5 native input types (`datetime-local`, `date`, and `month`), creating significant platform variance in user interfaces whilst maintaining consistent data storage. This architectural decision prioritises platform-familiar interactions over cross-device consistency — a pragmatic trade-off that reduces training burden at the cost of interface standardisation.
 
 ⚠️ **Critical Design Limitation**: These fields suffer from validation poverty, supporting only required/optional constraints without temporal range enforcement, cross-field validation, or format standardisation. Projects requiring sophisticated temporal constraints must implement post-collection validation or deploy alternative recording strategies.
-
-### DESIGNER QUICK GUIDE
-**For most projects, use DateTimeNow (DateTime with Now button in Designer)**:
-- ✅ Timestamps with timezone preservation
-- ✅ Auto-population capability  
-- ✅ Multi-site project safe
-- ❌ Avoid DateTimePicker (timezone issues)
-
-**Quick Selection**:
-- **Data collection timestamps**: DateTimeNow with auto-population
-- **Event dates without time**: DatePicker
-- **Period recording (preventing false precision)**: MonthPicker
-- **Never use**: DateTimePicker for multi-site projects
-
-### CRITICAL NAMING DISAMBIGUATION
-**⚠️ Designer names are confusing - actual components differ significantly**:
-
-| Designer Label | Actual Component | Use When |
-|---------------|-----------------|----------|
-| "DateTime with Now button" | DateTimeNow | ✅ **Default choice** - All timestamps |
-| "DateTime" | DateTimePicker | ❌ **Avoid** - No timezone storage |
-| "Date" | DatePicker | ✅ Date-only recording |
-| "Month" | MonthPicker | ✅ Coarse temporal precision |
-
-**Critical**: "DateTime" and "DateTime with Now button" are completely different components with different data storage, timezone handling, and use cases.
-
-### Field Capabilities Summary
-DateTime fields provide administrative and observational temporal metadata capture for fieldwork, supporting HTML5 native date/time interfaces with platform-specific rendering. These components explicitly serve absolute calendar dating needs rather than archaeological chronological interpretation, which requires specialist vocabularies and uncertainty quantification better addressed through controlled choice fields.
 
 ### Component Status Summary
 
@@ -63,82 +35,34 @@ DateTime fields provide administrative and observational temporal metadata captu
 
 ### When JSON Enhancement is Required
 
-**Fields require JSON editing for:**
+**All fields require JSON editing for:**
+- Auto-population (`is_auto_pick: true`)
 - Platform-specific configurations
 - Timezone documentation
 - Full width display
-- Complex validation beyond required/optional
+- Conditional visibility
 
-### Designer Limitations {important}
-See [Designer Limitations Reference](../reference-docs/designer-limitations-reference.md) for testing, validation, and configuration constraints that apply to all fields.
+### Quick Use Case Examples
 
-**DateTime Field-Specific Limitations**:
-- No timezone selection interface
-- Limited validation options (required/optional only)
-- No cross-field temporal validation
-- Platform-specific interface rendering cannot be customized
+**Administrative Metadata**:
+- Record creation timestamps (DateTimeNow with `is_auto_pick`)
+- Permit validity periods (DatePicker)
+- Report deadlines (DatePicker)
 
-## Field Selection Guide {essential}
+**Field Observations**:
+- Excavation dates (DatePicker or MonthPicker)
+- Sample collection times (DateTimeNow)
+- Photography timestamps (DateTimeNow)
 
-### Decision Tree
+**What These Fields Cannot Do**:
+- Archaeological period recording (use Periodo vocabularies)
+- BCE date entry (use NumberInput patterns)
+- Date range validation (requires post-processing)
+- Cross-field temporal validation (start before end)
+- Timezone display customisation
 
-```
-Recording temporal data?
-│
-├─ Is it a cultural/archaeological period?
-│  └─ YES → Use Select/RadioGroup with Periodo vocabulary (NOT date fields)
-│
-├─ Is it ancient history with BCE/CE dates?
-│  └─ YES → Use NumberInput patterns (NOT date fields)
-│     └─ See Alternative Approaches > Ancient History Date Pattern
-│
-└─ Is it a calendar date/time?
-│
-├─ Do you need exact time (hours/minutes)?
-│  ├─ YES → DateTimeNow
-│  │  ├─ Returns: faims-core::String (ISO 8601 UTC)
-│  │  └─ Best for: Timestamps, multi-site projects
-│  └─ NO → Continue...
-│
-├─ Is this a multi-site project across timezones?
-│  ├─ YES → DateTimeNow
-│  │  ├─ Prevents timezone corruption
-│  │  └─ Stores UTC with timezone preserved
-│  └─ NO → Continue...
-│
-├─ Do you know the specific day?
-│  ├─ YES → DatePicker
-│  │  ├─ Returns: faims-core::String (YYYY-MM-DD)
-│  │  └─ Best for: Administrative dates
-│  └─ NO → MonthPicker
-│     ├─ Returns: faims-core::String (YYYY-MM)
-│     └─ Avoids false precision
-│
-└─ Working in single timezone with no travel?
-   ├─ Maybe → DateTimePicker
-   │  ├─ Returns: faims-core::String (local datetime)
-   │  └─ ⚠️ Timezone ambiguity risk
-   └─ NO → DateTimeNow (always safer choice)
-```
 
-### Decision Matrix
-
-| Field Type | Storage Format | Timezone Handling | Synchronisation Safety | When to Use |
-|------------|---------------|-------------------|------------------------|-----------|
-| **DateTimeNow** | ISO 8601 with timezone | ✅ Preserved (UTC) | ✅ Excellent | Default choice for all timestamps |
-| **DateTimePicker** | Local string, no timezone | ❌ Ambiguous | ⚠️ Risky | Single-timezone projects only |
-| **DatePicker** | Date-only string | N/A | ✅ Good | Administrative dates without time |
-| **MonthPicker** | Month string (YYYY-MM) | N/A | ✅ Good | Historical sources, avoiding false precision |
-
-### Selection Strategy
-
-1. **Default to DateTimeNow** for all datetime fields unless specific reasons exist otherwise
-2. **Use DatePicker** only when time components genuinely irrelevant
-3. **Deploy MonthPicker** for month-year precision to avoid spurious accuracy
-4. **Consider DateTimePicker** only for single-location projects with no device travel
-5. **Avoid date fields entirely** for cultural periods or ancient history
-
-## ⚠️ Critical Security Risks {essential}
+## ⚠️ Critical Data Integrity Risks {essential}
 
 **Timezone Data Corruption with DateTimePicker**:
 - **Risk**: Same timestamp means different absolute times in different locations
@@ -212,6 +136,8 @@ Recording temporal data?
 ---
 
 ---
+## Field Selection Guide {essential}
+
 ### Decision Tree
 
 ```
@@ -282,32 +208,6 @@ Recording temporal data?
 - Platform variance confuses users switching devices
 - Screen readers may miss "Now" button
 
-## Designer Component Mapping {essential}
-
-### Designer UI vs JSON Component Names
-
-| Designer UI Label | JSON component-name | Component Namespace | Description |
-|------------------|--------------------|--------------------|-------------|
-| "DateTime with Now button" | DateTimeNow | faims-custom | Full datetime with timezone and Now button |
-| "DateTime" | DateTimePicker | faims-custom | Local datetime without timezone ⚠️ Discouraged |
-| "Date" | DatePicker | faims-custom | Date-only field |
-| "Month" | MonthPicker | faims-custom | Month-year field |
-
-### Designer Configuration Options
-
-| Designer Option | JSON Parameter | Values | Description |
-|----------------|----------------|---------|-------------|
-| Required | `required` | true/false | Field validation requirement |
-| Label | `label` | string | Display name for field |
-| Helper Text | `helperText` | string | Instructional text below field |
-| Placeholder | Not supported | N/A | Date fields use native browser placeholders |
-
-⚠️ **Critical Notes**:
-- Designer "DateTime" creates DateTimePicker (timezone issues) - prefer "DateTime with Now button"
-- Auto-population (`is_auto_pick`) requires JSON editing for all datetime fields
-- Platform-specific date picker interfaces cannot be customized through Designer
-- Validation beyond required/optional needs custom implementation
-
 ## Designer Capabilities vs JSON Enhancement {essential}
 
 ### What Designer Can Configure
@@ -327,19 +227,46 @@ The Designer interface provides basic field creation for all date/time fields:
 
 You MUST edit JSON directly for:
 
-1. **Platform-specific optimizations** (iOS spacing, Android touch targets)
-2. **Timezone documentation** (critical for DateTimePicker migration)
-3. **Complex validation patterns** (though limited for date fields)
-4. **Integration patterns** (paired fields, range validation)
+1. **Auto-population** (`is_auto_pick: true` for DateTimeNow)
+2. **Platform-specific optimizations** (iOS spacing, Android touch targets)
+3. **Timezone documentation** (critical for DateTimePicker migration)
+4. **Conditional visibility** (date fields appearing based on other fields)
+5. **Complex validation patterns** (though limited for date fields)
+6. **Integration patterns** (paired fields, range validation)
 
 ### Designer Limitations
 
 See [Designer Limitations Reference](designer-limitations-reference.md) for testing, validation, and configuration constraints that apply to all fields.
 
 **DateTime Field-Specific Limitations**:
+- Cannot configure auto-population for timestamps
 - Cannot set platform-specific display formats
 - Cannot create conditional date ranges or date sequence validation
 - Cannot configure timezone handling preferences
+
+## Designer Component Mapping {essential}
+
+### Designer UI vs JSON Component Names
+
+| Designer UI Label | JSON component-name | Component Namespace | Description |
+|-------------------|---------------------|---------------------|-------------|
+| DateTime with Now button | DateTimeNow | faims-custom | Timezone-aware timestamp with UTC storage |
+| DateTime | DateTimePicker | faims-custom | ⚠️ DISCOURAGED - No timezone storage |
+| Date | DatePicker | faims-custom | Date without time component |
+| Month | MonthPicker | faims-custom | Month-year only (no day precision) |
+
+⚠️ **Critical Notes**:
+- "DateTime" in Designer creates DateTimePicker - discouraged due to timezone ambiguity
+- "DateTime with Now button" (DateTimeNow) can be used as normal picker too - "Now" is optional
+- "DateTime with Now button" is the safe timezone-aware option
+- All date/time fields require JSON editing for full configuration
+- Designer cannot configure auto-population (`is_auto_pick`) - requires JSON
+
+This mapping is essential for:
+- Understanding Designer limitations
+- Debugging timezone issues
+- Writing JSON configurations manually
+- Migrating from DateTimePicker to DateTimeNow
 
 ## Component Namespace Errors {important}
 
@@ -371,7 +298,7 @@ All date/time components are registered in the "faims-custom" namespace in the c
 All date/time fields require:
 - `component-namespace`: Always `"faims-custom"`
 - `component-name`: One of `DateTimeNow`, `DateTimePicker`, `DatePicker`, `MonthPicker`
-- `type-returned`: Typically `"faims-core::String"` or `"faims-core::String"` (though all store strings)
+- `type-returned`: Typically `"faims-core::DateTime"` or `"faims-core::Date"` (though all store strings)
 - `component-parameters.name`: Must match the field ID exactly
 - `initialValue`: Must be empty string `""` (not null) to prevent errors
 
@@ -387,7 +314,7 @@ All date/time fields require:
 {
   "component-namespace": "faims-custom",
   "component-name": "DateTimeNow",
-  "type-returned": "faims-core::String",
+  "type-returned": "faims-core::DateTime",
   "component-parameters": {
     "name": "timestamp-field",
     "label": "Record Timestamp",
@@ -579,7 +506,7 @@ Despite its name, **DateTimeNow is a full datetime picker** that happens to have
 **Common Misconception**: "I need to record a past date, so I cannot use DateTimeNow"
 **Reality**: DateTimeNow is for ALL datetime needs, not just current timestamps
 
-## Field Reference {essential}
+## Individual Field Reference {essential}
 
 ### DateTimeNow (DateTime with Now button in Designer) {essential}
 <!-- keywords: timestamp, timezone, UTC, auto-populate, current -->
@@ -1074,7 +1001,7 @@ Common date field error messages and their meanings:
 {
   "component-namespace": "faims-custom",
   "component-name": "DateTimeNow",
-  "type-returned": "faims-core::String",
+  "type-returned": "faims-core::DateTime",
   "component-parameters": {
     "name": "timestamp-field",  // MUST match field ID
     "label": "Timestamp"
@@ -1146,7 +1073,7 @@ Common date field error messages and their meanings:
 {
   "component-namespace": "faims-custom",
   "component-name": "DateTimePicker",  // ⚠️ DISCOURAGED - lacks timezone
-  "type-returned": "faims-core::String",
+  "type-returned": "faims-core::DateTime",
   "component-parameters": {
     "name": "legacy-datetime",
     "label": "Time (Legacy)",
@@ -1171,7 +1098,7 @@ Common date field error messages and their meanings:
 {
   "component-namespace": "faims-custom",
   "component-name": "DatePicker",
-  "type-returned": "faims-core::String",
+  "type-returned": "faims-core::Date",
   "component-parameters": {
     "name": "date-field",
     "label": "Date",
@@ -1239,7 +1166,7 @@ Common date field error messages and their meanings:
 {
   "component-namespace": "faims-custom",
   "component-name": "MonthPicker",
-  "type-returned": "faims-core::String",  // Actually stores YYYY-MM string
+  "type-returned": "faims-core::Date",  // Actually stores YYYY-MM string
   "component-parameters": {
     "name": "month-field",
     "label": "Month/Year",
@@ -2399,6 +2326,20 @@ For ancient history and archaeology spanning BCE/CE, use numeric fields rather t
 
 ---
 
+## See Also {comprehensive}
+
+- **TemplatedString**: For immutable timestamp display using `{{_CREATED_TIME}}`
+- **TextField**: For arbitrary date format entry with validation patterns
+- **Select/RadioGroup**: For period taxonomies and controlled date vocabularies (see Periodo)
+- **NumberInput**: For year-only entry or date component separation
+- **ControlledNumber**: For constrained year ranges (⚠️ Designer-only, maps to NumberField in JSON)
+- **External Vocabularies**: 
+  - Periodo (periodo.github.io) for archaeological/historical periods
+  - Getty AAT for hierarchical chronological terms
+  - Heritage Data vocabularies for regional chronologies
+
+---
+
 ## Field Quirks Index (2025-08) {comprehensive}
 
 ### DateTimeNow
@@ -2420,7 +2361,7 @@ For ancient history and archaeology spanning BCE/CE, use numeric fields rather t
 - `TEST` Auto-pick protection: Set `is_auto_pick: true`, try to modify after creation
 - `TEST` Historical dates: Enter date from 1800s, verify acceptance
 - `TEST` Now button location: Check position on iOS vs Android vs desktop
-- `XREF` See [Field Reference > DateTimeNow]
+- `XREF` See [Individual Field Reference > DateTimeNow]
 - `XREF` See [Troubleshooting Guide > Critical Issues]
 - `VERSION` 2025-08
 
@@ -2469,7 +2410,7 @@ For ancient history and archaeology spanning BCE/CE, use numeric fields rather t
 - `TEST` Locale issues: Enter 01/02/2024, verify interpretation (Jan 2 vs Feb 1)
 - `TEST` Excel corruption: Export dates to CSV, open in Excel, check format changes
 - `TEST` iOS picker: Open on iPhone, verify full-screen behavior blocks form
-- `XREF` See [Field Reference > DatePicker]
+- `XREF` See [Individual Field Reference > DatePicker]
 - `XREF` See [Troubleshooting Guide > Excel Date Format Corruption]
 - `VERSION` 2025-08
 
@@ -2495,7 +2436,7 @@ For ancient history and archaeology spanning BCE/CE, use numeric fields rather t
 - `TEST` Verify format: Save selection, export should show "YYYY-MM" only
 - `TEST` Day appending: Check if "-01" gets added on export or display
 - `TEST` Browser support: Test HTML5 month input on Safari, Firefox, Chrome
-- `XREF` See [Field Reference > MonthPicker]
+- `XREF` See [Individual Field Reference > MonthPicker]
 - `XREF` See [Troubleshooting Guide > When Format Issues Occur]
 - `VERSION` 2025-08
 
@@ -2860,7 +2801,7 @@ Anti-patterns have been distributed to their respective field sections for bette
 {
   "component-namespace": "faims-custom",
   "component-name": "DateTimeNow",
-  "type-returned": "faims-core::String",
+  "type-returned": "faims-core::DateTime",
   "component-parameters": {
     "name": "timestamp-field",  // MUST match field ID
     "label": "Timestamp"
@@ -2932,7 +2873,7 @@ Anti-patterns have been distributed to their respective field sections for bette
 {
   "component-namespace": "faims-custom",
   "component-name": "DateTimePicker",  // ⚠️ DISCOURAGED - lacks timezone
-  "type-returned": "faims-core::String",
+  "type-returned": "faims-core::DateTime",
   "component-parameters": {
     "name": "legacy-datetime",
     "label": "Time (Legacy)",
@@ -2977,31 +2918,6 @@ Anti-patterns have been distributed to their respective field sections for bette
 | Milliseconds lost | DateTimeNow | Precision loss | Document limitation |
 
 ---
-
-## See Also {comprehensive}
-
-### Other Field Categories
-- **Text Fields**: For manual date entry with validation patterns
-- **Number Fields**: For year-only entry or BCE date recording  
-- **Select/Choice Fields**: For period taxonomies and controlled date vocabularies (see Periodo)
-- **Media Fields**: For timestamp metadata on photographs
-- **Location Fields**: For timezone-aware coordinate recording
-
-### Reference Documents
-- [Validation Timing Reference](../reference-docs/validation-timing-reference.md)
-- [Component Namespace Reference](../reference-docs/component-namespace-reference.md)
-- [Data Export Reference](../reference-docs/data-export-reference.md)
-- [Security Considerations Reference](../reference-docs/security-considerations-reference.md)
-- [Performance Thresholds Reference](../reference-docs/performance-thresholds-reference.md)
-- [Meta Properties Reference](../reference-docs/meta-properties-reference.md)
-- [Designer Limitations Reference](../reference-docs/designer-limitations-reference.md)
-
-### External Resources
-- **TemplatedString**: For immutable timestamp display using `{{_CREATED_TIME}}`
-- **External Vocabularies**: 
-  - Periodo (periodo.github.io) for archaeological/historical periods
-  - Getty AAT for hierarchical chronological terms
-  - Heritage Data vocabularies for regional chronologies
 
 ## Metadata {comprehensive}
 

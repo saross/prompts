@@ -89,7 +89,7 @@ Consider alternatives when:
 | Markdown formatting | ✅ Full support | - |
 | Conditional display | ✅ Supported | - |
 
-## Display Content Guide {essential}
+## Field Selection Guide {essential}
 
 ### Content Type Decision Tree
 ```
@@ -267,35 +267,21 @@ See [Performance Thresholds Reference](../reference-docs/performance-thresholds-
 - Form validation runs
 
 ### Validation Patterns {important}
-See [Validation Timing Reference](../reference-docs/validation-timing-reference.md) for universal behavior.
+See [Validation System Documentation](../detail-crossfield-docs/validation.md) for comprehensive validation patterns and timing.
 
-**Display-Specific Validation:**
-- No validation performed
-- Always considered valid
-- Cannot be required
+**Display Field-Specific Validation:**
+- ⚠️ **NO VALIDATION** - RichText fields perform no validation
+- Always considered valid (cannot be required)
 - Schema ignored if present
-- Never triggers errors
 
 ### Platform Behaviors {important}
-**Consistent Across Platforms:**
-- HTML rendering via WebView
-- Same markdown-it parser
-- Identical DOMPurify sanitization
-- No platform-specific optimizations
+See [Platform Behaviors Reference](../reference-docs/platform-behaviors-reference.md) for general platform characteristics.
 
-**Platform-Specific Notes:**
-- **iOS**: 
-  - San Francisco system font
-  - Faster WebView performance (~20% quicker)
-  - Better handling of large content blocks
-- **Android**: 
-  - Roboto system font
-  - Slower markdown parsing (~30% slower than iOS)
-  - May struggle with >10 RichText fields
-- **Web/Desktop**: 
-  - Browser-dependent font rendering
-  - Best performance overall
-  - No mobile memory constraints
+**Display Field-Specific Behaviors:**
+- **Consistent**: Same markdown-it parser and DOMPurify sanitization across all platforms
+- **iOS**: 20% faster markdown parsing; better handling of large content blocks
+- **Android**: 30% slower parsing; performance issues with >10 RichText fields
+- **Web/Desktop**: Best performance; no memory constraints
 
 ### Meta Properties {important}
 See [Meta Properties Reference](../reference-docs/meta-properties-reference.md) for configuration.
@@ -851,7 +837,94 @@ Provides formatted instructional content and section headings within forms throu
 }
 ```
 
-## Migration and Best Practices {comprehensive}
+## Migration Scenarios {comprehensive}
+
+### Scenario 1: HTML to Markdown Content Migration
+**Context**: Legacy HTML content needs conversion to markdown format for RichText fields.
+
+**Challenge**:
+- HTML tables are stripped by DOMPurify
+- Complex formatting lost in conversion
+- External image URLs blocked
+
+**Migration Steps**:
+1. Export existing HTML content
+2. Convert tables to markdown lists or images
+3. Download and convert external images to Base64
+4. Simplify complex formatting to basic markdown
+5. Test rendering in Designer source mode
+
+**Solution/Workaround**: Pre-process HTML through a converter, manually handle tables as images or lists, embed all images as Base64.
+
+### Scenario 2: Table Content Handling
+**Context**: Forms with instructional tables that get stripped at runtime.
+
+**Challenge**:
+- Tables created in Designer but removed by sanitizer
+- Users lose critical reference information
+- No native table support in renderer
+
+**Migration Steps**:
+1. Screenshot existing tables
+2. Convert to PNG/JPG images (<100KB)
+3. Encode images as Base64
+4. Embed in markdown as images
+5. Add text fallback below image
+
+**Solution/Workaround**: Convert all tables to images with text alternatives, or restructure as nested lists.
+
+### Scenario 3: Performance Migration - Splitting Large RichText
+**Context**: Form with 2000+ words in single RichText causing mobile performance issues.
+
+**Challenge**:
+- Parse time exceeding 80ms threshold
+- Mobile devices experiencing lag
+- Content reparsed on every render
+
+**Migration Steps**:
+1. Analyze content for logical divisions
+2. Split into multiple <100 word fields
+3. Use markdown headers for structure
+4. Add conditions to show relevant sections
+5. Test on lowest-spec target devices
+
+**Solution/Workaround**: Create multiple smaller RichText fields with clear section headers, using conditions for progressive disclosure.
+
+### Scenario 4: External Image Migration
+**Context**: Forms referencing external image URLs that are now blocked.
+
+**Challenge**:
+- Security policy blocks external URLs
+- Images critical for field identification
+- No CDN support in Fieldmark
+
+**Migration Steps**:
+1. Download all external images
+2. Optimize to <100KB each
+3. Convert to Base64 encoding
+4. Replace URLs with data URIs
+5. Update form JSON with embedded images
+
+**Solution/Workaround**: Batch convert images to Base64, embed directly in content field, monitor total payload size.
+
+### Scenario 5: Conditional Content Updates
+**Context**: Dynamic help text system using multiple conditional RichText fields.
+
+**Challenge**:
+- Frequent visibility toggles cause reparse lag
+- Memory accumulation on mobile
+- Poor user experience
+
+**Migration Steps**:
+1. Consolidate related content into single fields
+2. Reduce conditional logic complexity
+3. Use static content where possible
+4. Implement section-based visibility
+5. Limit to essential dynamic content only
+
+**Solution/Workaround**: Minimize conditional fields, prefer static content with comprehensive initial instructions.
+
+## Best Practices {comprehensive}
 
 ### Content Guidelines
 - **Length**: <100 words per field

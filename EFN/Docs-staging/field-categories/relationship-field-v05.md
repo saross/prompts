@@ -8,7 +8,7 @@
 
 **Component Namespace:** `"faims-custom"`
 **Component Name:** `RelatedRecordSelector` (case-sensitive)
-**Return Type:** `faims-core::Relationship`
+**Return Type:** `faims-core::Array`
 **Designer Support:** Limited - vocabulary pairs require JSON
 
 ### CRITICAL NAMING DISAMBIGUATION
@@ -53,15 +53,28 @@ Enables bidirectional connections between records with automatic reciprocal upda
 See [Designer Limitations Reference](../reference-docs/designer-limitations-reference.md) for universal constraints.
 
 **Relationship-Specific Designer Limitations:**
-- Cannot configure vocabulary pairs (JSON only)
-- Cannot preview relationships in Designer
-- Cannot convert between Child/Linked types
-- No test data for relationship testing
-- Limited parameter exposure
+- Cannot configure vocabulary pairs for custom relationship labels (JSON only)
+- Cannot preview relationships in Designer (must test in web app)
+- No test data available (must create real records to test)
+- Cannot configure branding or some advanced parameters
 
-## Relationship Types Guide {essential}
+## Field Selection Guide {essential}
 
-### Decision Tree
+### When to Use RelatedRecordSelector
+RelatedRecordSelector is the **only** relationship field option in Fieldmark. Use it when you need to:
+- **Connect two forms/entities** - Link records that reference each other
+- **Create hierarchical structures** - Build parent-child relationships (e.g., Site→Trench→Context)
+- **Establish associations** - Connect peer records with qualified relationships
+- **Track provenance** - Link samples to their sources
+- **Document relationships** - Record how entities relate to each other
+
+**Not suitable for:**
+- Simple categorization (use Select fields instead)
+- Temporal sequences (use DateTime fields with proper ordering)
+- Spatial relationships only (use Location fields with coordinates)
+- File attachments (use Media fields)
+
+### Choosing Your Relationship Type
 ```
 Need to connect records?
 ├─ Parent owns children?
@@ -86,20 +99,22 @@ Need to connect records?
 | Cardinality | 1:N typical | N:N typical |
 | Use Case | Site structure | Stratigraphic |
 
-### Vocabulary Pairs
-**Bidirectional labeling for Linked relationships:**
+### Vocabulary Pairs for Linked Relationships
+**Bidirectional labeling (JSON-only configuration):**
 ```json
-"relation_linked_vocabPair": [
-  ["cuts", "is cut by"],
-  ["fills", "is filled by"],
-  ["is above", "is below"],
-  ["same as", "same as"]
-]
+{
+  "relation_linked_vocabPair": [
+    ["cuts", "is cut by"],
+    ["fills", "is filled by"],
+    ["is above", "is below"],
+    ["same as", "same as"]
+  ]
+}
 ```
 - First element: Forward label (shown in current record)
 - Second element: Reverse label (shown in related record)
 - Immutable after relationship creation
-- JSON configuration only
+- Must be configured before first use
 
 ## ⚠️ Critical Security Risks {essential}
 See [Security Considerations Reference](../reference-docs/security-considerations-reference.md) for general security patterns.
@@ -173,19 +188,22 @@ See [Security Considerations Reference](../reference-docs/security-consideration
 ### Designer Configuration
 - ✅ Field label and name
 - ✅ Related form selection
-- ✅ Relationship type (Child/Linked)
+- ✅ Relationship type (Child/Linked dropdown)
 - ✅ Multiple selection toggle
-- ✅ Helper text
-- ⚠️ Required flag (needs validation)
+- ✅ Allow linking to existing records toggle
+- ✅ Related Type Label field
+- ✅ Helper text (basic and advanced)
+- ✅ Required flag
+- ✅ Display in child records option
 
 ### JSON-Only Configuration
 ```json
 {
   "relation_linked_vocabPair": [
-    ["forward", "reverse"]
+    ["forward", "reverse"]  // Custom relationship labels
   ],
-  "allowLinkToExisting": true,
-  "related_type_label": "Context Record"
+  "branding": {},          // Advanced branding options
+  "initialValue": []       // Pre-selected relationships
 }
 ```
 
@@ -219,45 +237,22 @@ See [Performance Thresholds Reference](../reference-docs/performance-thresholds-
 - **Mobile impact**: 2x slower than desktop
 
 ### Validation Patterns {important}
-See [Validation Timing Reference](../reference-docs/validation-timing-reference.md) for universal behavior.
+See [Validation System Documentation](../detail-crossfield-docs/validation.md) for comprehensive validation patterns and timing.
 
-**Relationship-Specific Validation:**
-```json
-// Multiple relationships
-"validationSchema": [
-  ["yup.array"],
-  ["yup.required", "At least one required"]
-]
-
-// Single relationship
-"validationSchema": [
-  ["yup.string"],
-  ["yup.required", "Parent required"]
-]
-```
+**Relationship Field-Specific Validation:**
+- **Type depends on `multiple`**: Array validation when `multiple=true`, String when `false`
+- **Reciprocal validation**: Only occurs after sync (delayed)
+- **Performance limits**: Use `yup.max` to enforce <50 relationships
+- **No error display**: RelatedRecordSelector doesn't show validation messages (known bug)
 
 ### Platform Behaviors {important}
+See [Platform Behaviors Reference](../reference-docs/platform-behaviors-reference.md) for general platform characteristics.
 
-**iOS Specific:**
-- Touch targets 36px (below 44px WCAG minimum)
-- Scroll momentum can skip items in long lists
-- Selection modal height limited to 70% viewport
-
-**Android Specific:**
-- Performance degrades 20% faster than iOS with many relationships
-- Slower autocomplete response (200ms additional lag)
-- Back button may close modal unexpectedly
-
-**Web Platform:**
-- Better performance for large relationship sets
-- Keyboard navigation partially supported
-- Mouse hover shows full HRID text
-
-**Mobile Specific:**
-- Constrained viewport issues
-- Keyboard obscures content
-- Performance degrades faster
-- Scroll-heavy interface
+**Relationship Field-Specific Behaviors:**
+- **iOS**: Touch targets 36px (below WCAG); scroll momentum issues; modal height limited to 70%
+- **Android**: 20% worse performance than iOS; 200ms autocomplete lag; back button closes modal
+- **Web**: Best performance for large sets; partial keyboard navigation; hover shows full HRID
+- **Mobile**: Viewport constraints; keyboard obscures content; faster performance degradation
 
 ### Meta Properties {important}
 See [Meta Properties Reference](../reference-docs/meta-properties-reference.md) for configuration.
@@ -287,7 +282,7 @@ Enables bidirectional connections between records, supporting both hierarchical 
 | Property | Details |
 |----------|---------|
 | Component | `faims-custom::RelatedRecordSelector` |
-| Returns | `faims-core::Relationship` |
+| Returns | `faims-core::Array` |
 | Designer | ⚠️ Limited support |
 | JSON Required | Vocabulary pairs |
 | Performance Limit | 50 relationships |
@@ -300,7 +295,7 @@ Enables bidirectional connections between records, supporting both hierarchical 
 {
   "component-namespace": "faims-custom",
   "component-name": "RelatedRecordSelector",
-  "type-returned": "faims-core::Relationship",
+  "type-returned": "faims-core::Array",
   "component-parameters": {
     "name": "field-name",
     "label": "Relationships",
@@ -321,7 +316,7 @@ Enables bidirectional connections between records, supporting both hierarchical 
   "stratigraphic_relationships": {
     "component-namespace": "faims-custom",
     "component-name": "RelatedRecordSelector",
-    "type-returned": "faims-core::Relationship",
+    "type-returned": "faims-core::Array",
     "component-parameters": {
       "name": "stratigraphic_relationships",
       "label": "Stratigraphic Relationships",
@@ -456,17 +451,23 @@ Enables bidirectional connections between records, supporting both hierarchical 
 
 **Common Validation Issues**:
 ```json
-// WRONG - Single relationship with array validation
-"multiple": false,
-"validationSchema": [["yup.array"]]  // Mismatch!
-
-// CORRECT - Single relationship
-"multiple": false,
-"validationSchema": [["yup.string"]]
-
-// CORRECT - Multiple relationships
-"multiple": true,
-"validationSchema": [["yup.array"]]
+{
+  "WRONG_example": {
+    "comment": "Single relationship with array validation - MISMATCH",
+    "multiple": false,
+    "validationSchema": [["yup.array"]]
+  },
+  "CORRECT_single": {
+    "comment": "Single relationship - correct validation",
+    "multiple": false,
+    "validationSchema": [["yup.string"]]
+  },
+  "CORRECT_multiple": {
+    "comment": "Multiple relationships - correct validation",
+    "multiple": true,
+    "validationSchema": [["yup.array"]]
+  }
+}
 ```
 4. Review sync payload size
 5. Consider field splitting
@@ -493,7 +494,7 @@ Enables bidirectional connections between records, supporting both hierarchical 
   "child-contexts": {
     "component-namespace": "faims-custom",
     "component-name": "RelatedRecordSelector",
-    "type-returned": "faims-core::Relationship",
+    "type-returned": "faims-core::Array",
     "component-parameters": {
       "name": "child-contexts",
       "label": "Contexts",
@@ -514,7 +515,7 @@ Enables bidirectional connections between records, supporting both hierarchical 
   "parent-trench": {
     "component-namespace": "faims-custom",
     "component-name": "RelatedRecordSelector",
-    "type-returned": "faims-core::Relationship",
+    "type-returned": "faims-core::Array",
     "component-parameters": {
       "name": "parent-trench",
       "label": "Parent Trench",
@@ -540,7 +541,7 @@ Enables bidirectional connections between records, supporting both hierarchical 
   "stratigraphic-relationships": {
     "component-namespace": "faims-custom",
     "component-name": "RelatedRecordSelector",
-    "type-returned": "faims-core::Relationship",
+    "type-returned": "faims-core::Array",
     "component-parameters": {
       "name": "stratigraphic-relationships",
       "label": "Stratigraphic Relationships",
@@ -569,7 +570,7 @@ Enables bidirectional connections between records, supporting both hierarchical 
   "related-finds": {
     "component-namespace": "faims-custom",
     "component-name": "RelatedRecordSelector",
-    "type-returned": "faims-core::Relationship",
+    "type-returned": "faims-core::Array",
     "component-parameters": {
       "name": "related-finds",
       "label": "Related Finds",
@@ -601,7 +602,7 @@ Enables bidirectional connections between records, supporting both hierarchical 
   "sample-relationships": {
     "component-namespace": "faims-custom",
     "component-name": "RelatedRecordSelector",
-    "type-returned": "faims-core::Relationship",
+    "type-returned": "faims-core::Array",
     "component-parameters": {
       "name": "sample-relationships",
       "label": "Sample Relationships",
@@ -627,7 +628,7 @@ Enables bidirectional connections between records, supporting both hierarchical 
   "trenches": {
     "component-namespace": "faims-custom",
     "component-name": "RelatedRecordSelector",
-    "type-returned": "faims-core::Relationship",
+    "type-returned": "faims-core::Array",
     "component-parameters": {
       "name": "trenches",
       "label": "Trenches within Site",
@@ -650,7 +651,7 @@ Enables bidirectional connections between records, supporting both hierarchical 
   "related-features": {
     "component-namespace": "faims-custom",
     "component-name": "RelatedRecordSelector",
-    "type-returned": "faims-core::Relationship",
+    "type-returned": "faims-core::Array",
     "component-parameters": {
       "name": "related-features",
       "label": "Related Features",
@@ -677,7 +678,7 @@ Enables bidirectional connections between records, supporting both hierarchical 
   "specialist-analyses": {
     "component-namespace": "faims-custom",
     "component-name": "RelatedRecordSelector",
-    "type-returned": "faims-core::Relationship",
+    "type-returned": "faims-core::Array",
     "component-parameters": {
       "name": "specialist-analyses",
       "label": "Specialist Analyses",
@@ -705,7 +706,7 @@ Enables bidirectional connections between records, supporting both hierarchical 
   "parent-structure": {
     "component-namespace": "faims-custom",
     "component-name": "RelatedRecordSelector",
-    "type-returned": "faims-core::Relationship",
+    "type-returned": "faims-core::Array",
     "component-parameters": {
       "name": "parent-structure",
       "label": "Parent Structure",
@@ -729,45 +730,13 @@ Enables bidirectional connections between records, supporting both hierarchical 
 }
 ```
 
-### Example 10: Artifact Comparanda
-```json
-{
-  "comparanda": {
-    "component-namespace": "faims-custom",
-    "component-name": "RelatedRecordSelector",
-    "type-returned": "faims-core::Relationship",
-    "component-parameters": {
-      "name": "comparanda",
-      "label": "Comparative Examples",
-      "related_type": "Artifact",
-      "relation_type": "is-related-to",
-      "multiple": true,
-      "allowLinkToExisting": true,
-      "relation_linked_vocabPair": [
-        ["similar to", "similar to"],
-        ["typologically earlier", "typologically later"],
-        ["same type as", "same type as"]
-      ]
-    },
-    "validationSchema": [["yup.array"]],
-    "initialValue": [],
-    "meta": {
-      "uncertainty": {
-        "include": true,
-        "label": "Confidence in comparison"
-      }
-    }
-  }
-}
-```
-
-### Example 11: Documentation Attachments
+### Example 10: Documentation Attachments
 ```json
 {
   "related-documentation": {
     "component-namespace": "faims-custom",
     "component-name": "RelatedRecordSelector",
-    "type-returned": "faims-core::Relationship",
+    "type-returned": "faims-core::Array",
     "component-parameters": {
       "name": "related-documentation",
       "label": "Related Documentation",
@@ -786,13 +755,13 @@ Enables bidirectional connections between records, supporting both hierarchical 
 }
 ```
 
-### Example 12: Survey Unit Hierarchy
+### Example 11: Survey Unit Hierarchy
 ```json
 {
   "survey-units": {
     "component-namespace": "faims-custom",
     "component-name": "RelatedRecordSelector",
-    "type-returned": "faims-core::Relationship",
+    "type-returned": "faims-core::Array",
     "component-parameters": {
       "name": "survey-units",
       "label": "Survey Units",
@@ -811,13 +780,13 @@ Enables bidirectional connections between records, supporting both hierarchical 
 }
 ```
 
-### Example 13: Temporal Relationships
+### Example 12: Temporal Relationships
 ```json
 {
   "temporal-relationships": {
     "component-namespace": "faims-custom",
     "component-name": "RelatedRecordSelector",
-    "type-returned": "faims-core::Relationship",
+    "type-returned": "faims-core::Array",
     "component-parameters": {
       "name": "temporal-relationships",
       "label": "Temporal Relationships",
@@ -837,13 +806,13 @@ Enables bidirectional connections between records, supporting both hierarchical 
 }
 ```
 
-### Example 14: Performance-Limited Configuration
+### Example 13: Performance-Limited Configuration
 ```json
 {
   "limited-relationships": {
     "component-namespace": "faims-custom",
     "component-name": "RelatedRecordSelector",
-    "type-returned": "faims-core::Relationship",
+    "type-returned": "faims-core::Array",
     "component-parameters": {
       "name": "limited-relationships",
       "label": "Related Records (Max 30)",
@@ -861,13 +830,13 @@ Enables bidirectional connections between records, supporting both hierarchical 
 }
 ```
 
-### Example 15: Excavation Team Assignment
+### Example 14: Excavation Team Assignment
 ```json
 {
   "team-members": {
     "component-namespace": "faims-custom",
     "component-name": "RelatedRecordSelector",
-    "type-returned": "faims-core::Relationship",
+    "type-returned": "faims-core::Array",
     "component-parameters": {
       "name": "team-members",
       "label": "Team Members",
@@ -887,13 +856,13 @@ Enables bidirectional connections between records, supporting both hierarchical 
 }
 ```
 
-### Example 16: Conservation Treatment Chain
+### Example 15: Conservation Treatment Chain
 ```json
 {
   "conservation-history": {
     "component-namespace": "faims-custom",
     "component-name": "RelatedRecordSelector",
-    "type-returned": "faims-core::Relationship",
+    "type-returned": "faims-core::Array",
     "component-parameters": {
       "name": "conservation-history",
       "label": "Conservation History",
@@ -918,61 +887,13 @@ Enables bidirectional connections between records, supporting both hierarchical 
 }
 ```
 
-### Example 17: Building Components
-```json
-{
-  "building-elements": {
-    "component-namespace": "faims-custom",
-    "component-name": "RelatedRecordSelector",
-    "type-returned": "faims-core::Relationship",
-    "component-parameters": {
-      "name": "building-elements",
-      "label": "Building Elements",
-      "related_type": "Element",
-      "relation_type": "Child",
-      "multiple": true,
-      "allowLinkToExisting": false,
-      "helperText": "Create elements within this building"
-    },
-    "validationSchema": [["yup.array"]],
-    "initialValue": []
-  }
-}
-```
-
-### Example 18: Publication References
-```json
-{
-  "publications": {
-    "component-namespace": "faims-custom",
-    "component-name": "RelatedRecordSelector",
-    "type-returned": "faims-core::Relationship",
-    "component-parameters": {
-      "name": "publications",
-      "label": "Published In",
-      "related_type": "Publication",
-      "relation_type": "is-related-to",
-      "multiple": true,
-      "allowLinkToExisting": true,
-      "relation_linked_vocabPair": [
-        ["published in", "includes"],
-        ["cited in", "cites"],
-        ["figure in", "illustrates"]
-      ]
-    },
-    "validationSchema": [["yup.array"]],
-    "initialValue": []
-  }
-}
-```
-
-### Example 19: Interpretive Associations
+### Example 16: Interpretive Associations
 ```json
 {
   "interpretations": {
     "component-namespace": "faims-custom",
     "component-name": "RelatedRecordSelector",
-    "type-returned": "faims-core::Relationship",
+    "type-returned": "faims-core::Array",
     "component-parameters": {
       "name": "interpretations",
       "label": "Interpretive Links",
@@ -997,38 +918,13 @@ Enables bidirectional connections between records, supporting both hierarchical 
 }
 ```
 
-### Example 20: Storage Location Chain
-```json
-{
-  "storage-history": {
-    "component-namespace": "faims-custom",
-    "component-name": "RelatedRecordSelector",
-    "type-returned": "faims-core::Relationship",
-    "component-parameters": {
-      "name": "storage-history",
-      "label": "Storage History",
-      "related_type": "Storage",
-      "relation_type": "is-related-to",
-      "multiple": true,
-      "relation_linked_vocabPair": [
-        ["stored in", "contains"],
-        ["moved from", "moved to"],
-        ["temporarily in", "temporarily holds"]
-      ]
-    },
-    "validationSchema": [["yup.array"]],
-    "initialValue": []
-  }
-}
-```
-
-### Example 21: Conditional Relationship Field
+### Example 17: Conditional Relationship Field
 ```json
 {
   "specialist-samples": {
     "component-namespace": "faims-custom",
     "component-name": "RelatedRecordSelector",
-    "type-returned": "faims-core::Relationship",
+    "type-returned": "faims-core::Array",
     "component-parameters": {
       "name": "specialist-samples",
       "label": "Specialist Analysis Samples",
@@ -1052,13 +948,13 @@ Enables bidirectional connections between records, supporting both hierarchical 
 }
 ```
 
-### Example 22: Cross-Referenced Features
+### Example 18: Cross-Referenced Features
 ```json
 {
   "cross-references": {
     "component-namespace": "faims-custom",
     "component-name": "RelatedRecordSelector",
-    "type-returned": "faims-core::Relationship",
+    "type-returned": "faims-core::Array",
     "component-parameters": {
       "name": "cross-references",
       "label": "Cross-Referenced Features",
@@ -1083,13 +979,13 @@ Enables bidirectional connections between records, supporting both hierarchical 
 }
 ```
 
-### Example 23: Equipment Assignment Tracking
+### Example 19: Equipment Assignment Tracking
 ```json
 {
   "equipment-used": {
     "component-namespace": "faims-custom",
     "component-name": "RelatedRecordSelector",
-    "type-returned": "faims-core::Relationship",
+    "type-returned": "faims-core::Array",
     "component-parameters": {
       "name": "equipment-used",
       "label": "Equipment Used",
@@ -1116,13 +1012,13 @@ Enables bidirectional connections between records, supporting both hierarchical 
 }
 ```
 
-### Example 24: Publication Citations Network
+### Example 20: Publication Citations Network
 ```json
 {
   "related-publications": {
     "component-namespace": "faims-custom",
     "component-name": "RelatedRecordSelector",
-    "type-returned": "faims-core::Relationship",
+    "type-returned": "faims-core::Array",
     "component-parameters": {
       "name": "related-publications",
       "label": "Related Publications",
@@ -1144,39 +1040,113 @@ Enables bidirectional connections between records, supporting both hierarchical 
 }
 ```
 
-### Example 25: Emergency Contact Chain
-```json
-{
-  "emergency-contacts": {
-    "component-namespace": "faims-custom",
-    "component-name": "RelatedRecordSelector",
-    "type-returned": "faims-core::Relationship",
-    "component-parameters": {
-      "name": "emergency-contacts",
-      "label": "Emergency Contact Chain",
-      "related_type": "Personnel",
-      "relation_type": "is-related-to",
-      "multiple": true,
-      "relation_linked_vocabPair": [
-        ["primary contact for", "primary contact of"],
-        ["backup contact for", "backup contact of"],
-        ["supervisor of", "supervised by"],
-        ["medical contact for", "medical contact of"]
-      ],
-      "allowLinkToExisting": true,
-      "required": true
-    },
-    "validationSchema": [
-      ["yup.array"],
-      ["yup.required", "Emergency contacts required"],
-      ["yup.min", 2, "Minimum 2 contacts required"]
-    ],
-    "initialValue": []
-  }
-}
-```
+## Migration Scenarios {comprehensive}
 
-## Migration and Best Practices {comprehensive}
+### Scenario 1: Performance Scaling - Splitting Large Relationship Sets
+**Context**: A project's relationship field has grown beyond the 50-relationship performance threshold, causing severe UI lag on mobile devices.
+
+**Challenge**: 
+- Single field with 100+ relationships causes 2-3 second delays
+- Mobile devices experiencing crashes
+- Sync operations timing out
+
+**Migration Steps**:
+1. Export existing relationships to CSV for backup
+2. Create multiple relationship fields with semantic groupings:
+   ```json
+   {
+     "primary-relationships": { 
+       "multiple": true, 
+       "relation_linked_vocabPair": [["primary", "primary of"]] 
+     },
+     "secondary-relationships": { 
+       "multiple": true, 
+       "relation_linked_vocabPair": [["secondary", "secondary of"]] 
+     }
+   }
+   ```
+3. Manually redistribute relationships across new fields
+4. Add validation to enforce maximum of 50 per field
+5. Update form documentation with new field organization
+
+**Solution/Workaround**: Split relationships into semantically meaningful groups (e.g., "direct-relationships", "indirect-relationships") with clear documentation of the separation criteria.
+
+### Scenario 2: Vocabulary Restructuring
+**Context**: Project needs to change relationship vocabulary pairs after deployment, but vocabulary is immutable once relationships exist.
+
+**Challenge**:
+- Vocabulary pairs cannot be modified after first use
+- Existing relationships would be lost if field deleted
+- No built-in migration tool for vocabulary changes
+
+**Migration Steps**:
+1. Create new relationship field with corrected vocabulary
+2. Document mapping between old and new vocabulary terms
+3. Export all existing relationships
+4. Manually recreate relationships with new field
+5. Hide (but don't delete) old field to preserve history
+
+**Solution/Workaround**: Run parallel fields during transition period, then hide old field via conditions once migration complete.
+
+### Scenario 3: Hierarchy Flattening
+**Context**: Deep hierarchical relationships (5+ levels) are causing performance issues and user confusion.
+
+**Challenge**:
+- Deep hierarchies exponentially increase query complexity
+- Mobile devices struggle with nested displays
+- Users lose context in deep trees
+
+**Migration Steps**:
+1. Map existing hierarchy to flattened structure
+2. Replace Child relationships with is-related-to
+3. Use vocabulary pairs to maintain semantic relationships:
+   ```json
+   "relation_linked_vocabPair": [
+     ["contains", "contained by"],
+     ["parent of", "child of"]
+   ]
+   ```
+4. Update queries and reports for flattened structure
+5. Retrain users on new relationship model
+
+**Solution/Workaround**: Maintain hierarchy semantically through vocabulary while using flat is-related-to structure.
+
+### Scenario 4: Orphan Cleanup After Mass Deletions
+**Context**: Bulk deletion of parent records has left numerous orphaned child records in the database.
+
+**Challenge**:
+- No automatic cascade delete
+- Orphaned records clutter search results
+- Performance degradation from unused records
+- No built-in orphan detection
+
+**Migration Steps**:
+1. Export all records to identify orphans
+2. Create cleanup script to identify records with null parents
+3. Document orphan handling policy
+4. Implement regular cleanup routine
+5. Add pre-deletion checklist to prevent future orphans
+
+**Solution/Workaround**: Implement monthly orphan cleanup routine with documentation of deletion criteria.
+
+### Scenario 5: Converting Between Child and Linked Relationships
+**Context**: Project needs to convert Child relationships to is-related-to for flexibility.
+
+**Challenge**:
+- Child relationships have different data structure
+- Reciprocal relationships need manual recreation
+- Loss of hierarchical context
+
+**Migration Steps**:
+1. Export all Child relationships
+2. Create new is-related-to field with appropriate vocabulary
+3. Import relationships with new structure
+4. Update all queries expecting Child type
+5. Test bidirectional relationship integrity
+
+**Solution/Workaround**: Maintain hierarchical semantics through careful vocabulary design while using flexible is-related-to structure.
+
+## Best Practices {comprehensive}
 
 ### Design Principles
 - **Shallow hierarchies**: Maximum 3-4 levels
@@ -1198,6 +1168,13 @@ Enables bidirectional connections between records, supporting both hierarchical 
 - Implement cleanup routines
 - Consider alternatives for large datasets
 - Test on lowest-spec devices
+
+### Relationship Management
+- Regular orphan cleanup schedules
+- Performance monitoring dashboards
+- Vocabulary documentation standards
+- Relationship limit enforcement
+- User training on best practices
 
 ## Field Quirks Index (2025-01-03) {comprehensive}
 - Vocabulary pairs immutable after use
@@ -1236,34 +1213,32 @@ See [Performance Thresholds Reference](../reference-docs/performance-thresholds-
 
 ### Pattern: Validation Enforcement
 ```json
-"validationSchema": [
-  ["yup.array"],
-  ["yup.min", 1, "Required"],
-  ["yup.max", 50, "Performance limit"]
-]
+{
+  "validationSchema": [
+    ["yup.array"],
+    ["yup.min", 1, "Required"],
+    ["yup.max", 50, "Performance limit"]
+  ]
+}
 ```
 
 ## JSON Anti-patterns Quick Index {comprehensive}
 
 ### ❌ Don't: Exceed Performance Limits
 ```json
-// WRONG - Will cause severe degradation
 {
+  "comment": "WRONG - Will cause severe degradation, no maximum validation",
   "multiple": true
-  // No maximum validation
 }
 ```
 
 ### ❌ Don't: Change Vocabulary After Creation
-```json
-// WRONG - Vocabulary immutable
-// Must plan before deployment
-```
+Note: Vocabulary is immutable - must plan before deployment
 
 ### ❌ Don't: Mix Validation Types
 ```json
-// WRONG - Multiple requires array validation
 {
+  "comment": "WRONG - Multiple requires array validation",
   "multiple": true,
   "validationSchema": [["yup.string"]]
 }

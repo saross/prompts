@@ -56,7 +56,7 @@ See [Designer Limitations Reference](../reference-docs/designer-limitations-refe
 - Cannot configure file size limits through Designer
 - Cannot set multiple file selection toggle
 - Cannot enforce photo count limits
-- Required validation visual only (asterisk) without JSON enhancement
+- Required validation not enforced (TakePhoto shows asterisk, FileUploader doesn't, neither enforces)
 - No file type restrictions available in Designer
 
 ## Field Selection Guide {essential}
@@ -246,35 +246,23 @@ See [Performance Thresholds Reference](../reference-docs/performance-thresholds-
 - **Sync bandwidth:** Consider with "Get attachments" enabled
 
 ### Validation Patterns {important}
-See [Validation Timing Reference](../reference-docs/validation-timing-reference.md) for universal behavior.
+See [Validation System Documentation](../detail-crossfield-docs/validation.md) for comprehensive validation patterns and timing.
 
-**Media-Specific Validation:**
-- **File type validation:** Selection time (TakePhoto only)
-- **Size validation:** Silent rejection (FileUploader)
-- **Required validation:** Broken for both fields without JSON
-- **Count validation:** Via yup schema only
-- **Content validation:** Not performed
-- **Async validation:** Not supported during upload
+**Media Field-Specific Validation:**
+- **File type**: Validated at selection (TakePhoto only)
+- **File size**: Silent rejection without error message (FileUploader)
+- **Required files**: Broken in Designer, needs JSON validation schema
+- **File count**: Via `yup.array.min/max` only
+- **Content scanning**: Not performed (no virus/malware checks)
+- **Async validation**: Not supported during upload process
 
 ### Platform Behaviors {important}
+See [Platform Behaviors Reference](../reference-docs/platform-behaviors-reference.md) for general platform characteristics.
 
-**iOS Specific:**
-- HEIC→JPEG automatic conversion
-- Combined camera/photo permissions
-- ProRAW/Live Photos metadata lost
-- Settings navigation varies by version
-
-**Android Specific:**
-- Storage Access Framework (no permissions)
-- Manufacturer camera apps vary
-- Direct JPEG capture
-- Scoped storage compatible (10+)
-
-**Web Platform:**
-- MediaDevices API or file input fallback
-- No GPS coordinate access
-- EXIF stripped on capture
-- IndexedDB storage limits apply
+**Media Field-Specific Behaviors:**
+- **iOS**: HEIC→JPEG auto-conversion; combined camera/photo permissions; ProRAW/Live Photos metadata lost
+- **Android**: Storage Access Framework (no permissions); manufacturer camera variations; direct JPEG capture
+- **Web**: MediaDevices API or file input; no GPS in EXIF; IndexedDB storage limits
 
 ### Meta Properties {important}
 See [Meta Properties Reference](../reference-docs/meta-properties-reference.md) for configuration.
@@ -501,17 +489,24 @@ Integrates platform-native camera functionality with gallery selection through u
 - TakePhoto requires manual `yup.required` addition
 
 **Solutions**:
-```json
-// FileUploader - BROKEN, use helper text instead
-"validationSchema": [["yup.mixed"]]  // ❌ Cannot validate arrays
-"helperText": "⚠️ REQUIRED: Upload at least one document"
 
-// TakePhoto - Manual configuration needed
-"validationSchema": [
-  ["yup.array"],
-  ["yup.required", "Photos required"],  // ✅ Add manually
-  ["yup.min", 1, "At least one photo required"]
-]
+For FileUploader (use helper text workaround):
+```json
+{
+  "validationSchema": [["yup.mixed"]],
+  "helperText": "⚠️ REQUIRED: Upload at least one document"
+}
+```
+
+For TakePhoto (manual validation configuration):
+```json
+{
+  "validationSchema": [
+    ["yup.array"],
+    ["yup.required", "Photos required"],
+    ["yup.min", 1, "At least one photo required"]
+  ]
+}
 ```
 
 ### Issue 3: Browser Memory Exhaustion
@@ -1120,29 +1115,106 @@ Integrates platform-native camera functionality with gallery selection through u
 }
 ```
 
-## Migration and Best Practices {comprehensive}
+## Migration Scenarios {comprehensive}
 
-### Migration from FAIMS2
-- FAIMS2 file attachments → Use FileUploader
-- FAIMS2 camera → Use TakePhoto
-- File type restrictions → Not available, use helper text
-- Progress indicators → Not available, inform users
-- Batch operations → Configure `multiple: true`
+### Scenario 1: File Size Limit Changes
+**Context**: Project needs stricter file size limits due to sync performance issues
+
+**Challenge**: Existing records have files exceeding new limits
+- Current files may be 100MB+
+- New limit needs to be 50MB
+- No retroactive validation available
+
+**Migration Steps**:
+1. Export existing data with attachment metadata
+2. Identify files exceeding new limits
+3. Compress or split large files externally
+4. Update FileUploader configuration with new `maximum_file_size`
+5. Document compression requirements in helper text
+
+### Scenario 2: Moving from FileUploader to TakePhoto
+**Context**: Project shifts from accepting any images to requiring in-field capture only
+
+**Challenge**: Data structure differences
+- FileUploader accepts any file type
+- TakePhoto produces only JPEG at 90% quality
+- GPS metadata available only with TakePhoto on native apps
+
+**Migration Steps**:
+1. Extract image files from FileUploader records
+2. Document which images need recapture
+3. Update field configuration to TakePhoto
+4. Train users on camera-only workflow
+5. Consider keeping FileUploader for historical data
+
+### Scenario 3: Photo Quality/Compression Requirements
+**Context**: Storage constraints require reducing photo sizes
+
+**Challenge**: TakePhoto has fixed 90% JPEG quality
+- No in-app compression settings
+- Files typically 2-5MB each
+- Need <1MB per photo
+
+**Workarounds**:
+1. External compression before upload (FileUploader)
+2. Reduce camera resolution in device settings
+3. Post-process photos after sync
+4. Consider using FileUploader with compressed images
+5. Document size requirements clearly
+
+### Scenario 4: Handling Orphaned Attachments
+**Context**: Database has accumulated orphaned media files from deleted records
+
+**Challenge**: No automatic cascade deletion
+- Attachments remain after record deletion
+- Storage quota being consumed
+- No built-in cleanup tools
+
+**Migration Steps**:
+1. Audit attachment references in database
+2. Identify orphaned files (no parent record)
+3. Backup orphaned files before deletion
+4. Manual cleanup via database tools
+5. Implement deletion procedures to prevent future orphans
+
+### Scenario 5: Multiple to Single File Fields
+**Context**: Simplifying form to accept only one file instead of multiple
+
+**Challenge**: Existing records have arrays of files
+- Current: `multiple: true` with file arrays
+- Target: `multiple: false` with single file
+- Validation schema changes required
+
+**Migration Steps**:
+1. Export existing multi-file data
+2. Decide which file to keep (first, largest, most recent)
+3. Update field configuration to `multiple: false`
+4. Change validation from `yup.array` to `yup.mixed`
+5. Re-import with single file per record
+
+## Best Practices {comprehensive}
 
 ### Performance Best Practices
-1. **FileUploader:** Limit individual files to 50MB
-2. **TakePhoto:** Maximum 20 photos per field
-3. **Total per record:** Keep under 200MB combined
-4. **Helper text:** Always specify size/count limits
-5. **Sync strategy:** Disable "Get attachments" for bandwidth
-6. **Storage monitoring:** Check device space before fieldwork
+- **FileUploader:** Limit individual files to 50MB
+- **TakePhoto:** Maximum 20 photos per field
+- **Total per record:** Keep under 200MB combined
+- **Helper text:** Always specify size/count limits
+- **Sync strategy:** Disable "Get attachments" for bandwidth
+- **Batch uploads:** Process in groups to avoid timeouts
 
 ### Security Best Practices
-1. **Deployment:** Trusted research teams only
-2. **Documentation:** List acceptable file types
-3. **Monitoring:** Review uploads regularly
-4. **Server validation:** Implement if public-facing
-5. **Storage limits:** Set maximum sizes via JSON
+- **Deployment:** Trusted research teams only
+- **Documentation:** List acceptable file types
+- **Monitoring:** Review uploads regularly
+- **Server validation:** Implement if public-facing
+- **Storage limits:** Set maximum sizes via JSON
+
+### Storage Management Best Practices
+- **Pre-fieldwork:** Check device storage availability
+- **Size limits:** Document in helper text clearly
+- **Sync strategy:** Consider "Get attachments" setting impact
+- **Regular cleanup:** Remove orphaned attachments periodically
+- **Compression:** Train users on image optimization
 
 ## Field Quirks Index (2025-01-03) {comprehensive}
 
@@ -1188,6 +1260,7 @@ See [Performance Thresholds Reference](../reference-docs/performance-thresholds-
   "damage-photos": {
     "component-namespace": "faims-custom",
     "component-name": "TakePhoto",
+    "type-returned": "faims-attachment::Files",
     "condition": {
       "operator": "and",
       "conditions": [
@@ -1291,12 +1364,12 @@ See [Performance Thresholds Reference](../reference-docs/performance-thresholds-
 ## Migration Warnings Index (2025-01-03) {comprehensive}
 
 ### Critical Migration Issues
-1. **Required validation breaks** when moving to Fieldmark
-2. **File type restrictions** not available (FAIMS2 had MIME filtering)
-3. **Progress indicators** removed in current version
-4. **EXIF preservation** not possible (stripped on upload)
+1. **Required validation breaks** - Must use helper text instead
+2. **File type restrictions** not available - No MIME filtering
+3. **Progress indicators** missing - Users wait without feedback
+4. **EXIF preservation** not possible - Stripped on upload
 5. **Bulk operations** require manual configuration
-6. **Performance limits** more restrictive than FAIMS2
+6. **Performance limits** strict - 50MB files, 20 photos maximum
 7. **Orphaned attachments** accumulate without cleanup
 
 ## See Also {comprehensive}

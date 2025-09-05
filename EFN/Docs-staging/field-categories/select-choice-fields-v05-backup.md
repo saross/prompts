@@ -17,7 +17,7 @@ All fields share static vocabulary requirements—options must be predefined at 
 - **"Select Field"** in Designer → `faims-custom::Select`
 - **"Select Field (Hierarchical)"** in Designer → `faims-custom::AdvancedSelect` 🔴 BETA
 
-### Field Capabilities Summary
+### Data Capture Fields (1-5)
 
 1. **Checkbox** ✅ PRODUCTION - Boolean states, returns `faims-core::Bool`
 2. **Select** ✅ PRODUCTION - Single dropdown selection, returns `faims-core::String`  
@@ -25,7 +25,7 @@ All fields share static vocabulary requirements—options must be predefined at 
 4. **RadioGroup** 🟡 DEPRECATED - Single visible selection, returns `faims-core::String`
 5. **AdvancedSelect** 🔴 BETA - Hierarchical trees, returns `faims-core::String`
 
-### Component Status
+### Component Status Summary
 
 | Component | Status | Error Display | Mobile Support | Primary Use Case |
 |-----------|--------|---------------|----------------|------------------|
@@ -149,7 +149,7 @@ What type of selection do you need?
 - RadioGroup: Multiple WCAG violations, use Select instead
 - AdvancedSelect: Not accessible, use cascading Selects instead
 
-## ⚠️ Critical Security Risks {essential}
+## ⚠️ Critical Security Vulnerabilities {essential}
 
 ### Input Sanitization Issues
 
@@ -205,7 +205,7 @@ What type of selection do you need?
 - **Risk**: Confidential classifications appearing in wrong contexts
 - **Mitigation**: Implement proper form state cleanup
 
-## What This Field Cannot Do {important}
+## What These Fields Cannot Do {important}
 
 ### Selection Processing Limitations {important}
 
@@ -340,16 +340,17 @@ The Designer interface uses human-readable labels that don't match the technical
 ### Designer Limitations Requiring JSON
 
 **Complete JSON Requirement** [affects: AdvancedSelect]:
-- **Hierarchy definition**: While Designer provides a JSON template builder for `optiontree` structure, complex hierarchies may require manual JSON editing for complete tree structure including all nodes and relationships.
+- **Hierarchy definition**: The `optiontree` structure cannot be configured in Designer interface. Must hand-edit JSON with complete tree structure including all nodes and relationships.
 
 **Advanced Properties** [affects: All fields]:
 - **Validation schemas**: Beyond basic `required` checkbox, all validation rules require JSON editing (`yup.oneOf`, `yup.min`, custom messages)
-- **Initial values**: Designer enforces defaults (Checkbox: false, others: empty), though "copy value to new records" provides persistence after first entry
+- **Initial values**: Designer enforces defaults (Checkbox: false, others: empty). JSON editing required for pre-selected states
 - **Performance properties**: `fullWidth`, `variant`, `disabled` states not exposed in Designer
 - **MUI component props**: `FormControlLabelProps`, `SelectProps`, etc. only accessible via JSON
 
-**Complex Option Configuration** [affects: RadioGroup, Select]:
-- **Value vs Label separation**: Designer enforces value=label. JSON editing required if you need different internal values from display labels (e.g., store "arch_site" while displaying "Archaeological Site")
+**Complex Option Configuration** [affects: MultiSelect, RadioGroup, Select]:
+- **Value vs Label separation**: Designer enforces value=label. JSON editing required for different internal values and display labels
+- **Exclusive options**: MultiSelect exclusive option arrays must be configured in JSON
 - **Option validation**: `yup.oneOf` validation against defined options requires JSON configuration
 
 ### Technical Implementation Note
@@ -390,7 +391,7 @@ For complete meta properties documentation, see [Meta Properties Reference](meta
 **MultiSelect**:
 - ✅ Option list with drag-drop reordering
 - ✅ Expanded checklist mode toggle
-- ✅ Per-option exclusive configuration via checkbox (exclusive options CAN be set in Designer)
+- ✅ Per-option exclusive configuration checkbox  
 - ✅ Label and helper text
 - ✅ Markdown syntax support in option labels
 
@@ -456,10 +457,9 @@ For complete meta properties documentation, see [Meta Properties Reference](meta
 See [Designer Limitations Reference](designer-limitations-reference.md) for testing, validation, and configuration constraints that apply to all fields.
 
 **Selection Field-Specific Limitations**:
-- **Markdown processing performance**: All option labels processed through markdown parser at design-time, potentially causing lag with >20 options (hypothetical limit)
+- **Markdown processing performance**: All option labels processed through markdown parser, causing lag with >20 options
 - **No option validation**: Designer doesn't validate that option values are unique or contain valid characters
 - **No bulk option management**: Cannot import/export option lists or edit multiple options at once
-- **Option value/label coupling**: Designer enforces option display text = stored value (cannot have "Archaeological Site" display with "arch_site" stored)
 
 ## Component Namespace Errors {important}
 
@@ -826,7 +826,7 @@ See [Data Export Reference](data-export-reference.md) for comprehensive export d
 - [ ] Validate export/import round-trip data integrity
 - [ ] Check conditional field behavior with various selections
 
-## Field Reference {essential}
+## Individual Field Reference {essential}
 
 ### Checkbox (Checkbox in Designer) {essential}
 <!-- keywords: boolean, consent, binary, toggle, checkbox -->
@@ -2682,7 +2682,7 @@ See Individual Field Reference section for detailed field-specific issues.
 }
 ```
 
-## Migration Scenarios {comprehensive}
+## Migration and Best Practices {comprehensive}
 
 ### Migration Decision Tree {comprehensive}
 
@@ -2850,9 +2850,7 @@ function migrateCheckboxesToMultiSelect(checkboxFields) {
 - Select with multiple conditional fields
 - Custom component with error display
 
-## Best Practices {comprehensive}
-
-### Field-Specific Best Practices
+### Field-Specific Best Practices {comprehensive}
 
 **Checkbox:**
 - Always use yup.oneOf([true]) for "must accept"

@@ -61,10 +61,9 @@ See [Designer Limitations Reference](../reference-docs/designer-limitations-refe
 **Location-Specific Designer Limitations:**
 - Cannot set GPS timeout through Designer
 - Cannot configure map center coordinates
-- Cannot set accuracy thresholds
-- Limited geometry type selection for MapFormField
-- No GPS quality validation available
-- Validation messages don't display for MapFormField
+- Cannot set GPS parameters (enableHighAccuracy, timeout, maximumAge)
+- Cannot configure validation beyond 'required' for MapFormField
+- Validation messages don't display properly for MapFormField
 
 ## Field Selection Guide {essential}
 
@@ -202,9 +201,9 @@ See [Security Considerations Reference](../reference-docs/security-consideration
 **MapFormField:**
 - ✅ Field label
 - ✅ Zoom level
-- ✅ Feature type
+- ✅ Feature type (Point, LineString, Polygon)
 - ❌ Center coordinates
-- ❌ Validation
+- ❌ Validation (only 'required' available)
 
 ### JSON-Only Configuration
 
@@ -260,35 +259,22 @@ See [Performance Thresholds Reference](../reference-docs/performance-thresholds-
 - **GPU acceleration:** Disabled for MapFormField
 
 ### Validation Patterns {important}
-See [Validation Timing Reference](../reference-docs/validation-timing-reference.md) for universal behavior.
+See [Validation System Documentation](../detail-crossfield-docs/validation.md) for comprehensive validation patterns and timing.
 
-**Location-Specific Validation:**
-- **Coordinate range:** Not validated (-90 to 90, -180 to 180)
-- **Accuracy threshold:** Cannot enforce minimum accuracy
-- **Boundary validation:** No geofencing available
-- **Required location:** Works for TakePoint, silent for MapFormField
-- **Geometry validity:** No self-intersection checks
+**Location Field-Specific Validation:**
+- **Coordinate range**: NOT validated (accepts invalid lat/lon beyond ±90/±180)
+- **GPS accuracy**: Cannot enforce minimum accuracy thresholds
+- **Geofencing**: No boundary validation available
+- **Required behavior**: Works for TakePoint, silently fails for MapFormField
+- **Geometry**: No self-intersection or validity checks for polygons/lines
 
 ### Platform Behaviors {important}
+See [Platform Behaviors Reference](../reference-docs/platform-behaviors-reference.md) for general platform characteristics.
 
-**iOS Specific:**
-- Higher GPS accuracy than Android
-- "Allow Once" permission option
-- Altitude usually available
-- kCLErrorDomain error messages
-- Rapid tap vertex bug (MapFormField)
-
-**Android Specific:**
-- GPS may need "wake up" after airplane mode
-- Speed/heading often null unless moving
-- Progressive performance degradation
-- Generic "location unavailable" errors
-
-**Web Platform:**
-- Limited GPS metadata (no altitude/speed)
-- Browser permission prompts
-- Lower accuracy than mobile
-- Can revoke permission mid-session
+**Location Field-Specific Behaviors:**
+- **iOS**: Higher GPS accuracy; altitude available; "Allow Once" permission; rapid tap vertex bug in MapFormField
+- **Android**: GPS needs "wake up" after airplane mode; speed/heading null unless moving
+- **Web**: Limited GPS metadata (no altitude/speed); lower accuracy than mobile; mid-session permission revocation possible
 
 ### Meta Properties {important}
 See [Meta Properties Reference](../reference-docs/meta-properties-reference.md) for configuration.
@@ -994,13 +980,13 @@ Interactive geometry creation through web-based mapping, enabling spatial featur
 3. Use point clusters instead of detailed polygons
 4. Archive completed data regularly
 
-## Migration and Best Practices {comprehensive}
-
-### Migration Considerations
+### General Migration Considerations
 - **Data format incompatibility** between TakePoint and MapFormField
 - **No conversion utilities** - manual reconstruction required
 - **CSV export loses metadata** - use JSONL for full preservation
 - **Namespace differences** require JSON updates
+
+## Best Practices {comprehensive}
 
 ### GPS Best Practices (TakePoint)
 1. **Allow stabilisation** - Wait 30-60s on site
@@ -1069,6 +1055,7 @@ See [Performance Thresholds Reference](../reference-docs/performance-thresholds-
   "feature-location": {
     "component-namespace": "faims-custom",
     "component-name": "TakePoint",
+    "type-returned": "faims-pos::Location",
     "condition": {
       "operator": "equal",
       "field": "location-needed",
