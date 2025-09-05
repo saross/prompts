@@ -1,18 +1,39 @@
+<!-- concat:boundary:start section="location-fields" -->
+<!-- concat:metadata
+document_id: location-fields-v05
+category: location
+field_count: 2
+designer_capable: ["TakePoint"]
+json_only: ["MapForm", "geometry_types", "map_layers"]
+last_updated: 2025-01-05
+-->
+
 # Location Fields - Fieldmark v3 Documentation
+
+## Document Navigation
+<!-- concat:nav-mode:individual -->
+[← Display Fields](./display-field-v05.md) | **Location Fields** | [Media Fields →](./media-fields-v05.md)
+<!-- concat:nav-mode:concatenated -->
+<!-- When viewing in reference.md: [↑ Top](#fieldmark-v3-field-type-documentation-index) | [Media Fields ↓](#media-fields) -->
 
 ## Overview {essential}
 
 ### DESIGNER QUICK GUIDE
 **Location Capture Fields Available:**
 - **TakePoint** → GPS coordinate capture via device location services
-- **MapFormField** → Interactive map-based geometry drawing
+## Component Name Mapping {essential}
 
-**Component Namespaces:** 
-- TakePoint: `"faims-custom"`
-- MapFormField: `"mapping-plugin"` (semi-integrated plugin status)
+| Designer UI Label | JSON component-name | Namespace | Code File | Description |
+|------------------|-------------------|-----------|-----------|-------------|
+| Take GPS Point | TakePoint | mapping-plugin | TakePoint.tsx | GPS coordinate capture |
+| Map Form Field | MapFormField | mapping-plugin | MapFormField.tsx | Interactive map drawing |
 
-**Return Types:**
-- TakePoint: `faims-pos::Location` (GeoJSON Feature with metadata)
+### Critical Naming Issues {important}
+- **Plugin namespace**: Both use mapping-plugin, not faims-custom
+- **MapForm variations**: Sometimes "MapFormField", sometimes "MapForm" in docs
+- **Designer limitations**: MapFormField configuration mostly JSON-only
+- **Accuracy confusion**: GPS accuracy thresholds not enforced despite UI
+
 - MapFormField: `faims-core::JSON` (GeoJSON FeatureCollection)
 
 **Designer Support:** Limited for both - JSON enhancement often required
@@ -232,6 +253,24 @@ See [Component Namespace Reference](../reference-docs/component-namespace-refere
 - Using "faims-custom" for MapFormField - Field won't render
 - Using "mapping-plugin" for TakePoint - Component not found
 - Wrong capitalisation - Parse errors
+
+
+## When to Use These Fields {essential}
+
+### Field Selection Matrix
+
+| Use Case | Recommended Field | Why |
+|----------|------------------|-----|
+| GPS points | TakePoint | Simple coordinate capture |
+| Areas/Polygons | MapFormField | Draw on map |
+| Routes/Lines | MapFormField | Draw polylines |
+| Site locations | TakePoint | Quick GPS capture |
+
+### Decision Criteria
+- **Geometry type**: Point → TakePoint, Polygon/Line → MapFormField
+- **User interaction**: GPS button → TakePoint, Draw on map → MapFormField
+- **Accuracy needs**: High → TakePoint with threshold, Visual → MapFormField
+- **Offline capability**: Full → TakePoint, Limited → MapFormField
 
 ## Common Characteristics {important}
 
@@ -1206,3 +1245,22 @@ See [Performance Thresholds Reference](../reference-docs/performance-thresholds-
 - **Security Level**: Location privacy concerns
 - **Performance Limits**: 1000 points (TakePoint), 500 vertices (MapFormField)
 - **Reference Docs**: 9 linked documents
+---
+
+## Related Documentation
+<!-- concat:references -->
+
+### Within Field Categories
+- **Previous**: [Display Fields](./display-field-v05.md) | [#display-fields](#display-fields)
+- **Next**: [Media Fields](./media-fields-v05.md) | [#media-fields](#media-fields)
+
+### Cross-Field Patterns
+- **Validation**: [Location Accuracy](../detail-crossfield-docs/validation.md#location-fields) | [#validation-patterns](#validation-patterns)
+- **Field Dependencies**: [GPS Requirements](../detail-crossfield-docs/conditional-logic.md#location-fields) | [#conditional-logic](#conditional-logic)
+
+### Technical References
+- **Platform Behaviors**: [GPS Handling](../reference-docs/platform-behaviors-reference.md#location-fields) | [#platform-behaviors](#platform-behaviors)
+- **Performance**: [Map Rendering](../reference-docs/performance-thresholds-reference.md#location-fields) | [#performance-thresholds](#performance-thresholds)
+
+<!-- /concat:references -->
+<!-- concat:boundary:end section="location-fields" -->

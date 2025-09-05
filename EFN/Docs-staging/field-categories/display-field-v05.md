@@ -1,19 +1,39 @@
+<!-- concat:boundary:start section="display-fields" -->
+<!-- concat:metadata
+document_id: display-field-v05
+category: display
+field_count: 1
+designer_capable: ["RichText"]
+json_only: ["html_content", "dynamic_generation"]
+last_updated: 2025-01-05
+-->
+
 # Display Field - Fieldmark v3 Documentation
+
+## Document Navigation
+<!-- concat:nav-mode:individual -->
+[← Numeric Fields](./number-fields-v05.md) | **Display Fields** | [Location Fields →](./location-fields-v05.md)
+<!-- concat:nav-mode:concatenated -->
+<!-- When viewing in reference.md: [↑ Top](#fieldmark-v3-field-type-documentation-index) | [Location Fields ↓](#location-fields) -->
+
 
 ## Overview {essential}
 
 ### DESIGNER QUICK GUIDE
 **Display Field Available:**
 - **RichText** → Static formatted content and instructions
+## Component Name Mapping {essential}
 
-**Component Namespace:** `"faims-custom"`
-**Component Name:** `RichText` (case-sensitive)
-**Return Type:** `faims-core::String` (never actually returns values)
-**Designer Support:** Full MDX editor with visual/source modes
+| Designer UI Label | JSON component-name | Namespace | Code File | Description |
+|------------------|-------------------|-----------|-----------|-------------|
+| Rich Text | RichText | faims-custom | RichText.tsx | Display-only formatted content |
 
-### CRITICAL NAMING DISAMBIGUATION
-- **RichText** - Static display-only content (NOT data capture)
-- **NOT TemplatedStringField** - That's for dynamic identifier generation
+### Critical Naming Issues {important}
+- **Single component**: Only one display field type available
+- **Not a field**: Despite being called a "field", captures no data
+- **Memory leaks**: Known performance issues on mobile devices
+- **Markdown limitations**: Tables stripped, external images blocked at runtime
+
 - **NOT TextField/MultilineText** - Those capture user input
 - Component uses namespace `"faims-custom"` despite being display-only
 - Returns empty string always - no data storage
@@ -227,6 +247,21 @@ See [Component Namespace Reference](../reference-docs/component-namespace-refere
 - Using "RichTextDisplay" instead of "RichText"
 - Confusing with TemplatedStringField
 - Wrong return type expectations
+
+
+## When to Use This Field {essential}
+
+### Use RichText When
+- Displaying instructions or help text within forms
+- Adding section headings or visual separators  
+- Showing formatted content that doesn't need user input
+- Providing context or examples for other fields
+
+### Do NOT Use RichText When
+- You need to capture user input (use TextField/MultipleTextField)
+- Content changes based on user input (use TemplatedStringField)
+- Displaying large documents (performance issues)
+- Accessibility is critical (no screen reader support)
 
 ## Common Characteristics {important}
 
@@ -1117,3 +1152,23 @@ See [Performance Thresholds Reference](../reference-docs/performance-thresholds-
 - **Key Limitations**: Memory leaks, no caching, tables stripped, no accessibility
 - **Performance Critical**: Yes - degrades with content
 - **Reference Docs**: 9 linked documents
+---
+
+## Related Documentation
+<!-- concat:references -->
+
+### Within Field Categories
+- **Previous**: [Numeric Fields](./number-fields-v05.md) | [#number-fields](#number-fields)
+- **Next**: [Location Fields](./location-fields-v05.md) | [#location-fields](#location-fields)
+- **Similar**: [Text Fields - RichText](./text-fields-v05.md#richtext) | [#text-input-fields](#text-input-fields)
+
+### Cross-Field Patterns
+- **Instructions**: [Form Help Text](../detail-crossfield-docs/patterns.md#instructions) | [#common-patterns](#common-patterns)
+- **Conditional Display**: [Dynamic Content](../detail-crossfield-docs/conditional-logic.md#display-fields) | [#conditional-logic](#conditional-logic)
+
+### Technical References
+- **Security**: [HTML Sanitization](../reference-docs/security-considerations-reference.md#display-fields) | [#security-considerations](#security-considerations)
+- **Performance**: [Rendering Limits](../reference-docs/performance-thresholds-reference.md#display-fields) | [#performance-thresholds](#performance-thresholds)
+
+<!-- /concat:references -->
+<!-- concat:boundary:end section="display-fields" -->

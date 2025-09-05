@@ -1,8 +1,40 @@
+<!-- concat:boundary:start section="number-fields" -->
+<!-- concat:metadata
+document_id: number-fields-v05
+category: numeric
+field_count: 3
+designer_capable: ["NumberField"]
+json_only: ["BasicAutoIncrementer", "step_increments"]
+last_updated: 2025-01-05
+-->
+
+# Number Input Fields
+
+## Document Navigation
+<!-- concat:nav-mode:individual -->
+[← Date & Time Fields](./datetime-fields-v05.md) | **Numeric Fields** | [Display Fields →](./display-field-v05.md)
+<!-- concat:nav-mode:concatenated -->
+<!-- When viewing in reference.md: [↑ Top](#fieldmark-v3-field-type-documentation-index) | [Display Fields ↓](#display-fields) -->
+
 # Number Input Fields
 
 ## Overview {essential}
 
 The Number Input category encompasses three distinct field types for numeric and sequential data management in Fieldmark, each serving fundamentally different purposes despite their shared categorization.
+
+## Component Name Mapping {essential}
+
+| Designer UI Label | JSON component-name | Namespace | Code File | Description |
+|------------------|-------------------|-----------|-----------|-------------|
+| Number Field | NumberField | faims-custom | NumberField.tsx | Numeric input with validation |
+| Basic Auto Incrementer | BasicAutoIncrementer | faims-custom | BasicAutoIncrementer.tsx | Auto-incrementing counter |
+
+### Critical Naming Issues {important}
+- **ControlledNumber absence**: Referenced in docs but is actually TextField with type="number"
+- **Step increment confusion**: Cannot set step increments in Designer, use BasicAutoIncrementer instead
+- **TextField variant**: "Controlled Number" is TextField (formik-material-ui) with numeric configuration
+- **Namespace discrepancy**: All number fields use faims-custom namespace
+
 
 ### Components in this Category
 - **Number Input** (NumberField in JSON) - Standard floating-point numeric entry
@@ -341,6 +373,23 @@ See [Component Namespace Reference](component-namespace-reference.md) for comple
 **Common confusion**: 
 - Designer shows "Number Input" but JSON requires "NumberField"
 - BasicAutoIncrementer returns strings like "BAI-001", not numbers
+
+
+## When to Use These Fields {essential}
+
+### Field Selection Matrix
+
+| Use Case | Recommended Field | Why |
+|----------|------------------|-----|
+| General numeric input | NumberField | Full validation support |
+| Sequential IDs | BasicAutoIncrementer | Auto-increment |
+| Controlled input | TextField with type="number" | When NumberField insufficient |
+
+### Decision Criteria
+- **Auto-generation**: Needed → BasicAutoIncrementer
+- **Validation complexity**: Simple → NumberField, Complex → TextField variant
+- **Step increments**: Not in Designer → Use BasicAutoIncrementer
+- **Display format**: Standard → NumberField, Custom → BasicAutoIncrementer
 
 ## Common Characteristics {important}
 
@@ -2908,3 +2957,22 @@ Anti-patterns have been distributed to their respective field sections for bette
 ---
 
 *Enhanced documentation with 100% content restoration from original field documentation*
+---
+
+## Related Documentation
+<!-- concat:references -->
+
+### Within Field Categories
+- **Previous**: [Date & Time Fields](./datetime-fields-v05.md) | [#datetime-fields](#datetime-fields)
+- **Next**: [Display Fields](./display-field-v05.md) | [#display-fields](#display-fields)
+
+### Cross-Field Patterns
+- **Validation**: [Number Validation](../detail-crossfield-docs/validation.md#number-fields) | [#validation-patterns](#validation-patterns)
+- **Calculations**: [Computed Values](../detail-crossfield-docs/patterns.md#calculations) | [#common-patterns](#common-patterns)
+
+### Technical References
+- **Designer Limitations**: [Number Constraints](../reference-docs/designer-limitations-reference.md#number-fields) | [#designer-limitations](#designer-limitations)
+- **Performance**: [Numeric Processing](../reference-docs/performance-thresholds-reference.md#number-fields) | [#performance-thresholds](#performance-thresholds)
+
+<!-- /concat:references -->
+<!-- concat:boundary:end section="number-fields" -->

@@ -1,6 +1,38 @@
+<!-- concat:boundary:start section="datetime-fields" -->
+<!-- concat:metadata
+document_id: datetime-fields-v05
+category: datetime
+field_count: 4
+designer_capable: ["DateTimeNow", "DateTimePicker", "DatePicker", "MonthPicker"]
+json_only: ["compute_value", "custom_formats"]
+last_updated: 2025-01-05
+-->
+
 # Date-Time Input Fields
 
+## Document Navigation
+<!-- concat:nav-mode:individual -->
+[← Selection Fields](./select-choice-fields-v05.md) | **Date & Time Fields** | [Numeric Fields →](./number-fields-v05.md)
+<!-- concat:nav-mode:concatenated -->
+<!-- When viewing in reference.md: [↑ Top](#fieldmark-v3-field-type-documentation-index) | [Numeric Fields ↓](#number-fields) -->
+
 ## Overview {essential}
+
+**Component Names**: `DateTimeNow`, `DateTimePicker`, `DatePicker`, `MonthPicker`  
+## Component Name Mapping {essential}
+
+| Designer UI Label | JSON component-name | Namespace | Code File | Description |
+|------------------|-------------------|-----------|-----------|-------------|
+| Date Time Now | DateTimeNow | Timestamp with timezone support |
+| Date Time Picker | DateTimePicker | faims-custom | DateTimePicker.tsx | Date and time selection |
+| Date Picker | DatePicker | faims-custom | DatePicker.tsx | Date-only selection |
+| Month Picker | MonthPicker | faims-custom | MonthPicker.tsx | Month/year selection |
+
+### Critical Naming Issues {important}
+- **Auto-population confusion**: DateTimeNow can be configured to NOT auto-populate via checkbox
+- **Picker variations**: All pickers look similar in Designer but have different behaviors
+- **Format limitations**: Custom formats require JSON configuration
+- **Timezone handling**: All dates stored in local time without timezone info
 
 **Component Names**: `DateTimeNow`, `DateTimePicker`, `DatePicker`, `MonthPicker`  
 **Namespace**: `faims-custom`  
@@ -362,6 +394,29 @@ See [Component Namespace Reference](component-namespace-reference.md) for comple
 - All datetime components are in `faims-custom`, despite using MUI pickers internally
 
 All date/time components are registered in the "faims-custom" namespace in the component registry (`bundle_components.ts`). There are no date/time components in other namespaces, making namespace errors particularly common when developers assume standard Material-UI patterns.
+
+
+## When to Use These Fields {essential}
+### Timezone Handling {important}
+- **DateTimeNow**: RECOMMENDED - Properly handles timezones
+- **DateTimePicker**: Stores local time without timezone (use DateTimeNow when timezone matters)
+- The "now" button in DateTimeNow is optional - field works fine for manual entry too
+
+
+### Field Selection Matrix
+
+| Use Case | Recommended Field | Why |
+|----------|------------------|-----|
+| Timestamps/Audit trails | DateTimeNow | Auto-populated |
+| Event scheduling | DateTimePicker | Full date+time |
+| Dates only (no time) | DatePicker | Cleaner for date-only |
+| Month/Year selection | MonthPicker | Period selection |
+
+### Decision Criteria
+- **Auto-population**: Required → DateTimeNow, Manual → Pickers
+- **Time component**: Needed → DateTimePicker, Not needed → DatePicker
+- **Granularity**: Day → DatePicker, Month → MonthPicker, Minute → DateTimePicker
+- **User editing**: Never → DateTimeNow, Sometimes → Pickers
 
 ## Common Characteristics {important}
 
@@ -765,7 +820,7 @@ Legacy datetime field that stores timestamps without timezone information, causi
 
 ### ⚠️ DateTimePicker Usage Warning {essential}
 
-**This field is DISCOURAGED but not deprecated**. Understanding when it might be acceptable:
+**This field is RECOMMENDED for proper timezone handling**. Understanding when it might be acceptable:
 
 #### Acceptable Use Cases (Rare)
 - Single-site project with no travel
@@ -3083,3 +3138,24 @@ Version 2.0 restores approximately 30% of technical implementation details that 
 - ⚠️ ALWAYS import Excel as text to prevent corruption
 - ⚠️ UTC storage may confuse users (training required)
 - ⚠️ No validation for date ranges or temporal constraints
+---
+
+## Related Documentation
+<!-- concat:references -->
+
+### Within Field Categories
+- **Previous**: [Selection Fields](./select-choice-fields-v05.md) | [#selection-fields](#selection-fields)
+- **Next**: [Numeric Fields](./number-fields-v05.md) | [#number-fields](#number-fields)
+
+### Cross-Field Patterns
+- **Validation**: [Date Validation](../detail-crossfield-docs/validation.md#datetime-fields) | [#validation-patterns](#validation-patterns)
+- **Conditional Logic**: [Date-based Conditions](../detail-crossfield-docs/conditional-logic.md#datetime-fields) | [#conditional-logic](#conditional-logic)
+- **Best Practices**: [Temporal Data](../detail-crossfield-docs/field-selection-best-practices.md#datetime-fields) | [#field-selection](#field-selection)
+
+### Technical References
+- **Designer Limitations**: [DateTime Constraints](../reference-docs/designer-limitations-reference.md#datetime-fields) | [#designer-limitations](#designer-limitations)
+- **Platform Behaviors**: [Timezone Handling](../reference-docs/platform-behaviors-reference.md#datetime-fields) | [#platform-behaviors](#platform-behaviors)
+- **Performance**: [Date Processing](../reference-docs/performance-thresholds-reference.md#datetime-fields) | [#performance-thresholds](#performance-thresholds)
+
+<!-- /concat:references -->
+<!-- concat:boundary:end section="datetime-fields" -->

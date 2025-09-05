@@ -1,18 +1,40 @@
+<!-- concat:boundary:start section="media-fields" -->
+<!-- concat:metadata
+document_id: media-fields-v05
+category: media
+field_count: 2
+designer_capable: ["TakePhoto", "FileUploader"]
+json_only: ["custom_upload_handlers", "file_type_restrictions"]
+last_updated: 2025-01-05
+-->
+
 # Media Fields - Fieldmark v3 Documentation
+
+## Document Navigation
+<!-- concat:nav-mode:individual -->
+[← Location Fields](./location-fields-v05.md) | **Media Fields** | [Relationship Fields →](./relationship-field-v05.md)
+<!-- concat:nav-mode:concatenated -->
+<!-- When viewing in reference.md: [↑ Top](#fieldmark-v3-field-type-documentation-index) | [Relationship Fields ↓](#relationship-fields) -->
+
 
 ## Overview {essential}
 
 ### DESIGNER QUICK GUIDE
 **Media Capture Fields Available:**
 - **FileUploader** → Upload any existing files from device
-- **TakePhoto** → Capture photos using device camera
+## Component Name Mapping {essential}
 
-**Component Namespace:** Always `"faims-custom"` for both fields
-**Component Names:** Case-sensitive - `FileUploader`, `TakePhoto`
-**Return Type:** Both return `faims-attachment::Files` arrays
-**Designer Support:** Full support for basic configuration, JSON required for file constraints
+| Designer UI Label | JSON component-name | Namespace | Code File | Description |
+|------------------|-------------------|-----------|-----------|-------------|
+| Take Photo | TakePhoto | faims-custom | TakePhoto.tsx | Camera capture & gallery |
+| File Uploader | FileUploader | faims-custom | FileUploader.tsx | General file attachment |
 
-### CRITICAL NAMING DISAMBIGUATION
+### Critical Naming Issues {important}
+- **TakePhoto misnomer**: Also handles gallery selection, not just camera
+- **Required validation broken**: Known issue with required field validation
+- **File type restrictions**: Cannot actually restrict file types despite settings
+- **Silent failures**: Upload errors often fail silently
+
 - **FileUploader** (capital F, capital U) - NOT "fileuploader" or "File Uploader"
 - **TakePhoto** (capital T, capital P) - NOT "takephoto" or "Take Photo"
 - Both components use namespace `"faims-custom"` - never "core" or "basic"
@@ -219,6 +241,24 @@ See [Component Namespace Reference](../reference-docs/component-namespace-refere
 - Using "core" instead of "faims-custom" - Fields won't render
 - Lowercase component names - Component not found errors
 - Space in component name - Parse errors
+
+
+## When to Use These Fields {essential}
+
+### Field Selection Matrix
+
+| Use Case | Recommended Field | Why |
+|----------|------------------|-----|
+| Photo documentation | TakePhoto | Camera optimized |
+| Document uploads | FileUploader | Any file type |
+| Mixed media | FileUploader | More flexible |
+| Evidence photos | TakePhoto | Direct camera access |
+
+### Decision Criteria
+- **File type**: Photos only → TakePhoto, Any type → FileUploader
+- **Camera access**: Required → TakePhoto, Optional → FileUploader
+- **File source**: Camera → TakePhoto, Existing files → FileUploader
+- **Validation**: Neither properly validates required fields (known issue)
 
 ## Common Characteristics {important}
 
@@ -1416,3 +1456,23 @@ See [Performance Thresholds Reference](../reference-docs/performance-thresholds-
 - **Security Level**: Trusted environments only
 - **Performance Limits**: 50MB files, 20 photos maximum
 - **Reference Docs**: 9 linked documents
+---
+
+## Related Documentation
+<!-- concat:references -->
+
+### Within Field Categories
+- **Previous**: [Location Fields](./location-fields-v05.md) | [#location-fields](#location-fields)
+- **Next**: [Relationship Fields](./relationship-field-v05.md) | [#relationship-fields](#relationship-fields)
+
+### Cross-Field Patterns
+- **Validation**: [File Size Limits](../detail-crossfield-docs/validation.md#media-fields) | [#validation-patterns](#validation-patterns)
+- **Platform Specific**: [Camera Access](../detail-crossfield-docs/patterns.md#platform-specific) | [#common-patterns](#common-patterns)
+
+### Technical References
+- **Platform Behaviors**: [Media Handling](../reference-docs/platform-behaviors-reference.md#media-fields) | [#platform-behaviors](#platform-behaviors)
+- **Performance**: [Upload Limits](../reference-docs/performance-thresholds-reference.md#media-fields) | [#performance-thresholds](#performance-thresholds)
+- **Security**: [File Validation](../reference-docs/security-considerations-reference.md#media-fields) | [#security-considerations](#security-considerations)
+
+<!-- /concat:references -->
+<!-- concat:boundary:end section="media-fields" -->

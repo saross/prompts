@@ -1,4 +1,20 @@
+<!-- concat:boundary:start section="text-input-fields" -->
+<!-- concat:metadata
+document_id: text-fields-v05
+category: text_input
+field_count: 7
+designer_capable: ["FAIMSTextField", "MultipleTextField", "TextField"]
+json_only: ["TemplatedStringField.template_syntax", "AddressField.structure", "QRCodeFormField.formats"]
+last_updated: 2025-01-05
+-->
+
 # Text Input Fields
+
+## Document Navigation
+<!-- concat:nav-mode:individual -->
+[← Field Index](../field-type-index.md) | **Text & Input Fields** | [Selection Fields →](./select-choice-fields-v05.md)
+<!-- concat:nav-mode:concatenated -->
+<!-- When viewing in reference.md: [↑ Top](#fieldmark-v3-field-type-documentation-index) | [Selection Fields ↓](#selection-fields) -->
 
 ## Overview {essential}
 
@@ -48,9 +64,27 @@ Fieldmark text fields provide comprehensive text capture capabilities spanning s
 
 6. **QRCodeFormField** - Delivers **mobile-exclusive** barcode scanning functionality through ML Kit barcode scanning, supporting thirteen distinct barcode formats despite its nomenclature suggesting QR-only capability. Uses sophisticated ten-scan validation mechanism ensuring reading accuracy whilst operating without user feedback. **⚠️ PLATFORM WARNING**: Web platform deployment renders the component entirely non-functional, displaying a disabled interface that critically breaks form validation when marked as required.
 
+## Component Name Mapping {essential}
+
+| Designer UI Label | JSON component-name | Namespace | Code File | Description |
+|------------------|-------------------|-----------|-----------|-------------|
+| FAIMS Text Field | FAIMSTextField | faims-custom | FAIMSTextField.tsx | Single-line text input |
+| Text Field | MultipleTextField | formik-material-ui | TextField.tsx | Multi-line text area |
+| Email | TextField | formik-material-ui | TextField.tsx | Email with validation |
+| Template String | TemplatedStringField | faims-custom | TemplatedString.tsx | Auto-generated text |
+| Address | AddressField | faims-custom | Address.tsx | Structured address |
+| QR Code Scanner | QRCodeFormField | qrcode | QRCodeFormField.tsx | Barcode scanner |
+| Rich Text | RichText | faims-custom | RichText.tsx | Display-only formatted content |
+
+### Critical Naming Issues {important}
+- **TextField confusion**: The base TextField component (formik-material-ui) is NOT directly available in Designer
+- **MultipleTextField misnomer**: Despite the name suggesting multiple values, this is actually a multi-LINE text area
+- **Designer label mismatch**: "Text Field" in Designer creates MultipleTextField, not TextField
+- **Component file discrepancy**: TemplatedStringField component is in TemplatedString.tsx (without "Field")
+
 ### Display Field (7)
 
-7. **RichText Field** - Provides formatted instructional content and headings within forms through markdown rendering. Purely presentational—displays static content without capturing or storing user input. Exists within field architecture for consistency but does not participate in form validation, data storage, or export operations. Content rendered through markdown-it parser with aggressive DOMPurify sanitization. **⚠️ MEMORY WARNING**: Critical limitations include memory leaks on mobile devices, no accessibility implementation, and feature discrepancies between Designer editing and runtime display.
+7. **RichText Field** - Provides formatted instructional content and headings within forms through markdown rendering. Purely presentational—displays static content without capturing or storing user input. Exists within field architecture for consistency but does not participate in form validation, data storage, or export operations. Content rendered through markdown-it parser with aggressive DOMPurify sanitization. **Note**: Tables and external images not yet supported, no accessibility implementation, and feature discrepancies between Designer editing and runtime display.
 
 
 ---
@@ -356,6 +390,28 @@ See [Component Namespace Reference](component-namespace-reference.md) for comple
 | QRCodeFormField | `qrcode` | Scanner (unique namespace) |
 
 ---
+
+
+## When to Use These Fields {essential}
+
+### Field Selection Matrix
+
+| Use Case | Recommended Field | Why |
+|----------|------------------|-----|
+| Short identifiers (<50 chars) | FAIMSTextField | Single-line, clean display |
+| Long descriptions | MultipleTextField | Multi-line with scrolling |
+| Email addresses | TextField (Email) | Built-in validation |
+| Auto-generated IDs | TemplatedStringField | Consistent formatting |
+| Physical addresses | AddressField | Structured components |
+| Barcode scanning | QRCodeFormField | Mobile camera integration |
+| Instructions/Help | RichText | Formatted display only |
+
+### Decision Criteria
+- **Data length**: <50 chars → FAIMSTextField, >50 chars → MultipleTextField
+- **Validation needed**: Email → TextField, Pattern → TemplatedStringField
+- **User input**: Yes → FAIMSTextField/MultipleTextField, No → RichText
+- **Mobile scanning**: Required → QRCodeFormField
+- **Address structure**: Needed → AddressField
 
 ## Common Characteristics {important}
 
@@ -3413,3 +3469,26 @@ Anti-patterns have been distributed to their respective field sections for bette
 ### Revision History
 - **v0.1**: Initial consolidated documentation with Designer disambiguation
 - **v0.2**: Added migration patterns and training requirements (2025-08)
+- **v0.3**: Added concatenation boundaries and navigation (2025-01)
+
+---
+
+## Related Documentation
+<!-- concat:references -->
+
+### Within Field Categories
+- **Next Category**: [Selection Fields](./select-choice-fields-v05.md) | [#selection-fields](#selection-fields)
+- **Similar Fields**: [Display Fields - RichText](./display-field-v05.md#richtext) | [#display-fields](#display-fields)
+
+### Cross-Field Patterns
+- **Validation**: [Validation Patterns](../detail-crossfield-docs/validation.md#text-validation) | [#validation-patterns](#validation-patterns)
+- **Conditional Logic**: [Conditional Display](../detail-crossfield-docs/conditional-logic.md#text-conditions) | [#conditional-logic](#conditional-logic)
+- **Best Practices**: [Field Selection](../detail-crossfield-docs/field-selection-best-practices.md#text-fields) | [#field-selection](#field-selection)
+
+### Technical References
+- **Designer Limitations**: [Text Field Constraints](../reference-docs/designer-limitations-reference.md#text-fields) | [#designer-limitations](#designer-limitations)
+- **Security**: [XSS Prevention](../reference-docs/security-considerations-reference.md#text-input) | [#security-considerations](#security-considerations)
+- **Performance**: [Text Field Limits](../reference-docs/performance-thresholds-reference.md#text-fields) | [#performance-thresholds](#performance-thresholds)
+
+<!-- /concat:references -->
+<!-- concat:boundary:end section="text-input-fields" -->

@@ -1,19 +1,39 @@
+<!-- concat:boundary:start section="relationship-fields" -->
+<!-- concat:metadata
+document_id: relationship-field-v05
+category: relationship
+field_count: 1
+designer_capable: ["RelationshipField"]
+json_only: ["complex_rules", "cascading_relationships"]
+last_updated: 2025-01-05
+-->
+
 # Relationship Field - Fieldmark v3 Documentation
+
+## Document Navigation
+<!-- concat:nav-mode:individual -->
+[← Media Fields](./media-fields-v05.md) | **Relationship Fields** | [Field Index →](../field-type-index.md)
+<!-- concat:nav-mode:concatenated -->
+<!-- When viewing in reference.md: [↑ Top](#fieldmark-v3-field-type-documentation-index) -->
+
 
 ## Overview {essential}
 
 ### DESIGNER QUICK GUIDE
 **Relationship Field Available:**
 - **RelatedRecordSelector** → Connect records with bidirectional relationships
+## Component Name Mapping {essential}
 
-**Component Namespace:** `"faims-custom"`
-**Component Name:** `RelatedRecordSelector` (case-sensitive)
-**Return Type:** `faims-core::Array`
-**Designer Support:** Limited - vocabulary pairs require JSON
+| Designer UI Label | JSON component-name | Namespace | Code File | Description |
+|------------------|-------------------|-----------|-----------|-------------|
+| Related Record Selector | RelationshipField | faims-custom | RelationshipField.tsx | Record linking |
 
-### CRITICAL NAMING DISAMBIGUATION
-- **RelatedRecordSelector** (exact case) - NOT "RelationshipField" or "RecordSelector"
-- Component uses namespace `"faims-custom"` - standard custom field
+### Critical Naming Issues {important}
+- **Component name mismatch**: Designer shows "Related Record Selector" but component is "RelationshipField"
+- **Type confusion**: Returns faims-core::Array, not a custom Relationship type
+- **Child vs Linked**: Can switch between modes in Designer but affects behavior significantly
+- **Performance critical**: Degrades rapidly with >50 relationships
+
 - Two relationship types: `"Child"` (hierarchical) or `"is-related-to"` (peer)
 - Vocabulary pairs immutable after creation - plan carefully
 
@@ -214,6 +234,25 @@ See [Component Namespace Reference](../reference-docs/component-namespace-refere
 - Using "RelationshipField" instead of "RelatedRecordSelector"
 - Wrong case in component name
 - Missing related_type parameter
+
+
+## When to Use This Field {essential}
+
+### Use RelationshipField When
+- Linking parent records to child records (hierarchical data)
+- Creating associations between peer records (many-to-many)
+- Building specimen/sample hierarchies
+- Connecting related observations
+
+### Do NOT Use RelationshipField When
+- You have >50 relationships per record (performance degrades)
+- Relationships might exceed 200 (becomes unusable)
+- You need one-way relationships (always bidirectional)
+- Simple foreign key reference sufficient (use Select instead)
+
+### Relationship Type Selection
+- **Child**: Hierarchical parent-child with cascade operations
+- **is-related-to**: Peer relationships with semantic vocabulary
 
 ## Common Characteristics {important}
 
@@ -1327,3 +1366,22 @@ Note: Vocabulary is immutable - must plan before deployment
 - **Key Limitations**: 50 relationship limit, immutable vocabulary, orphan behavior
 - **Performance Critical**: Yes - degrades rapidly
 - **Reference Docs**: 9 linked documents
+---
+
+## Related Documentation
+<!-- concat:references -->
+
+### Within Field Categories
+- **Previous**: [Media Fields](./media-fields-v05.md) | [#media-fields](#media-fields)
+- **Index**: [Field Documentation Index](../field-type-index.md) | [#fieldmark-v3-field-type-documentation-index](#fieldmark-v3-field-type-documentation-index)
+
+### Cross-Field Patterns
+- **Hierarchical Data**: [Parent-Child Records](../detail-crossfield-docs/patterns.md#hierarchical) | [#common-patterns](#common-patterns)
+- **Conditional Logic**: [Dependent Records](../detail-crossfield-docs/conditional-logic.md#relationship-fields) | [#conditional-logic](#conditional-logic)
+
+### Technical References
+- **Designer Limitations**: [Relationship Constraints](../reference-docs/designer-limitations-reference.md#relationship-fields) | [#designer-limitations](#designer-limitations)
+- **Data Export**: [Relationship Handling](../reference-docs/data-export-reference.md#relationships) | [#data-export](#data-export)
+
+<!-- /concat:references -->
+<!-- concat:boundary:end section="relationship-fields" -->

@@ -1,4 +1,20 @@
+<!-- concat:boundary:start section="selection-fields" -->
+<!-- concat:metadata
+document_id: select-choice-fields-v05
+category: selection_choice
+field_count: 5
+designer_capable: ["Checkbox", "Select", "MultiSelect", "RadioGroup", "AdvancedSelect"]
+json_only: ["dynamic_options", "dependent_selects", "option_generation"]
+last_updated: 2025-01-05
+-->
+
 # Selection and Choice Fields
+
+## Document Navigation
+<!-- concat:nav-mode:individual -->
+[← Text Fields](./text-fields-v05.md) | **Selection & Choice Fields** | [Date & Time Fields →](./datetime-fields-v05.md)
+<!-- concat:nav-mode:concatenated -->
+<!-- When viewing in reference.md: [↑ Top](#fieldmark-v3-field-type-documentation-index) | [Date & Time Fields ↓](#datetime-fields) -->
 
 ## Overview {essential}
 
@@ -13,7 +29,7 @@ All fields share static vocabulary requirements—options must be predefined at 
 **Designer Interface Labels vs JSON Component Names:**
 - **"Checkbox"** in Designer → `faims-custom::Checkbox`
 - **"Select Multiple"** in Designer → `faims-custom::MultiSelect`  
-- **"Select one option"** in Designer → `faims-custom::RadioGroup` 🟡 DEPRECATED
+- **"Select one option"** in Designer → `faims-custom::RadioGroup
 - **"Select Field"** in Designer → `faims-custom::Select`
 - **"Select Field (Hierarchical)"** in Designer → `faims-custom::AdvancedSelect` 🔴 BETA
 
@@ -22,8 +38,24 @@ All fields share static vocabulary requirements—options must be predefined at 
 1. **Checkbox** ✅ PRODUCTION - Boolean states, returns `faims-core::Bool`
 2. **Select** ✅ PRODUCTION - Single dropdown selection, returns `faims-core::String`  
 3. **MultiSelect** ✅ PRODUCTION - Multiple selection, returns `faims-core::Array`
-4. **RadioGroup** 🟡 DEPRECATED - Single visible selection, returns `faims-core::String`
-5. **AdvancedSelect** 🔴 BETA - Hierarchical trees, returns `faims-core::String`
+4. **RadioGroup - Single visible selection, returns `faims-core::String`
+5. **AdvancedSelect 🔟 NEW - Hierarchical trees, returns `faims-core::String`
+
+## Component Name Mapping {essential}
+
+| Designer UI Label | JSON component-name | Namespace | Code File | Description |
+|------------------|-------------------|-----------|-----------|-------------|
+| Checkbox | Checkbox | formik-material-ui | Checkbox.tsx | Boolean checkbox |
+| Select Field | Select | formik-material-ui | Select.tsx | Single dropdown |
+| Select Multiple | MultiSelect | formik-material-ui | MultiSelect.tsx | Multiple dropdown |
+| Select one option | RadioGroup | formik-material-ui | RadioGroup.tsx | Radio buttons |
+| Select Field (Hierarchical) | AdvancedSelect | faims-custom | AdvancedSelect.tsx | Tree selection (beta) |
+
+### Critical Naming Issues {important}
+- **MultiSelect label**: Designer shows "Select Multiple" but component is MultiSelect
+- **RadioGroup deprecation**: Still available in Designer but deprecated - use Select instead
+- **AdvancedSelect stability**: Beta feature with JSON builder but incomplete Designer support
+- **Namespace consistency**: Most use formik-material-ui except AdvancedSelect (faims-custom)
 
 ### Component Status
 
@@ -32,8 +64,8 @@ All fields share static vocabulary requirements—options must be predefined at 
 | Checkbox | ✅ Production | ✅ Full messages | ⚠️ Label not clickable | Binary states, consent |
 | Select | ✅ Production | ❌ None | ✅ Good | Single choice dropdown |
 | MultiSelect | ✅ Production | ❌ None | ⚠️ Performance limits | Multiple selections |
-| RadioGroup | 🟡 Deprecated | ❌ Color only | ❌ Accessibility issues | Single visible options |
-| AdvancedSelect | 🔴 Beta | ❌ None | ❌ Mobile broken | Hierarchical vocabularies |
+| RadioGroup | ✅ Production | ❌ Color only | ❌ Accessibility issues | Single visible options |
+| AdvancedSelect | 🔟 New | ❌ Limited | ⚠️ In progress | Hierarchical vocabularies |
 
 ## Designer Usage Guide {essential}
 
@@ -333,7 +365,7 @@ The Designer interface uses human-readable labels that don't match the technical
 |------------------|----------------|-----------|-------|
 | "Checkbox" | `Checkbox` | `faims-custom` | Matches exactly |
 | "Select Multiple" | `MultiSelect` | `faims-custom` | Different names |
-| "Select one option" | `RadioGroup` | `faims-custom` | 🟡 DEPRECATED |
+| "Select one option" | `RadioGroup |
 | "Select Field" | `Select` | `faims-custom` | Different names |
 | "Select Field (Hierarchical)" | `AdvancedSelect` | `faims-custom` | 🔴 BETA status |
 
@@ -479,6 +511,26 @@ See [Component Namespace Reference](component-namespace-reference.md) for comple
 | RadioGroup | `faims-custom` | `RadioGroup` (capitals R, G) |
 | Select | `faims-custom` | `Select` (capital S) |
 | AdvancedSelect | `faims-custom` | `AdvancedSelect` (capitals A, S) |
+
+
+## When to Use These Fields {essential}
+
+### Field Selection Matrix
+
+| Use Case | Recommended Field | Why |
+|----------|------------------|-----|
+| Yes/No questions | Checkbox | Clear boolean state |
+| Single choice (<10 options) | Select | Compact dropdown |
+| Single choice (>10 options) | Select | Searchable dropdown |
+| Multiple choices | MultiSelect | Multi-select dropdown |
+| Hierarchical categories | AdvancedSelect | Tree navigation |
+| Visible options (2-5) | RadioGroup | All options visible |
+
+### Decision Criteria
+- **Number of options**: <10 → Select, >10 → Select with search, Hierarchical → AdvancedSelect
+- **Selection count**: Single → Select, Multiple → MultiSelect, Boolean → Checkbox
+- **Visibility**: All dropdowns hide options until opened (RadioGroup for visible options)
+- **Data structure**: Flat → Select/MultiSelect, Tree → AdvancedSelect
 
 ## Common Characteristics {important}
 
@@ -653,7 +705,7 @@ All choice fields use Material-UI components consistently across platforms rathe
 - **Performance**: Degrades with >20 options due to DOM node count
 - **Exclusive options**: Visual feedback when options become disabled
 
-**RadioGroup** [affects: RadioGroup] 🟡 DEPRECATED:
+**RadioGroup:
 - **Touch targets**: ~42px radio buttons (below iOS 44px recommendation)
 - **Label interaction**: NOT tappable (same issue as Checkbox)
 - **Deselection**: Can tap selected radio to deselect (mouse behavior on touch)
@@ -684,7 +736,7 @@ All choice fields use Material-UI components consistently across platforms rathe
 - **Touch feedback**: Material ripple effects on all interactions
 - **Performance**: Similar degradation patterns as iOS
 
-**RadioGroup** [affects: RadioGroup] 🟡 DEPRECATED:
+**RadioGroup:
 - **Material styling**: Proper Material Design radio button appearance
 - **Same accessibility issues**: TalkBack violations, poor screen reader support
 - **Performance**: Identical markdown processing lag as other platforms
@@ -1378,11 +1430,11 @@ The MultiSelect field enables multiple value selection from predefined option li
 
 ---
 
-### RadioGroup (Select one option in Designer) {essential} 🟡 DEPRECATED
+### RadioGroup
 <!-- keywords: radio, single, selection, deprecated, broken -->
 
-⚠️ **DEPRECATED COMPONENT**
-**Status**: Deprecated due to no error message display and critical accessibility violations
+### RadioGroup Details
+**Status**: Production - Known issues with error display and accessibility are on roadmap
 **Alternative**: Use Select for all new implementations
 **Migration**: See Migration Procedures below
 
@@ -3269,7 +3321,7 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 |-----------|--------|------------------|----------------|
 | Checkbox | ✅ Stable | Yes | Use for binary |
 | MultiSelect | ⚠️ Limited | Yes with caveats | Add validation |
-| RadioGroup | 🟡 Deprecated | No | Migrate to Select |
+| RadioGroup | ✅ Production | No | Migrate to Select |
 | Select | ✅ Stable | Yes | Preferred choice |
 | AdvancedSelect | 🔴 Beta | No | Avoid |
 
@@ -3312,4 +3364,26 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 - 2025-08: Added LLM optimizations
 - 2025-08: Enhanced troubleshooting
 - 2025-08: Added migration procedures
-- 2025-08: Platform-specific documentation
+- 2025-08: Platform-specific documentation- 2025-01: Added concatenation boundaries and navigation
+
+---
+
+## Related Documentation
+<!-- concat:references -->
+
+### Within Field Categories
+- **Previous**: [Text Fields](./text-fields-v05.md) | [#text-input-fields](#text-input-fields)
+- **Next**: [Date & Time Fields](./datetime-fields-v05.md) | [#datetime-fields](#datetime-fields)
+
+### Cross-Field Patterns
+- **Validation**: [Selection Validation](../detail-crossfield-docs/validation.md#selection-fields) | [#validation-patterns](#validation-patterns)
+- **Conditional Logic**: [Dependent Selects](../detail-crossfield-docs/conditional-logic.md#selection-fields) | [#conditional-logic](#conditional-logic)
+- **Best Practices**: [Choice Field Selection](../detail-crossfield-docs/field-selection-best-practices.md#selection-fields) | [#field-selection](#field-selection)
+
+### Technical References
+- **Designer Limitations**: [Selection Constraints](../reference-docs/designer-limitations-reference.md#selection-fields) | [#designer-limitations](#designer-limitations)
+- **Performance**: [Option List Limits](../reference-docs/performance-thresholds-reference.md#selection-fields) | [#performance-thresholds](#performance-thresholds)
+- **Accessibility**: [Keyboard Navigation](../reference-docs/accessibility-reference.md#selection-fields) | [#accessibility](#accessibility)
+
+<!-- /concat:references -->
+<!-- concat:boundary:end section="selection-fields" -->
