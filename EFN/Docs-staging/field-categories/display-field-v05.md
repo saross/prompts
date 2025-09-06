@@ -1163,6 +1163,7 @@ See [Performance Thresholds Reference](../reference-docs/performance-thresholds-
 - **Similar**: [Text Fields - RichText](./text-fields-v05.md#richtext) | [#text-input-fields](#text-input-fields)
 
 ### Cross-Field Patterns
+- **Field Selection**: [Display Field Usage](../patterns/field-selection-guide.md#display-fields) | [#field-selection](#field-selection)
 - **Instructions**: [Form Help Text](../detail-crossfield-docs/patterns.md#instructions) | [#common-patterns](#common-patterns)
 - **Conditional Display**: [Dynamic Content](../detail-crossfield-docs/conditional-logic.md#display-fields) | [#conditional-logic](#conditional-logic)
 

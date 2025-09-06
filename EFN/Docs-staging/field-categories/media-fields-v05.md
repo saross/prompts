@@ -1466,6 +1466,7 @@ See [Performance Thresholds Reference](../reference-docs/performance-thresholds-
 - **Next**: [Relationship Fields](./relationship-field-v05.md) | [#relationship-fields](#relationship-fields)
 
 ### Cross-Field Patterns
+- **Field Selection**: [Media Field Selection Guidance](../patterns/field-selection-guide.md#media-fields) | [#field-selection](#field-selection)
 - **Validation**: [File Size Limits](../detail-crossfield-docs/validation.md#media-fields) | [#validation-patterns](#validation-patterns)
 - **Platform Specific**: [Camera Access](../detail-crossfield-docs/patterns.md#platform-specific) | [#common-patterns](#common-patterns)
 

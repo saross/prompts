@@ -3376,9 +3376,9 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 - **Next**: [Date & Time Fields](./datetime-fields-v05.md) | [#datetime-fields](#datetime-fields)
 
 ### Cross-Field Patterns
+- **Field Selection**: [Selection Field Guidance](../patterns/field-selection-guide.md#select-fields) | [#field-selection](#field-selection)
 - **Validation**: [Selection Validation](../detail-crossfield-docs/validation.md#selection-fields) | [#validation-patterns](#validation-patterns)
 - **Conditional Logic**: [Dependent Selects](../detail-crossfield-docs/conditional-logic.md#selection-fields) | [#conditional-logic](#conditional-logic)
-- **Best Practices**: [Choice Field Selection](../detail-crossfield-docs/field-selection-best-practices.md#selection-fields) | [#field-selection](#field-selection)
 
 ### Technical References
 - **Designer Limitations**: [Selection Constraints](../reference-docs/designer-limitations-reference.md#selection-fields) | [#designer-limitations](#designer-limitations)

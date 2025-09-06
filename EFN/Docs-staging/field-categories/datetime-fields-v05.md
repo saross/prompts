@@ -3148,9 +3148,9 @@ Version 2.0 restores approximately 30% of technical implementation details that 
 - **Next**: [Numeric Fields](./number-fields-v05.md) | [#number-fields](#number-fields)
 
 ### Cross-Field Patterns
+- **Field Selection**: [DateTime Field Selection Guidance](../patterns/field-selection-guide.md#datetime-fields) | [#field-selection](#field-selection)
 - **Validation**: [Date Validation](../detail-crossfield-docs/validation.md#datetime-fields) | [#validation-patterns](#validation-patterns)
 - **Conditional Logic**: [Date-based Conditions](../detail-crossfield-docs/conditional-logic.md#datetime-fields) | [#conditional-logic](#conditional-logic)
-- **Best Practices**: [Temporal Data](../detail-crossfield-docs/field-selection-best-practices.md#datetime-fields) | [#field-selection](#field-selection)
 
 ### Technical References
 - **Designer Limitations**: [DateTime Constraints](../reference-docs/designer-limitations-reference.md#datetime-fields) | [#designer-limitations](#designer-limitations)

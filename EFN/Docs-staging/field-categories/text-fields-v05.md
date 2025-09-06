@@ -3481,9 +3481,9 @@ Anti-patterns have been distributed to their respective field sections for bette
 - **Similar Fields**: [Display Fields - RichText](./display-field-v05.md#richtext) | [#display-fields](#display-fields)
 
 ### Cross-Field Patterns
+- **Field Selection**: [Text Field Selection Guidance](../patterns/field-selection-guide.md#text-fields) | [#field-selection](#field-selection)
 - **Validation**: [Validation Patterns](../detail-crossfield-docs/validation.md#text-validation) | [#validation-patterns](#validation-patterns)
 - **Conditional Logic**: [Conditional Display](../detail-crossfield-docs/conditional-logic.md#text-conditions) | [#conditional-logic](#conditional-logic)
-- **Best Practices**: [Field Selection](../detail-crossfield-docs/field-selection-best-practices.md#text-fields) | [#field-selection](#field-selection)
 
 ### Technical References
 - **Designer Limitations**: [Text Field Constraints](../reference-docs/designer-limitations-reference.md#text-fields) | [#designer-limitations](#designer-limitations)

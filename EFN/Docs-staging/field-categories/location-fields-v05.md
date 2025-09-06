@@ -1255,6 +1255,7 @@ See [Performance Thresholds Reference](../reference-docs/performance-thresholds-
 - **Next**: [Media Fields](./media-fields-v05.md) | [#media-fields](#media-fields)
 
 ### Cross-Field Patterns
+- **Field Selection**: [Location Field Selection Guidance](../patterns/field-selection-guide.md#location-fields) | [#field-selection](#field-selection)
 - **Validation**: [Location Accuracy](../detail-crossfield-docs/validation.md#location-fields) | [#validation-patterns](#validation-patterns)
 - **Field Dependencies**: [GPS Requirements](../detail-crossfield-docs/conditional-logic.md#location-fields) | [#conditional-logic](#conditional-logic)
 

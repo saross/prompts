@@ -2967,6 +2967,7 @@ Anti-patterns have been distributed to their respective field sections for bette
 - **Next**: [Display Fields](./display-field-v05.md) | [#display-fields](#display-fields)
 
 ### Cross-Field Patterns
+- **Field Selection**: [Number Field Selection Guidance](../patterns/field-selection-guide.md#number-fields) | [#field-selection](#field-selection)
 - **Validation**: [Number Validation](../detail-crossfield-docs/validation.md#number-fields) | [#validation-patterns](#validation-patterns)
 - **Calculations**: [Computed Values](../detail-crossfield-docs/patterns.md#calculations) | [#common-patterns](#common-patterns)
 

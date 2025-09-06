@@ -1376,6 +1376,7 @@ Note: Vocabulary is immutable - must plan before deployment
 - **Index**: [Field Documentation Index](../field-type-index.md) | [#fieldmark-v3-field-type-documentation-index](#fieldmark-v3-field-type-documentation-index)
 
 ### Cross-Field Patterns
+- **Field Selection**: [Relationship Field Selection Guidance](../patterns/field-selection-guide.md#relationship-field) | [#field-selection](#field-selection)
 - **Hierarchical Data**: [Parent-Child Records](../detail-crossfield-docs/patterns.md#hierarchical) | [#common-patterns](#common-patterns)
 - **Conditional Logic**: [Dependent Records](../detail-crossfield-docs/conditional-logic.md#relationship-fields) | [#conditional-logic](#conditional-logic)
 
