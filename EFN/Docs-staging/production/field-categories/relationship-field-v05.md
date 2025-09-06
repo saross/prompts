@@ -10,7 +10,7 @@ last_updated: 2025-01-05
 
 # Relationship Field - Fieldmark v3 Documentation
 
-## Document Navigation
+## Document Navigation {essential}
 <!-- concat:nav-mode:individual -->
 [← Media Fields](./media-fields-v05.md) | **Relationship Fields** | [Field Index →](../field-type-index.md)
 <!-- concat:nav-mode:concatenated -->
@@ -203,7 +203,7 @@ See [Security Considerations Reference](../reference-docs/security-consideration
 - Performance degrades severely beyond 50 relationships
 - Reciprocal updates only occur after synchronization
 
-## Designer Capabilities vs JSON Enhancement {essential}
+## Designer Capabilities vs JSON Enhancement {comprehensive}
 
 ### Designer Configuration
 - ✅ Field label and name
@@ -1226,7 +1226,7 @@ Enables bidirectional connections between records, supporting both hierarchical 
 - No gesture controls
 - Autocomplete by HRID only
 
-## Performance Thresholds Summary {essential}
+## Performance Thresholds Summary {important}
 See [Performance Thresholds Reference](../reference-docs/performance-thresholds-reference.md) for detailed metrics.
 
 **Relationship-Specific Thresholds:**
@@ -1369,7 +1369,7 @@ Note: Vocabulary is immutable - must plan before deployment
 - **Reference Docs**: 9 linked documents
 ---
 
-## Related Documentation
+## Related Documentation {important}
 <!-- concat:references -->
 
 ### Within Field Categories

@@ -1,7 +1,7 @@
 # Operations Reference
-## Migration, Export, and Troubleshooting Guide for Fieldmark v3
+## Migration, Export, and Troubleshooting Guide for Fieldmark v3 {essential}
 
-### Overview
+## Overview {essential}
 
 This reference consolidates operational guidance for Fieldmark v3, covering:
 - Migration strategies and procedures
@@ -10,7 +10,7 @@ This reference consolidates operational guidance for Fieldmark v3, covering:
 
 ---
 
-## Part 1: Migration Operations
+## Part 1: Migration Operations {essential}
 
 ### Migration Planning Framework
 
@@ -231,7 +231,7 @@ Status: ✅ Successful / ⚠️ Partial / ❌ Rolled Back
 
 ---
 
-## Part 2: Data Export Operations
+## Part 2: Data Export Operations {important}
 
 ### Export Formats
 
@@ -433,7 +433,7 @@ Automatically escaped per JSON specification:
 
 ---
 
-## Part 3: Troubleshooting Operations
+## Part 3: Troubleshooting Operations {important}
 
 ### Quick Diagnosis Framework
 
@@ -647,9 +647,9 @@ Issue Reported
 3. **Level 3**: GitHub issue creation
 4. **Level 4**: Direct support contact
 
-#### Issue Report Template
+#### Issue Report {important} Template
 ```markdown
-## Issue Report
+## Issue Report {important}
 **Environment:**
 - Platform: [iOS/Android/Web]
 - Version: [Fieldmark version]
@@ -692,7 +692,7 @@ Issue Reported
 
 ---
 
-## Common Migration Pitfalls
+## Common Migration Pitfalls {comprehensive}
 
 ### Top 10 Pitfalls to Avoid
 1. **No backup** - Always backup, even for "simple" changes
@@ -724,7 +724,7 @@ Issue Reported
 
 ---
 
-## Best Practices Summary
+## Best Practices Summary {comprehensive}
 
 ### For Developers
 1. **Document export format**: Provide examples
@@ -747,7 +747,7 @@ Issue Reported
 
 ---
 
-## Version Compatibility
+## Version Compatibility {comprehensive}
 
 | Fieldmark Version | Migration Support | Breaking Changes | Notes |
 |------------------|-------------------|------------------|--------|
@@ -764,7 +764,7 @@ Issue Reported
 
 ---
 
-## Performance Guidelines
+## Performance Guidelines {comprehensive}
 
 ### Recommended Limits
 - **Fields per form**: ~100 (approximate)
@@ -780,7 +780,7 @@ Issue Reported
 
 ---
 
-## Metadata
+## Metadata {comprehensive}
 - **Document Version**: 1.0
 - **Last Updated**: 2025-01-06
 - **Applies to**: Fieldmark v3 (all versions)

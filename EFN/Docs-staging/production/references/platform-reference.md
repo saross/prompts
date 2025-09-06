@@ -14,11 +14,11 @@ source_documents:
 
 # Platform Reference
 
-## Overview
+## Overview {essential}
 
 This comprehensive reference consolidates all platform-specific technical details for Fieldmark v3, including behaviors across iOS, Android, Web Desktop, and Web Mobile platforms, performance thresholds, accessibility standards, and platform-specific troubleshooting. All performance thresholds are estimates based on empirical observations and code analysis - they are advisory only and should be tested with your specific hardware and use cases. We welcome performance feedback to improve these estimates.
 
-## Platform Characteristics Summary {#platform-summary}
+## Platform Characteristics Summary {essential}
 
 | Platform | Performance | UI Framework | Primary Constraints |
 |----------|-------------|--------------|-------------------|
@@ -41,7 +41,7 @@ Relative Performance (normalized to Web Desktop = 1.0):
 - Web Mobile: 0.2x
 ```
 
-## iOS Platform Behaviors {#ios}
+## iOS Platform Behaviors {important}
 
 ### System Characteristics
 - **Rendering Engine**: WebKit/Safari
@@ -94,7 +94,7 @@ Permission Request Flow:
 - Touch target sizing
 - Memory limit monitoring
 
-## Android Platform Behaviors {#android}
+## Android Platform Behaviors {important}
 
 ### System Characteristics
 - **Rendering Engine**: Chrome WebView (version varies)
@@ -148,7 +148,7 @@ Runtime Permission Model:
 - Manufacturer quirks
 - Battery optimization
 
-## Web Desktop Platform {#web-desktop}
+## Web Desktop Platform {important}
 
 ### Browser Support Matrix
 
@@ -182,7 +182,7 @@ Runtime Permission Model:
 - Local storage varies by browser
 - Print formatting inconsistent
 
-## Web Mobile Platform {#web-mobile}
+## Web Mobile Platform {important}
 
 ### Characteristics
 - Limited memory (similar to native apps)
@@ -204,7 +204,7 @@ Runtime Permission Model:
 - No push notifications (iOS)
 - Share API limited
 
-## Performance Thresholds {#performance}
+## Performance Thresholds {important}
 
 ### Important Disclaimer
 
@@ -302,7 +302,7 @@ Runtime Permission Model:
 | 65,000-100,000 | Any | 30-60 sec | 50-100MB | No (Excel limit) |
 | > 100,000 | Any | > 60 sec | > 100MB | No |
 
-## Accessibility Standards {#accessibility}
+## Accessibility Standards {comprehensive}
 
 ### Touch Target Requirements
 
@@ -438,7 +438,7 @@ Runtime Permission Model:
 7. **Provide skip links** for long forms
 8. **Test with screen readers** on all platforms
 
-## Platform-Specific Troubleshooting {#troubleshooting}
+## Platform-Specific Troubleshooting {comprehensive}
 
 ### Diagnostic Framework
 
@@ -543,7 +543,7 @@ console.timeEnd('Operation');
 | `Out of memory` | Mobile | Too many fields | Reduce form size |
 | `WebView crashed` | Android | Memory/compatibility | Update WebView |
 
-## Feature Availability Matrix {#feature-matrix}
+## Feature Availability Matrix {comprehensive}
 
 | Feature | iOS | Android | Web Desktop | Web Mobile |
 |---------|-----|---------|-------------|------------|
@@ -560,7 +560,7 @@ console.timeEnd('Operation');
 ⚠️ Limited functionality  
 ❌ Not available  
 
-## Testing Recommendations {#testing}
+## Testing Recommendations {comprehensive}
 
 ### Minimum Test Devices
 - **iOS**: iPhone SE (lowest spec)
@@ -594,7 +594,7 @@ console.timeEnd('Operation');
 - **Intermittent**: Reality in remote areas
 - **High latency**: Satellite connections
 
-## Best Practices Summary {#best-practices}
+## Best Practices Summary {comprehensive}
 
 ### Design Guidelines
 
@@ -640,7 +640,7 @@ console.timeEnd('Operation');
 7. **Test with assistive technology**
 8. **Document accessibility features**
 
-## Monitoring Metrics {#monitoring}
+## Monitoring Metrics {comprehensive}
 
 ### Performance Metrics
 - Form load time (target: <3s)
@@ -658,7 +658,7 @@ console.timeEnd('Operation');
 - Form completion rate
 - Platform-specific crash rate
 
-## Migration Considerations {#migration}
+## Migration Considerations {comprehensive}
 
 ### Platform Migration Paths
 - **Native → PWA**: Gradual feature parity
@@ -673,7 +673,7 @@ console.timeEnd('Operation');
 - Minimum Safari: 12
 - Minimum Firefox: 78
 
-## Related Documentation
+## Related Documentation {important}
 
 - [Component Reference](./component-reference.md) - Component technical details
 - [Operations Reference](./operations-reference.md) - Operational procedures
@@ -681,7 +681,7 @@ console.timeEnd('Operation');
 - [Implementation Patterns Guide](../patterns/implementation-patterns-guide.md) - Common patterns
 - Individual field documentation for field-specific platform behaviors
 
-## Version Information
+## Version Information {comprehensive}
 
 - **Last Updated**: 2025-01-06
 - **Applies to**: Fieldmark v3 (all versions)

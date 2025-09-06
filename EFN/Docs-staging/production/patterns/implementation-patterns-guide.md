@@ -13,11 +13,11 @@ source_documents:
 
 # Implementation Patterns Guide
 
-## Overview
+## Overview {essential}
 
 This guide consolidates implementation patterns, troubleshooting strategies, and best practices for Fieldmark v3. It addresses common technical challenges, performance optimization, data management patterns, and integration approaches discovered across all field types.
 
-## Core System Architecture Patterns
+## Core System Architecture Patterns {essential}
 
 ### Distributed, Offline-First Architecture {#distributed-architecture}
 
@@ -76,7 +76,7 @@ This guide consolidates implementation patterns, troubleshooting strategies, and
 }
 ```
 
-## Common Implementation Patterns
+## Common Implementation Patterns {important}
 
 ### Pattern: Auto-Increment Coordination {#auto-increment}
 
@@ -243,7 +243,7 @@ This guide consolidates implementation patterns, troubleshooting strategies, and
 3. Consider field-appropriate uncertainty labels: "Estimate", "Provisional", "Tentative"
 4. Place annotations on data collection fields, not metadata fields
 
-## Performance Thresholds and Limits
+## Performance Thresholds and Limits {important}
 
 ### Field-Specific Performance Boundaries {#performance-limits}
 
@@ -266,7 +266,7 @@ This guide consolidates implementation patterns, troubleshooting strategies, and
 4. **Limit options**: Aim for reasonable numbers in selection fields
 5. **Avoid deep nesting**: Maximum 3-4 hierarchy levels
 
-## Troubleshooting Framework
+## Troubleshooting Framework {important}
 
 ### Universal Diagnostic Steps {#diagnostics}
 
@@ -315,7 +315,7 @@ console.time('Operation');
 console.timeEnd('Operation');
 ```
 
-## Data Management Patterns
+## Data Management Patterns {important}
 
 ### Export Strategy {#export-patterns}
 
@@ -370,7 +370,7 @@ if (validateAgainstSchema(newDoc, schema)) {
 }
 ```
 
-## Security and Validation Patterns
+## Security and Validation Patterns {important}
 
 ### Client-Side Validation Only {#validation-patterns}
 
@@ -409,7 +409,7 @@ if (validateAgainstSchema(newDoc, schema)) {
 }
 ```
 
-## Component Selection Patterns
+## Component Selection Patterns {comprehensive}
 
 ### Choosing Between Similar Components {#component-selection}
 
@@ -437,7 +437,7 @@ if (validateAgainstSchema(newDoc, schema)) {
 3. Monitor memory usage
 4. Have fallback options
 
-## Mobile vs Desktop Patterns
+## Mobile vs Desktop Patterns {comprehensive}
 
 ### Platform Capability Matrix {#platform-matrix}
 
@@ -470,7 +470,7 @@ if (validateAgainstSchema(newDoc, schema)) {
 }
 ```
 
-## Workflow Implementation Patterns
+## Workflow Implementation Patterns {comprehensive}
 
 ### Linear Survey Collection {#linear-workflow}
 
@@ -515,7 +515,7 @@ if (validateAgainstSchema(newDoc, schema)) {
 
 **When to use**: Dynamic forms, role-based sections
 
-## Error Recovery Patterns
+## Error Recovery Patterns {comprehensive}
 
 ### Data Recovery Strategies {#error-recovery}
 
@@ -541,7 +541,7 @@ if (validateAgainstSchema(newDoc, schema)) {
 
 **Note**: The conflict resolution module in Control Centre allows users to see and resolve conflicts, though the underlying system uses last-write-wins if no manual intervention occurs.
 
-## Integration Patterns
+## Integration Patterns {comprehensive}
 
 ### External System Integration {#integration}
 
@@ -584,7 +584,7 @@ async function writeData(doc) {
 }
 ```
 
-## Best Practices Summary
+## Best Practices Summary {comprehensive}
 
 ### DO:
 ✅ Coordinate auto-increment ranges  
@@ -611,7 +611,7 @@ async function writeData(doc) {
 ❌ Assume sync is immediate  
 ❌ Trust client-side validation alone  
 
-## Common Anti-Patterns to Avoid
+## Common Anti-Patterns to Avoid {comprehensive}
 
 1. **Monolithic forms**: Single form with excessive fields
 2. **Uncoordinated auto-increment**: Duplicate IDs across devices
@@ -621,7 +621,7 @@ async function writeData(doc) {
 6. **No error handling**: Silent failures
 7. **Platform assumptions**: Desktop-only testing
 
-## Migration and Maintenance
+## Migration and Maintenance {comprehensive}
 
 ### Version Migration Strategy
 
@@ -648,7 +648,7 @@ async function writeData(doc) {
 - Security review
 - Schema evaluation
 
-## Related Documentation
+## Related Documentation {important}
 
 - [Form Structure Guide](./form-structure-guide.md) - Architecture patterns
 - [Dynamic Forms Guide](./dynamic-forms-guide.md) - Validation and conditions

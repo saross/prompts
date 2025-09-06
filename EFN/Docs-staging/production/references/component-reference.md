@@ -14,11 +14,11 @@ source_documents:
 
 # Component Reference
 
-## Overview
+## Overview {essential}
 
 This comprehensive reference consolidates all technical details about Fieldmark v3 component configuration, including namespaces, type systems, meta properties, and Formik integration. It serves as the authoritative source for component implementation and troubleshooting.
 
-## Component Namespace System {#namespaces}
+## Component Namespace System {essential}
 
 ### The Golden Rule
 
@@ -168,7 +168,7 @@ The Designer UI uses different display names than the JSON component names:
 | "GPS Point" | `TakePoint` | `faims-custom` |
 | "Map Location" | `MapFormField` | `mapping-plugin` |
 
-## Type System {#type-system}
+## Type System {important}
 
 ### Core Type System
 
@@ -327,9 +327,9 @@ These types appear in legacy documentation but are **NOT VALID**:
 - ❌ `faims-core::File` → Use `faims-attachment::Files`
 - ❌ `faims-core::Location` → Use `faims-pos::Location`
 
-## Meta Properties Configuration {#meta-properties}
+## Meta Properties Configuration {important}
 
-### Overview
+### Overview {essential}
 
 The `meta` property provides standardized metadata options that work identically across ALL field types. These properties control annotations, uncertainty markers, persistence, and display behaviors.
 
@@ -677,9 +677,9 @@ Designer preserves JSON meta properties it doesn't understand, but:
 - Ignores persistent/displayParent
 - May reorder properties
 
-## Formik Integration {#formik-integration}
+## Formik Integration {comprehensive}
 
-### Overview
+### Overview {essential}
 
 Fieldmark v3 uses Formik as its form state management library. Understanding how fields integrate with Formik is essential for troubleshooting validation issues, implementing custom fields, and optimizing form performance.
 
@@ -992,7 +992,7 @@ When fields aren't behaving correctly with Formik:
 - [ ] Initial values set correctly
 - [ ] Field resets work properly
 
-## Error Prevention Checklist
+## Error Prevention Checklist {important}
 
 ### Namespace Configuration
 - [ ] Namespace is exactly `faims-custom` or `formik-material-ui`
@@ -1023,7 +1023,7 @@ When fields aren't behaving correctly with Formik:
 - [ ] Submit behavior validated
 - [ ] Performance optimizations applied where needed
 
-## Performance Optimization Guidelines
+## Performance Optimization Guidelines {comprehensive}
 
 ### Component Selection
 - Prefer primitive types when possible
@@ -1043,7 +1043,7 @@ When fields aren't behaving correctly with Formik:
 - Minimize array field sizes
 - Consider form splitting for large datasets
 
-## Migration and Maintenance
+## Migration and Maintenance {comprehensive}
 
 ### Namespace Evolution
 - **v1-v2**: Mixed namespaces (`material-ui`, `formik-material-ui`, custom components)
@@ -1070,7 +1070,7 @@ Designer preserves JSON properties it doesn't understand, but:
 - May reorder properties
 - Always uses correct namespaces
 
-## Platform-Specific Notes
+## Platform-Specific Notes {comprehensive}
 
 ### Web/Desktop
 - All namespaces work identically
@@ -1088,7 +1088,7 @@ Designer preserves JSON properties it doesn't understand, but:
 - Offline capability doesn't affect namespaces
 - Formik state persists across offline/online transitions
 
-## Best Practices Summary
+## Best Practices Summary {comprehensive}
 
 ### DO:
 ✅ Always specify namespace explicitly  
@@ -1110,7 +1110,7 @@ Designer preserves JSON properties it doesn't understand, but:
 ❌ Mix namespace formats  
 ❌ Forget case sensitivity  
 
-## Common Patterns and Examples
+## Common Patterns and Examples {comprehensive}
 
 ### Standard Field Definition
 ```json
@@ -1154,7 +1154,7 @@ Only for these specific cases:
 }
 ```
 
-## Debugging Quick Reference
+## Debugging Quick Reference {important}
 
 ### Quick Diagnostic Steps
 
@@ -1167,7 +1167,7 @@ Only for these specific cases:
 7. **Test validation**: Ensure schemas execute correctly
 8. **Check meta properties**: Verify structure and values
 
-## Related Documentation
+## Related Documentation {important}
 
 - [Field Selection Guide](../patterns/field-selection-guide.md) - Choosing appropriate components
 - [Dynamic Forms Guide](../patterns/dynamic-forms-guide.md) - Validation and conditional logic
@@ -1175,7 +1175,7 @@ Only for these specific cases:
 - [Implementation Patterns Guide](../patterns/implementation-patterns-guide.md) - Common patterns
 - Individual field documentation for component-specific details
 
-## Version Information
+## Version Information {comprehensive}
 
 - **Last Updated**: 2025-01-06
 - **Applies to**: Fieldmark v3 (all versions)

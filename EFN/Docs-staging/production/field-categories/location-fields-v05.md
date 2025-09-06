@@ -10,7 +10,7 @@ last_updated: 2025-01-05
 
 # Location Fields - Fieldmark v3 Documentation
 
-## Document Navigation
+## Document Navigation {essential}
 <!-- concat:nav-mode:individual -->
 [← Display Fields](./display-field-v05.md) | **Location Fields** | [Media Fields →](./media-fields-v05.md)
 <!-- concat:nav-mode:concatenated -->
@@ -210,7 +210,7 @@ See [Security Considerations Reference](../reference-docs/security-consideration
 | Zoom Level | `"zoom": 12` | MapFormField only |
 | Feature Type | `"featureType": "Point"` | MapFormField only |
 
-## Designer Capabilities vs JSON Enhancement {essential}
+## Designer Capabilities vs JSON Enhancement {comprehensive}
 
 ### Designer Configuration (Limited)
 **TakePoint:**
@@ -1073,7 +1073,7 @@ Interactive geometry creation through web-based mapping, enabling spatial featur
 - Independent GPS state (no sharing)
 - No coordinate bounds validation
 
-## Performance Thresholds Summary {essential}
+## Performance Thresholds Summary {important}
 See [Performance Thresholds Reference](../reference-docs/performance-thresholds-reference.md) for detailed metrics.
 
 **Location-Specific Thresholds:**
@@ -1247,7 +1247,7 @@ See [Performance Thresholds Reference](../reference-docs/performance-thresholds-
 - **Reference Docs**: 9 linked documents
 ---
 
-## Related Documentation
+## Related Documentation {important}
 <!-- concat:references -->
 
 ### Within Field Categories

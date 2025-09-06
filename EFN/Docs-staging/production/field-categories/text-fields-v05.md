@@ -10,7 +10,7 @@ last_updated: 2025-01-05
 
 # Text Input Fields
 
-## Document Navigation
+## Document Navigation {essential}
 <!-- concat:nav-mode:individual -->
 [← Field Index](../field-type-index.md) | **Text & Input Fields** | [Selection Fields →](./select-choice-fields-v05.md)
 <!-- concat:nav-mode:concatenated -->
@@ -349,7 +349,7 @@ This mapping table is essential for:
 - Understanding error messages that reference component names
 - Migrating between Designer versions
 
-## Designer Capabilities vs JSON Enhancement {essential}
+## Designer Capabilities vs JSON Enhancement {comprehensive}
 
 ### What Designer Can Configure
 
@@ -1562,58 +1562,32 @@ See [Common Characteristics > Validation Patterns > Validation Behavior]
 
 ## JSON Examples {comprehensive}
 
-### TextField Examples {important}
-
-#### Basic Site Code {important}
+### Example 1: Basic Required Text Field
 ```json
 {
-  "site-code": {
+  "site-name": {
     "component-namespace": "formik-material-ui",
     "component-name": "TextField",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "site-code",
-      "label": "Site Code",
-      "helperText": "3-letter site identifier",
-      "placeholder": "e.g., SYD",
+      "name": "site-name",
+      "label": "Site Name",
+      "helperText": "Official site designation",
       "required": true,
-      "fullWidth": false,
+      "fullWidth": true,
       "variant": "outlined"
     },
     "validationSchema": [
       ["yup.string"],
-      ["yup.required", "Site code is required"],
-      ["yup.matches", "^[A-Z]{3}$", "Must be exactly 3 capital letters"]
+      ["yup.required", "Site name is required"]
     ],
     "initialValue": ""
   }
 }
 ```
 
-// VARIANT: Email configuration (adds type and email validation)
-{
-  "contact-email": {
-    "component-namespace": "formik-material-ui",
-    "component-name": "TextField",
-    "type-returned": "faims-core::String",
-    "component-parameters": {
-      "name": "contact-email",
-      "label": "Contact Email",
-+     "InputProps": {
-+       "type": "email"
-+     },
-      "required": true
-    },
-+   "validationSchema": [
-+     ["yup.string"],
-+     ["yup.email", "Invalid email format"],
-+     ["yup.required", "Email is required"]
-+   ],
-    "initialValue": ""
-  }
-}
-
-// VARIANT: Pattern validation (adds regex matching)
+### Example 2: Text Field with Pattern Validation
+```json
 {
   "specimen-id": {
     "component-namespace": "formik-material-ui",
@@ -1622,19 +1596,48 @@ See [Common Characteristics > Validation Patterns > Validation Behavior]
     "component-parameters": {
       "name": "specimen-id",
       "label": "Specimen ID",
-+     "helperText": "Format: ABC-1234",
+      "helperText": "Format: ABC-1234",
+      "placeholder": "ABC-1234",
       "required": true
     },
-+   "validationSchema": [
-+     ["yup.string"],
-+     ["yup.matches", "^[A-Z]{3}-[0-9]{4}$", "Format must be ABC-1234"],
-+     ["yup.required"]
-+   ],
+    "validationSchema": [
+      ["yup.string"],
+      ["yup.required", "Specimen ID is required"],
+      ["yup.matches", "^[A-Z]{3}-[0-9]{4}$", "Must match format ABC-1234"]
+    ],
     "initialValue": ""
   }
 }
+```
 
-// VARIANT: Optional with character limit
+### Example 3: Email Field with Validation
+```json
+{
+  "contact-email": {
+    "component-namespace": "formik-material-ui",
+    "component-name": "TextField",
+    "type-returned": "faims-core::String",
+    "component-parameters": {
+      "name": "contact-email",
+      "label": "Contact Email",
+      "helperText": "Principal investigator email",
+      "InputProps": {
+        "type": "email"
+      },
+      "required": true
+    },
+    "validationSchema": [
+      ["yup.string"],
+      ["yup.email", "Invalid email format"],
+      ["yup.required", "Email is required"]
+    ],
+    "initialValue": ""
+  }
+}
+```
+
+### Example 4: Optional Text with Character Limit
+```json
 {
   "brief-notes": {
     "component-namespace": "formik-material-ui",
@@ -1643,58 +1646,33 @@ See [Common Characteristics > Validation Patterns > Validation Behavior]
     "component-parameters": {
       "name": "brief-notes",
       "label": "Brief Notes",
-+     "helperText": "Optional, max 50 characters",
-+     "inputProps": { "maxLength": 50 },
--     "required": true
-+     "required": false
-    },
-+   "validationSchema": [
-+     ["yup.string"],
-+     ["yup.max", 50, "Maximum 50 characters"]
-+   ],
--   "initialValue": ""
-+   "initialValue": null
-  }
-}
-
-#### FAIMSTextField with Advanced Help {comprehensive}
-```json
-{
-  "unit-designation": {
-    "component-namespace": "faims-custom",
-    "component-name": "FAIMSTextField",
-    "type-returned": "faims-core::String",
-    "component-parameters": {
-      "name": "unit-designation",
-      "label": "Excavation Unit",
-      "helperText": "Format: [Area]-T[Trench]-[Unit]",
-      "advancedHelperText": "# Unit Designation System\n\nEach excavation unit follows a three-part code:\n\n1. Area: Single letter (A-Z)\n2. Trench: T + number\n3. Unit: 3-digit with leading zeros",
-      "required": true
+      "helperText": "Optional, max 100 characters",
+      "inputProps": { 
+        "maxLength": 100 
+      },
+      "required": false
     },
     "validationSchema": [
       ["yup.string"],
-      ["yup.required", "Unit designation required"],
-      ["yup.matches", "^[A-Z]-T\\d+-\\d{3}$", "Invalid format"]
+      ["yup.max", 100, "Maximum 100 characters"]
     ],
-    "initialValue": ""
+    "initialValue": null
   }
 }
 ```
 
-### MultilineText Example {important}
-
-#### Detailed Interpretation Field {important}
+### Example 5: Multiline Text Area
 ```json
 {
-  "interpretation": {
+  "site-description": {
     "component-namespace": "formik-material-ui",
     "component-name": "MultipleTextField",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "interpretation",
-      "label": "Site Interpretation",
-      "helperText": "Provide detailed interpretative narrative (minimum 200 characters)",
-      "placeholder": "Describe the site significance, cultural context, and preliminary interpretations...",
+      "name": "site-description",
+      "label": "Site Description",
+      "helperText": "Detailed site characteristics",
+      "placeholder": "Describe the site location, features, and condition...",
       "required": true,
       "fullWidth": true,
       "multiline": true,
@@ -1704,56 +1682,396 @@ See [Common Characteristics > Validation Patterns > Validation Behavior]
     },
     "validationSchema": [
       ["yup.string"],
-      ["yup.required", "Interpretation is required"],
-      ["yup.min", 200, "Please provide at least 200 characters"],
-      ["yup.max", 10000, "Maximum 10,000 characters"]
+      ["yup.required", "Description is required"],
+      ["yup.min", 50, "Minimum 50 characters"]
+    ],
+    "initialValue": ""
+  }
+}
+```
+
+### Example 6: Text with Advanced Helper
+```json
+{
+  "excavation-unit": {
+    "component-namespace": "faims-custom",
+    "component-name": "FAIMSTextField",
+    "type-returned": "faims-core::String",
+    "component-parameters": {
+      "name": "excavation-unit",
+      "label": "Excavation Unit",
+      "helperText": "Unit designation code",
+      "advancedHelperText": "## Unit Coding System\n\n**Format:** [Area]-[Trench]-[Unit]\n\n- Area: Single letter (A-Z)\n- Trench: T + number (T1-T99)\n- Unit: 3 digits (001-999)\n\n**Example:** A-T1-001",
+      "required": true
+    },
+    "validationSchema": [
+      ["yup.string"],
+      ["yup.required", "Unit code required"],
+      ["yup.matches", "^[A-Z]-T[0-9]{1,2}-[0-9]{3}$", "Invalid format"]
+    ],
+    "initialValue": ""
+  }
+}
+```
+
+### Example 7: Auto-incrementing Identifier
+```json
+{
+  "artifact-number": {
+    "component-namespace": "faims-custom",
+    "component-name": "BasicAutoIncrementer",
+    "type-returned": "faims-core::String",
+    "component-parameters": {
+      "name": "artifact-number",
+      "label": "Artifact Number",
+      "helperText": "Auto-generated sequential ID",
+      "incrementer": "artifact-counter",
+      "required": true
+    },
+    "validationSchema": [
+      ["yup.string"],
+      ["yup.required", "Artifact number required"]
+    ],
+    "initialValue": ""
+  }
+}
+```
+
+### Example 8: Templated String Field
+```json
+{
+  "sample-id": {
+    "component-namespace": "faims-custom",
+    "component-name": "TemplatedStringField",
+    "type-returned": "faims-core::String",
+    "component-parameters": {
+      "name": "sample-id",
+      "label": "Sample ID",
+      "template": "{{site}}-{{date}}-{{type}}-{{number}}",
+      "readOnly": true
+    },
+    "initialValue": ""
+  }
+}
+```
+
+### Example 9: Text with Conditional Visibility
+```json
+{
+  "damage-description": {
+    "component-namespace": "formik-material-ui",
+    "component-name": "TextField",
+    "type-returned": "faims-core::String",
+    "component-parameters": {
+      "name": "damage-description",
+      "label": "Damage Description",
+      "helperText": "Describe the damage observed",
+      "required": true
+    },
+    "validationSchema": [
+      ["yup.string"],
+      ["yup.required", "Description required when damage present"]
+    ],
+    "initialValue": "",
+    "condition": {
+      "operator": "equal",
+      "field": "condition-assessment",
+      "value": "damaged"
+    }
+  }
+}
+```
+
+### Example 10: Rich Text with Metadata
+```json
+{
+  "interpretation": {
+    "component-namespace": "formik-material-ui",
+    "component-name": "MultipleTextField",
+    "type-returned": "faims-core::String",
+    "component-parameters": {
+      "name": "interpretation",
+      "label": "Archaeological Interpretation",
+      "helperText": "Detailed analysis and interpretation",
+      "required": false,
+      "fullWidth": true,
+      "multiline": true,
+      "InputProps": {
+        "rows": 8
+      }
+    },
+    "validationSchema": [
+      ["yup.string"],
+      ["yup.max", 5000, "Maximum 5000 characters"]
     ],
     "initialValue": "",
     "meta": {
       "uncertainty": {
         "include": true,
         "label": "Interpretation confidence"
+      },
+      "annotation": {
+        "include": true,
+        "label": "Additional notes"
       }
     }
   }
 }
 ```
 
-### TemplatedString Examples {important}
-
-// VARIANT: Larger text area with word count validation
-{
-  "extended-notes": {
-    "component-namespace": "formik-material-ui",
-    "component-name": "MultipleTextField",
-    "type-returned": "faims-core::String",
-    "component-parameters": {
-      "name": "extended-notes",
-      "label": "Extended Field Notes",
--     "InputProps": { "rows": 6 }
-+     "InputProps": { "rows": 10 },
-+     "helperText": "Maximum 2000 words"
-    },
-+   "validationSchema": [
-+     ["yup.string"],
-+     ["yup.test", "word-count", "Maximum 2000 words",
-+       "value => !value || value.split(/\\s+/).length <= 2000"]
-+   ]
-  }
-}
-
-#### Complex HRID with System Variables {important}
-For security considerations with user variables, see [Common Characteristics > Security Considerations]
+### Example 11: URL Field with Validation
 ```json
 {
-  "record-identifier": {
+  "reference-url": {
+    "component-namespace": "formik-material-ui",
+    "component-name": "TextField",
+    "type-returned": "faims-core::String",
+    "component-parameters": {
+      "name": "reference-url",
+      "label": "Reference URL",
+      "helperText": "Link to related documentation",
+      "InputProps": {
+        "type": "url"
+      },
+      "placeholder": "https://example.com/document"
+    },
+    "validationSchema": [
+      ["yup.string"],
+      ["yup.url", "Must be a valid URL"],
+      ["yup.matches", "^https://", "URL must use HTTPS"]
+    ],
+    "initialValue": null
+  }
+}
+```
+
+### Example 12: Alphanumeric Code with Custom Format
+```json
+{
+  "grid-reference": {
+    "component-namespace": "formik-material-ui",
+    "component-name": "TextField",
+    "type-returned": "faims-core::String",
+    "component-parameters": {
+      "name": "grid-reference",
+      "label": "Grid Reference",
+      "helperText": "6-figure grid reference",
+      "placeholder": "123456",
+      "inputProps": {
+        "maxLength": 6,
+        "pattern": "[0-9]{6}"
+      }
+    },
+    "validationSchema": [
+      ["yup.string"],
+      ["yup.matches", "^[0-9]{6}$", "Must be exactly 6 digits"],
+      ["yup.required", "Grid reference required"]
+    ],
+    "initialValue": ""
+  }
+}
+```
+
+### Example 13: Advanced HRID with Multiple Variables
+```json
+{
+  "record-hrid": {
     "component-namespace": "faims-custom",
     "component-name": "TemplatedStringField",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "record-identifier",
-      "template": "{{site}}-{{_CREATED_TIME}}-{{excavator}}-{{counter}}",
-      "readOnly": true
+      "name": "record-hrid",
+      "label": "Record HRID",
+      "template": "{{project}}-{{year}}-{{_USER_ID}}-{{_CREATED_TIME}}-{{counter}}",
+      "readOnly": true,
+      "helperText": "Auto-generated human-readable ID"
+    },
+    "initialValue": ""
+  }
+}
+```
+
+### Example 14: Password Field (Sensitive Data)
+```json
+{
+  "access-code": {
+    "component-namespace": "formik-material-ui",
+    "component-name": "TextField",
+    "type-returned": "faims-core::String",
+    "component-parameters": {
+      "name": "access-code",
+      "label": "Site Access Code",
+      "helperText": "Required for restricted areas",
+      "InputProps": {
+        "type": "password"
+      },
+      "required": true
+    },
+    "validationSchema": [
+      ["yup.string"],
+      ["yup.required", "Access code required"],
+      ["yup.min", 6, "Minimum 6 characters"]
+    ],
+    "initialValue": ""
+  }
+}
+```
+
+### Example 15: Search Field with Placeholder
+```json
+{
+  "catalog-search": {
+    "component-namespace": "formik-material-ui",
+    "component-name": "TextField",
+    "type-returned": "faims-core::String",
+    "component-parameters": {
+      "name": "catalog-search",
+      "label": "Catalog Search",
+      "placeholder": "Enter catalog number or description...",
+      "InputProps": {
+        "type": "search"
+      },
+      "fullWidth": true,
+      "variant": "filled"
+    },
+    "validationSchema": [
+      ["yup.string"]
+    ],
+    "initialValue": ""
+  }
+}
+```
+
+### Example 16: Multi-value Text Array
+```json
+{
+  "team-members": {
+    "component-namespace": "faims-custom",
+    "component-name": "FAIMSTextField",
+    "type-returned": "faims-core::String",
+    "component-parameters": {
+      "name": "team-members",
+      "label": "Team Members",
+      "helperText": "Enter each team member name",
+      "multiple": true,
+      "required": true
+    },
+    "validationSchema": [
+      ["yup.array"],
+      ["yup.min", 1, "At least one team member required"]
+    ],
+    "initialValue": []
+  }
+}
+```
+
+### Example 17: Phone Number with Format
+```json
+{
+  "contact-phone": {
+    "component-namespace": "formik-material-ui",
+    "component-name": "TextField",
+    "type-returned": "faims-core::String",
+    "component-parameters": {
+      "name": "contact-phone",
+      "label": "Contact Phone",
+      "helperText": "Include country code",
+      "placeholder": "+61 400 000 000",
+      "InputProps": {
+        "type": "tel"
+      }
+    },
+    "validationSchema": [
+      ["yup.string"],
+      ["yup.matches", "^\\+?[0-9\\s-()]+$", "Invalid phone format"]
+    ],
+    "initialValue": ""
+  }
+}
+```
+
+### Example 18: Disabled Field with Default
+```json
+{
+  "project-code": {
+    "component-namespace": "formik-material-ui",
+    "component-name": "TextField",
+    "type-returned": "faims-core::String",
+    "component-parameters": {
+      "name": "project-code",
+      "label": "Project Code",
+      "helperText": "Auto-assigned project identifier",
+      "disabled": true,
+      "variant": "outlined"
+    },
+    "validationSchema": [
+      ["yup.string"]
+    ],
+    "initialValue": "ARCH2024-001"
+  }
+}
+```
+
+### Example 19: Text with Word Count Validation
+```json
+{
+  "abstract": {
+    "component-namespace": "formik-material-ui",
+    "component-name": "MultipleTextField",
+    "type-returned": "faims-core::String",
+    "component-parameters": {
+      "name": "abstract",
+      "label": "Abstract",
+      "helperText": "150-300 words",
+      "required": true,
+      "fullWidth": true,
+      "multiline": true,
+      "InputProps": {
+        "rows": 5
+      }
+    },
+    "validationSchema": [
+      ["yup.string"],
+      ["yup.required", "Abstract is required"],
+      ["yup.test", "word-count", "Must be 150-300 words",
+        "value => { const words = value ? value.trim().split(/\\s+/).length : 0; return words >= 150 && words <= 300; }"]
+    ],
+    "initialValue": ""
+  }
+}
+```
+
+### Example 20: Complex Nested Form Reference
+```json
+{
+  "location-notes": {
+    "component-namespace": "formik-material-ui",
+    "component-name": "TextField",
+    "type-returned": "faims-core::String",
+    "component-parameters": {
+      "name": "location-notes",
+      "label": "Location Notes",
+      "helperText": "Additional location details",
+      "required": false
+    },
+    "validationSchema": [
+      ["yup.string"]
+    ],
+    "initialValue": "",
+    "condition": {
+      "operator": "and",
+      "conditions": [
+        {
+          "operator": "not-equal",
+          "field": "location-type",
+          "value": "GPS"
+        },
+        {
+          "operator": "equal",
+          "field": "requires-notes",
+          "value": true
+        }
+      ]
     }
   }
 }
@@ -2724,7 +3042,7 @@ Requirement for full field definition despite non-participation in data operatio
 
 ---
 
-## Performance Thresholds Summary {essential}
+## Performance Thresholds Summary {important}
 
 See [Performance Thresholds Reference](performance-thresholds-reference.md) for detailed metrics and testing scenarios.
 
@@ -3474,7 +3792,7 @@ Anti-patterns have been distributed to their respective field sections for bette
 
 ---
 
-## Related Documentation
+## Related Documentation {important}
 <!-- concat:references -->
 
 ### Within Field Categories

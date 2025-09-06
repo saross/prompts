@@ -10,7 +10,7 @@ last_updated: 2025-01-05
 
 # Number Input Fields
 
-## Document Navigation
+## Document Navigation {essential}
 <!-- concat:nav-mode:individual -->
 [← Date & Time Fields](./datetime-fields-v05.md) | **Numeric Fields** | [Display Fields →](./display-field-v05.md)
 <!-- concat:nav-mode:concatenated -->
@@ -340,7 +340,7 @@ Need numeric/sequential functionality?
 | Form ID | `component-parameters.form_id` | string | For BasicAutoIncrementer prefix |
 | Digit Count | `component-parameters.numDigits` | number | ID padding (001 vs 00001) |
 
-## Designer Capabilities vs JSON Enhancement {essential}
+## Designer Capabilities vs JSON Enhancement {comprehensive}
 
 ### What Designer Can Configure {essential}
 
@@ -1183,100 +1183,539 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
 
 ## JSON Examples {comprehensive}
 
-### Base Patterns {comprehensive}
-
-**NumberInput with Full Validation**:
+### Example 1: Basic Integer Field
 ```json
 {
-  "component-name": "NumberField",
-  "type": "faims-core::Number",
-  "name": "soil_ph",
-  "label": "Soil pH",
-  "validationSchema": [
-    ["yup.number"],
-    ["yup.required"],
-    ["yup.min", 0],
-    ["yup.max", 14],
-    ["yup.test", "precision", "Max 2 decimals",
-      "v => v == null || Number.isInteger(v * 100)"]
-  ]
-}
-```
-
-**ControlledNumber for Ratings**:
-```json
-{
-  "component-name": "ControlledNumber",
-  "type": "faims-core::Integer",
-  "name": "quality_rating",
-  "label": "Quality (1-10)",
-  "min": 1,
-  "max": 10,
-  "initialValue": 5
-}
-```
-
-**BasicAutoIncrementer with Protection**:
-```json
-[
-  {
-    "component-name": "BasicAutoIncrementer",
-    "type": "faims-core::String",
-    "name": "find_seq",
-    "form_id": "finds",
-    "num_digits": 5
-  },
-  {
-    "component-name": "TemplatedStringField",
-    "name": "find_id",
-    "template": "FIND-{{site}}-{{find_seq}}-{{_YYYY}}"
+  "artifact-count": {
+    "component-namespace": "formik-material-ui",
+    "component-name": "TemplatedIntegerField",
+    "type-returned": "faims-core::Integer",
+    "component-parameters": {
+      "name": "artifact-count",
+      "label": "Artifact Count",
+      "helperText": "Total number of artifacts",
+      "required": true
+    },
+    "validationSchema": [
+      ["yup.number"],
+      ["yup.required", "Count is required"],
+      ["yup.min", 0, "Count cannot be negative"],
+      ["yup.integer", "Must be a whole number"]
+    ],
+    "initialValue": 0
   }
-]
-```
-
-### Anti-Patterns {comprehensive}
-
-❌ **Never: BasicAutoIncrementer for calculations**:
-```json
-
-{
-  "component-name": "BasicAutoIncrementer",
-  "name": "count"
-}
-
-```
-
-❌ **Never: Unprotected BasicAutoIncrementer export**:
-```json
-
-{
-  "component-name": "BasicAutoIncrementer",
-  "name": "specimen_id"
-}
-
-```
-
-❌ **Never: ControlledNumber for optional values**:
-```json
-
-{
-  "component-name": "ControlledNumber",
-  "name": "optional_measurement"
 }
 ```
 
-### Platform-Specific Configurations {comprehensive}
-
-**iOS-Safe Positive-Only Number**:
+### Example 2: Decimal Measurement Field
 ```json
 {
-  "component-name": "NumberField",
-  "type": "faims-core::Number",
-  "name": "distance",
-  "label": "Distance (m)",
-  "validationSchema": [
-    ["yup.number"],
-    ["yup.min", 0, "Distance cannot be negative"]
+  "depth-measurement": {
+    "component-namespace": "formik-material-ui",
+    "component-name": "TemplatedFloatField",
+    "type-returned": "faims-core::Float",
+    "component-parameters": {
+      "name": "depth-measurement",
+      "label": "Depth (meters)",
+      "helperText": "Depth below surface",
+      "required": true,
+      "precision": 2
+    },
+    "validationSchema": [
+      ["yup.number"],
+      ["yup.required", "Depth is required"],
+      ["yup.min", 0, "Depth cannot be negative"],
+      ["yup.max", 100, "Maximum depth 100m"]
+    ],
+    "initialValue": null
+  }
+}
+```
+
+### Example 3: Controlled Range Slider
+```json
+{
+  "quality-rating": {
+    "component-namespace": "faims-custom",
+    "component-name": "ControlledNumber",
+    "type-returned": "faims-core::Integer",
+    "component-parameters": {
+      "name": "quality-rating",
+      "label": "Quality Rating",
+      "helperText": "Rate from 1 (poor) to 10 (excellent)",
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "marks": true
+    },
+    "validationSchema": [
+      ["yup.number"],
+      ["yup.required", "Rating is required"]
+    ],
+    "initialValue": 5
+  }
+}
+```
+
+### Example 4: Auto-incrementing ID
+```json
+{
+  "specimen-number": {
+    "component-namespace": "faims-custom",
+    "component-name": "BasicAutoIncrementer",
+    "type-returned": "faims-core::String",
+    "component-parameters": {
+      "name": "specimen-number",
+      "label": "Specimen Number",
+      "helperText": "Auto-generated sequence",
+      "incrementer": "specimen-counter",
+      "num_digits": 5,
+      "form_id": "specimens"
+    },
+    "validationSchema": [
+      ["yup.string"],
+      ["yup.required", "Specimen number required"]
+    ],
+    "initialValue": ""
+  }
+}
+```
+
+### Example 5: pH Value with Precision
+```json
+{
+  "soil-ph": {
+    "component-namespace": "formik-material-ui",
+    "component-name": "TemplatedFloatField",
+    "type-returned": "faims-core::Float",
+    "component-parameters": {
+      "name": "soil-ph",
+      "label": "Soil pH",
+      "helperText": "pH value (0-14)",
+      "required": true,
+      "precision": 2
+    },
+    "validationSchema": [
+      ["yup.number"],
+      ["yup.required", "pH value required"],
+      ["yup.min", 0, "pH cannot be less than 0"],
+      ["yup.max", 14, "pH cannot exceed 14"],
+      ["yup.test", "precision", "Maximum 2 decimal places",
+        "value => value == null || Number.isInteger(value * 100)"]
+    ],
+    "initialValue": 7.0
+  }
+}
+```
+
+### Example 6: Percentage Field
+```json
+{
+  "completion-percentage": {
+    "component-namespace": "formik-material-ui",
+    "component-name": "TemplatedIntegerField",
+    "type-returned": "faims-core::Integer",
+    "component-parameters": {
+      "name": "completion-percentage",
+      "label": "Completion %",
+      "helperText": "Percentage complete (0-100)",
+      "required": false,
+      "InputProps": {
+        "endAdornment": "%"
+      }
+    },
+    "validationSchema": [
+      ["yup.number"],
+      ["yup.min", 0, "Cannot be less than 0%"],
+      ["yup.max", 100, "Cannot exceed 100%"],
+      ["yup.integer", "Must be whole number"]
+    ],
+    "initialValue": 0
+  }
+}
+```
+
+### Example 7: Temperature with Negative Values
+```json
+{
+  "temperature": {
+    "component-namespace": "formik-material-ui",
+    "component-name": "TemplatedFloatField",
+    "type-returned": "faims-core::Float",
+    "component-parameters": {
+      "name": "temperature",
+      "label": "Temperature (°C)",
+      "helperText": "Ambient temperature",
+      "required": false,
+      "precision": 1
+    },
+    "validationSchema": [
+      ["yup.number"],
+      ["yup.min", -50, "Minimum -50°C"],
+      ["yup.max", 60, "Maximum 60°C"]
+    ],
+    "initialValue": null
+  }
+}
+```
+
+### Example 8: Conditional Number Field
+```json
+{
+  "ceramic-thickness": {
+    "component-namespace": "formik-material-ui",
+    "component-name": "TemplatedFloatField",
+    "type-returned": "faims-core::Float",
+    "component-parameters": {
+      "name": "ceramic-thickness",
+      "label": "Thickness (mm)",
+      "helperText": "Average wall thickness",
+      "required": true,
+      "precision": 1
+    },
+    "validationSchema": [
+      ["yup.number"],
+      ["yup.required", "Thickness required for ceramics"],
+      ["yup.min", 0.1, "Minimum 0.1mm"],
+      ["yup.max", 100, "Maximum 100mm"]
+    ],
+    "initialValue": null,
+    "condition": {
+      "operator": "includes",
+      "field": "artifact-materials",
+      "value": "ceramic"
+    }
+  }
+}
+```
+
+### Example 9: GPS Coordinates
+```json
+{
+  "latitude": {
+    "component-namespace": "formik-material-ui",
+    "component-name": "TemplatedFloatField",
+    "type-returned": "faims-core::Float",
+    "component-parameters": {
+      "name": "latitude",
+      "label": "Latitude",
+      "helperText": "Decimal degrees",
+      "required": true,
+      "precision": 6
+    },
+    "validationSchema": [
+      ["yup.number"],
+      ["yup.required", "Latitude required"],
+      ["yup.min", -90, "Latitude must be between -90 and 90"],
+      ["yup.max", 90, "Latitude must be between -90 and 90"]
+    ],
+    "initialValue": null
+  }
+}
+```
+
+### Example 10: Currency/Budget Field
+```json
+{
+  "budget-amount": {
+    "component-namespace": "formik-material-ui",
+    "component-name": "TemplatedFloatField",
+    "type-returned": "faims-core::Float",
+    "component-parameters": {
+      "name": "budget-amount",
+      "label": "Budget Amount",
+      "helperText": "In local currency",
+      "required": false,
+      "precision": 2,
+      "InputProps": {
+        "startAdornment": "$"
+      }
+    },
+    "validationSchema": [
+      ["yup.number"],
+      ["yup.min", 0, "Amount cannot be negative"]
+    ],
+    "initialValue": null
+  }
+}
+```
+
+### Example 11: Weight with Units
+```json
+{
+  "artifact-weight": {
+    "component-namespace": "formik-material-ui",
+    "component-name": "TemplatedFloatField",
+    "type-returned": "faims-core::Float",
+    "component-parameters": {
+      "name": "artifact-weight",
+      "label": "Weight",
+      "helperText": "Weight in grams",
+      "required": false,
+      "precision": 3,
+      "InputProps": {
+        "endAdornment": "g"
+      }
+    },
+    "validationSchema": [
+      ["yup.number"],
+      ["yup.min", 0.001, "Minimum 0.001g"],
+      ["yup.max", 10000, "Maximum 10kg"]
+    ],
+    "initialValue": null,
+    "meta": {
+      "uncertainty": {
+        "include": true,
+        "label": "Weight accuracy"
+      }
+    }
+  }
+}
+```
+
+### Example 12: Year Field
+```json
+{
+  "excavation-year": {
+    "component-namespace": "formik-material-ui",
+    "component-name": "TemplatedIntegerField",
+    "type-returned": "faims-core::Integer",
+    "component-parameters": {
+      "name": "excavation-year",
+      "label": "Excavation Year",
+      "helperText": "Year of excavation",
+      "required": true
+    },
+    "validationSchema": [
+      ["yup.number"],
+      ["yup.required", "Year is required"],
+      ["yup.integer", "Must be a valid year"],
+      ["yup.min", 1900, "Year must be 1900 or later"],
+      ["yup.max", "new Date().getFullYear()", "Cannot be future year"]
+    ],
+    "initialValue": 2024
+  }
+}
+```
+
+### Example 13: Stepped Counter
+```json
+{
+  "grid-square": {
+    "component-namespace": "faims-custom",
+    "component-name": "ControlledNumber",
+    "type-returned": "faims-core::Integer",
+    "component-parameters": {
+      "name": "grid-square",
+      "label": "Grid Square Number",
+      "helperText": "1m x 1m grid squares",
+      "min": 1,
+      "max": 100,
+      "step": 1,
+      "showButtons": true
+    },
+    "validationSchema": [
+      ["yup.number"],
+      ["yup.required", "Grid square required"]
+    ],
+    "initialValue": 1
+  }
+}
+```
+
+### Example 14: Area Calculation
+```json
+{
+  "excavation-area": {
+    "component-namespace": "formik-material-ui",
+    "component-name": "TemplatedFloatField",
+    "type-returned": "faims-core::Float",
+    "component-parameters": {
+      "name": "excavation-area",
+      "label": "Area (m²)",
+      "helperText": "Total excavation area",
+      "required": false,
+      "precision": 2,
+      "InputProps": {
+        "endAdornment": "m²"
+      }
+    },
+    "validationSchema": [
+      ["yup.number"],
+      ["yup.min", 0.01, "Minimum 0.01 m²"],
+      ["yup.max", 10000, "Maximum 10,000 m²"]
+    ],
+    "initialValue": null
+  }
+}
+```
+
+### Example 15: Sample Size with Validation
+```json
+{
+  "sample-size": {
+    "component-namespace": "formik-material-ui",
+    "component-name": "TemplatedIntegerField",
+    "type-returned": "faims-core::Integer",
+    "component-parameters": {
+      "name": "sample-size",
+      "label": "Sample Size",
+      "helperText": "Number of samples collected",
+      "required": true
+    },
+    "validationSchema": [
+      ["yup.number"],
+      ["yup.required", "Sample size required"],
+      ["yup.integer", "Must be whole number"],
+      ["yup.min", 1, "At least 1 sample required"],
+      ["yup.max", 1000, "Maximum 1000 samples"]
+    ],
+    "initialValue": 1
+  }
+}
+```
+
+### Example 16: Elevation Field
+```json
+{
+  "elevation": {
+    "component-namespace": "formik-material-ui",
+    "component-name": "TemplatedFloatField",
+    "type-returned": "faims-core::Float",
+    "component-parameters": {
+      "name": "elevation",
+      "label": "Elevation (m ASL)",
+      "helperText": "Meters above sea level",
+      "required": false,
+      "precision": 1
+    },
+    "validationSchema": [
+      ["yup.number"],
+      ["yup.min", -500, "Minimum -500m (below sea level)"],
+      ["yup.max", 9000, "Maximum 9000m"]
+    ],
+    "initialValue": null
+  }
+}
+```
+
+### Example 17: Bearing/Azimuth
+```json
+{
+  "bearing": {
+    "component-namespace": "formik-material-ui",
+    "component-name": "TemplatedIntegerField",
+    "type-returned": "faims-core::Integer",
+    "component-parameters": {
+      "name": "bearing",
+      "label": "Bearing",
+      "helperText": "Compass bearing (0-359°)",
+      "required": false,
+      "InputProps": {
+        "endAdornment": "°"
+      }
+    },
+    "validationSchema": [
+      ["yup.number"],
+      ["yup.integer", "Must be whole number"],
+      ["yup.min", 0, "Bearing must be 0-359"],
+      ["yup.max", 359, "Bearing must be 0-359"]
+    ],
+    "initialValue": null
+  }
+}
+```
+
+### Example 18: Duration in Minutes
+```json
+{
+  "processing-time": {
+    "component-namespace": "formik-material-ui",
+    "component-name": "TemplatedIntegerField",
+    "type-returned": "faims-core::Integer",
+    "component-parameters": {
+      "name": "processing-time",
+      "label": "Processing Time",
+      "helperText": "Time spent (minutes)",
+      "required": false,
+      "InputProps": {
+        "endAdornment": "min"
+      }
+    },
+    "validationSchema": [
+      ["yup.number"],
+      ["yup.integer", "Use whole minutes"],
+      ["yup.min", 1, "Minimum 1 minute"],
+      ["yup.max", 480, "Maximum 8 hours (480 min)"]
+    ],
+    "initialValue": null
+  }
+}
+```
+
+### Example 19: Volume Measurement
+```json
+{
+  "soil-volume": {
+    "component-namespace": "formik-material-ui",
+    "component-name": "TemplatedFloatField",
+    "type-returned": "faims-core::Float",
+    "component-parameters": {
+      "name": "soil-volume",
+      "label": "Soil Volume",
+      "helperText": "Volume in liters",
+      "required": false,
+      "precision": 2,
+      "InputProps": {
+        "endAdornment": "L"
+      }
+    },
+    "validationSchema": [
+      ["yup.number"],
+      ["yup.min", 0.01, "Minimum 0.01L"],
+      ["yup.max", 1000, "Maximum 1000L"]
+    ],
+    "initialValue": null,
+    "meta": {
+      "annotation": {
+        "include": true,
+        "label": "Volume estimation method"
+      }
+    }
+  }
+}
+```
+
+### Example 20: Complex Sequential ID
+```json
+{
+  "context-number": {
+    "component-namespace": "faims-custom",
+    "component-name": "BasicAutoIncrementer",
+    "type-returned": "faims-core::String",
+    "component-parameters": {
+      "name": "context-number",
+      "label": "Context Number",
+      "helperText": "Auto-generated context ID",
+      "incrementer": "context-sequence",
+      "num_digits": 4,
+      "form_id": "contexts",
+      "prefix": "CTX-"
+    },
+    "validationSchema": [
+      ["yup.string"],
+      ["yup.required", "Context number required"]
+    ],
+    "initialValue": "",
+    "meta": {
+      "annotation": {
+        "include": true,
+        "label": "Additional context notes"
+      }
+    }
+  }
+}
+```
   ]
 }
 ```
@@ -1784,7 +2223,7 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
 - `VERSION` 2025-08
 
 ---
-## Performance Thresholds Summary {comprehensive}
+## Performance Thresholds Summary {important}
 
 See [Performance Thresholds Reference](performance-thresholds-reference.md) for detailed metrics and testing scenarios.
 
@@ -2949,7 +3388,7 @@ Anti-patterns have been distributed to their respective field sections for bette
 - 2025-07: BasicAutoIncrementer added
 - 2025-06: Initial documentation
 
-### Related Documentation
+### Related Documentation {important}
 - TextField Documentation (alternative for iOS negatives)
 - TemplatedString Documentation (required for BasicAutoIncrementer)
 - Validation Schema Reference
@@ -2960,7 +3399,7 @@ Anti-patterns have been distributed to their respective field sections for bette
 *Enhanced documentation with 100% content restoration from original field documentation*
 ---
 
-## Related Documentation
+## Related Documentation {important}
 <!-- concat:references -->
 
 ### Within Field Categories

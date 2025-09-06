@@ -10,7 +10,7 @@ last_updated: 2025-01-05
 
 # Selection and Choice Fields
 
-## Document Navigation
+## Document Navigation {essential}
 <!-- concat:nav-mode:individual -->
 [← Text Fields](./text-fields-v05.md) | **Selection & Choice Fields** | [Date & Time Fields →](./datetime-fields-v05.md)
 <!-- concat:nav-mode:concatenated -->
@@ -399,7 +399,7 @@ When switching between Designer and JSON editing, **Designer changes can overwri
 3. Make all further changes in JSON only
 4. Do not return to Designer after JSON customization
 
-## Designer Capabilities vs JSON Enhancement {essential}
+## Designer Capabilities vs JSON Enhancement {comprehensive}
 
 ### What Designer CAN Configure
 
@@ -2553,50 +2553,610 @@ See Individual Field Reference section for detailed field-specific issues.
 
 ## JSON Examples {comprehensive}
 
-### Checkbox Examples {important}
-
-#### Terms Acceptance (Must Accept)
+### Example 1: Basic Single Select Field
 ```json
 {
-  "terms-acceptance": {
+  "site-type": {
+    "component-namespace": "faims-custom",
+    "component-name": "Select",
+    "type-returned": "faims-core::String",
+    "component-parameters": {
+      "name": "site-type",
+      "id": "site-type",
+      "label": "Site Type",
+      "helperText": "Select the primary site classification",
+      "required": true,
+      "options": [
+        {"label": "Residential", "value": "residential"},
+        {"label": "Industrial", "value": "industrial"},
+        {"label": "Religious", "value": "religious"},
+        {"label": "Agricultural", "value": "agricultural"},
+        {"label": "Military", "value": "military"}
+      ]
+    },
+    "validationSchema": [
+      ["yup.string"],
+      ["yup.required", "Site type is required"]
+    ],
+    "initialValue": ""
+  }
+}
+```
+
+### Example 2: MultiSelect with Validation
+```json
+{
+  "artifact-materials": {
+    "component-namespace": "faims-custom",
+    "component-name": "MultiSelect",
+    "type-returned": "faims-core::String",
+    "component-parameters": {
+      "name": "artifact-materials",
+      "id": "artifact-materials",
+      "label": "Artifact Materials",
+      "helperText": "Select all materials present",
+      "required": true,
+      "options": [
+        {"label": "Ceramic", "value": "ceramic"},
+        {"label": "Glass", "value": "glass"},
+        {"label": "Metal", "value": "metal"},
+        {"label": "Stone", "value": "stone"},
+        {"label": "Bone", "value": "bone"},
+        {"label": "Wood", "value": "wood"},
+        {"label": "Textile", "value": "textile"}
+      ]
+    },
+    "validationSchema": [
+      ["yup.array"],
+      ["yup.min", 1, "Select at least one material"],
+      ["yup.max", 3, "Maximum 3 materials"]
+    ],
+    "initialValue": []
+  }
+}
+```
+
+### Example 3: RadioGroup for Condition Assessment
+```json
+{
+  "condition-assessment": {
+    "component-namespace": "faims-custom",
+    "component-name": "RadioGroup",
+    "type-returned": "faims-core::String",
+    "component-parameters": {
+      "name": "condition-assessment",
+      "id": "condition-assessment",
+      "label": "Condition Assessment",
+      "helperText": "Overall condition of the artifact",
+      "required": true,
+      "options": [
+        {"label": "Excellent", "value": "excellent"},
+        {"label": "Good", "value": "good"},
+        {"label": "Fair", "value": "fair"},
+        {"label": "Poor", "value": "poor"},
+        {"label": "Critical", "value": "critical"}
+      ]
+    },
+    "validationSchema": [
+      ["yup.string"],
+      ["yup.required", "Condition assessment required"]
+    ],
+    "initialValue": ""
+  }
+}
+```
+
+### Example 4: Checkbox for Terms Acceptance
+```json
+{
+  "data-consent": {
     "component-namespace": "faims-custom",
     "component-name": "Checkbox",
     "type-returned": "faims-core::Bool",
     "component-parameters": {
-      "name": "terms-acceptance",
-      "id": "terms-acceptance",
-      "label": "I accept the terms and conditions",
+      "name": "data-consent",
+      "id": "data-consent",
+      "label": "I consent to data collection and usage",
       "required": true,
-      "helperText": "You must accept the terms to continue"
+      "helperText": "Required for participation"
     },
     "validationSchema": [
       ["yup.bool"],
-      ["yup.oneOf", [true], "You must accept the terms"]
+      ["yup.oneOf", [true], "Consent is required"]
     ],
     "initialValue": false
   }
 }
 ```
 
-#### Optional Enhancement Flag
+### Example 5: Select with Conditional Options
 ```json
 {
-  "include-photos": {
+  "pottery-form": {
+    "component-namespace": "faims-custom",
+    "component-name": "Select",
+    "type-returned": "faims-core::String",
+    "component-parameters": {
+      "name": "pottery-form",
+      "id": "pottery-form",
+      "label": "Pottery Form",
+      "helperText": "Select vessel form",
+      "required": false,
+      "options": [
+        {"label": "Bowl", "value": "bowl"},
+        {"label": "Jar", "value": "jar"},
+        {"label": "Plate", "value": "plate"},
+        {"label": "Cup", "value": "cup"},
+        {"label": "Amphora", "value": "amphora"},
+        {"label": "Jug", "value": "jug"}
+      ]
+    },
+    "validationSchema": [
+      ["yup.string"]
+    ],
+    "initialValue": null,
+    "condition": {
+      "operator": "includes",
+      "field": "artifact-materials",
+      "value": "ceramic"
+    }
+  }
+}
+```
+
+### Example 6: Advanced MultiSelect with Groups
+```json
+{
+  "excavation-tools": {
+    "component-namespace": "faims-custom",
+    "component-name": "MultiSelect",
+    "type-returned": "faims-core::String",
+    "component-parameters": {
+      "name": "excavation-tools",
+      "id": "excavation-tools",
+      "label": "Tools Used",
+      "helperText": "Select all tools used in this excavation",
+      "options": [
+        {"label": "Hand Tools - Trowel", "value": "trowel"},
+        {"label": "Hand Tools - Brush", "value": "brush"},
+        {"label": "Hand Tools - Pick", "value": "pick"},
+        {"label": "Power Tools - Drill", "value": "drill"},
+        {"label": "Power Tools - Saw", "value": "saw"},
+        {"label": "Measurement - Tape", "value": "tape"},
+        {"label": "Measurement - Level", "value": "level"}
+      ]
+    },
+    "validationSchema": [
+      ["yup.array"]
+    ],
+    "initialValue": []
+  }
+}
+```
+
+### Example 7: Select with External Vocabulary
+```json
+{
+  "period-chronology": {
+    "component-namespace": "faims-custom",
+    "component-name": "Select",
+    "type-returned": "faims-core::String",
+    "component-parameters": {
+      "name": "period-chronology",
+      "id": "period-chronology",
+      "label": "Chronological Period",
+      "helperText": "Select from Getty AAT periods",
+      "required": true,
+      "vocabularyName": "getty-aat-periods",
+      "options": []
+    },
+    "validationSchema": [
+      ["yup.string"],
+      ["yup.required", "Period selection required"]
+    ],
+    "initialValue": ""
+  }
+}
+```
+
+### Example 8: Boolean Checkbox Array
+```json
+{
+  "field-conditions": {
     "component-namespace": "faims-custom",
     "component-name": "Checkbox",
     "type-returned": "faims-core::Bool",
     "component-parameters": {
-      "name": "include-photos",
-      "id": "include-photos",
-      "label": "Include photographic documentation",
+      "name": "field-conditions",
+      "id": "field-conditions",
+      "label": "Hazardous Conditions Present",
+      "helperText": "Check if any hazards exist",
       "required": false
     },
+    "validationSchema": [
+      ["yup.bool"]
+    ],
+    "initialValue": false,
+    "meta": {
+      "annotation": {
+        "include": true,
+        "label": "Describe hazards if present"
+      }
+    }
+  }
+}
+```
+
+### Example 9: RadioGroup with "Other" Option
+```json
+{
+  "soil-type": {
+    "component-namespace": "faims-custom",
+    "component-name": "RadioGroup",
+    "type-returned": "faims-core::String",
+    "component-parameters": {
+      "name": "soil-type",
+      "id": "soil-type",
+      "label": "Soil Type",
+      "required": true,
+      "options": [
+        {"label": "Clay", "value": "clay"},
+        {"label": "Sandy", "value": "sandy"},
+        {"label": "Loam", "value": "loam"},
+        {"label": "Silt", "value": "silt"},
+        {"label": "Peat", "value": "peat"},
+        {"label": "Other", "value": "other"}
+      ]
+    },
+    "validationSchema": [
+      ["yup.string"],
+      ["yup.required", "Soil type required"]
+    ],
+    "initialValue": ""
+  }
+}
+```
+
+### Example 10: MultiSelect with Metadata
+```json
+{
+  "conservation-treatments": {
+    "component-namespace": "faims-custom",
+    "component-name": "MultiSelect",
+    "type-returned": "faims-core::String",
+    "component-parameters": {
+      "name": "conservation-treatments",
+      "id": "conservation-treatments",
+      "label": "Conservation Treatments Applied",
+      "helperText": "Select all treatments performed",
+      "options": [
+        {"label": "Cleaning", "value": "cleaning"},
+        {"label": "Consolidation", "value": "consolidation"},
+        {"label": "Desalination", "value": "desalination"},
+        {"label": "Reconstruction", "value": "reconstruction"},
+        {"label": "Protective coating", "value": "coating"}
+      ]
+    },
+    "validationSchema": [
+      ["yup.array"]
+    ],
+    "initialValue": [],
+    "meta": {
+      "uncertainty": {
+        "include": true,
+        "label": "Treatment effectiveness"
+      }
+    }
+  }
+}
+```
+
+### Example 11: Select with Default Value
+```json
+{
+  "recording-method": {
+    "component-namespace": "faims-custom",
+    "component-name": "Select",
+    "type-returned": "faims-core::String",
+    "component-parameters": {
+      "name": "recording-method",
+      "id": "recording-method",
+      "label": "Recording Method",
+      "helperText": "How was this feature recorded?",
+      "options": [
+        {"label": "Photography", "value": "photo"},
+        {"label": "Drawing", "value": "drawing"},
+        {"label": "3D Scan", "value": "scan3d"},
+        {"label": "Video", "value": "video"}
+      ]
+    },
+    "validationSchema": [
+      ["yup.string"]
+    ],
+    "initialValue": "photo"
+  }
+}
+```
+
+### Example 12: Complex Conditional MultiSelect
+```json
+{
+  "metal-types": {
+    "component-namespace": "faims-custom",
+    "component-name": "MultiSelect",
+    "type-returned": "faims-core::String",
+    "component-parameters": {
+      "name": "metal-types",
+      "id": "metal-types",
+      "label": "Metal Types",
+      "helperText": "Specify metal composition",
+      "required": true,
+      "options": [
+        {"label": "Iron", "value": "iron"},
+        {"label": "Bronze", "value": "bronze"},
+        {"label": "Copper", "value": "copper"},
+        {"label": "Silver", "value": "silver"},
+        {"label": "Gold", "value": "gold"},
+        {"label": "Lead", "value": "lead"},
+        {"label": "Tin", "value": "tin"}
+      ]
+    },
+    "validationSchema": [
+      ["yup.array"],
+      ["yup.min", 1, "Select at least one metal type"]
+    ],
+    "initialValue": [],
+    "condition": {
+      "operator": "includes",
+      "field": "artifact-materials",
+      "value": "metal"
+    }
+  }
+}
+```
+
+### Example 13: RadioGroup for Priority Level
+```json
+{
+  "conservation-priority": {
+    "component-namespace": "faims-custom",
+    "component-name": "RadioGroup",
+    "type-returned": "faims-core::String",
+    "component-parameters": {
+      "name": "conservation-priority",
+      "id": "conservation-priority",
+      "label": "Conservation Priority",
+      "helperText": "Urgency of conservation needed",
+      "required": true,
+      "options": [
+        {"label": "Immediate (24 hours)", "value": "immediate"},
+        {"label": "High (1 week)", "value": "high"},
+        {"label": "Medium (1 month)", "value": "medium"},
+        {"label": "Low (6 months)", "value": "low"},
+        {"label": "None required", "value": "none"}
+      ]
+    },
+    "validationSchema": [
+      ["yup.string"],
+      ["yup.required", "Priority assessment required"]
+    ],
+    "initialValue": "medium"
+  }
+}
+```
+
+### Example 14: Select with Numeric Values
+```json
+{
+  "stratigraphic-phase": {
+    "component-namespace": "faims-custom",
+    "component-name": "Select",
+    "type-returned": "faims-core::Integer",
+    "component-parameters": {
+      "name": "stratigraphic-phase",
+      "id": "stratigraphic-phase",
+      "label": "Stratigraphic Phase",
+      "helperText": "Select phase number",
+      "required": true,
+      "options": [
+        {"label": "Phase 1 (Earliest)", "value": 1},
+        {"label": "Phase 2", "value": 2},
+        {"label": "Phase 3", "value": 3},
+        {"label": "Phase 4", "value": 4},
+        {"label": "Phase 5 (Latest)", "value": 5}
+      ]
+    },
+    "validationSchema": [
+      ["yup.number"],
+      ["yup.required", "Phase required"]
+    ],
+    "initialValue": null
+  }
+}
+```
+
+### Example 15: Checkbox with Advanced Helper
+```json
+{
+  "photography-consent": {
+    "component-namespace": "faims-custom",
+    "component-name": "Checkbox",
+    "type-returned": "faims-core::Bool",
+    "component-parameters": {
+      "name": "photography-consent",
+      "id": "photography-consent",
+      "label": "Photography consent obtained",
+      "helperText": "Required for sensitive sites",
+      "advancedHelperText": "## Photography Consent\n\nConsent must be obtained for:\n- Sacred sites\n- Private property\n- Human remains\n- Restricted areas",
+      "required": false
+    },
+    "validationSchema": [
+      ["yup.bool"]
+    ],
     "initialValue": false
   }
 }
 ```
 
-### MultiSelect Examples {important}
+### Example 16: MultiSelect with Extended Options
+```json
+{
+  "dating-methods": {
+    "component-namespace": "faims-custom",
+    "component-name": "MultiSelect",
+    "type-returned": "faims-core::String",
+    "component-parameters": {
+      "name": "dating-methods",
+      "id": "dating-methods",
+      "label": "Dating Methods Applied",
+      "helperText": "All methods used for this context",
+      "options": [
+        {"label": "C14 Radiocarbon", "value": "c14"},
+        {"label": "Dendrochronology", "value": "dendro"},
+        {"label": "Thermoluminescence", "value": "tl"},
+        {"label": "Optically Stimulated Luminescence", "value": "osl"},
+        {"label": "Archaeomagnetic", "value": "archaeomag"},
+        {"label": "Typological", "value": "typological"},
+        {"label": "Stratigraphic", "value": "stratigraphic"}
+      ]
+    },
+    "validationSchema": [
+      ["yup.array"]
+    ],
+    "initialValue": ["stratigraphic"]
+  }
+}
+```
+
+### Example 17: RadioGroup with Disabled Option
+```json
+{
+  "access-level": {
+    "component-namespace": "faims-custom",
+    "component-name": "RadioGroup",
+    "type-returned": "faims-core::String",
+    "component-parameters": {
+      "name": "access-level",
+      "id": "access-level",
+      "label": "Data Access Level",
+      "required": true,
+      "options": [
+        {"label": "Public", "value": "public"},
+        {"label": "Restricted", "value": "restricted"},
+        {"label": "Confidential", "value": "confidential"},
+        {"label": "Classified", "value": "classified", "disabled": true}
+      ]
+    },
+    "validationSchema": [
+      ["yup.string"],
+      ["yup.required", "Access level required"]
+    ],
+    "initialValue": "public"
+  }
+}
+```
+
+### Example 18: Select with Dynamic Loading
+```json
+{
+  "related-records": {
+    "component-namespace": "faims-custom",
+    "component-name": "Select",
+    "type-returned": "faims-core::String",
+    "component-parameters": {
+      "name": "related-records",
+      "id": "related-records",
+      "label": "Related Records",
+      "helperText": "Link to existing records",
+      "multiple": false,
+      "loadOptions": "dynamic",
+      "optionsEndpoint": "/api/records/list"
+    },
+    "validationSchema": [
+      ["yup.string"]
+    ],
+    "initialValue": null
+  }
+}
+```
+
+### Example 19: MultiSelect with Hierarchical Labels
+```json
+{
+  "finds-categories": {
+    "component-namespace": "faims-custom",
+    "component-name": "MultiSelect",
+    "type-returned": "faims-core::String",
+    "component-parameters": {
+      "name": "finds-categories",
+      "id": "finds-categories",
+      "label": "Finds Categories",
+      "helperText": "Classify all finds",
+      "options": [
+        {"label": "Pottery - Prehistoric", "value": "pottery-prehistoric"},
+        {"label": "Pottery - Roman", "value": "pottery-roman"},
+        {"label": "Pottery - Medieval", "value": "pottery-medieval"},
+        {"label": "Metal - Tools", "value": "metal-tools"},
+        {"label": "Metal - Weapons", "value": "metal-weapons"},
+        {"label": "Metal - Jewelry", "value": "metal-jewelry"},
+        {"label": "Organic - Bone", "value": "organic-bone"},
+        {"label": "Organic - Wood", "value": "organic-wood"}
+      ]
+    },
+    "validationSchema": [
+      ["yup.array"],
+      ["yup.min", 1, "Select at least one category"]
+    ],
+    "initialValue": []
+  }
+}
+```
+
+### Example 20: Complex Nested Conditional Select
+```json
+{
+  "sub-context-type": {
+    "component-namespace": "faims-custom",
+    "component-name": "Select",
+    "type-returned": "faims-core::String",
+    "component-parameters": {
+      "name": "sub-context-type",
+      "id": "sub-context-type",
+      "label": "Sub-context Type",
+      "helperText": "Specific context classification",
+      "required": true,
+      "options": [
+        {"label": "Fill - Occupation", "value": "fill-occupation"},
+        {"label": "Fill - Destruction", "value": "fill-destruction"},
+        {"label": "Fill - Construction", "value": "fill-construction"},
+        {"label": "Cut - Pit", "value": "cut-pit"},
+        {"label": "Cut - Posthole", "value": "cut-posthole"},
+        {"label": "Cut - Ditch", "value": "cut-ditch"}
+      ]
+    },
+    "validationSchema": [
+      ["yup.string"],
+      ["yup.required", "Sub-context type required"]
+    ],
+    "initialValue": "",
+    "condition": {
+      "operator": "or",
+      "conditions": [
+        {
+          "operator": "equal",
+          "field": "context-type",
+          "value": "fill"
+        },
+        {
+          "operator": "equal",
+          "field": "context-type",
+          "value": "cut"
+        }
+      ]
+    }
+  }
+}
+```
 
 #### Feature Checklist with Exclusive None
 ```json
@@ -3010,7 +3570,7 @@ function migrateCheckboxesToMultiSelect(checkboxFields) {
 - **Android**: MultiSelect may show modal
 - **Desktop**: Dropdown behavior varies
 
-## Performance Thresholds Summary {essential}
+## Performance Thresholds Summary {important}
 
 See [Performance Thresholds Reference](performance-thresholds-reference.md) for detailed metrics.
 
@@ -3368,7 +3928,7 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 
 ---
 
-## Related Documentation
+## Related Documentation {important}
 <!-- concat:references -->
 
 ### Within Field Categories

@@ -10,7 +10,7 @@ last_updated: 2025-01-05
 
 # Display Field - Fieldmark v3 Documentation
 
-## Document Navigation
+## Document Navigation {essential}
 <!-- concat:nav-mode:individual -->
 [← Numeric Fields](./number-fields-v05.md) | **Display Fields** | [Location Fields →](./location-fields-v05.md)
 <!-- concat:nav-mode:concatenated -->
@@ -218,7 +218,7 @@ Need to display content?
 - External images blocked (Base64 only)
 - Memory leaks accumulate without cleanup
 
-## Designer Capabilities vs JSON Enhancement {essential}
+## Designer Capabilities vs JSON Enhancement {comprehensive}
 
 ### Designer Configuration
 - ✅ Full MDX editor
@@ -1003,7 +1003,7 @@ Provides formatted instructional content and section headings within forms throu
 - Line breaks require double spacing
 - No dark mode support
 
-## Performance Thresholds Summary {essential}
+## Performance Thresholds Summary {important}
 See [Performance Thresholds Reference](../reference-docs/performance-thresholds-reference.md) for detailed metrics.
 
 **Display-Specific Thresholds:**
@@ -1154,7 +1154,7 @@ See [Performance Thresholds Reference](../reference-docs/performance-thresholds-
 - **Reference Docs**: 9 linked documents
 ---
 
-## Related Documentation
+## Related Documentation {important}
 <!-- concat:references -->
 
 ### Within Field Categories

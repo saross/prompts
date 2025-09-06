@@ -1,7 +1,7 @@
 # Constraints Reference
-## Designer Limitations and Security Considerations for Fieldmark v3
+## Designer Limitations and Security Considerations for Fieldmark v3 {essential}
 
-### Overview
+## Overview {essential}
 
 This reference consolidates critical constraints that affect Fieldmark v3 deployment:
 - Designer interface limitations that impact development workflow
@@ -13,7 +13,7 @@ Understanding these constraints is essential for successful and secure notebook 
 
 ---
 
-## Part 1: Designer Interface Limitations
+## Part 1: Designer Interface Limitations {important}
 
 ### Testing & Preview Constraints
 
@@ -154,7 +154,7 @@ These limitations affect different user groups:
 
 ---
 
-## Part 2: Security Constraints and Vulnerabilities
+## Part 2: Security Constraints and Vulnerabilities {essential}
 
 ### Critical Security Vulnerabilities
 
@@ -428,7 +428,7 @@ ${alert('XSS')}
 
 ---
 
-## Security Incident Response
+## Security Incident Response {important}
 
 ### If XSS is Discovered
 1. Immediately disable affected templates
@@ -446,7 +446,7 @@ ${alert('XSS')}
 
 ---
 
-## Compliance Considerations
+## Compliance Considerations {important}
 
 ### GDPR/Privacy
 - Right to deletion not automatically supported
@@ -462,7 +462,7 @@ ${alert('XSS')}
 
 ---
 
-## Pre-Deployment Security Checklist
+## Pre-Deployment Security Checklist {important}
 
 Before deploying any notebook:
 - [ ] No user text fields in TemplatedString templates
@@ -478,7 +478,7 @@ Before deploying any notebook:
 
 ---
 
-## Designer Best Practices
+## Designer Best Practices {comprehensive}
 
 1. **Start Simple**: Build basic structure in Designer, enhance with JSON
 2. **Test Early**: Deploy frequently to catch issues before complex dependencies develop
@@ -488,7 +488,7 @@ Before deploying any notebook:
 
 ---
 
-## Reporting Security Issues
+## Reporting Security Issues {comprehensive}
 
 If you discover a security vulnerability:
 1. Do NOT publish details publicly
@@ -499,7 +499,7 @@ If you discover a security vulnerability:
 
 ---
 
-## Summary of Critical Constraints
+## Summary of Critical Constraints {comprehensive}
 
 ### Designer Limitations
 - No pre-deployment testing capability
@@ -529,7 +529,7 @@ If you discover a security vulnerability:
 
 ---
 
-## Metadata
+## Metadata {comprehensive}
 - **Document Version**: 1.0
 - **Last Updated**: 2025-01-06
 - **Applies to**: Fieldmark v3 (all versions), Designer (current web interface)

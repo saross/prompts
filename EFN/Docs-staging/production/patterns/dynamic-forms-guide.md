@@ -13,11 +13,11 @@ source_documents:
 
 # Dynamic Forms Guide
 
-## Overview
+## Overview {essential}
 
 This guide consolidates all knowledge about creating dynamic, responsive forms in Fieldmark through validation rules and conditional logic. It covers validation strategies, conditional field display, cross-field dependencies, error handling patterns, and performance considerations for creating adaptive data collection instruments.
 
-## Critical Limitations and Warnings
+## Critical Limitations and Warnings {essential}
 
 ### Validation System Limitations {essential}
 
@@ -35,7 +35,7 @@ This guide consolidates all knowledge about creating dynamic, responsive forms i
 4. **No field ID migration** - When field IDs change, conditions fail silently
 5. **Complex fields cannot be used** - Photos, GPS, relationships need workarounds
 
-## Validation System Architecture
+## Validation System Architecture {important}
 
 ### How Validation Actually Works {#validation-architecture}
 
@@ -87,7 +87,7 @@ graph TD
 | ~100 | Noticeable | Possible lag | Consider splitting form or debouncing |
 | 200+ | Significant | Likely performance issues | Architectural changes recommended |
 
-## Field-Specific Validation
+## Field-Specific Validation {important}
 
 ### Text Fields {#text-fields}
 
@@ -233,7 +233,7 @@ Since annotations can't be required through validation, train users to:
 - Explain provisional identifications
 - Record equipment problems or limitations
 
-## Conditional Logic System
+## Conditional Logic System {important}
 
 ### Basic Condition Structure {#conditional-basics}
 
@@ -288,7 +288,7 @@ Since annotations can't be required through validation, train users to:
 | `and` | All conditions true | Yes (first false) |
 | `or` | Any condition true | Yes (first true) |
 
-## Common Dynamic Form Patterns
+## Common Dynamic Form Patterns {important}
 
 ### Pattern: Other → Specify {#other-specify}
 
@@ -413,7 +413,7 @@ Since conditional validation isn't supported, use duplicate fields:
 }
 ```
 
-## Complex Logic Patterns
+## Complex Logic Patterns {comprehensive}
 
 ### AND Logic {#and-logic}
 
@@ -469,7 +469,7 @@ Combine AND and OR for sophisticated patterns:
 }
 ```
 
-## Save Button Behavior
+## Save Button Behavior {important}
 
 ### publishButtonBehaviour Configuration {#save-button}
 
@@ -491,7 +491,7 @@ const showPublishButton =
 
 **Key Insight**: Uses filtered errors, so hidden fields SHOULD NOT block saving.
 
-## Error Handling Patterns
+## Error Handling Patterns {comprehensive}
 
 ### Visual Error Indicators {#error-indicators}
 
@@ -514,7 +514,7 @@ const showPublishButton =
 | MultiSelect | ❌ No | Red border only | Needs fix |
 | RelationshipField | ❌ No | Red border only | Needs fix |
 
-## Performance Optimization
+## Performance Optimization {comprehensive}
 
 ### Condition Performance Boundaries {#performance}
 
@@ -566,7 +566,7 @@ import { debounce } from 'lodash';
 const debouncedValidate = debounce(validate, 300);
 ```
 
-## Field Type Interactions
+## Field Type Interactions {comprehensive}
 
 ### Value Types for Conditions {#field-values}
 
@@ -590,7 +590,7 @@ const debouncedValidate = debounce(validate, 300);
 | MapFormField | GeoJSON | Manual indicator field |
 | RelationshipField | Objects | Hidden status field |
 
-## Troubleshooting Guide
+## Troubleshooting Guide {comprehensive}
 
 ### Common Issues and Solutions {#troubleshooting}
 
@@ -635,7 +635,7 @@ console.log(`Validation took ${performance.now() - start}ms`);
 3. Test with simple equal operator first
 4. Check for console errors
 
-## Best Practices Summary
+## Best Practices Summary {comprehensive}
 
 ### DO:
 ✅ Test conditions in deployed notebook (not Designer preview)  
@@ -658,7 +658,7 @@ console.log(`Validation took ${performance.now() - start}ms`);
 ❌ Try to validate annotation content  
 ❌ Add annotations to free-text fields  
 
-## Migration Notes
+## Migration Notes {comprehensive}
 
 ### Known Issues Being Addressed
 - Missing error display on 14 field types (fields turn red but show no error text)
@@ -673,7 +673,7 @@ console.log(`Validation took ${performance.now() - start}ms`);
 - Better error display for all fields
 - Performance optimizations
 
-## Related Documentation
+## Related Documentation {important}
 
 - [Form Structure Guide](./form-structure-guide.md) - Form architecture and navigation
 - [Field Selection Guide](./field-selection-guide.md) - Choosing appropriate fields

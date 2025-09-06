@@ -13,11 +13,11 @@ source_documents:
 
 # Form Structure Guide
 
-## Overview
+## Overview {essential}
 
 This guide consolidates all knowledge about Fieldmark's hierarchical form architecture, navigation patterns, and structural best practices. It covers the three-tier system of Forms (viewsets), Sections (views), and Fields, along with navigation strategies for different use cases and platforms.
 
-## Core Architecture Principles
+## Core Architecture Principles {essential}
 
 ### Three-Tier Hierarchical System {essential}
 
@@ -38,7 +38,7 @@ This architecture scales from simple single-form checklists to sophisticated mul
 - **Automatic persistence**: Draft saves every 10 seconds
 - **Decoupled sync**: Background synchronization never blocks navigation
 
-## Navigation Strategies
+## Navigation Strategies {important}
 
 ### Navigation Mode Selection {#navigation-modes}
 
@@ -124,7 +124,7 @@ lg: 992-1200px  // Desktop
 xl: > 1200px    // Large desktop
 ```
 
-## Form Configuration
+## Form Configuration {important}
 
 ### Required Root Properties {#form-configuration}
 
@@ -179,7 +179,7 @@ xl: > 1200px    // Large desktop
 | `condition` | object | null | Visibility condition | Malformed conditions crash form |
 | `description` | string | null | Help text (not widely supported) | May not display |
 
-## Field-Specific Structure Considerations
+## Field-Specific Structure Considerations {comprehensive}
 
 ### Text Fields {#text-fields}
 
@@ -245,7 +245,7 @@ xl: > 1200px    // Large desktop
 - Consider dedicated relationships section
 - Use tabs mode for complex hierarchies
 
-## Parent-Child Hierarchies
+## Parent-Child Hierarchies {important}
 
 ### Common Archaeological Patterns {#archaeological-hierarchies}
 
@@ -276,7 +276,7 @@ xl: > 1200px    // Large desktop
 4. **Plan relationships**: Document parent-child structures
 5. **Consider orphan handling**: Plan for soft-delete scenarios
 
-## Data Flow and Persistence
+## Data Flow and Persistence {important}
 
 ### Save and Navigation Flow {#data-flow}
 
@@ -312,7 +312,7 @@ state = {
 
 **Note**: Conditional hidden sections don't block "visited" requirement.
 
-## Performance Optimization
+## Performance Optimization {comprehensive}
 
 ### Performance Characteristics by Structure {#performance}
 
@@ -344,7 +344,7 @@ state = {
 | All sections inline with many fields | Memory spike | Use tabs mode |
 | Deep hierarchies (>4 levels) | Navigation complexity | Flatten structure |
 
-## Conditional Section Patterns
+## Conditional Section Patterns {comprehensive}
 
 ### Progressive Disclosure {#conditional-sections}
 
@@ -394,7 +394,7 @@ state = {
 - Malformed conditions crash form
 - Performance degradation with 20-30 conditional fields
 
-## Validation and Navigation
+## Validation and Navigation {important}
 
 ### Non-Blocking Validation Pattern {#validation}
 
@@ -413,7 +413,7 @@ Navigation is never blocked by validation errors:
 | Desktop Inline | Red text below header | Asterisk (*) | Green border |
 | Mobile | Red badge on step | Red asterisk | Green checkmark |
 
-## Structure Pattern Examples
+## Structure Pattern Examples {comprehensive}
 
 ### Example 1: Simple Two-Level Hierarchy
 
@@ -483,7 +483,7 @@ Navigation is never blocked by validation errors:
 }
 ```
 
-## Mobile vs Desktop Considerations
+## Mobile vs Desktop Considerations {important}
 
 ### Mobile-Specific Features {#mobile-considerations}
 - GPS functionality for coordinates
@@ -505,7 +505,7 @@ Navigation is never blocked by validation errors:
 - **Desktop**: Complex forms, data review, notebook design
 - Design acknowledging most field collection on mobile
 
-## Troubleshooting Structure Issues
+## Troubleshooting Structure Issues {comprehensive}
 
 ### Common Issues and Solutions
 
@@ -526,7 +526,7 @@ Navigation is never blocked by validation errors:
 - [ ] < 10 sections per form for tabs
 - [ ] Conditions reference existing fields only
 
-## Best Practices Summary
+## Best Practices Summary {comprehensive}
 
 ### DO:
 ✅ Plan structure before building  
@@ -545,7 +545,7 @@ Navigation is never blocked by validation errors:
 ❌ Ignore mobile performance  
 ❌ Use complex conditions (>20 fields)  
 
-## Migration Notes
+## Migration Notes {comprehensive}
 
 ### Current System Considerations
 - Draft database requires "Finish and..." to save to production
@@ -556,7 +556,7 @@ Navigation is never blocked by validation errors:
 ### Potential Future Improvements
 Various improvements are being considered for the roadmap, including navigation persistence, deep linking support, and architecture simplifications.
 
-## Related Documentation
+## Related Documentation {important}
 
 - [Field Selection Guide](./field-selection-guide.md) - Choosing appropriate field types
 - [Dynamic Forms Guide](./dynamic-forms-guide.md) - Validation and conditional logic

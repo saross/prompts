@@ -10,7 +10,7 @@ last_updated: 2025-01-05
 
 # Media Fields - Fieldmark v3 Documentation
 
-## Document Navigation
+## Document Navigation {essential}
 <!-- concat:nav-mode:individual -->
 [← Location Fields](./location-fields-v05.md) | **Media Fields** | [Relationship Fields →](./relationship-field-v05.md)
 <!-- concat:nav-mode:concatenated -->
@@ -200,7 +200,7 @@ See [Security Considerations Reference](../reference-docs/security-consideration
 | Required | `"required": true` | Visual only |
 | Advanced Helper | `"advancedHelperText": "## Markdown"` | Both fields |
 
-## Designer Capabilities vs JSON Enhancement {essential}
+## Designer Capabilities vs JSON Enhancement {comprehensive}
 
 ### Designer Configuration (Both Fields)
 - ✅ Field labels and naming
@@ -1279,7 +1279,7 @@ For TakePhoto (manual validation configuration):
 - No file-level annotations (field-level only)
 - Export filename pattern inconsistent
 
-## Performance Thresholds Summary {essential}
+## Performance Thresholds Summary {important}
 See [Performance Thresholds Reference](../reference-docs/performance-thresholds-reference.md) for detailed metrics.
 
 **Media-Specific Thresholds:**
@@ -1458,7 +1458,7 @@ See [Performance Thresholds Reference](../reference-docs/performance-thresholds-
 - **Reference Docs**: 9 linked documents
 ---
 
-## Related Documentation
+## Related Documentation {important}
 <!-- concat:references -->
 
 ### Within Field Categories

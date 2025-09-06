@@ -10,7 +10,7 @@ last_updated: 2025-01-05
 
 # Date-Time Input Fields
 
-## Document Navigation
+## Document Navigation {essential}
 <!-- concat:nav-mode:individual -->
 [← Selection Fields](./select-choice-fields-v05.md) | **Date & Time Fields** | [Numeric Fields →](./number-fields-v05.md)
 <!-- concat:nav-mode:concatenated -->
@@ -340,7 +340,7 @@ Recording temporal data?
 - Platform-specific date picker interfaces cannot be customized through Designer
 - Validation beyond required/optional needs custom implementation
 
-## Designer Capabilities vs JSON Enhancement {essential}
+## Designer Capabilities vs JSON Enhancement {comprehensive}
 
 ### What Designer Can Configure
 
@@ -1122,51 +1122,499 @@ Common date field error messages and their meanings:
 
 ## JSON Examples {comprehensive}
 
-### DateTimeNow Patterns
-
+### Example 1: Basic Date Field
 ```json
-
 {
-  "component-namespace": "faims-custom",
-  "component-name": "DateTimeNow",
-  "type-returned": "faims-core::String",
-  "component-parameters": {
-    "name": "timestamp-field",
-    "label": "Timestamp"
-  },
-  "validationSchema": [["yup.string"]],
-  "initialValue": ""
+  "excavation-date": {
+    "component-namespace": "faims-custom",
+    "component-name": "DatePicker",
+    "type-returned": "faims-core::String",
+    "component-parameters": {
+      "name": "excavation-date",
+      "label": "Excavation Date",
+      "helperText": "Date of excavation",
+      "required": true
+    },
+    "validationSchema": [
+      ["yup.string"],
+      ["yup.required", "Excavation date is required"]
+    ],
+    "initialValue": ""
+  }
 }
+```
 
+### Example 2: Time-only Field
+```json
+{
+  "sample-time": {
+    "component-namespace": "faims-custom",
+    "component-name": "TimePicker",
+    "type-returned": "faims-core::String",
+    "component-parameters": {
+      "name": "sample-time",
+      "label": "Sample Collection Time",
+      "helperText": "Time of day (24-hour format)",
+      "required": false
+    },
+    "validationSchema": [
+      ["yup.string"]
+    ],
+    "initialValue": null
+  }
+}
+```
 
-+ "component-parameters": {
-+   "is_auto_pick": true,
-+   "helperText": "Automatically captured (UTC)",
-+   "fullWidth": true
-+ }
-+ "validationSchema": [
-+   ["yup.string"],
-+   ["yup.required", "Timestamp required"]
-+ ]
+### Example 3: Full DateTime Field
+```json
+{
+  "discovery-datetime": {
+    "component-namespace": "faims-custom",
+    "component-name": "DateTimePicker",
+    "type-returned": "faims-core::String",
+    "component-parameters": {
+      "name": "discovery-datetime",
+      "label": "Discovery Date and Time",
+      "helperText": "When was this artifact discovered?",
+      "required": true,
+      "fullWidth": true
+    },
+    "validationSchema": [
+      ["yup.string"],
+      ["yup.required", "Discovery date/time is required"]
+    ],
+    "initialValue": ""
+  }
+}
+```
 
+### Example 4: Auto-capture Timestamp
+```json
+{
+  "record-created": {
+    "component-namespace": "faims-custom",
+    "component-name": "DateTimeNow",
+    "type-returned": "faims-core::String",
+    "component-parameters": {
+      "name": "record-created",
+      "label": "Record Created",
+      "helperText": "Automatically captured",
+      "is_auto_pick": true,
+      "disabled": true
+    },
+    "validationSchema": [
+      ["yup.string"]
+    ],
+    "initialValue": ""
+  }
+}
+```
 
-+ "component-parameters": {
-+   "is_auto_pick": false,
-+   "helperText": "Click 'Now' for current time",
-+   "required": true
-+ }
-+ "meta": {
-+   "annotation": {
-+     "include": true,
-+     "label": "Time notes (timezone, accuracy)"
-+   }
-+ }
+### Example 5: Manual Timestamp with Now Button
+```json
+{
+  "field-timestamp": {
+    "component-namespace": "faims-custom",
+    "component-name": "DateTimeNow",
+    "type-returned": "faims-core::String",
+    "component-parameters": {
+      "name": "field-timestamp",
+      "label": "Field Timestamp",
+      "helperText": "Click 'Now' for current time",
+      "is_auto_pick": false,
+      "required": true
+    },
+    "validationSchema": [
+      ["yup.string"],
+      ["yup.required", "Timestamp required"]
+    ],
+    "initialValue": ""
+  }
+}
+```
 
+### Example 6: Date with Range Validation
+```json
+{
+  "project-date": {
+    "component-namespace": "faims-custom",
+    "component-name": "DatePicker",
+    "type-returned": "faims-core::String",
+    "component-parameters": {
+      "name": "project-date",
+      "label": "Project Date",
+      "helperText": "Must be within project period",
+      "required": true
+    },
+    "validationSchema": [
+      ["yup.string"],
+      ["yup.required", "Date is required"],
+      ["yup.min", "2024-01-01", "Date must be after Jan 1, 2024"],
+      ["yup.max", "2024-12-31", "Date must be before Dec 31, 2024"]
+    ],
+    "initialValue": ""
+  }
+}
+```
 
-+ "component-parameters": {
-+   "is_auto_pick": true,
-+   "disabled": true
-+ }
+### Example 7: Optional Date with Metadata
+```json
+{
+  "analysis-date": {
+    "component-namespace": "faims-custom",
+    "component-name": "DatePicker",
+    "type-returned": "faims-core::String",
+    "component-parameters": {
+      "name": "analysis-date",
+      "label": "Analysis Date",
+      "helperText": "Date of laboratory analysis",
+      "required": false
+    },
+    "validationSchema": [
+      ["yup.string"]
+    ],
+    "initialValue": null,
+    "meta": {
+      "uncertainty": {
+        "include": true,
+        "label": "Date certainty"
+      },
+      "annotation": {
+        "include": true,
+        "label": "Date notes"
+      }
+    }
+  }
+}
+```
+
+### Example 8: Conditional DateTime Field
+```json
+{
+  "treatment-datetime": {
+    "component-namespace": "faims-custom",
+    "component-name": "DateTimePicker",
+    "type-returned": "faims-core::String",
+    "component-parameters": {
+      "name": "treatment-datetime",
+      "label": "Treatment Date/Time",
+      "helperText": "When was conservation treatment applied?",
+      "required": true
+    },
+    "validationSchema": [
+      ["yup.string"],
+      ["yup.required", "Treatment date/time required"]
+    ],
+    "initialValue": "",
+    "condition": {
+      "operator": "equal",
+      "field": "requires-conservation",
+      "value": true
+    }
+  }
+}
+```
+
+### Example 9: Birth Date with Age Calculation
+```json
+{
+  "birth-date": {
+    "component-namespace": "faims-custom",
+    "component-name": "DatePicker",
+    "type-returned": "faims-core::String",
+    "component-parameters": {
+      "name": "birth-date",
+      "label": "Date of Birth",
+      "helperText": "For age calculation",
+      "required": false
+    },
+    "validationSchema": [
+      ["yup.string"],
+      ["yup.max", "new Date().toISOString().split('T')[0]", "Cannot be in the future"]
+    ],
+    "initialValue": null
+  }
+}
+```
+
+### Example 10: Time Field with Precision
+```json
+{
+  "observation-time": {
+    "component-namespace": "faims-custom",
+    "component-name": "TimePicker",
+    "type-returned": "faims-core::String",
+    "component-parameters": {
+      "name": "observation-time",
+      "label": "Observation Time",
+      "helperText": "Local time of observation",
+      "required": true
+    },
+    "validationSchema": [
+      ["yup.string"],
+      ["yup.required", "Time is required"]
+    ],
+    "initialValue": "",
+    "meta": {
+      "annotation": {
+        "include": true,
+        "label": "Timezone and precision notes"
+      }
+    }
+  }
+}
+```
+
+### Example 11: Season/Period Date Range
+```json
+{
+  "season-start": {
+    "component-namespace": "faims-custom",
+    "component-name": "DatePicker",
+    "type-returned": "faims-core::String",
+    "component-parameters": {
+      "name": "season-start",
+      "label": "Field Season Start",
+      "helperText": "First day of excavation season",
+      "required": true
+    },
+    "validationSchema": [
+      ["yup.string"],
+      ["yup.required", "Season start date required"]
+    ],
+    "initialValue": "2024-06-01"
+  }
+}
+```
+
+### Example 12: DateTime with Default Now
+```json
+{
+  "submission-datetime": {
+    "component-namespace": "faims-custom",
+    "component-name": "DateTimePicker",
+    "type-returned": "faims-core::String",
+    "component-parameters": {
+      "name": "submission-datetime",
+      "label": "Submission Time",
+      "helperText": "Defaults to current time",
+      "required": true
+    },
+    "validationSchema": [
+      ["yup.string"],
+      ["yup.required", "Submission time required"]
+    ],
+    "initialValue": "{{_CURRENT_DATETIME}}"
+  }
+}
+```
+
+### Example 13: Historical Date Field
+```json
+{
+  "historical-date": {
+    "component-namespace": "faims-custom",
+    "component-name": "DatePicker",
+    "type-returned": "faims-core::String",
+    "component-parameters": {
+      "name": "historical-date",
+      "label": "Historical Date",
+      "helperText": "Approximate date (BCE/CE)",
+      "required": false
+    },
+    "validationSchema": [
+      ["yup.string"]
+    ],
+    "initialValue": null,
+    "meta": {
+      "uncertainty": {
+        "include": true,
+        "label": "Date precision (exact, circa, before/after)"
+      }
+    }
+  }
+}
+```
+
+### Example 14: Restricted Future Date
+```json
+{
+  "planned-visit": {
+    "component-namespace": "faims-custom",
+    "component-name": "DatePicker",
+    "type-returned": "faims-core::String",
+    "component-parameters": {
+      "name": "planned-visit",
+      "label": "Planned Visit Date",
+      "helperText": "Next site visit (max 1 year ahead)",
+      "required": false
+    },
+    "validationSchema": [
+      ["yup.string"],
+      ["yup.min", "new Date().toISOString().split('T')[0]", "Must be future date"],
+      ["yup.test", "max-future", "Cannot be more than 1 year in future",
+        "value => !value || new Date(value) <= new Date(Date.now() + 365*24*60*60*1000)"]
+    ],
+    "initialValue": null
+  }
+}
+```
+
+### Example 15: Multiple DateTime Fields
+```json
+{
+  "excavation-start": {
+    "component-namespace": "faims-custom",
+    "component-name": "DateTimePicker",
+    "type-returned": "faims-core::String",
+    "component-parameters": {
+      "name": "excavation-start",
+      "label": "Excavation Start",
+      "helperText": "Begin excavation timestamp",
+      "required": true
+    },
+    "validationSchema": [
+      ["yup.string"],
+      ["yup.required", "Start time required"]
+    ],
+    "initialValue": ""
+  }
+}
+```
+
+### Example 16: Time Duration Tracking
+```json
+{
+  "work-start-time": {
+    "component-namespace": "faims-custom",
+    "component-name": "TimePicker",
+    "type-returned": "faims-core::String",
+    "component-parameters": {
+      "name": "work-start-time",
+      "label": "Work Start Time",
+      "helperText": "Daily work begin time",
+      "required": true
+    },
+    "validationSchema": [
+      ["yup.string"],
+      ["yup.required", "Start time required"],
+      ["yup.matches", "^([01]?[0-9]|2[0-3]):[0-5][0-9]$", "Use HH:MM format"]
+    ],
+    "initialValue": "08:00"
+  }
+}
+```
+
+### Example 17: Readonly System Timestamp
+```json
+{
+  "last-modified": {
+    "component-namespace": "faims-custom",
+    "component-name": "DateTimeNow",
+    "type-returned": "faims-core::String",
+    "component-parameters": {
+      "name": "last-modified",
+      "label": "Last Modified",
+      "helperText": "System-managed timestamp",
+      "is_auto_pick": true,
+      "disabled": true,
+      "readOnly": true
+    },
+    "validationSchema": [
+      ["yup.string"]
+    ],
+    "initialValue": ""
+  }
+}
+```
+
+### Example 18: Date with Custom Format Display
+```json
+{
+  "publication-date": {
+    "component-namespace": "faims-custom",
+    "component-name": "DatePicker",
+    "type-returned": "faims-core::String",
+    "component-parameters": {
+      "name": "publication-date",
+      "label": "Publication Date",
+      "helperText": "Article/report publication date",
+      "format": "DD/MM/YYYY",
+      "required": false
+    },
+    "validationSchema": [
+      ["yup.string"]
+    ],
+    "initialValue": null
+  }
+}
+```
+
+### Example 19: Complex Conditional Date
+```json
+{
+  "completion-date": {
+    "component-namespace": "faims-custom",
+    "component-name": "DatePicker",
+    "type-returned": "faims-core::String",
+    "component-parameters": {
+      "name": "completion-date",
+      "label": "Completion Date",
+      "helperText": "When was this phase completed?",
+      "required": true
+    },
+    "validationSchema": [
+      ["yup.string"],
+      ["yup.required", "Completion date required"],
+      ["yup.min", "${start-date}", "Must be after start date"]
+    ],
+    "initialValue": "",
+    "condition": {
+      "operator": "and",
+      "conditions": [
+        {
+          "operator": "equal",
+          "field": "phase-status",
+          "value": "complete"
+        },
+        {
+          "operator": "not-empty",
+          "field": "start-date"
+        }
+      ]
+    }
+  }
+}
+```
+
+### Example 20: DateTime with Timezone Awareness
+```json
+{
+  "international-meeting": {
+    "component-namespace": "faims-custom",
+    "component-name": "DateTimePicker",
+    "type-returned": "faims-core::String",
+    "component-parameters": {
+      "name": "international-meeting",
+      "label": "Meeting Time (UTC)",
+      "helperText": "Enter in UTC timezone",
+      "required": true,
+      "timezone": "UTC"
+    },
+    "validationSchema": [
+      ["yup.string"],
+      ["yup.required", "Meeting time required"]
+    ],
+    "initialValue": "",
+    "meta": {
+      "annotation": {
+        "include": true,
+        "label": "Local timezone for reference"
+      }
+    }
+  }
+}
+```
 ```
 
 #### DateTimeNow ANTI-PATTERNS ⚠️
@@ -2583,7 +3031,7 @@ For ancient history and archaeology spanning BCE/CE, use numeric fields rather t
 
 ---
 
-## Performance Thresholds Summary {comprehensive}
+## Performance Thresholds Summary {important}
 
 See [Performance Thresholds Reference](performance-thresholds-reference.md) for detailed metrics and testing scenarios.
 
@@ -3140,7 +3588,7 @@ Version 2.0 restores approximately 30% of technical implementation details that 
 - ⚠️ No validation for date ranges or temporal constraints
 ---
 
-## Related Documentation
+## Related Documentation {important}
 <!-- concat:references -->
 
 ### Within Field Categories

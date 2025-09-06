@@ -19,7 +19,7 @@ source_documents:
 
 This comprehensive guide consolidates field selection principles, practical patterns, and the complete field comparison matrix to support informed decision-making when designing Fieldmark notebooks. Content has been extracted and integrated from field-selection-best-practices, summary-table, and quick-start documentation.
 
-## Table of Contents
+## Table of Contents {essential}
 1. [Core Design Principles](#core-design-principles)
 2. [Field Type Comparison Matrix](#field-type-comparison-matrix)
 3. [Decision Framework by Data Type](#decision-framework-by-data-type)
@@ -391,7 +391,7 @@ Connection type determines approach:
 - Pattern: `{{project}}-{{location}}-{{sample}}`
 - Example: "GEO2024-OUT3-S045"
 
-## Performance Considerations {important}
+## Performance Considerations {comprehensive}
 
 ### Cognitive Performance Factors
 - **Recognition over recall**: Select from lists vs remember codes
@@ -419,7 +419,7 @@ Connection type determines approach:
 - Option lists: Consider hierarchical beyond 20 items
 - Media sync: Device-specific download toggles essential
 
-## Common Implementation Patterns {important}
+## Common Implementation Patterns {comprehensive}
 
 ### The Measurement Pattern
 Combine fields for comprehensive documentation:
@@ -455,7 +455,7 @@ Handle exceptions in controlled vocabularies:
 2. Specification field (Text field, conditional on "Other")
 3. Preserves structure while allowing flexibility
 
-## Anti-Patterns and Mistakes {important}
+## Anti-Patterns and Mistakes {comprehensive}
 
 ### Common Selection Mistakes
 
@@ -565,7 +565,7 @@ Design with post-processing in mind:
 - Manual reconstruction required for hierarchical analysis
 - Plan vocabularies for export requirements
 
-## Related Documentation
+## Related Documentation {important}
 
 ### Field Type Documentation
 - [Text & Input Fields](../field-categories/text-fields-v05.md)
@@ -589,7 +589,7 @@ Design with post-processing in mind:
 
 ---
 
-## Navigation
+## Navigation {essential}
 [← Field Index](../field-type-index.md) | [Pattern Guides](../field-type-index.md#pattern-guides) | [Form Structure Guide →](./form-structure-guide.md)
 
 <!-- concat:boundary:end section="field-selection-guide" -->
