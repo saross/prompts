@@ -30,7 +30,7 @@ This guide consolidates all knowledge about creating dynamic, responsive forms i
 ### Conditional Logic Limitations {essential}
 
 1. **No cross-form references** - Conditions can only reference fields within same form
-2. **Hidden required fields may still validate** - Can block submission even when invisible
+2. **Hidden fields with validation** - Use required validation on hidden fields with care
 3. **Type matching required** - Number fields require number values, not strings
 4. **No field ID migration** - When field IDs change, conditions fail silently
 5. **Complex fields cannot be used** - Photos, GPS, relationships need workarounds
@@ -51,6 +51,8 @@ graph TD
     H -->|5 Fields| I[Shows Error Text]
     H -->|14 Fields| J[Red Highlight Only]
 ```
+
+**Note**: The `filterErrors` function (added January 2025) properly removes validation errors from hidden fields, preventing them from blocking submission. However, be deliberate when adding validation to fields that may be hidden.
 
 ### Validation Timing Lifecycle
 
@@ -335,7 +337,7 @@ Since conditional validation isn't supported, use duplicate fields:
 
 ### Pattern: Complex Field Workaround {#complex-field-workaround}
 
-For fields that can't be used in conditions (photos, GPS), create hidden indicators:
+**Advanced Pattern**: For fields that can't be used in conditions (photos, GPS), you can create hidden indicators using TemplatedStringField. This is a useful workaround but has not been extensively tested in production:
 
 ```json
 {
@@ -431,7 +433,7 @@ Combine AND and OR for sophisticated patterns:
 |------|----------|-------------|--------|
 | `"always"` | Save always enabled | Quick data entry | No validation enforcement |
 | `"visited"` | Enabled after all sections viewed | Ensures complete review | Doesn't check validity |
-| `"noErrors"` | Enabled only when valid | Data quality enforcement | Hidden required fields may block |
+| `"noErrors"` | Enabled only when valid | Data quality enforcement | Consider hidden field validation |
 
 ### Implementation Details
 
@@ -457,16 +459,16 @@ const showPublishButton =
 
 ### Error Display by Field Type
 
-| Field Type | Shows Errors | Where Displayed | Status |
-|------------|--------------|-----------------|--------|
-| TextField | ✅ Yes | Below field | Working |
-| NumberField | ✅ Yes | Below field | Working |
-| DateTimeNow | ✅ Yes | Below field | Working |
-| Checkbox | ✅ Yes | Below field | Working |
-| RadioGroup | ❌ No | N/A | Needs fix |
-| Select | ❌ No | N/A | Needs fix |
-| MultiSelect | ❌ No | N/A | Needs fix |
-| RelationshipField | ❌ No | N/A | Needs fix |
+| Field Type | Shows Error Text | Visual Indication | Status |
+|------------|-----------------|-------------------|--------|
+| TextField | ✅ Yes | Red border + error text below | Working |
+| NumberField | ✅ Yes | Red border + error text below | Working |
+| DateTimeNow | ✅ Yes | Red border + error text below | Working |
+| Checkbox | ✅ Yes | Red + error text below | Working |
+| RadioGroup | ❌ No | Red highlight only | Needs fix |
+| Select | ❌ No | Red border only | Needs fix |
+| MultiSelect | ❌ No | Red border only | Needs fix |
+| RelationshipField | ❌ No | Red border only | Needs fix |
 
 ## Performance Optimization
 
@@ -594,26 +596,26 @@ console.log(`Validation took ${performance.now() - start}ms`);
 ### DO:
 ✅ Test conditions in deployed notebook (not Designer preview)  
 ✅ Use correct value types (numbers for number fields)  
-✅ Create hidden indicator fields for complex field conditions  
+✅ Consider hidden indicator fields for complex conditions (advanced)  
 ✅ Order conditions for short-circuit optimization  
 ✅ Keep validation rules simple and fast  
 ✅ Provide clear helperText to prevent errors  
 
 ### DON'T:
-❌ Hide required fields with conditions  
+❌ Make hidden fields required without careful consideration  
 ❌ Reference fields across forms  
 ❌ Use complex regex on text fields  
 ❌ Exceed 20-30 conditional fields  
-❌ Rely on error messages for RadioGroup/Select  
+❌ Rely on error text for RadioGroup/Select (only shows red)  
 ❌ Forget that validation runs on hidden fields  
 
 ## Migration Notes
 
 ### Known Issues Being Addressed
-- Hidden required fields blocking submission (filterErrors added Jan 2025)
-- Missing error display on 14 field types
+- Missing error display on 14 field types (fields turn red but show no error text)
 - Schema rebuilding on every render
 - No soft validation support
+- No conditional validation rules
 
 ### Planned Improvements
 - Soft validation (warnings)
