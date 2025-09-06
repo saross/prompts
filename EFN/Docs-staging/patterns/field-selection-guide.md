@@ -243,6 +243,11 @@ Connection type determines approach:
 - Ensuring consistent formatting
 - Reducing manual entry errors
 
+**Annotation Guidance for Text Fields:**
+- Free-text fields typically don't need annotations (already provide space for elaboration)
+- Single-line text fields benefit from annotations when capturing structured data that might need qualification
+- Consider annotations for identifier fields where generation method or exception needs noting
+
 ### Number Field Selection Guidance {#number-field-selection}
 
 **Use Controlled Number when:**
@@ -261,6 +266,12 @@ Connection type determines approach:
 - No range validation available
 - Use Controlled Number instead
 
+**Annotation Guidance for Number Fields:**
+- Always enable annotations for measurements (method, instrument, conditions)
+- Essential for counts and quantities (sampling area, estimation method)
+- Critical for derived values (calculation method, source data)
+- Use uncertainty marking for estimates and approximations
+
 ### DateTime Field Selection Guidance {#datetime-field-selection}
 
 **Use DateTime Now when:**
@@ -278,6 +289,12 @@ Connection type determines approach:
 **Avoid DateTime Picker when:**
 - Timezone accuracy critical
 - Use DateTime Now instead
+
+**Annotation Guidance for DateTime Fields:**
+- Enable annotations for "circa" or approximate dates
+- Useful for recording temporal uncertainty (season, decade)
+- Important for noting calendar system or dating method
+- Consider uncertainty marking for provisional dates
 
 ### Selection Field Guidance {#selection-field-guidance}
 
@@ -298,6 +315,28 @@ Connection type determines approach:
 - >20 options available
 - Search functionality needed
 - Taxonomy navigation required
+
+**Annotation Guidance for Selection Fields:**
+- Essential for fields with "Other" option (specify what "other" means)
+- Important for ambiguous classifications (explain choice reasoning)
+- Valuable for multiple valid options (note alternatives considered)
+- Critical for provisional identifications pending specialist review
+
+### Location Field Guidance {#location-field-guidance}
+
+**Annotation Guidance for Location Fields:**
+- Enable annotations for accuracy notes (GPS signal quality, obstacles)
+- Important for method documentation (handheld GPS, map estimation, known coordinates)
+- Valuable for environmental conditions affecting accuracy
+- Essential when coordinates are estimated or derived
+
+### Media Field Guidance {#media-field-guidance}
+
+**Annotation Guidance for Media Fields:**
+- Enable annotations for photo subject identification
+- Important for recording photo conditions (lighting, angle, scale)
+- Essential for noting what's outside frame but relevant
+- Valuable for documenting processing or enhancements applied
 
 ## Discipline-Specific Patterns {important}
 

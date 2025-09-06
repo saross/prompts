@@ -181,6 +181,68 @@ This guide consolidates implementation patterns, troubleshooting strategies, and
 }
 ```
 
+### Pattern: Granular Metadata Through Annotations {#granular-metadata}
+
+**Challenge**: Capturing context, exceptions, and qualifications for field data.
+
+**Solution**: Fieldmark's annotation and uncertainty features provide field-level metadata capability that sets it apart from other data collection systems.
+
+**Standard Configuration**:
+
+```json
+{
+  "soil-color": {
+    "component-name": "Select",
+    "component-parameters": {
+      "label": "Munsell Soil Color",
+      "ElementProps": {"options": ["10YR 3/3", "10YR 4/3", "7.5YR 3/2"]}
+    },
+    "meta": {
+      "annotation": {"include": true, "label": "Color notes"},
+      "uncertainty": {"include": true, "label": "Provisional"}
+    }
+  }
+}
+```
+
+**Real-World Annotation Examples**:
+- Soil compaction: "Compaction difficult to measure because most of the context is gravel"
+- Color assessment: "Soil color may be inaccurate due to poor lighting (early morning/heavy overcast) - re-classify later"
+- Serendipitous discovery: "This feature is a kiln, which is not on our list of feature types since it was unexpected, please add it"
+- Measurement qualification: "Depth measurement taken from highest point of sloping surface"
+- Environmental context: "Strong wind affecting sieve results"
+
+**Fields That Should Have Annotations**:
+- Measurement fields (methods, conditions, instruments used)
+- Observation fields (behavioral context, environmental factors)
+- Identification fields (diagnostic features, confidence level)
+- Selection fields (especially those with "Other" option)
+- Count/quantity fields (estimation methods, sampling area)
+- Condition assessments (specific damage, preservation notes)
+- Classification fields (ambiguous cases, multiple possibilities)
+- Sample fields (collection methods, contamination risks)
+
+**Fields That Typically Don't Need Annotations**:
+- Free-text fields (already have space for elaboration)
+- Auto-generated fields (BasicAutoIncrementer, TemplatedStringField)
+- Pure administrative fields (record IDs, creation timestamps)
+- Relationship fields (unless relationship type needs explanation)
+- Binary checkboxes with clear meaning
+
+**Uncertainty Marking Use Cases**:
+- Estimated measurements (distances, counts, percentages)
+- Tentative identifications (species, artifact types)
+- Provisional classifications (pending specialist review)
+- Weather-affected observations
+- Incomplete data (partial visibility, time constraints)
+- Circa dates (approximate temporal assignments)
+
+**Configuration Best Practices**:
+1. Use descriptive labels instead of generic "Annotation"
+2. Keep labels short but specific: "Measurement notes" not "Notes"
+3. Consider field-appropriate uncertainty labels: "Estimate", "Provisional", "Tentative"
+4. Place annotations on data collection fields, not metadata fields
+
 ## Performance Thresholds and Limits
 
 ### Field-Specific Performance Boundaries {#performance-limits}
@@ -533,11 +595,17 @@ async function writeData(doc) {
 ✅ Plan for offline scenarios  
 ✅ Validate data at multiple points  
 ✅ Monitor performance metrics  
+✅ Enable annotations for measurement and observation fields  
+✅ Use uncertainty marking for estimated or provisional data  
+✅ Configure meaningful labels for annotation fields  
+✅ Export annotation columns in data reports  
 
 ### DON'T:
 ❌ Change field types after deployment  
 ❌ Add excessive fields per section without testing performance  
 ❌ Use complex fields in conditions directly  
+❌ Add annotations to free-text fields (redundant)  
+❌ Forget that generic "Annotation" label is better than none  
 ❌ Ignore platform differences  
 ❌ Skip validation on API writes  
 ❌ Assume sync is immediate  

@@ -189,6 +189,50 @@ graph TD
 
 **Error display**: ❌ No error text shown
 
+### Annotation and Uncertainty Fields {#annotation-fields}
+
+**How Annotations Interact with Validation:**
+
+Annotations and uncertainty markers bypass the validation system entirely:
+
+- **No validation applied**: Annotation text can be any length, any content
+- **No required status**: Cannot make annotations mandatory through validation
+- **No character limits**: Even if main field has limits, annotation doesn't
+- **Always optional**: Users decide when context/exceptions worth noting
+- **Hidden field behavior**: Annotations remain even when main field hidden
+
+**Best Practices for Annotations:**
+```json
+{
+  "measurement-field": {
+    "validationSchema": [
+      ["yup.number"],
+      ["yup.required"],
+      ["yup.min", 0],
+      ["yup.max", 100]
+    ],
+    "meta": {
+      "annotation": {
+        "include": true,
+        "label": "Measurement notes"  // Specific, not generic
+      },
+      "uncertainty": {
+        "include": true,
+        "label": "Estimate"  // Clear meaning
+      }
+    }
+  }
+}
+```
+
+**Training Over Validation:**
+Since annotations can't be required through validation, train users to:
+- Always annotate when selecting "Other"
+- Note measurement methods that differ from standard
+- Document environmental conditions affecting readings
+- Explain provisional identifications
+- Record equipment problems or limitations
+
 ## Conditional Logic System
 
 ### Basic Condition Structure {#conditional-basics}
@@ -600,6 +644,9 @@ console.log(`Validation took ${performance.now() - start}ms`);
 ✅ Order conditions for short-circuit optimization  
 ✅ Keep validation rules simple and fast  
 ✅ Provide clear helperText to prevent errors  
+✅ Enable annotations for fields needing context/exceptions  
+✅ Use specific labels for annotation fields  
+✅ Train users on annotation importance (can't enforce via validation)  
 
 ### DON'T:
 ❌ Make hidden fields required without careful consideration  
@@ -608,6 +655,8 @@ console.log(`Validation took ${performance.now() - start}ms`);
 ❌ Exceed 20-30 conditional fields  
 ❌ Rely on error text for RadioGroup/Select (only shows red)  
 ❌ Forget that validation runs on hidden fields  
+❌ Try to validate annotation content  
+❌ Add annotations to free-text fields  
 
 ## Migration Notes
 
