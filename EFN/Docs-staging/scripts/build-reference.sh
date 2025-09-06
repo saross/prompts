@@ -82,30 +82,38 @@ echo -e "\n\n<!-- ============================================ -->" >> "$OUTPUT_
 echo "<!-- TECHNICAL REFERENCES -->" >> "$OUTPUT_FILE"
 echo "<!-- ============================================ -->" >> "$OUTPUT_FILE"
 
-# Add technical reference documents
-echo -e "${YELLOW}Adding technical references...${NC}"
-REFERENCE_DOCS=(
-    "component-namespace-reference"
-    "meta-properties-reference"
-    "formik-integration-reference"
-    "platform-behaviors-reference"
-    "performance-thresholds-reference"
-    "accessibility-reference"
-    "migration-strategies-reference"
-    "troubleshooting-framework-reference"
-    "data-export-reference"
-    "designer-limitations-reference"
-    "security-considerations-reference"
-    "validation-timing-reference"
+# Add consolidated technical reference documents
+echo -e "${YELLOW}Adding consolidated technical references...${NC}"
+
+# First add references from the 'references' directory (Phase 3A)
+REFERENCE_DOCS_A=(
+    "component-reference"
+    "platform-reference"
 )
 
-for doc in "${REFERENCE_DOCS[@]}"; do
-    if [ -f "$BASE_DIR/reference-docs/${doc}.md" ]; then
+for doc in "${REFERENCE_DOCS_A[@]}"; do
+    if [ -f "$BASE_DIR/references/${doc}.md" ]; then
         echo "  - Adding ${doc}.md"
         echo -e "\n\n<!-- concat:reference:${doc} -->" >> "$OUTPUT_FILE"
-        cat "$BASE_DIR/reference-docs/${doc}.md" >> "$OUTPUT_FILE"
+        cat "$BASE_DIR/references/${doc}.md" >> "$OUTPUT_FILE"
     else
-        echo "  ⚠ Warning: ${doc}.md not found in reference-docs"
+        echo "  ⚠ Warning: ${doc}.md not found in references"
+    fi
+done
+
+# Then add references from the 'reference' directory (Phase 3B)
+REFERENCE_DOCS_B=(
+    "operations-reference"
+    "constraints-reference"
+)
+
+for doc in "${REFERENCE_DOCS_B[@]}"; do
+    if [ -f "$BASE_DIR/reference/${doc}.md" ]; then
+        echo "  - Adding ${doc}.md"
+        echo -e "\n\n<!-- concat:reference:${doc} -->" >> "$OUTPUT_FILE"
+        cat "$BASE_DIR/reference/${doc}.md" >> "$OUTPUT_FILE"
+    else
+        echo "  ⚠ Warning: ${doc}.md not found in reference"
     fi
 done
 
@@ -118,7 +126,7 @@ echo "- **Generated**: $(date -Iseconds)" >> "$OUTPUT_FILE"
 echo "- **Total Lines**: $(wc -l < "$OUTPUT_FILE")" >> "$OUTPUT_FILE"
 echo "- **Field Documents**: ${#FIELD_DOCS[@]}" >> "$OUTPUT_FILE"
 echo "- **Pattern Documents**: $(ls -1 $BASE_DIR/detail-crossfield-docs/*.md 2>/dev/null | wc -l)" >> "$OUTPUT_FILE"
-echo "- **Reference Documents**: $(ls -1 $BASE_DIR/reference-docs/*.md 2>/dev/null | wc -l)" >> "$OUTPUT_FILE"
+echo "- **Reference Documents**: $(ls -1 $BASE_DIR/references/*.md $BASE_DIR/reference/*.md 2>/dev/null | wc -l)" >> "$OUTPUT_FILE"
 echo "- **Format**: LLM-optimized concatenated reference" >> "$OUTPUT_FILE"
 
 # Generate anchor index
@@ -142,11 +150,10 @@ echo "- [Notebook Structure](#notebook-structure)" >> "$OUTPUT_FILE"
 echo "- [Common Patterns](#patterns)" >> "$OUTPUT_FILE"
 
 echo -e "\n### References" >> "$OUTPUT_FILE"
-echo "- [Component Namespace](#component-namespace-reference)" >> "$OUTPUT_FILE"
-echo "- [Platform Behaviors](#platform-behaviors-reference)" >> "$OUTPUT_FILE"
-echo "- [Performance Thresholds](#performance-thresholds-reference)" >> "$OUTPUT_FILE"
-echo "- [Designer Limitations](#designer-limitations-reference)" >> "$OUTPUT_FILE"
-echo "- [Security Considerations](#security-considerations-reference)" >> "$OUTPUT_FILE"
+echo "- [Component Reference](#component-reference)" >> "$OUTPUT_FILE"
+echo "- [Platform Reference](#platform-reference)" >> "$OUTPUT_FILE"
+echo "- [Operations Reference](#operations-reference)" >> "$OUTPUT_FILE"
+echo "- [Constraints Reference](#constraints-reference)" >> "$OUTPUT_FILE"
 
 # Final statistics
 echo ""

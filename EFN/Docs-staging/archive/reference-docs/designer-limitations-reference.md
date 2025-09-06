@@ -1,4 +1,7 @@
 # Designer Limitations Reference
+
+> **⚠️ DEPRECATED**: This document has been superseded by the consolidated [Constraints Reference](../../reference/constraints-reference.md). This archived version is maintained for reference only.
+
 ## Universal Constraints for All Fieldmark v3 Fields
 
 ### Overview

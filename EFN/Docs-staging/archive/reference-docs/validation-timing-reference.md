@@ -1,4 +1,7 @@
 # Validation Timing Reference
+
+> **⚠️ DEPRECATED**: This document has been superseded by the consolidated [Component Reference](../../references/component-reference.md). This archived version is maintained for reference only.
+
 ## Universal Behavior for All Fieldmark v3 Fields
 
 ### Core Validation Lifecycle

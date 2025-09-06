@@ -1,4 +1,7 @@
 # Security Considerations Reference
+
+> **⚠️ DEPRECATED**: This document has been superseded by the consolidated [Constraints Reference](../../reference/constraints-reference.md). This archived version is maintained for reference only.
+
 ## Universal Security Guidelines for Fieldmark v3
 
 ### Overview

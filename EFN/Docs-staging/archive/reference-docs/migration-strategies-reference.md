@@ -1,5 +1,7 @@
 # Migration Strategies Reference - Fieldmark v3
 
+> **⚠️ DEPRECATED**: This document has been superseded by the consolidated [Operations Reference](../../reference/operations-reference.md). This archived version is maintained for reference only.
+
 ## Overview {essential}
 
 This reference provides universal migration methodologies that apply across all field type changes, configuration updates, and schema modifications in Fieldmark v3. For field-specific migration scenarios, consult the relevant field documentation.

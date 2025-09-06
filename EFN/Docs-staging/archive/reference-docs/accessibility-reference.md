@@ -1,4 +1,7 @@
 # Accessibility Reference
+
+> **⚠️ DEPRECATED**: This document has been superseded by the consolidated [Platform Reference](../../references/platform-reference.md). This archived version is maintained for reference only.
+
 ## WCAG Compliance and Touch Target Standards for Fieldmark v3
 
 ### Overview

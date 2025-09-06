@@ -1,5 +1,7 @@
 # Troubleshooting Framework Reference - Fieldmark v3
 
+> **⚠️ DEPRECATED**: This document has been superseded by the consolidated [Operations Reference](../../reference/operations-reference.md). This archived version is maintained for reference only.
+
 ## Overview {essential}
 
 This reference provides a systematic framework for diagnosing and resolving issues across all Fieldmark v3 field types. Use this guide to establish consistent troubleshooting approaches and escalation paths.

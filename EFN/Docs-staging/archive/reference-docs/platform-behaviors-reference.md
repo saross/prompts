@@ -1,5 +1,7 @@
 # Platform Behaviors Reference - Fieldmark v3
 
+> **⚠️ DEPRECATED**: This document has been superseded by the consolidated [Platform Reference](../../references/platform-reference.md). This archived version is maintained for reference only.
+
 ## Overview {essential}
 
 This reference document consolidates platform-specific behaviors across all Fieldmark v3 field types. Understanding these platform differences is critical for successful deployment and user experience optimization.

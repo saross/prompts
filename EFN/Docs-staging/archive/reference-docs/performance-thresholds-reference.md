@@ -1,4 +1,7 @@
 # Performance Thresholds Reference
+
+> **⚠️ DEPRECATED**: This document has been superseded by the consolidated [Platform Reference](../../references/platform-reference.md). This archived version is maintained for reference only.
+
 ## Empirically Tested Estimates for Fieldmark v3 Components
 
 ### Important Disclaimer

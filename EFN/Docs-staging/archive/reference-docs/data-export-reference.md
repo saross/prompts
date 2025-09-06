@@ -1,4 +1,7 @@
 # Data Export Reference
+
+> **⚠️ DEPRECATED**: This document has been superseded by the consolidated [Operations Reference](../../reference/operations-reference.md). This archived version is maintained for reference only.
+
 ## Universal Export Behavior for All Fieldmark v3 Fields
 
 ### Overview
