@@ -1,3 +1,7 @@
+<!-- DEPRECATED: This document has been consolidated into references/component-reference.md -->
+<!-- Archived: 2025-01-06 for disaster recovery only -->
+<!-- DO NOT UPDATE: Make changes to the consolidated guide instead -->
+
 # Fieldmark Type System Reference
 
 ## Overview {essential}
