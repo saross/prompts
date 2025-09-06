@@ -433,7 +433,7 @@ All date/time fields require:
 #### Auto-population (DateTimeNow only)
 ```json
 "component-parameters": {
-  "is_auto_pick": true  // Automatically fills with current time on form open
+  "is_auto_pick": true
 }
 ```
 
@@ -662,9 +662,9 @@ Timezone-aware timestamp capture with automatic current time option. Stores time
   "component-parameters": {
     "label": "Record Created",
     "name": "record_created",
-    "is_auto_pick": true,  // Auto-fills with current time (JSON-only)
+    "is_auto_pick": true,
     "helperText": "Automatically captured when record opened",
-    "fullWidth": true,      // JSON-only
+    "fullWidth": true,
     "required": false
   }
 }
@@ -733,14 +733,14 @@ Timezone-aware timestamp capture with automatic current time option. Stores time
 ```json
 {
   "component-name": "DateTimeNow",
-  "component-namespace": "faims3"  // ERROR: Wrong namespace - no faims3
+  "component-namespace": "faims3"
 }
 ```
 ✅ **ALWAYS: Use faims-custom namespace**
 ```json
 {
   "component-name": "DateTimeNow",
-  "component-namespace": "faims-custom"  // Correct namespace
+  "component-namespace": "faims-custom"
 }
 ```
 
@@ -748,7 +748,7 @@ Timezone-aware timestamp capture with automatic current time option. Stores time
 ```json
 {
   "meta": {
-    "timezone": "Sydney"  // ERROR: Not a valid IANA timezone
+    "timezone": "Sydney"
   }
 }
 ```
@@ -756,7 +756,7 @@ Timezone-aware timestamp capture with automatic current time option. Stores time
 ```json
 {
   "meta": {
-    "timezone": "Australia/Sydney"  // Correct IANA format
+    "timezone": "Australia/Sydney"
   }
 }
 ```
@@ -778,7 +778,7 @@ Timezone-aware timestamp capture with automatic current time option. Stores time
 ❌ **NEVER: Using DateTimePicker for new forms**
 ```json
 {
-  "component-name": "DateTimePicker"  // DISCOURAGED
+  "component-name": "DateTimePicker"
 }
 ```
 ✅ **ALWAYS: Use DateTimeNow for timezone support**
@@ -794,7 +794,7 @@ Timezone-aware timestamp capture with automatic current time option. Stores time
 {
   "component-name": "DateTimePicker",
   "meta": {
-    "timezone": "UTC"  // IGNORED - No timezone support
+    "timezone": "UTC"
   }
 }
 ```
@@ -914,20 +914,20 @@ Date-only selection for administrative and observational records where time comp
 ❌ **NEVER: Wrong date format in initialValue**
 ```json
 {
-  "initialValue": "15/03/2024"  // ERROR: Invalid format
+  "initialValue": "15/03/2024"
 }
 ```
 ✅ **ALWAYS: Use ISO 8601 format**
 ```json
 {
-  "initialValue": "2024-03-15"  // YYYY-MM-DD format
+  "initialValue": "2024-03-15"
 }
 ```
 
 ❌ **NEVER: Including time in date-only field**
 ```json
 {
-  "initialValue": "2024-03-15T10:30:00Z"  // ERROR: Time not supported
+  "initialValue": "2024-03-15T10:30:00Z"
 }
 ```
 ✅ **ALWAYS: Date only, no time**
@@ -989,20 +989,20 @@ Month-year selection that deliberately avoids false daily precision, particularl
 ❌ **NEVER: Wrong month format**
 ```json
 {
-  "initialValue": "March 2024"  // ERROR: Invalid format
+  "initialValue": "March 2024"
 }
 ```
 ✅ **ALWAYS: Use YYYY-MM format**
 ```json
 {
-  "initialValue": "2024-03"  // Correct format
+  "initialValue": "2024-03"
 }
 ```
 
 ❌ **NEVER: Including day in month field**
 ```json
 {
-  "initialValue": "2024-03-15"  // ERROR: Day not supported
+  "initialValue": "2024-03-15"
 }
 ```
 ✅ **ALWAYS: Year and month only**
@@ -1125,22 +1125,22 @@ Common date field error messages and their meanings:
 ### DateTimeNow Patterns
 
 ```json
-// BASE PATTERN (recommended default for all timestamps)
+
 {
   "component-namespace": "faims-custom",
   "component-name": "DateTimeNow",
   "type-returned": "faims-core::String",
   "component-parameters": {
-    "name": "timestamp-field",  // MUST match field ID
+    "name": "timestamp-field",
     "label": "Timestamp"
   },
   "validationSchema": [["yup.string"]],
-  "initialValue": ""  // MUST be "" not null
+  "initialValue": ""
 }
 
-// VARIANT: Auto-populated creation timestamp
+
 + "component-parameters": {
-+   "is_auto_pick": true,  // Auto-fills on form open
++   "is_auto_pick": true,
 +   "helperText": "Automatically captured (UTC)",
 +   "fullWidth": true
 + }
@@ -1149,7 +1149,7 @@ Common date field error messages and their meanings:
 +   ["yup.required", "Timestamp required"]
 + ]
 
-// VARIANT: Manual timestamp with annotation
+
 + "component-parameters": {
 +   "is_auto_pick": false,
 +   "helperText": "Click 'Now' for current time",
@@ -1162,34 +1162,34 @@ Common date field error messages and their meanings:
 +   }
 + }
 
-// VARIANT: Protected auto-timestamp (prevents accidental edit)
+
 + "component-parameters": {
 +   "is_auto_pick": true,
-+   "disabled": true  // Read-only after creation
++   "disabled": true
 + }
 ```
 
 #### DateTimeNow ANTI-PATTERNS ⚠️
 ```json
-// ❌ NEVER: Null initialValue
+
 {
-  "initialValue": null  // ERROR: "Cannot read property 'toISOString' of null"
+  "initialValue": null
 }
 
-// ❌ NEVER: Missing timezone documentation
+
 {
   "component-parameters": {
-    "label": "Time"  // Users don't know if UTC or local!
-    // FIX: Add helperText explaining timezone handling
+    "label": "Time"
+
   }
 }
 
-// ❌ NEVER: Auto-populate without user awareness
+
 {
   "is_auto_pick": true,
   "component-parameters": {
-    "label": "Date"  // Users may not realize it auto-fills
-    // FIX: Add helperText: "Auto-captured on form open"
+    "label": "Date"
+
   }
 }
 ```
@@ -1197,10 +1197,10 @@ Common date field error messages and their meanings:
 ### DateTimePicker Patterns (DISCOURAGED - Use DateTimeNow Instead)
 
 ```json
-// BASE: Legacy only - migrate ASAP!
+
 {
   "component-namespace": "faims-custom",
-  "component-name": "DateTimePicker",  // ⚠️ DISCOURAGED - lacks timezone
+  "component-name": "DateTimePicker",
   "type-returned": "faims-core::String",
   "component-parameters": {
     "name": "legacy-datetime",
@@ -1209,7 +1209,7 @@ Common date field error messages and their meanings:
   }
 }
 
-// MIGRATION PATH: Convert to DateTimeNow
+
 {
 - "component-name": "DateTimePicker",
 + "component-name": "DateTimeNow",
@@ -1222,7 +1222,7 @@ Common date field error messages and their meanings:
 ### DatePicker Patterns
 
 ```json
-// BASE PATTERN (date without time)
+
 {
   "component-namespace": "faims-custom",
   "component-name": "DatePicker",
@@ -1233,10 +1233,10 @@ Common date field error messages and their meanings:
     "helperText": "Select date (no time component)"
   },
   "validationSchema": [["yup.string"]],
-  "initialValue": ""  // Format: "YYYY-MM-DD" if pre-filled
+  "initialValue": ""
 }
 
-// VARIANT: Required excavation date
+
 + "component-parameters": {
 +   "label": "Excavation Start Date",
 +   "helperText": "When excavation commenced",
@@ -1247,7 +1247,7 @@ Common date field error messages and their meanings:
 +   ["yup.required", "Start date required"]
 + ]
 
-// VARIANT: With uncertainty annotation
+
 + "meta": {
 +   "annotation": {
 +     "include": true,
@@ -1258,53 +1258,53 @@ Common date field error messages and their meanings:
 
 #### DatePicker ANTI-PATTERNS ⚠️
 ```json
-// ❌ NEVER: Expecting time component
+
 {
   "component-name": "DatePicker",
-  "helperText": "Enter date and time"  // DatePicker has no time!
-  // USE: DateTimeNow or DateTimePicker for time
+  "helperText": "Enter date and time"
+
 }
 
-// ❌ NEVER: Relying on consistent format display
+
 {
-  "helperText": "Format: DD/MM/YYYY"  // Display varies by locale!
-  // FIX: "Date format follows your browser settings"
+  "helperText": "Format: DD/MM/YYYY"
+
 }
 
-// ❌ NEVER: Cross-field validation in schema
+
 {
   "validationSchema": [
     ["yup.date"],
     ["yup.min", ["yup.ref", "start_date"], "Must be after start"]
-  ]  // This doesn't work! Dates stored as strings
+  ]
 }
 
-// ❌ NEVER: Using for month-year only
+
 {
   "component-name": "DatePicker"
-  // Forces arbitrary day selection
-  // USE: MonthPicker instead
+
+
 }
 ```
 
 ### MonthPicker Patterns
 
 ```json
-// BASE PATTERN (month-year precision)
+
 {
   "component-namespace": "faims-custom",
   "component-name": "MonthPicker",
-  "type-returned": "faims-core::String",  // Actually stores YYYY-MM string
+  "type-returned": "faims-core::String",
   "component-parameters": {
     "name": "month-field",
     "label": "Month/Year",
     "helperText": "Select month and year (no day)"
   },
   "validationSchema": [["yup.string"]],
-  "initialValue": ""  // Format: "YYYY-MM" if pre-filled
+  "initialValue": ""
 }
 
-// VARIANT: Field season recording
+
 + "component-parameters": {
 +   "label": "Excavation Season",
 +   "helperText": "Month of field season",
@@ -1315,26 +1315,26 @@ Common date field error messages and their meanings:
 +   ["yup.required", "Season must be specified"]
 + ]
 
-// VARIANT: Historical publication date
+
 + "component-parameters": {
 +   "label": "Publication Date",
 +   "helperText": "Month/year from source (avoids false precision)"
 + }
-+ "initialValue": "1887-03"  // March 1887
++ "initialValue": "1887-03"
 ```
 
 #### MonthPicker ANTI-PATTERNS ⚠️
 ```json
-// ❌ NEVER: Expecting day in data
+
 {
-  "initialValue": "2024-03-15"  // Day will be ignored!
-  // Only stores: "2024-03"
+  "initialValue": "2024-03-15"
+
 }
 
-// ❌ NEVER: Direct Excel export without warning
+
 {
-  // Excel interprets "2024-03" as March 3rd, 2024!
-  // Always document: "YYYY-MM format = entire month"
+
+
 }
 ```
 
@@ -1344,17 +1344,17 @@ Optimize date field behavior for specific platforms:
 
 #### iOS-Optimized Configuration
 ```json
-// Extra spacing for iOS picker overlay
+
 {
   "component-namespace": "faims-custom",
   "component-name": "DateTimeNow",
   "component-parameters": {
     "fullWidth": true,
-    "margin": "dense",  // More space for iOS overlay
+    "margin": "dense",
     "helperText": "Swipe up/down on wheels to select time",
     "InputProps": {
       "style": {
-        "paddingBottom": "20px"  // Extra padding for picker
+        "paddingBottom": "20px"
       }
     }
   }
@@ -1363,18 +1363,18 @@ Optimize date field behavior for specific platforms:
 
 #### Android-Optimized Configuration
 ```json
-// Touch-friendly configuration for Android
+
 {
   "component-namespace": "faims-custom",
   "component-name": "DatePicker",
   "component-parameters": {
     "fullWidth": true,
-    "variant": "outlined",  // Better touch target
+    "variant": "outlined",
     "helperText": "Tap to open calendar",
     "InputProps": {
       "style": {
-        "minHeight": "56px",  // Android Material Design touch target
-        "fontSize": "16px"    // Prevent zoom on focus
+        "minHeight": "56px",
+        "fontSize": "16px"
       }
     }
   }
@@ -1383,18 +1383,18 @@ Optimize date field behavior for specific platforms:
 
 #### Desktop-Optimized Configuration
 ```json
-// Keyboard-friendly desktop configuration
+
 {
   "component-namespace": "faims-custom",
   "component-name": "DateTimeNow",
   "component-parameters": {
-    "fullWidth": false,  // Narrower for mouse precision
+    "fullWidth": false,
     "variant": "standard",
     "helperText": "Click field then use picker or type YYYY-MM-DD HH:MM",
     "InputProps": {
       "placeholder": "YYYY-MM-DD HH:MM",
       "style": {
-        "width": "250px"  // Fixed width for desktop
+        "width": "250px"
       }
     }
   }
@@ -1403,7 +1403,7 @@ Optimize date field behavior for specific platforms:
 
 #### Multi-Platform Responsive Configuration
 ```json
-// Adaptive configuration for all platforms
+
 {
   "component-namespace": "faims-custom",
   "component-name": "DateTimeNow",
@@ -1412,15 +1412,15 @@ Optimize date field behavior for specific platforms:
     "helperText": "Select date/time (stored as UTC)",
     "InputProps": {
       "style": {
-        "minHeight": "48px",     // Accessible touch target
+        "minHeight": "48px",
         "paddingTop": "8px",      
         "paddingBottom": "8px"
       }
     },
     "FormHelperTextProps": {
       "style": {
-        "marginTop": "8px",       // Clear spacing
-        "fontSize": "14px"        // Readable on all devices
+        "marginTop": "8px",
+        "fontSize": "14px"
       }
     }
   }
@@ -1430,7 +1430,7 @@ Optimize date field behavior for specific platforms:
 ### Integration Patterns (Date Fields Working Together)
 
 ```json
-// PATTERN: Date Range with Validation
+
 {
   "excavation_start": {
     "component-name": "DatePicker",
@@ -1448,7 +1448,7 @@ Optimize date field behavior for specific platforms:
     "condition_instructions": {
       "conditions": [{
         "field": "excavation_start",
-        "operator": "less",  // String comparison!
+        "operator": "less",
         "value_field": "excavation_end"
       }],
       "action": "enable",
@@ -1457,7 +1457,7 @@ Optimize date field behavior for specific platforms:
   }
 }
 
-// PATTERN: Flexible Precision (exact date OR month-year)
+
 {
   "date_precision": {
     "component-name": "RadioGroup",
@@ -1499,25 +1499,25 @@ Optimize date field behavior for specific platforms:
   }
 }
 
-// PATTERN: Timestamp with Display (prevents edit of creation time)
+
 {
   "created_timestamp": {
     "component-name": "DateTimeNow",
     "component-parameters": {
       "is_auto_pick": true,
-      "hidden": true  // Store but don't show editable field
+      "hidden": true
     }
   },
   "created_display": {
     "component-name": "TemplatedStringField",
     "component-parameters": {
       "template": "Created: {{created_timestamp}}",
-      "disabled": true  // Read-only display
+      "disabled": true
     }
   }
 }
 
-// PATTERN: Multi-timezone Team Coordination
+
 {
   "local_time": {
     "component-name": "DateTimeNow",
@@ -1541,10 +1541,10 @@ Optimize date field behavior for specific platforms:
   }
 }
 
-// PATTERN: Historical Date with Uncertainty
+
 {
   "historical_date": {
-    "component-name": "MonthPicker",  // Avoids false precision
+    "component-name": "MonthPicker",
     "component-parameters": {
       "label": "Document Date"
     }
@@ -2028,7 +2028,7 @@ When standard date fields don't meet requirements, consider these alternatives:
 
 ##### Separate Component Fields
 ```json
-// Split date into year, month, day for flexible precision
+
 {
   "year_field": {
     "component-name": "NumberInput",
@@ -2046,7 +2046,7 @@ When standard date fields don't meet requirements, consider these alternatives:
         {"value": "", "label": "Unknown"},
         {"value": "01", "label": "January"},
         {"value": "02", "label": "February"}
-        // ... etc
+
       ]
     }
   },
@@ -2064,7 +2064,7 @@ When standard date fields don't meet requirements, consider these alternatives:
 
 ##### Text Field with Pattern Validation
 ```json
-// For BCE dates or non-standard formats
+
 {
   "historical_date": {
     "component-name": "TextField",
@@ -2083,7 +2083,7 @@ When standard date fields don't meet requirements, consider these alternatives:
 
 ##### Controlled Vocabulary for Periods
 ```json
-// Archaeological or geological periods
+
 {
   "temporal_period": {
     "component-name": "Select",
@@ -2132,7 +2132,7 @@ When standard date fields don't meet requirements, consider these alternatives:
     "component-parameters": {
       "label": "Periodo URI",
       "helperText": "Full Periodo identifier for external reference",
-      "placeholder": "http://n2t.net/ark:/99152/p0qhb66"
+      "placeholder": "http:
     }
   }
 }
@@ -2221,7 +2221,7 @@ For **absolute dates** (e.g., C14 dates, dendrochronology):
 
 ##### Fuzzy Date Storage Pattern
 ```json
-// Store uncertainty alongside dates
+
 {
   "event_date_min": {
     "component-name": "DatePicker",
@@ -2401,7 +2401,7 @@ For ancient history and archaeology spanning BCE/CE, use numeric fields rather t
 
 ##### Duration Recording
 ```json
-// Record time spans rather than points
+
 {
   "duration_value": {
     "component-name": "NumberInput",
@@ -2429,7 +2429,7 @@ For ancient history and archaeology spanning BCE/CE, use numeric fields rather t
 
 ##### Relative Date Recording
 ```json
-// Dates relative to project milestones
+
 {
   "relative_to": {
     "component-name": "Select",
@@ -2786,10 +2786,10 @@ Anti-patterns have been distributed to their respective field sections for bette
 - `UNSAFE IF` Any nulls exist
 - `ROLLBACK`:
   ```json
-  // Remove required immediately
+
   "validationSchema": [
     ["yup.string"]
-    // Remove: ["yup.required", "Date required"]
+
   ]
   ```
 - `VERSION` 2025-08
@@ -2900,7 +2900,7 @@ Anti-patterns have been distributed to their respective field sections for bette
 - `ROLLBACK` Paginate forms if >100 date fields
 - `QUICK FIX` Disable auto-populate temporarily:
   ```json
-  "is_auto_pick": false  // Reduces load-time calculations
+  "is_auto_pick": false
   ```
 - `VERSION` 2025-08
 
@@ -2911,22 +2911,22 @@ Anti-patterns have been distributed to their respective field sections for bette
 ### DateTimeNow Patterns
 
 ```json
-// BASE PATTERN (recommended default for all timestamps)
+
 {
   "component-namespace": "faims-custom",
   "component-name": "DateTimeNow",
   "type-returned": "faims-core::String",
   "component-parameters": {
-    "name": "timestamp-field",  // MUST match field ID
+    "name": "timestamp-field",
     "label": "Timestamp"
   },
   "validationSchema": [["yup.string"]],
-  "initialValue": ""  // MUST be "" not null
+  "initialValue": ""
 }
 
-// VARIANT: Auto-populated creation timestamp
+
 + "component-parameters": {
-+   "is_auto_pick": true,  // Auto-fills on form open
++   "is_auto_pick": true,
 +   "helperText": "Automatically captured (UTC)",
 +   "fullWidth": true
 + }
@@ -2935,7 +2935,7 @@ Anti-patterns have been distributed to their respective field sections for bette
 +   ["yup.required", "Timestamp required"]
 + ]
 
-// VARIANT: Manual timestamp with annotation
+
 + "component-parameters": {
 +   "is_auto_pick": false,
 +   "helperText": "Click 'Now' for current time",
@@ -2948,34 +2948,34 @@ Anti-patterns have been distributed to their respective field sections for bette
 +   }
 + }
 
-// VARIANT: Protected auto-timestamp (prevents accidental edit)
+
 + "component-parameters": {
 +   "is_auto_pick": true,
-+   "disabled": true  // Read-only after creation
++   "disabled": true
 + }
 ```
 
 #### DateTimeNow ANTI-PATTERNS ⚠️
 ```json
-// ❌ NEVER: Null initialValue
+
 {
-  "initialValue": null  // ERROR: "Cannot read property 'toISOString' of null"
+  "initialValue": null
 }
 
-// ❌ NEVER: Missing timezone documentation
+
 {
   "component-parameters": {
-    "label": "Time"  // Users don't know if UTC or local!
-    // FIX: Add helperText explaining timezone handling
+    "label": "Time"
+
   }
 }
 
-// ❌ NEVER: Auto-populate without user awareness
+
 {
   "is_auto_pick": true,
   "component-parameters": {
-    "label": "Date"  // Users may not realize it auto-fills
-    // FIX: Add helperText: "Auto-captured on form open"
+    "label": "Date"
+
   }
 }
 ```
@@ -2983,10 +2983,10 @@ Anti-patterns have been distributed to their respective field sections for bette
 ### DateTimePicker Patterns (DISCOURAGED - Use DateTimeNow Instead)
 
 ```json
-// BASE: Legacy only - migrate ASAP!
+
 {
   "component-namespace": "faims-custom",
-  "component-name": "DateTimePicker",  // ⚠️ DISCOURAGED - lacks timezone
+  "component-name": "DateTimePicker",
   "type-returned": "faims-core::String",
   "component-parameters": {
     "name": "legacy-datetime",
@@ -2995,7 +2995,7 @@ Anti-patterns have been distributed to their respective field sections for bette
   }
 }
 
-// MIGRATION PATH: Convert to DateTimeNow
+
 {
 - "component-name": "DateTimePicker",
 + "component-name": "DateTimeNow",

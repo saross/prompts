@@ -10,8 +10,9 @@ GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 NC='\033[0m' # No Color
 
-# Base directory
-BASE_DIR="/home/shawn/Code/prompts/EFN/Docs-staging"
+# Base directory - relative to script location
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+BASE_DIR="$(dirname "$SCRIPT_DIR")"
 OUTPUT_FILE="$BASE_DIR/reference.md"
 
 echo -e "${GREEN}Building Fieldmark v3 Reference Documentation${NC}"
@@ -54,26 +55,22 @@ echo -e "\n\n<!-- ============================================ -->" >> "$OUTPUT_
 echo "<!-- CROSS-FIELD PATTERNS -->" >> "$OUTPUT_FILE"
 echo "<!-- ============================================ -->" >> "$OUTPUT_FILE"
 
-# Add cross-field pattern documents if they exist
+# Add cross-field pattern documents from patterns directory
 echo -e "${YELLOW}Adding cross-field patterns...${NC}"
 PATTERN_DOCS=(
-    "field-selection-best-practices"
-    "quick-start"
-    "summary-table"
-    "validation"
-    "conditional-logic"
-    "navigation"
-    "notebook-structure"
-    "patterns"
+    "field-selection-guide"
+    "form-structure-guide"
+    "dynamic-forms-guide"
+    "implementation-patterns-guide"
 )
 
 for doc in "${PATTERN_DOCS[@]}"; do
-    if [ -f "$BASE_DIR/detail-crossfield-docs/${doc}.md" ]; then
+    if [ -f "$BASE_DIR/patterns/${doc}.md" ]; then
         echo "  - Adding ${doc}.md"
         echo -e "\n\n<!-- concat:pattern:${doc} -->" >> "$OUTPUT_FILE"
-        cat "$BASE_DIR/detail-crossfield-docs/${doc}.md" >> "$OUTPUT_FILE"
+        cat "$BASE_DIR/patterns/${doc}.md" >> "$OUTPUT_FILE"
     else
-        echo "  ⚠ Warning: ${doc}.md not found in detail-crossfield-docs"
+        echo "  ⚠ Warning: ${doc}.md not found in patterns"
     fi
 done
 
@@ -85,35 +82,21 @@ echo "<!-- ============================================ -->" >> "$OUTPUT_FILE"
 # Add consolidated technical reference documents
 echo -e "${YELLOW}Adding consolidated technical references...${NC}"
 
-# First add references from the 'references' directory (Phase 3A)
-REFERENCE_DOCS_A=(
+# Add all references from the 'references' directory
+REFERENCE_DOCS=(
     "component-reference"
     "platform-reference"
+    "operations-reference"
+    "constraints-reference"
 )
 
-for doc in "${REFERENCE_DOCS_A[@]}"; do
+for doc in "${REFERENCE_DOCS[@]}"; do
     if [ -f "$BASE_DIR/references/${doc}.md" ]; then
         echo "  - Adding ${doc}.md"
         echo -e "\n\n<!-- concat:reference:${doc} -->" >> "$OUTPUT_FILE"
         cat "$BASE_DIR/references/${doc}.md" >> "$OUTPUT_FILE"
     else
         echo "  ⚠ Warning: ${doc}.md not found in references"
-    fi
-done
-
-# Then add references from the 'reference' directory (Phase 3B)
-REFERENCE_DOCS_B=(
-    "operations-reference"
-    "constraints-reference"
-)
-
-for doc in "${REFERENCE_DOCS_B[@]}"; do
-    if [ -f "$BASE_DIR/reference/${doc}.md" ]; then
-        echo "  - Adding ${doc}.md"
-        echo -e "\n\n<!-- concat:reference:${doc} -->" >> "$OUTPUT_FILE"
-        cat "$BASE_DIR/reference/${doc}.md" >> "$OUTPUT_FILE"
-    else
-        echo "  ⚠ Warning: ${doc}.md not found in reference"
     fi
 done
 
@@ -125,8 +108,8 @@ echo -e "\n## Document Metadata\n" >> "$OUTPUT_FILE"
 echo "- **Generated**: $(date -Iseconds)" >> "$OUTPUT_FILE"
 echo "- **Total Lines**: $(wc -l < "$OUTPUT_FILE")" >> "$OUTPUT_FILE"
 echo "- **Field Documents**: ${#FIELD_DOCS[@]}" >> "$OUTPUT_FILE"
-echo "- **Pattern Documents**: $(ls -1 $BASE_DIR/detail-crossfield-docs/*.md 2>/dev/null | wc -l)" >> "$OUTPUT_FILE"
-echo "- **Reference Documents**: $(ls -1 $BASE_DIR/references/*.md $BASE_DIR/reference/*.md 2>/dev/null | wc -l)" >> "$OUTPUT_FILE"
+echo "- **Pattern Documents**: $(ls -1 $BASE_DIR/patterns/*.md 2>/dev/null | wc -l)" >> "$OUTPUT_FILE"
+echo "- **Reference Documents**: $(ls -1 $BASE_DIR/references/*.md 2>/dev/null | wc -l)" >> "$OUTPUT_FILE"
 echo "- **Format**: LLM-optimized concatenated reference" >> "$OUTPUT_FILE"
 
 # Generate anchor index
@@ -142,12 +125,10 @@ echo "- [Media Fields](#media-fields)" >> "$OUTPUT_FILE"
 echo "- [Relationship Fields](#relationship-fields)" >> "$OUTPUT_FILE"
 
 echo -e "\n### Patterns" >> "$OUTPUT_FILE"
-echo "- [Field Selection](#field-selection-best-practices)" >> "$OUTPUT_FILE"
-echo "- [Validation](#validation)" >> "$OUTPUT_FILE"
-echo "- [Conditional Logic](#conditional-logic)" >> "$OUTPUT_FILE"
-echo "- [Navigation](#navigation)" >> "$OUTPUT_FILE"
-echo "- [Notebook Structure](#notebook-structure)" >> "$OUTPUT_FILE"
-echo "- [Common Patterns](#patterns)" >> "$OUTPUT_FILE"
+echo "- [Field Selection Guide](#field-selection-guide)" >> "$OUTPUT_FILE"
+echo "- [Form Structure Guide](#form-structure-guide)" >> "$OUTPUT_FILE"
+echo "- [Dynamic Forms Guide](#dynamic-forms-guide)" >> "$OUTPUT_FILE"
+echo "- [Implementation Patterns](#implementation-patterns-guide)" >> "$OUTPUT_FILE"
 
 echo -e "\n### References" >> "$OUTPUT_FILE"
 echo "- [Component Reference](#component-reference)" >> "$OUTPUT_FILE"

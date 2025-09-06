@@ -1,4 +1,20 @@
+<!-- concat:boundary:start section="text-input-fields" -->
+<!-- concat:metadata
+document_id: text-fields-v05
+category: text_input
+field_count: 7
+designer_capable: ["FAIMSTextField", "MultipleTextField", "TextField"]
+json_only: ["TemplatedStringField.template_syntax", "AddressField.structure", "QRCodeFormField.formats"]
+last_updated: 2025-01-05
+-->
+
 # Text Input Fields
+
+## Document Navigation
+<!-- concat:nav-mode:individual -->
+[← Field Index](../field-type-index.md) | **Text & Input Fields** | [Selection Fields →](./select-choice-fields-v05.md)
+<!-- concat:nav-mode:concatenated -->
+<!-- When viewing in reference.md: [↑ Top](#fieldmark-v3-field-type-documentation-index) | [Selection Fields ↓](#selection-fields) -->
 
 ## Overview {essential}
 
@@ -20,6 +36,20 @@ Note: TextField (formik-material-ui) is the base component but is not directly s
 
 This naming inconsistency is a known issue that creates significant confusion. Always verify the component-name in JSON when troubleshooting.
 
+### Field Capabilities Summary
+Fieldmark text fields provide comprehensive text capture capabilities spanning single-line inputs, multi-line narratives, templated identifiers, structured addresses, and mobile barcode scanning. The ecosystem includes six data capture components plus one display-only field, supporting everything from brief identifiers to complex structured data entry with mobile-optimized scanning capabilities.
+
+### Component Status
+| Component | Status | Platform Support | Primary Use Case |
+|-----------|---------|-----------------|------------------|
+| FAIMSTextField | Stable | All | Single-line text input |
+| MultipleTextField | Stable | All | Multi-line text areas |
+| TextField (Email) | Stable | All | Validated email input |
+| TemplatedString | Stable | All | Auto-generated identifiers |
+| Address Field | Beta | All | Structured address capture |
+| QRCodeFormField | Stable | Mobile only | Barcode scanning |
+| RichText | Stable | All | Display-only content |
+
 ### Data Capture Fields (1-6)
 
 1. **FAIMSTextField** (appears as "FAIMS Text Field" in Designer) - Single-line text input for brief, unconstrained textual data (50 character recommendation). Implemented through the `faims-custom/FAIMSTextField` component with enhanced advanced help capabilities.
@@ -34,16 +64,28 @@ This naming inconsistency is a known issue that creates significant confusion. A
 
 6. **QRCodeFormField** - Delivers **mobile-exclusive** barcode scanning functionality through ML Kit barcode scanning, supporting thirteen distinct barcode formats despite its nomenclature suggesting QR-only capability. Uses sophisticated ten-scan validation mechanism ensuring reading accuracy whilst operating without user feedback. **⚠️ PLATFORM WARNING**: Web platform deployment renders the component entirely non-functional, displaying a disabled interface that critically breaks form validation when marked as required.
 
+## Component Name Mapping {essential}
+
+| Designer UI Label | JSON component-name | Namespace | Code File | Description |
+|------------------|-------------------|-----------|-----------|-------------|
+| FAIMS Text Field | FAIMSTextField | faims-custom | FAIMSTextField.tsx | Single-line text input |
+| Text Field | MultipleTextField | formik-material-ui | TextField.tsx | Multi-line text area |
+| Email | TextField | formik-material-ui | TextField.tsx | Email with validation |
+| Template String | TemplatedStringField | faims-custom | TemplatedString.tsx | Auto-generated text |
+| Address | AddressField | faims-custom | Address.tsx | Structured address |
+| QR Code Scanner | QRCodeFormField | qrcode | QRCodeFormField.tsx | Barcode scanner |
+| Rich Text | RichText | faims-custom | RichText.tsx | Display-only formatted content |
+
+### Critical Naming Issues {important}
+- **TextField confusion**: The base TextField component (formik-material-ui) is NOT directly available in Designer
+- **MultipleTextField misnomer**: Despite the name suggesting multiple values, this is actually a multi-LINE text area
+- **Designer label mismatch**: "Text Field" in Designer creates MultipleTextField, not TextField
+- **Component file discrepancy**: TemplatedStringField component is in TemplatedString.tsx (without "Field")
+
 ### Display Field (7)
 
-7. **RichText Field** - Provides formatted instructional content and headings within forms through markdown rendering. Purely presentational—displays static content without capturing or storing user input. Exists within field architecture for consistency but does not participate in form validation, data storage, or export operations. Content rendered through markdown-it parser with aggressive DOMPurify sanitization. **⚠️ MEMORY WARNING**: Critical limitations include memory leaks on mobile devices, no accessibility implementation, and feature discrepancies between Designer editing and runtime display.
+7. **RichText Field** - Provides formatted instructional content and headings within forms through markdown rendering. Purely presentational—displays static content without capturing or storing user input. Exists within field architecture for consistency but does not participate in form validation, data storage, or export operations. Content rendered through markdown-it parser with aggressive DOMPurify sanitization. **Note**: Tables and external images not yet supported, no accessibility implementation, and feature discrepancies between Designer editing and runtime display.
 
-### Component Status Summary
-- TextField, MultipleTextField, TemplatedString: Stable, production ready
-- Email: Stable (TextField configuration variant)
-- Address: Beta Feature
-- QRCodeFormField: Mobile-only
-- RichText: Display-only (no data capture)
 
 ---
 
@@ -68,7 +110,69 @@ When using the Designer interface, follow these simple rules:
 - Creates: TextField component with email configuration
 - Includes automatic email validation
 
----
+### When JSON Enhancement is Required
+
+You MUST edit JSON directly for:
+
+**TextField/FAIMSTextField**:
+- ✅ Required: Character limit enforcement (`inputProps.maxLength`)
+- ✅ Required: Pattern validation (regex via `yup.matches`)
+- ✅ Required: Advanced helper text with formatting
+- ⚠️ Optional: Custom placeholder text
+- ⚠️ Optional: Variant styles (outlined, filled, standard)
+- `XREF` See [JSON Examples > TextField Examples]
+
+**MultilineText (MultipleTextField)**:
+- ✅ Required: Word/character count validation
+- ✅ Required: Performance optimization for >10,000 characters
+- ⚠️ Optional: Dynamic row adjustment based on content
+- ❌ Never: Row configuration can be set in Designer (`InputProps.rows`)
+- `XREF` See [Common Characteristics > Performance Boundaries]
+
+**TemplatedString**:
+- ✅ Required: Complex template logic (Mustache conditionals beyond Designer's Template Builder)
+- ✅ Required: Field references from other forms
+- ✅ Required: Security patterns to prevent XSS (avoid user input)
+- ❌ Never: Basic templates with text/variables/conditionals can be built in Designer's Template Builder
+- ⚠️ CRITICAL: See [CRITICAL SECURITY VULNERABILITIES] for XSS risks
+- `XREF` See [JSON Examples > TemplatedString Examples]
+
+**Email**:
+- ✅ Required: Domain-specific validation (e.g., `.edu.au` only)
+- ✅ Required: Multiple domain patterns
+- ⚠️ Optional: Custom error messages
+- `XREF` See [Field Quirks Index > Email]
+
+**Address**:
+- ✅ Required: JSON extraction patterns for CSV export
+- ✅ Required: Debounce configuration for race condition
+- ✅ Required: Custom validation rules
+- ⚠️ Beta feature - expect changes
+- `XREF` See [Troubleshooting Guide > Address Field Race Condition]
+
+**QRCodeFormField**:
+- ✅ Required: Platform conditionals (mobile-only deployment)
+- ✅ Required: Manual fallback field pairing
+- ✅ Required: Making field optional (never mark as required)
+- ❌ Never: Basic scanning configuration
+- `XREF` See [JSON Examples > QRCodeFormField with Manual Fallback]
+
+**RichText**:
+- ✅ Required: Base64 image embedding
+- ⚠️ Optional: Complex markdown/MDX (tables won't render)
+- ❌ Never: Data capture (display only, never exports)
+- `XREF` See [Field Quirks Index > RichText]
+
+### Designer Limitations {important}
+
+See [Designer Limitations Reference](designer-limitations-reference.md) for testing, validation, and configuration constraints that apply to all fields.
+
+**Text Field-Specific Limitations**:
+- **Character limits**: Cannot enforce maximum character counts or input patterns
+- **XSS prevention**: Cannot configure security for TemplatedString user inputs
+- **Platform behaviors**: Cannot set QR code fallbacks or mobile-specific settings
+- **Address timing**: Cannot configure debounce for Address race conditions
+- **Auto-complete**: Cannot enable suggestion lists or auto-formatting
 
 ## Field Selection Guide {essential}
 
@@ -121,7 +225,7 @@ What type of text data do you need?
 
 ---
 
-## ⚠️ Critical Security Warning {essential}
+## ⚠️ Critical Security Risks {essential}
 
 See [Security Considerations Reference](security-considerations-reference.md) for comprehensive security guidelines, testing procedures, and mitigation strategies.
 
@@ -133,7 +237,7 @@ See [Security Considerations Reference](security-considerations-reference.md) fo
 
 ---
 
-## What These Fields Cannot Do {important}
+## What This Field Cannot Do {important}
 
 ### Content Processing Limitations {important}
 - **Rich text editing** - No WYSIWYG editor for users (only static RichText display)
@@ -219,6 +323,32 @@ See [Security Considerations Reference](security-considerations-reference.md) fo
 
 ---
 
+## Designer Component Mapping {essential}
+
+### Designer UI vs JSON Component Names
+
+| Designer UI Label | JSON component-name | Component Namespace | Description |
+|------------------|--------------------|--------------------|-------------|
+| FAIMS Text Field | FAIMSTextField | faims-custom | Enhanced single-line with advanced help |
+| Text Field | MultipleTextField | formik-material-ui | Multi-line text area |
+| Email | TextField | formik-material-ui | Single-line with email validation |
+| Templated String Field | TemplatedStringField | faims-custom | Auto-generated text |
+| Scan QR Code | QRCodeFormField | qrcode | Mobile-only scanner |
+| Address | AddressField | faims-custom | Structured address input |
+| RichText | RichText | faims-custom | Display-only markdown content |
+
+⚠️ **Critical Notes**:
+- There is NO Designer element that creates a plain TextField without configuration
+- "FAIMS Text Field" creates FAIMSTextField (not TextField)
+- "Text Field" creates MultipleTextField (not MultilineText)
+- Only "Email" uses the base TextField component
+
+This mapping table is essential for:
+- Debugging field behaviour issues (see [Troubleshooting Guide > Critical Issues Table])
+- Writing JSON configurations manually
+- Understanding error messages that reference component names
+- Migrating between Designer versions
+
 ## Designer Capabilities vs JSON Enhancement {essential}
 
 ### What Designer Can Configure
@@ -237,99 +367,6 @@ The Designer interface provides basic field creation for all text fields:
 | **QRCodeFormField** | ✅ Basic field | Label | Platform conditionals, manual fallback pairing, scan requirements |
 | **RichText** | ✅ Display only | Content (markdown) | Base64 images, memory management, MDX components |
 
-### When JSON Enhancement is Required
-
-You MUST edit JSON directly for:
-
-**TextField/FAIMSTextField**:
-- ✅ Required: Character limit enforcement (`inputProps.maxLength`)
-- ✅ Required: Pattern validation (regex via `yup.matches`)
-- ✅ Required: Advanced helper text with formatting
-- ⚠️ Optional: Custom placeholder text
-- ⚠️ Optional: Variant styles (outlined, filled, standard)
-- `XREF` See [JSON Examples > TextField Examples]
-
-**MultilineText (MultipleTextField)**:
-- ✅ Required: Row configuration beyond default (`InputProps.rows`)
-- ✅ Required: Word/character count validation
-- ✅ Required: Performance optimization for >10,000 characters
-- ⚠️ Optional: Dynamic row adjustment based on content
-- `XREF` See [Common Characteristics > Performance Boundaries]
-
-**TemplatedString**:
-- ✅ Required: Complex template logic (Mustache conditionals)
-- ✅ Required: Field references from other forms
-- ✅ Required: Security patterns to prevent XSS (avoid user input)
-- ❌ Never: Basic templates work in Designer
-- ⚠️ CRITICAL: See [CRITICAL SECURITY VULNERABILITIES] for XSS risks
-- `XREF` See [JSON Examples > TemplatedString Examples]
-
-**Email**:
-- ✅ Required: Domain-specific validation (e.g., `.edu.au` only)
-- ✅ Required: Multiple domain patterns
-- ⚠️ Optional: Custom error messages
-- `XREF` See [Field Quirks Index > Email]
-
-**Address**:
-- ✅ Required: JSON extraction patterns for CSV export
-- ✅ Required: Debounce configuration for race condition
-- ✅ Required: Custom validation rules
-- ⚠️ Beta feature - expect changes
-- `XREF` See [Troubleshooting Guide > Address Field Race Condition]
-
-**QRCodeFormField**:
-- ✅ Required: Platform conditionals (mobile-only deployment)
-- ✅ Required: Manual fallback field pairing
-- ✅ Required: Making field optional (never mark as required)
-- ❌ Never: Basic scanning configuration
-- `XREF` See [JSON Examples > QRCodeFormField with Manual Fallback]
-
-**RichText**:
-- ✅ Required: Base64 image embedding
-- ⚠️ Optional: Complex markdown/MDX (tables won't render)
-- ❌ Never: Data capture (display only, never exports)
-- `XREF` See [Field Quirks Index > RichText]
-
-### Designer Limitations {important}
-
-See [Designer Limitations Reference](designer-limitations-reference.md) for testing, validation, and configuration constraints that apply to all fields.
-
-**Text Field-Specific Limitations**:
-- **Character limits**: Cannot enforce maximum character counts or input patterns
-- **XSS prevention**: Cannot configure security for TemplatedString user inputs
-- **Platform behaviors**: Cannot set QR code fallbacks or mobile-specific settings
-- **Address timing**: Cannot configure debounce for Address race conditions
-- **Auto-complete**: Cannot enable suggestion lists or auto-formatting
-
-## Designer Component Mapping {essential}
-
-### Designer UI vs JSON Component Names
-
-| Designer UI Label | JSON component-name | Component Namespace | Description |
-|------------------|--------------------|--------------------|-------------|
-| FAIMS Text Field | FAIMSTextField | faims-custom | Enhanced single-line with advanced help |
-| Text Field | MultipleTextField | formik-material-ui | Multi-line text area |
-| Email | TextField | formik-material-ui | Single-line with email validation |
-| Templated String Field | TemplatedStringField | faims-custom | Auto-generated text |
-| Scan QR Code | QRCodeFormField | qrcode | Mobile-only scanner |
-| Address | AddressField | faims-custom | Structured address input |
-
-⚠️ **Critical Notes**:
-- There is NO Designer element that creates a plain TextField without configuration
-- "FAIMS Text Field" creates FAIMSTextField (not TextField)
-- "Text Field" creates MultipleTextField (not MultilineText)
-- Only "Email" uses the base TextField component
-
-This mapping table is essential for:
-- Debugging field behaviour issues (see [Troubleshooting Guide > Critical Issues Table])
-- Writing JSON configurations manually
-- Understanding error messages that reference component names
-- Migrating between Designer versions
-
----
-
-
----
 
 ## Component Namespace Errors {important}
 
@@ -353,6 +390,28 @@ See [Component Namespace Reference](component-namespace-reference.md) for comple
 | QRCodeFormField | `qrcode` | Scanner (unique namespace) |
 
 ---
+
+
+## When to Use These Fields {essential}
+
+### Field Selection Matrix
+
+| Use Case | Recommended Field | Why |
+|----------|------------------|-----|
+| Short identifiers (<50 chars) | FAIMSTextField | Single-line, clean display |
+| Long descriptions | MultipleTextField | Multi-line with scrolling |
+| Email addresses | TextField (Email) | Built-in validation |
+| Auto-generated IDs | TemplatedStringField | Consistent formatting |
+| Physical addresses | AddressField | Structured components |
+| Barcode scanning | QRCodeFormField | Mobile camera integration |
+| Instructions/Help | RichText | Formatted display only |
+
+### Decision Criteria
+- **Data length**: <50 chars → FAIMSTextField, >50 chars → MultipleTextField
+- **Validation needed**: Email → TextField, Pattern → TemplatedStringField
+- **User input**: Yes → FAIMSTextField/MultipleTextField, No → RichText
+- **Mobile scanning**: Required → QRCodeFormField
+- **Address structure**: Needed → AddressField
 
 ## Common Characteristics {important}
 
@@ -516,7 +575,7 @@ See [Data Export Reference](data-export-reference.md) for comprehensive export d
 
 ---
 
-## Individual Field Reference {essential}
+## Field Reference {essential}
 
 ### TextField / FAIMSTextField (FAIMS Text Field in Designer) {essential}
 <!-- keywords: single-line, text, input, brief -->
@@ -574,13 +633,13 @@ For solutions, see [Troubleshooting Guide > Quick Fixes Table]
 ```json
 {
   "component-name": "TextField",
-  "initialValue": null  // ERROR: "Cannot read property 'length' of null"
+  "initialValue": null  
 }
 ```
 ✅ **ALWAYS: Use empty string for text fields**
 ```json
 {
-  "initialValue": ""  // Correct for all string-type fields
+  "initialValue": ""
 }
 ```
 
@@ -588,7 +647,7 @@ For solutions, see [Troubleshooting Guide > Quick Fixes Table]
 ```json
 {
   "validationSchema": [
-    ["yup.required", "Required"],  // ERROR: "yup.required is not a function"
+    ["yup.required", "Required"],
     ["yup.string"]
   ]
 }
@@ -597,8 +656,8 @@ For solutions, see [Troubleshooting Guide > Quick Fixes Table]
 ```json
 {
   "validationSchema": [
-    ["yup.string"],  // Type first
-    ["yup.required", "Required"]  // Then constraints
+    ["yup.string"],
+    ["yup.required", "Required"]
   ]
 }
 ```
@@ -607,25 +666,25 @@ For solutions, see [Troubleshooting Guide > Quick Fixes Table]
 ```json
 {
   "component-namespace": "faims-custom",
-  "component-name": "TextField"  // ERROR: Component not found
+  "component-name": "TextField"
 }
 ```
 ✅ **ALWAYS: Match namespace to component**
 ```json
-// Option 1: FAIMS enhanced text field
+
 {
   "component-namespace": "faims-custom",
-  "component-name": "FAIMSTextField"  // Enhanced version
+  "component-name": "FAIMSTextField"
 }
-// Option 2: Formik TextField (for Email or basic text)
+
 {
   "component-namespace": "formik-material-ui",
-  "component-name": "TextField"  // Standard version
+  "component-name": "TextField"
 }
-// Option 3: Core MUI (rarely needed)
+
 {
   "component-namespace": "core-material-ui",
-  "component-name": "TextField"  // Basic MUI component
+  "component-name": "TextField"
 }
 ```
 
@@ -696,7 +755,7 @@ Extended text entry for narrative content, detailed observations, and interpreta
 ❌ **NEVER: Wrong component name**
 ```json
 {
-  "component-name": "MultilineTextField",  // ERROR: Component doesn't exist
+  "component-name": "MultilineTextField",
   "component-parameters": {
     "multiline": true
   }
@@ -705,13 +764,13 @@ Extended text entry for narrative content, detailed observations, and interpreta
 ❌ **NEVER: Use "MultilineText" as component name**
 ```json
 {
-  "component-name": "MultilineText",  // ERROR: Not the actual component name
+  "component-name": "MultilineText",
 }
 ```
 ✅ **ALWAYS: Use MultipleTextField**
 ```json
 {
-  "component-name": "MultipleTextField",  // Correct component name
+  "component-name": "MultipleTextField",
   "component-parameters": {
     "multiline": true,
     "InputProps": {"rows": 4}
@@ -724,7 +783,7 @@ Extended text entry for narrative content, detailed observations, and interpreta
 {
   "component-name": "MultipleTextField",
   "component-parameters": {
-    "rows": 4  // ERROR: rows alone doesn't work
+    "rows": 4
   }
 }
 ```
@@ -733,7 +792,7 @@ Extended text entry for narrative content, detailed observations, and interpreta
 {
   "component-parameters": {
     "multiline": true,
-    "InputProps": {"rows": 4}  // Correct structure
+    "InputProps": {"rows": 4}
   }
 }
 ```
@@ -796,38 +855,38 @@ Auto-generates text values from other fields using Mustache templates. **MANDATO
 ```json
 {
   "template": "Record: {{user-text-field}}"
-  // If user enters: <script>alert('XSS')</script>
-  // HTML escaping is DISABLED (formUtilities.ts line 27) - script WILL execute!
+
+
 }
 ```
 ✅ **ALWAYS: Use controlled vocabularies or sanitize**
 ```json
 {
-  "template": "{{record-type}}-{{counter}}"  // record-type is a Select field
-  // OR implement sanitization in preprocessing layer
+  "template": "{{record-type}}-{{counter}}"
+
 
 ❌ **NEVER: Include any user-editable field in templates**
 ```json
-// ALL OF THESE ARE DANGEROUS:
+
 {
-  "template": "Site: {{site_name}}"  // XSS if site_name is TextField
+  "template": "Site: {{site_name}}"
 }
 {
-  "template": "{{description}}-{{id}}"  // XSS if description is user input
+  "template": "{{description}}-{{id}}"
 }
 {
-  "template": "Notes: {{field_notes}}"  // XSS if field_notes is MultilineText
+  "template": "Notes: {{field_notes}}"
 }
 ```
 
 ✅ **ALWAYS: Use only system-generated or controlled fields**
 ```json
-// SAFE PATTERNS:
+
 {
   "template": "{{_USER}}-{{_YYYY}}-{{auto_increment}}"
 }
 {
-  "template": "{{record_type}}-{{counter}}"  // IF record_type is Select/Radio
+  "template": "{{record_type}}-{{counter}}"
 }
 {
   "template": "SITE-{{_MM}}{{_DD}}-{{_id}}"
@@ -839,27 +898,27 @@ Auto-generates text values from other fields using Mustache templates. **MANDATO
 ❌ **NEVER: Reference another TemplatedString**
 ```json
 {
-  "template": "{{other-template}}-{{number}}"  // ERROR: Circular reference risk
-  // where other-template is also a TemplatedString
+  "template": "{{other-template}}-{{number}}"
+
 }
 ```
 ✅ **ALWAYS: Reference only non-template fields**
 ```json
 {
-  "template": "{{site}}-{{date}}-{{counter}}"  // All are basic input fields
+  "template": "{{site}}-{{date}}-{{counter}}"
 }
 ```
 
 ❌ **NEVER: Reference fields from different forms**
 ```json
 {
-  "template": "{{parent.field}}-{{local-field}}"  // ERROR: Can't access parent
+  "template": "{{parent.field}}-{{local-field}}"
 }
 ```
 ✅ **ALWAYS: Keep all referenced fields in same form**
 ```json
 {
-  "template": "{{field1}}-{{field2}}"  // Both in same form
+  "template": "{{field1}}-{{field2}}"
 }
 ```
 
@@ -878,7 +937,7 @@ Auto-generates text values from other fields using Mustache templates. **MANDATO
 {
   "component-namespace": "formik-material-ui",
   "component-name": "TextField",
-  "type-returned": "faims-core::Email",
+  "type-returned": "faims-core::String",
   "component-parameters": {
     "name": "email-field",
     "label": "Email Address",
@@ -921,7 +980,7 @@ Also see [Troubleshooting Guide > Common Problems Table] for general validation 
 ```json
 {
   "component-name": "TextField",
-  "type-returned": "faims-core::Email",  // ERROR: Mismatched types
+  "type-returned": "faims-core::String",
   "component-parameters": {
     "InputProps": {"type": "email"}
   }
@@ -930,7 +989,7 @@ Also see [Troubleshooting Guide > Common Problems Table] for general validation 
 ✅ **ALWAYS: Email fields return String**
 ```json
 {
-  "type-returned": "faims-core::String",  // Correct - emails are strings
+  "type-returned": "faims-core::String",
   "component-parameters": {
     "InputProps": {"type": "email"}
   }
@@ -941,7 +1000,7 @@ Also see [Troubleshooting Guide > Common Problems Table] for general validation 
 ```json
 {
   "component-namespace": "ANY-namespace",
-  "component-name": "Email"  // ERROR: No Email component exists in ANY namespace
+  "component-name": "Email"
 }
 ```
 ✅ **ALWAYS: Use TextField with email type**
@@ -1023,14 +1082,14 @@ df['postcode'] = df['address_data'].apply(lambda x: x['address']['postcode'])
 ```json
 {
   "component-name": "AddressField",
-  "initialValue": ""  // ERROR: Field shows "Empty" permanently
+  "initialValue": ""
 }
 ```
 ✅ **ALWAYS: Use null for Address fields**
 ```json
 {
   "component-name": "AddressField",
-  "initialValue": null  // Correct for JSON-type fields
+  "initialValue": null
 }
 ```
 
@@ -1038,7 +1097,7 @@ df['postcode'] = df['address_data'].apply(lambda x: x['address']['postcode'])
 ```json
 {
   "validationSchema": [
-    ["yup.string"]  // ERROR: Address returns JSON object
+    ["yup.string"]
   ]
 }
 ```
@@ -1047,7 +1106,7 @@ df['postcode'] = df['address_data'].apply(lambda x: x['address']['postcode'])
 {
   "validationSchema": [
     ["yup.object"],
-    ["yup.nullable"]  // Allow empty state
+    ["yup.nullable"]
   ]
 }
 ```
@@ -1056,13 +1115,13 @@ df['postcode'] = df['address_data'].apply(lambda x: x['address']['postcode'])
 ```json
 {
   "component-name": "AddressField",
-  "type-returned": "faims-core::String"  // ERROR: Returns complex object
+  "type-returned": "faims-core::String"
 }
 ```
 ✅ **ALWAYS: Address returns JSON**
 ```json
 {
-  "type-returned": "faims-core::JSON"  // Correct type
+  "type-returned": "faims-core::JSON"
 }
 ```
 
@@ -1136,7 +1195,7 @@ df['postcode'] = df['address_data'].apply(lambda x: x['address']['postcode'])
   "component-name": "QRCodeFormField",
   "validationSchema": [
     ["yup.string"],
-    ["yup.required", "Scan required"]  // ERROR: Breaks ALL web users!
+    ["yup.required", "Scan required"]
   ]
 }
 ```
@@ -1144,8 +1203,8 @@ df['postcode'] = df['address_data'].apply(lambda x: x['address']['postcode'])
 ```json
 {
   "component-name": "QRCodeFormField",
-  "validationSchema": [["yup.string"]]  // Never add required
-  // Pair with TextField for web fallback
+  "validationSchema": [["yup.string"]]
+
 }
 ```
 
@@ -1154,7 +1213,7 @@ df['postcode'] = df['address_data'].apply(lambda x: x['address']['postcode'])
 {
   "component-name": "QRCodeFormField",
   "component-parameters": {
-    "helperText": "Scan or type barcode"  // ERROR: No typing capability
+    "helperText": "Scan or type barcode"
   }
 }
 ```
@@ -1233,7 +1292,7 @@ df['postcode'] = df['address_data'].apply(lambda x: x['address']['postcode'])
 {
   "component-name": "RichText",
   "component-parameters": {
-    "name": "important-data",  // ERROR: Never stores data
+    "name": "important-data",
     "content": "Enter notes here"
   }
 }
@@ -1250,18 +1309,18 @@ df['postcode'] = df['address_data'].apply(lambda x: x['address']['postcode'])
 
 ❌ **NEVER: Include user-generated content in RichText**
 ```json
-// DANGEROUS - XSS RISK:
+
 {
-  "content": "User said: {{user_comment}}"  // Script injection risk
+  "content": "User said: {{user_comment}}"
 }
 {
-  "content": "# {{title_from_user}}"  // XSS if title contains scripts
+  "content": "# {{title_from_user}}"
 }
 ```
 
 ✅ **ALWAYS: Use static, developer-controlled content only**
 ```json
-// SAFE:
+
 {
   "content": "## Field Instructions\n\nPlease complete all required fields"
 }
@@ -1273,15 +1332,15 @@ df['postcode'] = df['address_data'].apply(lambda x: x['address']['postcode'])
 ❌ **NEVER: External image URLs**
 ```json
 {
-  "content": "![Diagram](https://example.com/image.png)"  
-  // ERROR: External images blocked by security
+  "content": "![Diagram](https:
+
 }
 ```
 ✅ **ALWAYS: Use Base64 embedded images**
 ```json
 {
   "content": "![Diagram](data:image/png;base64,iVBORw0KGg...)"
-  // Images must be <100KB for performance
+
 }
 ```
 
@@ -1289,14 +1348,14 @@ df['postcode'] = df['address_data'].apply(lambda x: x['address']['postcode'])
 ```json
 {
   "content": "| Header | Value |\n|--------|-------|\n| Data | 123 |"
-  // Tables stripped at runtime despite Designer support
+
 }
 ```
 ✅ **ALWAYS: Use lists or embedded images**
 ```json
 {
   "content": "**Data Values:**\n- Header: 123\n- Other: 456"
-  // Or embed table as Base64 image
+
 }
 ```
 
@@ -1736,7 +1795,7 @@ For security considerations with user variables, see [Common Characteristics > S
   "principal-investigator-email": {
     "component-namespace": "formik-material-ui",
     "component-name": "TextField",
-    "type-returned": "faims-core::Email",
+    "type-returned": "faims-core::String",
     "component-parameters": {
       "label": "Principal Investigator Email",
       "name": "principal-investigator-email",
@@ -1835,7 +1894,7 @@ For security considerations with user variables, see [Common Characteristics > S
 
 ---
 
-## Migration and Best Practices {comprehensive}
+## Migration Scenarios {comprehensive}
 
 ### Migration Decision Tree {comprehensive}
 
@@ -1883,16 +1942,16 @@ For ready-to-use scripts, see [Migration Script Templates] below
 
 **Legacy Patterns to Avoid**:
 ```json
-// ❌ Old pattern - TextField with multiline:true
+
 {
   "component-namespace": "formik-material-ui",
   "component-name": "TextField",
   "component-parameters": {
-    "multiline": true  // Deprecated approach
+    "multiline": true
   }
 }
 
-// ✅ Current pattern - Use MultipleTextField
+
 {
   "component-namespace": "formik-material-ui", 
   "component-name": "MultipleTextField",
@@ -2211,6 +2270,32 @@ if (violations.length > 0) {
   console.log(`\nAction required for ${violations.length} field values`);
 }
 
+## Best Practices {comprehensive}
+
+### Design Principles
+- Choose field types based on expected content length and structure
+- Consider mobile user experience when configuring scanning fields
+- Implement fallback patterns for platform-specific components
+- Use TemplatedString for all human-readable identifiers
+
+### Performance Optimization
+- Monitor character limits for MultilineText performance
+- Consider field pairing for QR scanning with manual fallbacks
+- Implement proper debouncing for Address autocomplete
+- Use appropriate row configurations for multi-line fields
+
+### Data Quality Strategies
+- Implement server-side validation for all text inputs
+- Use validation patterns to prevent data inconsistencies
+- Apply proper sanitization for TemplatedString templates
+- Configure appropriate helper text for user guidance
+
+### Common Patterns
+- Pair QRCodeFormField with TextField for cross-platform support
+- Use FAIMSTextField for enhanced help capabilities
+- Configure Address fields with proper debouncing
+- Implement proper HRID patterns with TemplatedString
+
 ### Field-Specific Best Practices {comprehensive}
 
 #### Email Field {comprehensive}
@@ -2348,7 +2433,7 @@ Requirement for full field definition despite non-participation in data operatio
   ```json
   "component-parameters": {
     "helperText": "Site identifier (max 50 characters)",
-    "inputProps": { "maxLength": 50 }  // Hard limit
+    "inputProps": { "maxLength": 50 }
   }
   ```
   For dynamic counter, use FAIMSTextField with: `"helperText": "Enter description (recommended: 20-50 characters)"`
@@ -2437,11 +2522,11 @@ Requirement for full field definition despite non-participation in data operatio
   ```
 - `FIX` Add domain-specific email validation:
   ```json
-  // Australian institutions:
+
   ["yup.matches", "@[\\w.-]+\\.edu\\.au$", "Must be .edu.au email"]
-  // Government only:
+
   ["yup.matches", "@[\\w.-]+\\.gov\\.au$", "Must be .gov.au email"]
-  // Multiple allowed domains:
+
   ["yup.matches", "@(uni\\.edu|museum\\.gov|dept\\.org)\\.au$", 
     "Must be institutional email"]
   ```
@@ -2489,7 +2574,7 @@ Requirement for full field definition despite non-participation in data operatio
   For training materials: `"helperText": "Scanner requires: 1) Mobile device 2) Camera permission 3) Good lighting 4) Clean barcode 5) Steady hold"`
 - `FIX` Implement platform-aware conditional display:
   ```json
-  // Add platform detection field:
+
   {
     "is-mobile": {
       "component-name": "RadioGroup",
@@ -2502,7 +2587,7 @@ Requirement for full field definition despite non-participation in data operatio
       }
     }
   }
-  // Then use conditions:
+
   "condition": {"field": "is-mobile", "operator": "equal", "value": "mobile"}
   ```
 - `TEST` Scan confidence: Hold camera steady on code - should accept after ~0.3 seconds (10 consecutive reads)
@@ -2658,7 +2743,7 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 ### TextField Patterns
 
 ```json
-// BASE PATTERN (all TextField variants inherit this)
+
 {
   "component-namespace": "formik-material-ui",
   "component-name": "TextField",
@@ -2671,7 +2756,7 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
   "initialValue": ""
 }
 
-// VARIANT: Required with validation
+
 + "component-parameters": {
 +   "required": true,
 +   "helperText": "This field is mandatory"
@@ -2681,7 +2766,7 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 +   ["yup.required", "Field is required"]
 + ]
 
-// VARIANT: Pattern validation (e.g., site codes)
+
 + "component-parameters": {
 +   "helperText": "Format: ABC-123",
 +   "placeholder": "e.g., SYD-001"
@@ -2691,7 +2776,7 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 +   ["yup.matches", "^[A-Z]{3}-\\d{3}$", "Invalid format"]
 + ]
 
-// VARIANT: Email configuration
+
 + "component-parameters": {
 +   "InputProps": {"type": "email"}
 + }
@@ -2700,7 +2785,7 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 +   ["yup.email", "Invalid email address"]
 + ]
 
-// VARIANT: FAIMSTextField with rich help
+
 - "component-namespace": "formik-material-ui"
 + "component-namespace": "faims-custom"
 - "component-name": "TextField"
@@ -2709,7 +2794,7 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 +   "advancedHelperText": "## Detailed Instructions\n\nMarkdown formatted help..."
 + }
 
-// VARIANT: Length constraints
+
 + "validationSchema": [
 +   ["yup.string"],
 +   ["yup.min", 3, "Minimum 3 characters"],
@@ -2720,28 +2805,28 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 ### MultilineText Patterns
 
 ```json
-// BASE PATTERN (using MultipleTextField component)
+
 {
   "component-namespace": "formik-material-ui",
-  "component-name": "MultipleTextField",  // Note the component name!
+  "component-name": "MultipleTextField",
   "type-returned": "faims-core::String",
   "component-parameters": {
     "name": "description",
     "label": "Description",
     "multiline": true,
     "InputProps": {
-      "rows": 4  // Default rows
+      "rows": 4
     }
   },
   "validationSchema": [["yup.string"]],
   "initialValue": ""
 }
 
-// VARIANT: Extended text with validation
+
 + "component-parameters": {
 +   "InputProps": {
 -     "rows": 4
-+     "rows": 8  // More rows for longer content
++     "rows": 8
 +   },
 +   "required": true,
 +   "helperText": "Provide detailed description (200-10000 chars)"
@@ -2753,7 +2838,7 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 +   ["yup.max", 10000, "Maximum 10,000 characters"]
 + ]
 
-// VARIANT: With uncertainty metadata
+
 + "meta": {
 +   "uncertainty": {
 +     "include": true,
@@ -2761,7 +2846,7 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 +   }
 + }
 
-// VARIANT: With annotation capability
+
 + "meta": {
 +   "annotation": {
 +     "include": true,
@@ -2773,7 +2858,7 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 ### TemplatedString Patterns
 
 ```json
-// BASE: Human-Readable Identifier (HRID)
+
 {
   "component-namespace": "faims-custom",
   "component-name": "TemplatedStringField",
@@ -2787,26 +2872,26 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
   "initialValue": ""
 }
 
-// VARIANT: With auto-incrementer
-  "template": "{{site}}-{{year}}-{{counter}}"
-  // where counter is BasicAutoIncrementer field
 
-// VARIANT: System variables
+  "template": "{{site}}-{{year}}-{{counter}}"
+
+
+
   "template": "{{_CREATOR_NAME}}-{{_CREATED_TIME}}-{{id}}"
 
-// VARIANT: Conditional sections
+
   "template": "{{#type}}{{type}}-{{/type}}{{^type}}UNTYPED-{{/type}}{{number}}"
 
-// VARIANT: Complex nested conditionals
+
   "template": "{{project}}{{#location}}-{{location}}{{/location}}{{#specimen}}-{{specimen}}{{#subspecimen}}/{{subspecimen}}{{/specimen}}{{/specimen}}"
 
-// VARIANT: Hidden boolean for complex logic
+
 + "component-parameters": {
-+   "hidden": true,  // Not shown in UI
++   "hidden": true,
 +   "template": "{{#photos}}true{{/photos}}{{^photos}}false{{/photos}}"
 + }
 
-// VARIANT: With validation on generated value
+
 + "validationSchema": [
 +   ["yup.string"],
 +   ["yup.required", "ID generation failed"],
@@ -2817,16 +2902,16 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 ### Email Patterns
 
 ```json
-// EMAIL is a TextField variant with type="email"
+
 {
   "component-namespace": "formik-material-ui",
-  "component-name": "TextField",  // Still TextField!
-  "type-returned": "faims-core::String",  // Note: NOT Email type
+  "component-name": "TextField",
+  "type-returned": "faims-core::String",
   "component-parameters": {
     "name": "contact-email",
     "label": "Contact Email",
     "InputProps": {
-      "type": "email"  // This makes it an email field
+      "type": "email"
     }
   },
   "validationSchema": [
@@ -2836,7 +2921,7 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
   "initialValue": ""
 }
 
-// VARIANT: Required institutional email
+
 + "component-parameters": {
 +   "required": true,
 +   "helperText": "Use institutional email only"
@@ -2852,11 +2937,11 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 ### Address Patterns
 
 ```json
-// BASE: Australian-optimized address
+
 {
   "component-namespace": "faims-custom",
   "component-name": "AddressField",
-  "type-returned": "faims-core::JSON",  // Returns JSON not String!
+  "type-returned": "faims-core::JSON",
   "component-parameters": {
     "name": "site-address",
     "label": "Site Address",
@@ -2864,12 +2949,12 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
   },
   "validationSchema": [
     ["yup.object"],
-    ["yup.nullable"]  // Allow null/empty
+    ["yup.nullable"]
   ],
-  "initialValue": null  // Not empty string!
+  "initialValue": null
 }
 
-// VARIANT: Required address
+
 + "component-parameters": {
 +   "required": true,
 +   "helperText": "Physical address required for access"
@@ -2883,7 +2968,7 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 +   ["yup.required", "Address is required"]
 + ]
 
-// VARIANT: With annotation
+
 + "meta": {
 +   "annotation": {
 +     "include": true,
@@ -2895,7 +2980,7 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 ### QRCodeFormField Patterns
 
 ```json
-// BASE: Scanner only (mobile-only!)
+
 {
   "component-namespace": "qrcode",
   "component-name": "QRCodeFormField",
@@ -2904,17 +2989,17 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
     "name": "barcode-scan",
     "label": "Scan Barcode"
   },
-  "validationSchema": [["yup.string"]],  // NEVER add required!
+  "validationSchema": [["yup.string"]],
   "initialValue": ""
 }
 
-// VARIANT: With helper text
+
 + "component-parameters": {
 +   "helperText": "Position barcode in frame (mobile only)",
 +   "fullWidth": true
 + }
 
-// PAIRED PATTERN: Scanner + Manual fallback (recommended)
+
 {
   "barcode-scan": {
     "component-namespace": "qrcode",
@@ -2945,20 +3030,20 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 ### RichText Patterns
 
 ```json
-// BASE: Display-only instructional content
+
 {
   "component-namespace": "faims-custom",
   "component-name": "RichText",
-  "type-returned": "faims-core::String",  // Required but never used
+  "type-returned": "faims-core::String",
   "component-parameters": {
     "name": "instructions",
     "content": "# Instructions\n\n**Important**: Follow these steps..."
   },
-  "validationSchema": [["yup.string"]],  // Required but never validates
-  "initialValue": ""  // Required but never stores data
+  "validationSchema": [["yup.string"]],
+  "initialValue": ""
 }
 
-// VARIANT: Conditional display warning
+
 + "component-parameters": {
 +   "content": "⚠️ **WARNING**: Heritage site - requires permits"
 + }
@@ -2968,26 +3053,26 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 +   "value": "heritage"
 + }
 
-// VARIANT: With embedded image (Base64 only!)
+
 + "component-parameters": {
 +   "content": "![Diagram](data:image/png;base64,iVBORw0KGg...)"
 + }
 
-// VARIANT: Complex markdown formatting
+
   "content": "## Section Header\n\n1. First item\n2. Second item\n\n```\nCode block\n```\n\n> Note: Blockquote (won't render at runtime!)"
 ```
 
 ### Common Patterns Across Types
 
 ```json
-// CONDITIONAL VISIBILITY (any field)
+
 + "condition": {
 +   "field": "trigger-field",
-+   "operator": "equal",  // or: not-equal, contains, not-contains
++   "operator": "equal",
 +   "value": "specific-value"
 + }
 
-// METADATA EXTENSIONS (text fields)
+
 + "meta": {
 +   "uncertainty": {
 +     "include": true,
@@ -2999,19 +3084,19 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 +   }
 + }
 
-// FULL WIDTH LAYOUT
+
 + "component-parameters": {
 +   "fullWidth": true
 + }
 
-// VISUAL VARIANTS (Material-UI fields)
+
 + "component-parameters": {
-+   "variant": "outlined"  // or: filled, standard
++   "variant": "outlined"
 + }
 
-// DISABLED/READ-ONLY
+
 + "component-parameters": {
-+   "disabled": true  // or InputProps: { readOnly: true }
++   "disabled": true
 + }
 ```
 
@@ -3384,3 +3469,26 @@ Anti-patterns have been distributed to their respective field sections for bette
 ### Revision History
 - **v0.1**: Initial consolidated documentation with Designer disambiguation
 - **v0.2**: Added migration patterns and training requirements (2025-08)
+- **v0.3**: Added concatenation boundaries and navigation (2025-01)
+
+---
+
+## Related Documentation
+<!-- concat:references -->
+
+### Within Field Categories
+- **Next Category**: [Selection Fields](./select-choice-fields-v05.md) | [#selection-fields](#selection-fields)
+- **Similar Fields**: [Display Fields - RichText](./display-field-v05.md#richtext) | [#display-fields](#display-fields)
+
+### Cross-Field Patterns
+- **Field Selection**: [Text Field Selection Guidance](../patterns/field-selection-guide.md#text-fields) | [#field-selection](#field-selection)
+- **Validation**: [Validation Patterns](../detail-crossfield-docs/validation.md#text-validation) | [#validation-patterns](#validation-patterns)
+- **Conditional Logic**: [Conditional Display](../detail-crossfield-docs/conditional-logic.md#text-conditions) | [#conditional-logic](#conditional-logic)
+
+### Technical References
+- **Designer Limitations**: [Text Field Constraints](../reference-docs/designer-limitations-reference.md#text-fields) | [#designer-limitations](#designer-limitations)
+- **Security**: [XSS Prevention](../reference-docs/security-considerations-reference.md#text-input) | [#security-considerations](#security-considerations)
+- **Performance**: [Text Field Limits](../reference-docs/performance-thresholds-reference.md#text-fields) | [#performance-thresholds](#performance-thresholds)
+
+<!-- /concat:references -->
+<!-- concat:boundary:end section="text-input-fields" -->

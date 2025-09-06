@@ -3756,9 +3756,9 @@ Anti-patterns have been distributed to their respective field sections for bette
 - **Similar Fields**: [Display Fields - RichText](./display-field-v05.md#richtext) | [#display-fields](#display-fields)
 
 ### Cross-Field Patterns
+- **Field Selection**: [Text Field Selection Guidance](../patterns/field-selection-guide.md#text-fields) | [#field-selection](#field-selection)
 - **Validation**: [Validation Patterns](../detail-crossfield-docs/validation.md#text-validation) | [#validation-patterns](#validation-patterns)
 - **Conditional Logic**: [Conditional Display](../detail-crossfield-docs/conditional-logic.md#text-conditions) | [#conditional-logic](#conditional-logic)
-- **Best Practices**: [Field Selection](../detail-crossfield-docs/field-selection-best-practices.md#text-fields) | [#field-selection](#field-selection)
 
 ### Technical References
 - **Designer Limitations**: [Text Field Constraints](../reference-docs/designer-limitations-reference.md#text-fields) | [#designer-limitations](#designer-limitations)
@@ -7148,9 +7148,9 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 - **Next**: [Date & Time Fields](./datetime-fields-v05.md) | [#datetime-fields](#datetime-fields)
 
 ### Cross-Field Patterns
+- **Field Selection**: [Selection Field Guidance](../patterns/field-selection-guide.md#select-fields) | [#field-selection](#field-selection)
 - **Validation**: [Selection Validation](../detail-crossfield-docs/validation.md#selection-fields) | [#validation-patterns](#validation-patterns)
 - **Conditional Logic**: [Dependent Selects](../detail-crossfield-docs/conditional-logic.md#selection-fields) | [#conditional-logic](#conditional-logic)
-- **Best Practices**: [Choice Field Selection](../detail-crossfield-docs/field-selection-best-practices.md#selection-fields) | [#field-selection](#field-selection)
 
 ### Technical References
 - **Designer Limitations**: [Selection Constraints](../reference-docs/designer-limitations-reference.md#selection-fields) | [#designer-limitations](#designer-limitations)
@@ -10312,9 +10312,9 @@ Version 2.0 restores approximately 30% of technical implementation details that 
 - **Next**: [Numeric Fields](./number-fields-v05.md) | [#number-fields](#number-fields)
 
 ### Cross-Field Patterns
+- **Field Selection**: [DateTime Field Selection Guidance](../patterns/field-selection-guide.md#datetime-fields) | [#field-selection](#field-selection)
 - **Validation**: [Date Validation](../detail-crossfield-docs/validation.md#datetime-fields) | [#validation-patterns](#validation-patterns)
 - **Conditional Logic**: [Date-based Conditions](../detail-crossfield-docs/conditional-logic.md#datetime-fields) | [#conditional-logic](#conditional-logic)
-- **Best Practices**: [Temporal Data](../detail-crossfield-docs/field-selection-best-practices.md#datetime-fields) | [#field-selection](#field-selection)
 
 ### Technical References
 - **Designer Limitations**: [DateTime Constraints](../reference-docs/designer-limitations-reference.md#datetime-fields) | [#designer-limitations](#designer-limitations)
@@ -13295,6 +13295,7 @@ Anti-patterns have been distributed to their respective field sections for bette
 - **Next**: [Display Fields](./display-field-v05.md) | [#display-fields](#display-fields)
 
 ### Cross-Field Patterns
+- **Field Selection**: [Number Field Selection Guidance](../patterns/field-selection-guide.md#number-fields) | [#field-selection](#field-selection)
 - **Validation**: [Number Validation](../detail-crossfield-docs/validation.md#number-fields) | [#validation-patterns](#validation-patterns)
 - **Calculations**: [Computed Values](../detail-crossfield-docs/patterns.md#calculations) | [#common-patterns](#common-patterns)
 
@@ -14472,6 +14473,7 @@ See [Performance Thresholds Reference](../reference-docs/performance-thresholds-
 - **Similar**: [Text Fields - RichText](./text-fields-v05.md#richtext) | [#text-input-fields](#text-input-fields)
 
 ### Cross-Field Patterns
+- **Field Selection**: [Display Field Usage](../patterns/field-selection-guide.md#display-fields) | [#field-selection](#field-selection)
 - **Instructions**: [Form Help Text](../detail-crossfield-docs/patterns.md#instructions) | [#common-patterns](#common-patterns)
 - **Conditional Display**: [Dynamic Content](../detail-crossfield-docs/conditional-logic.md#display-fields) | [#conditional-logic](#conditional-logic)
 
@@ -15741,6 +15743,7 @@ See [Performance Thresholds Reference](../reference-docs/performance-thresholds-
 - **Next**: [Media Fields](./media-fields-v05.md) | [#media-fields](#media-fields)
 
 ### Cross-Field Patterns
+- **Field Selection**: [Location Field Selection Guidance](../patterns/field-selection-guide.md#location-fields) | [#field-selection](#field-selection)
 - **Validation**: [Location Accuracy](../detail-crossfield-docs/validation.md#location-fields) | [#validation-patterns](#validation-patterns)
 - **Field Dependencies**: [GPS Requirements](../detail-crossfield-docs/conditional-logic.md#location-fields) | [#conditional-logic](#conditional-logic)
 
@@ -17221,6 +17224,7 @@ See [Performance Thresholds Reference](../reference-docs/performance-thresholds-
 - **Next**: [Relationship Fields](./relationship-field-v05.md) | [#relationship-fields](#relationship-fields)
 
 ### Cross-Field Patterns
+- **Field Selection**: [Media Field Selection Guidance](../patterns/field-selection-guide.md#media-fields) | [#field-selection](#field-selection)
 - **Validation**: [File Size Limits](../detail-crossfield-docs/validation.md#media-fields) | [#validation-patterns](#validation-patterns)
 - **Platform Specific**: [Camera Access](../detail-crossfield-docs/patterns.md#platform-specific) | [#common-patterns](#common-patterns)
 
@@ -18612,6 +18616,7 @@ Note: Vocabulary is immutable - must plan before deployment
 - **Index**: [Field Documentation Index](../field-type-index.md) | [#fieldmark-v3-field-type-documentation-index](#fieldmark-v3-field-type-documentation-index)
 
 ### Cross-Field Patterns
+- **Field Selection**: [Relationship Field Selection Guidance](../patterns/field-selection-guide.md#relationship-field) | [#field-selection](#field-selection)
 - **Hierarchical Data**: [Parent-Child Records](../detail-crossfield-docs/patterns.md#hierarchical) | [#common-patterns](#common-patterns)
 - **Conditional Logic**: [Dependent Records](../detail-crossfield-docs/conditional-logic.md#relationship-fields) | [#conditional-logic](#conditional-logic)
 
@@ -18628,222 +18633,145 @@ Note: Vocabulary is immutable - must plan before deployment
 <!-- ============================================ -->
 
 
-<!-- concat:pattern:field-selection-best-practices -->
-# Fieldmark Design Principles and Best Practices for Field Research
+<!-- concat:pattern:field-selection-guide -->
+<!-- concat:boundary:start section="field-selection-guide" -->
+<!-- concat:metadata
+document_id: field-selection-guide
+category: patterns
+version: 1.0
+last_updated: 2025-01-06
+purpose: Comprehensive field selection guidance consolidating best practices, comparison matrix, and practical examples
+source_documents:
+  - field-selection-best-practices.md (26KB)
+  - summary-table.md (12KB) 
+  - quick-start.md (12KB) - selection examples only
+-->
 
-## Introduction: Theory and Practice in Digital Field Recording
+# Field Selection Guide for Fieldmark Notebooks {essential}
 
-The design of digital field recording systems requires careful consideration of how data entry mechanisms shape both the quality of collected data and the efficiency of fieldwork. This comprehensive guide provides both theoretical foundations and practical implementation strategies for Fieldmark notebook design, drawing upon a decade of deployment experience across archaeological, ecological, and geoscientific research contexts.
+📚 [Field Documentation](../field-type-index.md) > Patterns > Field Selection Guide
 
-We address two fundamental tensions in field data collection: the need for structured, high-quality data that supports computational analysis and long-term reuse, and the practical constraints of kinetic fieldwork where recording mechanisms must not impede observation and interpretation. We further consider how design decisions impact data FAIRness (Findability, Accessibility, Interoperability, and Reusability) without imposing undue burden on fieldworkers.
+## Overview {essential}
 
-The selection of appropriate field types represents more than technical implementation – it embodies methodological decisions about data structure, analytical possibilities, and research outcomes. Poor field choices cascade through the entire research lifecycle, whilst thoughtful selection enhances both immediate usability and long-term research value.
+This comprehensive guide consolidates field selection principles, practical patterns, and the complete field comparison matrix to support informed decision-making when designing Fieldmark notebooks. Content has been extracted and integrated from field-selection-best-practices, summary-table, and quick-start documentation.
 
-## Theoretical Foundations
+## Table of Contents
+1. [Core Design Principles](#core-design-principles)
+2. [Field Type Comparison Matrix](#field-type-comparison-matrix)
+3. [Decision Framework by Data Type](#decision-framework-by-data-type)
+4. [Field-Specific Selection Guidance](#field-specific-selection-guidance)
+5. [Discipline-Specific Patterns](#discipline-specific-patterns)
+6. [Performance Considerations](#performance-considerations)
+7. [Common Implementation Patterns](#common-implementation-patterns)
+8. [Anti-Patterns and Mistakes](#anti-patterns-and-mistakes)
 
-### Transparent Interaction in Field Contexts
-
-The concept of "transparent interaction" (Weiser, 1991) suggests that the most profound technologies are those that disappear, weaving themselves into the fabric of everyday life until they are indistinguishable from it. In field recording, this means the technology should become an extension of the researcher's observational practice, not an impediment to it. Every design choice should reduce the cognitive and temporal distance between observation and record completion.
-
-In kinetic fieldwork – where researchers move continuously through landscapes whilst making observations – the recording system must 'fade into the background' (Pascoe et al., 1998), allowing focus to remain on the archaeological or environmental phenomena under study. This theoretical foundation underpins our practical principles and implementation strategies.
-
-### The Kinetic Fieldwork Context
-
-Field recording occurs under conditions that would be considered hostile for most data entry tasks:
-
-**Environmental and Physical Constraints:**
-- Visual challenges: Direct sunlight making screens unreadable, dust and rain obscuring displays
-- Physical impediments: Muddy or wet hands, thick gloves in cold conditions, carrying equipment
-- Attention demands: Maintaining awareness of surroundings for safety and observation
-- Time pressure: Limited site access, weather windows, or daylight hours
-- Cognitive load: Complex interpretive decisions whilst managing recording
-
-These constraints necessitate interface designs that prioritise robustness over sophistication. A simple radio button that works reliably with muddy fingers proves more valuable than an elegant multi-touch gesture that fails in wet conditions.
-
-**The Temporality of Field Observation:**
-
-Field observation exhibits distinct temporal patterns that recording systems must accommodate:
-1. **Burst recording**: Intense periods of rapid data entry alternating with movement or excavation
-2. **Progressive refinement**: Initial rapid capture followed by detailed documentation
-3. **Retrospective correction**: Reinterpretation based on subsequent discoveries
-4. **Collaborative elaboration**: Multiple team members contributing observations
-
-These patterns argue for recording systems that support both rapid initial capture and subsequent enhancement, rather than enforcing comprehensive documentation at first encounter.
-
-## Core Design Principles
+## Core Design Principles {essential}
 
 ### Principle 1: Minimise Recording Friction
-
-This principle manifests in several practical imperatives:
-- **Automate everything the system can know**: If information exists within the system (user identity, timestamp, location, parent record context), never require manual re-entry
-- **Design for environmental extremes**: Assume bright sunlight, rain, cold fingers, wet screens, gloved hands, and exhausted fieldworkers at hour eight
-- **Optimise for common cases**: Make frequent tasks exceptionally fast, even if rare tasks require slightly more effort
-- **Respect device constraints**: On mobile devices with limited screen space, avoid UI patterns that demand extensive scrolling or precise touch targets
+- **Automate everything the system can know**: User identity, timestamps, location, parent context
+- **Design for environmental extremes**: Assume bright sunlight, rain, cold fingers, wet screens
+- **Optimise for common cases**: Make frequent tasks exceptionally fast
+- **Respect device constraints**: Avoid extensive scrolling or precise touch targets on mobile
 
 ### Principle 2: Prefer Structure Over Unstructured Data
+Controlled vocabularies should be deployed wherever feasible:
+- **Immediate validation**: Preventing errors at collection point
+- **Cross-project comparability**: Enabling meta-analysis
+- **Computational readiness**: Supporting analysis without cleaning
+- **Multilingual accessibility**: Interface translation with data integrity
+- **Query efficiency**: Rapid filtering and aggregation
 
-Controlled vocabularies – implemented through choice fields – should be deployed wherever feasible in preference to free-text entry. This preference stems not from technological determinism but from empirical observation: unstructured text collected in the field rarely achieves the analytical utility promised by its apparent flexibility.
-
-**The False Dichotomy of Flexibility:**
-
-The apparent trade-off between controlled vocabularies and descriptive freedom represents a false dichotomy. Fieldmark's annotation and uncertainty mechanisms provide sophisticated means to capture nuance, qualification, and contextual detail whilst maintaining structural integrity. A ceramic sherd can be classified as "Fine Ware" whilst simultaneously annotated with observations about unusual characteristics, preservation conditions, or interpretive uncertainty.
-
-**Benefits of Structured Capture:**
-- Immediate validation: Preventing data entry errors at the point of collection
-- Cross-project comparability: Enabling meta-analysis across datasets
-- Computational readiness: Supporting statistical analysis without extensive cleaning
-- Multilingual accessibility: Allowing interface translation whilst maintaining data integrity
-- Query efficiency: Enabling rapid filtering and aggregation
-
-### Principle 3: Design for Data Lifecycle, Not Just Collection
-
-Field recording systems must consider the entire data lifecycle from collection through analysis to long-term preservation and reuse:
-- **Capture provenance automatically**: Who collected data, when, where, and under what project
-- **Maintain referential integrity**: Ensure relationships between entities remain navigable
-- **Enable progressive enhancement**: Allow initial rapid capture with subsequent detailed documentation
-- **Support versioning and correction**: Acknowledge that field interpretations evolve
-
-## FAIR Data Principles in Field Recording
-
-### Findability Through Systematic Identification
-
-The FAIR principles (Wilkinson et al., 2016) emphasise that data should be Findable, Accessible, Interoperable, and Reusable. In field recording, findability begins with systematic identification schemes that persist across the data lifecycle.
-
-**Implementation Strategy:**
-- Deploy TemplatedStringField for human-readable identifiers combining semantic components
-- Implement hierarchical identification (project → site → context → sample)
-- Consider persistent identifier schemes (DOI, IGSN) for samples and datasets
-- Maintain identifier stability even as interpretations change
-
-### Accessibility Through Structured Export
-
-Accessibility requires that data can be retrieved in formats suitable for diverse analytical tools:
-- **Tabular export**: CSV for statistical analysis, preserving relationships through foreign keys
-- **Spatial export**: GeoJSON for GIS integration, maintaining coordinate system metadata
-- **Hierarchical export**: JSON for complex nested relationships (when available)
-- **Semantic export**: RDF or JSON-LD for knowledge graph integration (future capability)
-
-### Interoperability Through Controlled Vocabularies
-
-Interoperability emerges from the systematic use of shared vocabularies and ontologies:
-- Adopt disciplinary standards where they exist (Getty AAT, PeriodO, Darwin Core)
-- Document local vocabularies with clear definitions and mapping to standards
-- Implement hierarchical vocabularies that allow both specific and general classification
-- Maintain vocabulary versioning to track semantic evolution
-
-### Reusability Through Comprehensive Metadata
-
-Reusability depends upon rich contextual information:
-- **Collection context**: Project goals, methodologies, sampling strategies
-- **Technical metadata**: Device types, software versions, coordinate systems
-- **Quality indicators**: Confidence levels, validation status, known limitations
-- **Rights and attribution**: Licenses, embargoes, citation requirements
-
-## Practical Implementation Principles
+### Principle 3: Design for Data Lifecycle
+Consider the entire lifecycle from collection through analysis to preservation:
+- **Capture provenance automatically**: Who, when, where, under what project
+- **Maintain referential integrity**: Navigable relationships between entities
+- **Enable progressive enhancement**: Rapid capture with subsequent detail
+- **Support versioning and correction**: Acknowledge interpretive evolution
 
 ### Principle 4: Automate System-Knowable Information
-
-Any information the system can determine should never require manual entry. This principle reduces errors, accelerates recording, and ensures consistency across datasets.
-
-**System Variables Available:**
-- `{{_CREATED_BY}}` – Current user (eliminates "Recorded by" fields)
-- `{{_CREATED_TIME}}` – Timestamp of record creation
-- Current GPS location via Take GPS Point
-- Sequential identifiers through Auto-incrementing fields
-- Parent record context through inheritance
-
-**Implementation Patterns:**
-Replace manual entry fields with automated capture:
-- ❌ Text field for "Recorder name" → ✓ System variable in HRID
-- ❌ DateTime field for "Entry time" → ✓ {{_CREATED_TIME}} in template
-- ❌ Manual context copying → ✓ Parent-child relationships with inheritance
+Replace manual entry with system variables:
+- ❌ Text field for "Recorder name" → ✅ {{_CREATED_BY}} in template
+- ❌ DateTime field for "Entry time" → ✅ {{_CREATED_TIME}} in template
+- ❌ Manual context copying → ✅ Parent-child inheritance
 
 ### Principle 5: Design for Progressive Disclosure
+Complex scenarios benefit from conditional logic:
+- **Binary Gateway**: Checkbox controlling detailed field visibility
+- **Type-Specific Recording**: Radio button revealing relevant field sets
+- **Confidence Cascades**: Uncertainty triggering documentation requirements
+- **Other Specification**: Controlled vocabulary with conditional free text
 
-Complex recording scenarios benefit from conditional logic that reveals detail progressively based on initial assessments. This approach maintains form simplicity whilst enabling comprehensive documentation when necessary.
+## Field Type Comparison Matrix {essential}
 
-**Effective Patterns:**
-1. **Binary Gateway**: Checkbox controlling detailed field visibility
-2. **Type-Specific Recording**: Radio button selection revealing relevant field sets
-3. **Confidence Cascades**: Uncertainty triggering additional documentation requirements
-4. **Other Specification**: Controlled vocabulary with conditional free text for exceptions
+### Text and Identifier Fields
 
-### Principle 6: Optimise for Device Constraints
+| Field Type | Purpose | Examples | Technical Specs | Validation | Platform Notes |
+|------------|---------|----------|-----------------|------------|----------------|
+| **Single-line Text** | Brief textual entries | "North wall", "Sandy matrix" | ~255 char limit<br/>Returns: String | Pattern matching<br/>Length constraints | Universal compatibility |
+| **Multi-line Text** | Extended descriptions | Context descriptions, observations | No practical limit<br/>Returns: String | Length validation<br/>No pattern matching | Touch keyboard challenges |
+| **Email** | Validated email addresses | "pi@university.edu" | RFC 5322 validation<br/>Returns: String | Email format validation | Email keyboard on mobile |
+| **Address** | Structured physical addresses | Site locations, property details | Multiple sub-fields<br/>Returns: Object | Component validation | Auto-complete varies |
+| **Templated String** | Auto-generated identifiers | "SITE1-2024-CTX045" | Mustache.js templating<br/>Read-only | Not user-editable | Essential for HRIDs |
+| **QR/Barcode Scanner** | Camera-based code capture | Specimen barcodes, equipment tags | Multiple formats<br/>Returns: String | Format validation | **Mobile only** |
 
-Field selection must acknowledge the realities of mobile data collection – small screens, touch interfaces, variable connectivity, and environmental challenges.
+### Numeric Fields
 
-**Mobile-Optimised Selections:**
-- Radio buttons over dropdowns for ≤7 options (larger touch targets)
-- Checkbox for binary decisions (clear visual state)
-- DateTime Now for timestamp capture (single tap)
-- Take Photo over File Upload (integrated camera workflow)
+| Field Type | Purpose | Examples | Technical Specs | Validation | Platform Notes |
+|------------|---------|----------|-----------------|------------|----------------|
+| **Number Field** (Deprecated) | Basic numeric entry | Simple counts | JavaScript number<br/>Returns: Number | Type checking only | Use Controlled Number instead |
+| **Controlled Number** | Numeric with boundaries | pH (0-14), percentage (0-100) | Min/max enforcement<br/>Returns: Number | Range validation | Supports sticky behaviour |
+| **Auto-incrementing** | Sequential identifiers | Context numbers (001, 002...) | Configurable padding<br/>Returns: String | Uniqueness guaranteed | Cannot reset mid-project |
 
-**Desktop-Optimised Selections:**
-- Multi-line text for extended narrative
-- Hierarchical dropdowns for complex taxonomies
-- Map drawing for precise spatial data
-- File upload for diverse media types
+### Date and Time Fields
 
-### Principle 7: Maintain Human-Readable Identifiers
+| Field Type | Purpose | Examples | Technical Specs | Validation | Platform Notes |
+|------------|---------|----------|-----------------|------------|----------------|
+| **Date Picker** | Calendar date selection | Excavation date, sample date | ISO 8601 format<br/>Returns: Date string | Min/max date ranges | Native pickers on mobile |
+| **DateTime Picker** | Date and time selection | Precise event timing | ISO 8601 with time<br/>Returns: DateTime | Date/time ranges | Platform-specific UI |
+| **DateTime Now** | Current timestamp capture | Record creation time | Automatic capture<br/>Returns: DateTime | Always valid | Device clock dependency |
+| **Month Picker** | Year and month only | Seasonal data | YYYY-MM format<br/>Returns: String | Year range limits | Simplified interface |
 
-Whilst technically optional, human-readable identifiers (HRIDs) prove essential for practical data management. Without HRIDs, users confront opaque system identifiers (e.g., "rec-5f8a9b3c") that impede navigation, complicate analysis, and frustrate collaboration.
+### Selection Fields
 
-**HRID Design Patterns:**
-- Archaeological: `{{site}}-{{trench}}-{{type}}-{{number}}`
-- Ecological: `{{transect}}-{{point}}-{{date}}`
-- Geological: `{{project}}-{{location}}-{{sample}}`
+| Field Type | Purpose | Examples | Technical Specs | Validation | Platform Notes |
+|------------|---------|----------|-----------------|------------|----------------|
+| **Checkbox** | Binary true/false | "Sample collected?" | Returns: Boolean<br/>Default: false | Required completion | Large touch target |
+| **Radio Buttons** | Single choice (2-7 options) | Preservation state | All options visible<br/>Returns: String | Required selection | Excellent mobile UX |
+| **Dropdown (Select)** | Single choice (many options) | Species list (50+ items) | Conserves space<br/>Returns: String | Required selection | Scrolling challenges |
+| **Multi-select** | Multiple selections | Observed behaviours | Checkbox list<br/>Returns: Array | Min/max selections | Touch selection hard |
+| **AdvancedSelect** | Hierarchical categories | Taxonomies | Tree navigation<br/>Returns: Path/leaf | Depth validation | Complex on mobile |
 
-## Performance Considerations
+### Spatial Fields
 
-### Cognitive Performance Factors
+| Field Type | Purpose | Examples | Technical Specs | Validation | Platform Notes |
+|------------|---------|----------|-----------------|------------|----------------|
+| **Take GPS Point** | Single coordinate | Find spots, sample locations | GeoJSON point<br/>Includes metadata | Accuracy thresholds | Mobile GPS superior |
+| **Map Drawing** | Visual feature creation | Site boundaries, transects | Points/lines/polygons<br/>Returns: GeoJSON | Geometry validation | **Requires internet** (offline experimental) |
 
-Before considering technical performance, we must acknowledge cognitive performance – the speed and accuracy with which fieldworkers can complete recording tasks:
-- **Recognition over recall**: Select from lists rather than remember codes
-- **Progressive disclosure**: Show complex options only when needed
-- **Consistent patterns**: Use the same interaction patterns throughout
-- **Clear feedback**: Immediate validation with actionable error messages
+### Media Fields
 
-### Technical Performance Constraints
+| Field Type | Purpose | Examples | Technical Specs | Validation | Platform Notes |
+|------------|---------|----------|-----------------|------------|----------------|
+| **Take Photo** | Camera capture | Context photos, specimens | JPEG/PNG<br/>EXIF preserved | File size limits | Compression settings |
+| **File Upload** | File attachment | PDFs, spreadsheets, audio | Any file type<br/>Returns: Reference | Type restrictions | Upload time varies |
 
-Field devices impose constraints that influence design decisions:
+### Relationship Fields
 
-**Battery Consumption:**
-- GPS fields consume significant power (10–15% per hour of continuous use)
-- Camera operations drain battery during processing
-- Screen brightness for outdoor visibility increases consumption
-- Recommendation: Design workflows that allow GPS/camera activation only when needed
+| Field Type | Purpose | Examples | Technical Specs | Validation | Platform Notes |
+|------------|---------|----------|-----------------|------------|----------------|
+| **Related Records** | Inter-record connections | Stratigraphic relationships | Parent-child/peer<br/>Returns: Array | Cardinality limits | Performance >50 relations |
 
-**Processing Limitations:**
-- Complex conditional logic may cause visible lag on older devices
-- Large vocabularies (>100 items) slow dropdown rendering
-- Multiple photo captures require processing time between shots
-- Recommendation: Implement progressive loading for large datasets
+### Display Fields
 
-**Network Constraints:**
-- Assume intermittent or absent connectivity
-- Design for offline-first operation with opportunistic synchronisation
-- Implement differential sync to minimise data transfer
-- Cache all essential resources locally
+| Field Type | Purpose | Examples | Technical Specs | Validation | Platform Notes |
+|------------|---------|----------|-----------------|------------|----------------|
+| **Rich Text** | Formatted instructions | Warnings, procedures | Markdown support<br/>Display only | Not applicable | Responsive rendering |
 
-### Documented Performance Thresholds
+## Decision Framework by Data Type {important}
 
-**Relationship Field Limits:**
-- <50 relationships: Optimal performance
-- 50–100 relationships: Noticeable lag
-- 100–200 relationships: Significant delays
-- >200 relationships: Effectively unusable
+### Textual Data Capture {#text-fields}
 
-**Form Complexity:**
-- Keep forms under 30 fields for mobile usability
-- Limit sections to 10 fields for cognitive load
-- Use conditional logic to reduce visible field count
-- Consider splitting complex forms into multiple linked forms
-
-## Field Type Selection Decision Framework
-
-### Textual Data Capture
-
-We present a hierarchical decision process for text field selection:
+Hierarchical decision process:
 
 1. **Can the value be generated automatically?**
    - YES → Use Templated String field
@@ -18859,12 +18787,12 @@ We present a hierarchical decision process for text field selection:
 
 4. **Does the field require specific validation?**
    - Email format → Email field
-   - Physical address → Address field
+   - Physical address → Address field  
    - Barcode scanning → QR/Barcode scanner (mobile only)
 
-### Numeric Data Capture
+### Numeric Data Capture {#number-fields}
 
-Selection depends upon precision requirements and constraints:
+Selection based on precision and constraints:
 
 1. **Are there known valid ranges?**
    - YES → Controlled Number field with min/max
@@ -18872,7 +18800,7 @@ Selection depends upon precision requirements and constraints:
 
 2. **Is this a sequential identifier?**
    - YES → Auto-incrementing field
-   - NO → Basic Number field
+   - NO → Controlled Number field (avoid deprecated Number Field)
 
 3. **Consider additional factors:**
    - Decimal precision requirements
@@ -18880,22 +18808,24 @@ Selection depends upon precision requirements and constraints:
    - Sticky behaviour for environmental constants
    - Unit specification in field labels
 
-### Temporal Data Capture
+### Temporal Data Capture {#datetime-fields}
 
-Temporal granularity determines field selection:
+Temporal granularity determines selection:
 - **Date only** → Date Picker (excavation date, sample date)
 - **Date and time** → DateTime Picker (precise events)
 - **Current moment** → DateTime Now (observation timestamp)
 - **Month/year only** → Month Picker (seasonal data)
 
-### Choice Field Selection
+⚠️ **Important**: Use DateTime Now for timezone-aware timestamps. DateTime Picker is discouraged when timezone accuracy matters.
 
-The number of options and selection constraints guide choice:
+### Choice Field Selection {#select-fields}
+
+Number of options and selection constraints:
 
 **Single Selection:**
 - 2 options → Checkbox (if binary) or RadioGroup (if strings needed)
-- 3–7 options → RadioGroup (all visible)
-- 8–20 options → Select dropdown
+- 3-7 options → RadioGroup (all visible)
+- 8-20 options → Select dropdown
 - >20 options OR hierarchical → AdvancedSelect
 
 **Multiple Selection:**
@@ -18903,605 +18833,1013 @@ The number of options and selection constraints guide choice:
 - Enable expandedChecklist for <10 options
 - Configure exclusiveOptions for mutually incompatible choices
 
-### Spatial Data Capture
+### Spatial Data Capture {#location-fields}
 
-Spatial requirements determine appropriate fields:
+Spatial requirements determine fields:
 - **Single point** → Take GPS Point
-- **Boundaries/areas** → Map Field (requires internet)
+- **Boundaries/areas** → Map Field (internet required for initial tile load, offline maps experimental)
 - **Both needed** → Combine both field types
 - **Manual coordinates** → Text field with validation
 
-## Discipline-Specific Design Patterns
+### Media Capture {#media-fields}
 
-### Archaeological Recording Patterns
+Platform and purpose considerations:
+- **Field photos** → Take Photo (integrated camera workflow)
+- **Document upload** → File Upload (any file type)
+- **Mobile-specific** → Take Photo preferred over File Upload
+- **Desktop-specific** → File Upload for diverse media types
 
-Archaeological recording exhibits specific characteristics that inform design decisions:
+### Relationship Management {#relationship-field}
+
+Connection type determines approach:
+- **Parent-child hierarchy** → Form structure with Related Records
+- **Peer relationships** → Related Records with vocabulary pairs
+- **Simple references** → Consider Select from existing records
+- **Complex networks** → Multiple Related Records (watch performance)
+
+## Field-Specific Selection Guidance {important}
+
+### Text Field Selection Guidance {#text-field-selection}
+
+**Use Single-line Text when:**
+- Input is predictably brief (<100 characters)
+- No controlled vocabulary is appropriate
+- Pattern validation might be needed
+- Mobile keyboard efficiency matters
+
+**Use Multi-line Text when:**
+- Extended narrative is expected
+- Paragraph formatting is beneficial
+- Desktop data entry predominates
+- Voice-to-text might be used
+
+**Use Templated String when:**
+- Creating human-readable identifiers (HRIDs)
+- Combining multiple field values automatically
+- Ensuring consistent formatting
+- Reducing manual entry errors
+
+**Annotation Guidance for Text Fields:**
+- Free-text fields typically don't need annotations (already provide space for elaboration)
+- Single-line text fields benefit from annotations when capturing structured data that might need qualification
+- Consider annotations for identifier fields where generation method or exception needs noting
+
+### Number Field Selection Guidance {#number-field-selection}
+
+**Use Controlled Number when:**
+- Valid ranges are known (pH: 0-14)
+- Precision requirements are defined
+- Default values accelerate entry
+- Sticky behaviour benefits workflow
+
+**Use Auto-incrementing when:**
+- Sequential identifiers are needed
+- Uniqueness must be guaranteed
+- Team coordination is established
+- Reset is never required
+
+**Avoid Number Field (deprecated):**
+- No range validation available
+- Use Controlled Number instead
+
+**Annotation Guidance for Number Fields:**
+- Always enable annotations for measurements (method, instrument, conditions)
+- Essential for counts and quantities (sampling area, estimation method)
+- Critical for derived values (calculation method, source data)
+- Use uncertainty marking for estimates and approximations
+
+### DateTime Field Selection Guidance {#datetime-field-selection}
+
+**Use DateTime Now when:**
+- Recording observation moments
+- Timezone accuracy matters
+- One-tap capture speeds workflow
+- Current timestamp suffices
+
+**Use Date Picker when:**
+- Time component unnecessary
+- Historical dates recorded
+- Date ranges need validation
+- Calendar selection helps users
+
+**Avoid DateTime Picker when:**
+- Timezone accuracy critical
+- Use DateTime Now instead
+
+**Annotation Guidance for DateTime Fields:**
+- Enable annotations for "circa" or approximate dates
+- Useful for recording temporal uncertainty (season, decade)
+- Important for noting calendar system or dating method
+- Consider uncertainty marking for provisional dates
+
+### Selection Field Guidance {#selection-field-guidance}
+
+**Use RadioGroup when:**
+- 2-7 options need visibility
+- Touch targets must be large
+- Mobile usage predominates
+- Options rarely change
+
+**Use Select Dropdown when:**
+- 8-20 options exist
+- Screen space is limited
+- Desktop usage common
+- Scrolling acceptable
+
+**Use AdvancedSelect when:**
+- Hierarchical structure exists
+- >20 options available
+- Search functionality needed
+- Taxonomy navigation required
+
+**Annotation Guidance for Selection Fields:**
+- Essential for fields with "Other" option (specify what "other" means)
+- Important for ambiguous classifications (explain choice reasoning)
+- Valuable for multiple valid options (note alternatives considered)
+- Critical for provisional identifications pending specialist review
+
+### Location Field Guidance {#location-field-guidance}
+
+**Annotation Guidance for Location Fields:**
+- Enable annotations for accuracy notes (GPS signal quality, obstacles)
+- Important for method documentation (handheld GPS, map estimation, known coordinates)
+- Valuable for environmental conditions affecting accuracy
+- Essential when coordinates are estimated or derived
+
+### Media Field Guidance {#media-field-guidance}
+
+**Annotation Guidance for Media Fields:**
+- Enable annotations for photo subject identification
+- Important for recording photo conditions (lighting, angle, scale)
+- Essential for noting what's outside frame but relevant
+- Valuable for documenting processing or enhancements applied
+
+## Discipline-Specific Patterns {important}
+
+### Archaeological Recording Patterns {#archaeological-patterns}
 
 **Stratigraphic Relationships:**
-- Temporal sequences (earlier than, later than, contemporary with)
-- Physical relationships (cuts, cut by, fills, filled by)
-- Spatial relationships (above, below, abuts, bonded to)
-- Implementation: RelatedRecordSelector with semantic qualification
+- Temporal sequences (earlier than, later than)
+- Physical relationships (cuts, cut by, fills)
+- Spatial relationships (above, below, abuts)
+- Implementation: RelatedRecordSelector with vocabulary pairs
 
 **Contextual Inheritance:**
-- Finds inherit context properties (period, phase, grid square)
+- Finds inherit context properties
 - Samples inherit environmental conditions
 - Photos inherit spatial coordinates
-- Implementation: Automatic property cascade in parent-child relationships
+- Implementation: Parent-child relationships
 
-**Interpretive Uncertainty:**
-- Provisional identifications pending specialist analysis
-- Alternative interpretations of ambiguous features
-- Confidence levels for dating and classification
-- Implementation: Annotation fields and uncertainty qualifiers
+**Human-Readable IDs:**
+- Pattern: `{{site}}-{{trench}}-{{type}}-{{number}}`
+- Example: "MP24-T5-C023"
 
-### Ecological Survey Patterns
-
-Ecological recording presents different requirements:
+### Ecological Survey Patterns {#ecological-patterns}
 
 **Transect-Based Observation:**
-- Sequential observation points along predetermined routes
-- Repeated measures at fixed intervals
-- Distance-based or time-based sampling
-- Implementation: Auto-incrementing with location capture
+- Sequential observation points
+- Repeated measures at intervals
+- Implementation: Auto-incrementing with GPS
 
 **Abundance Estimation:**
 - Percentage cover for vegetation
-- Count estimates for mobile species
+- Count estimates for species
 - Categorical abundance (DAFOR scale)
-- Implementation: Controlled number fields with standard ranges
+- Implementation: Controlled number fields
 
-**Environmental Conditions:**
-- Weather conditions affecting observations
-- Phenological state of observed species
-- Habitat characteristics
-- Implementation: Sticky fields for conditions that remain constant
+**Human-Readable IDs:**
+- Pattern: `{{transect}}-{{point}}-{{date}}`
+- Example: "T1-P5-20240315"
 
-### Geological Sampling Patterns
-
-Geological fieldwork requires specific accommodations:
+### Geological Sampling Patterns {#geological-patterns}
 
 **Sample Hierarchies:**
 - Outcrop → Sample → Subsample → Analysis
 - Maintaining provenance through processing
-- Tracking splits and derivatives
-- Implementation: Deep parent-child relationships with inheritance
+- Implementation: Deep parent-child relationships
 
 **Orientation Data:**
 - Strike and dip measurements
 - Plunge and trend for linear features
-- Multiple measurements per feature
-- Implementation: Grouped number fields with validation
+- Implementation: Grouped number fields
 
-**Field Measurements:**
-- Grain size, sorting, rounding
-- Colour against standard charts
-- Hardness, reaction to acid
-- Implementation: Controlled vocabularies with standard scales
+**Human-Readable IDs:**
+- Pattern: `{{project}}-{{location}}-{{sample}}`
+- Example: "GEO2024-OUT3-S045"
 
-## Common Implementation Patterns
+## Performance Considerations {important}
+
+### Cognitive Performance Factors
+- **Recognition over recall**: Select from lists vs remember codes
+- **Progressive disclosure**: Show complex options only when needed
+- **Consistent patterns**: Same interaction patterns throughout
+- **Clear feedback**: Immediate validation with actionable errors
+
+### Technical Performance Constraints
+
+**Battery Consumption:**
+- GPS fields: 10-15% per hour continuous use
+- Camera operations drain during processing
+- Screen brightness for outdoor visibility
+- Design workflows allowing GPS/camera activation only when needed
+
+**Processing Limitations:**
+- Complex conditional logic causes lag on older devices
+- Large vocabularies (>100 items) slow dropdown rendering
+- Multiple photo captures require processing time
+- Implement progressive loading for large datasets
+
+**Documented Performance Thresholds:**
+- Relationship fields: <50 optimal, 50-100 noticeable lag, >200 unusable
+- Form complexity: <30 fields for mobile, <10 fields per section
+- Option lists: Consider hierarchical beyond 20 items
+- Media sync: Device-specific download toggles essential
+
+## Common Implementation Patterns {important}
 
 ### The Measurement Pattern
-
-Combine multiple fields for comprehensive measurement documentation:
+Combine fields for comprehensive documentation:
 1. Measurement type (RadioGroup/Select)
 2. Numeric value (Controlled Number with range)
-3. Units (incorporated in label or separate Select)
-4. Uncertainty/precision (annotation or dedicated field)
+3. Units (in label or separate Select)
+4. Uncertainty/precision (annotation field)
 
 ### The Identification Pattern
-
 Support confident and provisional identifications:
 1. Quick identification (Select from common options)
 2. Confidence level (RadioGroup: Certain/Probable/Possible)
-3. Requires verification (Checkbox, conditional on confidence)
-4. Detailed notes (Multi-line text, conditional on uncertainty)
+3. Requires verification (Checkbox, conditional)
+4. Detailed notes (Multi-line text, conditional)
 
 ### The Observation Pattern
-
 Structure complex observations efficiently:
-1. Observation type (RadioGroup for workflow branching)
-2. Type-specific fields (conditional field groups)
+1. Observation type (RadioGroup for branching)
+2. Type-specific fields (conditional groups)
 3. Standard metadata (automatic via templates)
 4. Media documentation (Take Photo with annotation)
 
-## Advanced Capabilities and Their Implications
-
-### Three-Tier Metadata Architecture
-
-Fieldmark implements metadata at three levels, each serving distinct purposes:
-1. **Record Metadata**: Who, when, where for every record (automatic capture)
-2. **Field Metadata**: Annotation and uncertainty for individual observations
-3. **Relationship Metadata**: Qualification of connections between entities
-
-This architecture acknowledges that uncertainty and interpretation operate at multiple scales. A stratigraphic relationship might be certain whilst the dating of both contexts remains provisional.
-
-### Semantic Relationship Qualification
-
-Beyond simple parent-child relationships, Fieldmark enables semantic qualification of relationships:
-- **Temporal**: "earlier than", "contemporary with", "redeposited from"
-- **Physical**: "cuts", "bonds with", "same as"
-- **Interpretive**: "possibly related to", "probably derived from"
-
-This sophistication allows the recording system to capture interpretive reasoning, not just observational data.
-
-### Automatic Versioning and Conflict Resolution
-
-The append-only datastore provides complete version history without user intervention:
-- Every change is preserved with timestamp and author
-- Conflicting edits are resolved through merge strategies
-- Previous interpretations remain accessible
-- No data is ever truly deleted
-
-This approach acknowledges that field interpretation is iterative and collaborative, with understanding emerging through discussion and revision.
-
-## Vocabulary Development and Management
-
-### Initial Development Process
-
-1. **Literature Review**: Compile disciplinary standard terms
-2. **Stakeholder Consultation**: Include local terminology
-3. **Hierarchical Organisation**: Structure related terms appropriately
-4. **Comprehensiveness vs Usability**: Balance completeness with efficiency
-
-### Iterative Refinement Cycle
-
-1. **Deploy Comprehensive Initial Vocabulary**
-2. **Monitor Usage** (after 100+ records)
-3. **Identify Rarely-Used Terms** (<5% selection rate)
-4. **Relocate to "Other"** with annotation capability
-5. **Document Changes** for data integration
-
-### Vocabulary Versioning Strategy
-
-- Maintain vocabulary change logs
-- Preserve mappings between versions
-- Plan for post-collection harmonisation
-- Consider vocabulary expansion vs refinement
-
-## Quality Assurance Through Field Design
-
-### Validation Strategy
-
-Implement validation at appropriate levels:
-- **Field level**: Format, range, pattern matching
-- **Section level**: Completeness checks
-- **Form level**: Cross-field consistency (limited)
-- **Workflow level**: Parent-child relationships
-
-### Error Prevention Patterns
-
-- Use controlled inputs over free text
-- Provide clear helper text and examples
-- Set appropriate default values
-- Enable sticky fields for constants
-- Mark only essential fields as required
-
-### Data Integrity Measures
-
-- Configure HRIDs for every form
-- Establish clear parent-child hierarchies
-- Document vocabulary semantics
-- Plan for orphan management
-- Design for export requirements
-
-## Platform-Specific Adaptations
-
-### Mobile-First Fields
-
-When mobile devices predominate:
-- Prefer touch-optimised inputs
-- Minimise text entry requirements
-- Leverage device sensors (GPS, camera)
-- Design for offline resilience
-- Account for screen size constraints
-
-### Desktop-Enhanced Fields
-
-When desktop entry is available:
-- Enable complex text composition
-- Support precise spatial drawing
-- Facilitate bulk operations
-- Leverage keyboard efficiency
-- Utilise screen real estate
-
-### Platform Parity Strategies
-
-For mixed-device deployments:
-- Identify platform-exclusive features
-- Provide alternative workflows
-- Document platform requirements
-- Train users on platform differences
-- Plan for data integration
-
-## Recommendations for System Design
-
-### For Notebook Designers
-
-1. **Start with relationships**: Define entity relationships before designing forms
-2. **Prioritise human-readable IDs**: Every entity needs meaningful identification
-3. **Layer complexity**: Enable simple rapid capture with optional detail
-4. **Test in conditions**: Evaluate designs outdoors, with gloves, in rain
-5. **Document decisions**: Record why specific patterns were chosen
-
-### For System Developers
-
-1. **Optimise for common paths**: Make frequent operations exceptionally fast
-2. **Fail gracefully**: Provide clear feedback when operations cannot complete
-3. **Cache aggressively**: Assume network unreliability
-4. **Respect battery**: Minimise GPS and camera activation
-5. **Support correction**: Make it easy to fix mistakes
-
-### For Project Managers
-
-1. **Invest in vocabulary development**: Time spent on controlled vocabularies pays dividends
-2. **Plan for data lifecycle**: Consider analysis and archiving from the start
-3. **Train thoroughly**: Ensure teams understand both how and why
-4. **Monitor usage**: Track which fields are used and which are skipped
-5. **Iterate based on evidence**: Refine designs based on actual usage patterns
-
-## Conclusion: Synthesis of Theory and Practice
-
-Effective digital field recording emerges from the synthesis of theoretical understanding and practical experience. The principles articulated here – minimising friction, preferring structure, designing for lifecycle – provide the conceptual framework, whilst the specific patterns and recommendations translate these principles into actionable guidance.
-
-The sophistication of Fieldmark's capabilities – particularly its relationship management, automatic versioning, granular metadata, and intelligent synchronisation – positions it as an exemplar of research-driven software development. These capabilities did not emerge from abstract software engineering but from sustained engagement with the realities of field research.
-
-By understanding both the theoretical foundations and practical implications of design decisions, we can create digital recording systems that genuinely serve field research. The goal is not to digitise paper forms but to reimagine how digital tools can enhance our ability to observe, record, interpret, and share our understanding of the world.
-
-The key to success lies not in dogmatic application of these principles, but in thoughtful adaptation to specific project contexts. Each design decision should consider the nature of the phenomena under study, the conditions of collection, the capabilities of available devices, and the ultimate analytical goals. When these factors align, digital field recording can simultaneously improve data quality and reduce fieldworker burden – achieving the long-sought goal of making technology truly serve, rather than constrain, field research.
-
-Through careful attention to these principles and patterns, we enable the creation of robust, usable, and analytically powerful field recording systems. The iterative refinement of field selections, informed by actual usage patterns and emerging research questions, ensures that digital recording systems evolve alongside research programmes.
-
----
-
-*This guide reflects current Fieldmark capabilities and deployment experience through 2024–2025. As the platform evolves and deployment experience accumulates, these recommendations will require periodic revision. We encourage notebook designers to document their own patterns and contribute to the collective understanding of effective field selection strategies.*
-
-<!-- concat:pattern:quick-start -->
-# Fieldmark Quick Start Guide for Researchers
-
-This guide helps researchers design effective digital data collection notebooks using Fieldmark's Designer web application. We focus on practical patterns and field-tested approaches to streamline your transition from paper to digital recording.
-
-## Quick Reference: Selecting the Right Field Type
-
-| What You Want to Record | Field Type to Use | Example | Key Considerations |
-|------------------------|-------------------|---------|-------------------|
-| **Text & Identifiers** ||||
-| Short names or labels | Single-line text | "North wall", "Primary deposit" | Best for brief descriptors under 100 characters |
-| Detailed descriptions | Multi-line text | Context descriptions, habitat observations | Accommodates paragraphs and extended notes |
-| Email contacts | Email field | "pi@university.edu" | Validates email format automatically |
-| Physical addresses | Address field | Museum locations, site addresses | Provides structured address components |
-| Specimen barcodes | QR/Barcode scanner | "EXC2024-001" | Mobile devices only |
-| Record IDs | Templated String | "SITE1-2024-045" | Combines multiple fields automatically |
-| **Numbers & Measurements** ||||
-| Simple counts | Number field | Sherd count: 47 | Basic numeric entry |
-| Constrained measurements | Controlled number | pH (0–14): 7.2 | Enforces minimum/maximum values |
-| Sequential identifiers | Auto-incrementing | Context: 001, 002, 003... | Generates unique sequential numbers |
-| **Dates & Times** ||||
-| Collection dates | Date picker | 15/03/2024 | Date without time component |
-| Precise timestamps | DateTime picker | 15/03/2024 14:30 | Includes both date and time |
-| Quick timestamps | DateTime Now | One-tap current time | Captures current moment instantly |
-| Approximate dates | Month picker | March 2024 | When day precision unnecessary |
-| **Choices & Categories** ||||
-| Binary decisions | Checkbox | "Sample collected?" ✓ | Simple yes/no |
-| Single choice (few options) | Radio buttons | Preservation: Excellent/Good/Fair/Poor | Shows all options simultaneously |
-| Single choice (many options) | Dropdown | Species from extensive list | Conserves screen space |
-| Multiple selections | Multi-select | Materials present: Ceramic, Glass, Metal | Allows several choices |
-| Hierarchical categories | Hierarchical dropdown | Kingdom → Phylum → Species | Nested taxonomies |
-| **Location & Spatial** ||||
-| Point coordinates | Take GPS point | Lat: -33.8688, Long: 151.2093 | Single coordinate capture |
-| Boundaries and features | Map drawing | Polygons, lines, points | Visual feature creation on base maps |
-| **Media & Files** ||||
-| Field photographs | Take photo | Site images, specimen photos | Camera or gallery selection |
-| Document attachments | File upload | PDFs, spreadsheets, reports | Accepts any file type |
-| **Relationships** ||||
-| Record connections | Related records | Links between contexts, samples to sites | Creates data relationships |
-| **Instructions** ||||
-| Field guidance | Rich text | "Remember to photograph before excavating" | Display-only formatted text |
-
-## Essential Patterns for Field Research
-
-### Creating Parent–Child Hierarchies
-
-Most field research involves hierarchical data structures. Fieldmark enables you to establish these relationships naturally through parent–child connections.
-
-**Archaeological Pattern:**
-- Site → Trenches → Contexts → Features → Finds
-- Each find belongs to a feature, each feature to a context
-
-**Ecological Pattern:**
-- Survey → Transects → Observation Points → Specimens
-- Specimens link directly to their collection point
-
-**Geological Pattern:**
-- Project → Localities → Outcrops → Samples → Analyses
-- Maintains complete chain of custody
-
-When designing hierarchies, consider that deeper structures require more navigation. We recommend limiting depth to three or four levels for optimal field usability.
-
-### Human-Readable IDs
-
-Whilst technically optional, we strongly recommend configuring a human-readable identifier (HRID) for every form using the Templated String field type. Without an HRID, the system defaults to cryptic record IDs (e.g., "rec-5f8a9b3c"), significantly complicating data management and export interpretation. The Templated String field combines multiple field values into meaningful identifiers that make your data immediately comprehensible.
-
-**Effective ID Patterns:**
-- Archaeological: Site-Trench-Context → "MP24-T5-C023"
-- Ecological: Transect-Point-Date → "T1-P5-20240315"
-- Geological: Project-Outcrop-Sample → "GEO2024-OUT3-S045"
-
-The Templated String field automatically updates as component values change, ensuring consistency across your dataset. Configure this as your form's primary identifier to maintain meaningful record lists and exports.
-
-## Common Fieldwork Scenarios
-
-### Scenario 1: Recording Stratigraphic Relationships
-Create sophisticated relationship networks between contexts using the Related Records field. Configure vocabulary pairs like "cuts/is cut by" or "fills/is filled by" to capture bidirectional relationships. The system maintains both sides of the relationship automatically, ensuring data consistency.
-
-### Scenario 2: Sample Collection with Photography
-Design a two-level hierarchy with sampling locations as parents and individual samples as children. Include Take Photo fields at both levels – the parent captures site context whilst children document individual specimens. Enable the device download toggle in media-heavy notebooks to manage storage efficiently across team devices.
-
-### Scenario 3: Ecological Transect Surveys
-Structure your notebook with transects as parent records containing start and end GPS points. Create observation points as child records, incorporating:
-- Hierarchical dropdowns for species identification
-- Controlled number fields for percentage cover (0–100)
-- Multi-select fields for observed behaviours
-- Sticky fields for observer names and conditions that remain constant
-
-### Scenario 4: Rapid Assessment Protocols
-Optimise for speed using DateTime Now fields for instant timestamps and Radio buttons for quick categorical assessments. Configure auto-incrementing fields for sequential point numbers. Enable sticky behaviour on team member and environmental condition fields to maintain values across multiple records, significantly accelerating data entry.
-
-## Mobile vs Desktop: Platform Considerations
-
-### Mobile-Specific Features
-Several capabilities are exclusive to iOS and Android applications:
-- **QR/Barcode scanning** requires device camera access
-- **GPS accuracy** generally superior on mobile devices
-- **Offline functionality** more robust in dedicated apps
-- **Touch optimisation** for field conditions
-
-### Desktop Advantages
-The web interface excels for:
-- **Complex data entry** with keyboard efficiency
-- **Relationship management** with larger screen real estate
-- **Data review and editing** with comprehensive overview
-- **Notebook design** using the Designer interface
-
-### Choosing Your Platform
-Consider tablets as an optimal middle ground, combining portability with sufficient screen space for complex forms. Design your notebooks acknowledging that most field data collection occurs on mobile devices whilst review and analysis happen on desktop systems.
-
-## Conditional Logic Patterns
-
-Fieldmark's conditional logic enables dynamic forms that adapt to your data, showing relevant fields based on previous responses.
-
-### Pattern 1: Progressive Detail
-Create a checkbox asking "Record detailed measurements?" When selected, reveal comprehensive measurement fields. This approach keeps forms uncluttered whilst allowing detailed recording when necessary.
-
-### Pattern 2: Specification Fields
-Include "Other" in dropdown menus, triggering a text field for specification when selected. This pattern accommodates unexpected values whilst maintaining controlled vocabularies.
-
-### Pattern 3: Type-Dependent Recording
-Different feature types require different information. A "Feature type" radio button can reveal:
-- Burial-specific fields for human remains protocols
-- Sampling fields for hearth features
-- Dimensional fields for postholes
-This ensures collectors see only relevant fields for their current context.
-
-## Best Practices for Effective Notebooks
-
-### Design Principles
-1. **Follow workflow sequences** – Order fields matching natural recording patterns
-2. **Group related information** – Use sections to organise logical field clusters
-3. **Minimise requirements** – Mark only truly essential fields as required
-4. **Provide clear guidance** – Write helpful field descriptions assuming minimal training
-5. **Test thoroughly** – Validate notebooks on target devices before deployment
-
-### Performance Optimisation
-1. **Strategic field selection** – Radio buttons render faster than dropdowns for small option sets
-2. **Sticky field configuration** – Maintain rarely-changing values across records
-3. **Media management** – Separate photo-intensive forms from data forms where feasible
-4. **Field positioning** – Place frequently-used fields at form tops
-5. **Relationship design** – Consider performance implications for extensively linked data
-
-### Data Quality Strategies
-1. **Consistent naming** – Establish and document naming conventions
-2. **Unit specification** – Include units in field labels: "Depth (cm)"
-3. **Validation rules** – Configure appropriate constraints for numeric fields
-4. **Export planning** – Design with your analysis workflow in mind
-5. **Documentation** – Maintain a data dictionary alongside your notebook
-
-## Troubleshooting Common Issues
-
-### GPS Acquisition Problems
-If GPS struggles to acquire position:
-- Move to open sky away from buildings and tree cover
-- Allow 30–60 seconds for satellite acquisition
-- Verify device location services are enabled
-- Consider using Map Field for manual position selection
-
-### Photo Synchronisation Challenges
-For notebooks with extensive photography:
-- Configure image compression settings appropriately
-- Enable device-specific download toggles
-- Schedule synchronisation for WiFi availability
-- Consider separate photo documentation forms
-
-### Vocabulary Limitations
-When controlled vocabularies prove restrictive:
-- Add "Other" options with specification fields
-- Consider multi-select for non-exclusive categories
-- Document new terms for vocabulary updates
-- Use hierarchical dropdowns for complex taxonomies
-
-### Data Entry Errors
-To minimise recording mistakes:
-- Verify all required fields display clear indicators
-- Check validation messages are helpful, not cryptic
-- Test numeric constraints match expected ranges
-- Ensure date formats align with user expectations
-- Configure appropriate default values
-
-### Synchronisation Issues
-When data won't sync:
-- Confirm network connectivity
-- Check available device storage
-- Verify user authentication
-- Review any validation errors
-- Consider data volume and connection speed
-
-## Where to Get More Help
-
-- **Field Type Reference**: Comprehensive documentation for all field types and configurations
-- **Designer Documentation**: Detailed guidance on using the notebook Designer interface
-- **Template Library**: Example notebooks for various research disciplines
-- **Community Resources**: Forums for sharing patterns and troubleshooting with other researchers
-- **Technical Support**: Contact details for system-specific assistance
-
-Remember that successful digital field recording emerges from iterative refinement. Start with simple notebooks, gather user feedback, and progressively enhance your designs based on real-world experience.
-
----
-
-*This guide reflects current Fieldmark capabilities. Features and interfaces may evolve with system updates.*
-
-<!-- concat:pattern:summary-table -->
-# Fieldmark Field Type Summary Reference Table
-
-This comprehensive reference provides detailed specifications for all Fieldmark field types, supporting informed selection for digital data collection notebook design. We present technical capabilities, validation options, and platform-specific considerations for each field type within the Designer interface.
-
-## Text and Identifier Fields
-
-| Field Type | Purpose & Description | Typical Examples | Technical Specifications | Validation Capabilities | Platform Considerations |
-|------------|----------------------|------------------|------------------------|------------------------|------------------------|
-| **Single-line Text** | Brief textual entries where neither controlled vocabularies nor auto-generation are appropriate | "North wall", "Sandy matrix", "Excavator notes" | Character limit: ~255 practical maximum<br/>Input types: text, email, url<br/>Returns: String | Pattern matching via regex<br/>Length constraints<br/>Required field option | Universal compatibility<br/>Predictive text on mobile |
-| **Multi-line Text** | Extended descriptive content requiring paragraph formatting | Context descriptions, interpretation notes, detailed observations | No practical character limit<br/>Adjustable row height<br/>Returns: String | Length validation<br/>Required field option<br/>No pattern matching | Touch keyboard challenges on mobile<br/>Consider voice-to-text |
-| **Email** | Validated email address collection | "projectlead@university.edu", "lab@institution.org" | Standard email validation<br/>Returns: String | RFC 5322 compliant validation<br/>Required field option | Keyboard switches to email mode on mobile |
-| **Address** | Structured physical address components | Site locations, institutional addresses, property details | Multiple sub-fields (street, city, state, postcode)<br/>Returns: Structured object | Component-level validation<br/>Postcode format checking | Auto-complete varies by platform |
-| **Templated String** | Auto-generated identifiers combining multiple field values | "SITE1-2024-CTX045", "{{project}}-{{date}}-{{counter}}" | Mustache.js templating<br/>Supports conditionals<br/>Returns: String<br/>Read-only display | Not user-editable<br/>Updates dynamically | Essential for human-readable IDs<br/>No parent field access |
-| **QR/Barcode Scanner** | Camera-based code capture for pre-printed labels | Specimen barcodes, equipment tags, location markers | Supports multiple formats (QR, Code128, etc.)<br/>Returns: String | Format validation possible<br/>Pattern matching | **Mobile applications only**<br/>Not available on web |
-
-## Numeric Fields
-
-| Field Type | Purpose & Description | Typical Examples | Technical Specifications | Validation Capabilities | Platform Considerations |
-|------------|----------------------|------------------|------------------------|------------------------|------------------------|
-| **Number Field** | Basic numeric entry without constraints | Artefact counts, simple measurements | Integer or decimal<br/>JavaScript number type<br/>Returns: Number | Type checking only<br/>No range validation | Period (.) required for decimals<br/>No locale formatting |
-| **Controlled Number** | Numeric values with enforced boundaries | pH (0–14), percentage (0–100), depth (0–500cm) | Min/max enforcement<br/>Step increments<br/>Default values<br/>Returns: Number | Range validation<br/>Precision control<br/>Required field option | Supports sticky behaviour<br/>Spinner controls optional |
-| **Auto-incrementing** | Sequential identifier generation | Context numbers (001, 002...), Sample IDs | Configurable padding<br/>Starting value<br/>Returns: String | Uniqueness guaranteed<br/>No user override | Cannot reset mid-project<br/>Team coordination critical |
-
-## Date and Time Fields
-
-| Field Type | Purpose & Description | Typical Examples | Technical Specifications | Validation Capabilities | Platform Considerations |
-|------------|----------------------|------------------|------------------------|------------------------|------------------------|
-| **Date Picker** | Calendar date selection without time | Excavation date, sample collection date | ISO 8601 format<br/>Returns: Date string | Min/max date ranges<br/>Required field option | Native date pickers on mobile<br/>Calendar widget on desktop |
-| **DateTime Picker** | Combined date and time selection | Precise event timing, scheduled observations | ISO 8601 with time<br/>Returns: DateTime string | Date and time ranges<br/>Required field option | Platform-specific interfaces |
-| **DateTime Now** | One-tap current timestamp capture | Record creation time, observation moment | Automatic capture<br/>User-triggered<br/>Returns: DateTime string | Always valid<br/>Can be required | Device clock dependency<br/>Timezone considerations |
-| **Month Picker** | Year and month selection only | Seasonal data, approximate dates | YYYY-MM format<br/>Returns: String | Year range limits<br/>Required field option | Simplified interface<br/>No day selection |
-
-## Selection Fields
-
-| Field Type | Purpose & Description | Typical Examples | Technical Specifications | Validation Capabilities | Platform Considerations |
-|------------|----------------------|------------------|------------------------|------------------------|------------------------|
-| **Checkbox** | Binary true/false decisions | "Sample collected?", "Photography complete?" | Returns: Boolean<br/>Default: false | Required completion<br/>Can control logic | Large touch target on mobile |
-| **Radio Buttons** | Single selection from 2–7 visible options | Preservation state, weather conditions | All options visible<br/>Returns: String value | Required selection<br/>Option validation | Excellent mobile usability<br/>Space consuming |
-| **Dropdown (Select)** | Single selection from many options | Species list (50+ items), material types | Conserves screen space<br/>Returns: String value | Required selection<br/>Dependent on vocabulary | Scrolling challenges on mobile |
-| **Multi-select** | Multiple simultaneous selections | Construction materials, observed behaviours | Checkbox list<br/>Returns: Array of strings | Min/max selections<br/>Required field option | Touch selection challenging<br/>Consider chip display |
-| **Hierarchical Dropdown** | Nested categorical selection | Taxonomies, period → phase → subphase | Tree navigation<br/>Returns: Full path or leaf | Depth validation<br/>Required at any level | Complex navigation on mobile<br/>Consider search function |
-
-## Spatial Fields
-
-| Field Type | Purpose & Description | Typical Examples | Technical Specifications | Validation Capabilities | Platform Considerations |
-|------------|----------------------|------------------|------------------------|------------------------|------------------------|
-| **Take GPS Point** | Single coordinate capture | Find spots, sample locations, photo positions | Returns: GeoJSON point<br/>Includes metadata (accuracy, altitude) | Accuracy thresholds<br/>Required field option | Mobile GPS superior<br/>Browser geolocation limited |
-| **Map Drawing** | Visual feature creation on base maps | Site boundaries, excavation areas, transects | Points, lines, polygons<br/>Returns: GeoJSON<br/>Multiple features | Geometry validation<br/>Area/length constraints | **Requires internet for base maps**<br/>Touch precision varies |
-
-## Media Fields
-
-| Field Type | Purpose & Description | Typical Examples | Technical Specifications | Validation Capabilities | Platform Considerations |
-|------------|----------------------|------------------|------------------------|------------------------|------------------------|
-| **Take Photo** | Camera capture or gallery selection | Context photos, artefact images, working shots | JPEG/PNG<br/>EXIF preserved<br/>Returns: File reference | File size limits<br/>Required field option | Compression settings<br/>Storage considerations |
-| **File Upload** | Arbitrary file attachment | PDFs, spreadsheets, audio, video | Any file type<br/>No size limits (practical)<br/>Returns: File reference | Type restrictions possible<br/>Required field option | Upload time considerations<br/>Bandwidth dependent |
-
-## Relationship Fields
-
-| Field Type | Purpose & Description | Typical Examples | Technical Specifications | Validation Capabilities | Platform Considerations |
-|------------|----------------------|------------------|------------------------|------------------------|------------------------|
-| **Related Records** | Inter-record connections | Stratigraphic relationships, sample → context links | Parent-child or peer<br/>Vocabulary pairs<br/>Returns: Relationship array | Required relationships<br/>Cardinality limits | Performance degrades >50 relationships<br/>Mobile interface limited |
-
-## Display Fields
-
-| Field Type | Purpose & Description | Typical Examples | Technical Specifications | Validation Capabilities | Platform Considerations |
-|------------|----------------------|------------------|------------------------|------------------------|------------------------|
-| **Rich Text** | Formatted instructional content | Warnings, procedures, contextual help | Markdown support<br/>Display only<br/>No data storage | Not applicable | Responsive rendering<br/>Image embedding supported |
-
-## Critical Implementation Considerations
+### The Progressive Detail Pattern
+Use conditional logic for optional complexity:
+1. Gateway question (Checkbox: "Record detailed measurements?")
+2. Basic fields (always visible)
+3. Detailed fields (conditionally revealed)
+4. Maintains form simplicity while enabling depth
+
+### The Other Specification Pattern
+Handle exceptions in controlled vocabularies:
+1. Main selection (Select/RadioGroup with "Other" option)
+2. Specification field (Text field, conditional on "Other")
+3. Preserves structure while allowing flexibility
+
+## Anti-Patterns and Mistakes {important}
+
+### Common Selection Mistakes
+
+**❌ Using free text when vocabularies exist**
+- Creates inconsistent data requiring extensive cleaning
+- Prevents immediate analysis and aggregation
+- Solution: Develop controlled vocabularies with "Other" options
+
+**❌ Requiring unnecessary precision**
+- Demanding exact measurements when estimates suffice
+- Creating friction without analytical benefit
+- Solution: Match precision to actual research needs
+
+**❌ Ignoring platform constraints**
+- Using QR scanners in web-only deployments
+- Requiring precise map drawing on phones
+- Solution: Design for your actual deployment platform
+
+**❌ Over-using required fields**
+- Marking fields required "just in case"
+- Preventing record submission for minor omissions
+- Solution: Only require truly essential fields
+
+**❌ Creating deep hierarchies**
+- Nesting relationships beyond 3-4 levels
+- Making navigation cumbersome in field
+- Solution: Flatten structures where possible
+
+### Performance Anti-Patterns
+
+**❌ Unlimited relationship fields**
+- Allowing hundreds of relationships per record
+- Causing severe performance degradation
+- Solution: Design data model to limit relationships
+
+**❌ Complex conditional logic chains**
+- Multiple nested conditions slowing form rendering
+- Creating unpredictable form behaviour
+- Solution: Simplify logic, use sections
+
+**❌ Ignoring mobile constraints**
+- Designing exclusively for desktop
+- Using tiny touch targets and dense layouts
+- Solution: Test on actual field devices
+
+## Migration Paths Between Field Types {comprehensive}
+
+### Text to Controlled Vocabulary
+When unstructured text reveals patterns:
+1. Analyse existing text entries for common values
+2. Develop vocabulary from frequent entries
+3. Add "Other" option for exceptions
+4. Map historical data to new vocabulary
+
+### Simple to Hierarchical Selection
+When flat lists become unwieldy:
+1. Identify natural groupings in options
+2. Create hierarchical structure
+3. Migrate to AdvancedSelect
+4. Maintain backward compatibility
+
+### Single to Multiple Selection
+When exclusive choices prove limiting:
+1. Convert RadioGroup/Select to MultiSelect
+2. Review data model implications
+3. Update validation rules
+4. Plan data migration strategy
+
+## Critical Implementation Considerations {essential}
 
 ### Human-Readable Identifiers (HRIDs)
-Whilst technically optional, we strongly recommend implementing HRIDs using Templated String fields for every form. Without HRIDs, the system defaults to opaque UUIDs (e.g., "rec-5f8a9b3c"), substantially complicating data management, export interpretation, and team communication. Configure the `hridField` property in your viewset to specify which Templated String field serves as the identifier.
+**Essential for every form** - without HRIDs, system defaults to opaque UUIDs (e.g., "rec-5f8a9b3c"), substantially complicating:
+- Data management and navigation
+- Export interpretation
+- Team communication
+- Quality assurance
+
+Configure using Templated String field with meaningful patterns combining semantic components.
 
 ### Conditional Logic Architecture
-Fields capable of controlling logic (marked in specifications) can trigger visibility conditions through standardised operators (equal, not-equal, greater-than, less-than). Complex conditions utilise AND/OR combinations. Note that controller fields require the `logic_select` property or inclusion in `conditional_sources` for optimal performance.
+Fields capable of controlling logic can trigger visibility conditions through:
+- Standard operators (equal, not-equal, greater-than, less-than)
+- Complex conditions using AND/OR combinations
+- Controller fields require `logic_select` property
+- Performance impacts with multiple controllers
 
 ### Platform-Specific Limitations
-Critical platform disparities require careful consideration:
-- QR/Barcode scanning functions exclusively on mobile applications
-- Map fields require internet connectivity for initial tile loading
-- GPS accuracy varies significantly between mobile devices and browsers
-- Touch interfaces present challenges for precise selection and text entry
-
-### Performance Boundaries
-Documented performance thresholds inform design decisions:
-- Relationship fields: Noticeable degradation beyond 50 relationships, unusable beyond 200
-- Long option lists: Consider hierarchical organisation beyond 20 items
-- Media synchronisation: Device-specific download toggles essential for photo-intensive notebooks
-- Complex conditional logic: Multiple controller fields may impact form responsiveness
+Critical disparities requiring careful consideration:
+- QR/Barcode scanning: Mobile applications only
+- Map fields: Require internet for initial tile loading (offline maps experimental with intermittent rendering issues)
+- GPS accuracy: Significantly better on mobile
+- Touch interfaces: Challenge precise selection
 
 ### Validation Limitations
-Current validation architecture exhibits specific constraints:
-- No cross-field validation (cannot compare Field A to Field B)
-- No custom validation functions for project-specific rules
+Current architecture constraints:
+- No cross-field validation (cannot compare fields)
+- No custom validation functions
 - No mathematical operations between fields
-- No prevention of logical contradictions in relationships
-- Validation occurs client-side with limited server verification
+- No prevention of logical contradictions
+- Client-side validation with limited server verification
 
 ### Export Considerations
-Each entity type exports as a separate CSV file with relationships preserved through identifier columns. The export format maintains relationship semantics (e.g., "cuts/CTX-042;fills/CTX-043") but requires manual reconstruction for hierarchical analysis. Design vocabularies and identifiers with post-processing requirements in mind.
+Design with post-processing in mind:
+- Each entity type exports as separate CSV
+- Relationships preserved through identifier columns
+- Relationship semantics maintained (e.g., "cuts/CTX-042")
+- Manual reconstruction required for hierarchical analysis
+- Plan vocabularies for export requirements
+
+## Related Documentation
+
+### Field Type Documentation
+- [Text & Input Fields](../field-categories/text-fields-v05.md)
+- [Number Fields](../field-categories/number-fields-v05.md)
+- [Date & Time Fields](../field-categories/datetime-fields-v05.md)
+- [Selection Fields](../field-categories/select-choice-fields-v05.md)
+- [Location Fields](../field-categories/location-fields-v05.md)
+- [Media Fields](../field-categories/media-fields-v05.md)
+- [Relationship Field](../field-categories/relationship-field-v05.md)
+- [Display Fields](../field-categories/display-field-v05.md)
+
+### Pattern Guides
+- [Form Structure Guide](./form-structure-guide.md)
+- [Dynamic Forms Guide](./dynamic-forms-guide.md)
+- [Implementation Patterns](./implementation-patterns-guide.md)
+
+### Technical References
+- [Component Reference](../references/component-reference.md)
+- [Platform Reference](../references/platform-reference.md)
+- [Constraints Reference](../references/constraints-reference.md)
 
 ---
 
-*This reference table reflects Fieldmark capabilities as documented in 2024–2025. Platform updates may introduce new features or modify existing behaviour. Consult current documentation for production deployments.*
+## Navigation
+[← Field Index](../field-type-index.md) | [Pattern Guides](../field-type-index.md#pattern-guides) | [Form Structure Guide →](./form-structure-guide.md)
 
-<!-- concat:pattern:validation -->
-# Validation System - Comprehensive Third Draft Documentation
-## Fieldmark/FAIMS3 Technical Reference
+<!-- concat:boundary:end section="field-selection-guide" -->
 
-### Document Classification
-- **Component Type**: Core System Architecture
-- **Audience Tags**: {designer} {developer} {claude-code}
-- **Depth Levels**: {essential} {important} {comprehensive}
-- **Version**: 1.0.0
-- **Last Technical Verification**: August 2025
-- **Key Discovery**: Hidden field validation may not actually block submission due to filterErrors
+<!-- concat:pattern:form-structure-guide -->
+<!-- concat:boundary:start section="form-structure-guide" -->
+<!-- concat:metadata
+document_id: form-structure-guide
+category: patterns
+version: 1.0
+last_updated: 2025-01-06
+purpose: Comprehensive guide to form architecture, sections, and navigation patterns
+source_documents:
+  - notebook-structure.md (34KB)
+  - navigation.md (19KB)
+  - quick-start.md (12KB) - structure examples only
+-->
 
----
+# Form Structure Guide
 
-## 1. Executive Summary {essential} {designer}
+## Overview
 
-### Current State
-The Fieldmark validation system provides basic data quality controls through required fields and value constraints. Validation executes synchronously on every field change, with schemas rebuilt on every render. The system lacks "soft validation" (warnings that can be overridden), which is the most requested feature from field teams.
+This guide consolidates all knowledge about Fieldmark's hierarchical form architecture, navigation patterns, and structural best practices. It covers the three-tier system of Forms (viewsets), Sections (views), and Fields, along with navigation strategies for different use cases and platforms.
 
-### Critical Limitations
-1. **No soft validation** - All validation is "hard" (blocking)
+## Core Architecture Principles
+
+### Three-Tier Hierarchical System {essential}
+
+Fieldmark notebooks organize data collection through three levels:
+
+1. **Forms (Viewsets)**: Top-level record types (e.g., Site, Context, Find)
+2. **Sections (Views)**: Logical groupings within forms (e.g., Basic Info, Measurements, Photos)
+3. **Fields**: Individual data entry components
+
+This architecture scales from simple single-form checklists to sophisticated multi-entity recording systems with dozens of interconnected forms supporting complex parent-child relationships.
+
+### Critical Architecture Decisions
+
+- **No virtualization**: All fields render simultaneously without windowing
+- **Performance considerations**: Estimated ~50-100 fields per section may cause degradation (approximate guideline)
+- **Global namespace**: Field IDs must be globally unique across entire notebook
+- **No navigation blocking**: Users can navigate freely regardless of validation errors
+- **Automatic persistence**: Draft saves every 10 seconds
+- **Decoupled sync**: Background synchronization never blocks navigation
+
+## Navigation Strategies
+
+### Navigation Mode Selection {#navigation-modes}
+
+#### Vertical Organization (Inline Mode)
+Best for linear data collection workflows with <5 sections:
+
+```json
+{
+  "viewsets": {
+    "survey-form": {
+      "label": "Survey Record",
+      "layout": "inline",  // All sections visible on single page
+      "views": ["basic", "observations", "notes"]
+    }
+  }
+}
+```
+
+**Advantages**:
+- All sections immediately visible
+- Natural scrolling between sections
+- No clicking required for navigation
+- Best for forms with <50 total fields
+
+**Limitations**:
+- Performance degrades with many fields
+- No lazy loading - entire form in DOM
+- Section headers NOT sticky
+
+#### Horizontal Organization (Tabs Mode)
+Best for complex multi-step workflows or forms with many sections:
+
+```json
+{
+  "viewsets": {
+    "excavation-form": {
+      "label": "Excavation Record",
+      "layout": "tabs",  // One section visible at a time
+      "views": ["context", "matrix", "finds", "samples", "photos", "interpretation"]
+    }
+  }
+}
+```
+
+**Advantages**:
+- Better performance with many sections
+- Clear progress indication
+- Reduced cognitive load
+- Visited sections tracked
+
+**Limitations**:
+- Requires clicking to navigate
+- Still renders all sections (no lazy loading)
+- More complex navigation on mobile
+
+### Platform-Specific Navigation {#platform-navigation}
+
+#### Desktop Behavior
+- **Inline mode**: Smooth scroll anchors to section starts
+- **Tabs mode**: Horizontal stepper with full section names
+  - Previous/Next buttons flank stepper
+  - Current section scales 1.2x for emphasis
+  - Keyboard: Tab/Shift-Tab navigates sections
+  - Visited sections show checkmark indicator
+  - Error sections show red badge with count
+
+#### Mobile Behavior
+- **iOS**: 
+  - Tabs compact to numbered stepper (1/5 format)
+  - Swipe gestures may conflict with system gestures
+  - Momentum scrolling in inline mode
+- **Android**:
+  - Material Design stepper in tabs mode
+  - Hardware back button behavior inconsistent
+  - FAB for save action (when implemented)
+
+### Responsive Breakpoints
+```javascript
+xs: < 576px     // Phone portrait
+sm: 576-768px   // Phone landscape/small tablet
+md: 768-992px   // Tablet
+lg: 992-1200px  // Desktop
+xl: > 1200px    // Large desktop
+```
+
+## Form Configuration
+
+### Required Root Properties {#form-configuration}
+
+```json
+{
+  "ui-specification": {
+    "visible_types": ["form-1", "form-2"],  // REQUIRED: Controls navigation menu
+    "viewsets": {                           // REQUIRED: Form definitions
+      "form-1": { /* config */ }
+    },
+    "fviews": {                             // REQUIRED: Section definitions  
+      "section-1": { /* config */ }
+    },
+    "fields": {                             // REQUIRED: Field specifications
+      "field-1": { /* config */ }
+    }
+  }
+}
+```
+
+**Critical**: Forms omitted from `visible_types` remain accessible via relationships but hidden from navigation menu.
+
+### Form (Viewset) Properties
+
+#### Required Properties
+| Property | Type | Description | Default if Missing |
+|----------|------|-------------|-------------------|
+| `label` | string | Display name in navigation | Form ID used |
+| `views` | array | Section IDs in display order | Empty array (blank form) |
+| `publishButtonBehaviour` | string | Save button logic | `"always"` |
+
+#### Optional Properties
+| Property | Type | Default | Description | Constraints |
+|----------|------|---------|-------------|-------------|
+| `hridField` | string | Falls back to "hrid" prefix | Field providing human-readable ID | Must reference existing field |
+| `layout` | string | `"inline"` | Section presentation mode | `"inline"` or `"tabs"` only |
+| `summary_fields` | array | `[]` | Fields shown in record lists | Gracefully handles missing fields |
+
+### Section (View) Configuration
+
+#### Required Properties
+| Property | Type | Description | Constraints |
+|----------|------|-------------|-------------|
+| `label` | string | Section heading displayed | Any string |
+| `fields` | array | Field IDs in display order | Must reference existing fields; IDs globally unique |
+
+**Critical**: Section IDs must be globally unique across ALL forms, not just within their form.
+
+#### Optional Properties
+| Property | Type | Default | Description | Behavior |
+|----------|------|---------|-------------|----------|
+| `condition` | object | null | Visibility condition | Malformed conditions crash form |
+| `description` | string | null | Help text (not widely supported) | May not display |
+
+## Field-Specific Structure Considerations
+
+### Text Fields {#text-fields}
+
+**Structure patterns**:
+- Group related text fields in same section
+- Place single-line before multi-line
+- Consider separate section for long narrative fields
+- Maximum 10-15 text fields per section for performance
+
+### Number Fields {#number-fields}
+
+**Structure patterns**:
+- Group measurements in dedicated section
+- Place units adjacent to number fields
+- Consider tabs mode for many numeric fields
+- Use conditional sections for optional measurements
+
+### Date/Time Fields {#datetime-fields}
+
+**Structure patterns**:
+- Place timestamps early in form
+- Group temporal fields together
+- Consider sticky fields for dates across children
+- Use DateTime Now for automatic capture
+
+### Selection Fields {#select-fields}
+
+**Structure patterns**:
+- Radio buttons best for 2-5 options inline
+- Dropdowns for >5 options or limited space
+- Checkboxes in separate section if many
+- Consider conditional logic for hierarchical choices
+
+### Location Fields {#location-fields}
+
+**Structure patterns**:
+- Dedicated location section recommended
+- Place map widget prominently
+- Group coordinate fields together
+- Consider mobile-first for GPS capture
+
+### Media Fields {#media-fields}
+
+**Structure patterns**:
+- Separate media section or form
+- Last section to avoid performance impact
+- Consider dedicated photo form for many images
+- Limit to 5-10 photos per section
+
+### Display Fields {#display-fields}
+
+**Structure patterns**:
+- Use for section introductions
+- Place at beginning of sections
+- Consider for conditional instructions
+- Avoid excessive display fields (performance)
+
+### Relationship Fields {#relationship-field}
+
+**Structure patterns**:
+- Place parent link first in child forms
+- Group related relationships
+- Consider dedicated relationships section
+- Use tabs mode for complex hierarchies
+
+## Parent-Child Hierarchies
+
+### Common Archaeological Patterns {#archaeological-hierarchies}
+
+- **Context → Feature → Sample**: Excavation units containing features with samples
+- **Site → Trench → Context → Find**: Multi-level spatial organisation
+- **Survey → Transect → Observation → Photo**: Systematic survey structure
+- **Building → Room → Element → Condition**: Architectural recording
+
+### Heritage Management Workflows {#heritage-hierarchies}
+
+- **Property → Building → Element → Issue → Intervention**: Asset management
+- **Site → Monument → Component → Material → Treatment**: Conservation planning
+- **Landscape → Character Area → Feature → Attribute**: Landscape characterisation
+- **Collection → Box → Object → Component → Analysis**: Museum cataloguing
+
+### Ecological Survey Patterns {#ecological-hierarchies}
+
+- **Site → Plot → Quadrat → Species → Individual**: Vegetation surveys
+- **Transect → Point → Observation → Measurement → Photo**: Wildlife monitoring
+- **Station → Visit → Sample → Subsample → Analysis**: Water quality monitoring
+- **Grid → Cell → Trap → Capture → Biometric**: Mark-recapture studies
+
+### Hierarchy Design Principles
+
+1. **Limit depth**: Maximum 3-4 levels for usability
+2. **Create parent first**: Always save parent before children
+3. **Use sticky fields**: Carry context between children
+4. **Plan relationships**: Document parent-child structures
+5. **Consider orphan handling**: Plan for soft-delete scenarios
+
+## Data Flow and Persistence
+
+### Save and Navigation Flow {#data-flow}
+
+**Current System**:
+```
+User Input → Field onChange → Formik State → 10 Second Timer → Draft DB
+User Navigates → Force Save → Draft DB
+User Clicks "Finish and..." → Production DB → Delete from Draft
+```
+
+Note: A future roadmap item includes eliminating the draft database to simplify the data flow.
+
+### Navigation State Management
+
+```javascript
+// Component state (not Redux)
+state = {
+  activeStep: 2,              // Current section index
+  view_cached: "details",     // Current section ID
+  visitedSteps: Set(["basic", "details"]) // Visited sections
+}
+```
+
+**Important**: Navigation position is NOT persisted - users return to first section on reload.
+
+### publishButtonBehaviour Logic
+
+```javascript
+"always"    // Save always enabled (default)
+"visited"   // Enabled when all visible sections visited
+"noErrors"  // Enabled when no validation errors exist
+```
+
+**Note**: Conditional hidden sections don't block "visited" requirement.
+
+## Performance Optimization
+
+### Performance Characteristics by Structure {#performance}
+
+**Note**: These are approximate guidelines based on code analysis. Actual performance varies by device, browser, and specific field types. Test with your specific use case.
+
+| Structure Pattern | Estimated Field Threshold | Expected Performance | Use Case |
+|------------------|---------------------------|---------------------|-----------|
+| Single section inline | ~50 fields | Good | Quick surveys |
+| Multi-section inline | ~100 total | Acceptable | Linear workflows |
+| Tabs with 3-5 sections | ~30/section | Good | Standard forms |
+| Tabs with 6-10 sections | ~20/section | Acceptable | Complex recording |
+| Deep hierarchies (4+ levels) | Fewer fields recommended | Variable | Detailed documentation |
+
+### Optimization Strategies
+
+1. **Split large forms**: Break into multiple smaller forms
+2. **Use conditional sections**: Hide irrelevant fields
+3. **Separate media**: Isolate photos/files in dedicated forms
+4. **Limit fields per section**: Maximum 50, ideally <30
+5. **Avoid deep nesting**: Each level adds complexity
+6. **Test on target devices**: Mobile performance varies
+
+### Common Performance Issues
+
+| Issue | Impact | Mitigation |
+|-------|--------|------------|
+| >100 fields/section | Severe lag | Split into multiple sections |
+| >30 conditional fields | Evaluation lag | Reduce conditions or split forms |
+| All sections inline with many fields | Memory spike | Use tabs mode |
+| Deep hierarchies (>4 levels) | Navigation complexity | Flatten structure |
+
+## Conditional Section Patterns
+
+### Progressive Disclosure {#conditional-sections}
+
+```json
+{
+  "fviews": {
+    "screening": {
+      "label": "Initial Screening",
+      "fields": ["material-type", "requires-detailed"]
+    },
+    "detailed-recording": {
+      "label": "Detailed Recording",
+      "fields": ["measurements", "surface-treatment"],
+      "condition": {
+        "operator": "equal",
+        "field": "requires-detailed",
+        "value": true
+      }
+    }
+  }
+}
+```
+
+### Role-Based Sections
+
+```json
+{
+  "specialist-section": {
+    "label": "Specialist Recording",
+    "fields": ["analysis-type", "specialist-notes"],
+    "condition": {
+      "operator": "and",
+      "conditions": [
+        {"operator": "equal", "field": "requires-specialist", "value": true},
+        {"operator": "not-equal", "field": "status", "value": "preliminary"}
+      ]
+    }
+  }
+}
+```
+
+### Conditional Logic Limitations
+
+- Cannot reference other forms
+- Cannot reference parent fields
+- Cannot check array properties
+- Malformed conditions crash form
+- Performance degradation with 20-30 conditional fields
+
+## Validation and Navigation
+
+### Non-Blocking Validation Pattern {#validation}
+
+Navigation is never blocked by validation errors:
+
+1. User can navigate freely between sections
+2. Errors shown but don't prevent movement
+3. Save button behavior controlled by `publishButtonBehaviour`
+4. Submit attempt jumps to first error
+
+### Visual Error Indicators
+
+| Platform | Section with Errors | Required Fields | Completed Section |
+|----------|-------------------|-----------------|-------------------|
+| Desktop Tabs | Red dot with count | Asterisk (*) | Checkmark (✓) |
+| Desktop Inline | Red text below header | Asterisk (*) | Green border |
+| Mobile | Red badge on step | Red asterisk | Green checkmark |
+
+## Structure Pattern Examples
+
+### Example 1: Simple Two-Level Hierarchy
+
+```json
+{
+  "ui-specification": {
+    "visible_types": ["site-form", "feature-form"],
+    "viewsets": {
+      "site-form": {
+        "label": "Site Record",
+        "views": ["site-basic", "site-location"],
+        "layout": "inline"  // Few sections, simple structure
+      },
+      "feature-form": {
+        "label": "Feature Record",
+        "views": ["feature-details", "feature-measurements"],
+        "layout": "tabs",  // More complex, benefits from tabs
+        "publishButtonBehaviour": "noErrors"
+      }
+    }
+  }
+}
+```
+
+### Example 2: Performance-Optimized Structure
+
+```json
+{
+  "viewsets": {
+    "observations": {
+      "label": "Species Observations",
+      "views": ["species-1", "species-2", "species-3"],
+      "layout": "tabs"  // Split large form across tabs
+    }
+  },
+  "fviews": {
+    "species-1": {
+      "label": "Common Species (1-25)",
+      "fields": [/* 25 fields max for performance */]
+    },
+    "species-2": {
+      "label": "Common Species (26-50)",
+      "fields": [/* 25 fields max */],
+      "condition": {
+        "operator": "equal",
+        "field": "record-all-species",
+        "value": true
+      }
+    }
+  }
+}
+```
+
+### Example 3: Complex Multi-Branch Hierarchy
+
+```json
+{
+  "visible_types": ["trench", "context", "find", "sample", "photo"],
+  "viewsets": {
+    "context": {
+      "label": "Context",
+      "views": ["context-basic", "context-matrix", "context-interpretation"],
+      "layout": "tabs",  // Complex form benefits from tabs
+      "publishButtonBehaviour": "noErrors"
+    }
+  }
+}
+```
+
+## Mobile vs Desktop Considerations
+
+### Mobile-Specific Features {#mobile-considerations}
+- GPS functionality for coordinates
+- Camera integration for photos
+- QR/barcode scanning
+- Touch optimized interface
+- Offline capability priority
+
+### Desktop-Specific Features
+- Larger screen for complex forms
+- Keyboard navigation
+- Multiple windows for reference
+- Better for data review
+- Notebook design using Designer
+
+### Choosing Your Platform
+- **Tablets**: Optimal middle ground for field work
+- **Phones**: Quick data capture, simple forms
+- **Desktop**: Complex forms, data review, notebook design
+- Design acknowledging most field collection on mobile
+
+## Troubleshooting Structure Issues
+
+### Common Issues and Solutions
+
+| Issue | Symptoms | Solution |
+|-------|----------|----------|
+| Form won't load | White screen | Check conditions in JSON |
+| Sections missing | Not visible | Verify section IDs and conditions |
+| Slow form response | Typing lag | Reduce fields per section |
+| Lost form state | Data disappears | Enable cookies/localStorage |
+| Navigation confused | Wrong section shown | Check for duplicate section IDs |
+
+### Debug Checklist
+
+- [ ] All field IDs globally unique
+- [ ] All section IDs globally unique
+- [ ] < 50 fields per section
+- [ ] < 20 conditional fields per form
+- [ ] < 10 sections per form for tabs
+- [ ] Conditions reference existing fields only
+
+## Best Practices Summary
+
+### DO:
+✅ Plan structure before building  
+✅ Use tabs mode for complex forms  
+✅ Limit fields per section (<50)  
+✅ Group related fields together  
+✅ Test on target mobile devices  
+✅ Use conditional sections for optional data  
+✅ Configure human-readable IDs  
+
+### DON'T:
+❌ Exceed 100 fields per section  
+❌ Create hierarchies >4 levels deep  
+❌ Mix unrelated fields in sections  
+❌ Forget global uniqueness of IDs  
+❌ Ignore mobile performance  
+❌ Use complex conditions (>20 fields)  
+
+## Migration Notes
+
+### Current System Considerations
+- Draft database requires "Finish and..." to save to production
+- Two-database architecture
+- Navigation state not persisted across sessions
+- No deep linking to specific sections
+
+### Potential Future Improvements
+Various improvements are being considered for the roadmap, including navigation persistence, deep linking support, and architecture simplifications.
+
+## Related Documentation
+
+- [Field Selection Guide](./field-selection-guide.md) - Choosing appropriate field types
+- [Dynamic Forms Guide](./dynamic-forms-guide.md) - Validation and conditional logic
+- [Implementation Patterns Guide](./implementation-patterns-guide.md) - Common patterns
+- [Component Reference](../references/component-reference.md) - Technical details
+- [Platform Reference](../references/platform-reference.md) - Device-specific behavior
+
+<!-- concat:boundary:end section="form-structure-guide" -->
+
+<!-- concat:pattern:dynamic-forms-guide -->
+<!-- concat:boundary:start section="dynamic-forms-guide" -->
+<!-- concat:metadata
+document_id: dynamic-forms-guide
+category: patterns
+version: 1.0
+last_updated: 2025-01-06
+purpose: Comprehensive guide to validation and conditional logic for dynamic forms
+source_documents:
+  - validation.md (33KB)
+  - conditional-logic.md (37KB)
+  - validation-timing-reference.md (6KB)
+-->
+
+# Dynamic Forms Guide
+
+## Overview
+
+This guide consolidates all knowledge about creating dynamic, responsive forms in Fieldmark through validation rules and conditional logic. It covers validation strategies, conditional field display, cross-field dependencies, error handling patterns, and performance considerations for creating adaptive data collection instruments.
+
+## Critical Limitations and Warnings
+
+### Validation System Limitations {essential}
+
+1. **No soft validation** - All validation is "hard" (blocking), no warnings that can be overridden
 2. **14 of 19 field types don't display error messages** - Only show red highlighting
-3. **No conditional validation** - Cannot make fields conditionally required
+3. **No conditional validation** - Cannot make fields conditionally required based on other fields
 4. **No cross-field validation** - Cannot validate relationships between fields
 5. **Performance issues** - All fields validate on every change, even hidden ones
 
-### Key Insights from Investigation
-- **Hidden required fields may not actually block submission** - filterErrors removes them from formProps.errors
-- **Schema rebuilding is inefficient but functional** - Happens on every render, not just mount
-- **Error display fixes are simple** - 2-3 hours to fix all 14 broken fields
-- **filterErrors is very recent** - Added January 2025, only 1-2 months old
+### Conditional Logic Limitations {essential}
 
----
+1. **No cross-form references** - Conditions can only reference fields within same form
+2. **Hidden fields with validation** - Use required validation on hidden fields with care
+3. **Type matching required** - Number fields require number values, not strings
+4. **No field ID migration** - When field IDs change, conditions fail silently
+5. **Complex fields cannot be used** - Photos, GPS, relationships need workarounds
 
-## 2. How Validation Actually Works {comprehensive} {developer}
+## Validation System Architecture
 
-### Architecture Overview
+### How Validation Actually Works {#validation-architecture}
 
 ```mermaid
 graph TD
@@ -19514,178 +19852,48 @@ graph TD
     G --> H{Error Display?}
     H -->|5 Fields| I[Shows Error Text]
     H -->|14 Fields| J[Red Highlight Only]
-    G --> K[publishButtonBehaviour]
-    K --> L[Enable/Disable Save]
 ```
 
-### Core Components and Timing
+**Note**: The `filterErrors` function (added January 2025) properly removes validation errors from hidden fields, preventing them from blocking submission. However, be deliberate when adding validation to fields that may be hidden.
 
-#### 1. Schema Building (Every Render!)
-```typescript
-// Location: /app/src/gui/components/record/form.tsx:1585-1588
-// Rebuilds on EVERY render, not just mount
-render() {
-  const validationSchema = getValidationSchemaForViewset(
-    this.props.ui_specification,
-    viewsetName
-  );
-}
-```
-**Performance Impact**: Schema rebuilds unnecessarily on every state change, section navigation, or re-render.
+### Validation Timing Lifecycle
 
-#### 2. Validation Execution (Synchronous, All Fields)
-```typescript
-// Location: form.tsx:1623
-validationSchema.validateSync(values, {abortEarly: false});
-```
-- Validates ALL fields including hidden ones
-- No debouncing or throttling
-- Blocks UI thread
-- Runs on: mount, every change, blur, section navigation
+#### 1. On Mount
+- Validation runs immediately when form loads
+- Errors hidden (field remains "pristine")
+- Establishes initial validation state
 
-#### 3. Error Filtering (Recent Addition)
-```typescript
-// Added January 2025 - only 1-2 months old!
-filterErrors({errors, values, viewsetName}) {
-  const visibleFields = currentlyVisibleFields({...});
-  // Returns ONLY errors for visible fields
-  return filteredErrors;
-}
-```
-**Key Discovery**: This SHOULD prevent hidden required fields from blocking submission, but the feature is very new and may have bugs.
+#### 2. On Change
+- Validation runs synchronously on every value change
+- Error display immediate (if component supports it)
+- Field transitions from "pristine" to "touched"
+
+#### 3. On Blur
+- Re-validates when user leaves field
+- Shows/updates error messages
+- Confirms "touched" status
+
+#### 4. On Submit
+- All fields validated regardless of touched state
+- All errors shown, even for untouched fields
+- All fields marked as touched
 
 ### Performance Characteristics
 
-| Fields | Validation Time | UI Impact | Recommendation |
-|--------|----------------|-----------|----------------|
-| 10 | ~5-10ms | Imperceptible | No issues |
-| 50 | ~25-50ms | Slight lag | Consider optimization |
-| 100 | ~50-100ms | Noticeable lag | Split form or add debouncing |
-| 200+ | ~200ms+ | Severe lag | Requires architectural changes |
+**Note**: These are estimated thresholds based on code analysis. Actual performance varies significantly by device, browser, and field complexity.
 
-**Hidden fields impact**: ALL fields validate even when hidden, then errors filtered after - doubles the work!
+| Fields | Estimated Validation Time | Potential UI Impact | Recommendation |
+|--------|---------------------------|-------------------|----------------|
+| ~10 | Minimal | Imperceptible | No issues expected |
+| ~50 | Increasing | May notice slight lag | Consider optimization |
+| ~100 | Noticeable | Possible lag | Consider splitting form or debouncing |
+| 200+ | Significant | Likely performance issues | Architectural changes recommended |
 
----
+## Field-Specific Validation
 
-## 3. Critical Warnings and Anti-Patterns {essential} {designer} {claude-code}
+### Text Fields {#text-fields}
 
-### ⚠️ Warning 1: Hidden Required Fields
-
-**THE ISSUE**: Required fields hidden by conditions still validate, though filterErrors should remove their errors.
-
-**STATUS**: Unclear - filterErrors (added Jan 2025) should fix this, but users report it still blocks submission.
-
-**NEVER DO THIS** (until bug confirmed fixed):
-```json
-{
-  "other-details": {
-    "component-parameters": {
-      "required": true  // DON'T combine with conditions!
-    },
-    "condition": {
-      "operator": "equal",
-      "field": "category",
-      "value": "other"
-    }
-  }
-}
-```
-
-**WORKAROUND**: Use duplicate fields pattern:
-```json
-{
-  "email_when_not_required": {
-    "component-parameters": {
-      "label": "Email (Optional)",
-      "required": false
-    },
-    "condition": {
-      "operator": "not-equal",
-      "field": "contact_method",
-      "value": "email"
-    }
-  },
-  "email_when_required": {
-    "component-parameters": {
-      "label": "Email (Required)",
-      "required": true
-    },
-    "condition": {
-      "operator": "equal",
-      "field": "contact_method",
-      "value": "email"
-    }
-  }
-}
-```
-
-### ⚠️ Warning 2: Most Fields Don't Show Error Messages
-
-**14 of 19 field types** validate but display NO error text:
-
-| Broken Fields (No Error Text) | Working Fields (Show Errors) |
-|-------------------------------|------------------------------|
-| RadioGroup | TextField |
-| Select | NumberField |
-| MultiSelect | DateTimeNow |
-| AdvancedSelect | Checkbox |
-| TakePhoto | InputFieldBase |
-| TakePoint | |
-| RelatedRecordSelector | |
-| BasicAutoIncrementer | |
-| TemplatedStringField | |
-| Address | |
-| FileUploader | |
-| QRCodeFormField | |
-| MapFormField | |
-| ActionButton | |
-
-**Impact**: Users see red highlighting but no explanation of what's wrong.
-
-**Fix Effort**: 2-3 hours total (15 minutes per field to add FormHelperText).
-
-### ⚠️ Warning 3: Type Mismatches Cause Confusion
-
-| Field | Declared Type | Actual Behavior | Common Issue |
-|-------|---------------|-----------------|--------------|
-| BasicAutoIncrementer | String | Padded strings ("0001") | "0150" < "0099" is TRUE |
-| NumberField | Number | Empty → null (not 0) | Null vs zero confusion |
-| ControlledNumber | Integer | Accepts decimals | Type not enforced |
-| Checkbox | Boolean | Validation expects string | Error message type mismatch |
-| MultiSelect | Array | Empty array vs null | Inconsistent handling |
-
----
-
-## 4. Validation Rules Reference {important} {designer}
-
-### Through Designer Interface
-
-#### Required Fields (All Field Types)
-- **Designer**: Check "Required" checkbox
-- **Effect**: Field must have value before submission
-- **JSON Generated**:
-```json
-"validationSchema": [
-  ["yup.string"],  // or appropriate type
-  ["yup.required", "This field is required"]
-]
-```
-
-#### Number Ranges (ControlledNumber Only)
-- **Designer**: Set min/max values
-- **Effect**: Number must be within range
-- **JSON Generated**:
-```json
-"validationSchema": [
-  ["yup.number"],
-  ["yup.min", 0, "Must be positive"],
-  ["yup.max", 100, "Maximum 100"]
-]
-```
-
-### Through JSON Editing (Advanced)
-
-#### String Validation
+**Validation capabilities**:
 ```json
 "validationSchema": [
   ["yup.string"],
@@ -19697,969 +19905,195 @@ filterErrors({errors, values, viewsetName}) {
 ]
 ```
 
-#### Array Validation (Relationships, Photos)
+**Error display**: ✅ Full support - shows messages below field
+
+### Number Fields {#number-fields}
+
+**Validation capabilities**:
 ```json
 "validationSchema": [
-  ["yup.array"],
-  ["yup.min", 1, "At least one required"],
-  ["yup.max", 5, "Maximum 5 allowed"],
-  ["yup.required", "This field is required"]
+  ["yup.number"],
+  ["yup.required", "Required"],
+  ["yup.min", 0, "Must be positive"],
+  ["yup.max", 100, "Maximum 100"],
+  ["yup.integer", "Must be whole number"]
 ]
 ```
 
-#### Object Validation (GPS, Complex Fields)
-```json
-"validationSchema": [
-  ["yup.object"],
-  ["yup.required", "Location required"],
-  ["yup.nullable"]  // Allows null values
-]
-```
+**Error display**: ✅ Full support
+**Note**: Empty string becomes null, not 0
 
-### What's NOT Possible
+### Date/Time Fields {#datetime-fields}
 
-❌ **Conditional validation**: `yup.when()` not supported
-❌ **Cross-field validation**: Cannot reference other fields
-❌ **Custom validators**: `yup.test()` not available
-❌ **Async validation**: No server-side checks
-❌ **Soft validation**: No warnings, only errors
-❌ **Dynamic messages**: Cannot change based on value
-
----
-
-## 5. Field-Specific Validation Behavior {comprehensive} {developer}
-
-### Fields with Working Validation Display
-
-#### TextField Family (TextField, EmailField, MultilineTextField)
-```typescript
-// Location: /app/src/gui/fields/FAIMSTextField.tsx
-// Uses fieldToTextField from formik-mui
-error={Boolean(hasError)}
-helperText={hasError ? String(props.form.errors[props.field.name]) : ''}
-```
-- ✅ Shows error messages below field
-- ✅ Red border when invalid
-- ✅ Touch state properly managed
-- ✅ Blur event sets touched
-
-#### NumberField / ControlledNumber
-```typescript
-// Location: /app/src/gui/fields/NumberField.tsx:65
-onBlur={() => form.setFieldTouched(field.name, true)}
-```
-- ✅ Custom error for invalid numbers
-- ✅ Range validation messages
-- ✅ Handles null vs zero properly
-- ⚠️ Empty string becomes null, not 0
-
-#### Checkbox
-```typescript
-// Location: /app/src/gui/fields/checkbox.tsx:81-87
-<FormHelperText>
-  {error ? (form.errors[field.name] as string) : ''}
-</FormHelperText>
-```
-- ✅ Reference implementation for error display
-- ✅ Boolean validation works
-- ⚠️ Error expects string type
-
-### Fields with Broken Validation Display
-
-#### RadioGroup
-```typescript
-// Location: /app/src/gui/fields/radio.tsx
-// HAS: error={Boolean(form.errors?.[field.name])}
-// MISSING: FormHelperText component
-```
-**Fix Required**:
-```typescript
-import { FormHelperText } from '@mui/material';
-// After line 167
-{form.errors?.[field.name] && form.touched?.[field.name] && (
-  <FormHelperText error>
-    {String(form.errors[field.name])}
-  </FormHelperText>
-)}
-```
-
-#### Select / MultiSelect
-- ❌ No error prop at all
-- ❌ No FormHelperText
-- ❌ No touched state handling
-- ❌ Users see nothing when validation fails
-
-### Shared Component Solution
-
-```typescript
-// Proposed: /app/src/gui/components/FieldError.tsx
-export const FieldError = ({ form, field }) => (
-  form.errors?.[field.name] && form.touched?.[field.name] ? (
-    <FormHelperText error>
-      {String(form.errors[field.name])}
-    </FormHelperText>
-  ) : null
-);
-
-// Usage in any field:
-<FieldError form={form} field={field} />
-```
-
----
-
-## 6. Validation Timing and State Management {important} {developer}
-
-### Validation Execution Points
-
-| Trigger | Function Called | When | Performance Impact |
-|---------|----------------|------|-------------------|
-| Form Mount | validateOnMount | Initial render | High - all fields |
-| Field Change | validateOnChange | Every keystroke | High - no debouncing |
-| Field Blur | validateOnBlur | Focus lost | Low - single field |
-| Section Change | validateForm() | Navigation | Medium - all fields |
-| Save Attempt | validateForm() | Submit click | High - all fields |
-
-### Touch State Management
-
-**Working Fields** (proper blur handling):
-```typescript
-onBlur={() => form.setFieldTouched(field.name, true)}
-```
-
-**Broken Fields** (no touch management):
-- RadioGroup - No blur concept for radio buttons
-- Select - Missing onBlur handler
-- MultiSelect - No blur implementation
-- TakePhoto - No blur equivalent
-
-**Impact**: Errors show immediately instead of after interaction.
-
-### Section Validation State
-
-```typescript
-// Location: recordStepper.tsx:106-116
-const hasErrors = (sectionId: string) => {
-  return (
-    visitedSteps.has(sectionId) &&
-    ui_specification.views[sectionId]?.fields.some(
-      field => formErrors && formErrors[field]
-    )
-  );
-};
-```
-
-- Section can be "visited" but still have errors
-- Red "!" badge shows for sections with errors
-- Only shows for visited sections
-- Hidden field errors excluded (via filterErrors)
-
----
-
-## 7. Save Button Behavior (publishButtonBehaviour) {important} {designer}
-
-### Configuration Options
-
-| Mode | Behavior | When to Use | Issues |
-|------|----------|-------------|--------|
-| `"always"` | Save always enabled | Quick data entry | No validation enforcement |
-| `"visited"` | Enabled after all sections viewed | Ensures complete review | Doesn't check validity |
-| `"noErrors"` | Enabled only when valid | Data quality enforcement | Hidden required fields may block |
-
-### Implementation Details
-
-```typescript
-// Location: form.tsx:1668-1677
-const hasErrors = Object.keys(formProps.errors).length > 0;
-const showPublishButton =
-  publishButtonBehaviour === 'always' ||
-  (publishButtonBehaviour === 'visited' && allSectionsVisited) ||
-  (publishButtonBehaviour === 'noErrors' && !hasErrors);
-```
-
-**Key Insight**: Uses filtered errors (formProps.errors), so hidden fields SHOULD NOT block saving.
-
----
-
-## 8. Performance Optimization Strategies {comprehensive} {developer}
-
-### Current Performance Issues
-
-1. **Schema rebuilt on EVERY render** (not just mount)
-2. **ALL fields validated** including hidden ones
-3. **No debouncing** on validation
-4. **Synchronous validation** blocks UI thread
-5. **Errors calculated then filtered** (double work)
-
-### Recommended Optimizations
-
-#### Quick Win: Validate Only Visible Fields
-```typescript
-// In validate function
-const visibleFields = currentlyVisibleFields({...});
-const visibleValues = Object.keys(values)
-  .filter(key => visibleFields.includes(key))
-  .reduce((obj, key) => ({ ...obj, [key]: values[key] }), {});
-validationSchema.validateSync(visibleValues, {abortEarly: false});
-```
-
-#### Add Debouncing
-```typescript
-import { debounce } from 'lodash';
-const debouncedValidate = debounce(validate, 300);
-```
-
-#### Cache Schemas by Visibility Pattern
-```typescript
-const schemaCache = new Map();
-function getCachedSchema(visibleFields) {
-  const key = visibleFields.sort().join(',');
-  if (!schemaCache.has(key)) {
-    schemaCache.set(key, buildSchema(visibleFields));
-  }
-  return schemaCache.get(key);
-}
-```
-
-#### Async Validation for Large Forms
-```typescript
-validate={async (values) => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      const errors = validateSync(values);
-      resolve(errors);
-    }, 0);
-  });
-}}
-```
-
----
-
-## 9. Troubleshooting Guide {essential} {designer}
-
-### Common Issues and Solutions
-
-#### "Form won't save but no errors visible"
-
-**Diagnosis Steps**:
-1. Open browser console
-2. Type: `console.log(formProps.errors)`
-3. Check for errors on hidden fields
-4. Look for RadioGroup/Select fields (no error display)
-
-**Solutions**:
-- Remove required from conditional fields
-- Check all RadioGroup/Select fields manually
-- Temporarily set publishButtonBehaviour to "always"
-
-#### "Validation is slow/laggy"
-
-**Diagnosis**:
-```javascript
-// Add to console:
-const start = performance.now();
-formProps.validateForm();
-console.log(`Validation took ${performance.now() - start}ms`);
-```
-
-**Solutions**:
-- Reduce fields per section (<50)
-- Avoid complex regex patterns
-- Split into multiple forms
-- Remove unnecessary validation rules
-
-#### "Numbers comparing incorrectly"
-
-**Common Issues**:
-- BasicAutoIncrementer: "0150" < "0099" (string comparison)
-- Empty NumberField: null not 0
-- ControlledNumber: Accepts decimals despite Integer type
-
-**Solutions**:
-- Use numeric IDs without padding
-- Handle null explicitly in conditions
-- Use Number validation not Integer
-
-### Browser Console Debugging
-
-```javascript
-// Check all validation errors
-console.log(formProps.errors);
-
-// Check touched fields
-console.log(formProps.touched);
-
-// Check all field values
-console.log(formProps.values);
-
-// Test specific field visibility
-const field = document.querySelector('[name="field-name"]');
-console.log(field ? 'Visible' : 'Hidden');
-
-// Force validation
-formProps.validateForm().then(errors => console.log(errors));
-
-// Check which fields are causing issues
-Object.entries(formProps.errors).forEach(([field, error]) => {
-  console.log(`${field}: ${error}`);
-});
-```
-
----
-
-## 10. Future Requirements and Roadmap {comprehensive} {designer}
-
-### Priority 1: Soft Validation (Most Requested)
-
-**User Need**: Warnings that can be acknowledged and overridden.
-
-**Proposed Implementation**:
-```json
-{
-  "validationSchema": [
-    ["yup.string"],
-    ["yup.warning", "matches", "^[A-Z]", "Should start with capital letter"],
-    ["yup.error", "required", "This field is required"]
-  ]
-}
-```
-
-**Requirements**:
-- Field-level soft/hard configuration
-- Visual distinction (yellow vs red)
-- Override reason capture
-- Notebook-wide default setting
-
-### Priority 2: Fix Error Display (Quick Win)
-
-**Effort**: 2-3 hours total
-
-**Approach**:
-1. Create shared FieldError component
-2. Add to all 14 broken fields
-3. Ensure touch state handling
-
-### Priority 3: Conditional Validation
-
-**Use Cases**:
-- "If field X = value, then field Y required"
-- "Required when visible" option
-- Cross-field validation within form
-
-**Proposed Syntax**:
+**Validation capabilities**:
 ```json
 "validationSchema": [
   ["yup.string"],
-  ["yup.when", "contact_method", {
-    "is": "email",
-    "then": ["yup.required", "Email required when email contact selected"]
-  }]
+  ["yup.required", "Date required"]
 ]
 ```
 
-### Priority 4: Server-Side Post-Sync Validation
+**Error display**: ✅ Full support
+**Note**: Limited validation - mostly just required/not required
 
-**Requirements**:
-- Automatic execution after sync
-- Data quality review interface
-- Bidirectional sync for field follow-up
-- Designer configuration for rules
-- Cross-record validation support
+### Selection Fields {#select-fields}
 
-**Implementation Needs**:
-- Backend validation engine
-- Quality dashboard UI
-- Rule builder in Designer
-- Field app integration
+#### RadioGroup
+- **Error display**: ❌ No error text (only red highlight)
+- **Fix required**: Add FormHelperText component
 
-### Priority 5: GPS Accuracy Validation
+#### Select/MultiSelect
+- **Error display**: ❌ No error display at all
+- **Impact**: Users see nothing when validation fails
 
-**Requirements**:
-- Dual thresholds (hard/soft)
-- Field-level configuration
-- Range: 10m to sub-cm
-- Override with annotation
+#### Checkbox
+- **Error display**: ✅ Full support
+- **Note**: Boolean validation works correctly
 
-**Proposed Configuration**:
+### Location Fields {#location-fields}
+
+**GPS/Map validation**:
 ```json
-{
-  "gps_accuracy": {
-    "hard_threshold": 5,  // Blocks if accuracy > 5m
-    "soft_threshold": 2,  // Warns if accuracy > 2m
-    "unit": "meters"
-  }
-}
-```
-
-### Priority 6: Cross-Field Validation
-
-**Common Patterns**:
-- Date ranges (end after start)
-- Numeric relationships
-- Logical constraints
-- Parent-child dependencies
-
-### Priority 7: Performance Optimizations
-
-1. Debounced validation (300ms)
-2. Validate only visible fields
-3. Schema caching
-4. Async validation option
-5. Partial validation on field change
-
-### Priority 8: Breaking Changes Management
-
-**Designer Warnings**:
-- Detect validation changes that break existing data
-- Migration tool for validation rules
-- "Pre-validation" flag for old data
-- Git integration for audit trail
-
-### Priority 9: Navigation and Recovery
-
-**Features**:
-- Jump-to-error navigation
-- Validation issues panel
-- Section blocking (hard mode)
-- Section warnings (soft mode)
-
----
-
-## 11. Implementation Priorities {essential} {developer}
-
-### Immediate Fixes (This Week)
-
-1. **Add FormHelperText to all fields** (2-3 hours)
-   - Create shared component
-   - Apply to 14 broken fields
-   - Test error display
-
-2. **Document hidden field behavior** (1 hour)
-   - Confirm if filterErrors prevents blocking
-   - Update Designer warnings
-   - Create clear guidelines
-
-3. **Add performance logging** (1 hour)
-   - Measure actual validation times
-   - Identify bottlenecks
-   - Set performance thresholds
-
-### Short Term (This Month)
-
-1. **Implement debouncing** (4 hours)
-   - Add 300ms delay to onChange
-   - Prevent validation storms
-   - Improve responsiveness
-
-2. **Validate only visible fields** (4 hours)
-   - Modify validation pipeline
-   - Test with complex conditions
-   - Verify performance gains
-
-3. **Create validation test suite** (8 hours)
-   - Test all field types
-   - Cover edge cases
-   - Performance benchmarks
-
-### Medium Term (This Quarter)
-
-1. **Soft validation system** (40 hours)
-   - Extend Yup schema format
-   - Add warning UI components
-   - Override reason capture
-   - Designer integration
-
-2. **Conditional validation** (20 hours)
-   - Implement yup.when() support
-   - Dynamic schema building
-   - Cross-field dependencies
-
-3. **Designer validation builder** (40 hours)
-   - Visual rule creation
-   - Validation preview
-   - Test mode
-
-### Long Term (This Year)
-
-1. **Server-side validation** (80+ hours)
-   - Backend engine
-   - Quality dashboard
-   - Sync integration
-   - Rule configuration
-
-2. **Performance overhaul** (40 hours)
-   - Async validation
-   - Worker threads
-   - Incremental validation
-   - Smart caching
-
----
-
-## 12. Best Practices and Guidelines {essential} {designer}
-
-### For Notebook Designers
-
-#### DO:
-✅ Keep validation simple - use conditions for complex logic
-✅ Test thoroughly in deployed notebooks (not Designer preview)
-✅ Provide clear, actionable error messages
-✅ Document validation rules in helperText
-✅ Consider mobile users with limited connectivity
-✅ Use "always" publishButtonBehaviour during development
-
-#### DON'T:
-❌ Use required on conditional fields (until bug fixed)
-❌ Rely on validation alone for data quality
-❌ Create deeply nested validation logic
-❌ Assume error messages display (14 fields don't!)
-❌ Use different types in conditions vs validation
-❌ Trust Designer preview for validation testing
-
-#### REMEMBER:
-- Validation runs on EVERY change (performance matters)
-- Hidden fields still validate (may cause issues)
-- Most fields don't show error text (only red color)
-- Soft validation coming but not yet available
-- Cross-field validation not currently possible
-- Test with real data in real conditions
-
-### For Developers
-
-#### Code Patterns:
-```typescript
-// Always include FormHelperText for errors
-<FormHelperText error={hasError}>
-  {hasError ? String(form.errors[field.name]) : ''}
-</FormHelperText>
-
-// Always handle touch state
-onBlur={() => form.setFieldTouched(field.name, true)}
-
-// Check for null vs undefined vs empty
-const value = field.value ?? '';  // Handles null/undefined
-const isEmpty = value === '' || value === null;
-
-// Type-safe validation
-if (typeof value === 'number' && !isNaN(value)) {
-  // Numeric validation
-}
-```
-
-#### Performance Patterns:
-```typescript
-// Debounce expensive operations
-const debouncedValidate = useMemo(
-  () => debounce(validate, 300),
-  [validate]
-);
-
-// Memoize computed values
-const visibleFields = useMemo(
-  () => currentlyVisibleFields({...}),
-  [conditions, values]
-);
-
-// Early return for unchanged values
-if (prevValues === values) return prevErrors;
-```
-
-### For Field Teams
-
-#### Data Quality Tips:
-- Save frequently (every 5-10 minutes)
-- Review red indicators before saving
-- Check hidden sections for issues
-- Document override reasons
-- Verify GPS accuracy manually
-- Test forms before fieldwork
-
-#### Troubleshooting in Field:
-1. Can't save? Check RadioGroups and Selects
-2. Slow form? Reduce fields per section
-3. Missing errors? Check browser console
-4. GPS issues? Check accuracy threshold
-5. Sync problems? Save as draft first
-
----
-
-## 13. Technical Reference {comprehensive} {claude-code}
-
-### Validation Pipeline
-
-```typescript
-// Complete validation flow with file locations
-
-// 1. Schema Building
-// Location: /app/src/gui/components/validation.ts:58-77
-export function getValidationSchemaForViewset(
-  ui_specification: ProjectUIModel,
-  viewset_name: string
-) {
-  const fields = getFieldsForViewSet(ui_specification, viewset_name);
-  const validationSchema = Object();
-  fieldNames.forEach(fieldName => {
-    validationSchema[fieldName] = expand_validation_schema(
-      ui_specification,
-      fieldName,
-      fields[fieldName]['validationSchema']
-    );
-  });
-  return transformAll([['yup.object'], ['yup.shape', validationSchema]]);
-}
-
-// 2. Validation Execution
-// Location: /app/src/gui/components/record/form.tsx:1618-1657
-validate={(values) => {
-  try {
-    validationSchema.validateSync(values, {abortEarly: false});
-    return {};
-  } catch (err) {
-    const errors = err.inner.reduce((acc, error) => {
-      if (error.path) acc[error.path] = error.message;
-      return acc;
-    }, {});
-    return filterErrors({errors, values, viewsetName});
-  }
-}}
-
-// 3. Error Filtering
-// Location: /app/src/gui/components/record/form.tsx:1547-1575
-filterErrors({errors, values, viewsetName}) {
-  const visibleFields = currentlyVisibleFields({
-    uiSpec: ui_specification,
-    values: values,
-    viewsetId: viewsetName
-  });
-  
-  return Object.keys(errors)
-    .filter(field => visibleFields.includes(field))
-    .reduce((filtered, field) => {
-      filtered[field] = errors[field];
-      return filtered;
-    }, {});
-}
-
-// 4. Save Button Logic
-// Location: /app/src/gui/components/record/form.tsx:1668-1677
-const hasErrors = Object.keys(formProps.errors).length > 0;
-const showPublishButton =
-  publishButtonBehaviour === 'always' ||
-  (publishButtonBehaviour === 'visited' && allSectionsVisited) ||
-  (publishButtonBehaviour === 'noErrors' && !hasErrors);
-```
-
-### File Structure
-
-```
-/app/src/gui/
-├── components/
-│   ├── validation.ts           # Schema building
-│   ├── record/
-│   │   ├── form.tsx            # Main validation logic
-│   │   ├── recordStepper.tsx   # Section validation
-│   │   ├── view.tsx            # Section rendering
-│   │   └── branchingLogic.tsx  # Conditional visibility
-│   └── ui/
-│       └── PermissionAlerts.tsx # Platform-specific messages
-├── fields/                      # Field components
-│   ├── InputFieldBase.tsx      ✅ Working validation
-│   ├── NumberField.tsx         ✅ Working validation
-│   ├── FAIMSTextField.tsx      ✅ Working validation
-│   ├── DateTimeNow.tsx         ✅ Working validation
-│   ├── checkbox.tsx            ✅ Working validation
-│   ├── radio.tsx               ❌ No error display
-│   ├── select.tsx              ❌ No error display
-│   ├── multiselect.tsx         ❌ No error display
-│   ├── selectadvanced.tsx      ❌ No error display
-│   ├── RelatedRecordSelector.tsx ❌ No error display
-│   ├── TakePhoto.tsx           ❌ No error display
-│   ├── TakePoint.tsx           ❌ No error display
-│   ├── BasicAutoIncrementer.tsx ❌ No error display
-│   ├── TemplatedStringField.tsx ❌ No error display
-│   ├── Address.tsx             ❌ No error display
-│   ├── FileUploader.tsx        ❌ No error display
-│   ├── QRCodeFormField.tsx     ❌ No error display
-│   ├── MapFormField.tsx        ❌ No error display
-│   └── ActionButton.tsx        ❌ No validation
-└── utils/
-    └── formUtilities.ts        # Form helpers
-```
-
-### Yup Schema Format (via yup-ast)
-
-```typescript
-// Package: @demvsystems/yup-ast v1.2.2
-// Transforms arrays to Yup schemas
-
-// Array format:
-[
-  ["yup.string"],                           // yup.string()
-  ["yup.required", "Message"],              // .required("Message")
-  ["yup.min", 5, "Min 5"],                 // .min(5, "Min 5")
-  ["yup.matches", /regex/, "Match pattern"] // .matches(/regex/, "Match pattern")
+"validationSchema": [
+  ["yup.object"],
+  ["yup.required", "Location required"]
 ]
-
-// Limitations:
-// - No yup.when() support (conditional validation)
-// - No yup.test() support (custom validators)
-// - No async validation
-// - No lazy evaluation
 ```
 
-### Constants and Configuration
+**Note**: Cannot validate coordinate ranges or precision
 
-```typescript
-// No validation-specific environment variables
-// No validation-specific feature flags
-// No performance tuning parameters
+### Media Fields {#media-fields}
 
-// Only related constants:
-MAX_CONSEQUTIVE_SAVE_ERRORS = 5;  // Draft system
-LOCK_HOLD_TIMEOUT = 5000;          // Form lock timeout
-LOCK_WAIT_TIMEOUT = 120000;        // 2 minutes
-
-// Platform detection for field behavior:
-if (Capacitor.getPlatform() === 'web') {
-  // Web-specific behavior
-} else {
-  // Mobile behavior
-}
+**Photo/File validation**:
+```json
+"validationSchema": [
+  ["yup.array"],
+  ["yup.min", 1, "At least one photo required"],
+  ["yup.max", 5, "Maximum 5 photos"]
+]
 ```
 
----
+**Note**: Async validation after upload completes
 
-## 14. Migration and Compatibility {important} {developer}
+### Display Fields {#display-fields}
 
-### From Older Notebooks
+**No validation** - Display only, no user input
 
-#### Validation Schema Changes
-- Pre-2024: Used custom validation format
-- 2024+: Migrated to yup-ast arrays
-- Migration: Automatic on notebook import
+### Relationship Fields {#relationship-field}
 
-#### Breaking Changes to Avoid
-1. **Never change field types** after data collection
-2. **Never add required** to existing fields
-3. **Never tighten validation** without data review
-4. **Never change field IDs** (breaks everything)
-
-### Data Import Considerations
-
-#### Round-Trip Compatibility
-- Export preserves all validation states
-- Import skips validation by default
-- Re-validation optional on import
-- Invalid data flagged but accepted
-
-#### Version Control Strategy
-```bash
-# Validation included in notebook JSON
-git add notebook.json
-git commit -m "Added validation to site-name field"
-git tag v1.2.0-validation-update
+**Validation capabilities**:
+```json
+"validationSchema": [
+  ["yup.array"],
+  ["yup.min", 1, "At least one relationship required"]
+]
 ```
 
-### Platform Differences
+**Error display**: ❌ No error text shown
 
-| Platform | Validation Behavior | Special Considerations |
-|----------|-------------------|----------------------|
-| Web | Standard | Some fields disabled (QRCode) |
-| iOS | Standard | GPS accuracy validation important |
-| Android | Standard | Performance issues with many fields |
-| Offline | Standard | No server-side validation |
+### Annotation and Uncertainty Fields {#annotation-fields}
 
----
+**How Annotations Interact with Validation:**
 
-## 15. Appendix: Complete Validation Examples {comprehensive} {claude-code}
+Annotations and uncertainty markers bypass the validation system entirely:
 
-### Example 1: Archaeological Site Recording
+- **No validation applied**: Annotation text can be any length, any content
+- **No required status**: Cannot make annotations mandatory through validation
+- **No character limits**: Even if main field has limits, annotation doesn't
+- **Always optional**: Users decide when context/exceptions worth noting
+- **Hidden field behavior**: Annotations remain even when main field hidden
 
+**Best Practices for Annotations:**
 ```json
 {
-  "site-id": {
-    "component-name": "BasicAutoIncrementer",
-    "component-parameters": {
-      "label": "Site ID",
-      "required": true
-    },
-    "validationSchema": [
-      ["yup.string"],
-      ["yup.required", "Site ID is required"],
-      ["yup.matches", "^SITE-\\d{4}$", "Format: SITE-0001"]
-    ]
-  },
-  "site-type": {
-    "component-name": "RadioGroup",
-    "component-parameters": {
-      "label": "Site Type",
-      "required": true,
-      "options": [
-        {"value": "habitation", "label": "Habitation"},
-        {"value": "burial", "label": "Burial"},
-        {"value": "industrial", "label": "Industrial"},
-        {"value": "other", "label": "Other"}
-      ]
-    },
-    "validationSchema": [
-      ["yup.string"],
-      ["yup.required", "Site type must be selected"]
-    ]
-  },
-  "other-type-description": {
-    "component-name": "TextField",
-    "component-parameters": {
-      "label": "Describe Other Type",
-      "required": false  // NOT required despite condition
-    },
-    "condition": {
-      "operator": "equal",
-      "field": "site-type",
-      "value": "other"
-    },
-    "validationSchema": [
-      ["yup.string"],
-      ["yup.min", 20, "Please provide at least 20 characters"]
-    ]
-  },
-  "gps-location": {
-    "component-name": "TakePoint",
-    "component-parameters": {
-      "label": "GPS Location",
-      "required": true
-    },
-    "validationSchema": [
-      ["yup.object"],
-      ["yup.required", "GPS location is mandatory"]
-    ]
-  },
-  "site-photos": {
-    "component-name": "TakePhoto",
-    "component-parameters": {
-      "label": "Site Photos"
-    },
-    "validationSchema": [
-      ["yup.array"],
-      ["yup.min", 1, "At least one photo required"],
-      ["yup.max", 10, "Maximum 10 photos"]
-    ]
-  }
-}
-```
-
-### Example 2: Duplicate Field Pattern for Conditional Required
-
-```json
-{
-  "recording-level": {
-    "component-name": "Select",
-    "component-parameters": {
-      "label": "Recording Level",
-      "options": [
-        {"value": "basic", "label": "Basic"},
-        {"value": "detailed", "label": "Detailed"}
-      ]
-    }
-  },
-  "description-basic": {
-    "component-name": "MultilineTextField",
-    "component-parameters": {
-      "label": "Brief Description",
-      "required": false,
-      "rows": 3
-    },
-    "condition": {
-      "operator": "equal",
-      "field": "recording-level",
-      "value": "basic"
-    },
-    "validationSchema": [
-      ["yup.string"],
-      ["yup.max", 200, "Maximum 200 characters for basic recording"]
-    ]
-  },
-  "description-detailed": {
-    "component-name": "MultilineTextField",
-    "component-parameters": {
-      "label": "Detailed Description",
-      "required": true,
-      "rows": 10,
-      "helperText": "Provide comprehensive description (minimum 500 characters)"
-    },
-    "condition": {
-      "operator": "equal",
-      "field": "recording-level",
-      "value": "detailed"
-    },
-    "validationSchema": [
-      ["yup.string"],
-      ["yup.required", "Detailed description is required"],
-      ["yup.min", 500, "Minimum 500 characters for detailed recording"]
-    ]
-  }
-}
-```
-
-### Example 3: Complex Number Validation
-
-```json
-{
-  "measurement-value": {
-    "component-name": "ControlledNumber",
-    "component-parameters": {
-      "label": "Measurement (cm)",
-      "min": 0,
-      "max": 1000,
-      "precision": 2
-    },
+  "measurement-field": {
     "validationSchema": [
       ["yup.number"],
-      ["yup.required", "Measurement is required"],
-      ["yup.min", 0.01, "Must be greater than 0"],
-      ["yup.max", 1000, "Maximum 1000 cm"],
-      ["yup.test", "precision", "Maximum 2 decimal places", 
-        "(value) => !value || value.toString().split('.')[1]?.length <= 2"]
-    ]
+      ["yup.required"],
+      ["yup.min", 0],
+      ["yup.max", 100]
+    ],
+    "meta": {
+      "annotation": {
+        "include": true,
+        "label": "Measurement notes"  // Specific, not generic
+      },
+      "uncertainty": {
+        "include": true,
+        "label": "Estimate"  // Clear meaning
+      }
+    }
   }
 }
 ```
 
----
+**Training Over Validation:**
+Since annotations can't be required through validation, train users to:
+- Always annotate when selecting "Other"
+- Note measurement methods that differ from standard
+- Document environmental conditions affecting readings
+- Explain provisional identifications
+- Record equipment problems or limitations
 
-## See Also
+## Conditional Logic System
 
-- **[Conditional Logic System](./ConditionalLogic.md)** - How conditions interact with validation
-- **[Field Type Reference](./FieldTypes.md)** - Complete validation capabilities per field
-- **[Performance Optimization Guide](./Performance.md)** - Improving form responsiveness
-- **[Designer User Guide](./Designer.md)** - Setting up validation through GUI
-- **[JSON Schema Reference](./JSONSchema.md)** - Complete JSON validation syntax
-- **[Bug Reports and Feature Requests](./BugReports.md)** - Known issues and roadmap
+### Basic Condition Structure {#conditional-basics}
 
----
+```json
+{
+  "field-name": {
+    "component-name": "TextField",
+    "component-parameters": {...},
+    "condition": {
+      "operator": "equal",
+      "field": "trigger-field",
+      "value": "expected-value"
+    }
+  }
+}
+```
 
-*Documentation Version: 1.0.0*  
-*Last Technical Verification: August 2025*  
-*Next Review: September 2025*
+### How Conditions Work
 
-*Critical Note: This documentation reflects the validation system as of August 2025, including the recent filterErrors addition (January 2025) which may still have undiscovered bugs. The hidden required fields issue may or may not be resolved by filterErrors - testing required.*
+1. **Compilation**: Conditions compiled to JavaScript functions on form load
+2. **Controller Fields**: Any field referenced becomes a "controller field"
+3. **Evaluation**: Only when controller fields change
+4. **Application**: Hide/show fields before render (no flicker)
 
-<!-- concat:pattern:conditional-logic -->
-# Conditional Logic System - Third Draft Documentation
-## Fieldmark/FAIMS3 Notebook Designer Reference
+### Operators Reference
 
-### Document Classification
-- **Component Type**: System Behavior
-- **Audience Tags**: {designer} {developer} {claude-code}
-- **Depth Levels**: {essential} {important} {comprehensive}
-- **Version**: 1.0.0
-- **Last Technical Verification**: August 2025
+#### Comparison Operators
 
----
+| Operator | Description | Type Handling | Example |
+|----------|-------------|---------------|---------|
+| `equal` | Exact match | Strict (===) | `"yes"`, `5`, `true` |
+| `not-equal` | Not equal | Strict (!==) | `"no"`, `10`, `false` |
+| `greater` | Greater than | Coercion | `10` |
+| `greater-equal` | Greater or equal | Coercion | `0` |
+| `less` | Less than | Coercion | `100` |
+| `less-equal` | Less or equal | Coercion | `999` |
+| `regex` | Pattern match | String | `"\\d+"`, `"^[A-Z]"` |
 
-## 1. Quick Start {essential} {designer}
+#### Array Operators
 
-### What Are Conditions?
-Conditions control when fields and sections appear in your notebook, similar to skip patterns in survey tools like Survey Monkey or Qualtrics. They create dynamic forms that adapt based on user input, streamlining data entry especially on mobile devices.
+| Operator | Description | Example |
+|----------|-------------|---------|
+| `contains` | Array includes value | `"option1"` |
+| `does-not-contain` | Array excludes value | `"option2"` |
+| `contains-one-of` | Has at least one | `["A", "B", "C"]` |
+| `contains-all-of` | Has all values | `["A", "B"]` |
 
-### Basic Example: "Other" Field Pattern
+#### Logical Operators
+
+| Operator | Description | Short-Circuit |
+|----------|-------------|---------------|
+| `and` | All conditions true | Yes (first false) |
+| `or` | Any condition true | Yes (first true) |
+
+## Common Dynamic Form Patterns
+
+### Pattern: Other → Specify {#other-specify}
+
 ```json
 {
   "category": {
@@ -20690,241 +20124,66 @@ Conditions control when fields and sections appear in your notebook, similar to 
 }
 ```
 
-### Testing Workflow {essential} {designer}
-Conditions must be tested in deployed notebooks (not Designer preview):
-1. Open Designer in one browser tab
-2. Open deployed notebook in another tab  
-3. Make changes in Designer and save
-4. Refresh notebook tab (changes apply in seconds)
-5. Test conditions with real data entry
+### Pattern: Progressive Disclosure {#progressive-disclosure}
 
-**Note**: Designer preview does NOT evaluate conditions. Always test in deployed notebook.
-
----
-
-## 2. Critical Warnings {essential} {designer} {claude-code}
-
-### ⚠️ Type Matching Required
-Number fields require number values in conditions - string numbers will NOT match:
-- ✅ **CORRECT**: `{"operator": "equal", "field": "count", "value": 5}`
-- ❌ **WRONG**: `{"operator": "equal", "field": "count", "value": "5"}`
-
-This is the #1 source of "why isn't my condition working?" issues.
-
-### ⚠️ Hidden Required Fields Still Validate
-Required fields that are hidden by conditions STILL block form submission:
-- **Solution 1**: Never hide required fields
-- **Solution 2**: Make fields non-required if they can be hidden
-- **Solution 3**: Use duplicate fields pattern (one required, one optional)
-
-### ⚠️ No Cross-Form References
-Conditions can only reference fields within the same form (viewset):
-- Parent forms cannot reference child form fields
-- Child forms cannot reference parent form fields
-- No mechanism exists for cross-form field access
-
-### ⚠️ BasicAutoIncrementer String Comparison
-Auto-incrementers return padded strings ("0001", "0002"), not numbers.
-String comparison means "0150" < "0099" is TRUE (alphabetical order).
-- **Solution**: Design compound HRIDs that sort properly regardless
-
-### ⚠️ No Field ID Migration
-When field IDs change, conditions referencing them fail silently:
-- No error messages
-- Condition returns false
-- Manual update required
-
----
-
-## 3. How Conditions Work {important} {developer}
-
-### Condition Lifecycle
-1. **Compilation**: Conditions compiled to JavaScript functions on form load
-2. **Caching**: Stored as `conditionFn` property on fields/sections
-3. **Evaluation**: Only when "controller fields" change
-4. **Application**: Hide/show fields before render (no flicker)
-
-### Controller Fields
-Any field referenced in a condition automatically becomes a "controller field":
-- Detection is automatic - no configuration needed
-- Only changes to controller fields trigger re-evaluation
-- Optimizes performance by avoiding unnecessary checks
-
-### Values Object
-All fields are initialized in the values object on form load:
-- Fields start with their `initialValue` (or `""` if not specified)
-- Fields are never removed from values, only updated
-- Hidden field values persist and remain accessible
-
----
-
-## 4. Configuration and JSON Structure {important} {claude-code}
-
-### Basic Condition Structure
 ```json
 {
-  "field-name": {
-    "component-name": "TextField",
-    "component-parameters": {...},
-    "condition": {
-      "operator": "equal",
-      "field": "trigger-field",
-      "value": "expected-value"
+  "basic_survey": {
+    "component-name": "RadioGroup",
+    "component-parameters": {
+      "label": "Conduct detailed survey?",
+      "options": [
+        {"value": "yes", "label": "Yes - Full Survey"},
+        {"value": "no", "label": "No - Basic Only"}
+      ]
     }
-  }
-}
-```
-
-### Section-Level Conditions
-Entire sections can be conditional. When hidden:
-- Section removed from navigation breadcrumb
-- Progress indicators update (e.g., "2/2" becomes "2/3" when section appears)
-- No placeholder or gap in navigation
-
-```json
-{
-  "OptionalSection": {
-    "label": "Additional Details",
-    "fields": ["field1", "field2", "field3"],
+  },
+  "DetailedSection": {
+    "label": "Detailed Survey Information",
     "condition": {
       "operator": "equal",
-      "field": "collect-details",
+      "field": "basic_survey",
       "value": "yes"
+    },
+    "fields": ["measurements", "environmental-conditions"]
+  }
+}
+```
+
+### Pattern: Conditional Required Fields Workaround {#conditional-required}
+
+Since conditional validation isn't supported, use duplicate fields:
+
+```json
+{
+  "email_when_not_required": {
+    "component-parameters": {
+      "label": "Email (Optional)",
+      "required": false
+    },
+    "condition": {
+      "operator": "not-equal",
+      "field": "contact_method",
+      "value": "email"
+    }
+  },
+  "email_when_required": {
+    "component-parameters": {
+      "label": "Email (Required)",
+      "required": true
+    },
+    "condition": {
+      "operator": "equal",
+      "field": "contact_method",
+      "value": "email"
     }
   }
 }
 ```
 
-### Property Names
-- **Modern**: `condition` (recommended)
-- **Legacy**: `is_logic` (deprecated but supported)
+### Pattern: Complex Field Workaround {#complex-field-workaround}
 
----
-
-## 5. Operators Reference {important} {claude-code}
-
-### Comparison Operators
-
-| Operator | Description | Type Handling | Example Value |
-|----------|-------------|---------------|---------------|
-| `equal` | Exact match | Strict (===) | `"yes"`, `5`, `true` |
-| `not-equal` | Not equal | Strict (!==) | `"no"`, `10`, `false` |
-| `greater` | Greater than | Coercion | `10` |
-| `greater-equal` | Greater or equal | Coercion | `0` |
-| `less` | Less than | Coercion | `100` |
-| `less-equal` | Less or equal | Coercion | `999` |
-| `regex` | Pattern match | String | `"\\d+"`, `"^[A-Z]"` |
-
-### Array Operators
-For fields returning arrays (multi-select, checkboxes):
-
-| Operator | Description | Example Value |
-|----------|-------------|---------------|
-| `contains` | Array includes value | `"option1"` |
-| `does-not-contain` | Array excludes value | `"option2"` |
-| `contains-one-of` | Has at least one | `["A", "B", "C"]` |
-| `does-not-contain-any-of` | Has none of these | `["X", "Y"]` |
-| `contains-all-of` | Has all values | `["A", "B"]` |
-| `does-not-contain-all-of` | Missing at least one | `["A", "B", "C"]` |
-| `contains-regex` | Any element matches | `"test.*"` |
-| `does-not-contain-regex` | No element matches | `"^temp"` |
-
-### Logical Operators
-
-| Operator | Description | Short-Circuit | Performance Tip |
-|----------|-------------|---------------|-----------------|
-| `and` | All conditions true | Yes (first false) | Put likely-false first |
-| `or` | Any condition true | Yes (first true) | Put likely-true first |
-
----
-
-## 6. Complex Logic Patterns {important} {claude-code}
-
-### AND Logic Example
-Show field only if multiple conditions are met:
-```json
-{
-  "condition": {
-    "operator": "and",
-    "conditions": [
-      {"operator": "equal", "field": "sample-collected", "value": "yes"},
-      {"operator": "greater", "field": "sample-count", "value": 0}
-    ]
-  }
-}
-```
-
-### OR Logic Example
-Show field if any condition is met:
-```json
-{
-  "condition": {
-    "operator": "or",
-    "conditions": [
-      {"operator": "equal", "field": "contact-method", "value": "email"},
-      {"operator": "equal", "field": "contact-method", "value": "online"}
-    ]
-  }
-}
-```
-
-### Nested Complex Logic
-Combine AND and OR for sophisticated patterns:
-```json
-{
-  "condition": {
-    "operator": "or",
-    "conditions": [
-      {
-        "operator": "and",
-        "conditions": [
-          {"operator": "equal", "field": "survey-type", "value": "detailed"},
-          {"operator": "greater", "field": "team-size", "value": 2}
-        ]
-      },
-      {"operator": "equal", "field": "override-details", "value": true}
-    ]
-  }
-}
-```
-This reads as: `(survey-type='detailed' AND team-size>2) OR override-details=true`
-
----
-
-## 7. Field Type Interactions {important} {developer}
-
-### Standard Field Types
-
-| Field Type | Value Type | Condition Value | Notes |
-|------------|------------|-----------------|-------|
-| TextField | string | `"text"` | Exact string match |
-| NumberField | number | `42` | Use numbers, not strings |
-| NumberInput | number | `3.14` | Decimal support |
-| Checkbox | boolean | `true` or `false` | Not "true" string |
-| RadioGroup | string | `"option1"` | Returns value, not label |
-| Select (single) | string | `"selected"` | Returns value property |
-| Select (multiple) | array | Use array operators | Empty = `[]` |
-| DatePicker | string | `"2024-01-01"` | ISO format, string comparison works |
-| DateTimeField | string | `"2024-01-01T10:30"` | Local time, no timezone |
-| BasicAutoIncrementer | string | `"0001"` | Padded string, alphabetical sort |
-
-### Complex Fields - Cannot Use Directly
-These fields return complex objects that cannot be used in conditions:
-
-| Field Type | Returns | Workaround |
-|------------|---------|------------|
-| TakePhoto | Blob array | Use TemplatedStringField pattern |
-| TakePoint | GeoJSON object | Extract to hidden field |
-| MapFormField | GeoJSON object | Manual indicator field |
-| RelationshipField | Relationship objects | Hidden status field |
-| AnnotationAttachment | Attachment array | Manual checkbox |
-
----
-
-## 8. Complex Field Workarounds {important} {designer} {claude-code}
-
-### The Hidden Template Pattern
-For complex fields that can't be used directly in conditions, create a hidden TemplatedStringField that automatically tracks their status:
+**Advanced Pattern**: For fields that can't be used in conditions (photos, GPS), you can create hidden indicators using TemplatedStringField. This is a useful workaround but has not been extensively tested in production:
 
 ```json
 {
@@ -20945,7 +20204,6 @@ For complex fields that can't be used directly in conditions, create a hidden Te
     "component-name": "MultilineTextField",
     "component-parameters": {
       "label": "Describe the photographs",
-      "helperText": "Include details about what each photo shows",
       "required": true
     },
     "condition": {
@@ -20957,82 +20215,127 @@ For complex fields that can't be used directly in conditions, create a hidden Te
 }
 ```
 
-### Pattern Conventions
-- **Naming**: Prefix with underscore (`_has_photos`, `_has_location`)
-- **Values**: Use simple `yes/no` or `true/false`
-- **Visibility**: Always set `hidden: true`
-- **Updates**: Automatic when source field changes
+## Complex Logic Patterns
 
-### Common Templates
+### AND Logic {#and-logic}
 
-```javascript
-// Boolean existence check (most common for conditions)
-"{{#fieldname}}yes{{/fieldname}}{{^fieldname}}no{{/fieldname}}"
+Show field only if multiple conditions are met:
 
-// Alternative boolean format
-"{{#fieldname}}true{{/fieldname}}{{^fieldname}}false{{/fieldname}}"
-
-// Default value pattern
-"{{fieldname}}{{^fieldname}}none{{/fieldname}}"
+```json
+{
+  "condition": {
+    "operator": "and",
+    "conditions": [
+      {"operator": "equal", "field": "sample-collected", "value": "yes"},
+      {"operator": "greater", "field": "sample-count", "value": 0}
+    ]
+  }
+}
 ```
 
-### Mustache Template Limitations for Conditions
-- Cannot access array `.length` property
-- Limited nested property access
-- Cannot perform calculations
-- Boolean existence checks most reliable
+### OR Logic {#or-logic}
 
-**Note**: For complete Mustache template capabilities including string concatenation, date formatting, and advanced patterns, see the TemplatedStringField documentation. This section focuses only on patterns useful for conditional logic.
+Show field if any condition is met:
 
----
+```json
+{
+  "condition": {
+    "operator": "or",
+    "conditions": [
+      {"operator": "equal", "field": "contact-method", "value": "email"},
+      {"operator": "equal", "field": "contact-method", "value": "online"}
+    ]
+  }
+}
+```
 
-## 9. Value Handling and Type Coercion {comprehensive} {developer}
+### Nested Complex Logic {#nested-logic}
 
-### Field State Scenarios
+Combine AND and OR for sophisticated patterns:
 
-| Scenario | In values? | equal to `null` | equal to `""` | not-equal to `""` |
-|----------|------------|-----------------|---------------|-------------------|
-| Never touched | Yes (initialized) | false | true (usually) | false |
-| User typed then cleared | Yes | false | true | false |
-| Has null value | Yes | true | false | true |
-| Has empty string | Yes | false | true | false |
-| Field doesn't exist in form | No | false | false | true |
+```json
+{
+  "condition": {
+    "operator": "or",
+    "conditions": [
+      {
+        "operator": "and",
+        "conditions": [
+          {"operator": "equal", "field": "survey-type", "value": "detailed"},
+          {"operator": "greater", "field": "team-size", "value": 2}
+        ]
+      },
+      {"operator": "equal", "field": "override-details", "value": true}
+    ]
+  }
+}
+```
 
-### Type Coercion Rules
-- **equal/not-equal**: Strict comparison (`===`, `!==`)
-  - `"5"` will NOT equal `5`
-  - `true` will NOT equal `"true"`
-- **Comparison operators**: JavaScript coercion applies
-  - `"20" > 10` returns `true` (string coerced to number)
-  - `"10" < 5` returns `false`
+## Save Button Behavior
 
-### Hidden Field Value Behavior
-- Values persist when hidden
-- Included in form submission
-- Can be referenced by other conditions
-- Validation still enforced (including required)
+### publishButtonBehaviour Configuration {#save-button}
 
----
+| Mode | Behavior | When to Use | Issues |
+|------|----------|-------------|--------|
+| `"always"` | Save always enabled | Quick data entry | No validation enforcement |
+| `"visited"` | Enabled after all sections viewed | Ensures complete review | Doesn't check validity |
+| `"noErrors"` | Enabled only when valid | Data quality enforcement | Consider hidden field validation |
 
-## 10. Performance Optimization {important} {developer}
+### Implementation Details
 
-### Performance Boundaries
+```javascript
+const hasErrors = Object.keys(formProps.errors).length > 0;
+const showPublishButton =
+  publishButtonBehaviour === 'always' ||
+  (publishButtonBehaviour === 'visited' && allSectionsVisited) ||
+  (publishButtonBehaviour === 'noErrors' && !hasErrors);
+```
 
-| Complexity | Safe Limit | Notes |
-|------------|------------|-------|
-| Simple conditions (equal) | 100-200 per form | Minimal impact |
-| Complex nested conditions | 20-30 per form | Noticeable at higher counts |
+**Key Insight**: Uses filtered errors, so hidden fields SHOULD NOT block saving.
+
+## Error Handling Patterns
+
+### Visual Error Indicators {#error-indicators}
+
+| Platform | Section with Errors | Required Fields | Completed Section |
+|----------|-------------------|-----------------|-------------------|
+| Desktop Tabs | Red dot with count | Asterisk (*) | Checkmark (✓) |
+| Desktop Inline | Red text below header | Asterisk (*) | Green border |
+| Mobile | Red badge on step | Red asterisk | Green checkmark |
+
+### Error Display by Field Type
+
+| Field Type | Shows Error Text | Visual Indication | Status |
+|------------|-----------------|-------------------|--------|
+| TextField | ✅ Yes | Red border + error text below | Working |
+| NumberField | ✅ Yes | Red border + error text below | Working |
+| DateTimeNow | ✅ Yes | Red border + error text below | Working |
+| Checkbox | ✅ Yes | Red + error text below | Working |
+| RadioGroup | ❌ No | Red highlight only | Needs fix |
+| Select | ❌ No | Red border only | Needs fix |
+| MultiSelect | ❌ No | Red border only | Needs fix |
+| RelationshipField | ❌ No | Red border only | Needs fix |
+
+## Performance Optimization
+
+### Condition Performance Boundaries {#performance}
+
+**Note**: These are rough estimates from code analysis. Your experience may vary based on specific conditions and hardware.
+
+| Complexity | Estimated Threshold | Notes |
+|------------|-------------------|-------|
+| Simple conditions | Many (e.g., 100-200) | Generally minimal impact |
+| Complex nested conditions | ~20-30 per form | May become noticeable |
 | Controller fields | ~50 | Each triggers re-evaluation |
-| Nesting depth | ~10 levels | Tested to 20+ but degrades |
-| AND/OR array size | 10-20 conditions | Similar to nesting |
+| Nesting depth | ~10 levels | Deep nesting may degrade performance |
 
 ### Optimization Strategies
 
-#### 1. Condition Ordering (50-90% improvement)
-Leverage short-circuiting by ordering conditions strategically:
+#### 1. Optimize Condition Ordering
+Leverage short-circuiting:
 
 ```json
-// OPTIMIZED - Likely true first in OR
+// Put likely-true first in OR
 {
   "operator": "or",
   "conditions": [
@@ -21041,7 +20344,7 @@ Leverage short-circuiting by ordering conditions strategically:
   ]
 }
 
-// OPTIMIZED - Likely false first in AND
+// Put likely-false first in AND
 {
   "operator": "and",
   "conditions": [
@@ -21051,1368 +20354,613 @@ Leverage short-circuiting by ordering conditions strategically:
 }
 ```
 
-#### 2. Minimize Controller Fields
-Each controller field triggers re-evaluation. Group related conditions under single triggers where possible.
+#### 2. Validate Only Visible Fields
+```javascript
+const visibleFields = currentlyVisibleFields({...});
+const visibleValues = Object.keys(values)
+  .filter(key => visibleFields.includes(key))
+  .reduce((obj, key) => ({ ...obj, [key]: values[key] }), {});
+```
 
-#### 3. Avoid Regex When Possible
-Regex operations are more expensive than simple comparisons.
+#### 3. Add Debouncing
+```javascript
+import { debounce } from 'lodash';
+const debouncedValidate = debounce(validate, 300);
+```
 
-### Warning Signs of Performance Issues
-- Lag when typing in controller fields
-- Delayed field show/hide animations
-- Form freezing during navigation
-- Browser "script running slowly" warnings
+## Field Type Interactions
 
----
+### Value Types for Conditions {#field-values}
 
-## 11. Common Patterns {important} {designer}
+| Field Type | Value Type | Condition Value | Notes |
+|------------|------------|-----------------|-------|
+| TextField | string | `"text"` | Exact string match |
+| NumberField | number | `42` | Use numbers, not strings |
+| Checkbox | boolean | `true` or `false` | Not "true" string |
+| RadioGroup | string | `"option1"` | Returns value, not label |
+| Select (single) | string | `"selected"` | Returns value property |
+| Select (multiple) | array | Use array operators | Empty = `[]` |
+| DatePicker | string | `"2024-01-01"` | ISO format |
+| BasicAutoIncrementer | string | `"0001"` | Padded string |
 
-### Pattern: Other → Specify
+### Complex Fields That Cannot Be Used
+
+| Field Type | Returns | Workaround |
+|------------|---------|------------|
+| TakePhoto | Blob array | Use TemplatedStringField pattern |
+| TakePoint | GeoJSON | Extract to hidden field |
+| MapFormField | GeoJSON | Manual indicator field |
+| RelationshipField | Objects | Hidden status field |
+
+## Troubleshooting Guide
+
+### Common Issues and Solutions {#troubleshooting}
+
+#### "Form won't save but no errors visible"
+
+**Diagnosis**:
+1. Open browser console
+2. Type: `console.log(formProps.errors)`
+3. Check for errors on hidden fields
+4. Look for RadioGroup/Select fields (no error display)
+
+**Solutions**:
+- Remove required from conditional fields
+- Check all RadioGroup/Select fields manually
+- Temporarily set publishButtonBehaviour to "always"
+
+#### "Validation is slow/laggy"
+
+**Diagnosis**:
+```javascript
+const start = performance.now();
+formProps.validateForm();
+console.log(`Validation took ${performance.now() - start}ms`);
+```
+
+**Solutions**:
+- Reduce fields per section (<50)
+- Avoid complex regex patterns
+- Split into multiple forms
+
+#### "Condition not working"
+
+**Common causes**:
+1. Type mismatch (string "5" vs number 5)
+2. Field ID changed
+3. Field returns complex object
+4. Malformed condition syntax
+
+**Debug steps**:
+1. Check field value type in console
+2. Verify field ID exists
+3. Test with simple equal operator first
+4. Check for console errors
+
+## Best Practices Summary
+
+### DO:
+✅ Test conditions in deployed notebook (not Designer preview)  
+✅ Use correct value types (numbers for number fields)  
+✅ Consider hidden indicator fields for complex conditions (advanced)  
+✅ Order conditions for short-circuit optimization  
+✅ Keep validation rules simple and fast  
+✅ Provide clear helperText to prevent errors  
+✅ Enable annotations for fields needing context/exceptions  
+✅ Use specific labels for annotation fields  
+✅ Train users on annotation importance (can't enforce via validation)  
+
+### DON'T:
+❌ Make hidden fields required without careful consideration  
+❌ Reference fields across forms  
+❌ Use complex regex on text fields  
+❌ Exceed 20-30 conditional fields  
+❌ Rely on error text for RadioGroup/Select (only shows red)  
+❌ Forget that validation runs on hidden fields  
+❌ Try to validate annotation content  
+❌ Add annotations to free-text fields  
+
+## Migration Notes
+
+### Known Issues Being Addressed
+- Missing error display on 14 field types (fields turn red but show no error text)
+- Schema rebuilding on every render
+- No soft validation support
+- No conditional validation rules
+
+### Planned Improvements
+- Soft validation (warnings)
+- Conditional validation rules
+- Cross-field validation
+- Better error display for all fields
+- Performance optimizations
+
+## Related Documentation
+
+- [Form Structure Guide](./form-structure-guide.md) - Form architecture and navigation
+- [Field Selection Guide](./field-selection-guide.md) - Choosing appropriate fields
+- [Implementation Patterns Guide](./implementation-patterns-guide.md) - Common patterns
+- [Component Reference](../references/component-reference.md) - Technical details
+- [Platform Reference](../references/platform-reference.md) - Device-specific behavior
+
+<!-- concat:boundary:end section="dynamic-forms-guide" -->
+
+<!-- concat:pattern:implementation-patterns-guide -->
+<!-- concat:boundary:start section="implementation-patterns-guide" -->
+<!-- concat:metadata
+document_id: implementation-patterns-guide
+category: patterns
+version: 1.0
+last_updated: 2025-01-06
+purpose: Comprehensive guide to implementation patterns, troubleshooting, and best practices
+source_documents:
+  - patterns.md (18KB)
+  - troubleshooting-framework-reference.md (9KB)
+  - quick-start.md (12KB) - implementation examples only
+-->
+
+# Implementation Patterns Guide
+
+## Overview
+
+This guide consolidates implementation patterns, troubleshooting strategies, and best practices for Fieldmark v3. It addresses common technical challenges, performance optimization, data management patterns, and integration approaches discovered across all field types.
+
+## Core System Architecture Patterns
+
+### Distributed, Offline-First Architecture {#distributed-architecture}
+
+**Pattern**: All field types operate within a distributed, offline-capable system with eventual consistency.
+
+**Implications**:
+- **Relationships**: Reciprocal updates delayed until sync
+- **Auto-incrementers**: Sequence conflicts when multiple offline users
+- **Validation**: Client-side only, no server verification
+- **Media fields**: Local storage until sync opportunity
+- **All fields**: Last-write-wins default, conflicts flagged in Control Centre
+
+**Best Practices**:
+1. Plan for sync delays and conflicts
+2. Coordinate auto-increment ranges between devices
+3. Design validation for offline scenarios
+4. Consider battery impact of GPS/media fields
+5. Document conflict resolution procedures
+
+### Schema Evolution Flexibility {#schema-evolution}
+
+**Pattern**: System intentionally allows post-deployment schema changes to accommodate emergent field research.
+
+**Safe Changes**:
+- Adding new optional fields
+- Expanding validation ranges
+- Adding vocabulary options
+- Increasing field limits
+
+**Breaking Changes**:
+- Type changes (string→number)
+- Multiple→single selection
+- Adding required fields to existing data
+- Removing fields with data
+
+**Migration Strategy**:
+```json
+// Version 1: String field
+{
+  "site-id": {
+    "component-name": "TextField",
+    "type-returned": "faims-core::String"
+  }
+}
+
+// Version 2: Add new numeric field instead of changing
+{
+  "site-id-legacy": {
+    "component-name": "TextField",
+    "hidden": true  // Hide but preserve
+  },
+  "site-id-numeric": {
+    "component-name": "NumberField",
+    "type-returned": "faims-core::Number"
+  }
+}
+```
+
+## Common Implementation Patterns
+
+### Pattern: Auto-Increment Coordination {#auto-increment}
+
+**Challenge**: Auto-increment fields stored locally, not synchronized.
+
+**Solution**: Device-specific range allocation:
+
 ```json
 {
-  "category": {
-    "component-name": "RadioGroup",
+  "sample-number": {
+    "component-name": "BasicAutoIncrementer",
     "component-parameters": {
-      "label": "Site Type",
-      "options": [
-        {"value": "historic", "label": "Historic"},
-        {"value": "prehistoric", "label": "Prehistoric"},
-        {"value": "other", "label": "Other"}
-      ]
-    }
-  },
-  "category_other_specify": {
-    "component-name": "TextField",
-    "component-parameters": {
-      "label": "Please specify other site type",
-      "required": true,
-      "helperText": "Provide a brief description"
-    },
-    "condition": {
-      "operator": "equal",
-      "field": "category",
-      "value": "other"
+      "form_id": "sample-form",
+      "label": "Sample Number"
     }
   }
 }
 ```
 
-### Pattern: Progressive Disclosure
+**Coordination Protocol**:
+1. Device A: Range 0001-1000
+2. Device B: Range 1001-2000
+3. Device C: Range 2001-3000
+4. Document ranges in project README
+5. Monitor usage and reallocate as needed
+
+### Pattern: Human-Readable IDs {#human-readable-ids}
+
+**Challenge**: Default IDs are cryptic UUIDs.
+
+**Solution**: TemplatedStringField for meaningful identifiers:
+
 ```json
 {
-  "basic_survey": {
-    "component-name": "RadioGroup",
+  "hrid": {
+    "component-name": "TemplatedStringField",
     "component-parameters": {
-      "label": "Conduct detailed survey?",
-      "options": [
-        {"value": "yes", "label": "Yes - Full Survey"},
-        {"value": "no", "label": "No - Basic Only"}
-      ]
+      "template": "{{site-code}}-{{year}}-{{#sample-number}}{{sample-number}}{{/sample-number}}{{^sample-number}}000{{/sample-number}}",
+      "label": "Record ID"
+    }
+  }
+}
+```
+
+**Best Practices**:
+- Include project/site prefix
+- Add year for temporal context
+- Use auto-incrementer for uniqueness
+- Keep under 30 characters for usability
+
+### Pattern: Complex Field Conditions {#complex-conditions}
+
+**Challenge**: Photos, GPS, relationships can't be used in conditions.
+
+**Solution**: Hidden indicator fields:
+
+```json
+{
+  "photos": {
+    "component-name": "TakePhoto"
+  },
+  "_has_photos": {
+    "component-name": "TemplatedStringField",
+    "component-parameters": {
+      "template": "{{#photos}}yes{{/photos}}{{^photos}}no{{/photos}}",
+      "hidden": true
     }
   },
-  "DetailedSection": {
-    "label": "Detailed Survey Information",
+  "photo-description": {
+    "component-name": "MultilineTextField",
     "condition": {
       "operator": "equal",
-      "field": "basic_survey",
+      "field": "_has_photos",
       "value": "yes"
-    },
-    "fields": [
-      "measurement-method",
-      "measurement-precision",
-      "environmental-conditions",
-      "team-members"
-    ]
-  }
-}
-```
-
-### Pattern: Conditional Required Fields (Workaround)
-Since conditional validation isn't supported, use duplicate fields:
-```json
-{
-  "contact_method": {
-    "component-name": "RadioGroup",
-    "component-parameters": {
-      "label": "Preferred Contact Method",
-      "options": [
-        {"value": "email", "label": "Email"},
-        {"value": "phone", "label": "Phone"},
-        {"value": "none", "label": "No Contact"}
-      ]
-    }
-  },
-  "email_optional": {
-    "component-name": "TextField",
-    "component-parameters": {
-      "label": "Email Address",
-      "type": "email",
-      "required": false
-    },
-    "condition": {
-      "operator": "not-equal",
-      "field": "contact_method",
-      "value": "email"
-    }
-  },
-  "email_required": {
-    "component-name": "TextField",
-    "component-parameters": {
-      "label": "Email Address",
-      "type": "email",
-      "required": true,
-      "helperText": "Required for email contact"
-    },
-    "condition": {
-      "operator": "equal",
-      "field": "contact_method",
-      "value": "email"
     }
   }
 }
 ```
 
-### Pattern: Manual vs Automated Indicators
+### Pattern: Performance-Optimized Forms {#performance-optimization}
 
-#### Use Manual Indicators When:
-- Human confirmation required
-- Audit trail needed
-- Complex judgment involved
-- No technical derivation possible
+**Challenge**: Forms may experience performance degradation with many fields per section (estimated ~50-100 based on code analysis).
 
-#### Use Automated Templates When:
-- Value computable from other fields
-- Consistency crucial
-- Reducing cognitive load
-- System tracking fields
+**Solution**: Strategic form splitting:
 
----
-
-## 12. Troubleshooting Guide {important} {designer}
-
-### Debugging Checklist
-When a condition isn't working, check in order:
-
-1. **Type Mismatch** (Most Common)
-   - Number field with string value?
-   - Boolean field with string "true"?
-   - Check exact types in browser console
-
-2. **Field ID Spelling**
-   - Exact match required
-   - Case-sensitive
-   - No typos in field reference
-
-3. **Deployment Status**
-   - Conditions don't work in Designer preview
-   - Must test in deployed notebook
-   - Changes require save and refresh
-
-4. **Field Initialization**
-   - Check if field exists in values object
-   - May need initialValue set
-   - Hidden fields still need initialization
-
-5. **Operator Choice**
-   - Using `equal` when you need `contains`?
-   - Array field needs array operators
-   - Regex format correct?
-
-### Debug Techniques
-
-#### Enable Debug Logging
-```javascript
-// In browser console
-localStorage.setItem('debug', 'faims:*');
-// Refresh page to see detailed logs
-```
-
-#### Monitor Condition Performance
-```javascript
-// Add to console before testing
-const originalFn = window.compileExpression;
-window.compileExpression = function(expr) {
-  console.time('condition-compile');
-  const result = originalFn(expr);
-  console.timeEnd('condition-compile');
-  return result;
-}
-```
-
-#### Inspect Values Object
-```javascript
-// In browser console while form is open
-console.log(window.Formik.values);
-// Or for specific field
-console.log(window.Formik.values['field-name']);
-```
-
-### Common Issues and Solutions
-
-| Problem | Likely Cause | Solution |
-|---------|--------------|----------|
-| Field never appears | Type mismatch in condition | Verify number vs string types |
-| Field always visible | Condition syntax error | Check operator spelling |
-| Required hidden field blocks save | Validation on hidden fields | Make non-required or keep visible |
-| Condition works intermittently | Race condition or missing field | Ensure field initialized first |
-| Performance degradation | Too many complex conditions | Simplify logic or reduce count |
-| Changes don't take effect | Not refreshing deployed notebook | Save in Designer, refresh notebook |
-
-### Error Messages
-
-| Error | Meaning | Fix |
-|-------|---------|-----|
-| "Unknown operator X" | Invalid operator name | Check spelling (e.g., `equal` not `equals`) |
-| Form won't load | Malformed condition JSON | Validate JSON syntax |
-| Silent failure | Field reference doesn't exist | Verify field ID exists in form |
-
----
-
-## 13. Validation Rules and Display Behavior {comprehensive} {developer}
-
-### Validation Interaction with Conditions
-
-| Validation Rule | When Hidden | When Visible | Notes |
-|-----------------|-------------|--------------|-------|
-| required: true | Still enforced | Enforced | Hidden required fields block submission |
-| min/max | Still enforced | Enforced | Numeric bounds always checked |
-| pattern | Still enforced | Enforced | Regex patterns always validated |
-| Custom validation | Still runs | Runs | All validation runs regardless |
-
-### Display Behavior
-
-| Aspect | Behavior | Notes |
-|--------|----------|-------|
-| Initial render | Hidden if condition false | No flicker - evaluated before display |
-| Show animation | Immediate | No transition effects |
-| Hide animation | Immediate | Values preserved |
-| Layout shift | Minimal | Space collapses when hidden |
-| Tab order | Skips hidden fields | Keyboard navigation adjusts |
-| Section navigation | Hidden sections removed | Progress indicators update dynamically |
-| Breadcrumbs | Hidden sections omitted | Navigation updates in real-time |
-
-### Error Message Display
-- Hidden fields with validation errors don't show messages
-- Errors appear when field becomes visible
-- Form submission shows all errors (including hidden)
-
----
-
-## 14. Migration and Compatibility {comprehensive} {developer}
-
-### Field ID Changes
-**Warning**: No automatic migration for renamed fields
-- Conditions fail silently (return false)
-- No error messages or warnings
-- Manual update required in all conditions
-- Search and replace recommended
-
-### Legacy Format Support
-
-#### Old is_logic Format
-Still supported but deprecated:
 ```json
 {
-  "field-name": {
-    "is_logic": {
-      "trigger-field": ["value1", "value2"]
-    }
-  }
-}
-```
-
-#### Modern Equivalent
-```json
-{
-  "field-name": {
-    "condition": {
-      "operator": "or",
-      "conditions": [
-        {"operator": "equal", "field": "trigger-field", "value": "value1"},
-        {"operator": "equal", "field": "trigger-field", "value": "value2"}
-      ]
-    }
-  }
-}
-```
-
-### Version Compatibility
-- Conditions work identically across platforms
-- No mobile-specific behavior
-- Offline mode fully supported
-- All browsers supporting ES6
-
----
-
-## 15. Known Limitations and Roadmap {important} {designer} {developer}
-
-### Current Limitations
-
-#### Cannot Do (Technical Limitations)
-- **Cross-form references** - No access to parent/child form fields
-- **Array length checks** - Cannot count items in arrays
-- **Nested property access** - Limited support for object.property
-- **Conditional validation** - Cannot make fields required only when visible
-- **Complex calculations** - No sum, average, or arithmetic operations
-- **Complex field conditions** - TakePhoto, TakePoint, RelationshipField need workarounds
-
-#### Cannot Do (Implementation Gaps)
-- **Designer preview evaluation** - Must deploy to test conditions
-- **Field ID migration** - Renamed fields break conditions silently
-- **Debug visibility** - No visual indicators of condition evaluation
-- **Circular dependency detection** - System allows but doesn't warn
-
-### Roadmap Features (Planned Improvements)
-
-#### High Priority
-- **Designer preview with conditions** - Test without deployment
-- **Conditional validation** - Required only when visible
-- **Additional operators** (User requested):
-  - `between` - Range checks (e.g., `5 < x < 10`)
-  - `count` - Array length (e.g., number of photos)
-  - `sum` - Total of numeric fields
-  - `average` - Mean of numeric fields
-  - `product` - Multiplication of field values
-  - Basic arithmetic (`+`, `-`, `*`, `/`)
-
-#### Future Considerations
-- **Calculated fields** - Auto-compute values from other fields
-- **Cross-form references** - Access parent/child form fields
-- **Migration tools** - Update conditions when field IDs change
-- **Visual debugging** - Show condition evaluation in Designer
-- **Performance monitoring** - Built-in condition profiling
-- **Dependency visualization** - Graph of field relationships
-
-### Workarounds for Current Limitations
-
-| Limitation | Current Workaround |
-|------------|-------------------|
-| No Designer preview | Two-tab testing workflow |
-| No conditional validation | Duplicate fields (required/optional) |
-| No array counts | Manual indicator fields |
-| Complex field conditions | TemplatedStringField pattern |
-| No calculations | Server-side processing or manual entry |
-
----
-
-## 16. Design Patterns and Best Practices {important} {designer}
-
-### Effective Condition Design
-
-#### 1. Use Required Fields as Triggers
-Required fields guarantee user interaction, making them ideal condition controllers:
-```json
-{
-  "survey-type": {
-    "component-name": "RadioGroup",
-    "component-parameters": {
-      "required": true,
-      "label": "Survey Type"
-    }
-  },
-  "grid-details": {
-    "condition": {
-      "operator": "equal",
-      "field": "survey-type",
-      "value": "grid"
-    }
-  }
-}
-```
-
-#### 2. Group Related Conditions
-Minimize cognitive load by grouping related conditional fields:
-```json
-{
-  "PhotoSection": {
-    "label": "Photographic Documentation",
-    "condition": {
-      "operator": "equal",
-      "field": "include-photos",
-      "value": "yes"
-    },
-    "fields": [
-      "photo-capture",
-      "photo-description",
-      "photographer-name",
-      "photo-conditions"
-    ]
-  }
-}
-```
-
-#### 3. Clear Visual Hierarchy
-Use section headers or display fields to explain conditional content:
-```json
-{
-  "detailed-header": {
-    "component-name": "RichText",
-    "component-parameters": {
-      "content": "<h3>Additional Details Required</h3><p>Please complete all fields below</p>"
-    },
-    "condition": {
-      "operator": "equal",
-      "field": "needs-details",
-      "value": true
-    }
-  }
-}
-```
-
-### When to Use Conditions
-
-**Good Use Cases:**
-- Skip patterns for irrelevant fields
-- Progressive disclosure of complexity
-- Role-based field visibility
-- Dynamic form adaptation
-- Mobile screen optimization
-
-**Avoid Conditions When:**
-- All users need the field
-- Complexity exceeds benefit
-- Cross-form logic required
-- Performance is critical
-
----
-
-## 16. Platform Behavior Matrix {comprehensive} {developer}
-
-### Platform Comparison
-
-| Feature | Web | iOS | Android | Notes |
-|---------|-----|-----|---------|-------|
-| Condition evaluation | ✅ Identical | ✅ Identical | ✅ Identical | Client-side JavaScript |
-| Performance | Fastest | Good | Good | Desktop typically faster |
-| Offline support | ✅ Full | ✅ Full | ✅ Full | No server dependency |
-| Debug tools | Best | Limited | Limited | Browser DevTools advantage |
-| Touch events | Mouse | Native | Native | No impact on conditions |
-
-### Browser Compatibility
-
-| Browser | Support | Notes |
-|---------|---------|-------|
-| Chrome 90+ | ✅ Full | Recommended for Designer |
-| Firefox 88+ | ✅ Full | Full support |
-| Safari 14+ | ✅ Full | macOS and iOS |
-| Edge 90+ | ✅ Full | Chromium-based |
-
----
-
-## 17. Implementation Notes {comprehensive} {developer}
-
-### Technical Architecture
-
-#### Compilation Process
-```javascript
-// Simplified compilation flow
-compileUiSpecConditionals(spec) {
-  for (field in spec.fields) {
-    if (field.condition) {
-      field.conditionFn = compileExpression(field.condition);
-      addToControllerFields(extractFieldRefs(field.condition));
-    }
-  }
-}
-```
-
-#### Evaluation Cycle
-1. Controller field changes
-2. Formik triggers update
-3. branchingLogic.tsx checks conditions
-4. getFieldsMatchingCondition filters fields
-5. React re-renders with filtered fields
-
-#### Memory Model
-- All conditions compiled once on load
-- Functions cached in memory
-- Values object holds all field states
-- Hidden values persist in Formik state
-
-### File Locations (Internal Reference)
-- Core logic: `/app/src/conditionals.ts`
-- Compilation: `/app/src/uiSpecification.ts`
-- Runtime evaluation: `/app/src/gui/components/record/branchingLogic.tsx`
-- Legacy support: `/app/src/uiSpecification.ts:compileIsLogic()`
-
----
-
-## 18. Decision Trees {claude-code}
-
-### Condition Necessity Decision
-```
-Is this field always needed?
-├─ Yes → No condition required
-└─ No → Does visibility depend on user input?
-    ├─ No → Consider permission/role system
-    └─ Yes → Implement condition
-        ├─ Single trigger → Simple condition
-        ├─ Multiple triggers → OR logic
-        └─ Multiple requirements → AND logic
-```
-
-### Operator Selection Guide
-```
-What comparison do you need?
-├─ Exact match → equal / not-equal
-├─ Numeric comparison → greater / less operators
-├─ Text pattern → regex
-├─ Multiple options → contains operators
-├─ Complex logic → Nested AND/OR
-└─ Field existence → Check against null/empty
-```
-
-### Complex Field Handling
-```
-Is the field type complex (Photo/Location/Relationship)?
-├─ No → Use direct condition
-└─ Yes → Can the state be derived?
-    ├─ No → Use manual indicator field
-    └─ Yes → Use TemplatedStringField pattern
-        ├─ Boolean check → {{#field}}yes{{/field}}
-        └─ Value extraction → Limited support
-```
-
----
-
-## 19. Anti-Patterns to Avoid {important} {designer}
-
-### ❌ Hidden Required Fields
-```json
-// AVOID - Blocks form submission when hidden
-{
-  "critical-field": {
-    "component-parameters": {"required": true},
-    "condition": {"operator": "equal", "field": "optional", "value": "yes"}
-  }
-}
-```
-
-### ❌ Cross-Form Dependencies
-```json
-// WON'T WORK - Cannot reference parent form
-{
-  "child-field": {
-    "condition": {"operator": "equal", "field": "parent.field", "value": "yes"}
-  }
-}
-```
-
-### ❌ Type Mismatches
-```json
-// BROKEN - Number field won't match string
-{
-  "condition": {
-    "operator": "equal",
-    "field": "number-field",
-    "value": "5"  // Should be 5 (number)
-  }
-}
-```
-
-### ❌ Over-Complex Nesting
-Avoid deeply nested conditions that are hard to debug and maintain.
-
----
-
-## 20. Relationship to Other Systems {important} {designer}
-
-### Related Field Types
-
-#### TemplatedStringField
-Essential for condition workarounds with complex fields:
-- Creates derived values for conditions
-- Enables boolean checks on arrays
-- Provides computed fields
-
-#### BasicAutoIncrementer
-Special consideration needed:
-- Returns padded strings
-- Alphabetical sorting issues
-- Best used in compound IDs
-
-#### Select vs MultiSelect
-Different operators required:
-- Select: Use standard operators
-- MultiSelect: Use array operators
-
-### Integration with Other Features
-
-| Feature | Interaction with Conditions |
-|---------|----------------------------|
-| Validation | Runs regardless of visibility |
-| Draft Saving | Hidden values preserved |
-| Export | All values included |
-| Relationships | Cannot be used in conditions |
-| Annotations | Cannot be used in conditions |
-
----
-
-## Appendix A: Complete JSON Examples {comprehensive} {claude-code}
-
-### Example 1: Heritage Site Survey with Progressive Disclosure
-```json
-{
-  "fields": {
-    "site-type": {
-      "component-name": "RadioGroup",
-      "component-parameters": {
-        "label": "Heritage Site Type",
-        "required": true,
-        "options": [
-          {"value": "aboriginal", "label": "Aboriginal Site"},
-          {"value": "historical", "label": "Historical Site"},
-          {"value": "maritime", "label": "Maritime Heritage"},
-          {"value": "other", "label": "Other"}
-        ]
-      }
-    },
-    "site-type-other": {
-      "component-name": "TextField",
-      "component-parameters": {
-        "label": "Specify Other Site Type",
-        "required": true
-      },
-      "condition": {
-        "operator": "equal",
-        "field": "site-type",
-        "value": "other"
-      }
-    },
-    "aboriginal-details": {
-      "component-name": "Select",
-      "component-parameters": {
-        "label": "Aboriginal Site Category",
-        "ElementProps": {
-          "options": [
-            {"value": "midden", "label": "Shell Midden"},
-            {"value": "art", "label": "Rock Art"},
-            {"value": "tool", "label": "Tool Making Site"},
-            {"value": "ceremonial", "label": "Ceremonial Site"}
-          ]
-        }
-      },
-      "condition": {
-        "operator": "equal",
-        "field": "site-type",
-        "value": "aboriginal"
-      }
-    },
-    "requires-protection": {
-      "component-name": "Checkbox",
-      "component-parameters": {
-        "label": "Site requires immediate protection"
-      }
-    },
-    "protection-details": {
-      "component-name": "MultilineTextField",
-      "component-parameters": {
-        "label": "Protection Measures Required",
-        "required": true,
-        "rows": 4
-      },
-      "condition": {
-        "operator": "equal",
-        "field": "requires-protection",
-        "value": true
-      }
-    }
-  }
-}
-```
-
-### Example 2: Complex Multi-Condition Form
-```json
-{
-  "fields": {
-    "survey-method": {
-      "component-name": "Select",
-      "component-parameters": {
-        "label": "Survey Method",
-        "ElementProps": {
-          "options": [
-            {"value": "pedestrian", "label": "Pedestrian Survey"},
-            {"value": "vehicular", "label": "Vehicular Survey"},
-            {"value": "aerial", "label": "Aerial Survey"},
-            {"value": "marine", "label": "Marine Survey"}
-          ]
-        }
-      }
-    },
-    "team-size": {
-      "component-name": "NumberInput",
-      "component-parameters": {
-        "label": "Team Size"
-      }
+  "viewsets": {
+    "basic-recording": {
+      "views": ["essential-fields"],  // 20 fields
+      "layout": "inline"
     },
     "detailed-recording": {
-      "component-name": "RadioGroup",
-      "component-parameters": {
-        "label": "Detailed Recording Required?",
-        "options": [
-          {"value": "yes", "label": "Yes"},
-          {"value": "no", "label": "No"}
-        ]
-      },
-      "condition": {
-        "operator": "or",
-        "conditions": [
-          {
-            "operator": "and",
-            "conditions": [
-              {"operator": "equal", "field": "survey-method", "value": "pedestrian"},
-              {"operator": "greater", "field": "team-size", "value": 2}
-            ]
-          },
-          {"operator": "equal", "field": "survey-method", "value": "aerial"}
-        ]
-      }
+      "views": ["section-1", "section-2", "section-3"],  // 30 fields each
+      "layout": "tabs"
+    },
+    "media-recording": {
+      "views": ["photos", "files"],  // Separate media
+      "layout": "inline"
     }
   }
 }
 ```
 
-### Example 3: Photo Documentation with Automated Detection
+### Pattern: Granular Metadata Through Annotations {#granular-metadata}
+
+**Challenge**: Capturing context, exceptions, and qualifications for field data.
+
+**Solution**: Fieldmark's annotation and uncertainty features provide field-level metadata capability that sets it apart from other data collection systems.
+
+**Standard Configuration**:
+
 ```json
 {
-  "fields": {
-    "site-photos": {
-      "component-name": "TakePhoto",
-      "component-parameters": {
-        "label": "Site Photographs",
-        "helperText": "Capture overall site images"
-      }
-    },
-    "_has_photos": {
-      "component-name": "TemplatedStringField",
-      "component-parameters": {
-        "template": "{{#site-photos}}yes{{/site-photos}}{{^site-photos}}no{{/site-photos}}",
-        "hidden": true
-      }
-    },
-    "photo-metadata": {
-      "component-name": "Select",
-      "component-parameters": {
-        "label": "Photography Conditions",
-        "ElementProps": {
-          "options": [
-            {"value": "sunny", "label": "Sunny"},
-            {"value": "overcast", "label": "Overcast"},
-            {"value": "rain", "label": "Rain"},
-            {"value": "artificial", "label": "Artificial Light"}
-          ]
-        }
-      },
-      "condition": {
-        "operator": "equal",
-        "field": "_has_photos",
-        "value": "yes"
-      }
-    },
-    "photo-description": {
-      "component-name": "MultilineTextField",
-      "component-parameters": {
-        "label": "Describe Photographs",
-        "required": true,
-        "rows": 3
-      },
-      "condition": {
-        "operator": "equal",
-        "field": "_has_photos",
-        "value": "yes"
-      }
-    }
-  }
-}
-```
-
-### Example 4: Dynamic Section Navigation
-This example shows how conditional sections affect navigation and progress indicators:
-```json
-{
-  "sections": {
-    "Main": {
-      "label": "Main",
-      "fields": ["artifact-length", "artifact-width", "artifact-height", "add-additional"]
-    },
-    "ArtefactMeasurements": {
-      "label": "Artefact Measurements",
-      "fields": ["weight", "material", "condition"]
-    },
-    "ExtraArtefactMeasurements": {
-      "label": "Extra Artefact Measurements",
-      "fields": ["volume", "density", "magnetic-susceptibility"],
-      "condition": {
-        "operator": "equal",
-        "field": "add-additional",
-        "value": true
-      }
-    }
-  },
-  "fields": {
-    "artifact-length": {
-      "component-name": "NumberInput",
-      "component-parameters": {
-        "label": "Artefact Length (mm)",
-        "helperText": "Length of the artefact in mm"
-      }
-    },
-    "add-additional": {
-      "component-name": "Checkbox",
-      "component-parameters": {
-        "label": "Add Additional Artefact Measurements?",
-        "helperText": "Check to add additional dimensions"
-      }
-    }
-  }
-}
-```
-**Navigation behavior:**
-- When unchecked: Progress shows "2/2", two sections visible
-- When checked: Progress shows "2/3", "Extra Artefact Measurements" appears
-- Navigation breadcrumbs update dynamically
-- No page reload required
-
----
-
-## Appendix B: Quick Reference Card {essential} {designer}
-
-### Most Common Patterns
-```json
-// Show if equals
-{"operator": "equal", "field": "trigger", "value": "yes"}
-
-// Show if NOT equals
-{"operator": "not-equal", "field": "trigger", "value": "no"}
-
-// Show if greater than
-{"operator": "greater", "field": "count", "value": 10}
-
-// Show if any of multiple values (OR)
-{
-  "operator": "or",
-  "conditions": [
-    {"operator": "equal", "field": "type", "value": "A"},
-    {"operator": "equal", "field": "type", "value": "B"}
-  ]
-}
-
-// Show if multiple conditions met (AND)
-{
-  "operator": "and",
-  "conditions": [
-    {"operator": "equal", "field": "required", "value": true},
-    {"operator": "greater", "field": "count", "value": 0}
-  ]
-}
-
-// Check if multi-select contains value
-{"operator": "contains", "field": "multi-select", "value": "option1"}
-
-// Pattern match with regex
-{"operator": "regex", "field": "code", "value": "^[A-Z]{3}\\d{3}$"}
-```
-
-### Testing Checklist
-- [ ] Open notebook in separate tab (not Designer preview)
-- [ ] Check field types match condition values
-- [ ] Verify field IDs spelled correctly
-- [ ] Test all condition paths
-- [ ] Check required field behavior
-
----
-
-**Document Status**: Complete Third Draft - Production Ready  
-**Technical Verification**: Full code analysis completed  
-**Production Testing**: Patterns verified in deployed notebooks  
-**Cross-References**: Field type documentation, TemplatedStringField, BasicAutoIncrementer  
-**Known Issues**: Designer preview, conditional validation, cross-form references  
-**Roadmap Items**: Preview conditions, calculated fields, additional operators  
-**Next Review**: After Designer preview conditions implemented
-
----
-
-*End of Conditional Logic System Documentation - Ready for Project Knowledge*
-
-<!-- concat:pattern:navigation -->
-# Form Navigation and Data Flow - Third Draft Documentation
-## Fieldmark/FAIMS3 Technical Reference
-
-### Document Classification
-- **Component Type**: Core System Behavior
-- **Audience Tags**: {designer} {developer} {claude-code} {user}
-- **Depth Levels**: {essential} {important} {comprehensive}
-- **Version**: 1.0.0
-- **Last Technical Verification**: August 2025
-- **Key Discovery**: Navigation is completely decoupled from validation and sync
-
----
-
-## 1. Executive Summary {essential} {designer}
-
-### System Overview
-Fieldmark's navigation system provides flexible form traversal through either vertical (scrolling) or horizontal (breadcrumb) patterns. Navigation operates independently of validation state and sync operations, allowing users to move freely between sections while data auto-saves to a draft database every 10 seconds. The system currently uses a two-database architecture (draft + production), with production data stored append-only for full history tracking. The draft stage will be eliminated to prevent data loss from forgotten drafts.
-
-### Critical Architecture Decisions
-1. **No Navigation Blocking**: Users can navigate freely regardless of validation errors
-2. **Automatic Persistence**: Draft saves every 10 seconds (future: no 'drafts', immediate saves to 'production', rely on record history to revert errors)  
-3. **Decoupled Sync**: Background synchronization never blocks navigation
-4. **Simple State Management**: Navigation state lives in React components, not Redux
-5. **Parent-Child Context**: Maintained through React Router location state
-
-### Key Limitations
-- No deep linking to specific sections
-- No keyboard navigation shortcuts
-- No multi-form progress aggregation
-- No navigation guards or permission checks (handled at API level)
-- Progress percentage doesn't persist across sessions
-- Draft data doesn't sync until "Finish and..." clicked (being addressed)
-
----
-
-## 2. Navigation Patterns {essential} {user}
-
-### Primary Navigation Modes
-
-#### Vertical Organization (Scrolling)
-Best for linear data collection workflows:
-```
-┌─────────────────────────┐
-│ Section 1: Basic Info   │
-│ [Fields...]             │
-├─────────────────────────┤
-│ Section 2: Details      │
-│ [Fields...]             │
-├─────────────────────────┤
-│ Section 3: Notes        │
-│ [Fields...]             │
-└─────────────────────────┘
-```
-- All sections visible on single page
-- Natural scrolling between sections
-- Immediate visibility of all data
-- Best for forms with <5 sections
-
-#### Horizontal Organization (Breadcrumbs)
-Best for complex multi-step workflows:
-```
-Home > Site > Details > [Current Section]
-
-[Previous] Section 2 of 5 [Next]
-```
-- One section visible at a time
-- Breadcrumb navigation between sections
-- Minimal scrolling per section
-- Best for forms with many sections or conditional logic
-
-### Navigation State Tracking {important} {developer}
-
-```javascript
-// Component state (not Redux)
-state = {
-  activeStep: 2,              // Current section index
-  view_cached: "details",     // Current section ID
-  visitedSteps: Set(["basic", "details"]) // Visited sections
-}
-```
-
-**Important**: Navigation position is NOT persisted - users return to first section on reload.
-
----
-
-## 3. Data Flow Architecture {comprehensive} {developer}
-
-### Save and Persistence Flow
-
-```mermaid
-graph TD
-    A[User Input] --> B[Field onChange]
-    B --> C[Formik State Update]
-    C --> D{10 Second Timer}
-    D -->|Timer Elapsed| E[Auto-save to Draft DB]
-    D -->|User Navigates| F[Force Save to Draft DB]
-    E --> G[PouchDB Draft Database]
-    F --> G
-    
-    K[User Clicks<br/>'Finish and Close/New'] --> L[Move to Production DB]
-    L --> M[PouchDB Production Database]
-    M --> N[Delete from Draft DB]
-    N --> O[Create New Revision]
-    O --> P[Append-Only History]
-    
-    M --> H{Network Available?}
-    H -->|Yes| I[Sync to CouchDB]
-    H -->|No| J[Queue for Later Sync]
-```
-
-**Current System**: Two separate PouchDB instances
-- **Draft Database**: Temporary storage, auto-saves every 10 seconds
-- **Production Database**: Append-only record history after user clicks "Finish and..."
-
-**Future System**: Single production database only
-- Eliminate draft database entirely
-- All changes save directly to production as new revisions
-- "Finish and..." buttons become pure navigation
-- Rely on record history viewer to review/revert changes
-
-### Draft Storage Structure (To Be Eliminated) {important} {developer}
-
-**Current: Separate Draft Database**
-```json
-{
-  "_id": "drf-uuid-v4-here",  // Draft ID prefix
-  "created": "2024-03-15T10:30:00Z",
-  "updated": "2024-03-15T10:40:00Z",
-  "fields": {
-    "site-name": "Test Site",
-    "description": "Archaeological survey"
-  },
-  "annotations": {},
-  "attachments": {},
-  "project_id": "project-123",
-  "existing": null,  // Or {record_id, revision_id} for edits
-  "type": "Survey",
-  "field_types": {},
-  "record_id": "rec-uuid"
-}
-```
-
-**Issues with Draft System**:
-- Stored in separate PouchDB instance from production
-- Doesn't sync until user clicks "Finish and..."
-- Often forgotten, leading to data loss
-- Creates confusion about data state
-
-### Future: Eliminating the Draft Stage {important} {designer}
-
-**Current Problems with Draft System**:
-- Users forget to click "Finish and..." leaving data in draft limbo
-- Drafts don't sync until moved to production
-- Confusion between draft and published states
-- Data loss when drafts are abandoned
-
-**Planned Changes** (High Priority):
-- Remove draft database entirely
-- Every change saves directly to production database
-- Production database already append-only (keeps full history)
-- "Finish and Close/New" buttons become navigation only
-- Record history browser for viewing/reverting changes
-- No more "draft" vs "published" distinction
-
----
-
-## 4. Parent-Child Navigation {essential} {designer}
-
-### Recommended Workflow
-
-```mermaid
-graph LR
-    A[Create Parent] --> B[Save Parent]
-    B --> C[Create Child 1]
-    C --> D[Save & New Child]
-    D --> E[Create Child 2]
-    E --> F[Save & Return]
-    F --> G[Complete Parent]
-```
-
-### Parent-Child Data Transfer {important} {developer}
-
-#### Location State Structure
-```javascript
-{
-  parent_record_id: "parent-123",
-  parent_link: "/project/123/record/parent-123",
-  field_id: "children-relationship",
-  child_record_id: "child-456"
-}
-```
-
-#### Sticky Fields Configuration {important} {designer}
-Fields that should carry data between child records:
-```json
-{
-  "excavation-unit": {
-    "component-name": "TextField",
+  "soil-color": {
+    "component-name": "Select",
     "component-parameters": {
-      "sticky": true,  // Preserves value for next child
-      "name": "unit",
-      "label": "Excavation Unit"
+      "label": "Munsell Soil Color",
+      "ElementProps": {"options": ["10YR 3/3", "10YR 4/3", "7.5YR 3/2"]}
+    },
+    "meta": {
+      "annotation": {"include": true, "label": "Color notes"},
+      "uncertainty": {"include": true, "label": "Provisional"}
     }
   }
 }
 ```
 
-### Navigation Options After Save
+**Real-World Annotation Examples**:
+- Soil compaction: "Compaction difficult to measure because most of the context is gravel"
+- Color assessment: "Soil color may be inaccurate due to poor lighting (early morning/heavy overcast) - re-classify later"
+- Serendipitous discovery: "This feature is a kiln, which is not on our list of feature types since it was unexpected, please add it"
+- Measurement qualification: "Depth measurement taken from highest point of sloping surface"
+- Environmental context: "Strong wind affecting sieve results"
 
-**Current System** (with draft database):
+**Fields That Should Have Annotations**:
+- Measurement fields (methods, conditions, instruments used)
+- Observation fields (behavioral context, environmental factors)
+- Identification fields (diagnostic features, confidence level)
+- Selection fields (especially those with "Other" option)
+- Count/quantity fields (estimation methods, sampling area)
+- Condition assessments (specific damage, preservation notes)
+- Classification fields (ambiguous cases, multiple possibilities)
+- Sample fields (collection methods, contamination risks)
 
-| Button | Current Behavior | Future Behavior (no drafts) |
-|--------|------------------|----------------------------|
-| Finish and Close | Publishes to production + Returns to project | Just returns to project |
-| Finish and New | Publishes to production + Creates new record | Just creates new record |
-| Cancel | Discards draft + Returns | Returns (changes already saved) |
-| Auto-save | Saves to draft DB only | Saves to production |
+**Fields That Typically Don't Need Annotations**:
+- Free-text fields (already have space for elaboration)
+- Auto-generated fields (BasicAutoIncrementer, TemplatedStringField)
+- Pure administrative fields (record IDs, creation timestamps)
+- Relationship fields (unless relationship type needs explanation)
+- Binary checkboxes with clear meaning
 
-**For Child Records**:
+**Uncertainty Marking Use Cases**:
+- Estimated measurements (distances, counts, percentages)
+- Tentative identifications (species, artifact types)
+- Provisional classifications (pending specialist review)
+- Weather-affected observations
+- Incomplete data (partial visibility, time constraints)
+- Circa dates (approximate temporal assignments)
 
-| Action | Behavior | Use Case | Implementation |
-|--------|----------|----------|----------------|
-| Save & New Child | Publishes current child + Creates new with parent context | Multiple specimens | `navigateAfterSaveChild()` |
-| Save & Return | Publishes child + Returns to parent form | Finished with children | Uses `parent_link` from state |
-| Save & Continue | Saves to draft + Stays in form | More edits needed | Default behavior |
+**Configuration Best Practices**:
+1. Use descriptive labels instead of generic "Annotation"
+2. Keep labels short but specific: "Measurement notes" not "Notes"
+3. Consider field-appropriate uncertainty labels: "Estimate", "Provisional", "Tentative"
+4. Place annotations on data collection fields, not metadata fields
 
----
+## Performance Thresholds and Limits
 
-## 5. Progress Tracking {essential} {user}
+### Field-Specific Performance Boundaries {#performance-limits}
 
-### Progress Calculation {important} {developer}
+**Important**: These are approximate thresholds extrapolated from code analysis. Actual performance depends heavily on device capabilities, browser, network conditions, and specific use cases. Test with your actual data and devices.
 
+| Field Type | Estimated Good Performance | Possible Degradation | Likely Issues | Hard Limit |
+|------------|---------------------------|---------------------|---------------|------------|
+| Relationships | <50 | ~50-100 | >100 | None |
+| Select/MultiSelect | <50 | ~50-100 | >100 | None |
+| AdvancedSelect | <100 | ~100-500 | >500 | None |
+| TakePhoto | <5 | ~5-10 | >10 | 20 (enforced) |
+| Fields per section | <30 | ~30-50 | >50 | None |
+| Conditional fields | <10 | ~10-20 | >20 | None |
+
+### Optimization Strategies
+
+1. **Split large forms**: Multiple smaller forms vs one large form
+2. **Use conditional sections**: Hide irrelevant fields
+3. **Separate media**: Dedicated forms for photos/files
+4. **Limit options**: Aim for reasonable numbers in selection fields
+5. **Avoid deep nesting**: Maximum 3-4 hierarchy levels
+
+## Troubleshooting Framework
+
+### Universal Diagnostic Steps {#diagnostics}
+
+1. **Identify Symptoms** - What exactly is occurring?
+2. **Check Console** - Browser/app console for errors
+3. **Verify Platform** - iOS, Android, or Web-specific?
+4. **Test Isolation** - Minimal test case?
+5. **Check Configuration** - Valid JSON?
+6. **Review Logs** - Sync, network, validation
+7. **Document Pattern** - Reproducible steps
+
+### Common Error Patterns
+
+| Error | Cause | Fix |
+|-------|-------|-----|
+| `Cannot read property of undefined` | Missing null checks | Add optional chaining |
+| `Maximum call stack exceeded` | Infinite loop | Check conditions |
+| `Out of memory` | Large data/images | Reduce size |
+| `Network timeout` | Slow connection | Retry/offline mode |
+| `Permission denied` | Missing permissions | Check settings |
+
+### Platform-Specific Debugging
+
+**iOS**:
 ```javascript
-// Only counts visible, required fields
-const progress = requiredFields
-  .filter(field => isFieldVisible(field))
-  .filter(field => hasValue(field))
-  .length / totalVisibleRequired;
+// Safari Web Inspector
+console.log('iOS state:', navigator.userAgent);
+// Check memory
+performance.memory
 ```
 
-### Progress Display Patterns
-
-#### Mobile Stepper
-```
-[<] Step 2 of 5 [>]
-```
-- Shows current position
-- Total section count
-- Previous/Next navigation
-
-#### Desktop Stepper
-```
-[✓] Basic Info -- [!] Details -- [ ] Photos -- [ ] Review
-```
-- ✓ = Visited, no errors
-- ! = Visited, has errors  
-- □ = Not visited
-
-### Progress Scope {important} {designer}
-
-**Current Implementation**:
-- Progress per individual record only
-- Recalculates on every render
-- Adjusts dynamically for conditional fields
-- Does NOT persist across sessions
-
-**Future Considerations**:
-- Parent + children aggregate progress
-- Multi-form notebook progress
-- Persistent progress tracking
-
----
-
-## 6. Validation and Navigation {essential} {designer}
-
-### Non-Blocking Validation Pattern
-
-```mermaid
-graph TD
-    A[User in Section 1] --> B[Has Validation Errors]
-    B --> C{User Navigates}
-    C -->|Allowed| D[Move to Section 2]
-    D --> E[Section 1 Shows Error Badge]
-    
-    F[User Attempts Submit] --> G{Check All Errors}
-    G -->|Has Errors| H[Jump to First Error]
-    H --> I[Highlight All Errors]
-    G -->|No Errors| J[Submit Record]
-```
-
-### Error Navigation Behavior {important} {developer}
-
+**Android**:
 ```javascript
-// Current: Non-blocking navigation
-onChangeStepper(step) {
-  // No validation check - always allows navigation
-  this.setState({
-    activeStep: step,
-    view_cached: views[step]
-  });
-  this.updateVisitedSteps(views[step]);
-}
-
-// Future: Jump to error on submit
-handleSubmit() {
-  const errors = validateForm();
-  if (errors.length > 0) {
-    jumpToField(errors[0].fieldId);  // First error
-    highlightAllErrors(errors);       // All errors visible
-  }
-}
+// Chrome DevTools
+chrome://inspect
+// ADB logs
+adb logcat | grep Fieldmark
 ```
 
-### Visual Error Indicators
-
-| Platform | Section with Errors | Required Fields | Completed Section |
-|----------|-------------------|-----------------|-------------------|
-| Desktop Tabs | Red dot with count | Asterisk (*) | Checkmark (✓) |
-| Desktop Inline | Red text below header | Asterisk (*) | Green border |
-| Mobile | Red badge on step | Red asterisk | Green checkmark |
-
----
-
-## 7. Synchronization Behavior {important} {developer}
-
-### Sync Independence Principle
-
-Synchronization operates completely independently of navigation:
-
+**Web**:
 ```javascript
-// Navigation continues regardless of sync state
-const canNavigate = true;  // Always true
-const isSyncing = useSelector(state => state.project.isSyncing);
-// isSyncing state available but never blocks navigation
+// Browser DevTools
+debugger; // Breakpoint
+console.time('Operation');
+// ... operation
+console.timeEnd('Operation');
 ```
 
-### Background Sync Process
+## Data Management Patterns
 
-1. **Continuous Operation**: Sync runs whenever network available
-2. **Queue Management**: Changes queued if offline
-3. **No Navigation Impact**: Users work uninterrupted
-4. **Visual Indicators**: Optional sync status display
-5. **Conflict Resolution**: Handled separately in Control Centre
+### Export Strategy {#export-patterns}
 
-### Sync Status Communication {comprehensive} {developer}
+**Challenge**: CSV exports lose structure, JSON preserves but isn't readable.
 
-```javascript
-// Redux state available but not enforced
-state.project.isSyncing     // true during active sync
-state.project.lastSyncTime  // timestamp of last successful sync
-state.project.syncQueue     // pending changes count
-state.project.syncErrors    // any sync failures
+**Solution**: Dual export strategy:
+
+1. **For Analysis**: CSV with flattened relationships
+2. **For Archive**: JSON with full structure
+3. **For Reimport**: JSON only (CSV can't preserve relationships)
+
+### Relationship Export Format
+
+**CSV Format**:
+```csv
+_id,identifier,relationships
+ctx001,CTX-001,"cuts/ctx002;fills/ctx003"
 ```
 
----
-
-## 8. Breadcrumb Navigation {important} {developer}
-
-### Implementation Details
-
-```typescript
-// Breadcrumb truncation on mobile
-const abbreviateTitle = (title: string) => {
-  if (title.length > 10 && !not_xs) {
-    return title.substring(0, 7) + '...';
-  }
-  return title;
-};
-
-// Responsive breadcrumb limits
-<MuiBreadcrumbs
-  maxItems={not_xs ? 4 : 2}        // Desktop: 4, Mobile: 2
-  itemsAfterCollapse={not_xs ? 2 : 1}
-  itemsBeforeCollapse={not_xs ? 0 : 1}
->
-```
-
-### Breadcrumb Behavior Rules
-
-1. **Simple Navigation Only**: No state display or validation indicators
-2. **Auto-save on Click**: Changes save to draft before navigation
-3. **No Deep Linking**: Cannot link to specific sections via URL
-4. **Responsive Display**: Collapses on mobile to save space
-
----
-
-## 9. Edge Cases and Error Handling {comprehensive} {developer}
-
-### Orphaned Child Records
-
-**Scenario**: Parent record deleted while children exist
-
-**Current Behavior**:
-- Children remain in database (orphaned)
-- Still accessible if ID known
-- No automatic cleanup
-- Manual intervention required
-
-**Recommended Practice**: Always delete children before parent
-
-### Missing Parent Context
-
-**Scenario**: Creating child without parent
-
-**Behavior**:
-```javascript
-// Without parent context
-location.state = null;  // No parent_link or parent_record_id
-
-// Record created but unlinked
+**JSON Format**:
+```json
 {
-  "relationship": null,  // No parent connection
-  // Rest of child data...
+  "relationships": [
+    {
+      "record_id": "ctx002",
+      "relation_type_vocabPair": ["cuts", "is cut by"]
+    }
+  ]
 }
 ```
 
-**Recovery**: Must manually link via relationship field edit
+### Database API Integration {#api-integration}
 
-### Navigation to Non-Existent Records
+**Pattern**: Direct CouchDB access for external systems.
 
-**Current Behavior**:
-- No 404 handling
-- Database error bubbles up
-- White screen possible
+**Considerations**:
+- No import validation exists
+- Schema compliance not enforced
+- Risk of corruption through malformed imports
+- Document structure must match exactly
 
-**Planned Improvement**:
+**Safe Integration**:
 ```javascript
-// Future error boundary
-if (!recordExists) {
-  return <RecordNotFound />;
+// Read-only access pattern
+const db = new PouchDB('https://server/database');
+const doc = await db.get('record-id');
+
+// Validated write pattern
+const schema = loadSchema();
+if (validateAgainstSchema(newDoc, schema)) {
+  await db.put(newDoc);
 }
 ```
 
-### Concurrent Edit Conflicts
+## Security and Validation Patterns
 
-**Scenario**: Same record edited on multiple devices
+### Client-Side Validation Only {#validation-patterns}
 
-**Resolution**:
-1. Both edits save locally
-2. Sync creates conflict
-3. Control Centre shows conflict
-4. User chooses winning version
-5. Navigation unaffected throughout
+**Reality**: No server-side validation exists.
 
----
+**Implications**:
+- Data integrity depends on client
+- Malformed data can be synced
+- External API writes bypass validation
 
-## 10. Performance Considerations {comprehensive} {developer}
+**Defensive Patterns**:
+1. Validate at multiple points
+2. Add data integrity checks
+3. Document validation rules
+4. Test edge cases thoroughly
+5. Monitor for anomalies
 
-### Navigation Performance Issues
+### File Security Gaps {#security-gaps}
 
-| Issue | Impact | Mitigation |
-|-------|--------|------------|
-| Progress recalculates every render | CPU usage | Memoize calculation |
-| All sections render initially | Memory spike | Implement lazy loading |
-| Validation on every change | UI lag | Debounce validation |
-| Large breadcrumb arrays | Render delay | Virtualize breadcrumbs |
+**Issues**:
+- FileUploader accepts any file type
+- No virus scanning
+- Executables not blocked
+- EXIF data handling inconsistent
 
-### Optimization Patterns
-
-```javascript
-// Memoized progress calculation
-const progress = useMemo(
-  () => calculateProgress(fields, values),
-  [fields, values]
-);
-
-// Debounced navigation
-const debouncedNavigate = useMemo(
-  () => debounce(handleNavigate, 300),
-  []
-);
+**Mitigation**:
+```json
+{
+  "document-upload": {
+    "component-parameters": {
+      "accept": ".pdf,.doc,.docx",  // Limit types
+      "helperText": "PDF or Word documents only",
+      "multiple": false  // Limit quantity
+    }
+  }
+}
 ```
 
----
+## Component Selection Patterns
 
-## 11. Navigation Patterns Library {important} {designer}
+### Choosing Between Similar Components {#component-selection}
 
-### Pattern 1: Linear Survey Collection
+| Need | Use | Don't Use | Why |
+|------|-----|-----------|-----|
+| Single-line text | TextField | FAIMSTextField | TextField is standard |
+| Multi-line text | MultilineTextField | TextField with multiline | Clearer intent |
+| 2-5 options | RadioGroup | Select | Better UX |
+| 5+ options | Select | RadioGroup | Space efficient |
+| Many options | AdvancedSelect | MultiSelect | Hierarchical support |
+| Numbers | ControlledNumber | NumberField | Better validation |
+| Auto ID | BasicAutoIncrementer | Manual entry | Consistency |
+
+### Component Architecture Issues
+
+**Known Problems**:
+- TextField/FAIMSTextField duality unclear
+- Component reference bugs (wrong error messages)
+- TakePhoto and FileUploader overlap
+- AdvancedSelect recursive rendering
+
+**Workarounds**:
+1. Prefer standard components
+2. Test thoroughly on target platforms
+3. Monitor memory usage
+4. Have fallback options
+
+## Mobile vs Desktop Patterns
+
+### Platform Capability Matrix {#platform-matrix}
+
+| Feature | iOS | Android | Web Desktop | Web Mobile |
+|---------|-----|---------|-------------|------------|
+| GPS | ✅ | ✅ | ⚠️ Limited | ⚠️ Limited |
+| Camera | ✅ | ✅ | ⚠️ Varies | ⚠️ Varies |
+| QR Scan | ✅ | ✅ | ❌ | ❌ |
+| Offline | ✅ | ✅ | ✅ | ✅ |
+| File Upload | ⚠️ | ⚠️ | ✅ | ⚠️ |
+
+### Responsive Design Requirements
+
+**Common Issues**:
+- Fixed widths break mobile (500px)
+- Touch targets too small (<44px)
+- Keyboard types vary
+
+**Solutions**:
+```json
+{
+  "component-parameters": {
+    "fullWidth": true,  // Responsive width
+    "InputProps": {
+      "style": {
+        "minHeight": "44px"  // Touch target
+      }
+    }
+  }
+}
+```
+
+## Workflow Implementation Patterns
+
+### Linear Survey Collection {#linear-workflow}
 
 ```json
 {
@@ -22422,9 +20970,10 @@ const debouncedNavigate = useMemo(
   "progress": "per-section"
 }
 ```
-**Use When**: Sequential data collection, minimal backtracking
 
-### Pattern 2: Hierarchical Recording
+**When to use**: Sequential data collection, minimal backtracking
+
+### Hierarchical Recording {#hierarchical-workflow}
 
 ```json
 {
@@ -22435,9 +20984,10 @@ const debouncedNavigate = useMemo(
   "auto_save": true
 }
 ```
-**Use When**: One-to-many relationships, repeated child creation
 
-### Pattern 3: Conditional Workflow
+**When to use**: One-to-many relationships, repeated child creation
+
+### Conditional Workflow {#conditional-workflow}
 
 ```json
 {
@@ -22450,1538 +21000,185 @@ const debouncedNavigate = useMemo(
   "skip_hidden": true
 }
 ```
-**Use When**: Dynamic forms, role-based sections
 
----
+**When to use**: Dynamic forms, role-based sections
 
-## 12. Best Practices {essential} {designer}
+## Error Recovery Patterns
+
+### Data Recovery Strategies {#error-recovery}
+
+**Scenario**: Form crashes with unsaved data
+
+**Recovery Steps**:
+1. Check browser localStorage
+2. Look for draft database entries
+3. Check PouchDB: `indexedDB` in DevTools
+4. Export any recoverable data
+5. Reimport through API if needed
+
+### Sync Conflict Resolution
+
+**Pattern**: While last-write-wins is the default behavior, conflicts are flagged to users after sync.
+
+**Conflict Resolution Process**:
+1. Concurrent edits create conflicts during sync
+2. Control Centre displays conflicts after sync
+3. Users can review both versions
+4. Choose winning version in Control Centre
+5. Or manually merge and reimport if needed
+
+**Note**: The conflict resolution module in Control Centre allows users to see and resolve conflicts, though the underlying system uses last-write-wins if no manual intervention occurs.
+
+## Integration Patterns
+
+### External System Integration {#integration}
+
+**Current Integrations**:
+- RSpace ELN (electronic lab notebook)
+- QGIS (GIS software)
+- CouchDB API direct access
+
+**Integration Checklist**:
+1. Document schema requirements
+2. Validate before import
+3. Test with minimal data
+4. Monitor for conflicts
+5. Plan rollback strategy
+
+### API Usage Guidelines
+
+```javascript
+// Safe read pattern
+async function readData() {
+  try {
+    const db = new PouchDB('database-url');
+    const result = await db.allDocs({
+      include_docs: true,
+      startkey: 'record_',
+      endkey: 'record_\ufff0'
+    });
+    return result.rows.map(r => r.doc);
+  } catch (error) {
+    console.error('Read failed:', error);
+  }
+}
+
+// Validated write pattern
+async function writeData(doc) {
+  if (!validateDocument(doc)) {
+    throw new Error('Invalid document structure');
+  }
+  return await db.put(doc);
+}
+```
+
+## Best Practices Summary
 
 ### DO:
-✅ Create parent records before children  
-✅ Use sticky fields for repeated child data  
-✅ Configure validation as warnings when possible  
-✅ Test navigation on both mobile and desktop  
-✅ Keep section names short for mobile display  
-✅ Design for offline-first operation  
-✅ Remember to click "Finish and..." to move data to production (until draft system removed)
+✅ Coordinate auto-increment ranges  
+✅ Use human-readable IDs  
+✅ Split large forms strategically  
+✅ Test on minimum spec devices  
+✅ Document known limitations  
+✅ Plan for offline scenarios  
+✅ Validate data at multiple points  
+✅ Monitor performance metrics  
+✅ Enable annotations for measurement and observation fields  
+✅ Use uncertainty marking for estimated or provisional data  
+✅ Configure meaningful labels for annotation fields  
+✅ Export annotation columns in data reports  
 
 ### DON'T:
-❌ Rely on navigation blocking for validation  
-❌ Create orphaned child records intentionally  
-❌ Assume navigation state persists  
-❌ Put critical actions in breadcrumbs  
-❌ Exceed 5-7 sections without good reason  
-❌ Forget drafts don't sync until published (current system)  
-
----
-
-## 13. Migration Guide: Eliminating Draft Database {important} {developer}
-
-### Current Two-Database System
-
-```javascript
-// Current: Separate draft and production databases
-User enters data → Draft DB (auto-save) → Click "Finish" → Production DB (append-only) → Draft deleted
-```
-
-**Two PouchDB Instances**:
-1. **Draft Database**: Temporary, not synced, auto-saves every 10 seconds
-2. **Production Database**: Append-only history, syncs to CouchDB
-
-### Future Single-Database System
-
-```javascript
-// Future: Direct to production, no draft stage
-User enters data → Production DB (immediate save as revision) → History preserved
-```
-
-**Single PouchDB Instance**:
-- All changes create new revisions immediately
-- Full history available for review/revert
-- Syncs continuously to CouchDB
-- No draft/published distinction
-
-### What Changes for Users
-
-| Current Behavior | Future Behavior |
-|-----------------|-----------------|
-| Data in draft until "Finish and..." clicked | Data in production immediately |
-| Drafts may be forgotten/lost | All changes preserved automatically |
-| "Finish and Close" publishes + navigates | "Finish and Close" only navigates |
-| Can't see draft data from other devices | All data visible after sync |
-| Draft/Published status indicators | Single status: all data is "live" |
-
-### Migration Requirements
-
-1. **UI Changes**:
-   - Remove draft badges/indicators
-   - Change "Finish and..." button labels
-   - Add revision history viewer
-   - Add revert controls
-
-2. **Backend Changes**:
-   - Remove draft database instance
-   - Update save logic to write to production
-   - Ensure revision API supports browsing
-   - Create revert mechanism
-
-3. **User Communication**:
-   - "Your data saves automatically"
-   - "No more draft/publish steps"
-   - "Use history to review changes"
-   - Training on revision browser
-
----
-
-## See Also
-
-- [Notebook Structure Documentation](./notebook-structure.md) - Form, section, and field organization
-- [Validation System](./validation.md) - Validation rules and error handling  
-- [Conditional Logic Guide](./conditional-logic.md) - Dynamic form behavior
-- [RelationshipField Documentation](./relationship-field.md) - Parent-child configuration
-- [Synchronization Architecture](./sync.md) - Detailed sync behavior
-- [Control Centre Guide](./control-centre.md) - Export and conflict resolution
-
----
-
-**Document Version**: 1.0.0  
-**Last Updated**: August 2025  
-**Technical Verification**: Complete via 60+ Q&A with Claude Code  
-**Production Status**: Ready for use
-
-*Critical Note: This documentation reflects navigation as of August 2025. The system currently uses a two-database approach (draft + production), with production already using append-only storage. The draft database is planned for removal, after which all changes will save directly to the production database, eliminating draft-related data loss issues while maintaining the full revision history already available in production.*
-
-<!-- concat:pattern:notebook-structure -->
-# Notebook Structure: Forms, Sections, and Fields - Third Draft Documentation
-
-## Overview
-
-Fieldmark notebooks employ a three-tier hierarchical architecture organizing data collection into Forms (viewsets), Sections (views), and Fields. This structure scales from simple single-form checklists to sophisticated multi-entity recording systems with dozens of interconnected forms supporting complex parent-child relationships. The architecture operates without virtualization, rendering all fields simultaneously, which creates performance boundaries at approximately 50-100 fields per section. Critical architectural decisions—such as field ID uniqueness being global across the entire notebook—cascade through the system and cannot be modified after data collection begins without risk of data loss.
-
-The system's distributed nature introduces unique behaviors: child records orphaned by soft-deleted parents remain accessible, circular parent-child relationships are possible without prevention, and malformed conditional logic can crash entire forms. Understanding these architectural realities alongside the flexible configuration options enables notebook designers to create robust data collection instruments whilst avoiding documented performance cliffs and structural pitfalls.
-
-## Common Use Cases
-
-### Archaeological Recording Hierarchies
-• **Context → Feature → Sample**: Excavation units containing features with associated samples
-• **Site → Trench → Context → Find**: Multi-level spatial organisation with artefact recording  
-• **Survey → Transect → Observation → Photo**: Systematic survey with structured observations
-• **Building → Room → Element → Condition**: Architectural recording with condition assessments
-• **Area → Structure → Deposit → Artefact Group → Artefact**: Deep hierarchical excavation recording
-
-### Heritage Management Workflows
-• **Property → Building → Element → Issue → Intervention**: Asset management with remediation tracking
-• **Site → Monument → Component → Material → Treatment**: Conservation planning hierarchies
-• **Landscape → Character Area → Feature → Attribute**: Landscape characterisation studies
-• **Collection → Box → Object → Component → Analysis**: Museum cataloguing with conservation
-
-### Ecological Survey Patterns  
-• **Site → Plot → Quadrat → Species → Individual**: Vegetation surveys with specimen tracking
-• **Transect → Point → Observation → Measurement → Photo**: Wildlife monitoring protocols
-• **Station → Visit → Sample → Subsample → Analysis**: Water quality monitoring
-• **Grid → Cell → Trap → Capture → Biometric**: Mark-recapture studies
-
-### Geological Documentation
-• **Formation → Member → Bed → Sample → Analysis**: Stratigraphic recording
-• **Site → Outcrop → Unit → Structure → Measurement**: Structural geology mapping
-• **Core → Section → Interval → Sample**: Drilling documentation
-
-## Core Configuration
-
-### Required Root Properties
-```json
-{
-  "ui-specification": {
-    "visible_types": ["form-1", "form-2"],  // REQUIRED: Controls navigation menu
-    "viewsets": {                           // REQUIRED: Form definitions
-      "form-1": { /* config */ }
-    },
-    "fviews": {                             // REQUIRED: Section definitions  
-      "section-1": { /* config */ }
-    },
-    "fields": {                             // REQUIRED: Field specifications
-      "field-1": { /* config */ }
-    }
-  }
-}
-```
-**Critical**: Forms omitted from `visible_types` remain accessible via relationships but hidden from navigation menu. Empty or undefined `visible_types` shows all forms.
-
-### Form (Viewset) Configuration
-
-#### Required Properties
-| Property | Type | Description | Default if Missing |
-|----------|------|-------------|-------------------|
-| `label` | string | Display name in navigation | Form ID used |
-| `views` | array | Section IDs in display order | Empty array (blank form) |
-| `publishButtonBehaviour` | string | Save button logic | `"always"` |
-
-**Note**: Contrary to some documentation, missing `publishButtonBehaviour` does NOT cause failure—defaults to `"always"`.
-
-#### Optional Properties  
-| Property | Type | Default | Description | Constraints |
-|----------|------|---------|-------------|-------------|
-| `hridField` | string | Falls back to "hrid" prefix | Field providing human-readable ID | Must reference existing field |
-| `layout` | string | `"inline"` | Section presentation mode | `"inline"` or `"tabs"` only |
-| `summary_fields` | array | `[]` | Fields shown in record lists | Gracefully handles missing fields |
-
-**Removed Properties**: Documentation may reference `parent_link` or `is_root`—these properties do not exist. Parent-child relationships are configured at field level using RelationshipField.
-
-### Section (View) Configuration
-
-#### Required Properties
-| Property | Type | Description | Constraints |
-|----------|------|-------------|-------------|
-| `label` | string | Section heading displayed | Any string |
-| `fields` | array | Field IDs in display order | Must reference existing fields; IDs globally unique |
-
-**Critical**: Section IDs must be globally unique across ALL forms, not just within their form. Designer auto-generates IDs as `viewSetId-slugified-label`.
-
-#### Optional Properties
-| Property | Type | Default | Description | Behavior |
-|----------|------|---------|-------------|----------|
-| `condition` | object | null | Visibility condition | Malformed conditions crash form |
-| `description` | string | null | Help text (not widely supported) | May not display |
-
-### Field ID Requirements
-**Critical Architecture Decision**: Field IDs must be globally unique across the ENTIRE notebook, not per section or form. The system maintains a single global namespace for all fields. Duplicate field IDs cause configuration overwrites without warning.
-
-## Validation Rules
-
-### Form-Level Validation
-
-| Validation Type | Trigger | Behavior | Error Display | Recovery |
-|-----------------|---------|----------|---------------|----------|
-| Required fields | Save attempt | Blocks submission | Red badge on section, field error | Fill required fields |
-| Field validation | Field blur | Non-blocking | Below field, section indicator | Correct field value |
-| Schema compliance | JSON import | May fail silently | Console warnings only | Check browser console |
-| Missing sections | Form render | Ignored | Console warning | Section omitted from display |
-| Missing fields | Section render | Ignored | Console warning: "undefined field" | Field omitted from display |
-| Malformed conditions | Form load | **CRASHES FORM** | White screen | Fix JSON, reimport |
-
-### Section-Level Validation Aggregation
-
-| Platform | Error Display | Visited Tracking | Required Indicator | Completion Status |
-|----------|---------------|------------------|-------------------|-------------------|
-| Desktop (inline) | Red text below section header | N/A | Asterisk in header | N/A |
-| Desktop (tabs) | Red dot with count on tab | Checkmark when visited | Asterisk on tab | All tabs show status |
-| iOS | Red badge on step | Green when visited | Red asterisk | Step counter (3/5) |
-| Android | Red indicator | Tick mark | Bold asterisk | Fraction (3/5) |
-
-### Configuration Validation Examples
-
-```json
-{
-  "viewset-validation": {
-    "views": ["section-1", "nonexistent-section"],  // Silently ignores missing
-    "hridField": "missing-field",                    // Falls back to "hrid" prefix
-    "publishButtonBehaviour": null                   // Defaults to "always"
-  },
-  "section-validation": {
-    "fields": ["field-1", "undefined-field"],        // Logs warning, continues
-    "condition": {
-      "field": "nonexistent",                        // May crash at runtime
-      "operator": "invalid"                          // WILL crash form
-    }
-  }
-}
-```
-
-## Display Behaviour
-
-### Desktop Rendering
-
-#### Inline Layout Mode (Default)
-- All sections render vertically without virtualization
-- Performance degrades beyond 50-100 fields per section
-- Smooth scroll anchors to section starts
-- Section headers NOT sticky (browser limitation)
-- Fields render in exact array order
-- No lazy loading—entire form in DOM
-
-#### Tabs Layout Mode
-- Horizontal stepper with full section names
-- Previous/Next buttons flank stepper
-- Current section scales 1.2x for emphasis
-- All sections still rendered (no lazy loading)
-- Keyboard: Tab/Shift-Tab navigates sections
-- Visited sections show checkmark indicator
-- Error sections show red badge with count
-
-### Mobile Rendering
-
-#### iOS Behaviour
-- Tabs compact to numbered stepper (1/5 format)
-- Swipe gestures conflict with system gestures
-- Momentum scrolling in inline mode
-- Form header remains fixed
-- Software keyboard pushes content up
-- No viewport optimization for large forms
-
-#### Android Behaviour  
-- Material Design stepper in tabs mode
-- Hardware back button behavior inconsistent
-- FAB for save action (when implemented)
-- Predictive back gesture may show previous section
-- Pull-to-refresh not implemented
-- Same performance limits as iOS
-
-### Responsive Breakpoints
-```javascript
-// From useScreenSize.tsx
-xs: < 576px     // Phone portrait
-sm: 576-768px    // Phone landscape/small tablet
-md: 768-992px    // Tablet
-lg: 992-1200px   // Desktop
-xl: > 1200px     // Large desktop
-```
-
-### Performance Characteristics
-- **50-100 fields/section**: Noticeable input lag begins
-- **100+ fields/section**: Significant degradation
-- **200+ fields/section**: Near unusable
-- **20-30 conditional fields**: Evaluation lag noticeable
-- **No virtualization**: All fields always in DOM
-- **No pagination**: Complete form always rendered
-
-## Interaction Patterns
-
-### Navigation Flows
-
-#### Linear Progression (Tabs Mode)
-1. User enters form at first section
-2. Completes fields in current section  
-3. Clicks "Next" or section tab
-4. Validation occurs if `publishButtonBehaviour: "noErrors"`
-5. Section marked as visited in `visitedSteps` Set
-6. Hidden conditional sections do NOT count as visited
-7. Save enabled based on publishButtonBehaviour logic
-
-#### Non-Linear Access (Inline Mode)
-1. All sections immediately visible (performance impact)
-2. User scrolls to any section (no tracking)
-3. Can fill sections in any order
-4. No visited tracking in inline mode
-5. Save button follows publishButtonBehaviour rules
-
-#### Parent-Child Navigation
-1. Parent form provides RelationshipField with `relation_type: "Child"`
-2. "Add New [Type]" button navigates to child form
-3. Parent context preserved in location state (not configuration)
-4. Child automatically linked to parent
-5. "Save & Return" navigates back to parent
-6. "Save & Add Another" creates sibling
-7. Parent can have multiple different child types via multiple RelationshipFields
-
-### State Persistence
-- Form state preserved during child creation
-- Unsaved changes trigger browser beforeunload warning
-- No auto-save implementation (documentation incorrect)
-- Offline changes stored in PouchDB
-- Navigation history maintained in browser
-
-### publishButtonBehaviour Logic
-```javascript
-// Actual implementation
-"always"    // Save always enabled (default)
-"visited"   // Enabled when all visible sections visited
-"noErrors"  // Enabled when no validation errors exist
-```
-**Note**: Conditional hidden sections don't block "visited" requirement.
-
-## Conditional Logic Support
-
-### Section-Level Conditions
-
-```json
-{
-  "archaeological-section": {
-    "label": "Archaeological Details",
-    "fields": ["period", "phase", "finds"],
-    "condition": {
-      "operator": "equal",
-      "field": "site-type",        // Must exist in same form
-      "value": "archaeological"
-    }
-  }
-}
-```
-
-### Complex Multi-Condition Logic
-
-```json
-{
-  "specialist-section": {
-    "label": "Specialist Recording",
-    "fields": ["analysis-type", "specialist-notes"],
-    "condition": {
-      "operator": "and",
-      "conditions": [
-        {"operator": "equal", "field": "requires-specialist", "value": true},
-        {"operator": "not-equal", "field": "status", "value": "preliminary"},
-        {"operator": "or", "conditions": [
-          {"operator": "equal", "field": "material", "value": "ceramic"},
-          {"operator": "equal", "field": "material", "value": "lithic"}
-        ]}
-      ]
-    }
-  }
-}
-```
-
-### Conditional Logic Limitations
-- **Cannot reference other forms**: Only fields in same form accessible
-- **Cannot reference parent fields**: No `$parent.field` syntax
-- **Cannot check array properties**: No `.length` or indexed access
-- **Malformed conditions crash form**: No error recovery
-- **Performance degradation**: 20-30 conditional fields cause lag
-
-### Performance Optimization
-- Conditions compile to JavaScript functions once
-- Re-evaluation ONLY when controller fields change
-- Controller fields identified by presence in conditions
-- Initial load evaluates all conditions
-- Smart optimization skips non-controller field changes
-
-## Data Storage and Export
-
-### Database Structure (PouchDB/CouchDB)
-
-```json
-{
-  "_id": "ctx_001_abc123",
-  "type": "context",              // Form type from viewset ID
-  "created": "2024-03-15T10:30:00Z",
-  "created_by": "user@example.com",
-  "updated": "2024-03-15T14:20:00Z",
-  "updated_by": "user@example.com",
-  "deleted": false,               // Soft delete flag
-  "data": {
-    "context-id": "CTX-001",
-    "description": "Occupation layer",
-    "finds": [                    // Child relationships
-      {
-        "record_id": "fnd_001_def456",
-        "relation_type_vocabPair": ["is child of", "is parent of"]
-      }
-    ]
-  }
-}
-```
-
-### Parent-Child Data Structure
-- **Parent → Child**: One-to-many via RelationshipField
-- **Child → Parent**: Reference stored in child's relationship field
-- **Orphaned children**: Remain when parent soft-deleted
-- **Multiple child types**: Single parent can have different child forms
-- **Circular relationships**: Possible, not prevented
-- **No cascade delete**: Children must be manually managed
-
-### CSV Export Format
-
-#### File Structure
-- Each form type exports as separate CSV file
-- Filename: `formtype_export_timestamp.csv`
-- Relationships flattened to string format
-
-#### Relationship Encoding
-```csv
-_id,identifier,description,stratigraphic_relationships,finds
-ctx001,CTX-001,Occupation layer,"cuts/ctx002;fills/ctx003","is parent of/fnd001;is parent of/fnd002"
-```
-
-#### Export Characteristics
-- **Format**: `{vocabulary}/{record_id}` semicolon-delimited
-- **Hierarchy lost**: Parent-child structure flattened
-- **No re-import**: Relationships cannot be restored from CSV
-- **Metadata preserved**: Timestamps and user info included
-- **Empty fields**: Exported as empty strings, not null
-
-### JSON Export Structure
-```json
-{
-  "notebook_version": "1.0.0",
-  "export_date": "2024-03-15T16:00:00Z",
-  "records": {
-    "context": [ /* array of context records */ ],
-    "find": [ /* array of find records */ ]
-  },
-  "relationships": {
-    "hierarchical": [ /* parent-child mappings */ ],
-    "linked": [ /* peer relationships */ ]
-  }
-}
-```
-
-## Common Patterns
-
-### Example 1: Simple Two-Level Hierarchy (Site → Feature)
-```json
-{
-  "ui-specification": {
-    "visible_types": ["site-form", "feature-form"],
-    "viewsets": {
-      "site-form": {
-        "label": "Site Record",
-        "views": ["site-basic", "site-location"],
-        "hridField": "site-id",
-        "publishButtonBehaviour": "always",
-        "layout": "inline"
-      },
-      "feature-form": {
-        "label": "Feature Record", 
-        "views": ["feature-details", "feature-measurements"],
-        "hridField": "feature-number",
-        "publishButtonBehaviour": "noErrors",
-        "layout": "tabs"
-      }
-    },
-    "fviews": {
-      "site-basic": {
-        "label": "Basic Information",
-        "fields": ["site-id", "site-name", "recorder", "date"]
-      },
-      "site-location": {
-        "label": "Location Details",
-        "fields": ["grid-ref", "map-widget", "access-notes"]
-      },
-      "feature-details": {
-        "label": "Feature Information",
-        "fields": ["feature-number", "feature-type", "description", "parent-site"]
-      },
-      "feature-measurements": {
-        "label": "Dimensions",
-        "fields": ["length", "width", "depth", "volume"],
-        "condition": {
-          "operator": "not-equal",
-          "field": "feature-type",
-          "value": "surface-scatter"
-        }
-      }
-    },
-    "fields": {
-      "parent-site": {
-        "component-namespace": "faims-custom",
-        "component-name": "RelatedRecordSelector",
-        "type-returned": "faims-core::Relationship",
-        "component-parameters": {
-          "label": "Parent Site",
-          "name": "parent-site",
-          "related_type": "site-form",
-          "relation_type": "Child",
-          "multiple": false,
-          "allowLinkToExisting": true
-        }
-      }
-      // ... other field definitions
-    }
-  }
-}
-```
-**Behavior**: Features link to sites via RelationshipField. Measurements section hidden for surface scatters. Forms outside `visible_types` still accessible via relationships.
-
-### Example 2: Complex Multi-Branch Hierarchy
-```json
-{
-  "ui-specification": {
-    "visible_types": ["trench", "context", "find", "sample", "photo"],
-    "viewsets": {
-      "trench": {
-        "label": "Trench",
-        "views": ["trench-info", "trench-team"],
-        "hridField": "trench-code",
-        "publishButtonBehaviour": "visited",
-        "layout": "tabs"
-      },
-      "context": {
-        "label": "Context", 
-        "views": ["context-basic", "context-matrix", "context-interpretation"],
-        "hridField": "context-number",
-        "publishButtonBehaviour": "noErrors",
-        "layout": "tabs"
-      },
-      "find": {
-        "label": "Find",
-        "views": ["find-basic", "find-details"],
-        "hridField": "find-number",
-        "publishButtonBehaviour": "always"
-      },
-      "sample": {
-        "label": "Sample",
-        "views": ["sample-info", "sample-processing"],
-        "hridField": "sample-number", 
-        "publishButtonBehaviour": "always"
-      },
-      "photo": {
-        "label": "Photograph",
-        "views": ["photo-metadata", "photo-subjects"],
-        "hridField": "photo-id",
-        "publishButtonBehaviour": "always"
-      }
-    },
-    "fviews": {
-      "context-basic": {
-        "label": "Basic Context Info",
-        "fields": ["context-number", "context-type", "parent-trench", "description"]
-      },
-      "context-matrix": {
-        "label": "Stratigraphic Matrix",
-        "fields": ["stratigraphic-relationships", "physical-relationships"]
-      },
-      "context-interpretation": {
-        "label": "Interpretation",
-        "fields": ["interpretation", "period", "phase", "context-finds", "context-samples"],
-        "condition": {
-          "operator": "not-equal",
-          "field": "context-type",
-          "value": "unstratified"
-        }
-      }
-      // ... additional view definitions
-    },
-    "fields": {
-      "parent-trench": {
-        "component-name": "RelatedRecordSelector",
-        "component-parameters": {
-          "label": "Parent Trench",
-          "related_type": "trench",
-          "relation_type": "Child",
-          "multiple": false
-        }
-      },
-      "context-finds": {
-        "component-name": "RelatedRecordSelector",
-        "component-parameters": {
-          "label": "Finds from this Context",
-          "related_type": "find",
-          "relation_type": "Child",
-          "multiple": true,
-          "allowLinkToExisting": false
-        }
-      },
-      "context-samples": {
-        "component-name": "RelatedRecordSelector",
-        "component-parameters": {
-          "label": "Samples from this Context",
-          "related_type": "sample",
-          "relation_type": "Child",
-          "multiple": true
-        }
-      },
-      "stratigraphic-relationships": {
-        "component-name": "RelatedRecordSelector",
-        "component-parameters": {
-          "label": "Stratigraphic Relationships",
-          "related_type": "context",
-          "relation_type": "is-related-to",
-          "relation_linked_vocabPair": [
-            ["cuts", "is cut by"],
-            ["fills", "is filled by"],
-            ["above", "below"]
-          ]
-        }
-      }
-      // ... additional field definitions
-    }
-  }
-}
-```
-**Behavior**: Single parent (Context) has multiple child types (Find, Sample). Circular relationships possible between contexts. Interpretation section conditional on stratified contexts.
-
-### Example 3: Performance-Optimized Structure
-```json
-{
-  "ui-specification": {
-    "visible_types": ["survey-point", "observations", "photos"],
-    "viewsets": {
-      "survey-point": {
-        "label": "Survey Point",
-        "views": ["point-location", "point-environment"],
-        "layout": "inline",  // Better for mobile with few fields
-        "publishButtonBehaviour": "always"
-      },
-      "observations": {
-        "label": "Species Observations",
-        "views": ["species-1", "species-2", "species-3", "species-4"],
-        "layout": "tabs",  // Split large form across tabs
-        "publishButtonBehaviour": "visited"
-      },
-      "photos": {
-        "label": "Photo Record",
-        "views": ["photo-capture"],  // Separate form for media
-        "publishButtonBehaviour": "always"
-      }
-    },
-    "fviews": {
-      "species-1": {
-        "label": "Common Species (1-25)",
-        "fields": [/* 25 fields max for performance */]
-      },
-      "species-2": {
-        "label": "Common Species (26-50)",
-        "fields": [/* 25 fields max */],
-        "condition": {
-          "operator": "equal",
-          "field": "record-all-species",
-          "value": true
-        }
-      },
-      "species-3": {
-        "label": "Rare Species",
-        "fields": [/* 20 fields */],
-        "condition": {
-          "operator": "equal",
-          "field": "rare-species-present",
-          "value": true
-        }
-      }
-    }
-  }
-}
-```
-**Behavior**: Limits fields per section to maintain performance. Conditional sections reduce initial load. Media separated to dedicated form.
-
-### Example 4: Conditional Section Cascade
-```json
-{
-  "fviews": {
-    "screening": {
-      "label": "Initial Screening",
-      "fields": ["material-type", "requires-detailed", "requires-specialist"]
-    },
-    "detailed-recording": {
-      "label": "Detailed Recording",
-      "fields": ["measurements", "surface-treatment", "manufacture"],
-      "condition": {
-        "operator": "equal",
-        "field": "requires-detailed",
-        "value": true
-      }
-    },
-    "ceramic-analysis": {
-      "label": "Ceramic Specialist Recording",
-      "fields": ["fabric", "form", "decoration"],
-      "condition": {
-        "operator": "and",
-        "conditions": [
-          {"operator": "equal", "field": "material-type", "value": "ceramic"},
-          {"operator": "equal", "field": "requires-specialist", "value": true}
-        ]
-      }
-    },
-    "lithic-analysis": {
-      "label": "Lithic Specialist Recording", 
-      "fields": ["raw-material", "technology", "use-wear"],
-      "condition": {
-        "operator": "and",
-        "conditions": [
-          {"operator": "equal", "field": "material-type", "value": "lithic"},
-          {"operator": "equal", "field": "requires-specialist", "value": true}
-        ]
-      }
-    }
-  }
-}
-```
-**Behavior**: Progressive disclosure based on screening decisions. Only evaluates conditions when controller fields change. Maximum 3-4 conditional sections recommended before performance impact.
-
-## Troubleshooting Guide
-
-### Common Issues and Solutions
-
-| Issue | Symptoms | Diagnosis | Solution |
-|-------|----------|-----------|----------|
-| Form won't load | White screen, no content | Check console for condition compilation errors | Fix malformed conditions in JSON |
-| Sections missing | Expected sections not visible | Condition evaluating false or section ID wrong | Verify controller field values and section IDs |
-| Save button disabled | Cannot save despite filling fields | publishButtonBehaviour requirement not met | Check setting: "always", "visited", or "noErrors" |
-| Fields not appearing | Blank sections | Field IDs don't exist or duplicated globally | Ensure globally unique field IDs |
-| Slow form response | Lag when typing | Too many fields (>100) or conditionals (>30) | Split into multiple sections/forms |
-| Lost form state | Data disappears on navigation | Browser storage disabled | Enable cookies/localStorage |
-| Orphaned records | Children without parents | Parent deleted (soft delete) | Manually manage orphaned records |
-| Duplicate IDs | HRID conflicts | Auto-increment not coordinated | Use device-specific prefixes |
-| Export missing relationships | CSV lacks connections | Relationships flattened | Parse relationship strings manually |
-| Import fails silently | JSON accepted but broken | Invalid field references | Check console for warnings |
-
-### Debug Checklist
-
-#### Configuration Validation
-- [ ] All field IDs globally unique across entire notebook
-- [ ] All section IDs globally unique across all forms  
-- [ ] All referenced field IDs actually exist in fields object
-- [ ] All referenced section IDs exist in fviews object
-- [ ] No circular section references
-- [ ] Conditions reference existing fields only
-
-#### Performance Optimization
-- [ ] < 50 fields per section (100 absolute max)
-- [ ] < 20 conditional fields per form (30 absolute max)
-- [ ] < 10 sections per form for tabs mode
-- [ ] Media fields in separate forms where possible
-- [ ] Complex calculations avoided in conditions
-
-#### Data Integrity
-- [ ] HRID fields configured for all forms
-- [ ] HRID includes device/user prefix for uniqueness
-- [ ] Parent-child relationships properly configured
-- [ ] Soft-delete implications understood
-- [ ] Export format meets analysis needs
-
-#### Platform Testing
-- [ ] Tested on target mobile devices
-- [ ] Touch targets adequate size (44px minimum)
-- [ ] Offline functionality verified
-- [ ] Sync behavior understood
-
-### Error Messages and Meanings
-
-| Error Message | Location | Cause | Resolution |
-|---------------|----------|-------|------------|
-| "UI Spec had an undefined field with name: [field_name]" | Console | Field ID doesn't exist | Remove from section or create field |
-| "Section ID already exists" | Designer | Duplicate section ID | Rename section |
-| "Cannot read property 'operator' of undefined" | Console/Crash | Malformed condition | Fix condition syntax |
-| "Maximum call stack exceeded" | Console/Crash | Circular condition reference | Remove circular dependency |
-| "publishButtonBehaviour is undefined" | Not shown (defaults) | Missing property | Optional, defaults to "always" |
-| "Cannot find viewset" | Console | Form ID mismatch | Check visible_types and viewset IDs |
-| White screen (no error) | Form view | Condition compilation failed | Check all conditions in JSON |
-
-### Common Configuration Mistakes
-
-```json
-// WRONG: Field IDs not globally unique
-{
-  "fviews": {
-    "section-1": {"fields": ["description"]},
-    "section-2": {"fields": ["description"]}  // ERROR: Duplicate field ID
-  }
-}
-
-// WRONG: Malformed condition
-{
-  "condition": {
-    "field": "my-field",  // ERROR: Missing operator
-    "value": true
-  }
-}
-
-// WRONG: Reference to non-existent field
-{
-  "condition": {
-    "operator": "equal",
-    "field": "nonexistent-field",  // ERROR: Field doesn't exist
-    "value": "something"
-  }
-}
-
-// CORRECT: Proper structure
-{
-  "fviews": {
-    "section-1": {"fields": ["description-1"]},
-    "section-2": {"fields": ["description-2"]}
-  },
-  "condition": {
-    "operator": "equal",
-    "field": "existing-field",
-    "value": "expected-value"
-  }
-}
-```
-
-## Implementation Notes
-
-### Technical Constraints
-- **No virtualization**: All fields render simultaneously (React without windowing)
-- **No lazy loading**: All sections in DOM even in tabs mode
-- **Global namespace**: Field IDs must be unique across entire notebook
-- **Section IDs global**: Must be unique across all forms, not just within form
-- **No pagination**: Forms render completely regardless of size
-- **Memory limits**: Device-dependent, typically issues beyond 200 fields total
-- **Sync limitations**: Reciprocal relationships delayed until online
-- **No conflict resolution**: Last-write-wins for concurrent edits
-
-### Platform-Specific Limitations
-
-#### Web Browser
-- Sticky headers not supported consistently
-- Performance varies significantly by browser
-- Memory limits around 500-1000 fields total
-- Local storage required for state persistence
-
-#### iOS Application
-- Tab gestures may conflict with system gestures
-- Hardware keyboard support inconsistent
-- Memory pressure earlier than desktop
-- GPS/Camera features available
-
-#### Android Application  
-- Hardware back button behavior inconsistent
-- Material Design compliance partial
-- Performance similar to iOS
-- Variable device capabilities
-
-### Known Critical Issues
-- **Malformed conditions crash forms**: No graceful error handling
-- **Circular relationships possible**: No prevention mechanism
-- **Orphaned children on delete**: Soft delete doesn't cascade
-- **No schema migration**: Structure changes risk data loss
-- **Silent failures common**: Missing fields/sections ignored
-- **Performance cliffs undocumented**: No warnings before degradation
-- **Designer GUI limitations**: Many features require JSON editing
-
-### Designer Limitations Requiring JSON Editing
-- Section reordering within forms
-- Field reordering within sections  
-- Complex conditional logic
-- Vocabulary pairs for relationships
-- Performance optimizations
-- Some validation rules
-- Export configurations
-
-### Architecture Decisions and Rationale
-- **Global field IDs**: Simplifies field reference resolution
-- **No virtualization**: Simpler implementation, acceptable for intended scale
-- **Soft delete only**: Preserves data integrity and audit trail
-- **Client-side validation**: Enables offline functionality
-- **Flat export format**: Maximum compatibility with analysis tools
-- **Last-write-wins**: Simplest conflict resolution for distributed system
-
-## Best Practices
-
-### Structural Design
-1. **Plan before building**: Structure cannot be safely modified after data collection
-2. **Globally unique IDs**: Prefix field IDs with section/form identifier
-3. **Shallow hierarchies**: Maximum 3-4 levels for usability
-4. **Logical grouping**: 5-10 related fields per section
-5. **Separate media forms**: Isolate photos/files for performance
-
-### Performance Optimization
-1. **Field limits**: Maximum 50 fields per section, 100 total per form
-2. **Conditional restraint**: Maximum 20 conditional fields per form
-3. **Tab mode for large forms**: Reduces visible field count
-4. **Avoid deep nesting**: Each level adds complexity
-5. **Test on target devices**: Mobile performance varies significantly
-
-### User Experience
-1. **Progressive disclosure**: Use conditions to show advanced fields
-2. **Consistent navigation**: Maintain patterns across forms
-3. **Clear labeling**: Section and form names describe content
-4. **Logical flow**: Order sections by workflow
-5. **Required field minimization**: Only mandate essential data
-
-### Data Management  
-1. **HRID configuration**: Include device/user prefix for uniqueness
-2. **Relationship planning**: Document parent-child structures
-3. **Export consideration**: Design with CSV limitations in mind
-4. **Orphan management**: Plan for soft-delete scenarios
-5. **Backup strategy**: Regular JSON exports for recovery
-
-### Development Workflow
-1. **Incremental building**: Test each form before adding next
-2. **JSON validation**: Validate structure before import
-3. **Performance testing**: Load test with realistic data volumes
-4. **Platform testing**: Verify on all target devices
-5. **Documentation**: Record structural decisions and rationale
-
-### Team Coordination
-1. **ID naming conventions**: Establish and document standards
-2. **Section templates**: Create reusable section patterns
-3. **Vocabulary standardization**: Agree on relationship terms
-4. **Testing protocols**: Define acceptance criteria
-5. **Change management**: Version control notebook definitions
-
-## See Also
-
-### Essential Prerequisites
-- [Field Type Reference](./field-types.md) - Individual field configuration
-- [RelationshipField Documentation](./relationship-field.md) - Parent-child and linked relationships
-- [TemplatedStringField](./templated-string.md) - HRID generation
-
-### Related Configuration Guides
-- [Conditional Logic Guide](./conditional-logic.md) - Advanced condition syntax
-- [Validation Framework](./validation.md) - Field validation rules
-- [Designer Interface Guide](./designer.md) - GUI capabilities and limitations
-
-### System Architecture
-- [State Management](./state-management.md) - Redux store structure
-- [Synchronization Architecture](./sync.md) - Multi-device coordination
-- [Database Schema](./database.md) - PouchDB/CouchDB structure
-- [Export Formats](./export.md) - CSV and JSON specifications
-
-### Performance and Optimization
-- [Performance Tuning Guide](./performance.md) - Optimization strategies
-- [Mobile Deployment](./mobile.md) - Platform-specific considerations
-- [Offline Capabilities](./offline.md) - Disconnected operation
-
-### Troubleshooting Resources
-- [Common Errors](./errors.md) - Error message reference
-- [Migration Guide](./migration.md) - Schema change strategies
-- [Debug Tools](./debug.md) - Browser developer tools usage
-
----
-
-**Document Version**: 3.0  
-**Last Updated**: August 2025  
-**Validation**: Technical answers verified through 40-question investigation
-**Status**: Production Ready
-
-*Critical Warning: This documentation reflects actual system behavior as of August 2025, including known issues and limitations. Some behaviors differ from original design intentions. Test thoroughly in your deployment environment before production use.*
-
-<!-- concat:pattern:patterns -->
-# IMPORTANT - System-Wide Patterns for Documentation Consolidation
-
-**Purpose**: Track system-level patterns, design philosophy, and common limitations discovered during field documentation that require centralized documentation in Phase 2.
-
-**Last Updated**: January 2025  
-**Phase**: Discovered during Phase 1 (Field Documentation), to be addressed in Phase 2 (Structural Documentation)
-
-### 2.7 Static Configuration Limitation
-
-**Pattern**: Most fields limited to static configuration with no dynamic data loading.
-
-**Affected Fields**:
-- Select/RadioGroup: Static options only
-- AdvancedSelect: Static hierarchy only
-- MultiSelect: Static options only
-- Vocabularies: No external API loading
-- Validation: No async validation
-
-**Missing Capabilities**:
-- No REST API integration for options
-- No conditional vocabulary loading
-- No user-role-based options
-- No location-based filtering
-- No progressive loading
-
-**Documentation Needed**:
-- Static configuration requirements
-- Workarounds for dynamic needs
-- Update strategies for vocabularies
-- Implications for long projects
-
----
-
-## 1. Core System Architecture Patterns
-
-### 1.1 Distributed, Offline-First Architecture
-
-**Pattern**: All field types operate within a distributed, offline-capable system with eventual consistency.
-
-**Implications Across Fields**:
-- Relationships: Reciprocal updates delayed until sync
-- Auto-incrementers: Sequence conflicts when multiple offline users
-- Validation: Client-side only, no server verification
-- Media fields: Local storage until sync opportunity
-- All fields: Last-write-wins conflict resolution
-
-**Documentation Needed**:
-- "Working with Distributed Data Collection" guide
-- Sync behaviour expectations
-- Conflict resolution strategies
-- Multi-user coordination patterns
-- Why last-write-wins is intentional, not a bug
-
-### 1.2 Schema Evolution Flexibility
-
-**Pattern**: System intentionally allows post-deployment schema changes to accommodate emergent field research.
-
-**Implications Across Fields**:
-- Type changes can break existing data (string→number)
-- Multiple→single loses data silently
-- Validation additions may invalidate existing records
-- Vocabulary modifications don't update existing data
-- Required fields added later create incomplete records
-
-**Documentation Needed**:
-- "Schema Evolution and Field Research Reality" guide
-- Safe vs breaking changes matrix
-- Backup and versioning strategies
-- Testing changes before deployment
-- When to modify vs start fresh
-
-### 1.4 Auto-Increment Coordination
-
-**Pattern**: Auto-increment ranges require manual coordination between devices.
-
-**Critical Issues**:
-- Local-only storage (not synchronized)
-- No device-specific namespacing
-- No conflict detection for duplicates
-- No range sharing mechanism
-- Complete reliance on human coordination
-
-**Impact on System**:
-- Duplicate IDs when ranges overlap
-- HRIDs can become non-unique
-- Relationships may reference wrong records
-- Data integrity compromised silently
-
-**Documentation Needed**:
-- Multi-device coordination protocols
-- Range allocation strategies
-- HRID uniqueness patterns
-- Team communication requirements
-- Recovery from duplicate scenarios
-
-**Pattern**: Not all configuration options available in Designer GUI; JSON editing often required.
-
-**Affected Fields**:
-- RelationshipField: Vocabulary pairs
-- AdvancedSelect: Hierarchy structure
-- MapFormField: Advanced map options
-- Conditional logic: Complex conditions
-- Validation: Custom rules
-
-**Documentation Needed**:
-- "Designer Limitations and JSON Workflows" guide
-- Which features require JSON
-- Safe JSON editing practices
-- Migration and validation tools
-
----
-
-## 2. Common Technical Limitations
-
-### 2.1 Performance Boundaries
-
-**Pattern**: All complex fields have undocumented performance cliffs and hard-coded limits.
-
-**Specific Thresholds**:
-- Relationships: 50 comfortable, 200 unusable
-- Select/MultiSelect: 100 options degraded
-- AdvancedSelect: 100 nodes noticeable lag, 1000 nodes frozen
-- TakePhoto: 20 photos performance cliff, 50 hard failure
-- MapFormField: GPU acceleration actively disabled
-- TakePoint: Continuous GPS causes battery drain
-- Conditional logic: Multiple controllers lag
-
-**Hard-Coded Limits Discovered**:
-- TakePhoto: Maximum 20 images enforced
-- AdvancedSelect: 300px fixed height viewport
-- MapFormField: Single feature limitation (auto-clears previous)
-
-**Documentation Needed**:
-- Performance planning guide with specific thresholds
-- Hard limit documentation
-- Optimisation strategies
-- Alternative patterns for large datasets
-- Battery impact warnings for GPS fields
-
-### 2.2 Validation Limitations
-
-**Pattern**: Validation is limited to Yup schema, no custom functions. Type declarations often don't match enforcement.
-
-**Common Gaps**:
-- No cross-field validation
-- No async validation
-- No conditional requirements
-- No mathematical validation
-- No relationship consistency checks
-- Generic error messages only
-
-**Type Declaration vs Enforcement Mismatches**:
-- ControlledNumber: Declares "faims-core::Integer" but accepts decimals
-- BasicAutoIncrementer: Returns strings despite numeric appearance
-- Designer enforces empty strings where nulls expected
-- Mixed string/integer storage prevents field type changes
-
-**Documentation Needed**:
-- Validation capabilities matrix
-- Type enforcement reality vs declarations
-- Workaround patterns
-- Error message customisation
-
-### 2.3 Database API Access & Re-importation
-
-**Pattern**: After sync, data is in CouchDB and accessible via standard APIs, but lacks guardrails.
-
-**The Real Challenge**:
-- CouchDB API allows direct database manipulation
-- External systems (RSpace ELN, QGIS) can read/write
-- No import validator to ensure schema compliance
-- Missing JSON schema documentation
-- Risk of database corruption through malformed imports
-
-**Integration Points Under Development**:
-- RSpace ELN (cloud-based electronic lab notebook)
-- QGIS (desktop GIS software)
-- Other external systems via CouchDB API
-
-**What's Needed**:
-- JSON database schema documentation
-- Import validators/guardrails
-- Schema requirements documentation
-- API usage guidelines
-- Round-trip integrity checks
-
-**This is NOT about**:
-- CSV re-import (that's a separate issue)
-- Export format limitations
-- File format conversions
-
-**Documentation Needed**:
-- CouchDB JSON schema specifications
-- Field type requirements in database
-- Relationship integrity rules
-- Required properties per document type
-- API best practices for external systems
-
-### 2.4 CSV Export Limitations (Separate Issue)
-
-**Pattern**: CSV exports lose structure and cannot be re-imported with relationships intact.
-
-**Specific Issues**:
-- Relationships export as strings, can't re-import
-- Hierarchies flatten
-- Metadata (annotations) lost
-- Media files referenced not embedded
-- No CSV import that reconstructs relationships
-
-**This is separate from CouchDB API access** - even with API access, CSV round-trip doesn't work.
-
-**Documentation Needed**:
-- CSV format specifications
-- Manual reconstruction procedures
-- Which data is preserved vs lost
-
-**Pattern**: Multiple fields fail silently without user feedback.
-
-**Common Silent Failures**:
-- FileUploader: Upload errors give no feedback
-- TakePhoto: Size/count parameters silently ignored
-- Select/RadioGroup: Validation errors not displayed
-- AdvancedSelect: Cannot clear selection once made
-- MapFormField: No validation error display
-- Configuration parameters accepted but ignored
-
-**Security Gaps**:
-- FileUploader: No file type validation or virus scanning
-- FileUploader: Accepts executable files without warning
-- TakePhoto: EXIF data stripped inconsistently
-- No MIME type restrictions enforced
-
-**Documentation Needed**:
-- Error handling expectations
-- Security considerations guide
-- Workarounds for missing feedback
-- Data validation best practices
-
-### 2.5 Component Architecture Issues
-
-**Pattern**: Component duplication and architectural confusion creates inconsistency.
-
-**Specific Issues**:
-- TextField/FAIMSTextField duality with unclear deprecation
-- MultipleTextField vs TextField with multiline:true
-- Component reference bugs (LocationPermissionIssue shown for camera)
-- TakePhoto and FileUploader completely separate despite overlap
-- AdvancedSelect recursive rendering without optimization
-
-**Rendering Problems**:
-- AdvancedSelect: Renders entire tree immediately (no virtualization)
-- MapFormField: GPU acceleration disabled harming performance
-- TakePhoto: Memory leaks in preview generation loops
-- No lazy loading across complex components
-
-**Documentation Needed**:
-- Component selection decision tree
-- Deprecation roadmap
-- Performance implications of component choices
-- Memory management strategies
-
-### 3.1 Mobile-Desktop Divergence
-
-**Pattern**: Significant capability differences between platforms.
-
-**Common Issues**:
-- Fixed widths break mobile (500px)
-- Touch targets too small (<44px)
-- Camera/GPS mobile-only
-- Keyboard types vary
-- Offline behaviour differs
-
-**Documentation Needed**:
-- Platform capability matrix
-- Responsive design requirements
-- Progressive enhancement strategies
-
-### 3.2 Accessibility Systematic Gaps
-
-**Pattern**: Most fields fail WCAG 2.1 standards.
-
-**Common Failures**:
-- Touch targets undersized
-- Missing ARIA labels
-- No keyboard navigation
-- Poor error announcement
-- Color contrast issues
-
-**Documentation Needed**:
-- Accessibility compliance status
-- Workarounds for critical issues
-- Roadmap for improvements
-
----
-
-## 4. Design Philosophy Implications
-
-### 4.1 Flexibility Over Rigidity
-
-**Principle**: System prioritizes adaptability for emergent research over data integrity guarantees.
-
-**Trade-offs**:
-- Can adapt to discoveries BUT can break existing data
-- Can modify in field BUT requires careful planning
-- Can work offline BUT creates sync conflicts
-- Can handle complexity BUT has performance limits
-
-**Documentation Approach**:
-- Acknowledge trade-offs explicitly
-- Provide clear guidance on risks
-- Offer mitigation strategies
-- Don't hide limitations
-
-### 4.2 Archaeological/Research-Driven Design
-
-**Principle**: Features designed for research realities, not ideal scenarios.
-
-**Examples**:
-- Annotations for field notes (margins)
-- Uncertainty flags throughout
-- Flexible relationships
-- Schema evolution support
-- Offline-first architecture
-
-**Documentation Approach**:
-- Explain research scenarios
-- Provide discipline-specific examples
-- Acknowledge messiness of fieldwork
-
----
-
-## 5. Repeated Warnings Across Fields
-
-### Common Warnings to Centralize
-
-1. **"Changes to this configuration may affect existing data"**
-2. **"Performance degrades with large datasets"**
-3. **"Offline edits may create conflicts requiring resolution"**
-4. **"Designer cannot configure this - JSON editing required"**
-5. **"Mobile experience differs from desktop"**
-6. **"Validation occurs client-side only"**
-7. **"Export format requires manual reconstruction"**
-8. **"Battery usage may be significant"** (GPS/camera fields)
-9. **"Error messages may not display properly"** (choice fields)
-
-### Field Category Patterns
-
-**Choice Fields (RadioGroup, Select, Checkbox) - Shared Limitations:**
-- All lack proper error display (varying degrees)
-- All missing comprehensive accessibility support
-- All limited to static options (no dynamic loading)
-- All have performance issues with large option sets
-- Designer cannot preview any of them properly
-- None support field type conversion after deployment
-
-**Media Fields (TakePhoto, FileUploader) - Shared Issues:**
-- Security validation gaps
-- Silent failure modes
-- Metadata handling inconsistencies
-- Performance limits undocumented
-
-**Location Fields (MapFormField, TakePoint) - Common Problems:**
-- Battery impact not documented
-- GPS accuracy variations
-- Metadata export limitations
-- Platform-specific behaviors
-
-### Field-Specific Variations
-
-Track which warnings apply to which fields:
-- Performance warnings: Relationship, Select, MultiSelect, AdvancedSelect
-- JSON-only warnings: Relationship, AdvancedSelect, MapFormField
-- Mobile issues: All fields with complex UI
-- Export limitations: Relationship, AdvancedSelect, Media fields
-
----
-
-## 6. Documentation Structure Recommendations
-
-### Phase 2 Priorities
-
-1. **System Architecture Documentation** (Week 1)
-   - Distributed systems guide
-   - Schema evolution guide
-   - Platform capabilities matrix
-
-2. **Common Patterns Documentation** (Week 2)
-   - Performance planning
-   - Validation strategies
-   - Export/import workflows
-
-3. **Field Documentation Consolidation** (Weeks 3-4)
-   - Remove redundant warnings
-   - Add cross-references to system docs
-   - Standardize terminology
-   - **Unified documentation for related fields** (e.g., all date fields together)
-
-### Cross-Referencing Strategy
-
-Each field should reference system docs:
-```markdown
-> **System Consideration**: This field operates within Fieldmark's 
-> distributed architecture. See [Working with Distributed Data] for 
-> sync behaviour and conflict resolution.
-```
-
-### Warning Standardization
-
-Create standard warning blocks:
-```markdown
-> ⚠️ **Schema Change Warning**: Modifying this configuration after 
-> data collection may result in data loss. See [Schema Evolution Guide] 
-> for safe change practices.
-```
-
-## 10. Compound Failure Modes
-
-### Systemic Interactions
-
-When multiple documented issues combine, they create emergent failure modes worse than individual problems:
-
-1. **Auto-increment + Relationships**: Duplicate IDs from poor coordination corrupt relationship networks
-2. **Type Mismatches + Schema Evolution**: String/integer inconsistencies prevent field type changes
-3. **Performance + Offline**: Large forms become unusable precisely when offline (no server optimization)
-4. **Silent Failures + Distributed System**: Errors propagate across devices without detection
-5. **Export Limitations + Validation**: Can't reimport exported data due to validation changes
-
-### Cascading Effects
-
-**Example Cascade**: 
-1. Auto-increment conflict creates duplicate IDs
-2. Relationships reference wrong records
-3. Export flattens relationship structure
-4. Can't detect error in CSV
-5. Reimport fails or corrupts data further
-
-### Risk Multiplication
-
-Individual bugs become critical when combined:
-- 10 relationship fields × 30 relationships each = 300 metadata fetches
-- Add 5 MultiSelect fields with 50 options = 400+ UI elements
-- Add offline sync overhead = 30+ second load times
-- Result: Form unusable in field conditions
-
-**Documentation Needed**:
-- Common failure cascades
-- Risk assessment matrices
-- Mitigation strategies for compound issues
-- Testing protocols for interaction effects
-
----
-
-## 11. Questions for Technical Team
-
-### Architecture Clarifications Needed
-
-1. Is last-write-wins the only conflict resolution strategy?
-2. Are there any server-side validations we're missing?
-3. What's the roadmap for Designer GUI enhancements?
-4. Are performance thresholds being addressed?
-5. Is WCAG compliance planned?
-
-### Documentation Priorities
-
-1. Which limitations are being fixed vs documented?
-2. What level of technical detail for JSON editing?
-3. Should we document workarounds or wait for fixes?
-4. How much about future roadmap to include?
-
----
-
-## 8. Action Items for Consolidation
-
-### Immediate (During Field Documentation)
-- [ ] Flag system patterns in each field doc
-- [ ] Track repeated warnings
-- [ ] Note Designer limitations
-- [ ] Document performance thresholds
-
-### Phase 2 (Structural Documentation)
-- [ ] Create system architecture guides
-- [ ] Consolidate common warnings
-- [ ] Build cross-reference network
-- [ ] Standardize terminology
-
-### Phase 3 (Refinement)
-- [ ] Remove redundancy from field docs
-- [ ] Ensure consistent messaging
-- [ ] Validate all cross-references
-- [ ] Test with users
-
----
-
-## 9. Critical Insights Summary
-
-### What We've Learned
-
-1. **The system is well-architected for research** but implementation has gaps
-2. **Flexibility is intentional** but requires user education
-3. **Distributed behaviour is complex** but necessary for fieldwork
-4. **Performance limits exist** and many are hard-coded, not configurable
-5. **Platform differences are significant** but manageable with planning
-6. **Type enforcement is inconsistent** creating migration barriers
-7. **Silent failures are common** requiring defensive design
-8. **Security gaps exist** particularly in file handling
-9. **Choice fields share systematic problems** suggesting architectural issues
-10. **Battery and resource impacts** are undocumented for field deployment
-
-### Documentation Philosophy
-
-- Be honest about limitations and hard limits
-- Explain the why behind design choices
-- Provide practical workarounds
-- Document battery and performance impacts explicitly
-- Warn about security considerations
-- Focus on research success, not just technical correctness
-- Group similar limitations (e.g., all choice fields)
-
-### Emerging Meta-Patterns
-
-1. **Implementation vs Architecture Gap**: Good architecture undermined by implementation bugs
-2. **Progressive Degradation**: Fields work well up to specific thresholds, then fail dramatically
-3. **Desktop-First Design**: Mobile often an afterthought despite "mobile-first" claims
-4. **Validation Display Crisis**: Systematic failure across multiple field categories
-5. **Configuration Ignored**: Many parameters accepted but not honored
-
----
-
-*This tracking document should be continuously updated as more patterns emerge during field documentation. It will form the foundation for Phase 2's structural documentation work.*
-
-*Last comprehensively updated: January 2025*
-*Sessions reviewed for patterns:*
-- RelationshipField discovery and documentation
-- AdvancedSelect complete documentation  
-- MultiSelect documentation research
-- RichText field discovery (revealed StaticImage doesn't exist)
-- RadioGroup, Select, Checkbox documentation
-- TakePhoto, FileUploader, MapFormField, TakePoint documentation
-- ControlledNumber documentation
-- BasicAutoIncrementer synchronization analysis
-- Date/Time fields unified documentation
-- Choice fields consolidated analysis
-- All text fields (TextField, MultilineText, Email, TemplatedString, QRCodeFormField, Address)
-- All number fields (NumberField, NumberInput, ControlledNumber, BasicAutoIncrementer)
-
-*Total fields analyzed: ALL existing field types (24 total - StaticImage was a hallucination)*
-
+❌ Change field types after deployment  
+❌ Add excessive fields per section without testing performance  
+❌ Use complex fields in conditions directly  
+❌ Add annotations to free-text fields (redundant)  
+❌ Forget that generic "Annotation" label is better than none  
+❌ Ignore platform differences  
+❌ Skip validation on API writes  
+❌ Assume sync is immediate  
+❌ Trust client-side validation alone  
+
+## Common Anti-Patterns to Avoid
+
+1. **Monolithic forms**: Single form with excessive fields
+2. **Uncoordinated auto-increment**: Duplicate IDs across devices
+3. **Type mismatches**: String fields for numbers
+4. **Deep hierarchies**: More than 4 levels
+5. **Ignored performance testing**: Excessive relationships without testing
+6. **No error handling**: Silent failures
+7. **Platform assumptions**: Desktop-only testing
+
+## Migration and Maintenance
+
+### Version Migration Strategy
+
+1. **Never change types in place** - Add new fields
+2. **Preserve old data** - Hide rather than delete
+3. **Document changes** - Maintain changelog
+4. **Test thoroughly** - All platforms and scenarios
+5. **Plan rollback** - Keep backups
+
+### Maintenance Checklist
+
+**Weekly**:
+- Check sync status
+- Monitor performance
+- Review error logs
+
+**Monthly**:
+- Validate data integrity
+- Update documentation
+- Review usage patterns
+
+**Quarterly**:
+- Performance audit
+- Security review
+- Schema evaluation
+
+## Related Documentation
+
+- [Form Structure Guide](./form-structure-guide.md) - Architecture patterns
+- [Dynamic Forms Guide](./dynamic-forms-guide.md) - Validation and conditions
+- [Field Selection Guide](./field-selection-guide.md) - Choosing fields
+- [Component Reference](../references/component-reference.md) - Technical details
+- [Platform Reference](../references/platform-reference.md) - Platform-specific info
+
+<!-- concat:boundary:end section="implementation-patterns-guide" -->
 
 <!-- ============================================ -->
 <!-- TECHNICAL REFERENCES -->
 <!-- ============================================ -->
 
 
-<!-- concat:reference:component-namespace-reference -->
-# Component Namespace Reference
-## Critical Configuration for All Fieldmark v3 Components
+<!-- concat:reference:component-reference -->
+<!-- concat:boundary:start section="component-reference" -->
+<!-- concat:metadata
+document_id: component-reference
+category: references
+version: 1.0
+last_updated: 2025-01-06
+purpose: Comprehensive technical reference for component configuration, namespaces, types, and Formik integration
+source_documents:
+  - component-namespace-reference.md (8KB)
+  - meta-properties-reference.md (9KB)
+  - formik-integration-reference.md (10KB)
+  - type-system-reference.md (7KB)
+-->
+
+# Component Reference
+
+## Overview
+
+This comprehensive reference consolidates all technical details about Fieldmark v3 component configuration, including namespaces, type systems, meta properties, and Formik integration. It serves as the authoritative source for component implementation and troubleshooting.
+
+## Component Namespace System {#namespaces}
+
+### The Golden Rule
+
+**When in doubt, use `faims-custom`**
+
+Over 90% of Fieldmark components use the `faims-custom` namespace. Only basic text fields use `formik-material-ui`.
 
 ### Quick Reference Table
 
@@ -23995,12 +21192,6 @@ Individual bugs become critical when combined:
 | **Media Fields** | `faims-custom` | TakePhoto, FileUploader |
 | **Location Fields** | `faims-custom` / `mapping-plugin` | TakePoint (custom) / MapFormField (plugin) |
 | **Relationship** | `faims-custom` | RelatedRecordSelector |
-
-### The Golden Rule
-
-**When in doubt, use `faims-custom`**
-
-Over 90% of Fieldmark components use the `faims-custom` namespace. Only basic text fields use `formik-material-ui`.
 
 ### Complete Component List by Namespace
 
@@ -24131,112 +21322,166 @@ The Designer UI uses different display names than the JSON component names:
 | "GPS Point" | `TakePoint` | `faims-custom` |
 | "Map Location" | `MapFormField` | `mapping-plugin` |
 
-### Namespace Evolution
+## Type System {#type-system}
 
-#### Historical Context
-- **v1-v2**: Mixed namespaces (`material-ui`, `formik-material-ui`, custom components)
-- **v3**: Standardized on `faims-custom` for most components
-- **Current**: Two namespaces only (`faims-custom` and `formik-material-ui`)
+### Core Type System
 
-#### Migration Notes
-If migrating from older notebooks:
-- `material-ui` → `formik-material-ui` (for TextField only)
-- `faims-custom-ui` → `faims-custom`
-- Custom component names → Check current list
+#### Primitive Types
 
-### Debugging Namespace Issues
+| Type Identifier | JavaScript Type | JSON Format | Description |
+|----------------|-----------------|-------------|-------------|
+| `faims-core::String` | string | `"text"` | Text data of any length |
+| `faims-core::Number` | number | `123.45` | Floating point numbers |
+| `faims-core::Integer` | number | `123` | Whole numbers only |
+| `faims-core::Bool` | boolean | `true/false` | Boolean values |
 
-#### Quick Diagnostic Steps
+#### Composite Types
 
-1. **Check exact spelling**: `faims-custom` (all lowercase, hyphen)
-2. **Verify case**: Component names use PascalCase
-3. **Confirm pairing**: Component name matches namespace
-4. **Test minimal**: Try simplest possible configuration
+| Type Identifier | JavaScript Type | JSON Format | Description |
+|----------------|-----------------|-------------|-------------|
+| `faims-core::Array` | Array | `["a", "b"]` | Ordered collections |
+| `faims-core::JSON` | Object | `{...}` | Structured JSON objects |
 
-#### Test Configuration
-```json
+#### Specialized Types
+
+| Type Identifier | JavaScript Type | JSON Format | Description |
+|----------------|-----------------|-------------|-------------|
+| `faims-attachment::Files` | Array<File> | `[{...}]` | File attachment metadata |
+| `faims-pos::Location` | GeoJSON Feature | `{...}` | Geographic coordinates |
+
+### Type Usage by Field Category
+
+#### Text & Input Fields {#text-field-types}
+- **FAIMSTextField**: `faims-core::String`
+- **MultipleTextField**: `faims-core::String` (multiline)
+- **TextField**: `faims-core::String`
+- **TemplatedStringField**: `faims-core::String` (generated)
+- **AddressField**: `faims-core::JSON` (structured address)
+- **QRCodeFormField**: `faims-core::String` (scanned value)
+- **RichText**: `faims-core::String` (empty - display only)
+
+#### Selection & Choice Fields {#selection-field-types}
+- **Checkbox**: `faims-core::Bool`
+- **Select**: `faims-core::String`
+- **MultiSelect**: `faims-core::Array` (of strings)
+- **RadioGroup**: `faims-core::String`
+- **AdvancedSelect**: `faims-core::String`
+
+#### Date & Time Fields {#datetime-field-types}
+- **DateTimeNow**: `faims-core::String` (ISO 8601)
+- **DateTimePicker**: `faims-core::String` (ISO 8601)
+- **DatePicker**: `faims-core::String` (ISO 8601 date)
+- **MonthPicker**: `faims-core::String` (YYYY-MM)
+
+#### Numeric Fields {#number-field-types}
+- **NumberField**: `faims-core::Number`
+- **ControlledNumber**: `faims-core::Number`
+- **BasicAutoIncrementer**: `faims-core::String` (formatted counter)
+
+#### Location Fields {#location-field-types}
+- **TakePoint**: `faims-pos::Location` (GeoJSON Feature)
+- **MapFormField**: `faims-core::JSON` (GeoJSON FeatureCollection)
+
+#### Media Fields {#media-field-types}
+- **TakePhoto**: `faims-attachment::Files`
+- **FileUploader**: `faims-attachment::Files`
+
+#### Relationship Fields {#relationship-field-types}
+- **RelationshipField**: `faims-core::Array` (of record IDs)
+
+#### Display Fields {#display-field-types}
+- **RichText**: `faims-core::String` (always empty)
+
+### Type Validation Rules
+
+#### String Types
+- No length limit by default
+- Can add min/max length validation
+- Pattern validation via regex
+- Email validation for specific variants
+
+#### Number Types
+- JavaScript number precision limits apply
+- Can specify min/max ranges
+- Decimal places configurable
+- NaN and Infinity not allowed
+
+#### Array Types
+- Can be empty unless required
+- Element type consistency enforced
+- Maximum element count configurable
+- Duplicate detection available
+
+#### JSON Types
+- Must be valid JSON objects
+- Schema validation available
+- Nested depth limits apply
+- Circular references prohibited
+
+### Type Conversion & Coercion
+
+#### Automatic Conversions
+- **String to Number**: Attempted for numeric fields
+- **Date to String**: ISO 8601 format enforced
+- **Array to String**: JSON stringification for export
+- **Bool to String**: "true"/"false" strings
+
+#### Invalid Type Scenarios
+```javascript
+// Common type mismatches and resolutions
 {
-  "test-field": {
-    "component-namespace": "faims-custom",
-    "component-name": "Checkbox",
-    "type-returned": "faims-core::Bool",
-    "component-parameters": {
-      "name": "test-field",
-      "label": "Test"
-    }
-  }
+  "field": "123",          // String when Number expected - parsed
+  "date": 1234567890,       // Timestamp when String expected - converted
+  "array": "value",         // String when Array expected - wrapped
+  "bool": "yes"            // String when Bool expected - truthy evaluation
 }
 ```
 
-### Platform-Specific Notes
+### Export Format Specifications
 
-#### Web/Desktop
-- All namespaces work identically
-- No platform-specific namespace requirements
+#### CSV Export
+- **String**: Direct value
+- **Number**: Numeric format
+- **Bool**: "true"/"false"
+- **Array**: JSON stringified
+- **JSON**: JSON stringified
+- **Location**: WKT or JSON string
+- **Files**: File URLs concatenated
 
-#### iOS/Android  
-- Same namespace requirements
-- Native components still use faims-custom namespace
-- No special mobile namespaces
+#### JSON Export
+- All types maintain native JSON representation
+- Metadata preserved in structured format
+- Relationships expanded with record data
+- Attachments include full metadata
 
-#### PWA
-- Identical namespace behavior
-- Offline capability doesn't affect namespaces
+#### GeoJSON Export
+- Location types exported as Features
+- Non-geographic data in properties
+- Coordinate systems preserved
+- Metadata in Feature properties
 
-### Best Practices
+### Type-Related Errors
 
-1. **Always specify namespace** - Never omit even if it seems to work
-2. **Copy exact names** - Don't type manually, copy from reference
-3. **Use consistent format** - All fields in a form should follow same pattern
-4. **Check Designer output** - Designer always uses correct namespace
-5. **Validate early** - Test one field before building entire form
+| Error | Cause | Resolution |
+|-------|-------|------------|
+| Type mismatch | Wrong type returned | Verify component configuration |
+| Invalid format | Malformed data | Check validation rules |
+| Null reference | Missing required value | Add required validation |
+| Array overflow | Too many elements | Set array limits |
+| JSON parse error | Invalid JSON structure | Validate JSON syntax |
 
-### Common Patterns
+### Invalid Types (Historical)
 
-#### Standard Field Definition
-```json
-{
-  "field-name": {
-    "component-namespace": "faims-custom",
-    "component-name": "ComponentName",
-    "type-returned": "faims-core::Type",
-    "component-parameters": {
-      // parameters
-    }
-  }
-}
-```
+These types appear in legacy documentation but are **NOT VALID**:
 
-#### When to Use formik-material-ui
-Only for these specific cases:
-- Basic single-line text input without special features
-- Multi-line text area without special features
-- When explicitly avoiding custom validation or behavior
+- ❌ `faims-core::Email` → Use `faims-core::String`
+- ❌ `faims-core::DateTime` → Use `faims-core::String`
+- ❌ `faims-core::Date` → Use `faims-core::String`
+- ❌ `faims-core::Relationship` → Use `faims-core::Array`
+- ❌ `faims-core::File` → Use `faims-attachment::Files`
+- ❌ `faims-core::Location` → Use `faims-pos::Location`
 
-### Error Prevention Checklist
-
-- [ ] Namespace is exactly `faims-custom` or `formik-material-ui`
-- [ ] Component name matches reference table exactly
-- [ ] Case sensitivity verified (PascalCase for components)
-- [ ] No typos in namespace (hyphen not underscore)
-- [ ] Namespace specified for every field
-- [ ] Designer name not used in JSON
-
-### Related Documentation
-
-- Individual field references for component parameters
-- Type-returned reference for data types
-- Validation reference for validation schemas
-- Designer documentation for UI mapping
-
-### Version
-Last updated: 2025-09-03
-Applies to: Fieldmark v3 (all versions)
-Component library: @faims3/data-model
-
-<!-- concat:reference:meta-properties-reference -->
-# Meta Properties Reference
-## Universal Metadata Configuration for All Fieldmark v3 Fields
+## Meta Properties Configuration {#meta-properties}
 
 ### Overview
 
@@ -24586,27 +21831,13 @@ Designer preserves JSON meta properties it doesn't understand, but:
 - Ignores persistent/displayParent
 - May reorder properties
 
-### Related Documentation
-- Field-specific documentation for display variations
-- Export documentation for CSV column naming
-- Validation reference (meta properties don't affect validation)
-
-### Version
-Last updated: 2025-09-03
-Applies to: Fieldmark v3 (all versions)
-Meta structure version: 1.0 (stable since v2)
-
-<!-- concat:reference:formik-integration-reference -->
-# Formik Integration Reference
-## How Fieldmark v3 Fields Integrate with Formik
+## Formik Integration {#formik-integration}
 
 ### Overview
 
-Fieldmark v3 uses Formik as its form state management library. Understanding how fields integrate with Formik is essential for troubleshooting validation issues, implementing custom fields, and optimizing form performance. This document consolidates the universal Formik behaviors that apply to all field types.
+Fieldmark v3 uses Formik as its form state management library. Understanding how fields integrate with Formik is essential for troubleshooting validation issues, implementing custom fields, and optimizing form performance.
 
-### Component Namespaces and Formik
-
-Fieldmark components fall into two main categories regarding Formik integration:
+### Component Categories by Formik Integration
 
 #### Formik-Wrapped Components (`formik-material-ui`)
 These components have built-in Formik integration via the `useField` hook:
@@ -24783,23 +22014,23 @@ Hidden fields still maintain Formik state:
 
 ### Field-Specific Formik Behaviors
 
-#### Text Fields
+#### Text Fields {#text-field-formik}
 - **TextField/MultipleTextField**: Native Formik integration
 - **FAIMSTextField**: Custom integration with enhanced features
 - **TemplatedString**: Updates when dependencies change
 - **Address**: Complex object value requires special handling
 
-#### Number Fields
+#### Number Fields {#number-field-formik}
 - **Dual validation**: HTML5 + Yup validation
 - **Parse on every keystroke**: May cause validation noise
 - **Null vs empty**: Different handling between field types
 
-#### DateTime Fields
+#### DateTime Fields {#datetime-field-formik}
 - **Format parsing**: Multiple attempts on each change
 - **Picker events**: May bypass normal change flow
 - **Timezone handling**: Affects value comparison
 
-#### Selection Fields
+#### Selection Fields {#selection-field-formik}
 - **Binary state**: No partial validation states
 - **Array values**: MultiSelect requires array handling
 - **Empty state**: Difficult to detect unselected state
@@ -24915,41 +22146,253 @@ When fields aren't behaving correctly with Formik:
 - [ ] Initial values set correctly
 - [ ] Field resets work properly
 
-### Related Documentation
-- [Validation Timing Reference](validation-timing-reference.md) for detailed timing behavior
-- [Component Namespace Reference](component-namespace-reference.md) for component types
-- Individual field documentation for field-specific behaviors
-- Designer documentation for configuration interface
+## Error Prevention Checklist
 
-### Version
-Last updated: 2025-09-03
-Applies to: Fieldmark v3 (all versions)
-Formik version: 2.x (as bundled with Fieldmark)
+### Namespace Configuration
+- [ ] Namespace is exactly `faims-custom` or `formik-material-ui`
+- [ ] Component name matches reference table exactly
+- [ ] Case sensitivity verified (PascalCase for components)
+- [ ] No typos in namespace (hyphen not underscore)
+- [ ] Namespace specified for every field
+- [ ] Designer name not used in JSON
 
-<!-- concat:reference:platform-behaviors-reference -->
-# Platform Behaviors Reference - Fieldmark v3
+### Type System
+- [ ] Type-returned specified for all fields
+- [ ] Types match expected component output
+- [ ] No invalid/deprecated types used
+- [ ] Export format considered in type selection
+- [ ] Type conversions documented
 
-## Overview {essential}
+### Meta Properties
+- [ ] Meta properties structure valid
+- [ ] Custom labels specified where needed
+- [ ] Persistent fields identified correctly
+- [ ] Annotation/uncertainty used appropriately
+- [ ] Data storage implications understood
 
-This reference document consolidates platform-specific behaviors across all Fieldmark v3 field types. Understanding these platform differences is critical for successful deployment and user experience optimization.
+### Formik Integration
+- [ ] Field updates trigger Formik state changes
+- [ ] Touched state managed correctly
+- [ ] Validation errors display appropriately
+- [ ] Submit behavior validated
+- [ ] Performance optimizations applied where needed
 
-## Platform Characteristics Summary {essential}
+## Performance Optimization Guidelines
+
+### Component Selection
+- Prefer primitive types when possible
+- Use most specific component for use case
+- Consider platform-specific performance
+- Test with expected data volumes
+
+### Validation Performance
+- Debounce expensive validations
+- Minimize complex conditional logic
+- Cache computed values
+- Batch validation operations
+
+### State Management
+- Limit persistent fields to necessary cases
+- Avoid deep object nesting in JSON types
+- Minimize array field sizes
+- Consider form splitting for large datasets
+
+## Migration and Maintenance
+
+### Namespace Evolution
+- **v1-v2**: Mixed namespaces (`material-ui`, `formik-material-ui`, custom components)
+- **v3**: Standardized on `faims-custom` for most components
+- **Current**: Two namespaces only (`faims-custom` and `formik-material-ui`)
+
+### Migration from Older Notebooks
+- `material-ui` → `formik-material-ui` (for TextField only)
+- `faims-custom-ui` → `faims-custom`
+- Custom component names → Check current list
+- `annotation: true` → `annotation: {"include": true}`
+
+### Type System Migration
+When migrating between field types:
+- **String → Number**: Parse errors possible
+- **Single → Array**: Wrap in array
+- **Array → Single**: Data loss warning
+- **JSON → String**: Stringify required
+
+### Designer Round-Trip Considerations
+Designer preserves JSON properties it doesn't understand, but:
+- Resets custom meta labels to defaults
+- Ignores persistent/displayParent properties
+- May reorder properties
+- Always uses correct namespaces
+
+## Platform-Specific Notes
+
+### Web/Desktop
+- All namespaces work identically
+- No platform-specific namespace requirements
+- Full Formik debugging available in DevTools
+
+### iOS/Android  
+- Same namespace requirements
+- Native components still use faims-custom namespace
+- No special mobile namespaces
+- Limited debugging capabilities
+
+### PWA
+- Identical namespace behavior
+- Offline capability doesn't affect namespaces
+- Formik state persists across offline/online transitions
+
+## Best Practices Summary
+
+### DO:
+✅ Always specify namespace explicitly  
+✅ Use exact component names from reference  
+✅ Specify type-returned for all fields  
+✅ Test Formik integration thoroughly  
+✅ Use meta properties for field enhancement  
+✅ Document type assumptions and conversions  
+✅ Validate early and often  
+✅ Consider export requirements in type selection  
+
+### DON'T:
+❌ Omit namespace even if it seems to work  
+❌ Type component names manually  
+❌ Use deprecated or invalid types  
+❌ Bypass Formik validation on submit  
+❌ Overuse persistent fields  
+❌ Ignore platform differences  
+❌ Mix namespace formats  
+❌ Forget case sensitivity  
+
+## Common Patterns and Examples
+
+### Standard Field Definition
+```json
+{
+  "field-name": {
+    "component-namespace": "faims-custom",
+    "component-name": "ComponentName",
+    "type-returned": "faims-core::Type",
+    "component-parameters": {
+      // parameters
+    },
+    "validationSchema": [
+      // validation rules
+    ],
+    "initialValue": "",
+    "meta": {
+      // meta properties
+    }
+  }
+}
+```
+
+### When to Use formik-material-ui
+Only for these specific cases:
+- Basic single-line text input without special features
+- Multi-line text area without special features
+- When explicitly avoiding custom validation or behavior
+
+### Test Configuration
+```json
+{
+  "test-field": {
+    "component-namespace": "faims-custom",
+    "component-name": "Checkbox",
+    "type-returned": "faims-core::Bool",
+    "component-parameters": {
+      "name": "test-field",
+      "label": "Test"
+    }
+  }
+}
+```
+
+## Debugging Quick Reference
+
+### Quick Diagnostic Steps
+
+1. **Check exact spelling**: `faims-custom` (all lowercase, hyphen)
+2. **Verify case**: Component names use PascalCase
+3. **Confirm pairing**: Component name matches namespace
+4. **Test minimal**: Try simplest possible configuration
+5. **Check Formik state**: Use React DevTools
+6. **Verify type match**: Component output matches type-returned
+7. **Test validation**: Ensure schemas execute correctly
+8. **Check meta properties**: Verify structure and values
+
+## Related Documentation
+
+- [Field Selection Guide](../patterns/field-selection-guide.md) - Choosing appropriate components
+- [Dynamic Forms Guide](../patterns/dynamic-forms-guide.md) - Validation and conditional logic
+- [Form Structure Guide](../patterns/form-structure-guide.md) - Form architecture patterns
+- [Implementation Patterns Guide](../patterns/implementation-patterns-guide.md) - Common patterns
+- Individual field documentation for component-specific details
+
+## Version Information
+
+- **Last Updated**: 2025-01-06
+- **Applies to**: Fieldmark v3 (all versions)
+- **Component Library**: @faims3/data-model
+- **Formik Version**: 2.x (as bundled with Fieldmark)
+- **Total Valid Components**: ~30
+- **Valid Namespaces**: 3 (`faims-custom`, `formik-material-ui`, `mapping-plugin`)
+- **Valid Types**: 8 core types
+
+<!-- concat:boundary:end section="component-reference" -->
+
+<!-- concat:reference:platform-reference -->
+<!-- concat:boundary:start section="platform-reference" -->
+<!-- concat:metadata
+document_id: platform-reference
+category: references
+version: 1.0
+last_updated: 2025-01-06
+purpose: Comprehensive technical reference for platform behaviors, performance thresholds, accessibility, and troubleshooting
+source_documents:
+  - platform-behaviors-reference.md (9KB)
+  - performance-thresholds-reference.md (18KB)
+  - accessibility-reference.md (13KB)
+  - troubleshooting-framework-reference.md (9KB) - platform issues only
+-->
+
+# Platform Reference
+
+## Overview
+
+This comprehensive reference consolidates all platform-specific technical details for Fieldmark v3, including behaviors across iOS, Android, Web Desktop, and Web Mobile platforms, performance thresholds, accessibility standards, and platform-specific troubleshooting. All performance thresholds are estimates based on empirical observations and code analysis - they are advisory only and should be tested with your specific hardware and use cases. We welcome performance feedback to improve these estimates.
+
+## Platform Characteristics Summary {#platform-summary}
 
 | Platform | Performance | UI Framework | Primary Constraints |
 |----------|-------------|--------------|-------------------|
 | iOS | Moderate | Native WebView | Memory limits, permission cascades |
 | Android | Variable | Chrome WebView | Device fragmentation, background restrictions |
-| Web Desktop | Fast | Browser native | Network latency, no offline |
-| Web Mobile | Slow | Mobile browser | Limited memory, touch UI |
+| Web Desktop | Fast | Browser native | Full offline support via PouchDB |
+| Web Mobile | Slow | Mobile browser | Limited memory, touch UI, offline via PouchDB |
 
-## iOS Specific Behaviors {important}
+### Relative Performance Scaling
+
+**Note**: These are approximate performance ratios based on empirical testing and code analysis. They are advisory estimates only - actual performance varies significantly by device. We welcome performance feedback to refine these estimates.
+
+```
+Relative Performance (normalized to Web Desktop = 1.0):
+- Web Desktop: 1.0x (baseline)
+- iOS Native: 0.5x
+- Android High-end: 0.6x
+- Android Mid-range: 0.3x
+- Android Low-end: 0.15x
+- Web Mobile: 0.2x
+```
+
+## iOS Platform Behaviors {#ios}
 
 ### System Characteristics
 - **Rendering Engine**: WebKit/Safari
-- **Memory Limit**: ~200MB before crash
+- **Memory Limit**: ~200MB before crash (approximate)
 - **JavaScript Execution**: Single-threaded with 10s timeout
 - **Local Storage**: 50MB IndexedDB limit
-- **Performance**: ~2x slower than native apps
+- **Performance**: ~2x slower than native apps (estimated)
 
 ### UI Behaviors
 - **System Font**: San Francisco (affects text measurements)
@@ -24988,7 +22431,14 @@ Permission Request Flow:
 - Cannot access arbitrary paths
 - Share sheet for exports
 
-## Android Specific Behaviors {important}
+### iOS-Specific Workarounds
+- HEIC conversion handling
+- Safari IndexedDB limits
+- Viewport keyboard issues
+- Touch target sizing
+- Memory limit monitoring
+
+## Android Platform Behaviors {#android}
 
 ### System Characteristics
 - **Rendering Engine**: Chrome WebView (version varies)
@@ -25035,9 +22485,17 @@ Runtime Permission Model:
 - Content resolver for access
 - Temporary file cleanup needed
 
-## Web Desktop Specific Behaviors {important}
+### Android-Specific Workarounds
+- Storage permission flows
+- Background service limits
+- WebView version detection
+- Manufacturer quirks
+- Battery optimization
+
+## Web Desktop Platform {#web-desktop}
 
 ### Browser Support Matrix
+
 | Browser | Support Level | Known Issues |
 |---------|--------------|--------------|
 | Chrome | Full | None |
@@ -25059,14 +22517,16 @@ Runtime Permission Model:
 - No battery considerations
 - Multiple concurrent operations
 
-### Limitations
+### Capabilities & Limitations
+- **Offline Support**: Full offline capability via PouchDB (same as mobile)
+- **Sync**: Opportunistic sync when network available
+- **Fallback Option**: Users often use web on tablets/laptops when app fails
 - No native GPS (IP/WiFi geolocation only)
 - No camera access without HTTPS
 - Local storage varies by browser
-- No offline without service worker
 - Print formatting inconsistent
 
-## Web Mobile Specific Behaviors {important}
+## Web Mobile Platform {#web-mobile}
 
 ### Characteristics
 - Limited memory (similar to native apps)
@@ -25088,134 +22548,11 @@ Runtime Permission Model:
 - No push notifications (iOS)
 - Share API limited
 
-## Cross-Platform Considerations {essential}
-
-### Performance Scaling
-```
-Relative Performance (normalized to Web Desktop = 1.0):
-- Web Desktop: 1.0x (baseline)
-- iOS Native: 0.5x
-- Android High-end: 0.6x
-- Android Mid-range: 0.3x
-- Android Low-end: 0.15x
-- Web Mobile: 0.2x
-```
-
-### Feature Availability Matrix
-
-| Feature | iOS | Android | Web Desktop | Web Mobile |
-|---------|-----|---------|-------------|------------|
-| Camera | ✅ | ✅ | ✅* | ✅* |
-| GPS | ✅ | ✅ | ⚠️ | ⚠️ |
-| File Upload | ✅ | ✅ | ✅ | ✅ |
-| Offline | ✅ | ✅ | ⚠️ | ⚠️ |
-| Background Sync | ✅ | ⚠️ | ❌ | ❌ |
-
-*Requires HTTPS
-⚠️ Limited functionality
-❌ Not available
-
-### Memory Management Strategies
-
-#### Mobile Platforms
-- Regular garbage collection
-- Limit active field count
-- Cleanup on navigation
-- Monitor memory usage
-- Restart app if degraded
-
-#### Desktop Platforms
-- Less critical but monitor
-- Browser tab memory limits
-- Clear caches periodically
-- Watch for memory leaks
-- Profile with DevTools
-
-## Platform Detection Patterns {important}
-
-### User Agent Detection
-```javascript
-// Simplified platform detection
-const iOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-const Android = /Android/.test(navigator.userAgent);
-const Mobile = /Mobile/.test(navigator.userAgent);
-```
-
-### Feature Detection
-```javascript
-// Preferred approach
-const hasTouch = 'ontouchstart' in window;
-const hasGPS = 'geolocation' in navigator;
-const hasCamera = 'mediaDevices' in navigator;
-```
-
-## Platform-Specific Workarounds {comprehensive}
-
-### iOS Workarounds
-- HEIC conversion handling
-- Safari IndexedDB limits
-- Viewport keyboard issues
-- Touch target sizing
-- Memory limit monitoring
-
-### Android Workarounds
-- Storage permission flows
-- Background service limits
-- WebView version detection
-- Manufacturer quirks
-- Battery optimization
-
-### Web Workarounds
-- Polyfills for missing APIs
-- Browser capability detection
-- CORS handling
-- Local storage fallbacks
-- Print style sheets
-
-## Testing Recommendations {essential}
-
-### Minimum Test Devices
-- iOS: iPhone SE (lowest spec)
-- iOS: iPad (newest + 2 years old)
-- Android: Low-end device (Go edition)
-- Android: Flagship device
-- Desktop: Chrome, Safari, Firefox
-
-### Critical Test Scenarios
-1. Memory pressure conditions
-2. Slow network (3G simulation)
-3. Permission denial flows
-4. Background/foreground transitions
-5. Orientation changes
-6. Multi-tasking scenarios
-
-## See Also {comprehensive}
-
-### Field-Specific Platform Behaviors
-- [Display Fields](../field-categories/display-field-v05.md#platform-behaviors)
-- [Location Fields](../field-categories/location-fields-v05.md#platform-behaviors)
-- [Media Fields](../field-categories/media-fields-v05.md#platform-behaviors)
-- [Relationship Fields](../field-categories/relationship-field-v05.md#platform-behaviors)
-
-### Related References
-- [Performance Thresholds Reference](./performance-thresholds-reference.md)
-- [Security Considerations Reference](./security-considerations-reference.md)
-- [Troubleshooting Framework Reference](./troubleshooting-framework-reference.md)
-
-## Metadata {comprehensive}
-- **Document Version**: v01
-- **Last Updated**: 2025-01-03
-- **Status**: Initial extraction from field documentation
-- **Purpose**: Consolidate platform-specific behaviors across all field types
-- **Maintenance**: Update when new platform behaviors discovered
-
-<!-- concat:reference:performance-thresholds-reference -->
-# Performance Thresholds Reference
-## Empirically Tested Estimates for Fieldmark v3 Components
+## Performance Thresholds {#performance}
 
 ### Important Disclaimer
 
-**These thresholds are ESTIMATES based on empirical observations, not guaranteed limits.** Performance varies significantly based on:
+**These thresholds are ESTIMATES based on empirical observations and code analysis - they are advisory only, not guaranteed limits.** Performance varies significantly based on:
 - Device specifications (CPU, RAM, storage)
 - Browser type and version
 - Network conditions
@@ -25223,423 +22560,97 @@ const hasCamera = 'mediaDevices' in navigator;
 - Concurrent applications
 - Data complexity
 
-**Approach all thresholds with caution.** What works on a high-end device may fail on older hardware. Always test on your target devices under realistic conditions.
+**Always test on your target devices under realistic conditions.**
 
-### We Welcome Your Feedback
+### Field Count Thresholds (Estimates)
 
-These estimates are continuously refined based on user experiences. **Please share your observations:**
-- If you encounter performance issues below these thresholds
-- If you successfully exceed these thresholds
-- Device-specific limitations you discover
-- Optimization techniques that work for you
+#### Per Form/Page Limits
 
-Contact the Fieldmark team or submit feedback through your project coordinator to help improve these guidelines.
-
-### Overview
-
-This document consolidates estimated performance thresholds and boundaries for Fieldmark v3 fields. These values are based on empirical testing across various devices and conditions. They should be used as conservative guidelines for notebook design, with actual limits varying based on deployment context.
-
-### Testing Checklist
-
-Use this checklist to verify your notebook stays within estimated performance boundaries:
-
-- [ ] Forms have fewer than 50 fields per page
-- [ ] Selection fields have fewer than 20 options (if using markdown)
-- [ ] Text fields contain less than 10,000 characters
-- [ ] No more than 10 validation rules per field
-- [ ] Forms are paginated if exceeding thresholds
-- [ ] Export datasets under 65,000 rows for Excel compatibility
-- [ ] File uploads under 10MB per file
-- [ ] Total form size under 100MB including attachments
-
-## Field Count Thresholds (Estimates)
-
-### Per Form/Page Limits
-
-**Note:** These are conservative estimates. Your specific hardware may support more or fewer fields.
+**Note**: These are conservative estimates extrapolated from code analysis and testing. Your specific hardware may support more or fewer fields. We welcome performance feedback to improve these advisory thresholds.
 
 | Field Count | Performance Impact | User Experience | Recommendation |
 |-------------|-------------------|-----------------|----------------|
-| 1-20 fields | Optimal | Instant render (<500ms) | Ideal for mobile |
-| 20-50 fields | Good | Fast render (<1s) | Acceptable for all platforms |
-| 50-100 fields | Degraded | Noticeable delay (1-3s) | Consider pagination |
-| 100-500 fields | Poor | Significant delay (3-10s) | Must paginate |
-| 500-1000 fields | Critical | Very slow (10-30s) | Redesign required |
-| >1000 fields | Failure | Browser crash likely | Not supported |
-
-### Memory Consumption (Approximate)
-
-**Note:** Memory usage varies by browser implementation and available system resources.
-
-| Component Type | Memory Per Field | 100 Fields | 1000 Fields | Browser Limit |
-|---------------|------------------|------------|-------------|---------------|
-| Text fields | ~8KB | 800KB | 8MB | ~4GB typical |
-| Number fields | ~8KB | 800KB | 8MB | ~4GB typical |
-| Selection fields | ~12KB + options | 1.2MB+ | 12MB+ | Varies by options |
-| Date fields | ~2MB (picker resources) | 200MB | 2GB | Critical at 100 fields |
-| Media fields | ~5MB (camera access) | 500MB | 5GB | Critical at 20 fields |
-| Map fields | ~10MB (map tiles) | 1GB | 10GB | Critical at 10 fields |
-
-## Text Field Thresholds (Estimates)
-
-### Character Limits
-
-**Note:** These limits are approximations. Actual performance depends on character complexity and rendering requirements.
-
-| Character Count | Field Type | Performance | Export Impact | Mobile Impact |
-|----------------|------------|-------------|---------------|---------------|
-| 0-50 | TextField | Optimal | None | Optimal |
-| 50-500 | TextField/MultipleTextField | Optimal | None | Good |
-| 500-1000 | MultipleTextField | Good | None | Good |
-| 1000-5000 | MultipleTextField | Good | CSV may need escaping | Scrolling needed |
-| 5000-10000 | MultipleTextField | Degraded | CSV reader issues possible | Performance lag |
-| >10000 | MultipleTextField | Poor | Export problems likely | Severe lag |
-| ~1MB | Any text field | Critical | CouchDB document limit | App crash |
-
-### MultilineText Row Configuration
-
-| Row Count | Use Case | Performance | Mobile Usability |
-|-----------|----------|-------------|------------------|
-| 3 rows | Brief notes | Optimal | Perfect |
-| 4-5 rows | Standard descriptions | Optimal | Good |
-| 6-8 rows | Detailed observations | Good | Requires scrolling |
-| 10+ rows | Extended narratives | Good | Poor (excessive scrolling) |
-
-## Selection Field Thresholds (Estimates)
-
-### Option Count Limits
-
-**Note:** Markdown processing adds variable overhead depending on markdown complexity.
-
-| Option Count | Without Markdown | With Markdown | User Experience | Mobile Impact |
-|-------------|------------------|---------------|-----------------|---------------|
-| 1-5 options | Instant | Instant | Optimal | Perfect |
-| 5-10 options | Instant | Fast (<100ms) | Optimal | Good |
-| 10-20 options | Fast | Noticeable lag | Good | Scrolling needed |
-| 20-50 options | Fast | Significant lag (>500ms) | Degraded | Poor scrolling |
-| 50-100 options | Good | Poor (>1s) | Poor | Very poor |
-| >100 options | Slow | Unusable | Redesign needed | Not viable |
-
-**Note**: Markdown processing adds significant overhead. Consider disabling markdown for large option lists.
-
-### AdvancedSelect Hierarchy Limits
-
-| Node Count | Depth | Performance | Memory Usage | Recommendation |
-|------------|-------|-------------|--------------|----------------|
-| <50 nodes | 1-3 levels | Optimal | <1MB | Ideal |
-| 50-100 nodes | 1-4 levels | Good | 1-2MB | Acceptable |
-| 100-500 nodes | 2-5 levels | Degraded | 2-10MB | Consider alternatives |
-| >500 nodes | Any | Poor | >10MB | Use search instead |
-
-## Number Field Thresholds (Estimates)
-
-### Validation Complexity
-
-**Note:** Validation performance heavily depends on rule complexity, not just count.
-
-| Validation Rules | Blur Response Time | User Experience | Recommendation |
-|-----------------|-------------------|-----------------|----------------|
-| 1-3 rules | <10ms | Instant | Optimal |
-| 3-5 rules | 10-30ms | Fast | Good |
-| 5-10 rules | 30-50ms | Noticeable | Acceptable |
-| 10-15 rules | 50-200ms | Sluggish | Simplify if possible |
-| >15 rules | >200ms | Poor | Must simplify |
-
-### Numeric Precision Limits
-
-| Value Range | Storage | Display | Excel Export | JavaScript Precision |
-|------------|---------|---------|--------------|---------------------|
-| -2^53 to 2^53 | Safe | Accurate | Accurate | Full precision |
-| 15-17 digits | Safe | Accurate | Scientific notation | Full precision |
-| >17 digits | Unsafe | Rounded | Loss of precision | Precision lost |
-| Scientific notation | As string | Preserved | May convert | Preserved as string |
-
-## DateTime Field Thresholds (Estimates)
-
-### Form Limits
-
-**Note:** Date picker resources vary significantly by platform and browser.
-
-| Date Fields Per Form | Render Time | Memory Usage | Mobile Viability |
-|---------------------|-------------|--------------|------------------|
-| 1-10 fields | <500ms | 20MB | Excellent |
-| 10-20 fields | 500ms-1s | 40MB | Good |
-| 20-50 fields | 1-2s | 100MB | Degraded |
-| 50-100 fields | 2-5s | 200MB | Poor |
-| >100 fields | >5s | Browser limit | Not recommended |
-
-### Processing Overhead
-
-| Operation | Time Per Field | 100 Fields | Impact |
-|-----------|---------------|------------|---------|
-| Timezone conversion (DateTimeNow) | ~100ms | 10s | Significant for bulk operations |
-| Picker rendering | 100-300ms | 10-30s | Affects initial load |
-| Validation check | <5ms | 500ms | Minimal |
-| Database indexing | ~500ms | 50s | One-time cost |
-
-## Media Field Thresholds (Estimates)
-
-### File Size Limits
-
-**Note:** Upload times are highly dependent on network quality and server processing.
-
-| File Size | Upload Time (3G) | Upload Time (WiFi) | Storage Impact | Recommendation |
-|-----------|------------------|-------------------|----------------|----------------|
-| <1MB | <5s | <1s | Minimal | Optimal |
-| 1-5MB | 5-30s | 1-5s | Manageable | Good |
-| 5-10MB | 30-60s | 5-10s | Significant | Maximum recommended |
-| 10-50MB | 1-5min | 10-60s | Heavy | Requires warning |
-| >50MB | >5min | >60s | Critical | Not recommended |
-
-### Image Capture Specifications
-
-| Resolution | File Size | Processing Time | Use Case |
-|------------|-----------|-----------------|----------|
-| 640x480 | ~200KB | <100ms | Thumbnails |
-| 1280x720 (720p) | ~500KB | 200ms | Documentation |
-| 1920x1080 (1080p) | ~1MB | 500ms | Standard quality |
-| 3840x2160 (4K) | ~5MB | 2s | High quality |
-| Original | Varies | Varies | Archival |
-
-## Export Performance (Estimates)
-
-### CSV Export Limits
-
-**Note:** Export performance depends on data complexity, not just row count.
-
-| Row Count | Generation Time | File Size | Excel Compatibility | Browser Handling |
-|-----------|-----------------|-----------|-------------------|------------------|
-| <1000 | <1s | <1MB | Perfect | Instant |
-| 1000-10000 | 1-5s | 1-10MB | Good | Fast |
-| 10000-65000 | 5-30s | 10-100MB | Last Excel limit | May timeout |
-| 65000-100000 | 30-60s | 100MB+ | Requires splitting | Likely timeout |
-| >100000 | >60s | >100MB | Database tools needed | Will timeout |
-
-### JSON Export Performance
-
-| Record Count | Generation Time | File Size | Memory Required | Recommendation |
-|-------------|-----------------|-----------|-----------------|----------------|
-| <100 | Instant | <100KB | Minimal | Optimal |
-| 100-1000 | <2s | 100KB-1MB | <10MB | Good |
-| 1000-10000 | 2-10s | 1-10MB | 10-100MB | Consider pagination |
-| >10000 | >10s | >10MB | >100MB | Must paginate |
-
-## Synchronization Thresholds (Estimates)
-
-### Sync Payload Sizes
-
-**Note:** Sync performance varies greatly with network latency and server load.
-
-| Data Volume | Sync Time (3G) | Sync Time (WiFi) | Battery Impact | Recommendation |
-|------------|----------------|------------------|----------------|----------------|
-| <1MB | <10s | <2s | Minimal | Optimal |
-| 1-10MB | 10-60s | 2-10s | Noticeable | Good |
-| 10-50MB | 1-5min | 10-60s | Significant | Schedule for WiFi |
-| 50-100MB | 5-10min | 1-5min | Heavy drain | WiFi only |
-| >100MB | >10min | >5min | Critical | Requires chunking |
-
-## Platform-Specific Thresholds (Estimates)
-
-### Mobile Device Limits (iOS/Android)
-
-**Note:** Mobile limits vary dramatically across device generations and manufacturers.
-
-| Resource | Threshold | Impact | Mitigation |
-|----------|-----------|---------|------------|
-| RAM usage | >500MB | App termination risk | Reduce form complexity |
-| Storage | >1GB | Sync issues | Implement cleanup |
-| CPU usage | >80% for 30s | System throttling | Optimize operations |
-| Battery drain | >10% per hour | User complaints | Reduce background ops |
-| Network timeout | >30s | Connection drops | Implement retry logic |
-
-### Browser-Specific Limits
-
-| Browser | Memory Limit | Local Storage | IndexedDB | Session Storage |
-|---------|-------------|---------------|-----------|-----------------|
-| Chrome | 4GB typical | 10MB | 50% of disk | 10MB |
-| Firefox | 2GB typical | 10MB | 50% of disk | 10MB |
-| Safari | 2GB typical | 5MB | 1GB | 5MB |
-| Edge | 4GB typical | 10MB | 50% of disk | 10MB |
-| Mobile browsers | 512MB-1GB | 5-10MB | 50-500MB | 5MB |
-
-## Performance Optimization Triggers
-
-These estimated thresholds suggest when optimization should be considered:
-
-### Must Optimize When:
-
-1. **Form render time >3 seconds** → Implement pagination
-2. **Field blur lag >50ms** → Simplify validation
-3. **Option count >20 with markdown** → Disable markdown or reduce options
-4. **Text field >10,000 characters** → Consider file attachment instead
-5. **Memory usage >500MB mobile** → Reduce form complexity
-6. **Export time >30 seconds** → Implement server-side export
-7. **Sync payload >50MB** → Implement incremental sync
-
-### Warning Thresholds:
-
-1. **Form render 1-3 seconds** → Monitor and plan optimization
-2. **Field blur lag 30-50ms** → Review validation complexity
-3. **Option count 10-20** → Consider user experience
-4. **Memory usage 200-500MB** → Begin optimization planning
-5. **Export time 10-30 seconds** → Warn users about delay
-
-## Testing Recommendations
-
-**Remember:** These estimates are intentionally conservative. Your specific deployment may perform better or worse. Always conduct thorough testing on your actual target devices before deployment.
-
-### Load Testing Scenarios
-
-1. **Minimum viable test**: 10 fields, 5 records
-2. **Standard test**: 50 fields, 100 records
-3. **Stress test**: 100 fields, 1000 records
-4. **Failure test**: 500 fields, 10000 records
-
-### Device Testing Matrix
-
-| Test Scenario | High-end Device | Mid-range Device | Low-end Device |
-|--------------|-----------------|------------------|----------------|
-| Small form (10 fields) | Must pass | Must pass | Must pass |
-| Medium form (50 fields) | Must pass | Must pass | Should pass |
-| Large form (100 fields) | Must pass | Should pass | May fail |
-| Complex form (validation) | Must pass | Should pass | May fail |
-
-### Network Testing Conditions
-
-1. **WiFi**: Full functionality required
-2. **4G/LTE**: Core functionality required
-3. **3G**: Basic functionality required
-4. **Offline**: Data entry must work
-5. **Intermittent**: Graceful degradation required
-
-## Best Practices
-
-### Design Guidelines
-
-1. **Prefer pagination**: Keep forms under 50 fields per page
-2. **Simplify validation**: Maximum 5 rules per field
-3. **Limit options**: Under 20 for selection fields
-4. **Optimize media**: Compress images before upload
-5. **Plan exports**: Implement pagination for large datasets
-
-### Monitoring Metrics
-
-Track these metrics in production:
-
-1. Form render time (target: <1s)
-2. Field validation time (target: <30ms)
-3. Export generation time (target: <10s)
-4. Sync completion rate (target: >95%)
-5. Memory usage (target: <200MB mobile)
-6. Battery drain (target: <5% per hour active use)
-
-### Related Documentation
-
-- Designer Limitations Reference for configuration constraints
-- Data Export Reference for export-specific details
-- Validation Timing Reference for validation performance
-- Individual field documentation for field-specific thresholds
-
-## Location Field Thresholds (Estimates)
-
-### GPS Acquisition Times (TakePoint)
-
-**Note:** GPS acquisition varies significantly based on environmental factors, satellite visibility, and device hardware.
-
-| Platform | Cold Start | Warm Start | Indoor | Environmental Factors |
-|----------|------------|------------|--------|----------------------|
-| iOS | 3-8s | 1-3s | 15-30s | Best accuracy, A-GPS assisted |
-| Android | 5-15s | 2-5s | 20-45s | Variable by device/manufacturer |
-| Web | 2-5s | 1-2s | 10-20s | Browser-based, lower accuracy |
-
-**Factors affecting acquisition:**
-- Cold start: First GPS use after reboot or location services re-enabled
-- Warm start: GPS used within last hour
-- Indoor: Significant signal degradation through buildings
-- Urban canyon: Tall buildings create multipath interference
-
-### Map Performance (MapFormField)
-
-**Note:** Performance degrades exponentially with vertex count. Mobile devices particularly affected.
-
-| Vertices | Desktop | iOS | Android | Performance Impact |
-|----------|---------|-----|---------|-------------------|
-| <100 | Instant | Instant | Instant | Optimal - recommended for all platforms |
-| 100-300 | <100ms | <200ms | <300ms | Good - acceptable for most uses |
-| 300-500 | <200ms | <400ms | <600ms | Acceptable - noticeable on older devices |
-| 500-1000 | <500ms | <1s | 1-2s | Poor - significant lag, avoid on mobile |
-| 1000-2000 | 1-2s | 2-4s | 4-8s | Critical - high crash risk |
-| >2000 | 2-5s | Crash risk | Crash likely | Not supported |
-
-**Additional constraints:**
-- GPU acceleration disabled for compatibility
-- No WebGL fallback implemented
-- Memory not released between edits
-
-### Battery Consumption (Location Features)
-
-**Note:** Battery drain estimates based on typical usage patterns. Actual consumption varies by device age and battery health.
-
-| Operation | Battery/Hour | Continuous Use | Notes |
-|-----------|--------------|----------------|-------|
-| TakePoint (high accuracy) | 8-12% | Not recommended | GPS constantly active |
-| TakePoint (balanced) | 4-6% | Acceptable | Standard accuracy mode |
-| MapFormField (active drawing) | 2-3% | Sustainable | CPU for rendering only |
-| MapFormField (map visible) | <1% | Negligible | Static map display |
-| Combined usage | 10-15% | Limited time | Both features active |
-
-**Battery optimization tips:**
-- Space TakePoint captures at least 60 seconds apart
-- Use `enableHighAccuracy: false` when 10-15m accuracy acceptable
-- Close map view when not actively drawing
-- Consider external battery pack for all-day fieldwork
-
-### Storage Requirements (Offline Maps)
-
-| Coverage Area | Zoom Levels | Approximate Size | Download Time (4G) |
-|--------------|-------------|------------------|-------------------|
-| City district (25 km²) | 10-18 | 50-100 MB | 1-2 minutes |
-| Survey area (100 km²) | 12-19 | 100-200 MB | 2-4 minutes |
-| Regional (1000 km²) | 8-16 | 200-500 MB | 5-10 minutes |
-| Country subset | 6-14 | 500MB-1GB | 10-20 minutes |
-
-**Storage considerations:**
-- Browser storage typically limited to 50% of free disk space
-- Mobile apps may have lower limits (varies by OS)
-- Tile cache persists until explicitly cleared
-- Consider selective download of work areas only
-
-### Location Data Limits
-
-| Metric | TakePoint | MapFormField | Impact |
-|--------|-----------|--------------|---------|
-| Points per notebook | 1000-2000 | N/A | Performance degrades beyond |
-| Vertices per feature | N/A | 500 optimal, 2000 max | Drawing responsiveness |
-| Coordinate precision | 14+ decimals shown | User-controlled | False precision displayed |
-| GPS timeout | 10s default, 45s max | N/A | Acquisition wait time |
-| Accuracy display | Always shown | Not captured | Metres to 1 decimal |
-
-### Version
-Last updated: 2025-09-04
-Applies to: Fieldmark v3 (all versions)
-Performance metrics: Empirically estimated August 2025
-Location metrics: Added January 2025
-
-### Feedback and Contributions
-
-These thresholds are living estimates that improve with community input. Please report your experiences to help refine these guidelines for future users. Remember: your mileage may vary - always test on your actual deployment hardware.
-
-<!-- concat:reference:accessibility-reference -->
-# Accessibility Reference
-## WCAG Compliance and Touch Target Standards for Fieldmark v3
-
-### Overview
-
-This document consolidates accessibility standards, WCAG compliance status, and touch target requirements for all Fieldmark v3 fields. Accessibility in fieldwork applications presents unique challenges: gloved hands, bright sunlight, muddy screens, and physical fatigue all impact usability. These guidelines address both standard WCAG compliance and field-specific accessibility needs.
-
-### Touch Target Standards
-
-#### Minimum Size Requirements
+| 1-20 | Minimal | Smooth | Ideal for all platforms |
+| 21-50 | Noticeable on low-end | Good | Acceptable for most cases |
+| 51-100 | Significant on mobile | Degraded | Split forms recommended |
+| 100+ | Severe on all platforms | Poor | Must split into pages |
+
+#### Memory Consumption (Approximate)
+
+| Field Type | Memory per Field | 50 Fields | 100 Fields |
+|------------|-----------------|-----------|------------|
+| Text | ~5KB | 250KB | 500KB |
+| Number | ~3KB | 150KB | 300KB |
+| Selection | ~10KB | 500KB | 1MB |
+| DateTime | ~8KB | 400KB | 800KB |
+| Location | ~20KB | 1MB | 2MB |
+| Photo | ~50KB + image | 2.5MB+ | 5MB+ |
+| Relationship | ~15KB | 750KB | 1.5MB |
+
+### Text Field Thresholds {#text-field-performance}
+
+#### Character Limits
+
+| Character Count | Performance | Mobile Impact | Desktop Impact |
+|-----------------|-------------|---------------|----------------|
+| < 1,000 | Excellent | None | None |
+| 1,000-5,000 | Good | Minimal | None |
+| 5,000-10,000 | Acceptable | Typing lag | None |
+| 10,000-50,000 | Poor | Severe lag | Noticeable |
+| > 50,000 | Unusable | App crash likely | Browser hang |
+
+### Selection Field Thresholds {#selection-performance}
+
+#### Option Count Limits
+
+| Options | RadioGroup | Select | MultiSelect | AdvancedSelect |
+|---------|------------|--------|-------------|----------------|
+| 1-5 | Excellent | Excellent | Excellent | Overkill |
+| 6-20 | Good | Excellent | Good | Good |
+| 21-50 | Poor (use Select) | Good | Acceptable | Excellent |
+| 51-100 | N/A | Acceptable | Poor | Good |
+| 100-500 | N/A | Poor | Very Poor | Acceptable |
+| 500+ | N/A | Unusable | Unusable | Poor |
+
+### Media Field Thresholds {#media-performance}
+
+#### File Size Limits
+
+| File Size | Upload Time (4G) | Upload Time (3G) | Mobile Impact |
+|-----------|------------------|------------------|---------------|
+| < 1MB | < 2 sec | < 10 sec | Minimal |
+| 1-5MB | 2-10 sec | 10-50 sec | Noticeable |
+| 5-10MB | 10-20 sec | 50-100 sec | Significant |
+| 10-25MB | 20-50 sec | 100-250 sec | App may crash |
+| > 25MB | > 50 sec | > 250 sec | Likely to fail |
+
+#### Image Specifications
+
+| Resolution | File Size (JPG) | Processing Time | Battery Impact |
+|------------|-----------------|-----------------|----------------|
+| 640×480 | ~100KB | < 1 sec | Minimal |
+| 1920×1080 | ~500KB | 1-2 sec | Low |
+| 3024×4032 | ~2MB | 3-5 sec | Medium |
+| 4032×3024 | ~3MB | 5-10 sec | High |
+| Original | Varies | 10+ sec | Very High |
+
+### Export Performance {#export-performance}
+
+#### CSV Export Limits
+
+| Rows | Columns | Export Time | File Size | Excel Compatible |
+|------|---------|-------------|-----------|------------------|
+| < 1,000 | < 50 | < 1 sec | < 1MB | Yes |
+| 1,000-10,000 | < 100 | 1-5 sec | 1-10MB | Yes |
+| 10,000-65,000 | < 200 | 5-30 sec | 10-50MB | Yes |
+| 65,000-100,000 | Any | 30-60 sec | 50-100MB | No (Excel limit) |
+| > 100,000 | Any | > 60 sec | > 100MB | No |
+
+## Accessibility Standards {#accessibility}
+
+### Touch Target Requirements
+
+#### Minimum Size Standards
 
 | Standard | Minimum Size | Applies To | Fieldmark Status |
 |----------|-------------|------------|------------------|
@@ -25663,7 +22674,6 @@ This document consolidates accessibility standards, WCAG compliance status, and 
 
 #### Touch Target Solutions
 
-**CSS Override for Larger Targets**:
 ```css
 /* Minimum WCAG compliance */
 .MuiInputBase-root {
@@ -25686,6 +22696,8 @@ This document consolidates accessibility standards, WCAG compliance status, and 
 
 ### WCAG 2.1 Compliance Status
 
+**Note**: Improved adherence to accessibility standards is on our roadmap but not fully implemented. Current status reflects known gaps that are being addressed.
+
 #### Level A Compliance
 
 | Criterion | Requirement | Fieldmark Status | Issues |
@@ -25698,318 +22710,351 @@ This document consolidates accessibility standards, WCAG compliance status, and 
 | **3.1.1** | Language of Page | ✅ Pass | HTML lang attribute set |
 | **3.3.1** | Error Identification | ⚠️ Partial | Some fields don't show errors |
 | **3.3.2** | Labels or Instructions | ✅ Pass | All fields have labels |
-| **4.1.1** | Parsing | ✅ Pass | Valid HTML |
-| **4.1.2** | Name, Role, Value | ⚠️ Partial | Some custom fields lack ARIA |
 
 #### Level AA Compliance
 
 | Criterion | Requirement | Fieldmark Status | Issues |
 |-----------|-------------|------------------|--------|
-| **1.3.5** | Identify Input Purpose | ✅ Pass | Semantic HTML used |
 | **1.4.3** | Contrast (Minimum) | ⚠️ Partial | Some states below 4.5:1 |
-| **1.4.4** | Resize Text | ✅ Pass | Text scalable to 200% |
-| **1.4.5** | Images of Text | ✅ Pass | No text images used |
-| **1.4.10** | Reflow | ⚠️ Partial | Some layouts break |
 | **1.4.11** | Non-text Contrast | ❌ Fail | Spinner controls below 3:1 |
-| **2.4.5** | Multiple Ways | N/A | Single page app |
-| **2.4.6** | Headings and Labels | ✅ Pass | Descriptive labels |
-| **2.4.7** | Focus Visible | ✅ Pass | Browser default focus |
 | **2.5.5** | Target Size | ❌ Fail | Most fields below 44×44px |
 | **3.3.3** | Error Suggestion | ⚠️ Partial | Generic error messages |
-| **3.3.4** | Error Prevention | ⚠️ Partial | Limited validation |
 | **4.1.3** | Status Messages | ❌ Fail | No aria-live regions |
 
 ### Field-Specific Accessibility Issues
 
-#### Text Fields
+#### Text Fields {#text-field-accessibility}
 - **Touch targets**: Default height ~36px (below 44px minimum)
 - **Screen reader**: Labels announced properly
 - **Keyboard**: Full navigation support
 - **Issues**: Multiline text scrolling not announced
 
-#### Number Fields
+#### Number Fields {#number-field-accessibility}
 - **Spinners**: ~20×20px - far too small
 - **Screen reader**: Type="number" provides semantic meaning
-- **Keyboard**: Arrow keys adjust values
-- **Issues**: No announcement of value changes via spinner
+- **Keyboard**: Arrow keys for increment/decrement
+- **Issues**: Spinner controls not keyboard accessible
 
-#### DateTime Fields
-- **Native pickers**: Generally accessible
-- **Platform variance**: Different interfaces confuse users
-- **Screen reader**: Date format not always announced
-- **Issues**: "Now" button location varies, may be missed
-
-#### Selection Fields
-- **Checkbox/Radio**: 24×24px icons too small
-- **Labels not clickable**: Must hit exact icon
+#### Selection Fields {#selection-field-accessibility}
+- **Checkbox/Radio**: 24×24px targets too small
 - **Screen reader**: Options announced
-- **Issues**: Select and AdvancedSelect don't show error messages visually
+- **Keyboard**: Space to select, arrows to navigate
+- **Issues**: Label text not clickable
 
-#### Media Fields
-- **Camera/QR**: Native UI generally accessible
-- **Touch targets**: Full screen for capture
-- **Issues**: Web platform shows disabled state without explanation
+#### DateTime Fields {#datetime-field-accessibility}
+- **Touch targets**: Native pickers usually compliant
+- **Screen reader**: Date announced in locale format
+- **Keyboard**: Complex navigation varies by platform
+- **Issues**: Custom pickers may not be accessible
 
-### Screen Reader Support
+#### Media Fields {#media-field-accessibility}
+- **Camera button**: Platform native (usually compliant)
+- **File upload**: Browser native (compliant)
+- **Screen reader**: Upload status not announced
+- **Issues**: No progress indicators for screen readers
 
-#### Tested Screen Readers
-- **iOS**: VoiceOver
-- **Android**: TalkBack
-- **Windows**: NVDA, JAWS
-- **macOS**: VoiceOver
+#### Location Fields {#location-field-accessibility}
+- **GPS button**: Varies by implementation
+- **Map**: Often not keyboard navigable
+- **Screen reader**: Coordinates not announced
+- **Issues**: Map interactions not accessible
 
-#### Common Issues
-1. **Error announcements**: Validation errors not always announced
-2. **Dynamic content**: Field updates not announced
-3. **Helper text**: Not consistently associated with fields
-4. **State changes**: Touched/untouched state not conveyed
-5. **Complex fields**: Address, AdvancedSelect structure not clear
+### Contrast Requirements
 
-#### ARIA Implementation Gaps
-```html
-<!-- Current (missing ARIA) -->
-<input type="text" />
+#### Text Contrast
+- Normal text: 4.5:1 minimum
+- Large text (18pt+): 3:1 minimum
+- Fieldmark status: ⚠️ Some states fail
 
-<!-- Needed for proper announcement -->
-<input 
-  type="text"
-  aria-label="Field name"
-  aria-describedby="helper-text error-message"
-  aria-invalid="true"
-  aria-required="true"
-/>
-<span id="helper-text">Helper text</span>
-<span id="error-message" role="alert">Error message</span>
-```
+#### UI Component Contrast
+- Interactive components: 3:1 minimum
+- Focus indicators: 3:1 minimum
+- Fieldmark status: ❌ Many components fail
 
-### Keyboard Navigation
+### Field-Specific Recommendations
 
-#### Standard Keyboard Support
-- **Tab**: Navigate between fields
-- **Shift+Tab**: Navigate backwards
-- **Enter**: Submit form or activate buttons
-- **Space**: Toggle checkboxes, activate buttons
-- **Arrow keys**: Navigate radio groups, adjust numbers
-- **Escape**: Close dropdowns and pickers
+1. **Increase all touch targets** to minimum 44×44px
+2. **Add ARIA labels** to custom components
+3. **Implement aria-live** for dynamic updates
+4. **Increase contrast** for error states
+5. **Make labels clickable** for checkboxes/radios
+6. **Add keyboard shortcuts** for common actions
+7. **Provide skip links** for long forms
+8. **Test with screen readers** on all platforms
 
-#### Field-Specific Keyboard Behaviors
-| Field Type | Keys | Action | Issues |
-|------------|------|--------|--------|
-| TextField | All keys | Standard typing | None |
-| Number | ↑↓ | Increment/decrement | Step size not configurable |
-| DateTime | Various | Platform-dependent | Inconsistent across browsers |
-| Select | ↑↓ | Navigate options | Can't type to search |
-| RadioGroup | ↑↓←→ | Navigate options | Must use arrows, not Tab |
-| Checkbox | Space | Toggle | Enter key doesn't work |
-| MultiSelect | ↑↓ Space | Select multiple | Complex interaction pattern |
+## Platform-Specific Troubleshooting {#troubleshooting}
 
-### Color and Contrast
+### Diagnostic Framework
 
-#### Current Contrast Ratios
-| Element | Foreground | Background | Ratio | WCAG AA | WCAG AAA |
-|---------|------------|------------|-------|---------|----------|
-| Label text | #000000 | #FFFFFF | 21:1 | ✅ Pass | ✅ Pass |
-| Input text | #000000 | #FFFFFF | 21:1 | ✅ Pass | ✅ Pass |
-| Helper text | #666666 | #FFFFFF | 5.7:1 | ✅ Pass | ❌ Fail |
-| Error text | #F44336 | #FFFFFF | 3.5:1 | ❌ Fail | ❌ Fail |
-| Disabled | #9E9E9E | #FFFFFF | 2.8:1 | N/A | N/A |
-| Focus ring | #1976D2 | #FFFFFF | 4.5:1 | ✅ Pass | ❌ Fail |
+1. **Identify Symptoms** - What exactly is occurring?
+2. **Check Console** - Browser/app console for errors
+3. **Verify Platform** - iOS, Android, or Web-specific?
+4. **Test Isolation** - Minimal test case?
+5. **Check Configuration** - Valid JSON?
+6. **Review Logs** - Sync, network, validation
+7. **Document Pattern** - Reproducible steps
 
-#### Color Blind Considerations
-- Error states rely on red color (problematic for protanopia)
-- Success states use green (problematic for deuteranopia)
-- No patterns or icons to supplement color coding
-- Recommendation: Add icons to validation states
+### Platform Detection Patterns
 
-### Platform-Specific Accessibility
-
-#### iOS/iPadOS
-- **VoiceOver**: Generally well-supported
-- **Touch targets**: Many below 44×44pt minimum
-- **Zoom**: Supported but may cause layout issues
-- **Voice Control**: Limited support for custom fields
-
-#### Android
-- **TalkBack**: Good support for standard fields
-- **Touch targets**: Below 48dp Material Design standard
-- **Magnification**: Supported
-- **Switch Access**: Not tested
-
-#### Web Desktop
-- **Screen readers**: Variable support
-- **Keyboard**: Full support
-- **High contrast mode**: Not optimized
-- **Browser zoom**: Supported to 200%
-
-### Field Operation Accessibility
-
-Fieldwork presents unique accessibility challenges:
-
-#### Environmental Factors
-- **Bright sunlight**: Low contrast text hard to read
-- **Rain/mud**: Precise touch targets impossible
-- **Cold**: Reduced finger dexterity
-- **Gloves**: Require larger touch targets
-- **Fatigue**: Fine motor control degraded
-
-#### Recommended Adaptations
-1. **Increase all touch targets to 56×56px minimum**
-2. **Use high contrast mode in bright conditions**
-3. **Provide voice input alternatives**
-4. **Minimize required precision interactions**
-5. **Reduce scrolling requirements**
-6. **Cache data aggressively for poor connectivity**
-
-### Voice Input Support
-
-#### Voice Dictation Compatibility
-| Field Type | iOS Siri | Android | Dragon | Issues |
-|------------|----------|----------|---------|--------|
-| Text | ✅ Full | ✅ Full | ✅ Full | None |
-| Number | ⚠️ Partial | ⚠️ Partial | ⚠️ Partial | Natural language not parsed |
-| Email | ✅ Full | ✅ Full | ✅ Full | May need spelling |
-| Date | ❌ Poor | ❌ Poor | ❌ Poor | Format not recognized |
-| Selection | ❌ No | ❌ No | ❌ No | Can't select options |
-
-#### Voice Command Support
-- Currently no custom voice commands implemented
-- Relies on platform-level voice control
-- Limited interaction with custom components
-
-### Testing Recommendations
-
-#### Automated Testing
+#### User Agent Detection
 ```javascript
-// Using axe-core for automated accessibility testing
-const axe = require('axe-core');
-
-describe('Accessibility', () => {
-  it('should have no violations', async () => {
-    const results = await axe.run();
-    expect(results.violations).toHaveLength(0);
-  });
-});
+// Simplified platform detection
+const iOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+const Android = /Android/.test(navigator.userAgent);
+const Mobile = /Mobile/.test(navigator.userAgent);
 ```
 
-#### Manual Testing Checklist
-- [ ] Test with screen reader on each platform
-- [ ] Navigate using keyboard only
-- [ ] Verify touch targets with measurement tool
-- [ ] Test with platform zoom at 200%
-- [ ] Verify color contrast ratios
-- [ ] Test in high contrast mode
-- [ ] Use with voice control
-- [ ] Test with gloves/stylus
-- [ ] Verify in bright sunlight
-- [ ] Test with slow connection
+#### Feature Detection (Preferred)
+```javascript
+const hasTouch = 'ontouchstart' in window;
+const hasGPS = 'geolocation' in navigator;
+const hasCamera = 'mediaDevices' in navigator;
+```
 
-#### User Testing
-- Include users with disabilities in field trials
-- Test with actual fieldwork conditions
-- Document accessibility barriers encountered
-- Prioritize fixes based on impact
+### iOS Debugging
 
-### Compliance Roadmap
+#### Safari Web Inspector
+```javascript
+// Enable in Settings → Safari → Advanced → Web Inspector
+console.log('iOS state:', navigator.userAgent);
+// Check memory
+performance.memory
+```
 
-#### Priority 1: Critical (Safety/Legal)
-1. Fix touch targets below 44×44px
-2. Add aria-live regions for errors
-3. Improve error message contrast
-4. Fix label click areas
+#### Common iOS Issues
+- Memory crashes at ~200MB
+- HEIC conversion failures
+- Permission cascade problems
+- IndexedDB quota exceeded
+- Viewport keyboard overlap
 
-#### Priority 2: High (Usability)
-1. Improve screen reader announcements
-2. Add keyboard shortcuts
-3. Enhance focus indicators
-4. Implement skip navigation
+### Android Debugging
 
-#### Priority 3: Medium (Enhancement)
-1. Add voice commands
-2. Improve high contrast support
-3. Create accessibility preferences
-4. Add haptic feedback
+#### Chrome DevTools
+```bash
+# Enable USB debugging
+# Navigate to chrome://inspect
+adb logcat | grep Fieldmark
+```
 
-### Implementation Guidelines
+#### Common Android Issues
+- WebView version incompatibility
+- Storage permission complexity
+- Background service killing
+- Manufacturer customizations
+- Battery optimization interference
 
-#### For Developers
-1. Always include ARIA labels
-2. Test with screen readers
-3. Ensure 44×44px minimum touch targets
-4. Provide keyboard alternatives
-5. Use semantic HTML elements
-6. Test contrast ratios
-7. Include focus indicators
+### Web Desktop Debugging
 
-#### For Designers
-1. Design for 56×56px touch targets in field
-2. Don't rely solely on color
-3. Provide clear visual hierarchy
-4. Consider gloved hand interaction
-5. Test in bright light conditions
-6. Plan for offline/slow connectivity
+#### Browser DevTools
+```javascript
+debugger; // Breakpoint
+console.time('Operation');
+// ... operation
+console.timeEnd('Operation');
+```
 
-#### For Project Managers
-1. Budget for accessibility testing
-2. Include users with disabilities in trials
-3. Document accessibility requirements
-4. Plan for progressive enhancement
-5. Consider field conditions in requirements
+#### Common Desktop Issues
+- CORS restrictions
+- Local storage limits
+- Browser extension conflicts
+- Mixed content blocking
+- Cache invalidation
 
-### Known Limitations
+### Performance Optimization Triggers
 
-#### Cannot Be Fixed
-- Platform picker variations
-- Native component accessibility bugs
-- Third-party library limitations
+#### Must Optimize When:
+- Form load time > 3 seconds
+- Typing lag > 100ms
+- Save operation > 5 seconds
+- Memory usage > 100MB mobile
+- Battery drain > 20% per hour
 
-#### Require Significant Rework
-- Touch target sizes (CSS framework change)
-- ARIA implementation (component rewrites)
-- Screen reader support (architecture changes)
+#### Warning Thresholds:
+- 30+ fields visible simultaneously
+- 50+ options in selection field
+- 10+ photos per record
+- 5+ concurrent API calls
+- 3+ levels of nested conditions
 
-#### Workarounds Available
-- Use external keyboard for precision
-- Increase browser/OS zoom
-- Use stylus for small targets
-- Enable high contrast mode
+### Platform-Specific Error Messages
 
-### Resources
+| Error | Platform | Cause | Fix |
+|-------|----------|-------|-----|
+| `QuotaExceededError` | iOS Safari | IndexedDB full | Clear app data |
+| `Permission denied` | iOS/Android | Missing permission | Settings → App |
+| `Network timeout` | All | Slow connection | Retry/offline mode |
+| `Out of memory` | Mobile | Too many fields | Reduce form size |
+| `WebView crashed` | Android | Memory/compatibility | Update WebView |
 
-#### Testing Tools
-- axe DevTools (browser extension)
-- WAVE (WebAIM evaluation tool)
-- Lighthouse (Chrome DevTools)
-- Color contrast analyzers
-- Screen reader testing guides
+## Feature Availability Matrix {#feature-matrix}
 
-#### Standards Documentation
-- WCAG 2.1 Guidelines
-- iOS Human Interface Guidelines
-- Material Design Accessibility
-- ARIA Authoring Practices Guide
+| Feature | iOS | Android | Web Desktop | Web Mobile |
+|---------|-----|---------|-------------|------------|
+| Camera | ✅ | ✅ | ✅* | ✅* |
+| GPS | ✅ | ✅ | ⚠️ | ⚠️ |
+| File Upload | ✅ | ✅ | ✅ | ✅ |
+| Offline | ✅ | ✅ | ⚠️ | ⚠️ |
+| Background Sync | ✅ | ⚠️ | ❌ | ❌ |
+| QR Scanning | ✅ | ✅ | ❌ | ❌ |
+| Push Notifications | ✅ | ✅ | ⚠️ | ❌ |
+| Biometric Auth | ✅ | ✅ | ❌ | ❌ |
 
-### Related Documentation
-- Individual field documentation for specific issues
-- Performance Thresholds Reference for interaction timing
-- Designer Limitations Reference for configuration constraints
-- Platform behavior documentation
+*Requires HTTPS  
+⚠️ Limited functionality  
+❌ Not available  
 
-### Version
-Last updated: 2025-09-03
-Applies to: Fieldmark v3 (all versions)
-WCAG version: 2.1
-Testing date: August 2025
+## Testing Recommendations {#testing}
 
-<!-- concat:reference:migration-strategies-reference -->
-# Migration Strategies Reference - Fieldmark v3
+### Minimum Test Devices
+- **iOS**: iPhone SE (lowest spec)
+- **iOS**: iPad (newest + 2 years old)
+- **Android**: Low-end device (Go edition)
+- **Android**: Flagship device
+- **Desktop**: Chrome, Safari, Firefox
 
-## Overview {essential}
+### Critical Test Scenarios
+1. Memory pressure conditions
+2. Slow network (3G simulation)
+3. Permission denial flows
+4. Background/foreground transitions
+5. Orientation changes
+6. Multi-tasking scenarios
+7. Battery drain monitoring
+8. Offline/online transitions
 
-This reference provides universal migration methodologies that apply across all field type changes, configuration updates, and schema modifications in Fieldmark v3. For field-specific migration scenarios, consult the relevant field documentation.
+### Load Testing Scenarios
+1. Maximum fields per form
+2. Maximum options per select
+3. Maximum photos per record
+4. Maximum concurrent users
+5. Maximum export size
+6. Maximum sync payload
 
-## Migration Planning Framework {essential}
+### Network Testing Conditions
+- **Fast 4G**: Baseline performance
+- **Slow 3G**: Common field condition
+- **Offline**: Required capability
+- **Intermittent**: Reality in remote areas
+- **High latency**: Satellite connections
 
-### Pre-Migration Checklist
+## Best Practices Summary {#best-practices}
+
+### Design Guidelines
+
+#### DO:
+✅ Test on minimum spec devices  
+✅ Design for 3G networks  
+✅ Keep forms under 50 fields  
+✅ Implement platform detection  
+✅ Provide offline capability  
+✅ Use native UI components  
+✅ Monitor memory usage  
+✅ Implement proper permissions flow  
+
+#### DON'T:
+❌ Assume high-end devices  
+❌ Require constant connectivity  
+❌ Create forms with 100+ fields  
+❌ Ignore platform differences  
+❌ Use tiny touch targets  
+❌ Skip accessibility testing  
+❌ Ignore battery impact  
+❌ Bypass native controls  
+
+### Performance Optimization
+
+1. **Split large forms** into multiple pages
+2. **Lazy load** images and heavy content
+3. **Debounce** validation and search
+4. **Cache** frequently accessed data
+5. **Compress** images before upload
+6. **Minimize** real-time calculations
+7. **Paginate** large datasets
+8. **Optimize** for mobile first
+
+### Accessibility Priorities
+
+1. **Increase touch targets** to 44×44px minimum
+2. **Ensure keyboard navigation** for all features
+3. **Add ARIA labels** for screen readers
+4. **Maintain color contrast** ratios
+5. **Provide text alternatives** for images
+6. **Support browser zoom** to 200%
+7. **Test with assistive technology**
+8. **Document accessibility features**
+
+## Monitoring Metrics {#monitoring}
+
+### Performance Metrics
+- Form load time (target: <3s)
+- Input latency (target: <100ms)
+- Save time (target: <5s)
+- Export time (target: <30s)
+- Memory usage (target: <100MB mobile)
+- Battery drain (target: <20%/hour)
+
+### User Experience Metrics
+- Touch target compliance
+- Error recovery success rate
+- Offline capability usage
+- Permission grant rate
+- Form completion rate
+- Platform-specific crash rate
+
+## Migration Considerations {#migration}
+
+### Platform Migration Paths
+- **Native → PWA**: Gradual feature parity
+- **Desktop → Mobile**: Responsive design required
+- **Online → Offline**: Sync architecture needed
+- **Single → Multi-platform**: Abstract platform APIs
+
+### Version Compatibility
+- Minimum iOS: 12.0
+- Minimum Android: 7.0 (API 24)
+- Minimum Chrome: 80
+- Minimum Safari: 12
+- Minimum Firefox: 78
+
+## Related Documentation
+
+- [Component Reference](./component-reference.md) - Component technical details
+- [Operations Reference](./operations-reference.md) - Operational procedures
+- [Constraints Reference](./constraints-reference.md) - System limitations
+- [Implementation Patterns Guide](../patterns/implementation-patterns-guide.md) - Common patterns
+- Individual field documentation for field-specific platform behaviors
+
+## Version Information
+
+- **Last Updated**: 2025-01-06
+- **Applies to**: Fieldmark v3 (all versions)
+- **Platform Coverage**: iOS, Android, Web Desktop, Web Mobile
+- **Performance Data**: Based on empirical testing
+- **Accessibility Standards**: WCAG 2.1 Level AA target
+
+**Important**: All performance thresholds are estimates based on code analysis and empirical testing - they are advisory only. Always test with your actual devices and data. We welcome performance feedback to refine these estimates.
+
+<!-- concat:boundary:end section="platform-reference" -->
+
+<!-- concat:reference:operations-reference -->
+# Operations Reference
+## Migration, Export, and Troubleshooting Guide for Fieldmark v3
+
+### Overview
+
+This reference consolidates operational guidance for Fieldmark v3, covering:
+- Migration strategies and procedures
+- Data export formats and behaviors
+- Troubleshooting framework and diagnostics
+
+---
+
+## Part 1: Migration Operations
+
+### Migration Planning Framework
+
+#### Pre-Migration Checklist
 - [ ] **Identify scope** - Which forms, fields, and records affected
 - [ ] **Assess risk** - Data loss potential, user impact, rollback complexity
 - [ ] **Backup data** - Complete export before any changes
@@ -26019,7 +23064,7 @@ This reference provides universal migration methodologies that apply across all 
 - [ ] **Schedule window** - Minimize user disruption
 - [ ] **Communicate changes** - Notify all stakeholders
 
-### Risk Assessment Matrix
+#### Risk Assessment Matrix
 
 | Migration Type | Risk Level | Backup Required | Testing Required | Rollback Difficulty |
 |---------------|------------|-----------------|------------------|-------------------|
@@ -26029,9 +23074,9 @@ This reference provides universal migration methodologies that apply across all 
 | Restructure relationships | Critical | Critical | Extensive | Difficult |
 | Delete fields | Critical | Critical | Moderate | Impossible |
 
-## Universal Migration Patterns {essential}
+### Universal Migration Patterns
 
-### Pattern 1: Parallel Field Migration
+#### Pattern 1: Parallel Field Migration
 **When to use**: Changing field types or major restructuring
 
 ```
@@ -26042,13 +23087,9 @@ This reference provides universal migration methodologies that apply across all 
 5. Delete old field after verification period
 ```
 
-**Benefits**: 
-- No data loss
-- Gradual transition
-- Easy rollback
-- User training period
+**Benefits**: No data loss, gradual transition, easy rollback, user training period
 
-### Pattern 2: In-Place Modification
+#### Pattern 2: In-Place Modification
 **When to use**: Minor configuration changes, validation updates
 
 ```
@@ -26059,17 +23100,10 @@ This reference provides universal migration methodologies that apply across all 
 5. Rollback if problems detected
 ```
 
-**Benefits**:
-- Faster implementation
-- Less complexity
-- Immediate effect
+**Benefits**: Faster implementation, less complexity, immediate effect
+**Risks**: Potential data loss, harder rollback, user disruption
 
-**Risks**:
-- Potential data loss
-- Harder rollback
-- User disruption
-
-### Pattern 3: Staged Migration
+#### Pattern 3: Staged Migration
 **When to use**: Large-scale changes affecting multiple forms
 
 ```
@@ -26080,15 +23114,9 @@ This reference provides universal migration methodologies that apply across all 
 5. Complete final cutover
 ```
 
-**Benefits**:
-- Reduced risk
-- Learning between phases
-- Easier troubleshooting
-- Gradual user adaptation
+**Benefits**: Reduced risk, learning between phases, easier troubleshooting, gradual user adaptation
 
-## Backup and Recovery Procedures {essential}
-
-### Backup Strategies
+### Backup and Recovery Procedures
 
 #### Complete Project Backup
 ```bash
@@ -26115,8 +23143,6 @@ This reference provides universal migration methodologies that apply across all 
 }
 ```
 
-### Recovery Procedures
-
 #### Rollback Decision Tree
 ```
 Issue Detected
@@ -26140,20 +23166,9 @@ Issue Detected
 5. **Test functionality** - Verify core features
 6. **Re-enable access** - Remove maintenance mode
 
-## Testing Methodologies {important}
+### Testing Methodologies
 
-### Test Environment Setup
-```
-Production → Export → Test Environment
-                         ↓
-                    Migration Test
-                         ↓
-                    Validation
-                         ↓
-                 Decision Point → Proceed/Revise
-```
-
-### Test Coverage Requirements
+#### Test Coverage Requirements
 
 | Migration Component | Test Type | Required Coverage |
 |-------------------|-----------|-------------------|
@@ -26164,19 +23179,17 @@ Production → Export → Test Environment
 | Performance | Load | Representative load |
 | Platform compatibility | Cross-platform | All target platforms |
 
-### Validation Checklist
+#### Validation Checklist
 - [ ] All existing data accessible
 - [ ] New fields function correctly
 - [ ] Validation rules apply properly
 - [ ] Export/import maintains integrity
 - [ ] Sync operations complete
-- [ ] Performance acceptable
+- [ ] Performance acceptable (~100 fields recommended limit)
 - [ ] Mobile platforms stable
 - [ ] User permissions preserved
 
-## Data Preservation Strategies {important}
-
-### Preventing Data Loss
+### Data Preservation Strategies
 
 #### Pre-Migration Preservation
 1. **Export everything** - Even seemingly unrelated data
@@ -26184,26 +23197,6 @@ Production → Export → Test Environment
 3. **Capture metadata** - Timestamps, user info, annotations
 4. **Screenshot complex data** - Visual layouts, configurations
 5. **Version control** - Track all configuration changes
-
-#### During Migration
-```javascript
-// Maintain data integrity
-1. Use transactions where possible
-2. Validate at each step
-3. Log all operations
-4. Maintain audit trail
-5. Verify counts match
-```
-
-#### Post-Migration Verification
-- Record counts match pre-migration
-- All relationships preserved
-- Metadata intact
-- No orphaned records
-- Validation still passes
-- Export format unchanged
-
-### Handling Data Format Changes
 
 #### Type Conversion Matrix
 | From Type | To Type | Data Preservation Method |
@@ -26215,9 +23208,27 @@ Production → Export → Test Environment
 | Rich text | Plain text | Strip HTML/Markdown |
 | Date | Text | ISO format string |
 
-## Communication Templates {important}
+### Migration Timing Best Practices
 
-### Pre-Migration Notice
+#### Optimal Windows
+- **Best**: Weekend early morning (minimal users)
+- **Good**: After hours weekday (low activity)
+- **Acceptable**: Lunch hour (brief changes only)
+- **Avoid**: Monday morning, end of month, deadlines
+
+#### Time Estimation Formula
+```
+Migration Time = 
+  Export Time +
+  (Backup Time × 2) +
+  Migration Execution +
+  (Verification Time × 2) +
+  Buffer (50% of total)
+```
+
+### Communication Templates
+
+#### Pre-Migration Notice
 ```markdown
 Subject: Scheduled Field Migration - [Date]
 
@@ -26240,7 +23251,7 @@ We will be migrating [field/form names] on [date] at [time].
 **Questions:** Contact [person]
 ```
 
-### Post-Migration Report
+#### Post-Migration Report
 ```markdown
 Subject: Migration Complete - [Field/Form]
 
@@ -26258,425 +23269,9 @@ Status: ✅ Successful / ⚠️ Partial / ❌ Rolled Back
 **Support:** [Contact for issues]
 ```
 
-## Version Compatibility Management {comprehensive}
+---
 
-### Compatibility Matrix
-
-| Fieldmark Version | Migration Support | Breaking Changes | Notes |
-|------------------|-------------------|------------------|--------|
-| v3.0.x | Baseline | - | Starting point |
-| v3.1.x | Enhanced backup | Field type changes | Test thoroughly |
-| v3.2.x | Batch operations | Validation syntax | Review all validations |
-| v3.3.x | Current | Namespace updates | Update components |
-
-### Version-Specific Considerations
-- Always migrate to latest stable version first
-- Test on version before implementing
-- Check release notes for migration guides
-- Maintain version documentation
-
-## Common Migration Pitfalls {comprehensive}
-
-### Top 10 Pitfalls to Avoid
-
-1. **No backup** - Always backup, even for "simple" changes
-2. **Untested migration** - Never migrate without testing
-3. **Peak time migration** - Schedule during low usage
-4. **No rollback plan** - Always have escape route
-5. **Poor communication** - Over-communicate changes
-6. **Ignoring dependencies** - Check all relationships
-7. **Skipping verification** - Always verify post-migration
-8. **Rushed timeline** - Allow buffer time
-9. **Single person knowledge** - Document for team
-10. **No monitoring** - Watch for delayed issues
-
-### Recovery from Failed Migrations
-
-#### Immediate Actions
-1. **Don't panic** - Follow rollback plan
-2. **Communicate** - Inform users immediately
-3. **Assess damage** - What data affected?
-4. **Execute rollback** - Use prepared procedure
-5. **Document failure** - For post-mortem
-
-#### Post-Recovery Analysis
-- What went wrong?
-- What wasn't tested?
-- How to prevent recurrence?
-- Update procedures
-- Share learnings
-
-## Migration Timing Best Practices {important}
-
-### Optimal Windows
-- **Best**: Weekend early morning (minimal users)
-- **Good**: After hours weekday (low activity)
-- **Acceptable**: Lunch hour (brief changes only)
-- **Avoid**: Monday morning, end of month, deadlines
-
-### Time Estimation Formula
-```
-Migration Time = 
-  Export Time +
-  (Backup Time × 2) +
-  Migration Execution +
-  (Verification Time × 2) +
-  Buffer (50% of total)
-```
-
-## Automated Migration Support {comprehensive}
-
-### Scripting Patterns
-```python
-# Migration script template
-def migrate_field(old_config, new_config):
-    # 1. Validate inputs
-    validate_configs(old_config, new_config)
-    
-    # 2. Create backup
-    backup_id = create_backup(old_config)
-    
-    try:
-        # 3. Execute migration
-        apply_changes(new_config)
-        
-        # 4. Verify
-        if not verify_migration():
-            raise MigrationError("Verification failed")
-            
-        # 5. Commit
-        commit_changes()
-        
-    except Exception as e:
-        # 6. Rollback
-        restore_backup(backup_id)
-        raise
-```
-
-### Automation Opportunities
-- Configuration validation
-- Backup creation
-- Data export/import
-- Verification checks
-- Rollback procedures
-- Communication notifications
-
-## See Also {comprehensive}
-
-### Field-Specific Migration Scenarios
-- [Display Field Migrations](../field-categories/display-field-v05.md#migration-scenarios)
-- [Location Field Migrations](../field-categories/location-fields-v05.md#migration-scenarios)
-- [Media Field Migrations](../field-categories/media-fields-v05.md#migration-scenarios)
-- [Relationship Field Migrations](../field-categories/relationship-field-v05.md#migration-scenarios)
-
-### Related References
-- [Platform Behaviors Reference](./platform-behaviors-reference.md)
-- [Performance Thresholds Reference](./performance-thresholds-reference.md)
-- [Troubleshooting Framework Reference](./troubleshooting-framework-reference.md)
-- [Data Export Reference](./data-export-reference.md)
-
-## Metadata {comprehensive}
-- **Document Version**: v01
-- **Last Updated**: 2025-01-03
-- **Status**: Initial creation
-- **Purpose**: Universal migration methodologies for Fieldmark v3
-- **Maintenance**: Update with new patterns and lessons learned
-
-<!-- concat:reference:troubleshooting-framework-reference -->
-# Troubleshooting Framework Reference - Fieldmark v3
-
-## Overview {essential}
-
-This reference provides a systematic framework for diagnosing and resolving issues across all Fieldmark v3 field types. Use this guide to establish consistent troubleshooting approaches and escalation paths.
-
-## Quick Diagnosis Framework {essential}
-
-### Universal Diagnostic Steps
-1. **Identify Symptoms** - What exactly is the user experiencing?
-2. **Check Console** - Browser/app console for JavaScript errors
-3. **Verify Platform** - iOS, Android, or Web-specific issue?
-4. **Test Isolation** - Does it occur in a minimal test case?
-5. **Check Configuration** - Valid JSON and parameters?
-6. **Review Logs** - Sync logs, network requests, validation errors
-7. **Document Pattern** - Reproducible steps and conditions
-
-## Common Issue Categories {essential}
-
-### Category Matrix
-| Category | Frequency | Impact | Typical Resolution Time |
-|----------|-----------|--------|------------------------|
-| Configuration | High | Medium | 5-15 minutes |
-| Platform-specific | Medium | High | 15-30 minutes |
-| Performance | Medium | High | 30-60 minutes |
-| Data validation | High | Low | 5-10 minutes |
-| Sync/Network | Low | Critical | Variable |
-| Permissions | Medium | Critical | 10-20 minutes |
-
-## Universal Error Patterns {important}
-
-### JavaScript Errors
-| Error Pattern | Common Cause | Quick Fix |
-|--------------|--------------|-----------|
-| `Cannot read property of undefined` | Missing null checks | Add optional chaining |
-| `Maximum call stack exceeded` | Infinite loop/recursion | Check conditions |
-| `Out of memory` | Large data/images | Reduce size/pagination |
-| `Network timeout` | Slow connection | Retry/offline mode |
-| `Permission denied` | Missing permissions | Check platform settings |
-
-### Silent Failures
-**Indicators:**
-- No error message but unexpected behavior
-- Console warnings without errors
-- Partial functionality
-- Platform-specific differences
-
-**Common Causes:**
-- Sanitization removing content
-- Validation preventing saves
-- Platform API differences
-- Race conditions
-
-## Diagnostic Tools and Techniques {important}
-
-### Browser DevTools
-```javascript
-// Essential console commands
-console.log('Component state:', this.state);
-console.table(validationErrors);
-console.time('Operation'); // ... console.timeEnd('Operation');
-debugger; // Breakpoint
-```
-
-### Network Inspection
-- Check request/response payloads
-- Verify API endpoints
-- Monitor request timing
-- Identify failed requests
-- Check CORS headers
-
-### Mobile Debugging
-#### iOS
-- Safari Web Inspector
-- Console.app for native logs
-- Simulator vs device testing
-- Memory profiler
-
-#### Android
-- Chrome DevTools remote
-- adb logcat filtering
-- Android Studio profiler
-- WebView debugging
-
-## Issue Resolution Framework {important}
-
-### Severity Levels
-1. **Critical** - Data loss, app crash, security issue
-2. **High** - Feature unusable, widespread impact
-3. **Medium** - Workaround available, limited impact
-4. **Low** - Cosmetic, rare occurrence
-
-### Resolution Workflow
-```mermaid
-graph TD
-    A[Issue Reported] --> B{Critical?}
-    B -->|Yes| C[Immediate Hotfix]
-    B -->|No| D[Diagnose Root Cause]
-    D --> E{Known Issue?}
-    E -->|Yes| F[Apply Known Fix]
-    E -->|No| G[Investigate]
-    G --> H{Reproducible?}
-    H -->|Yes| I[Create Fix]
-    H -->|No| J[Gather More Info]
-    I --> K[Test Fix]
-    K --> L[Deploy]
-    F --> L
-    C --> L
-```
-
-## Common Troubleshooting Scenarios {comprehensive}
-
-### Scenario 1: Field Not Displaying
-**Diagnostic Path:**
-1. Check console for errors
-2. Verify component name spelling
-3. Confirm namespace correct
-4. Check conditions if applicable
-5. Verify JSON syntax
-6. Test in different notebook
-
-**Common Fixes:**
-- Correct component-name case
-- Fix namespace typo
-- Resolve condition logic
-- Fix JSON syntax error
-
-### Scenario 2: Validation Always Failing
-**Diagnostic Path:**
-1. Check validation schema syntax
-2. Verify field type matches validation
-3. Test with minimal validation
-4. Check for conflicting validations
-5. Review initialValue compatibility
-
-**Common Fixes:**
-- Match array/string validation to field
-- Correct yup method names
-- Fix validation parameters
-- Align with multiple setting
-
-### Scenario 3: Performance Degradation
-**Diagnostic Path:**
-1. Profile with DevTools
-2. Count active components
-3. Measure data size
-4. Check render frequency
-5. Monitor memory usage
-
-**Common Fixes:**
-- Reduce active field count
-- Implement pagination
-- Optimize images/data
-- Add debouncing
-- Clear unused data
-
-### Scenario 4: Platform-Specific Issues
-**Diagnostic Path:**
-1. Identify affected platforms
-2. Check platform-specific APIs
-3. Review permission states
-4. Test on multiple devices
-5. Check version compatibility
-
-**Common Fixes:**
-- Add platform detection
-- Implement fallbacks
-- Request permissions properly
-- Update WebView/browser
-- Add polyfills
-
-## Error Message Decoder {comprehensive}
-
-### Field-Agnostic Error Messages
-| Error Message | Likely Cause | Resolution |
-|--------------|--------------|------------|
-| "Required field" | Validation without value | Provide value or remove validation |
-| "Invalid type" | Type mismatch | Check type-returned vs validation |
-| "Component not found" | Wrong name/namespace | Verify component registration |
-| "Permission denied" | Platform permission | Request in app settings |
-| "Network error" | Connection issue | Check connectivity/CORS |
-| "Memory exhausted" | Too much data | Reduce/paginate data |
-| "Sync conflict" | Concurrent edits | Choose version/merge |
-| "Invalid configuration" | JSON syntax/schema | Validate JSON structure |
-
-## Prevention Strategies {important}
-
-### Design-Time Prevention
-- Validate JSON before deployment
-- Test on minimum spec devices
-- Set realistic data limits
-- Plan for offline scenarios
-- Document known limitations
-
-### Runtime Prevention
-- Add comprehensive error handling
-- Implement retry mechanisms
-- Provide user feedback
-- Add performance monitoring
-- Include diagnostic logging
-
-### Testing Prevention
-- Cross-platform testing
-- Edge case coverage
-- Performance testing
-- Permission denial testing
-- Network condition testing
-
-## Escalation Procedures {essential}
-
-### When to Escalate
-- Data loss occurring
-- Security vulnerability found
-- Widespread platform issue
-- No known workaround
-- Regression from update
-
-### Escalation Path
-1. **Level 1**: Check documentation and known issues
-2. **Level 2**: Community forum/discussion
-3. **Level 3**: GitHub issue creation
-4. **Level 4**: Direct support contact
-
-### Information to Provide
-```markdown
-## Issue Report Template
-**Environment:**
-- Platform: [iOS/Android/Web]
-- Version: [Fieldmark version]
-- Device: [Model/Browser]
-
-**Issue:**
-- Expected: [What should happen]
-- Actual: [What does happen]
-- Steps: [How to reproduce]
-
-**Diagnostics:**
-- Console errors: [Any errors]
-- Network failures: [Failed requests]
-- Configuration: [Relevant JSON]
-
-**Attempts:**
-- Tried: [What you've tried]
-- Result: [What happened]
-```
-
-## Quick Reference Tables {essential}
-
-### Diagnostic Command Reference
-| Platform | Command | Purpose |
-|----------|---------|---------|
-| All | `console.log()` | Debug output |
-| Web | `debugger;` | Breakpoint |
-| iOS | `Safari Inspector` | Remote debug |
-| Android | `chrome://inspect` | Remote debug |
-| All | `JSON.stringify()` | Inspect objects |
-
-### Time to Resolution Guidelines
-| Issue Type | Target Time | Maximum Time |
-|------------|-------------|--------------|
-| Configuration | 15 min | 1 hour |
-| Validation | 10 min | 30 min |
-| Platform | 30 min | 2 hours |
-| Performance | 1 hour | 4 hours |
-| Data corruption | Immediate | 1 hour |
-
-## See Also {comprehensive}
-
-### Field-Specific Troubleshooting
-- [Display Field Troubleshooting](../field-categories/display-field-v05.md#troubleshooting-guide)
-- [Location Fields Troubleshooting](../field-categories/location-fields-v05.md#troubleshooting-guide)
-- [Media Fields Troubleshooting](../field-categories/media-fields-v05.md#troubleshooting-guide)
-- [Relationship Field Troubleshooting](../field-categories/relationship-field-v05.md#troubleshooting-guide)
-
-### Related References
-- [Platform Behaviors Reference](./platform-behaviors-reference.md)
-- [Performance Thresholds Reference](./performance-thresholds-reference.md)
-- [Validation Timing Reference](./validation-timing-reference.md)
-- [Error Recovery Patterns](./error-recovery-patterns.md)
-
-## Metadata {comprehensive}
-- **Document Version**: v01
-- **Last Updated**: 2025-01-03
-- **Status**: Initial framework creation
-- **Purpose**: Standardize troubleshooting approaches across all field types
-- **Maintenance**: Update with new issue patterns and resolutions
-
-<!-- concat:reference:data-export-reference -->
-# Data Export Reference
-## Universal Export Behavior for All Fieldmark v3 Fields
-
-### Overview
-
-Fieldmark supports two primary export formats: CSV (for spreadsheets) and JSON (for data interchange). Export behavior is consistent across field types, with specific handling for data types and special characters.
+## Part 2: Data Export Operations
 
 ### Export Formats
 
@@ -26688,7 +23283,7 @@ Fieldmark supports two primary export formats: CSV (for spreadsheets) and JSON (
 - **Escape character**: Double quotes ("")
 - **Null representation**: Empty cell
 
-#### JSON Export  
+#### JSON Export
 - **Format**: Valid JSON with proper escaping
 - **Encoding**: UTF-8
 - **Structure**: Nested objects preserving relationships
@@ -26748,8 +23343,6 @@ Fieldmark supports two primary export formats: CSV (for spreadsheets) and JSON (
 | MapFormField | GeoJSON string | Object | Complex structure |
 
 ### Meta Properties Export
-
-Meta properties create additional columns/fields:
 
 #### CSV Additional Columns
 - `fieldname_annotation` - Annotation text
@@ -26852,34 +23445,6 @@ Automatically escaped per JSON specification:
 ]
 ```
 
-### Hierarchical Data Export
-
-#### AdvancedSelect Paths
-**CSV**: Delimited string
-```csv
-"Kingdom > Phylum > Class > Order > Family > Genus > Species"
-```
-
-**JSON**: Same (not hierarchical)
-```json
-"Kingdom > Phylum > Class > Order > Family > Genus > Species"
-```
-
-#### Address Components
-**CSV**: JSON in cell
-```csv
-"{""line1"":""123 Main St"",""city"":""Sydney"",""postcode"":""2000""}"
-```
-
-**JSON**: Nested object
-```json
-{
-  "line1": "123 Main St",
-  "city": "Sydney",
-  "postcode": "2000"
-}
-```
-
 ### Export Performance
 
 #### Performance by Record Count
@@ -26896,64 +23461,7 @@ Automatically escaped per JSON specification:
 - Large exports: Use pagination
 - Binary data: Never inline
 
-### Platform-Specific Behavior
-
-#### Web Browser
-- Download to default folder
-- Memory limited by browser
-- May show progress bar
-
-#### Mobile App
-- Save to app storage first
-- Then share/export
-- Memory constraints tighter
-
-#### API Export
-- Supports streaming
-- Pagination available
-- Format negotiation
-
-### Best Practices
-
-#### For Developers
-1. **Document export format**: Provide examples
-2. **Include import instructions**: Especially for Excel
-3. **Test with special characters**: Commas, quotes, newlines
-4. **Validate round-trip**: Export → Import → Export
-5. **Consider data types**: Preserve types where possible
-
-#### For Users
-1. **Use JSON for complex data**: Preserves structure
-2. **Use CSV for simple tables**: Excel-compatible
-3. **Document Excel settings**: Regional, date formats
-4. **Backup before import**: Excel auto-conversion is destructive
-5. **Use Text Import Wizard**: Never double-click CSV
-
-### Common Export Issues
-
-#### Issue: Commas in MultiSelect Options
-**Problem**: CSV parsing breaks
-**Solution**: Use different delimiter or JSON export
-
-#### Issue: Excel Stripping Zeros
-**Problem**: IDs like "00042" become 42
-**Solution**: Import as text or use TemplatedString wrapper
-
-#### Issue: Date Format Confusion  
-**Problem**: MM/DD vs DD/MM
-**Solution**: Use ISO 8601 format (YYYY-MM-DD)
-
-#### Issue: Large Numbers in Excel
-**Problem**: Converted to scientific notation
-**Solution**: Format as text before import
-
-#### Issue: Unicode Characters Lost
-**Problem**: Excel default encoding
-**Solution**: Specify UTF-8 on import
-
-### Export Validation
-
-#### Checklist for Testing
+### Export Validation Checklist
 - [ ] Null values export correctly
 - [ ] Special characters preserved
 - [ ] Arrays handled appropriately
@@ -26963,42 +23471,398 @@ Automatically escaped per JSON specification:
 - [ ] Unicode preserved
 - [ ] Large datasets work
 
-### Related Documentation
-- Field-specific export notes in category docs
-- Meta Properties Reference for annotation/uncertainty export
-- Platform specifications for device-specific limits
-- API documentation for programmatic export
+---
 
-### Version
-Last updated: 2025-09-03
-Applies to: Fieldmark v3 (all versions)
-Export version: 2.0 (current format)
+## Part 3: Troubleshooting Operations
 
-<!-- concat:reference:designer-limitations-reference -->
-# Designer Limitations Reference
-## Universal Constraints for All Fieldmark v3 Fields
+### Quick Diagnosis Framework
+
+#### Universal Diagnostic Steps
+1. **Identify Symptoms** - What exactly is the user experiencing?
+2. **Check Console** - Browser/app console for JavaScript errors
+3. **Verify Platform** - iOS, Android, or Web-specific issue?
+4. **Test Isolation** - Does it occur in a minimal test case?
+5. **Check Configuration** - Valid JSON and parameters?
+6. **Review Logs** - Sync logs, network requests, validation errors
+7. **Document Pattern** - Reproducible steps and conditions
+
+### Common Issue Categories
+
+| Category | Frequency | Impact | Typical Resolution Time |
+|----------|-----------|--------|------------------------|
+| Configuration | High | Medium | 5-15 minutes |
+| Platform-specific | Medium | High | 15-30 minutes |
+| Performance | Medium | High | 30-60 minutes |
+| Data validation | High | Low | 5-10 minutes |
+| Sync/Network | Low | Critical | Variable |
+| Permissions | Medium | Critical | 10-20 minutes |
+
+### Universal Error Patterns
+
+#### JavaScript Errors
+| Error Pattern | Common Cause | Quick Fix |
+|--------------|--------------|-----------|
+| `Cannot read property of undefined` | Missing null checks | Add optional chaining |
+| `Maximum call stack exceeded` | Infinite loop/recursion | Check conditions |
+| `Out of memory` | Large data/images | Reduce size/pagination |
+| `Network timeout` | Slow connection | Retry/offline mode |
+| `Permission denied` | Missing permissions | Check platform settings |
+
+#### Silent Failures
+**Indicators:**
+- No error message but unexpected behavior
+- Console warnings without errors
+- Partial functionality
+- Platform-specific differences
+
+**Common Causes:**
+- Sanitization removing content
+- Validation preventing saves
+- Platform API differences
+- Race conditions
+
+### Diagnostic Tools and Techniques
+
+#### Browser DevTools
+```javascript
+// Essential console commands
+console.log('Component state:', this.state);
+console.table(validationErrors);
+console.time('Operation'); // ... console.timeEnd('Operation');
+debugger; // Breakpoint
+```
+
+#### Network Inspection
+- Check request/response payloads
+- Verify API endpoints
+- Monitor request timing
+- Identify failed requests
+- Check CORS headers
+
+#### Mobile Debugging
+
+**iOS**
+- Safari Web Inspector
+- Console.app for native logs
+- Simulator vs device testing
+- Memory profiler
+
+**Android**
+- Chrome DevTools remote
+- adb logcat filtering
+- Android Studio profiler
+- WebView debugging
+
+### Issue Resolution Framework
+
+#### Severity Levels
+1. **Critical** - Data loss, app crash, security issue
+2. **High** - Feature unusable, widespread impact
+3. **Medium** - Workaround available, limited impact
+4. **Low** - Cosmetic, rare occurrence
+
+#### Resolution Workflow
+```
+Issue Reported
+├─ Critical?
+│  ├─ Yes → Immediate Hotfix
+│  └─ No → Diagnose Root Cause
+│      ├─ Known Issue?
+│      │  ├─ Yes → Apply Known Fix
+│      │  └─ No → Investigate
+│      │      ├─ Reproducible?
+│      │      │  ├─ Yes → Create Fix → Test → Deploy
+│      │      │  └─ No → Gather More Info
+```
+
+### Common Troubleshooting Scenarios
+
+#### Scenario 1: Field Not Displaying
+**Diagnostic Path:**
+1. Check console for errors
+2. Verify component name spelling
+3. Confirm namespace correct
+4. Check conditions if applicable
+5. Verify JSON syntax
+6. Test in different notebook
+
+**Common Fixes:**
+- Correct component-name case
+- Fix namespace typo
+- Resolve condition logic
+- Fix JSON syntax error
+
+#### Scenario 2: Validation Always Failing
+**Diagnostic Path:**
+1. Check validation schema syntax
+2. Verify field type matches validation
+3. Test with minimal validation
+4. Check for conflicting validations
+5. Review initialValue compatibility
+
+**Common Fixes:**
+- Match array/string validation to field
+- Correct yup method names
+- Fix validation parameters
+- Align with multiple setting
+
+#### Scenario 3: Performance Degradation
+**Diagnostic Path:**
+1. Profile with DevTools
+2. Count active components (~100 field recommendation)
+3. Measure data size
+4. Check render frequency
+5. Monitor memory usage
+
+**Common Fixes:**
+- Reduce active field count
+- Implement pagination
+- Optimize images/data
+- Add debouncing
+- Clear unused data
+
+#### Scenario 4: Platform-Specific Issues
+**Diagnostic Path:**
+1. Identify affected platforms
+2. Check platform-specific APIs
+3. Review permission states
+4. Test on multiple devices
+5. Check version compatibility
+
+**Common Fixes:**
+- Add platform detection
+- Implement fallbacks
+- Request permissions properly
+- Update WebView/browser
+- Add polyfills
+
+### Error Message Decoder
+
+| Error Message | Likely Cause | Resolution |
+|--------------|--------------|------------|
+| "Required field" | Validation without value | Provide value or remove validation |
+| "Invalid type" | Type mismatch | Check type-returned vs validation |
+| "Component not found" | Wrong name/namespace | Verify component registration |
+| "Permission denied" | Platform permission | Request in app settings |
+| "Network error" | Connection issue | Check connectivity/CORS |
+| "Memory exhausted" | Too much data | Reduce/paginate data |
+| "Sync conflict" | Concurrent edits | Choose version/merge |
+| "Invalid configuration" | JSON syntax/schema | Validate JSON structure |
+
+### Prevention Strategies
+
+#### Design-Time Prevention
+- Validate JSON before deployment
+- Test on minimum spec devices
+- Set realistic data limits (~100 fields)
+- Plan for offline scenarios
+- Document known limitations
+
+#### Runtime Prevention
+- Add comprehensive error handling
+- Implement retry mechanisms
+- Provide user feedback
+- Add performance monitoring
+- Include diagnostic logging
+
+#### Testing Prevention
+- Cross-platform testing
+- Edge case coverage
+- Performance testing
+- Permission denial testing
+- Network condition testing
+
+### Escalation Procedures
+
+#### When to Escalate
+- Data loss occurring
+- Security vulnerability found
+- Widespread platform issue
+- No known workaround
+- Regression from update
+
+#### Escalation Path
+1. **Level 1**: Check documentation and known issues
+2. **Level 2**: Community forum/discussion
+3. **Level 3**: GitHub issue creation
+4. **Level 4**: Direct support contact
+
+#### Issue Report Template
+```markdown
+## Issue Report
+**Environment:**
+- Platform: [iOS/Android/Web]
+- Version: [Fieldmark version]
+- Device: [Model/Browser]
+
+**Issue:**
+- Expected: [What should happen]
+- Actual: [What does happen]
+- Steps: [How to reproduce]
+
+**Diagnostics:**
+- Console errors: [Any errors]
+- Network failures: [Failed requests]
+- Configuration: [Relevant JSON]
+
+**Attempts:**
+- Tried: [What you've tried]
+- Result: [What happened]
+```
+
+### Quick Reference Tables
+
+#### Diagnostic Command Reference
+| Platform | Command | Purpose |
+|----------|---------|---------|
+| All | `console.log()` | Debug output |
+| Web | `debugger;` | Breakpoint |
+| iOS | `Safari Inspector` | Remote debug |
+| Android | `chrome://inspect` | Remote debug |
+| All | `JSON.stringify()` | Inspect objects |
+
+#### Time to Resolution Guidelines
+| Issue Type | Target Time | Maximum Time |
+|------------|-------------|--------------|
+| Configuration | 15 min | 1 hour |
+| Validation | 10 min | 30 min |
+| Platform | 30 min | 2 hours |
+| Performance | 1 hour | 4 hours |
+| Data corruption | Immediate | 1 hour |
+
+---
+
+## Common Migration Pitfalls
+
+### Top 10 Pitfalls to Avoid
+1. **No backup** - Always backup, even for "simple" changes
+2. **Untested migration** - Never migrate without testing
+3. **Peak time migration** - Schedule during low usage
+4. **No rollback plan** - Always have escape route
+5. **Poor communication** - Over-communicate changes
+6. **Ignoring dependencies** - Check all relationships
+7. **Skipping verification** - Always verify post-migration
+8. **Rushed timeline** - Allow buffer time
+9. **Single person knowledge** - Document for team
+10. **No monitoring** - Watch for delayed issues
+
+### Recovery from Failed Migrations
+
+#### Immediate Actions
+1. **Don't panic** - Follow rollback plan
+2. **Communicate** - Inform users immediately
+3. **Assess damage** - What data affected?
+4. **Execute rollback** - Use prepared procedure
+5. **Document failure** - For post-mortem
+
+#### Post-Recovery Analysis
+- What went wrong?
+- What wasn't tested?
+- How to prevent recurrence?
+- Update procedures
+- Share learnings
+
+---
+
+## Best Practices Summary
+
+### For Developers
+1. **Document export format**: Provide examples
+2. **Include import instructions**: Especially for Excel
+3. **Test with special characters**: Commas, quotes, newlines
+4. **Validate round-trip**: Export → Import → Export
+5. **Consider data types**: Preserve types where possible
+
+### For Users
+1. **Use JSON for complex data**: Preserves structure
+2. **Use CSV for simple tables**: Excel-compatible
+3. **Document Excel settings**: Regional, date formats
+4. **Backup before import**: Excel auto-conversion is destructive
+5. **Use Text Import Wizard**: Never double-click CSV
+
+### Platform Considerations
+- **Web Browser**: Download to default folder, memory limited
+- **Mobile App**: Save to app storage first, tighter memory constraints
+- **API Export**: Supports streaming, pagination available
+
+---
+
+## Version Compatibility
+
+| Fieldmark Version | Migration Support | Breaking Changes | Notes |
+|------------------|-------------------|------------------|--------|
+| v3.0.x | Baseline | - | Starting point |
+| v3.1.x | Enhanced backup | Field type changes | Test thoroughly |
+| v3.2.x | Batch operations | Validation syntax | Review all validations |
+| v3.3.x | Current | Namespace updates | Update components |
+
+### Version-Specific Considerations
+- Always migrate to latest stable version first
+- Test on version before implementing
+- Check release notes for migration guides
+- Maintain version documentation
+
+---
+
+## Performance Guidelines
+
+### Recommended Limits
+- **Fields per form**: ~100 (approximate)
+- **Export size**: <10,000 records for reliable performance
+- **Migration batch size**: 500-1000 records
+- **Test environment**: Match production specs
+
+### Performance Monitoring
+- Use browser DevTools Performance tab
+- Monitor memory usage during operations
+- Track migration execution times
+- Document performance baselines
+
+---
+
+## Metadata
+- **Document Version**: 1.0
+- **Last Updated**: 2025-01-06
+- **Applies to**: Fieldmark v3 (all versions)
+- **Purpose**: Consolidate operational guidance for migration, export, and troubleshooting
+- **Sources**: Unified from migration-strategies, data-export, and troubleshooting-framework references
+
+<!-- concat:reference:constraints-reference -->
+# Constraints Reference
+## Designer Limitations and Security Considerations for Fieldmark v3
 
 ### Overview
 
-The Fieldmark Designer web application provides a visual interface for creating and configuring notebooks. While Designer handles most common configuration needs, certain advanced features and testing capabilities require direct JSON editing or can only be verified after deployment.
+This reference consolidates critical constraints that affect Fieldmark v3 deployment:
+- Designer interface limitations that impact development workflow
+- Security vulnerabilities and protection requirements
+- Testing and validation constraints
+- Compliance and data protection considerations
 
-### Testing & Preview Limitations
+Understanding these constraints is essential for successful and secure notebook deployment.
 
-#### Cannot Test Before Deployment
+---
+
+## Part 1: Designer Interface Limitations
+
+### Testing & Preview Constraints
+
+#### Limited Designer Preview
 - **Field appearance**: No preview of how fields will render on different platforms
 - **Conditional logic**: Conditions must be tested in deployed notebooks, not Designer preview
 - **Validation behavior**: Cannot verify validation schemas work as intended
 - **Mobile usability**: No way to test touch interactions or mobile-specific behaviors
 - **Export formats**: Cannot preview CSV/JSON export behavior with sample data
 
-#### Testing Workflow Impact
-1. Make changes in Designer
-2. Deploy to test server
-3. Test on actual devices
-4. Return to Designer for corrections
-5. Repeat deployment cycle
+#### Effective Testing Workflow
+While the Designer lacks built-in preview, a practical workflow exists:
+1. Keep Designer open in one browser tab
+2. Keep web application open in another tab for testing
+3. Make changes in Designer and deploy
+4. Test immediately in web app (updates are rapid)
+5. Iterate quickly between tabs
 
-This iterative process significantly impacts development time, especially for complex forms with conditional logic or platform-specific requirements.
+This dual-tab workflow provides near-real-time testing capability, though it requires deployment to see changes rather than in-Designer preview.
 
 ### Validation Customization Constraints
 
@@ -27024,10 +23888,12 @@ These require JSON editing with custom Yup schemas.
 
 #### No Performance Indicators
 Designer provides no warnings when configurations will cause issues:
-- **Option count limits**: No warning when Select/RadioGroup exceeds 20 options (causes lag with markdown processing)
-- **Character limits**: No indication when text fields approach performance thresholds
+- **Option count limits**: No warning when Select/RadioGroup exceeds 20 options (may cause lag with markdown processing)*
+- **Character limits**: No indication when text fields approach performance thresholds*
 - **Memory usage**: No warnings about large file uploads or image captures
-- **Render complexity**: No indication when forms become too complex for mobile devices
+- **Render complexity**: No indication when forms become too complex for mobile devices (~100 fields recommended limit)*
+
+*Note: All performance thresholds are estimated/extrapolated from code analysis and represent approximate guidelines only. Real-world feedback is welcomed to improve accuracy of these thresholds.
 
 #### Missing Accessibility Warnings
 - No WCAG compliance indicators
@@ -27038,17 +23904,18 @@ Designer provides no warnings when configurations will cause issues:
 
 #### Platform-Specific Issues Not Flagged
 - QRCodeFormField required on web (will block form submission)
-- Address field initialization errors
 - Browser-specific validation conflicts
 - Mobile keyboard behavior issues
 
 ### Field Management Restrictions
 
 #### Type Conversion Limitations
-- **Cannot convert between field types**: Must delete and recreate
-  - Example: Cannot change RadioGroup to Select
-  - Example: Cannot convert TextField to MultipleTextField
-  - Data migration must be handled externally
+- **Cannot convert between field types in Designer**: Must delete and recreate in Designer interface
+  - Example: Cannot change RadioGroup to Select in Designer
+  - Example: Cannot convert TextField to MultipleTextField in Designer
+  - JSON editing may allow type changes but requires careful data migration
+  - Some conversions (e.g., TextField to MultipleTextField) may preserve data
+  - Always backup data before attempting field type changes
 
 #### Bulk Operations Not Supported
 - Cannot edit multiple fields simultaneously
@@ -27115,32 +23982,9 @@ These limitations affect different user groups:
 
 **End Users**: May encounter generic error messages and validation behaviors that don't match their domain expectations.
 
-### Best Practices
+---
 
-1. **Start Simple**: Build basic structure in Designer, enhance with JSON
-2. **Test Early**: Deploy frequently to catch issues before complex dependencies develop
-3. **Document Thoroughly**: Maintain external documentation for validation rules and conditional logic
-4. **Plan Iterations**: Budget time for the deploy-test-refine cycle
-5. **Use Templates**: Create reusable patterns for common configurations
-
-### Related Documentation
-- Component Namespace Reference for JSON component names
-- Validation Timing Reference for validation behavior
-- Meta Properties Reference for annotation/uncertainty configuration
-- Individual field documentation for field-specific limitations
-
-### Version
-Last updated: 2025-09-03
-Applies to: Fieldmark v3 Designer (all versions)
-Designer version: Current web interface
-
-<!-- concat:reference:security-considerations-reference -->
-# Security Considerations Reference
-## Universal Security Guidelines for Fieldmark v3
-
-### Overview
-
-This document consolidates security considerations for all Fieldmark v3 field types. Security in Fieldmark operates on multiple levels: client-side validation (easily bypassed), server-side validation (essential), and data sanitization (critical for preventing attacks). Understanding these layers is essential for deploying secure notebooks.
+## Part 2: Security Constraints and Vulnerabilities
 
 ### Critical Security Vulnerabilities
 
@@ -27151,16 +23995,17 @@ This document consolidates security considerations for all Fieldmark v3 field ty
 - **Risk Level**: CRITICAL
 - **Attack Vector**: User input in templates executes as HTML/JavaScript
 - **Impact**: Complete session hijacking, data theft, form manipulation
-- **Example Attack**:
-  ```json
-  // Template configuration:
-  { "template": "Record: {{user_text_field}}" }
-  
-  // If user enters in text field:
-  <script>alert('XSS')</script>
-  
-  // Result: Script EXECUTES when template renders
-  ```
+
+**Example Attack**:
+```json
+// Template configuration:
+{ "template": "Record: {{user_text_field}}" }
+
+// If user enters in text field:
+<script>alert('XSS')</script>
+
+// Result: Script EXECUTES when template renders
+```
 
 **Mitigation Requirements**:
 1. NEVER include user-input text fields in TemplatedString templates
@@ -27235,51 +24080,51 @@ This document consolidates security considerations for all Fieldmark v3 field ty
 - No character limit enforcement at database level
 - No input pattern validation beyond client-side
 - HTML special characters stored raw
-- Recommendation: Implement server-side length limits and pattern validation
+- **Recommendation**: Implement server-side length limits and pattern validation
 
 #### TemplatedString Fields
 - **CRITICAL**: HTML escaping disabled
 - Template injection possible through field references
 - No recursive reference protection
-- Recommendation: Whitelist allowed template variables
+- **Recommendation**: Whitelist allowed template variables
 
 #### RichText Fields
 - DOMPurify sanitization at runtime
 - External images blocked (hardcoded empty array)
 - Script tags stripped but other vectors possible
 - Tables removed despite Designer support
-- Recommendation: Never include user content in RichText
+- **Recommendation**: Never include user content in RichText
 
 #### QRCodeFormField
 - No validation of scanned content
 - Accepts any barcode format
 - Raw data stored without sanitization
-- Recommendation: Validate expected format server-side
+- **Recommendation**: Validate expected format server-side
 
 #### Address Fields
 - Complex JSON structure allows nested attacks
 - Race conditions can corrupt data
 - No format validation
-- Recommendation: Implement JSON schema validation
+- **Recommendation**: Implement JSON schema validation
 
 #### Number Fields
 - JavaScript precision limits can cause data corruption
 - No server-side range validation
 - Scientific notation can bypass validations
-- Recommendation: Validate numeric ranges server-side
+- **Recommendation**: Validate numeric ranges server-side
 
 #### DateTime Fields
 - Future dates accepted (backdating possible)
 - No temporal sequence validation
 - Timezone information leaks user location
 - Format string injection possible
-- Recommendation: Implement audit trails server-side
+- **Recommendation**: Implement audit trails server-side
 
 #### Selection Fields
 - Option values not validated for special characters
 - Markdown in options can introduce vectors
 - No uniqueness validation on values
-- Recommendation: Sanitize option values before storage
+- **Recommendation**: Sanitize option values before storage
 
 ### Data Validation Layers
 
@@ -27376,37 +24221,43 @@ ${alert('XSS')}
 4. Control export permissions
 5. Implement data retention policies
 
-### Security Incident Response
+---
 
-#### If XSS is Discovered
+## Security Incident Response
+
+### If XSS is Discovered
 1. Immediately disable affected templates
 2. Audit all TemplatedString configurations
 3. Review server logs for exploitation
 4. Reset all user sessions
 5. Implement content security policy headers
 
-#### If Injection is Suspected
+### If Injection is Suspected
 1. Review server logs for unusual patterns
 2. Audit database for unauthorized changes
 3. Validate all recent data entries
 4. Implement additional validation
 5. Consider security audit
 
-### Compliance Considerations
+---
 
-#### GDPR/Privacy
+## Compliance Considerations
+
+### GDPR/Privacy
 - Right to deletion not automatically supported
 - No automatic PII detection
 - Export includes all user data
 - No consent management
 
-#### Security Standards
+### Security Standards
 - No automatic OWASP compliance checking
 - Limited security headers by default
 - No built-in penetration testing
 - Manual security review required
 
-### Security Checklist
+---
+
+## Pre-Deployment Security Checklist
 
 Before deploying any notebook:
 - [ ] No user text fields in TemplatedString templates
@@ -27420,7 +24271,19 @@ Before deploying any notebook:
 - [ ] Export permissions configured
 - [ ] Security testing completed
 
-### Reporting Security Issues
+---
+
+## Designer Best Practices
+
+1. **Start Simple**: Build basic structure in Designer, enhance with JSON
+2. **Test Early**: Deploy frequently to catch issues before complex dependencies develop
+3. **Document Thoroughly**: Maintain external documentation for validation rules and conditional logic
+4. **Plan Iterations**: Budget time for the deploy-test-refine cycle
+5. **Use Templates**: Create reusable patterns for common configurations
+
+---
+
+## Reporting Security Issues
 
 If you discover a security vulnerability:
 1. Do NOT publish details publicly
@@ -27429,187 +24292,44 @@ If you discover a security vulnerability:
 4. Allow time for patching before disclosure
 5. Follow responsible disclosure practices
 
-### Related Documentation
-- Individual field documentation for field-specific security notes
-- Designer Limitations Reference for configuration constraints
-- Validation Timing Reference for validation behavior
-- Performance Thresholds Reference for DoS prevention
+---
 
-### Version
-Last updated: 2025-09-03
-Applies to: Fieldmark v3 (all versions)
-Security review: Required before production deployment
+## Summary of Critical Constraints
 
-<!-- concat:reference:validation-timing-reference -->
-# Validation Timing Reference
-## Universal Behavior for All Fieldmark v3 Fields
+### Designer Limitations
+- No pre-deployment testing capability
+- Cannot customize validation messages
+- No performance warnings or indicators
+- Cannot convert between field types
+- Many features require JSON editing
 
-### Core Validation Lifecycle
+### Security Vulnerabilities
+- **CRITICAL**: TemplatedString XSS vulnerability
+- No server-side validation by default
+- No input sanitization at field level
+- Session tokens vulnerable to XSS
+- No field-level encryption
 
-All Fieldmark fields follow the same validation timing pattern, regardless of field type:
+### Compliance Gaps
+- No automatic GDPR compliance
+- No PII detection or protection
+- No audit trails by default
+- Export includes all data
 
-#### 1. On Mount
-- **What happens**: Validation runs immediately when form loads
-- **Error display**: Hidden (field remains "pristine")
-- **Field state**: Untouched, even if invalid
-- **Purpose**: Establishes initial validation state without alarming users
+### Performance Constraints
+- ~100 field recommended limit
+- 20+ options cause markdown lag
+- No memory usage warnings
+- Platform-specific issues not flagged
 
-#### 2. On Change
-- **What happens**: Validation runs synchronously on every value change
-- **Error display**: Immediate (if component supports error display)
-- **Field state**: Transitions from "pristine" to "touched"
-- **Purpose**: Provides real-time feedback during data entry
+---
 
-#### 3. On Blur
-- **What happens**: Re-validates when user leaves field
-- **Error display**: Shows/updates error messages
-- **Field state**: Confirms "touched" status
-- **Purpose**: Final validation before moving to next field
-
-#### 4. On Submit
-- **What happens**: All fields validated regardless of touched state
-- **Error display**: All errors shown, even for untouched fields
-- **Field state**: All fields marked as touched
-- **Purpose**: Ensures complete form validation before submission
-
-### Platform-Specific Behaviors
-
-#### Mobile (iOS/Android)
-- **Blur delay**: May not trigger until next field receives focus
-- **Virtual keyboard**: Can interfere with blur events
-- **Touch vs click**: Touch events may process differently
-
-#### Desktop (Web)
-- **Standard behavior**: Blur triggers immediately on focus loss
-- **Tab navigation**: Triggers blur/focus in sequence
-- **Mouse clicks**: Immediate blur when clicking outside
-
-### Field-Specific Variations
-
-While the core timing is universal, some fields have additional considerations:
-
-#### Text Fields
-- **Keystroke validation**: Validates on every character entry
-- **Performance impact**: Can cause lag with complex regex patterns
-- **Debouncing**: Not implemented - every keystroke triggers validation
-
-#### Number Fields
-- **Parse on change**: Attempts to parse numeric value on each keystroke
-- **Invalid character handling**: May prevent entry rather than show error
-- **Format validation**: Checks decimal places, ranges continuously
-
-#### DateTime Fields
-- **Format parsing**: Complex date parsing on each change
-- **Picker integration**: Native pickers may bypass change events
-- **Manual entry**: Validates partial dates during typing
-
-#### Selection Fields (Checkbox, Radio, Select, MultiSelect)
-- **Immediate validation**: Selection changes trigger instant validation
-- **No keystroke issues**: Binary state changes only
-- **Error display limitations**: Some components cannot display errors
-
-#### Media Fields
-- **Async validation**: File uploads validate after upload completes
-- **Size checks**: Pre-upload validation for file size
-- **Type validation**: MIME type checked before processing
-
-### Error Display Capabilities by Component
-
-| Field Type | Shows Errors | When Displayed | Where Displayed |
-|------------|--------------|----------------|-----------------|
-| TextField | ✅ Yes | On blur | Below field |
-| NumberField | ✅ Yes | On blur | Below field |
-| DateTime | ✅ Yes | On blur | Below field |
-| Checkbox | ✅ Yes | On blur | Below field |
-| RadioGroup | ✅ Yes | On blur | Below group |
-| Select | ❌ No | Never | N/A - blocks submission |
-| MultiSelect | ⚠️ Partial | On blur | Below field (limited) |
-| AdvancedSelect | ❌ No | Never | N/A - blocks submission |
-
-### State Management
-
-#### Field States
-1. **Pristine**: Never touched by user
-2. **Touched**: User has interacted with field
-3. **Dirty**: Value differs from initial value
-4. **Valid**: Passes all validation rules
-5. **Invalid**: Fails one or more validation rules
-
-#### State Transitions
-```
-Mount → Pristine + (Valid|Invalid hidden)
-    ↓
-User Interaction → Touched + (Valid|Invalid shown)
-    ↓
-Value Change → Dirty + Revalidation
-    ↓
-Blur → Error Display Update
-    ↓
-Submit → All Touched + All Errors Shown
-```
-
-### Common Validation Issues
-
-#### Race Conditions
-- Rapid field navigation may skip blur events
-- Async validation may complete out of order
-- Submit during validation may use stale state
-
-#### Performance Problems
-- Complex regex on text fields
-- Large option lists in selection fields
-- Multiple dependent field validations
-
-#### Mobile-Specific Issues
-- Virtual keyboard covering error messages
-- Blur events not firing between fields
-- Touch targets too small for error icons
-
-### Best Practices
-
-#### For Developers
-1. Keep validation rules simple and fast
-2. Avoid complex regex patterns on text fields
-3. Use type-appropriate fields (email vs text)
-4. Provide clear helperText to prevent errors
-5. Test on mobile devices for blur behavior
-
-#### For Users
-1. Tab through fields on desktop for best experience
-2. Wait for validation to complete before submitting
-3. Check for hidden errors on untouched required fields
-4. Use native pickers when available (dates, times)
-
-### Integration with Formik
-
-All validation timing is controlled by Formik's validation strategy:
-
-```javascript
-// Formik configuration (not user-configurable)
-validateOnMount: true     // Runs validation on form load
-validateOnChange: true    // Validates on every field change
-validateOnBlur: true      // Validates when field loses focus
-```
-
-### Validation Schema Execution Order
-
-1. **Type validation** (yup.string, yup.number, etc.)
-2. **Required validation** (yup.required)
-3. **Format validation** (yup.email, yup.matches)
-4. **Range validation** (yup.min, yup.max)
-5. **Custom validation** (yup.test)
-
-### Related Documentation
-
-- Field-specific validation rules: See individual field documentation
-- Validation schema syntax: See JSON Patterns Cookbook
-- Error message customization: Not supported (uses Yup defaults)
-- Form-level validation: See notebook-structure.md
-
-### Version
-Last updated: 2025-09-03
-Applies to: Fieldmark v3 (all versions)
-Component library: Formik + Material-UI + Yup
+## Metadata
+- **Document Version**: 1.0
+- **Last Updated**: 2025-01-06
+- **Applies to**: Fieldmark v3 (all versions), Designer (current web interface)
+- **Purpose**: Consolidate constraints affecting Fieldmark deployment and security
+- **Sources**: Unified from designer-limitations and security-considerations references
 
 <!-- ============================================ -->
 <!-- DOCUMENT METADATA -->
@@ -27617,11 +24337,11 @@ Component library: Formik + Material-UI + Yup
 
 ## Document Metadata
 
-- **Generated**: 2025-09-05T23:11:04+10:00
-- **Total Lines**: 27620
+- **Generated**: 2025-09-06T18:42:23+10:00
+- **Total Lines**: 24340
 - **Field Documents**: 8
-- **Pattern Documents**: 8
-- **Reference Documents**: 13
+- **Pattern Documents**: 4
+- **Reference Documents**: 4
 - **Format**: LLM-optimized concatenated reference
 
 ## Quick Jump Index
@@ -27637,16 +24357,13 @@ Component library: Formik + Material-UI + Yup
 - [Relationship Fields](#relationship-fields)
 
 ### Patterns
-- [Field Selection](#field-selection-best-practices)
-- [Validation](#validation)
-- [Conditional Logic](#conditional-logic)
-- [Navigation](#navigation)
-- [Notebook Structure](#notebook-structure)
-- [Common Patterns](#patterns)
+- [Field Selection Guide](#field-selection-guide)
+- [Form Structure Guide](#form-structure-guide)
+- [Dynamic Forms Guide](#dynamic-forms-guide)
+- [Implementation Patterns](#implementation-patterns-guide)
 
 ### References
-- [Component Namespace](#component-namespace-reference)
-- [Platform Behaviors](#platform-behaviors-reference)
-- [Performance Thresholds](#performance-thresholds-reference)
-- [Designer Limitations](#designer-limitations-reference)
-- [Security Considerations](#security-considerations-reference)
+- [Component Reference](#component-reference)
+- [Platform Reference](#platform-reference)
+- [Operations Reference](#operations-reference)
+- [Constraints Reference](#constraints-reference)

@@ -1,13 +1,71 @@
+<!-- concat:boundary:start section="number-fields" -->
+<!-- concat:metadata
+document_id: number-fields-v05
+category: numeric
+field_count: 3
+designer_capable: ["NumberField"]
+json_only: ["BasicAutoIncrementer", "step_increments"]
+last_updated: 2025-01-05
+-->
+
+# Number Input Fields
+
+## Document Navigation
+<!-- concat:nav-mode:individual -->
+[← Date & Time Fields](./datetime-fields-v05.md) | **Numeric Fields** | [Display Fields →](./display-field-v05.md)
+<!-- concat:nav-mode:concatenated -->
+<!-- When viewing in reference.md: [↑ Top](#fieldmark-v3-field-type-documentation-index) | [Display Fields ↓](#display-fields) -->
+
 # Number Input Fields
 
 ## Overview {essential}
 
 The Number Input category encompasses three distinct field types for numeric and sequential data management in Fieldmark, each serving fundamentally different purposes despite their shared categorization.
 
+## Component Name Mapping {essential}
+
+| Designer UI Label | JSON component-name | Namespace | Code File | Description |
+|------------------|-------------------|-----------|-----------|-------------|
+| Number Field | NumberField | faims-custom | NumberField.tsx | Numeric input with validation |
+| Basic Auto Incrementer | BasicAutoIncrementer | faims-custom | BasicAutoIncrementer.tsx | Auto-incrementing counter |
+
+### Critical Naming Issues {important}
+- **ControlledNumber absence**: Referenced in docs but is actually TextField with type="number"
+- **Step increment confusion**: Cannot set step increments in Designer, use BasicAutoIncrementer instead
+- **TextField variant**: "Controlled Number" is TextField (formik-material-ui) with numeric configuration
+- **Namespace discrepancy**: All number fields use faims-custom namespace
+
+
 ### Components in this Category
 - **Number Input** (NumberField in JSON) - Standard floating-point numeric entry
 - **Controlled Number** - Designer-accessible bounded numeric input  
 - **Basic Auto-incrementer** - Sequential string identifier generator
+
+### DESIGNER QUICK GUIDE
+
+**For Standard Numeric Values**: Choose "Number Input" - handles decimals, measurements, counts
+**For Bounded Values**: Choose "Controlled Number" - includes sliders, min/max validation  
+**For Sequential IDs**: Choose "Basic Auto-incrementer" - generates "BAI-001" style strings
+**NEVER Use**: "Number Field" (deprecated) - appears in Designer but has known issues
+
+**Critical iOS Warning**: No direct negative number entry on iOS - users must copy-paste negative values
+
+### CRITICAL NAMING DISAMBIGUATION
+
+⚠️ **CONFUSING NAMES - READ CAREFULLY**:
+
+- ✅ **"Number Input"** (Designer label) → Creates `NumberField` component (recommended)
+- ❌ **"Number Field"** (Designer label) → Creates deprecated `TextField` component (avoid)
+- 📊 **"Controlled Number"** (Designer label) → Creates `TextField` with numeric configuration (formik-material-ui namespace, NOT a separate component)
+- 🔤 **"Basic Auto-incrementer"** → Creates `BasicAutoIncrementer` (returns STRINGS, not numbers)
+
+The naming confusion exists because:
+1. "Number Input" was created to replace the problematic "Number Field", but the JSON component name stayed as `NumberField` for backwards compatibility
+2. "Controlled Number" isn't actually a distinct component but rather a pre-configured TextField with bounded validation
+
+### Field Capabilities Summary
+
+Number fields provide numeric data entry with three specialized approaches: unrestricted decimal input (NumberInput), bounded validation with UI controls (ControlledNumber), and sequential string identifier generation (BasicAutoIncrementer). All support offline operation and cross-platform deployment, with iOS limitations on negative number entry requiring alternative input methods.
 
 ### Historical Context {important}
 
@@ -68,23 +126,32 @@ When using the Designer interface, follow these simple rules:
 ***⚠️ **Critical**: Returns strings not numbers despite "Number Fields" category  
 ****Note: Do not confuse with deprecated "Number Field" - always use "Number Input"**
 
-### Field Limitations
+### When JSON Enhancement is Required
 
-**Calculation Limitations**:
-- Complex calculations - No in-field formulas or computed values
-- Dynamic ranges - Cannot set min/max based on other field values
-- Cross-field validation - Cannot validate sum/product relationships
-- Unit conversions - No automatic conversion between units
+**NumberInput**:
+- ✅ Required: Range validation, decimal precision, integer-only
+- ✅ Required: Custom error messages
+- ❌ Never: Step increments not supported (use BasicAutoIncrementer instead)
 
-**Display Limitations**:
-- Locale formatting - No automatic thousands/decimal separators
-- Custom keyboards - Cannot override platform numeric input
-- Real-time formatting - No live currency or percentage display
+**ControlledNumber**:
+- ⚠️ Optional: Additional validation beyond min/max
+- ⚠️ Optional: True integer enforcement
+- ⚠️ Optional: Custom error messages
 
-**Integration Limitations**:
-- External sensor input - No direct Bluetooth/USB sensor integration
-- Barcode scanning - Cannot scan numeric barcodes (use QRCodeFormField)
-- Voice calculation - Cannot process "add five to previous value"
+**BasicAutoIncrementer**:
+- ✅ Required: Custom validation patterns
+- ❌ Never: Core functionality fully Designer-accessible
+- ❌ Never: Integration with TemplatedString works in Designer
+
+### Designer Limitations {important}
+
+[Link to Designer Limitations Reference](../reference-docs/designer-limitations-reference.md)
+
+**Number Field-Specific Designer Limitations**:
+- **NumberInput**: Cannot set range validation (min/max) through Designer
+- **NumberInput**: Cannot configure decimal precision or integer-only mode
+- **All fields**: Cannot add custom validation messages
+- **All fields**: Cannot configure input masks or formatting patterns
 
 ### ⚠️ CRITICAL: Deprecated Field Warning {essential}
 
@@ -101,81 +168,6 @@ When using the Designer interface, follow these simple rules:
 
 If you see "Number Field" in Designer, always choose "Number Input" instead. Existing notebooks using the deprecated Number Field should be migrated to Number Input for better data integrity.
 
-
-## ⚠️ Critical Precision and Security Risks {essential}
-
-**Silent Precision Loss**:
-- **Risk**: Values beyond 15-17 significant digits silently truncated
-- **Impact**: Scientific data corruption, financial calculation errors
-- **Example**: 9007199254740993 becomes 9007199254740992
-- **Mitigation**: Document precision limits, use string fields for IDs
-
-**iOS Negative Number Entry**:
-- **Risk**: Cannot enter negative values on iOS numeric keyboard
-- **Impact**: Data collection failure, workaround confusion
-- **Mitigation**: Provide TextField alternative or document copy-paste method
-- **Training**: Essential for field teams using iOS devices
-
-**Excel ID Corruption**:
-- **Risk**: Excel converts numeric IDs (strips leading zeros, scientific notation)
-- **Impact**: Specimen ID "0001234" becomes "1234", data linkage broken
-- **Mitigation**: Always use BasicAutoIncrementer for IDs, not NumberInput
-- **Export**: Wrap in TemplatedString for Excel protection
-
----
-
-## What These Fields Cannot Do {important}
-
-### Numeric Processing Limitations {important}
-- **Complex calculations** - No formulas or expressions (e.g., field1 + field2)
-- **Unit conversion** - Cannot convert between units automatically
-- **Currency formatting** - No thousand separators or currency symbols
-- **Percentage display** - Cannot show as percentage (stores decimal)
-- **Fraction input** - Cannot enter or display fractions (e.g., 1/3)
-
-### Validation Limitations {important}
-- **Cross-field validation** - Cannot validate sum across multiple fields
-- **Dynamic ranges** - Cannot set min/max based on other fields
-- **Custom increments** - Cannot enforce specific step values reliably
-- **Precision validation** - Cannot enforce exact decimal places
-- **Business rules** - No complex validation logic (e.g., "if X then Y must be > Z")
-
-### Display Limitations {important}
-- **Formatted display** - No comma separators (1,000,000)
-- **Scientific notation control** - Cannot prevent auto-conversion at 1e7
-- **Leading zeros** - NumberInput strips them (use BasicAutoIncrementer)
-- **Custom number formats** - No phone numbers, credit cards, etc.
-- **Negative number entry** - iOS keyboard lacks minus key
-
-## Common Use Cases {important}
-
-### Measurements and Observations
-- **Dimensions** → NumberInput with min: 0, precision helper text
-- **Counts** → NumberInput with integer validation
-- **Percentages** → NumberInput with min: 0, max: 100
-- **Ratings** → ControlledNumber with defined scale (1-5, 1-10)
-
-### Scientific Data
-- **Coordinates** → NumberInput with high precision (6+ decimals)
-- **Temperature** → NumberInput (allows negatives)
-- **pH values** → NumberInput with min: 0, max: 14
-- **Concentrations** → NumberInput with scientific notation support
-
-### Identifiers and Codes
-- **Sequential IDs** → BasicAutoIncrementer (zero-padded strings)
-- **Sample numbers** → BasicAutoIncrementer + TemplatedString wrapper
-- **Plot numbers** → NumberInput if calculations needed
-- **Reference codes** → BasicAutoIncrementer for Excel safety
-
-### Data Quality Patterns
-- **Optional measurements** → NumberInput with `nullable()` validation
-- **Bounded values** → ControlledNumber for strict ranges
-- **Excel-safe IDs** → BasicAutoIncrementer (prevents number conversion)
-- **Precision documentation** → Helper text stating decimal places
-
----
-
----
 ## Field Selection Guide {essential}
 
 ### Decision Tree
@@ -239,34 +231,83 @@ Need numeric/sequential functionality?
 - No aria-live regions for validation
 - Consider larger touch targets via CSS
 
-## Designer Capabilities vs JSON Enhancement {essential}
+## ⚠️ Critical Security Risks {essential}
 
-### What Designer Can Configure {essential}
+**Silent Precision Loss**:
+- **Risk**: Values beyond 15-17 significant digits silently truncated
+- **Impact**: Scientific data corruption, financial calculation errors
+- **Example**: 9007199254740993 becomes 9007199254740992
+- **Mitigation**: Document precision limits, use string fields for IDs
 
-For complete meta properties documentation (annotation, uncertainty, persistence), see [Meta Properties Reference](meta-properties-reference.md).
+**iOS Negative Number Entry**:
+- **Risk**: Cannot enter negative values on iOS numeric keyboard
+- **Impact**: Data collection failure, workaround confusion
+- **Mitigation**: Provide TextField alternative or document copy-paste method
+- **Training**: Essential for field teams using iOS devices
 
-| Field | Designer Configurable | JSON-Only Features |
-|-------|----------------------|-------------------|
-| **NumberInput** | • Label<br>• Required<br>• Helper text<br>• Initial value<br>• Persistent | • Min/max bounds<br>• Decimal precision<br>• Integer enforcement<br>• Custom validation<br>• Step increments |
-| **ControlledNumber** | • Label<br>• Required<br>• Helper text<br>• Min/max bounds<br>• Initial value (0) | • Integer enforcement<br>• Custom validation<br>• Step increments<br>• Alternative initial |
-| **BasicAutoIncrementer** | • Label<br>• Form ID<br>• Digit count<br>• Helper text | • Validation patterns<br>• Custom formatting<br>• Integration setup |
+**Excel ID Corruption**:
+- **Risk**: Excel converts numeric IDs (strips leading zeros, scientific notation)
+- **Impact**: Specimen ID "0001234" becomes "1234", data linkage broken
+- **Mitigation**: Always use BasicAutoIncrementer for IDs, not NumberInput
+- **Export**: Wrap in TemplatedString for Excel protection
 
-### When JSON Enhancement is Required {important}
+---
 
-**NumberInput**:
-- ✅ Required: Range validation, decimal precision, integer-only
-- ✅ Required: Custom error messages
-- ✅ Required: Step increments
+## What These Fields Cannot Do {important}
 
-**ControlledNumber**:
-- ⚠️ Optional: Additional validation beyond min/max
-- ⚠️ Optional: True integer enforcement
-- ⚠️ Optional: Custom error messages
+### Numeric Processing Limitations {important}
+- **Complex calculations** - No formulas or expressions (e.g., field1 + field2)
+- **Unit conversion** - Cannot convert between units automatically
+- **Currency formatting** - No thousand separators or currency symbols
+- **Percentage display** - Cannot show as percentage (stores decimal)
+- **Fraction input** - Cannot enter or display fractions (e.g., 1/3)
 
-**BasicAutoIncrementer**:
-- ✅ Required: Integration with TemplatedString
-- ✅ Required: Custom validation patterns
-- ❌ Never: Core functionality fully Designer-accessible
+### Validation Limitations {important}
+- **Cross-field validation** - Cannot validate sum across multiple fields
+- **Dynamic ranges** - Cannot set min/max based on other fields
+- **Custom increments** - Cannot enforce specific step values (use BasicAutoIncrementer for sequential steps)
+- **Precision validation** - Cannot enforce exact decimal places
+- **Business rules** - No complex validation logic (e.g., "if X then Y must be > Z")
+
+### Display Limitations {important}
+- **Formatted display** - No comma separators (1,000,000)
+- **Scientific notation control** - Cannot prevent auto-conversion at 1e7
+- **Leading zeros** - NumberInput strips them (use BasicAutoIncrementer)
+- **Custom number formats** - No phone numbers, credit cards, etc.
+- **Negative number entry** - iOS keyboard lacks minus key
+
+### Integration Limitations {important}
+- **External sensor input** - No direct Bluetooth/USB sensor integration
+- **Barcode scanning** - Cannot scan numeric barcodes (use QRCodeFormField)
+- **Voice calculation** - Cannot process "add five to previous value"
+- **Complex calculations** - No in-field formulas or computed values
+- **Unit conversions** - No automatic conversion between units
+
+## Common Use Cases {important}
+
+### Measurements and Observations
+- **Dimensions** → NumberInput with min: 0, precision helper text
+- **Counts** → NumberInput with integer validation
+- **Percentages** → NumberInput with min: 0, max: 100
+- **Ratings** → ControlledNumber with defined scale (1-5, 1-10)
+
+### Scientific Data
+- **Coordinates** → NumberInput with high precision (6+ decimals)
+- **Temperature** → NumberInput (allows negatives)
+- **pH values** → NumberInput with min: 0, max: 14
+- **Concentrations** → NumberInput with scientific notation support
+
+### Identifiers and Codes
+- **Sequential IDs** → BasicAutoIncrementer (zero-padded strings)
+- **Sample numbers** → BasicAutoIncrementer + TemplatedString wrapper
+- **Plot numbers** → NumberInput if calculations needed
+- **Reference codes** → BasicAutoIncrementer for Excel safety
+
+### Data Quality Patterns
+- **Optional measurements** → NumberInput with `nullable()` validation
+- **Bounded values** → ControlledNumber for strict ranges
+- **Excel-safe IDs** → BasicAutoIncrementer (prevents number conversion)
+- **Precision documentation** → Helper text stating decimal places
 
 ## Designer Component Mapping {essential}
 
@@ -282,15 +323,35 @@ For complete meta properties documentation (annotation, uncertainty, persistence
 ⚠️ **Critical Notes**:
 - "Number Input" in Designer creates "NumberField" in JSON - this name mismatch is a common error source
 - "Number Field" (deprecated) still appears in Designer - always use "Number Input" instead
-- BasicAutoIncrementer returns strings despite being in "Number Fields" category
+- BasicAutoIncrementer returns `faims-core::String`, not numbers despite being in "Number Fields"
 - All number fields use namespace "faims-custom" except the deprecated Number Field
 - Designer cannot configure iOS negative number workarounds - requires JSON
 
-This mapping is essential for:
-- Understanding Designer limitations
-- Debugging component not found errors
-- Writing JSON configurations manually
-- Migrating from deprecated Number Field
+### Designer Configuration Options
+
+| Designer Option | JSON Parameter | Values | Description |
+|-----------------|---------------|---------|-------------|
+| Label | `label` | string | Field display name |
+| Required | `validationSchema` | `[["yup.required"]]` | Makes field mandatory |
+| Helper Text | `helperText` | string | Guidance text below field |
+| Min Value | `component-parameters.min` | number | Minimum allowed value |
+| Max Value | `component-parameters.max` | number | Maximum allowed value |
+| Initial Value | `initialValue` | number/0 | Default value when field loads |
+| Form ID | `component-parameters.form_id` | string | For BasicAutoIncrementer prefix |
+| Digit Count | `component-parameters.numDigits` | number | ID padding (001 vs 00001) |
+
+## Designer Capabilities vs JSON Enhancement {essential}
+
+### What Designer Can Configure {essential}
+
+For complete meta properties documentation (annotation, uncertainty, persistence), see [Meta Properties Reference](meta-properties-reference.md).
+
+| Field | Designer Configurable | JSON-Only Features |
+|-------|----------------------|-------------------|
+| **NumberInput** | • Label<br>• Required<br>• Helper text<br>• Initial value<br>• Persistent | • Min/max bounds<br>• Decimal precision<br>• Integer enforcement<br>• Custom validation<br>• Step increments |
+| **ControlledNumber** | • Label<br>• Required<br>• Helper text<br>• Min/max bounds<br>• Initial value (0) | • Integer enforcement<br>• Custom validation<br>• Step increments<br>• Alternative initial |
+| **BasicAutoIncrementer** | • Label<br>• Form ID<br>• Digit count<br>• Helper text | • Validation patterns<br>• Custom formatting<br>• Integration setup |
+
 
 ## Component Namespace Errors {important}
 
@@ -312,6 +373,23 @@ See [Component Namespace Reference](component-namespace-reference.md) for comple
 **Common confusion**: 
 - Designer shows "Number Input" but JSON requires "NumberField"
 - BasicAutoIncrementer returns strings like "BAI-001", not numbers
+
+
+## When to Use These Fields {essential}
+
+### Field Selection Matrix
+
+| Use Case | Recommended Field | Why |
+|----------|------------------|-----|
+| General numeric input | NumberField | Full validation support |
+| Sequential IDs | BasicAutoIncrementer | Auto-increment |
+| Controlled input | TextField with type="number" | When NumberField insufficient |
+
+### Decision Criteria
+- **Auto-generation**: Needed → BasicAutoIncrementer
+- **Validation complexity**: Simple → NumberField, Complex → TextField variant
+- **Step increments**: Not in Designer → Use BasicAutoIncrementer
+- **Display format**: Standard → NumberField, Custom → BasicAutoIncrementer
 
 ## Common Characteristics {important}
 
@@ -357,14 +435,14 @@ See [Validation System Documentation](../detail-crossfield-docs/validation.md) f
 **Number Field-Specific Validation:**
 
 ```json
-// Decimal precision check (unique to numbers)
+
 "validationSchema": [
   ["yup.number"],
   ["yup.test", "decimal-places", "Maximum 2 decimal places",
     "value => value == null || Number.isInteger(value * 100)"]
 ]
 
-// Range validation (NumberInput JSON-only)
+
 "validationSchema": [
   ["yup.number"],
   ["yup.min", 0, "Value must be non-negative"],
@@ -491,7 +569,7 @@ See [Data Export Reference](data-export-reference.md) for comprehensive export d
   ```json
   {
     "component-name": "TemplatedStringField",
-    "template": "'{{identifier_field}}",  // Leading apostrophe
+    "template": "'{{identifier_field}}",
     "name": "excel_safe_id"
 }
 ```
@@ -651,7 +729,7 @@ Standard numeric data entry supporting floating-point values, null states, and c
 ❌ **NEVER: This component doesn't exist in codebase**
 ```json
 {
-  "component-name": "ControlledNumber"  // ERROR: Not a real component
+  "component-name": "ControlledNumber"
 }
 ```
 ✅ **ALWAYS: Use NumberField**
@@ -913,7 +991,7 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
 
 **Cannot use numeric operators**:
 ```json
-// ❌ WRONG - BasicAutoIncrementer returns string
+
 {
   "condition": {
     "operator": ">",
@@ -922,7 +1000,7 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
   }
 }
 
-// ✅ CORRECT - Use string operations
+
 {
   "condition": {
     "operator": "contains",
@@ -1159,27 +1237,27 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
 
 ❌ **Never: BasicAutoIncrementer for calculations**:
 ```json
-// WRONG - Returns string not number
+
 {
   "component-name": "BasicAutoIncrementer",
   "name": "count"
 }
-// Later: count + 1 // FAILS
+
 ```
 
 ❌ **Never: Unprotected BasicAutoIncrementer export**:
 ```json
-// WRONG - Excel will strip zeros
+
 {
   "component-name": "BasicAutoIncrementer",
   "name": "specimen_id"
 }
-// Export: "00042" → 42
+
 ```
 
 ❌ **Never: ControlledNumber for optional values**:
 ```json
-// WRONG - No null support
+
 {
   "component-name": "ControlledNumber",
   "name": "optional_measurement"
@@ -1257,11 +1335,11 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
 2. Update component configuration (keep name as "NumberField"):
    ```json
    {
-     "component-name": "NumberField", // Yes, still "NumberField"!
+     "component-name": "NumberField",
      "type": "faims-core::Number",
      "validationSchema": [
        ["yup.number"],
-       ["yup.nullable"] // Add explicit null handling
+       ["yup.nullable"]
      ]
    }
    ```
@@ -1307,8 +1385,8 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
 1. Document existing ID ranges and allocations
 2. Implement range allocation protocol:
    ```json
-   // Team A: 1000-1999
-   // Team B: 2000-2999
+
+
    {
      "start_at": 1000,
      "stop_at": 1999
@@ -1478,7 +1556,7 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
 ### Recommended Workarounds
 
 ```json
-// Thousands separator display
+
 {
   "component-name": "TextField",
   "component-parameters": {
@@ -1488,7 +1566,7 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
   }
 }
 
-// Currency with validation
+
 {
   "component-name": "TextField",
   "component-parameters": {
@@ -1498,7 +1576,7 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
   }
 }
 
-// Percentage with bounds
+
 {
   "component-name": "ControlledNumber",
   "component-parameters": {
@@ -1726,7 +1804,7 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 ### Safe Migrations (No Data Loss)
 - `SAFE` Deprecated Number Field → NumberInput when adding nullable validation
   ```json
-  // BEFORE (deprecated)
+
   {
     "component-namespace": "formik-material-ui",
     "component-name": "TextField",
@@ -1734,7 +1812,7 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
     "type-returned": "faims-core::Integer"
   }
   
-  // AFTER (recommended)
+
   {
     "component-name": "NumberField",
     "type": "faims-core::Number",
@@ -2003,98 +2081,98 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 ### NumberInput Patterns
 
 ```json
-// BASE PATTERN (all NumberInput variants start here)
+
 {
-  "component-name": "NumberField",  // ⚠️ NOT "NumberInput" despite Designer label!
+  "component-name": "NumberField",
   "type": "faims-core::Number",
   "name": "measurement",
   "label": "Measurement Value",
-  "initialValue": null,  // null for empty, not ""
+  "initialValue": null,
   "persistent": true,
   "required": false,
   "helperText": ""
 }
 
-// VARIANT: Required with validation
+
 + "required": true,
 + "validationSchema": [
-+   ["yup.number"],  // Type MUST come first
++   ["yup.number"],
 +   ["yup.required", "This measurement is required"],
 +   ["yup.min", 0, "Value cannot be negative"],
 +   ["yup.max", 100, "Value cannot exceed 100"]
 + ]
 
-// VARIANT: Nullable (allows empty without error)
+
 + "validationSchema": [
 +   ["yup.number"],
-+   ["yup.nullable"]  // Critical for optional fields
++   ["yup.nullable"]
 + ]
 
-// VARIANT: Decimal precision control
+
 + "validationSchema": [
 +   ["yup.number"],
 +   ["yup.test", "decimal-places", "Maximum 2 decimal places",
 +     "value => value == null || Number.isInteger(value * 100)"]
 + ]
 
-// VARIANT: Integer enforcement
+
 + "validationSchema": [
 +   ["yup.number"],
 +   ["yup.integer", "Whole numbers only"]
 + ]
 
-// VARIANT: Step validation for specific increments
+
 + "validationSchema": [
 +   ["yup.number"],
 +   ["yup.test", "step-validation", "Must be in increments of 0.25",
 +     "value => value == null || (value * 4) % 1 === 0"]
 + ]
 
-// VARIANT: Scientific notation range handling
+
 + "validationSchema": [
 +   ["yup.number"],
 +   ["yup.max", 1e10, "Value too large - exceeds system limits"],
 +   ["yup.min", 1e-10, "Value too small - exceeds precision"]
 + ]
 
-// VARIANT: Debounced validation for performance
+
 + "validationSchema": [
 +   ["yup.number"],
 +   ["yup.test", "debounced-check", "Complex validation",
 +     "debounce(async (value) => { return await validateComplexRules(value); }, 300)"]
 + ]
 
-// VARIANT: HTML5 constraints (browser-enforced)
+
 + "InputProps": {
 +   "type": "number",
 +   "inputProps": {
 +     "min": 0,
 +     "max": 100,
-+     "step": 0.01  // Increment buttons
++     "step": 0.01
 +   }
 + }
 
-// VARIANT: iOS-safe positive numbers only
+
 + "validationSchema": [
 +   ["yup.number"],
-+   ["yup.min", 0, "Must be positive"]  // Avoids iOS minus key issue
++   ["yup.min", 0, "Must be positive"]
 + ]
 
-// VARIANT: Graceful overflow handling
+
 + "validationSchema": [
 +   ["yup.number"],
 +   ["yup.test", "overflow-check", "Number too large",
 +     "value => value == null || (isFinite(value) && Math.abs(value) < 1e308)"]
 + ]
 
-// VARIANT: NaN prevention
+
 + "validationSchema": [
 +   ["yup.number"],
 +   ["yup.test", "nan-check", "Invalid number",
 +     "value => value == null || !isNaN(value)"]
 + ]
 
-// VARIANT: Required only when visible
+
 + "validationSchema": [
 +   ["yup.number"],
 +   ["yup.when", "$isVisible", {
@@ -2103,7 +2181,7 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 +   }]
 + ]
 
-// VARIANT: Range depends on another field
+
 + "validationSchema": [
 +   ["yup.number"],
 +   ["yup.when", "category", {
@@ -2116,33 +2194,33 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 
 #### NumberInput ANTI-PATTERNS ⚠️
 ```json
-// ❌ NEVER: Wrong component name
+
 {
-  "component-name": "NumberInput"  // Designer label != JSON name
-  // ERROR: "Component 'NumberInput' not found"
+  "component-name": "NumberInput"
+
 }
-// ✅ ALWAYS: Use correct JSON name
+
 {
   "component-name": "NumberField"
 }
 
-// ❌ NEVER: Empty string initial value
+
 {
-  "initialValue": ""  // Causes validation confusion
-  // ERROR: "Must be a number"
+  "initialValue": ""
+
 }
-// ✅ ALWAYS: Use null for empty
+
 {
   "initialValue": null
 }
 
-// ❌ NEVER: Using deprecated Number Field
+
 {
   "component-namespace": "formik-material-ui",
   "component-name": "TextField",
-  "type": "number"  // This is the OLD deprecated version
+  "type": "number"
 }
-// ✅ ALWAYS: Use NumberInput (as "NumberField")
+
 {
   "component-name": "NumberField",
   "type": "faims-core::Number"
@@ -2152,25 +2230,25 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 ### ControlledNumber Patterns
 
 ```json
-// BASE PATTERN (Designer-friendly bounded input)
+
 {
   "component-name": "ControlledNumber",
-  "type": "faims-core::Integer",  // ⚠️ Accepts decimals despite Integer!
+  "type": "faims-core::Integer",
   "name": "rating",
   "label": "Quality Rating",
-  "min": 1,  // Required for this field type
-  "max": 10,  // Required for this field type
-  "initialValue": 0,  // Always 0, not configurable
+  "min": 1,
+  "max": 10,
+  "initialValue": 0,
   "persistent": true
 }
 
-// VARIANT: With integer enforcement (fixes type mismatch)
+
 + "validationSchema": [
 +   ["yup.number"],
 +   ["yup.integer", "Please enter a whole number"]
 + ]
 
-// VARIANT: Percentage (0-100)
+
 {
   "component-name": "ControlledNumber",
   "type": "faims-core::Integer",
@@ -2179,16 +2257,16 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
   "min": 0,
   "max": 100,
   "helperText": "Enter percentage complete",
-  "initialValue": 0  // Note: Cannot be null
+  "initialValue": 0
 }
 
-// VARIANT: Survey scale with initial value fix
+
 {
   "component-name": "ControlledNumber",
   "name": "satisfaction",
   "label": "Satisfaction (1-5)",
-- "min": 1,  // Would cause initial validation error
-+ "min": 0,  // Accept default 0 to avoid error
+- "min": 1,
++ "min": 0,
   "max": 5,
   "helperText": "0 = Not answered, 1-5 = Rating scale"
 }
@@ -2196,27 +2274,27 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 
 #### ControlledNumber ANTI-PATTERNS ⚠️
 ```json
-// ❌ NEVER: Expecting null values
+
 {
   "component-name": "ControlledNumber",
-  "required": false  // Still can't be null!
-  // ERROR: Always has value 0, never null
+  "required": false
+
 }
-// ✅ ALWAYS: Use NumberInput if null needed
+
 {
   "component-name": "NumberField",
   "validationSchema": [["yup.number"], ["yup.nullable"]]
 }
 
-// ❌ NEVER: Initial value below minimum
+
 {
   "min": 1,
   "max": 10,
-  "initialValue": 0  // Immediate validation error!
+  "initialValue": 0
 }
-// ✅ ALWAYS: Ensure initial within bounds
+
 {
-  "min": 0,  // Or set appropriate initial
+  "min": 0,
   "max": 10
 }
 ```
@@ -2224,18 +2302,18 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 ### BasicAutoIncrementer Patterns
 
 ```json
-// BASE PATTERN (sequential string identifiers)
+
 {
   "component-name": "BasicAutoIncrementer",
-  "type": "faims-core::String",  // ⚠️ Returns STRING not number!
+  "type": "faims-core::String",
   "name": "specimen_seq",
-  "form_id": "specimen_registration",  // Links to specific sequence
-  "num_digits": 5,  // Zero-padding width
+  "form_id": "specimen_registration",
+  "num_digits": 5,
   "label": "Specimen Number",
   "persistent": true
 }
 
-// VARIANT: With TemplatedString wrapper (REQUIRED for Excel)
+
 {
   "fields": [
     {
@@ -2255,64 +2333,64 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
   ]
 }
 
-// VARIANT: Museum cataloging pattern
+
 {
   "component-name": "BasicAutoIncrementer",
   "name": "accession_seq",
   "form_id": "accessions",
-  "num_digits": 6,  // Allows up to 999,999
+  "num_digits": 6,
   "label": "Accession Sequence"
 }
 
-// DOCUMENTATION: Range allocation tracking
+
 {
   "_range_allocation": {
     "device_A": {"start": 1, "end": 999},
     "device_B": {"start": 1000, "end": 1999},
     "device_C": {"start": 2000, "end": 2999},
     "comment": "CRITICAL: Never overlap ranges",
-    "tracking_sheet": "https://docs.google.com/spreadsheets/d/xxx"
+    "tracking_sheet": "https:
   }
 }
 ```
 
 #### BasicAutoIncrementer ANTI-PATTERNS ⚠️
 ```json
-// ❌ NEVER: Using for calculations
+
 {
   "component-name": "BasicAutoIncrementer",
   "name": "count"
-  // Later: count + 1
-  // ERROR: "TypeError: Cannot perform arithmetic on string '00042'"
-}
-// ✅ ALWAYS: Use only for identifiers
-{
-  "component-name": "BasicAutoIncrementer",
-  "name": "specimen_id"  // String identifier only
+
+
 }
 
-// ❌ NEVER: Direct CSV export without protection
 {
   "component-name": "BasicAutoIncrementer",
-  "name": "id"  // Excel strips zeros: "00042" → 42
+  "name": "specimen_id"
 }
-// ✅ ALWAYS: Wrap in TemplatedString
+
+
+{
+  "component-name": "BasicAutoIncrementer",
+  "name": "id"
+}
+
 {
   "template": "PREFIX-{{auto_increment}}-SUFFIX"
 }
 
-// ❌ NEVER: Overlapping ranges across devices
-// Device A: 1-1000
-// Device B: 1-1000  // DUPLICATES!
-// ✅ ALWAYS: Non-overlapping ranges
-// Device A: 1-999
-// Device B: 1000-1999
+
+
+
+
+
+
 ```
 
 ### Platform-Specific Configurations
 
 ```json
-// iOS-Optimized (avoids minus key issue)
+
 {
   "component-name": "NumberField",
   "name": "positive_only",
@@ -2321,31 +2399,31 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
     ["yup.number"],
     ["yup.min", 0, "Distance cannot be negative"]
   ],
-  "helperText": "Positive values only"  // User expectation
+  "helperText": "Positive values only"
 }
 
-// Android-Specific (handles minus key confusion)
+
 {
   "component-name": "ControlledNumber",
   "min": 0,
   "max": 100,
-  "helperText": "0-100 only (ignore minus key)"  // Android shows minus even when min=0
+  "helperText": "0-100 only (ignore minus key)"
 }
 
-// Desktop-Optimized (leverages full keyboard)
+
 {
   "component-name": "NumberField",
   "InputProps": {
     "type": "number",
     "inputProps": {
-      "step": 0.001,  // Fine control with arrows
+      "step": 0.001,
       "min": -1000,
       "max": 1000
     }
   }
 }
 
-// Voice Input Configuration
+
 {
   "component-name": "NumberField",
   "helperText": "Say numbers like: 'fifteen point five' not 'fifteen and a half'"
@@ -2356,20 +2434,20 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 ### Performance Optimization Patterns
 
 ```json
-// PATTERN: Optimized for large forms (>50 fields)
+
 {
   "component-name": "NumberField",
   "validationSchema": [
     ["yup.number"],
     ["yup.lazy", "value => value ? yup.number().min(0) : yup.number()"]
   ]
-  // Lazy evaluation reduces initial load
+
 }
 
-// PATTERN: Pagination trigger for memory management
+
 {
   "form_config": {
-    "pagination_threshold": 500,  // Fields per page
+    "pagination_threshold": 500,
     "comment": "Forms with >1000 fields risk browser crash"
   }
 }
@@ -2378,29 +2456,29 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 ### Migration Patterns
 
 ```json
-// MIGRATION: From deprecated Number Field
+
 {
-  // OLD (deprecated)
+
   "component-namespace": "formik-material-ui",
   "component-name": "TextField",
   "type": "number",
   "type-returned": "faims-core::Integer"
 }
-// TO NEW (correct)
+
 {
   "component-name": "NumberField",
   "type": "faims-core::Number",
   "validationSchema": [
     ["yup.number"],
-    ["yup.nullable"]  // Add for proper null handling
+    ["yup.nullable"]
   ]
 }
 
-// MIGRATION: TextField to NumberInput
+
 {
-  // Check existing data first:
-  // grep -E '[^0-9.-]' field_values.txt
-  // If clean, migrate:
+
+
+
   "component-name": "NumberField",
   "validationSchema": [
     ["yup.number"],
@@ -2412,21 +2490,21 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 ### Excel/CSV Export Safety Patterns
 
 ```json
-// PATTERN: Excel-safe number export
+
 {
   "export_config": {
     "number_fields": {
-      "format": "text",  // Prevent Excel auto-formatting
-      "prefix": "'",     // Force text interpretation
+      "format": "text",
+      "prefix": "'",
       "comment": "Prevents scientific notation conversion"
     }
   }
 }
 
-// PATTERN: CSV with preserved precision
+
 {
   "component-name": "NumberField",
-  "export_formatter": "value => value?.toFixed(6)",  // Preserve 6 decimals
+  "export_formatter": "value => value?.toFixed(6)",
   "comment": "Prevents precision loss in export"
 }
 ```
@@ -2434,7 +2512,7 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 ### Integration Patterns (Fields Working Together)
 
 ```json
-// PATTERN: BasicAutoIncrementer + TemplatedString (ESSENTIAL)
+
 {
   "specimen_number": {
     "component-name": "BasicAutoIncrementer",
@@ -2449,7 +2527,7 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
   }
 }
 
-// PATTERN: Multiple numeric fields with calculations
+
 {
   "length_cm": {
     "component-name": "NumberField",
@@ -2462,15 +2540,15 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
     "label": "Width (cm)"
   },
   "area_display": {
-    "component-name": "TextField",  // Display only
+    "component-name": "TextField",
     "label": "Area (cm²)",
     "disabled": true,
     "helperText": "Calculated from length × width"
-    // Note: Actual calculation requires custom code
+
   }
 }
 
-// PATTERN: Conditional number fields
+
 {
   "has_measurement": {
     "component-name": "Checkbox",
@@ -2494,7 +2572,7 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
   }
 }
 
-// PATTERN: Archaeological recording suite
+
 {
   "find_number": {
     "component-name": "BasicAutoIncrementer",
@@ -2521,7 +2599,7 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
   }
 }
 
-// PATTERN: Complete excavation recording
+
 {
   "context_number": {
     "component-name": "BasicAutoIncrementer",
@@ -2556,14 +2634,14 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 ### Common Anti-Patterns Across All Number Fields ⚠️
 
 ```json
-// ❌ NEVER: Wrong validation order
+
 {
   "validationSchema": [
-    ["yup.required"],  // ERROR: Type must come first!
+    ["yup.required"],
     ["yup.number"]
   ]
 }
-// ✅ ALWAYS: Type first, then constraints
+
 {
   "validationSchema": [
     ["yup.number"],
@@ -2571,32 +2649,32 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
   ]
 }
 
-// ❌ NEVER: String operations on numbers
+
 {
   "component-name": "NumberField",
-  "initialValue": "0"  // String instead of number
-}
-// ✅ ALWAYS: Correct type
-{
-  "initialValue": 0  // Or null for empty
+  "initialValue": "0"
 }
 
-// ❌ NEVER: Arithmetic on BasicAutoIncrementer
 {
-  "next_value": "{{auto_increment + 1}}"  // STRING!
-  // ERROR: "NaN"
+  "initialValue": 0
 }
-// ✅ ALWAYS: Use for identifiers only
+
+
+{
+  "next_value": "{{auto_increment + 1}}"
+
+}
+
 {
   "display_id": "NEXT-{{auto_increment}}"
 }
 
-// ❌ NEVER: Precision beyond limits
+
 {
   "validationSchema": [
     ["yup.number"],
     ["yup.test", "precision", "Must have 20 decimal places"]
-    // JavaScript limited to ~15-17 digits!
+
   ]
 }
 ```
@@ -2604,7 +2682,7 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 ### Error Message Quick Reference
 
 ```json
-// Common errors and their meanings:
+
 {
   "Component 'NumberInput' not found": "Use 'NumberField' in JSON despite Designer label",
   "Must be a number": "Empty field needs nullable() validation or has wrong type",
@@ -2879,3 +2957,23 @@ Anti-patterns have been distributed to their respective field sections for bette
 ---
 
 *Enhanced documentation with 100% content restoration from original field documentation*
+---
+
+## Related Documentation
+<!-- concat:references -->
+
+### Within Field Categories
+- **Previous**: [Date & Time Fields](./datetime-fields-v05.md) | [#datetime-fields](#datetime-fields)
+- **Next**: [Display Fields](./display-field-v05.md) | [#display-fields](#display-fields)
+
+### Cross-Field Patterns
+- **Field Selection**: [Number Field Selection Guidance](../patterns/field-selection-guide.md#number-fields) | [#field-selection](#field-selection)
+- **Validation**: [Number Validation](../detail-crossfield-docs/validation.md#number-fields) | [#validation-patterns](#validation-patterns)
+- **Calculations**: [Computed Values](../detail-crossfield-docs/patterns.md#calculations) | [#common-patterns](#common-patterns)
+
+### Technical References
+- **Designer Limitations**: [Number Constraints](../reference-docs/designer-limitations-reference.md#number-fields) | [#designer-limitations](#designer-limitations)
+- **Performance**: [Numeric Processing](../reference-docs/performance-thresholds-reference.md#number-fields) | [#performance-thresholds](#performance-thresholds)
+
+<!-- /concat:references -->
+<!-- concat:boundary:end section="number-fields" -->

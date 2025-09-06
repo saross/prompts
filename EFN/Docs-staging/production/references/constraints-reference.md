@@ -17,21 +17,22 @@ Understanding these constraints is essential for successful and secure notebook 
 
 ### Testing & Preview Constraints
 
-#### Cannot Test Before Deployment
+#### Limited Designer Preview
 - **Field appearance**: No preview of how fields will render on different platforms
 - **Conditional logic**: Conditions must be tested in deployed notebooks, not Designer preview
 - **Validation behavior**: Cannot verify validation schemas work as intended
 - **Mobile usability**: No way to test touch interactions or mobile-specific behaviors
 - **Export formats**: Cannot preview CSV/JSON export behavior with sample data
 
-#### Testing Workflow Impact
-1. Make changes in Designer
-2. Deploy to test server
-3. Test on actual devices
-4. Return to Designer for corrections
-5. Repeat deployment cycle
+#### Effective Testing Workflow
+While the Designer lacks built-in preview, a practical workflow exists:
+1. Keep Designer open in one browser tab
+2. Keep web application open in another tab for testing
+3. Make changes in Designer and deploy
+4. Test immediately in web app (updates are rapid)
+5. Iterate quickly between tabs
 
-This iterative process significantly impacts development time, especially for complex forms with conditional logic or platform-specific requirements.
+This dual-tab workflow provides near-real-time testing capability, though it requires deployment to see changes rather than in-Designer preview.
 
 ### Validation Customization Constraints
 
@@ -57,10 +58,12 @@ These require JSON editing with custom Yup schemas.
 
 #### No Performance Indicators
 Designer provides no warnings when configurations will cause issues:
-- **Option count limits**: No warning when Select/RadioGroup exceeds 20 options (causes lag with markdown processing)
-- **Character limits**: No indication when text fields approach performance thresholds
+- **Option count limits**: No warning when Select/RadioGroup exceeds 20 options (may cause lag with markdown processing)*
+- **Character limits**: No indication when text fields approach performance thresholds*
 - **Memory usage**: No warnings about large file uploads or image captures
-- **Render complexity**: No indication when forms become too complex for mobile devices (~100 fields recommended limit)
+- **Render complexity**: No indication when forms become too complex for mobile devices (~100 fields recommended limit)*
+
+*Note: All performance thresholds are estimated/extrapolated from code analysis and represent approximate guidelines only. Real-world feedback is welcomed to improve accuracy of these thresholds.
 
 #### Missing Accessibility Warnings
 - No WCAG compliance indicators
@@ -71,17 +74,18 @@ Designer provides no warnings when configurations will cause issues:
 
 #### Platform-Specific Issues Not Flagged
 - QRCodeFormField required on web (will block form submission)
-- Address field initialization errors
 - Browser-specific validation conflicts
 - Mobile keyboard behavior issues
 
 ### Field Management Restrictions
 
 #### Type Conversion Limitations
-- **Cannot convert between field types**: Must delete and recreate
-  - Example: Cannot change RadioGroup to Select
-  - Example: Cannot convert TextField to MultipleTextField
-  - Data migration must be handled externally
+- **Cannot convert between field types in Designer**: Must delete and recreate in Designer interface
+  - Example: Cannot change RadioGroup to Select in Designer
+  - Example: Cannot convert TextField to MultipleTextField in Designer
+  - JSON editing may allow type changes but requires careful data migration
+  - Some conversions (e.g., TextField to MultipleTextField) may preserve data
+  - Always backup data before attempting field type changes
 
 #### Bulk Operations Not Supported
 - Cannot edit multiple fields simultaneously

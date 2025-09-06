@@ -558,12 +558,12 @@ All selection fields require predefined option lists configured at design time. 
 **Required Configuration Elements**:
 ```json
 {
-  "component-namespace": "faims-custom",  // Always this namespace
-  "component-name": "Select",             // Exact case-sensitive name (Checkbox/MultiSelect/RadioGroup/Select/AdvancedSelect)
-  "type-returned": "faims-core::String",  // Type varies: Boolean/String/Array
+  "component-namespace": "faims-custom",
+  "component-name": "Select",
+  "type-returned": "faims-core::String",
   "component-parameters": {
-    "name": "field-name",                  // Must be unique in form
-    "label": "Field Label"                 // User-visible label
+    "name": "field-name",
+    "label": "Field Label"
   }
 }
 ```
@@ -585,9 +585,9 @@ All selection fields require predefined option lists configured at design time. 
 **Universal Validation Schema Structure**:
 ```json
 "validationSchema": [
-  ["yup.string"],                    // Base type validation (yup.bool for Checkbox, yup.array for MultiSelect)
-  ["yup.required", "Error message"], // Optional required validation
-  // Additional validators vary by field type
+  ["yup.string"],
+  ["yup.required", "Error message"],
+
 ]
 ```
 
@@ -1105,19 +1105,19 @@ The Checkbox field provides binary state capture through a Material-UI checkbox 
 ### JSON Anti-patterns
 
 ```json
-// ❌ Don't use required for "must be checked"
-"validationSchema": [["yup.required"]]  // Allows false
 
-// ✅ Correct for must be checked
+"validationSchema": [["yup.required"]]
+
+
 "validationSchema": [["yup.oneOf", [true], "Must accept"]]
 
-// ❌ Don't set initial value in Designer
-// Designer always overwrites to false
 
-// ❌ Don't expect label to be clickable
+
+
+
 "helperText": "Click the label to select"
 
-// ✅ Correct user guidance
+
 "helperText": "Click the checkbox (not the label) to select"
 ```
 
@@ -1389,29 +1389,29 @@ The MultiSelect field enables multiple value selection from predefined option li
 ### JSON Anti-patterns
 
 ```json
-// ❌ Don't use yup.required for "at least one selection"
-"validationSchema": [["yup.required"]]  // Accepts empty array
 
-// ✅ Correct for required multi-selection
+"validationSchema": [["yup.required"]]
+
+
 "validationSchema": [["yup.min", 1, "Select at least one"]]
 
-// ❌ Don't use commas in option values
-{"value": "pottery, ceramics", "label": "Pottery, ceramics"}  // Breaks CSV
 
-// ✅ Use alternative separators
+{"value": "pottery, ceramics", "label": "Pottery, ceramics"}
+
+
 {"value": "pottery and ceramics", "label": "Pottery and ceramics"}
 
-// ❌ Don't set initialValue to string
-"initialValue": ""  // Must be array
 
-// ✅ Correct initial value
+"initialValue": ""
+
+
 "initialValue": []
 
-// ❌ Don't expect performance with many options
-"options": [...100_options]  // Will lag severely
 
-// ✅ Limit options for performance
-"options": [...15_options]  // Optimal
+"options": [...100_options]
+
+
+"options": [...15_options]
 ```
 
 ### Common Spec Mappings
@@ -1689,19 +1689,19 @@ The RadioGroup field provides single selection from 2–10 mutually exclusive op
 ### JSON Anti-patterns
 
 ```json
-// ❌ Don't expect error messages to display
+
 "validationSchema": [["yup.required", "This message won't show"]]
 
-// ❌ Don't rely on deselection feature
-"helperText": "Click again to deselect"  // Broken on keyboard
 
-// ❌ Don't use for accessibility-required applications
-// RadioGroup fails WCAG compliance
+"helperText": "Click again to deselect"
 
-// ❌ Don't use with many options
-"options": [...20_options]  // Severe performance issues
 
-// ✅ Migrate to Select instead
+
+
+
+"options": [...20_options]
+
+
 "component-name": "Select"
 "ElementProps": {
   "options": [
@@ -1971,22 +1971,22 @@ The Select field provides single-choice selection from a dropdown list, offering
 ### JSON Anti-patterns
 
 ```json
-// ❌ Don't use different values and labels in JSON
-{"value": "001", "label": "Archaeological Site"}  // Exports only "001"
 
-// ✅ Use Designer enforced value = label
+{"value": "001", "label": "Archaeological Site"}
+
+
 {"value": "Archaeological Site", "label": "Archaeological Site"}
 
-// ❌ Don't expect error messages to display
+
 "validationSchema": [["yup.required", "This message won't show"]]
 
-// ❌ Don't omit empty option for clearable fields
+
 "options": [
   {"value": "option1", "label": "Option 1"}
-  // Missing empty option
+
 ]
 
-// ✅ Include empty option when null state valid
+
 "options": [
   {"value": "", "label": "-- Select --"},
   {"value": "option1", "label": "Option 1"}
@@ -2354,22 +2354,22 @@ interface TreeNode {
 ### JSON Anti-patterns
 
 ```json
-// ❌ Don't expect selection clearing capability
-"helperText": "Click to deselect"  // Not possible
 
-// ❌ Don't use on mobile without workarounds
-// Fixed width will break mobile layouts
+"helperText": "Click to deselect"
 
-// ❌ Don't use large hierarchies
-"optiontree": [...500_nodes]  // Will crash or freeze
 
-// ❌ Don't expect error messages
+
+
+
+"optiontree": [...500_nodes]
+
+
 "validationSchema": [["yup.required", "Won't display"]]
 
-// ❌ Don't use " > " in node names
-"name": "Level > Sublevel"  // Breaks path parsing
 
-// ✅ Use alternative approaches for production
+"name": "Level > Sublevel"
+
+
 "component-name": "Select",
 "ElementProps": {
   "options": [
@@ -2791,9 +2791,9 @@ Current Field Type?
 
 2. **Update JSON configuration**
    ```json
-   // From:
+
    "component-name": "RadioGroup"
-   // To:
+
    "component-name": "Select"
    ```
 
@@ -2812,7 +2812,7 @@ Current Field Type?
 
 1. **Map checkbox fields to options**
    ```json
-   // Individual checkboxes become options
+
    {"label": "Option 1", "value": "opt1"}
    ```
 
@@ -3148,19 +3148,19 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 
 #### ❌ Wrong Namespace
 ```json
-// WRONG
+
 "component-namespace": "formik-material-ui"
-// CORRECT
+
 "component-namespace": "faims-custom"
 ```
 
 #### ❌ Dynamic Options
 ```json
-// WRONG - Cannot fetch dynamically
+
 "ElementProps": {
   "optionsUrl": "/api/options"
 }
-// CORRECT - Predefine options
+
 "ElementProps": {
   "options": [...]
 }
@@ -3168,12 +3168,12 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 
 #### ❌ Missing Empty Option
 ```json
-// WRONG - No way to deselect
+
 "options": [
   {"label": "Yes", "value": "yes"},
   {"label": "No", "value": "no"}
 ]
-// CORRECT - Include empty
+
 "options": [
   {"label": "-- Select --", "value": ""},
   {"label": "Yes", "value": "yes"},
@@ -3183,10 +3183,10 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 
 #### ❌ Wrong Data Types
 ```json
-// WRONG - MultiSelect with string
+
 "component-name": "MultiSelect",
 "initialValue": ""
-// CORRECT - MultiSelect with array
+
 "component-name": "MultiSelect",
 "initialValue": []
 ```
