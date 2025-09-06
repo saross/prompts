@@ -16,7 +16,7 @@ source_documents:
 
 ## Overview
 
-This comprehensive reference consolidates all platform-specific technical details for Fieldmark v3, including behaviors across iOS, Android, Web Desktop, and Web Mobile platforms, performance thresholds, accessibility standards, and platform-specific troubleshooting. All performance thresholds are estimates based on empirical observations and should be tested with your specific hardware and use cases.
+This comprehensive reference consolidates all platform-specific technical details for Fieldmark v3, including behaviors across iOS, Android, Web Desktop, and Web Mobile platforms, performance thresholds, accessibility standards, and platform-specific troubleshooting. All performance thresholds are estimates based on empirical observations and code analysis - they are advisory only and should be tested with your specific hardware and use cases. We welcome performance feedback to improve these estimates.
 
 ## Platform Characteristics Summary {#platform-summary}
 
@@ -24,12 +24,12 @@ This comprehensive reference consolidates all platform-specific technical detail
 |----------|-------------|--------------|-------------------|
 | iOS | Moderate | Native WebView | Memory limits, permission cascades |
 | Android | Variable | Chrome WebView | Device fragmentation, background restrictions |
-| Web Desktop | Fast | Browser native | Network latency, no offline |
-| Web Mobile | Slow | Mobile browser | Limited memory, touch UI |
+| Web Desktop | Fast | Browser native | Full offline support via PouchDB |
+| Web Mobile | Slow | Mobile browser | Limited memory, touch UI, offline via PouchDB |
 
 ### Relative Performance Scaling
 
-**Note**: These are approximate performance ratios based on empirical testing. Actual performance varies significantly by device.
+**Note**: These are approximate performance ratios based on empirical testing and code analysis. They are advisory estimates only - actual performance varies significantly by device. We welcome performance feedback to refine these estimates.
 
 ```
 Relative Performance (normalized to Web Desktop = 1.0):
@@ -173,11 +173,13 @@ Runtime Permission Model:
 - No battery considerations
 - Multiple concurrent operations
 
-### Limitations
+### Capabilities & Limitations
+- **Offline Support**: Full offline capability via PouchDB (same as mobile)
+- **Sync**: Opportunistic sync when network available
+- **Fallback Option**: Users often use web on tablets/laptops when app fails
 - No native GPS (IP/WiFi geolocation only)
 - No camera access without HTTPS
 - Local storage varies by browser
-- No offline without service worker
 - Print formatting inconsistent
 
 ## Web Mobile Platform {#web-mobile}
@@ -206,7 +208,7 @@ Runtime Permission Model:
 
 ### Important Disclaimer
 
-**These thresholds are ESTIMATES based on empirical observations, not guaranteed limits.** Performance varies significantly based on:
+**These thresholds are ESTIMATES based on empirical observations and code analysis - they are advisory only, not guaranteed limits.** Performance varies significantly based on:
 - Device specifications (CPU, RAM, storage)
 - Browser type and version
 - Network conditions
@@ -220,7 +222,7 @@ Runtime Permission Model:
 
 #### Per Form/Page Limits
 
-**Note**: These are conservative estimates. Your specific hardware may support more or fewer fields.
+**Note**: These are conservative estimates extrapolated from code analysis and testing. Your specific hardware may support more or fewer fields. We welcome performance feedback to improve these advisory thresholds.
 
 | Field Count | Performance Impact | User Experience | Recommendation |
 |-------------|-------------------|-----------------|----------------|
@@ -349,6 +351,8 @@ Runtime Permission Model:
 ```
 
 ### WCAG 2.1 Compliance Status
+
+**Note**: Improved adherence to accessibility standards is on our roadmap but not fully implemented. Current status reflects known gaps that are being addressed.
 
 #### Level A Compliance
 
@@ -685,6 +689,6 @@ console.timeEnd('Operation');
 - **Performance Data**: Based on empirical testing
 - **Accessibility Standards**: WCAG 2.1 Level AA target
 
-**Important**: All performance thresholds are estimates. Always test with your actual devices and data.
+**Important**: All performance thresholds are estimates based on code analysis and empirical testing - they are advisory only. Always test with your actual devices and data. We welcome performance feedback to refine these estimates.
 
 <!-- concat:boundary:end section="platform-reference" -->
