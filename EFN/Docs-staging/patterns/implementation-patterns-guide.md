@@ -158,7 +158,7 @@ This guide consolidates implementation patterns, troubleshooting strategies, and
 
 ### Pattern: Performance-Optimized Forms {#performance-optimization}
 
-**Challenge**: Forms degrade beyond 50-100 fields per section.
+**Challenge**: Forms may experience performance degradation with many fields per section (estimated ~50-100 based on code analysis).
 
 **Solution**: Strategic form splitting:
 
@@ -185,21 +185,23 @@ This guide consolidates implementation patterns, troubleshooting strategies, and
 
 ### Field-Specific Performance Boundaries {#performance-limits}
 
-| Field Type | Comfortable | Degraded | Unusable | Hard Limit |
-|------------|------------|----------|----------|------------|
-| Relationships | 50 | 100 | 200 | None |
-| Select/MultiSelect | 50 | 100 | 200 | None |
-| AdvancedSelect | 100 | 500 | 1000 | None |
-| TakePhoto | 5 | 10 | 20 | 20 (enforced) |
-| Fields per section | 30 | 50 | 100 | None |
-| Conditional fields | 10 | 20 | 30 | None |
+**Important**: These are approximate thresholds extrapolated from code analysis. Actual performance depends heavily on device capabilities, browser, network conditions, and specific use cases. Test with your actual data and devices.
+
+| Field Type | Estimated Good Performance | Possible Degradation | Likely Issues | Hard Limit |
+|------------|---------------------------|---------------------|---------------|------------|
+| Relationships | <50 | ~50-100 | >100 | None |
+| Select/MultiSelect | <50 | ~50-100 | >100 | None |
+| AdvancedSelect | <100 | ~100-500 | >500 | None |
+| TakePhoto | <5 | ~5-10 | >10 | 20 (enforced) |
+| Fields per section | <30 | ~30-50 | >50 | None |
+| Conditional fields | <10 | ~10-20 | >20 | None |
 
 ### Optimization Strategies
 
 1. **Split large forms**: Multiple smaller forms vs one large form
 2. **Use conditional sections**: Hide irrelevant fields
 3. **Separate media**: Dedicated forms for photos/files
-4. **Limit options**: <100 items in selection fields
+4. **Limit options**: Aim for reasonable numbers in selection fields
 5. **Avoid deep nesting**: Maximum 3-4 hierarchy levels
 
 ## Troubleshooting Framework
@@ -532,7 +534,7 @@ async function writeData(doc) {
 
 ### DON'T:
 ❌ Change field types after deployment  
-❌ Exceed 50 fields per section  
+❌ Add excessive fields per section without testing performance  
 ❌ Use complex fields in conditions directly  
 ❌ Ignore platform differences  
 ❌ Skip validation on API writes  
@@ -541,11 +543,11 @@ async function writeData(doc) {
 
 ## Common Anti-Patterns to Avoid
 
-1. **Monolithic forms**: Single form with 200+ fields
+1. **Monolithic forms**: Single form with excessive fields
 2. **Uncoordinated auto-increment**: Duplicate IDs across devices
 3. **Type mismatches**: String fields for numbers
 4. **Deep hierarchies**: More than 4 levels
-5. **Ignored performance limits**: 100+ relationships
+5. **Ignored performance testing**: Excessive relationships without testing
 6. **No error handling**: Silent failures
 7. **Platform assumptions**: Desktop-only testing
 

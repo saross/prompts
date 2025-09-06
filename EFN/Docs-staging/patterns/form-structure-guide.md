@@ -32,10 +32,10 @@ This architecture scales from simple single-form checklists to sophisticated mul
 ### Critical Architecture Decisions
 
 - **No virtualization**: All fields render simultaneously without windowing
-- **Performance boundary**: ~50-100 fields per section before noticeable degradation
+- **Performance considerations**: Estimated ~50-100 fields per section may cause degradation (approximate guideline)
 - **Global namespace**: Field IDs must be globally unique across entire notebook
 - **No navigation blocking**: Users can navigate freely regardless of validation errors
-- **Automatic persistence**: Draft saves every 10 seconds (future: direct to production)
+- **Automatic persistence**: Draft saves every 10 seconds
 - **Decoupled sync**: Background synchronization never blocks navigation
 
 ## Navigation Strategies
@@ -280,18 +280,14 @@ xl: > 1200px    // Large desktop
 
 ### Save and Navigation Flow {#data-flow}
 
-**Current Two-Database System**:
+**Current System**:
 ```
 User Input → Field onChange → Formik State → 10 Second Timer → Draft DB
 User Navigates → Force Save → Draft DB
 User Clicks "Finish and..." → Production DB → Delete from Draft
 ```
 
-**Future Single-Database System**:
-```
-User Input → Field onChange → Formik State → Immediate Save → Production DB
-All changes create new revisions → Full history preserved
-```
+Note: A future roadmap item includes eliminating the draft database to simplify the data flow.
 
 ### Navigation State Management
 
@@ -320,13 +316,15 @@ state = {
 
 ### Performance Characteristics by Structure {#performance}
 
-| Structure Pattern | Field Limit | Performance | Use Case |
-|------------------|-------------|-------------|-----------|
-| Single section inline | 50 fields | Excellent | Quick surveys |
-| Multi-section inline | 100 total | Good | Linear workflows |
-| Tabs with 3-5 sections | 30/section | Very Good | Standard forms |
-| Tabs with 6-10 sections | 20/section | Good | Complex recording |
-| Deep hierarchies (4+ levels) | 15/section | Fair | Detailed documentation |
+**Note**: These are approximate guidelines based on code analysis. Actual performance varies by device, browser, and specific field types. Test with your specific use case.
+
+| Structure Pattern | Estimated Field Threshold | Expected Performance | Use Case |
+|------------------|---------------------------|---------------------|-----------|
+| Single section inline | ~50 fields | Good | Quick surveys |
+| Multi-section inline | ~100 total | Acceptable | Linear workflows |
+| Tabs with 3-5 sections | ~30/section | Good | Standard forms |
+| Tabs with 6-10 sections | ~20/section | Acceptable | Complex recording |
+| Deep hierarchies (4+ levels) | Fewer fields recommended | Variable | Detailed documentation |
 
 ### Optimization Strategies
 
@@ -549,18 +547,14 @@ Navigation is never blocked by validation errors:
 
 ## Migration Notes
 
-### Current System Issues
-- Draft database causes data loss
-- Two-database complexity
-- Navigation state not persisted
-- No deep linking to sections
+### Current System Considerations
+- Draft database requires "Finish and..." to save to production
+- Two-database architecture
+- Navigation state not persisted across sessions
+- No deep linking to specific sections
 
-### Planned Improvements
-- Single production database (no drafts)
-- Persistent navigation state
-- Deep linking support
-- Lazy loading for sections
-- Better mobile optimization
+### Potential Future Improvements
+Various improvements are being considered for the roadmap, including navigation persistence, deep linking support, and architecture simplifications.
 
 ## Related Documentation
 

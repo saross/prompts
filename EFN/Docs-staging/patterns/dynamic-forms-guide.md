@@ -76,12 +76,14 @@ graph TD
 
 ### Performance Characteristics
 
-| Fields | Validation Time | UI Impact | Recommendation |
-|--------|----------------|-----------|----------------|
-| 10 | ~5-10ms | Imperceptible | No issues |
-| 50 | ~25-50ms | Slight lag | Consider optimization |
-| 100 | ~50-100ms | Noticeable lag | Split form or add debouncing |
-| 200+ | ~200ms+ | Severe lag | Requires architectural changes |
+**Note**: These are estimated thresholds based on code analysis. Actual performance varies significantly by device, browser, and field complexity.
+
+| Fields | Estimated Validation Time | Potential UI Impact | Recommendation |
+|--------|---------------------------|-------------------|----------------|
+| ~10 | Minimal | Imperceptible | No issues expected |
+| ~50 | Increasing | May notice slight lag | Consider optimization |
+| ~100 | Noticeable | Possible lag | Consider splitting form or debouncing |
+| 200+ | Significant | Likely performance issues | Architectural changes recommended |
 
 ## Field-Specific Validation
 
@@ -470,12 +472,14 @@ const showPublishButton =
 
 ### Condition Performance Boundaries {#performance}
 
-| Complexity | Safe Limit | Notes |
-|------------|------------|-------|
-| Simple conditions | 100-200 per form | Minimal impact |
-| Complex nested conditions | 20-30 per form | Noticeable at higher counts |
+**Note**: These are rough estimates from code analysis. Your experience may vary based on specific conditions and hardware.
+
+| Complexity | Estimated Threshold | Notes |
+|------------|-------------------|-------|
+| Simple conditions | Many (e.g., 100-200) | Generally minimal impact |
+| Complex nested conditions | ~20-30 per form | May become noticeable |
 | Controller fields | ~50 | Each triggers re-evaluation |
-| Nesting depth | ~10 levels | Tested to 20+ but degrades |
+| Nesting depth | ~10 levels | Deep nesting may degrade performance |
 
 ### Optimization Strategies
 
