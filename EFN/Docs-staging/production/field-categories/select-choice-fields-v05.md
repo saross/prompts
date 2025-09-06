@@ -625,14 +625,14 @@ See [Validation Timing Reference](validation-timing-reference.md) for complete u
 
 ### Security Considerations {important}
 
-See [Security Considerations Reference](security-considerations-reference.md) for comprehensive security guidelines, validation strategies, and attack mitigation.
+See [Security Considerations Reference](../references/constraints-reference.md#field-specific-security-considerations) for comprehensive security guidelines.
 
-**Selection Field-Specific Security Issues**:
-- **Option validation gap**: No server-side validation that submitted values match defined options
-- **CSV injection**: MultiSelect option values with formulas (=SUM) execute in Excel
-- **Markdown XSS vectors**: RadioGroup markdown processing creates additional attack surface
-- **AdvancedSelect path traversal**: Node names with " > " delimiter corrupt hierarchy
-- **Conditional bypass**: Client can disable conditional logic to submit invalid data
+**Selection Field-Specific Security Notes**:
+- No server-side validation that submitted values match defined options
+- CSV formula injection risk when option values contain =, +, -, @
+- RadioGroup markdown processing creates XSS attack surface
+- AdvancedSelect delimiter injection with " > " corrupts hierarchy
+- Conditional logic easily bypassed via browser DevTools
 
 ### Performance Boundaries {important}
 

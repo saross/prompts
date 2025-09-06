@@ -43,14 +43,11 @@
   - Total needed: ~60-80 examples across all docs
 
 ### Security Documentation
-- [ ] **Add Critical Security Risks sections**
-  - Files needing updates:
-    - text-fields-v05.md
-    - number-fields-v05.md
-    - datetime-fields-v05.md
-    - select-choice-fields-v05.md
-  - Format: `### ⚠️ SECURITY: [Specific Risk]`
-  - Include: Affected fields, risk description, mitigation
+- [x] **Standardized security sections across all 8 field docs** ✅ COMPLETED 2025-01-06
+  - Moved detailed security content to constraints-reference.md
+  - All field docs now have consistent brief security notes (5 bullets)
+  - Proper reference links to centralized security documentation
+  - No duplication of general security content
 
 ### Platform-Specific Details
 - [ ] **Expand platform behaviors**
@@ -93,6 +90,29 @@
   - Move to reference guides if universal
   - Priority: Low
 
+## Maintenance Plan (from architecture plan)
+
+### Regular Updates
+- [ ] **Monthly review of Designer limitations**
+  - Check for new Designer features/fixes
+  - Update constraints-reference.md accordingly
+  - Priority: Low (schedule-based)
+
+- [ ] **Quarterly update of migration strategies**
+  - Review migration patterns for effectiveness
+  - Add new migration scenarios as discovered
+  - Priority: Low (schedule-based)
+
+- [ ] **Security advisories as needed**
+  - Monitor for new security issues
+  - Update security sections immediately when found
+  - Priority: High (when applicable)
+
+- [ ] **Performance threshold adjustments**
+  - Update based on real-world metrics
+  - Note: All current thresholds are estimated/extrapolated
+  - Priority: Medium (when data available)
+
 ## Optional Tasks
 
 ### Performance Metrics
@@ -112,13 +132,28 @@
 
 ## Completed Major Milestones
 
-### 2025-01-06 Session
+### Unified Documentation Architecture Plan (Phases 1-4)
+- ✅ Phase 1: Navigation Infrastructure (master index, headers/footers)
+- ✅ Phase 2: Field Document Standardization (component mapping, cross-references)
+- ✅ Phase 3: Cross-Field Document Integration (4 pattern guides created)
+- ✅ Phase 4: Reference Document Consolidation (4 reference guides created)
+- Note: All structural phases complete - remaining work is content enhancement
+
+### 2025-01-06 Session (Morning)
 - ✅ Phase 3B consolidation completed (4 reference guides)
 - ✅ All production docs moved to `/production/` folder
-- ✅ Archive organized with comprehensive manifest
+- ✅ Archive organized with comprehensive manifest (78 files documented)
 - ✅ JSON cleanup: 429 inline comments removed from OLD format docs
 - ✅ All JSON examples now executable
 - ✅ Technical validation against FAIMS3 codebase complete
+
+### 2025-01-06 Session (Afternoon)
+- ✅ Security sections standardized across all 8 field docs
+- ✅ Security concerns contextualized (privacy vs security, features vs bugs)
+- ✅ Constraints-reference.md updated with nuanced explanations
+- ✅ Archive MANIFEST and README updated (78 files catalogued)
+- ✅ Production MANIFEST and README created
+- ✅ Reference.md regenerated (24,407 lines, 868KB)
 
 ## Notes
 

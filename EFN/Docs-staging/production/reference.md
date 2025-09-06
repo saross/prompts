@@ -692,13 +692,14 @@ See [Component Namespace Reference](component-namespace-reference.md) for comple
 
 ### Security Considerations {important}
 
-See [Security Considerations Reference](security-considerations-reference.md) for detailed security analysis, XSS prevention, and SQL injection mitigation.
+See [Security Considerations Reference](../references/constraints-reference.md#field-specific-security-considerations) for comprehensive security guidelines.
 
-**Text Field-Specific Security Requirements**:
-- **TemplatedString**: HTML escaping disabled - critical XSS risk with user input
-- **QRCodeFormField**: No content validation - verify scanned data server-side
-- **RichText**: DOMPurify sanitization present but never trust with user content
-- **All fields**: Implement server-side validation and sanitization
+**Text Field-Specific Security Notes**:
+- TemplatedString HTML escaping disabled - critical XSS risk
+- QRCode scanner accepts any content without validation
+- Address fields vulnerable to JSON injection attacks
+- No server-side validation or sanitization by default
+- Client-side validation easily bypassed via DevTools
 
 ### Performance Boundaries {important}
 
@@ -908,13 +909,13 @@ For solutions, see [Troubleshooting Guide > Quick Fixes Table]
 ```json
 {
   "component-name": "TextField",
-  "initialValue": null  // ERROR: "Cannot read property 'length' of null"
+  "initialValue": null  
 }
 ```
 ✅ **ALWAYS: Use empty string for text fields**
 ```json
 {
-  "initialValue": ""  // Correct for all string-type fields
+  "initialValue": ""
 }
 ```
 
@@ -922,7 +923,7 @@ For solutions, see [Troubleshooting Guide > Quick Fixes Table]
 ```json
 {
   "validationSchema": [
-    ["yup.required", "Required"],  // ERROR: "yup.required is not a function"
+    ["yup.required", "Required"],
     ["yup.string"]
   ]
 }
@@ -931,8 +932,8 @@ For solutions, see [Troubleshooting Guide > Quick Fixes Table]
 ```json
 {
   "validationSchema": [
-    ["yup.string"],  // Type first
-    ["yup.required", "Required"]  // Then constraints
+    ["yup.string"],
+    ["yup.required", "Required"]
   ]
 }
 ```
@@ -941,25 +942,25 @@ For solutions, see [Troubleshooting Guide > Quick Fixes Table]
 ```json
 {
   "component-namespace": "faims-custom",
-  "component-name": "TextField"  // ERROR: Component not found
+  "component-name": "TextField"
 }
 ```
 ✅ **ALWAYS: Match namespace to component**
 ```json
-// Option 1: FAIMS enhanced text field
+
 {
   "component-namespace": "faims-custom",
-  "component-name": "FAIMSTextField"  // Enhanced version
+  "component-name": "FAIMSTextField"
 }
-// Option 2: Formik TextField (for Email or basic text)
+
 {
   "component-namespace": "formik-material-ui",
-  "component-name": "TextField"  // Standard version
+  "component-name": "TextField"
 }
-// Option 3: Core MUI (rarely needed)
+
 {
   "component-namespace": "core-material-ui",
-  "component-name": "TextField"  // Basic MUI component
+  "component-name": "TextField"
 }
 ```
 
@@ -1030,7 +1031,7 @@ Extended text entry for narrative content, detailed observations, and interpreta
 ❌ **NEVER: Wrong component name**
 ```json
 {
-  "component-name": "MultilineTextField",  // ERROR: Component doesn't exist
+  "component-name": "MultilineTextField",
   "component-parameters": {
     "multiline": true
   }
@@ -1039,13 +1040,13 @@ Extended text entry for narrative content, detailed observations, and interpreta
 ❌ **NEVER: Use "MultilineText" as component name**
 ```json
 {
-  "component-name": "MultilineText",  // ERROR: Not the actual component name
+  "component-name": "MultilineText",
 }
 ```
 ✅ **ALWAYS: Use MultipleTextField**
 ```json
 {
-  "component-name": "MultipleTextField",  // Correct component name
+  "component-name": "MultipleTextField",
   "component-parameters": {
     "multiline": true,
     "InputProps": {"rows": 4}
@@ -1058,7 +1059,7 @@ Extended text entry for narrative content, detailed observations, and interpreta
 {
   "component-name": "MultipleTextField",
   "component-parameters": {
-    "rows": 4  // ERROR: rows alone doesn't work
+    "rows": 4
   }
 }
 ```
@@ -1067,7 +1068,7 @@ Extended text entry for narrative content, detailed observations, and interpreta
 {
   "component-parameters": {
     "multiline": true,
-    "InputProps": {"rows": 4}  // Correct structure
+    "InputProps": {"rows": 4}
   }
 }
 ```
@@ -1130,38 +1131,38 @@ Auto-generates text values from other fields using Mustache templates. **MANDATO
 ```json
 {
   "template": "Record: {{user-text-field}}"
-  // If user enters: <script>alert('XSS')</script>
-  // HTML escaping is DISABLED (formUtilities.ts line 27) - script WILL execute!
+
+
 }
 ```
 ✅ **ALWAYS: Use controlled vocabularies or sanitize**
 ```json
 {
-  "template": "{{record-type}}-{{counter}}"  // record-type is a Select field
-  // OR implement sanitization in preprocessing layer
+  "template": "{{record-type}}-{{counter}}"
+
 
 ❌ **NEVER: Include any user-editable field in templates**
 ```json
-// ALL OF THESE ARE DANGEROUS:
+
 {
-  "template": "Site: {{site_name}}"  // XSS if site_name is TextField
+  "template": "Site: {{site_name}}"
 }
 {
-  "template": "{{description}}-{{id}}"  // XSS if description is user input
+  "template": "{{description}}-{{id}}"
 }
 {
-  "template": "Notes: {{field_notes}}"  // XSS if field_notes is MultilineText
+  "template": "Notes: {{field_notes}}"
 }
 ```
 
 ✅ **ALWAYS: Use only system-generated or controlled fields**
 ```json
-// SAFE PATTERNS:
+
 {
   "template": "{{_USER}}-{{_YYYY}}-{{auto_increment}}"
 }
 {
-  "template": "{{record_type}}-{{counter}}"  // IF record_type is Select/Radio
+  "template": "{{record_type}}-{{counter}}"
 }
 {
   "template": "SITE-{{_MM}}{{_DD}}-{{_id}}"
@@ -1173,27 +1174,27 @@ Auto-generates text values from other fields using Mustache templates. **MANDATO
 ❌ **NEVER: Reference another TemplatedString**
 ```json
 {
-  "template": "{{other-template}}-{{number}}"  // ERROR: Circular reference risk
-  // where other-template is also a TemplatedString
+  "template": "{{other-template}}-{{number}}"
+
 }
 ```
 ✅ **ALWAYS: Reference only non-template fields**
 ```json
 {
-  "template": "{{site}}-{{date}}-{{counter}}"  // All are basic input fields
+  "template": "{{site}}-{{date}}-{{counter}}"
 }
 ```
 
 ❌ **NEVER: Reference fields from different forms**
 ```json
 {
-  "template": "{{parent.field}}-{{local-field}}"  // ERROR: Can't access parent
+  "template": "{{parent.field}}-{{local-field}}"
 }
 ```
 ✅ **ALWAYS: Keep all referenced fields in same form**
 ```json
 {
-  "template": "{{field1}}-{{field2}}"  // Both in same form
+  "template": "{{field1}}-{{field2}}"
 }
 ```
 
@@ -1255,7 +1256,7 @@ Also see [Troubleshooting Guide > Common Problems Table] for general validation 
 ```json
 {
   "component-name": "TextField",
-  "type-returned": "faims-core::String",  // ERROR: Mismatched types
+  "type-returned": "faims-core::String",
   "component-parameters": {
     "InputProps": {"type": "email"}
   }
@@ -1264,7 +1265,7 @@ Also see [Troubleshooting Guide > Common Problems Table] for general validation 
 ✅ **ALWAYS: Email fields return String**
 ```json
 {
-  "type-returned": "faims-core::String",  // Correct - emails are strings
+  "type-returned": "faims-core::String",
   "component-parameters": {
     "InputProps": {"type": "email"}
   }
@@ -1275,7 +1276,7 @@ Also see [Troubleshooting Guide > Common Problems Table] for general validation 
 ```json
 {
   "component-namespace": "ANY-namespace",
-  "component-name": "Email"  // ERROR: No Email component exists in ANY namespace
+  "component-name": "Email"
 }
 ```
 ✅ **ALWAYS: Use TextField with email type**
@@ -1357,14 +1358,14 @@ df['postcode'] = df['address_data'].apply(lambda x: x['address']['postcode'])
 ```json
 {
   "component-name": "AddressField",
-  "initialValue": ""  // ERROR: Field shows "Empty" permanently
+  "initialValue": ""
 }
 ```
 ✅ **ALWAYS: Use null for Address fields**
 ```json
 {
   "component-name": "AddressField",
-  "initialValue": null  // Correct for JSON-type fields
+  "initialValue": null
 }
 ```
 
@@ -1372,7 +1373,7 @@ df['postcode'] = df['address_data'].apply(lambda x: x['address']['postcode'])
 ```json
 {
   "validationSchema": [
-    ["yup.string"]  // ERROR: Address returns JSON object
+    ["yup.string"]
   ]
 }
 ```
@@ -1381,7 +1382,7 @@ df['postcode'] = df['address_data'].apply(lambda x: x['address']['postcode'])
 {
   "validationSchema": [
     ["yup.object"],
-    ["yup.nullable"]  // Allow empty state
+    ["yup.nullable"]
   ]
 }
 ```
@@ -1390,13 +1391,13 @@ df['postcode'] = df['address_data'].apply(lambda x: x['address']['postcode'])
 ```json
 {
   "component-name": "AddressField",
-  "type-returned": "faims-core::String"  // ERROR: Returns complex object
+  "type-returned": "faims-core::String"
 }
 ```
 ✅ **ALWAYS: Address returns JSON**
 ```json
 {
-  "type-returned": "faims-core::JSON"  // Correct type
+  "type-returned": "faims-core::JSON"
 }
 ```
 
@@ -1470,7 +1471,7 @@ df['postcode'] = df['address_data'].apply(lambda x: x['address']['postcode'])
   "component-name": "QRCodeFormField",
   "validationSchema": [
     ["yup.string"],
-    ["yup.required", "Scan required"]  // ERROR: Breaks ALL web users!
+    ["yup.required", "Scan required"]
   ]
 }
 ```
@@ -1478,8 +1479,8 @@ df['postcode'] = df['address_data'].apply(lambda x: x['address']['postcode'])
 ```json
 {
   "component-name": "QRCodeFormField",
-  "validationSchema": [["yup.string"]]  // Never add required
-  // Pair with TextField for web fallback
+  "validationSchema": [["yup.string"]]
+
 }
 ```
 
@@ -1488,7 +1489,7 @@ df['postcode'] = df['address_data'].apply(lambda x: x['address']['postcode'])
 {
   "component-name": "QRCodeFormField",
   "component-parameters": {
-    "helperText": "Scan or type barcode"  // ERROR: No typing capability
+    "helperText": "Scan or type barcode"
   }
 }
 ```
@@ -1567,7 +1568,7 @@ df['postcode'] = df['address_data'].apply(lambda x: x['address']['postcode'])
 {
   "component-name": "RichText",
   "component-parameters": {
-    "name": "important-data",  // ERROR: Never stores data
+    "name": "important-data",
     "content": "Enter notes here"
   }
 }
@@ -1584,18 +1585,18 @@ df['postcode'] = df['address_data'].apply(lambda x: x['address']['postcode'])
 
 ❌ **NEVER: Include user-generated content in RichText**
 ```json
-// DANGEROUS - XSS RISK:
+
 {
-  "content": "User said: {{user_comment}}"  // Script injection risk
+  "content": "User said: {{user_comment}}"
 }
 {
-  "content": "# {{title_from_user}}"  // XSS if title contains scripts
+  "content": "# {{title_from_user}}"
 }
 ```
 
 ✅ **ALWAYS: Use static, developer-controlled content only**
 ```json
-// SAFE:
+
 {
   "content": "## Field Instructions\n\nPlease complete all required fields"
 }
@@ -1607,15 +1608,15 @@ df['postcode'] = df['address_data'].apply(lambda x: x['address']['postcode'])
 ❌ **NEVER: External image URLs**
 ```json
 {
-  "content": "![Diagram](https://example.com/image.png)"  
-  // ERROR: External images blocked by security
+  "content": "![Diagram](https:
+
 }
 ```
 ✅ **ALWAYS: Use Base64 embedded images**
 ```json
 {
   "content": "![Diagram](data:image/png;base64,iVBORw0KGg...)"
-  // Images must be <100KB for performance
+
 }
 ```
 
@@ -1623,14 +1624,14 @@ df['postcode'] = df['address_data'].apply(lambda x: x['address']['postcode'])
 ```json
 {
   "content": "| Header | Value |\n|--------|-------|\n| Data | 123 |"
-  // Tables stripped at runtime despite Designer support
+
 }
 ```
 ✅ **ALWAYS: Use lists or embedded images**
 ```json
 {
   "content": "**Data Values:**\n- Header: 123\n- Other: 456"
-  // Or embed table as Base64 image
+
 }
 ```
 
@@ -2217,16 +2218,16 @@ For ready-to-use scripts, see [Migration Script Templates] below
 
 **Legacy Patterns to Avoid**:
 ```json
-// ❌ Old pattern - TextField with multiline:true
+
 {
   "component-namespace": "formik-material-ui",
   "component-name": "TextField",
   "component-parameters": {
-    "multiline": true  // Deprecated approach
+    "multiline": true
   }
 }
 
-// ✅ Current pattern - Use MultipleTextField
+
 {
   "component-namespace": "formik-material-ui", 
   "component-name": "MultipleTextField",
@@ -2708,7 +2709,7 @@ Requirement for full field definition despite non-participation in data operatio
   ```json
   "component-parameters": {
     "helperText": "Site identifier (max 50 characters)",
-    "inputProps": { "maxLength": 50 }  // Hard limit
+    "inputProps": { "maxLength": 50 }
   }
   ```
   For dynamic counter, use FAIMSTextField with: `"helperText": "Enter description (recommended: 20-50 characters)"`
@@ -2797,11 +2798,11 @@ Requirement for full field definition despite non-participation in data operatio
   ```
 - `FIX` Add domain-specific email validation:
   ```json
-  // Australian institutions:
+
   ["yup.matches", "@[\\w.-]+\\.edu\\.au$", "Must be .edu.au email"]
-  // Government only:
+
   ["yup.matches", "@[\\w.-]+\\.gov\\.au$", "Must be .gov.au email"]
-  // Multiple allowed domains:
+
   ["yup.matches", "@(uni\\.edu|museum\\.gov|dept\\.org)\\.au$", 
     "Must be institutional email"]
   ```
@@ -2849,7 +2850,7 @@ Requirement for full field definition despite non-participation in data operatio
   For training materials: `"helperText": "Scanner requires: 1) Mobile device 2) Camera permission 3) Good lighting 4) Clean barcode 5) Steady hold"`
 - `FIX` Implement platform-aware conditional display:
   ```json
-  // Add platform detection field:
+
   {
     "is-mobile": {
       "component-name": "RadioGroup",
@@ -2862,7 +2863,7 @@ Requirement for full field definition despite non-participation in data operatio
       }
     }
   }
-  // Then use conditions:
+
   "condition": {"field": "is-mobile", "operator": "equal", "value": "mobile"}
   ```
 - `TEST` Scan confidence: Hold camera steady on code - should accept after ~0.3 seconds (10 consecutive reads)
@@ -3018,7 +3019,7 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 ### TextField Patterns
 
 ```json
-// BASE PATTERN (all TextField variants inherit this)
+
 {
   "component-namespace": "formik-material-ui",
   "component-name": "TextField",
@@ -3031,7 +3032,7 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
   "initialValue": ""
 }
 
-// VARIANT: Required with validation
+
 + "component-parameters": {
 +   "required": true,
 +   "helperText": "This field is mandatory"
@@ -3041,7 +3042,7 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 +   ["yup.required", "Field is required"]
 + ]
 
-// VARIANT: Pattern validation (e.g., site codes)
+
 + "component-parameters": {
 +   "helperText": "Format: ABC-123",
 +   "placeholder": "e.g., SYD-001"
@@ -3051,7 +3052,7 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 +   ["yup.matches", "^[A-Z]{3}-\\d{3}$", "Invalid format"]
 + ]
 
-// VARIANT: Email configuration
+
 + "component-parameters": {
 +   "InputProps": {"type": "email"}
 + }
@@ -3060,7 +3061,7 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 +   ["yup.email", "Invalid email address"]
 + ]
 
-// VARIANT: FAIMSTextField with rich help
+
 - "component-namespace": "formik-material-ui"
 + "component-namespace": "faims-custom"
 - "component-name": "TextField"
@@ -3069,7 +3070,7 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 +   "advancedHelperText": "## Detailed Instructions\n\nMarkdown formatted help..."
 + }
 
-// VARIANT: Length constraints
+
 + "validationSchema": [
 +   ["yup.string"],
 +   ["yup.min", 3, "Minimum 3 characters"],
@@ -3080,28 +3081,28 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 ### MultilineText Patterns
 
 ```json
-// BASE PATTERN (using MultipleTextField component)
+
 {
   "component-namespace": "formik-material-ui",
-  "component-name": "MultipleTextField",  // Note the component name!
+  "component-name": "MultipleTextField",
   "type-returned": "faims-core::String",
   "component-parameters": {
     "name": "description",
     "label": "Description",
     "multiline": true,
     "InputProps": {
-      "rows": 4  // Default rows
+      "rows": 4
     }
   },
   "validationSchema": [["yup.string"]],
   "initialValue": ""
 }
 
-// VARIANT: Extended text with validation
+
 + "component-parameters": {
 +   "InputProps": {
 -     "rows": 4
-+     "rows": 8  // More rows for longer content
++     "rows": 8
 +   },
 +   "required": true,
 +   "helperText": "Provide detailed description (200-10000 chars)"
@@ -3113,7 +3114,7 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 +   ["yup.max", 10000, "Maximum 10,000 characters"]
 + ]
 
-// VARIANT: With uncertainty metadata
+
 + "meta": {
 +   "uncertainty": {
 +     "include": true,
@@ -3121,7 +3122,7 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 +   }
 + }
 
-// VARIANT: With annotation capability
+
 + "meta": {
 +   "annotation": {
 +     "include": true,
@@ -3133,7 +3134,7 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 ### TemplatedString Patterns
 
 ```json
-// BASE: Human-Readable Identifier (HRID)
+
 {
   "component-namespace": "faims-custom",
   "component-name": "TemplatedStringField",
@@ -3147,26 +3148,26 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
   "initialValue": ""
 }
 
-// VARIANT: With auto-incrementer
-  "template": "{{site}}-{{year}}-{{counter}}"
-  // where counter is BasicAutoIncrementer field
 
-// VARIANT: System variables
+  "template": "{{site}}-{{year}}-{{counter}}"
+
+
+
   "template": "{{_CREATOR_NAME}}-{{_CREATED_TIME}}-{{id}}"
 
-// VARIANT: Conditional sections
+
   "template": "{{#type}}{{type}}-{{/type}}{{^type}}UNTYPED-{{/type}}{{number}}"
 
-// VARIANT: Complex nested conditionals
+
   "template": "{{project}}{{#location}}-{{location}}{{/location}}{{#specimen}}-{{specimen}}{{#subspecimen}}/{{subspecimen}}{{/specimen}}{{/specimen}}"
 
-// VARIANT: Hidden boolean for complex logic
+
 + "component-parameters": {
-+   "hidden": true,  // Not shown in UI
++   "hidden": true,
 +   "template": "{{#photos}}true{{/photos}}{{^photos}}false{{/photos}}"
 + }
 
-// VARIANT: With validation on generated value
+
 + "validationSchema": [
 +   ["yup.string"],
 +   ["yup.required", "ID generation failed"],
@@ -3177,16 +3178,16 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 ### Email Patterns
 
 ```json
-// EMAIL is a TextField variant with type="email"
+
 {
   "component-namespace": "formik-material-ui",
-  "component-name": "TextField",  // Still TextField!
-  "type-returned": "faims-core::String",  // Note: NOT Email type
+  "component-name": "TextField",
+  "type-returned": "faims-core::String",
   "component-parameters": {
     "name": "contact-email",
     "label": "Contact Email",
     "InputProps": {
-      "type": "email"  // This makes it an email field
+      "type": "email"
     }
   },
   "validationSchema": [
@@ -3196,7 +3197,7 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
   "initialValue": ""
 }
 
-// VARIANT: Required institutional email
+
 + "component-parameters": {
 +   "required": true,
 +   "helperText": "Use institutional email only"
@@ -3212,11 +3213,11 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 ### Address Patterns
 
 ```json
-// BASE: Australian-optimized address
+
 {
   "component-namespace": "faims-custom",
   "component-name": "AddressField",
-  "type-returned": "faims-core::JSON",  // Returns JSON not String!
+  "type-returned": "faims-core::JSON",
   "component-parameters": {
     "name": "site-address",
     "label": "Site Address",
@@ -3224,12 +3225,12 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
   },
   "validationSchema": [
     ["yup.object"],
-    ["yup.nullable"]  // Allow null/empty
+    ["yup.nullable"]
   ],
-  "initialValue": null  // Not empty string!
+  "initialValue": null
 }
 
-// VARIANT: Required address
+
 + "component-parameters": {
 +   "required": true,
 +   "helperText": "Physical address required for access"
@@ -3243,7 +3244,7 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 +   ["yup.required", "Address is required"]
 + ]
 
-// VARIANT: With annotation
+
 + "meta": {
 +   "annotation": {
 +     "include": true,
@@ -3255,7 +3256,7 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 ### QRCodeFormField Patterns
 
 ```json
-// BASE: Scanner only (mobile-only!)
+
 {
   "component-namespace": "qrcode",
   "component-name": "QRCodeFormField",
@@ -3264,17 +3265,17 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
     "name": "barcode-scan",
     "label": "Scan Barcode"
   },
-  "validationSchema": [["yup.string"]],  // NEVER add required!
+  "validationSchema": [["yup.string"]],
   "initialValue": ""
 }
 
-// VARIANT: With helper text
+
 + "component-parameters": {
 +   "helperText": "Position barcode in frame (mobile only)",
 +   "fullWidth": true
 + }
 
-// PAIRED PATTERN: Scanner + Manual fallback (recommended)
+
 {
   "barcode-scan": {
     "component-namespace": "qrcode",
@@ -3305,20 +3306,20 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 ### RichText Patterns
 
 ```json
-// BASE: Display-only instructional content
+
 {
   "component-namespace": "faims-custom",
   "component-name": "RichText",
-  "type-returned": "faims-core::String",  // Required but never used
+  "type-returned": "faims-core::String",
   "component-parameters": {
     "name": "instructions",
     "content": "# Instructions\n\n**Important**: Follow these steps..."
   },
-  "validationSchema": [["yup.string"]],  // Required but never validates
-  "initialValue": ""  // Required but never stores data
+  "validationSchema": [["yup.string"]],
+  "initialValue": ""
 }
 
-// VARIANT: Conditional display warning
+
 + "component-parameters": {
 +   "content": "⚠️ **WARNING**: Heritage site - requires permits"
 + }
@@ -3328,26 +3329,26 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 +   "value": "heritage"
 + }
 
-// VARIANT: With embedded image (Base64 only!)
+
 + "component-parameters": {
 +   "content": "![Diagram](data:image/png;base64,iVBORw0KGg...)"
 + }
 
-// VARIANT: Complex markdown formatting
+
   "content": "## Section Header\n\n1. First item\n2. Second item\n\n```\nCode block\n```\n\n> Note: Blockquote (won't render at runtime!)"
 ```
 
 ### Common Patterns Across Types
 
 ```json
-// CONDITIONAL VISIBILITY (any field)
+
 + "condition": {
 +   "field": "trigger-field",
-+   "operator": "equal",  // or: not-equal, contains, not-contains
++   "operator": "equal",
 +   "value": "specific-value"
 + }
 
-// METADATA EXTENSIONS (text fields)
+
 + "meta": {
 +   "uncertainty": {
 +     "include": true,
@@ -3359,19 +3360,19 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 +   }
 + }
 
-// FULL WIDTH LAYOUT
+
 + "component-parameters": {
 +   "fullWidth": true
 + }
 
-// VISUAL VARIANTS (Material-UI fields)
+
 + "component-parameters": {
-+   "variant": "outlined"  // or: filled, standard
++   "variant": "outlined"
 + }
 
-// DISABLED/READ-ONLY
+
 + "component-parameters": {
-+   "disabled": true  // or InputProps: { readOnly: true }
++   "disabled": true
 + }
 ```
 
@@ -4330,12 +4331,12 @@ All selection fields require predefined option lists configured at design time. 
 **Required Configuration Elements**:
 ```json
 {
-  "component-namespace": "faims-custom",  // Always this namespace
-  "component-name": "Select",             // Exact case-sensitive name (Checkbox/MultiSelect/RadioGroup/Select/AdvancedSelect)
-  "type-returned": "faims-core::String",  // Type varies: Boolean/String/Array
+  "component-namespace": "faims-custom",
+  "component-name": "Select",
+  "type-returned": "faims-core::String",
   "component-parameters": {
-    "name": "field-name",                  // Must be unique in form
-    "label": "Field Label"                 // User-visible label
+    "name": "field-name",
+    "label": "Field Label"
   }
 }
 ```
@@ -4357,9 +4358,9 @@ All selection fields require predefined option lists configured at design time. 
 **Universal Validation Schema Structure**:
 ```json
 "validationSchema": [
-  ["yup.string"],                    // Base type validation (yup.bool for Checkbox, yup.array for MultiSelect)
-  ["yup.required", "Error message"], // Optional required validation
-  // Additional validators vary by field type
+  ["yup.string"],
+  ["yup.required", "Error message"],
+
 ]
 ```
 
@@ -4397,14 +4398,14 @@ See [Validation Timing Reference](validation-timing-reference.md) for complete u
 
 ### Security Considerations {important}
 
-See [Security Considerations Reference](security-considerations-reference.md) for comprehensive security guidelines, validation strategies, and attack mitigation.
+See [Security Considerations Reference](../references/constraints-reference.md#field-specific-security-considerations) for comprehensive security guidelines.
 
-**Selection Field-Specific Security Issues**:
-- **Option validation gap**: No server-side validation that submitted values match defined options
-- **CSV injection**: MultiSelect option values with formulas (=SUM) execute in Excel
-- **Markdown XSS vectors**: RadioGroup markdown processing creates additional attack surface
-- **AdvancedSelect path traversal**: Node names with " > " delimiter corrupt hierarchy
-- **Conditional bypass**: Client can disable conditional logic to submit invalid data
+**Selection Field-Specific Security Notes**:
+- No server-side validation that submitted values match defined options
+- CSV formula injection risk when option values contain =, +, -, @
+- RadioGroup markdown processing creates XSS attack surface
+- AdvancedSelect delimiter injection with " > " corrupts hierarchy
+- Conditional logic easily bypassed via browser DevTools
 
 ### Performance Boundaries {important}
 
@@ -4877,19 +4878,19 @@ The Checkbox field provides binary state capture through a Material-UI checkbox 
 ### JSON Anti-patterns
 
 ```json
-// ❌ Don't use required for "must be checked"
-"validationSchema": [["yup.required"]]  // Allows false
 
-// ✅ Correct for must be checked
+"validationSchema": [["yup.required"]]
+
+
 "validationSchema": [["yup.oneOf", [true], "Must accept"]]
 
-// ❌ Don't set initial value in Designer
-// Designer always overwrites to false
 
-// ❌ Don't expect label to be clickable
+
+
+
 "helperText": "Click the label to select"
 
-// ✅ Correct user guidance
+
 "helperText": "Click the checkbox (not the label) to select"
 ```
 
@@ -5161,29 +5162,29 @@ The MultiSelect field enables multiple value selection from predefined option li
 ### JSON Anti-patterns
 
 ```json
-// ❌ Don't use yup.required for "at least one selection"
-"validationSchema": [["yup.required"]]  // Accepts empty array
 
-// ✅ Correct for required multi-selection
+"validationSchema": [["yup.required"]]
+
+
 "validationSchema": [["yup.min", 1, "Select at least one"]]
 
-// ❌ Don't use commas in option values
-{"value": "pottery, ceramics", "label": "Pottery, ceramics"}  // Breaks CSV
 
-// ✅ Use alternative separators
+{"value": "pottery, ceramics", "label": "Pottery, ceramics"}
+
+
 {"value": "pottery and ceramics", "label": "Pottery and ceramics"}
 
-// ❌ Don't set initialValue to string
-"initialValue": ""  // Must be array
 
-// ✅ Correct initial value
+"initialValue": ""
+
+
 "initialValue": []
 
-// ❌ Don't expect performance with many options
-"options": [...100_options]  // Will lag severely
 
-// ✅ Limit options for performance
-"options": [...15_options]  // Optimal
+"options": [...100_options]
+
+
+"options": [...15_options]
 ```
 
 ### Common Spec Mappings
@@ -5461,19 +5462,19 @@ The RadioGroup field provides single selection from 2–10 mutually exclusive op
 ### JSON Anti-patterns
 
 ```json
-// ❌ Don't expect error messages to display
+
 "validationSchema": [["yup.required", "This message won't show"]]
 
-// ❌ Don't rely on deselection feature
-"helperText": "Click again to deselect"  // Broken on keyboard
 
-// ❌ Don't use for accessibility-required applications
-// RadioGroup fails WCAG compliance
+"helperText": "Click again to deselect"
 
-// ❌ Don't use with many options
-"options": [...20_options]  // Severe performance issues
 
-// ✅ Migrate to Select instead
+
+
+
+"options": [...20_options]
+
+
 "component-name": "Select"
 "ElementProps": {
   "options": [
@@ -5743,22 +5744,22 @@ The Select field provides single-choice selection from a dropdown list, offering
 ### JSON Anti-patterns
 
 ```json
-// ❌ Don't use different values and labels in JSON
-{"value": "001", "label": "Archaeological Site"}  // Exports only "001"
 
-// ✅ Use Designer enforced value = label
+{"value": "001", "label": "Archaeological Site"}
+
+
 {"value": "Archaeological Site", "label": "Archaeological Site"}
 
-// ❌ Don't expect error messages to display
+
 "validationSchema": [["yup.required", "This message won't show"]]
 
-// ❌ Don't omit empty option for clearable fields
+
 "options": [
   {"value": "option1", "label": "Option 1"}
-  // Missing empty option
+
 ]
 
-// ✅ Include empty option when null state valid
+
 "options": [
   {"value": "", "label": "-- Select --"},
   {"value": "option1", "label": "Option 1"}
@@ -6126,22 +6127,22 @@ interface TreeNode {
 ### JSON Anti-patterns
 
 ```json
-// ❌ Don't expect selection clearing capability
-"helperText": "Click to deselect"  // Not possible
 
-// ❌ Don't use on mobile without workarounds
-// Fixed width will break mobile layouts
+"helperText": "Click to deselect"
 
-// ❌ Don't use large hierarchies
-"optiontree": [...500_nodes]  // Will crash or freeze
 
-// ❌ Don't expect error messages
+
+
+
+"optiontree": [...500_nodes]
+
+
 "validationSchema": [["yup.required", "Won't display"]]
 
-// ❌ Don't use " > " in node names
-"name": "Level > Sublevel"  // Breaks path parsing
 
-// ✅ Use alternative approaches for production
+"name": "Level > Sublevel"
+
+
 "component-name": "Select",
 "ElementProps": {
   "options": [
@@ -6563,9 +6564,9 @@ Current Field Type?
 
 2. **Update JSON configuration**
    ```json
-   // From:
+
    "component-name": "RadioGroup"
-   // To:
+
    "component-name": "Select"
    ```
 
@@ -6584,7 +6585,7 @@ Current Field Type?
 
 1. **Map checkbox fields to options**
    ```json
-   // Individual checkboxes become options
+
    {"label": "Option 1", "value": "opt1"}
    ```
 
@@ -6920,19 +6921,19 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 
 #### ❌ Wrong Namespace
 ```json
-// WRONG
+
 "component-namespace": "formik-material-ui"
-// CORRECT
+
 "component-namespace": "faims-custom"
 ```
 
 #### ❌ Dynamic Options
 ```json
-// WRONG - Cannot fetch dynamically
+
 "ElementProps": {
   "optionsUrl": "/api/options"
 }
-// CORRECT - Predefine options
+
 "ElementProps": {
   "options": [...]
 }
@@ -6940,12 +6941,12 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 
 #### ❌ Missing Empty Option
 ```json
-// WRONG - No way to deselect
+
 "options": [
   {"label": "Yes", "value": "yes"},
   {"label": "No", "value": "no"}
 ]
-// CORRECT - Include empty
+
 "options": [
   {"label": "-- Select --", "value": ""},
   {"label": "Yes", "value": "yes"},
@@ -6955,10 +6956,10 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 
 #### ❌ Wrong Data Types
 ```json
-// WRONG - MultiSelect with string
+
 "component-name": "MultiSelect",
 "initialValue": ""
-// CORRECT - MultiSelect with array
+
 "component-name": "MultiSelect",
 "initialValue": []
 ```
@@ -7597,7 +7598,7 @@ All date/time fields require:
 #### Auto-population (DateTimeNow only)
 ```json
 "component-parameters": {
-  "is_auto_pick": true  // Automatically fills with current time on form open
+  "is_auto_pick": true
 }
 ```
 
@@ -7663,14 +7664,14 @@ const validateDates = (record) => {
 
 ### Security Considerations {important}
 
-See [Security Considerations Reference](security-considerations-reference.md) for comprehensive security guidelines and validation requirements.
+See [Security Considerations Reference](../references/constraints-reference.md#field-specific-security-considerations) for comprehensive security guidelines.
 
-**DateTime Field-Specific Security Issues**:
-- **Timezone disclosure**: DateTimeNow exposes user location via timezone
-- **Validation poverty**: No server-side date validation possible
-- **Format injection**: String storage allows malformed dates
-- **Audit compromise**: User-editable timestamps break forensic trails
-- **DateTimePicker**: Timezone loss causes silent data corruption
+**DateTime Field-Specific Security Notes**:
+- DateTimeNow exposes user location via timezone
+- No temporal sequence validation (start/end dates)
+- String storage accepts malformed dates
+- User-editable timestamps compromise audit trails
+- DateTimePicker silently loses timezone causing data corruption
 
 ### Performance Boundaries {important}
 
@@ -7826,9 +7827,9 @@ Timezone-aware timestamp capture with automatic current time option. Stores time
   "component-parameters": {
     "label": "Record Created",
     "name": "record_created",
-    "is_auto_pick": true,  // Auto-fills with current time (JSON-only)
+    "is_auto_pick": true,
     "helperText": "Automatically captured when record opened",
-    "fullWidth": true,      // JSON-only
+    "fullWidth": true,
     "required": false
   }
 }
@@ -7897,14 +7898,14 @@ Timezone-aware timestamp capture with automatic current time option. Stores time
 ```json
 {
   "component-name": "DateTimeNow",
-  "component-namespace": "faims3"  // ERROR: Wrong namespace - no faims3
+  "component-namespace": "faims3"
 }
 ```
 ✅ **ALWAYS: Use faims-custom namespace**
 ```json
 {
   "component-name": "DateTimeNow",
-  "component-namespace": "faims-custom"  // Correct namespace
+  "component-namespace": "faims-custom"
 }
 ```
 
@@ -7912,7 +7913,7 @@ Timezone-aware timestamp capture with automatic current time option. Stores time
 ```json
 {
   "meta": {
-    "timezone": "Sydney"  // ERROR: Not a valid IANA timezone
+    "timezone": "Sydney"
   }
 }
 ```
@@ -7920,7 +7921,7 @@ Timezone-aware timestamp capture with automatic current time option. Stores time
 ```json
 {
   "meta": {
-    "timezone": "Australia/Sydney"  // Correct IANA format
+    "timezone": "Australia/Sydney"
   }
 }
 ```
@@ -7942,7 +7943,7 @@ Timezone-aware timestamp capture with automatic current time option. Stores time
 ❌ **NEVER: Using DateTimePicker for new forms**
 ```json
 {
-  "component-name": "DateTimePicker"  // DISCOURAGED
+  "component-name": "DateTimePicker"
 }
 ```
 ✅ **ALWAYS: Use DateTimeNow for timezone support**
@@ -7958,7 +7959,7 @@ Timezone-aware timestamp capture with automatic current time option. Stores time
 {
   "component-name": "DateTimePicker",
   "meta": {
-    "timezone": "UTC"  // IGNORED - No timezone support
+    "timezone": "UTC"
   }
 }
 ```
@@ -8078,20 +8079,20 @@ Date-only selection for administrative and observational records where time comp
 ❌ **NEVER: Wrong date format in initialValue**
 ```json
 {
-  "initialValue": "15/03/2024"  // ERROR: Invalid format
+  "initialValue": "15/03/2024"
 }
 ```
 ✅ **ALWAYS: Use ISO 8601 format**
 ```json
 {
-  "initialValue": "2024-03-15"  // YYYY-MM-DD format
+  "initialValue": "2024-03-15"
 }
 ```
 
 ❌ **NEVER: Including time in date-only field**
 ```json
 {
-  "initialValue": "2024-03-15T10:30:00Z"  // ERROR: Time not supported
+  "initialValue": "2024-03-15T10:30:00Z"
 }
 ```
 ✅ **ALWAYS: Date only, no time**
@@ -8153,20 +8154,20 @@ Month-year selection that deliberately avoids false daily precision, particularl
 ❌ **NEVER: Wrong month format**
 ```json
 {
-  "initialValue": "March 2024"  // ERROR: Invalid format
+  "initialValue": "March 2024"
 }
 ```
 ✅ **ALWAYS: Use YYYY-MM format**
 ```json
 {
-  "initialValue": "2024-03"  // Correct format
+  "initialValue": "2024-03"
 }
 ```
 
 ❌ **NEVER: Including day in month field**
 ```json
 {
-  "initialValue": "2024-03-15"  // ERROR: Day not supported
+  "initialValue": "2024-03-15"
 }
 ```
 ✅ **ALWAYS: Year and month only**
@@ -8289,22 +8290,22 @@ Common date field error messages and their meanings:
 ### DateTimeNow Patterns
 
 ```json
-// BASE PATTERN (recommended default for all timestamps)
+
 {
   "component-namespace": "faims-custom",
   "component-name": "DateTimeNow",
   "type-returned": "faims-core::String",
   "component-parameters": {
-    "name": "timestamp-field",  // MUST match field ID
+    "name": "timestamp-field",
     "label": "Timestamp"
   },
   "validationSchema": [["yup.string"]],
-  "initialValue": ""  // MUST be "" not null
+  "initialValue": ""
 }
 
-// VARIANT: Auto-populated creation timestamp
+
 + "component-parameters": {
-+   "is_auto_pick": true,  // Auto-fills on form open
++   "is_auto_pick": true,
 +   "helperText": "Automatically captured (UTC)",
 +   "fullWidth": true
 + }
@@ -8313,7 +8314,7 @@ Common date field error messages and their meanings:
 +   ["yup.required", "Timestamp required"]
 + ]
 
-// VARIANT: Manual timestamp with annotation
+
 + "component-parameters": {
 +   "is_auto_pick": false,
 +   "helperText": "Click 'Now' for current time",
@@ -8326,34 +8327,34 @@ Common date field error messages and their meanings:
 +   }
 + }
 
-// VARIANT: Protected auto-timestamp (prevents accidental edit)
+
 + "component-parameters": {
 +   "is_auto_pick": true,
-+   "disabled": true  // Read-only after creation
++   "disabled": true
 + }
 ```
 
 #### DateTimeNow ANTI-PATTERNS ⚠️
 ```json
-// ❌ NEVER: Null initialValue
+
 {
-  "initialValue": null  // ERROR: "Cannot read property 'toISOString' of null"
+  "initialValue": null
 }
 
-// ❌ NEVER: Missing timezone documentation
+
 {
   "component-parameters": {
-    "label": "Time"  // Users don't know if UTC or local!
-    // FIX: Add helperText explaining timezone handling
+    "label": "Time"
+
   }
 }
 
-// ❌ NEVER: Auto-populate without user awareness
+
 {
   "is_auto_pick": true,
   "component-parameters": {
-    "label": "Date"  // Users may not realize it auto-fills
-    // FIX: Add helperText: "Auto-captured on form open"
+    "label": "Date"
+
   }
 }
 ```
@@ -8361,10 +8362,10 @@ Common date field error messages and their meanings:
 ### DateTimePicker Patterns (DISCOURAGED - Use DateTimeNow Instead)
 
 ```json
-// BASE: Legacy only - migrate ASAP!
+
 {
   "component-namespace": "faims-custom",
-  "component-name": "DateTimePicker",  // ⚠️ DISCOURAGED - lacks timezone
+  "component-name": "DateTimePicker",
   "type-returned": "faims-core::String",
   "component-parameters": {
     "name": "legacy-datetime",
@@ -8373,7 +8374,7 @@ Common date field error messages and their meanings:
   }
 }
 
-// MIGRATION PATH: Convert to DateTimeNow
+
 {
 - "component-name": "DateTimePicker",
 + "component-name": "DateTimeNow",
@@ -8386,7 +8387,7 @@ Common date field error messages and their meanings:
 ### DatePicker Patterns
 
 ```json
-// BASE PATTERN (date without time)
+
 {
   "component-namespace": "faims-custom",
   "component-name": "DatePicker",
@@ -8397,10 +8398,10 @@ Common date field error messages and their meanings:
     "helperText": "Select date (no time component)"
   },
   "validationSchema": [["yup.string"]],
-  "initialValue": ""  // Format: "YYYY-MM-DD" if pre-filled
+  "initialValue": ""
 }
 
-// VARIANT: Required excavation date
+
 + "component-parameters": {
 +   "label": "Excavation Start Date",
 +   "helperText": "When excavation commenced",
@@ -8411,7 +8412,7 @@ Common date field error messages and their meanings:
 +   ["yup.required", "Start date required"]
 + ]
 
-// VARIANT: With uncertainty annotation
+
 + "meta": {
 +   "annotation": {
 +     "include": true,
@@ -8422,53 +8423,53 @@ Common date field error messages and their meanings:
 
 #### DatePicker ANTI-PATTERNS ⚠️
 ```json
-// ❌ NEVER: Expecting time component
+
 {
   "component-name": "DatePicker",
-  "helperText": "Enter date and time"  // DatePicker has no time!
-  // USE: DateTimeNow or DateTimePicker for time
+  "helperText": "Enter date and time"
+
 }
 
-// ❌ NEVER: Relying on consistent format display
+
 {
-  "helperText": "Format: DD/MM/YYYY"  // Display varies by locale!
-  // FIX: "Date format follows your browser settings"
+  "helperText": "Format: DD/MM/YYYY"
+
 }
 
-// ❌ NEVER: Cross-field validation in schema
+
 {
   "validationSchema": [
     ["yup.date"],
     ["yup.min", ["yup.ref", "start_date"], "Must be after start"]
-  ]  // This doesn't work! Dates stored as strings
+  ]
 }
 
-// ❌ NEVER: Using for month-year only
+
 {
   "component-name": "DatePicker"
-  // Forces arbitrary day selection
-  // USE: MonthPicker instead
+
+
 }
 ```
 
 ### MonthPicker Patterns
 
 ```json
-// BASE PATTERN (month-year precision)
+
 {
   "component-namespace": "faims-custom",
   "component-name": "MonthPicker",
-  "type-returned": "faims-core::String",  // Actually stores YYYY-MM string
+  "type-returned": "faims-core::String",
   "component-parameters": {
     "name": "month-field",
     "label": "Month/Year",
     "helperText": "Select month and year (no day)"
   },
   "validationSchema": [["yup.string"]],
-  "initialValue": ""  // Format: "YYYY-MM" if pre-filled
+  "initialValue": ""
 }
 
-// VARIANT: Field season recording
+
 + "component-parameters": {
 +   "label": "Excavation Season",
 +   "helperText": "Month of field season",
@@ -8479,26 +8480,26 @@ Common date field error messages and their meanings:
 +   ["yup.required", "Season must be specified"]
 + ]
 
-// VARIANT: Historical publication date
+
 + "component-parameters": {
 +   "label": "Publication Date",
 +   "helperText": "Month/year from source (avoids false precision)"
 + }
-+ "initialValue": "1887-03"  // March 1887
++ "initialValue": "1887-03"
 ```
 
 #### MonthPicker ANTI-PATTERNS ⚠️
 ```json
-// ❌ NEVER: Expecting day in data
+
 {
-  "initialValue": "2024-03-15"  // Day will be ignored!
-  // Only stores: "2024-03"
+  "initialValue": "2024-03-15"
+
 }
 
-// ❌ NEVER: Direct Excel export without warning
+
 {
-  // Excel interprets "2024-03" as March 3rd, 2024!
-  // Always document: "YYYY-MM format = entire month"
+
+
 }
 ```
 
@@ -8508,17 +8509,17 @@ Optimize date field behavior for specific platforms:
 
 #### iOS-Optimized Configuration
 ```json
-// Extra spacing for iOS picker overlay
+
 {
   "component-namespace": "faims-custom",
   "component-name": "DateTimeNow",
   "component-parameters": {
     "fullWidth": true,
-    "margin": "dense",  // More space for iOS overlay
+    "margin": "dense",
     "helperText": "Swipe up/down on wheels to select time",
     "InputProps": {
       "style": {
-        "paddingBottom": "20px"  // Extra padding for picker
+        "paddingBottom": "20px"
       }
     }
   }
@@ -8527,18 +8528,18 @@ Optimize date field behavior for specific platforms:
 
 #### Android-Optimized Configuration
 ```json
-// Touch-friendly configuration for Android
+
 {
   "component-namespace": "faims-custom",
   "component-name": "DatePicker",
   "component-parameters": {
     "fullWidth": true,
-    "variant": "outlined",  // Better touch target
+    "variant": "outlined",
     "helperText": "Tap to open calendar",
     "InputProps": {
       "style": {
-        "minHeight": "56px",  // Android Material Design touch target
-        "fontSize": "16px"    // Prevent zoom on focus
+        "minHeight": "56px",
+        "fontSize": "16px"
       }
     }
   }
@@ -8547,18 +8548,18 @@ Optimize date field behavior for specific platforms:
 
 #### Desktop-Optimized Configuration
 ```json
-// Keyboard-friendly desktop configuration
+
 {
   "component-namespace": "faims-custom",
   "component-name": "DateTimeNow",
   "component-parameters": {
-    "fullWidth": false,  // Narrower for mouse precision
+    "fullWidth": false,
     "variant": "standard",
     "helperText": "Click field then use picker or type YYYY-MM-DD HH:MM",
     "InputProps": {
       "placeholder": "YYYY-MM-DD HH:MM",
       "style": {
-        "width": "250px"  // Fixed width for desktop
+        "width": "250px"
       }
     }
   }
@@ -8567,7 +8568,7 @@ Optimize date field behavior for specific platforms:
 
 #### Multi-Platform Responsive Configuration
 ```json
-// Adaptive configuration for all platforms
+
 {
   "component-namespace": "faims-custom",
   "component-name": "DateTimeNow",
@@ -8576,15 +8577,15 @@ Optimize date field behavior for specific platforms:
     "helperText": "Select date/time (stored as UTC)",
     "InputProps": {
       "style": {
-        "minHeight": "48px",     // Accessible touch target
+        "minHeight": "48px",
         "paddingTop": "8px",      
         "paddingBottom": "8px"
       }
     },
     "FormHelperTextProps": {
       "style": {
-        "marginTop": "8px",       // Clear spacing
-        "fontSize": "14px"        // Readable on all devices
+        "marginTop": "8px",
+        "fontSize": "14px"
       }
     }
   }
@@ -8594,7 +8595,7 @@ Optimize date field behavior for specific platforms:
 ### Integration Patterns (Date Fields Working Together)
 
 ```json
-// PATTERN: Date Range with Validation
+
 {
   "excavation_start": {
     "component-name": "DatePicker",
@@ -8612,7 +8613,7 @@ Optimize date field behavior for specific platforms:
     "condition_instructions": {
       "conditions": [{
         "field": "excavation_start",
-        "operator": "less",  // String comparison!
+        "operator": "less",
         "value_field": "excavation_end"
       }],
       "action": "enable",
@@ -8621,7 +8622,7 @@ Optimize date field behavior for specific platforms:
   }
 }
 
-// PATTERN: Flexible Precision (exact date OR month-year)
+
 {
   "date_precision": {
     "component-name": "RadioGroup",
@@ -8663,25 +8664,25 @@ Optimize date field behavior for specific platforms:
   }
 }
 
-// PATTERN: Timestamp with Display (prevents edit of creation time)
+
 {
   "created_timestamp": {
     "component-name": "DateTimeNow",
     "component-parameters": {
       "is_auto_pick": true,
-      "hidden": true  // Store but don't show editable field
+      "hidden": true
     }
   },
   "created_display": {
     "component-name": "TemplatedStringField",
     "component-parameters": {
       "template": "Created: {{created_timestamp}}",
-      "disabled": true  // Read-only display
+      "disabled": true
     }
   }
 }
 
-// PATTERN: Multi-timezone Team Coordination
+
 {
   "local_time": {
     "component-name": "DateTimeNow",
@@ -8705,10 +8706,10 @@ Optimize date field behavior for specific platforms:
   }
 }
 
-// PATTERN: Historical Date with Uncertainty
+
 {
   "historical_date": {
-    "component-name": "MonthPicker",  // Avoids false precision
+    "component-name": "MonthPicker",
     "component-parameters": {
       "label": "Document Date"
     }
@@ -9192,7 +9193,7 @@ When standard date fields don't meet requirements, consider these alternatives:
 
 ##### Separate Component Fields
 ```json
-// Split date into year, month, day for flexible precision
+
 {
   "year_field": {
     "component-name": "NumberInput",
@@ -9210,7 +9211,7 @@ When standard date fields don't meet requirements, consider these alternatives:
         {"value": "", "label": "Unknown"},
         {"value": "01", "label": "January"},
         {"value": "02", "label": "February"}
-        // ... etc
+
       ]
     }
   },
@@ -9228,7 +9229,7 @@ When standard date fields don't meet requirements, consider these alternatives:
 
 ##### Text Field with Pattern Validation
 ```json
-// For BCE dates or non-standard formats
+
 {
   "historical_date": {
     "component-name": "TextField",
@@ -9247,7 +9248,7 @@ When standard date fields don't meet requirements, consider these alternatives:
 
 ##### Controlled Vocabulary for Periods
 ```json
-// Archaeological or geological periods
+
 {
   "temporal_period": {
     "component-name": "Select",
@@ -9296,7 +9297,7 @@ When standard date fields don't meet requirements, consider these alternatives:
     "component-parameters": {
       "label": "Periodo URI",
       "helperText": "Full Periodo identifier for external reference",
-      "placeholder": "http://n2t.net/ark:/99152/p0qhb66"
+      "placeholder": "http:
     }
   }
 }
@@ -9385,7 +9386,7 @@ For **absolute dates** (e.g., C14 dates, dendrochronology):
 
 ##### Fuzzy Date Storage Pattern
 ```json
-// Store uncertainty alongside dates
+
 {
   "event_date_min": {
     "component-name": "DatePicker",
@@ -9565,7 +9566,7 @@ For ancient history and archaeology spanning BCE/CE, use numeric fields rather t
 
 ##### Duration Recording
 ```json
-// Record time spans rather than points
+
 {
   "duration_value": {
     "component-name": "NumberInput",
@@ -9593,7 +9594,7 @@ For ancient history and archaeology spanning BCE/CE, use numeric fields rather t
 
 ##### Relative Date Recording
 ```json
-// Dates relative to project milestones
+
 {
   "relative_to": {
     "component-name": "Select",
@@ -9950,10 +9951,10 @@ Anti-patterns have been distributed to their respective field sections for bette
 - `UNSAFE IF` Any nulls exist
 - `ROLLBACK`:
   ```json
-  // Remove required immediately
+
   "validationSchema": [
     ["yup.string"]
-    // Remove: ["yup.required", "Date required"]
+
   ]
   ```
 - `VERSION` 2025-08
@@ -10064,7 +10065,7 @@ Anti-patterns have been distributed to their respective field sections for bette
 - `ROLLBACK` Paginate forms if >100 date fields
 - `QUICK FIX` Disable auto-populate temporarily:
   ```json
-  "is_auto_pick": false  // Reduces load-time calculations
+  "is_auto_pick": false
   ```
 - `VERSION` 2025-08
 
@@ -10075,22 +10076,22 @@ Anti-patterns have been distributed to their respective field sections for bette
 ### DateTimeNow Patterns
 
 ```json
-// BASE PATTERN (recommended default for all timestamps)
+
 {
   "component-namespace": "faims-custom",
   "component-name": "DateTimeNow",
   "type-returned": "faims-core::String",
   "component-parameters": {
-    "name": "timestamp-field",  // MUST match field ID
+    "name": "timestamp-field",
     "label": "Timestamp"
   },
   "validationSchema": [["yup.string"]],
-  "initialValue": ""  // MUST be "" not null
+  "initialValue": ""
 }
 
-// VARIANT: Auto-populated creation timestamp
+
 + "component-parameters": {
-+   "is_auto_pick": true,  // Auto-fills on form open
++   "is_auto_pick": true,
 +   "helperText": "Automatically captured (UTC)",
 +   "fullWidth": true
 + }
@@ -10099,7 +10100,7 @@ Anti-patterns have been distributed to their respective field sections for bette
 +   ["yup.required", "Timestamp required"]
 + ]
 
-// VARIANT: Manual timestamp with annotation
+
 + "component-parameters": {
 +   "is_auto_pick": false,
 +   "helperText": "Click 'Now' for current time",
@@ -10112,34 +10113,34 @@ Anti-patterns have been distributed to their respective field sections for bette
 +   }
 + }
 
-// VARIANT: Protected auto-timestamp (prevents accidental edit)
+
 + "component-parameters": {
 +   "is_auto_pick": true,
-+   "disabled": true  // Read-only after creation
++   "disabled": true
 + }
 ```
 
 #### DateTimeNow ANTI-PATTERNS ⚠️
 ```json
-// ❌ NEVER: Null initialValue
+
 {
-  "initialValue": null  // ERROR: "Cannot read property 'toISOString' of null"
+  "initialValue": null
 }
 
-// ❌ NEVER: Missing timezone documentation
+
 {
   "component-parameters": {
-    "label": "Time"  // Users don't know if UTC or local!
-    // FIX: Add helperText explaining timezone handling
+    "label": "Time"
+
   }
 }
 
-// ❌ NEVER: Auto-populate without user awareness
+
 {
   "is_auto_pick": true,
   "component-parameters": {
-    "label": "Date"  // Users may not realize it auto-fills
-    // FIX: Add helperText: "Auto-captured on form open"
+    "label": "Date"
+
   }
 }
 ```
@@ -10147,10 +10148,10 @@ Anti-patterns have been distributed to their respective field sections for bette
 ### DateTimePicker Patterns (DISCOURAGED - Use DateTimeNow Instead)
 
 ```json
-// BASE: Legacy only - migrate ASAP!
+
 {
   "component-namespace": "faims-custom",
-  "component-name": "DateTimePicker",  // ⚠️ DISCOURAGED - lacks timezone
+  "component-name": "DateTimePicker",
   "type-returned": "faims-core::String",
   "component-parameters": {
     "name": "legacy-datetime",
@@ -10159,7 +10160,7 @@ Anti-patterns have been distributed to their respective field sections for bette
   }
 }
 
-// MIGRATION PATH: Convert to DateTimeNow
+
 {
 - "component-name": "DateTimePicker",
 + "component-name": "DateTimeNow",
@@ -10763,14 +10764,14 @@ See [Validation System Documentation](../detail-crossfield-docs/validation.md) f
 **Number Field-Specific Validation:**
 
 ```json
-// Decimal precision check (unique to numbers)
+
 "validationSchema": [
   ["yup.number"],
   ["yup.test", "decimal-places", "Maximum 2 decimal places",
     "value => value == null || Number.isInteger(value * 100)"]
 ]
 
-// Range validation (NumberInput JSON-only)
+
 "validationSchema": [
   ["yup.number"],
   ["yup.min", 0, "Value must be non-negative"],
@@ -10819,13 +10820,14 @@ Voice input requires exact numeric formatting for successful recognition:
 
 ### Security Considerations {important}
 
-See [Security Considerations Reference](security-considerations-reference.md) for comprehensive security guidelines and attack mitigation strategies.
+See [Security Considerations Reference](../references/constraints-reference.md#field-specific-security-considerations) for comprehensive security guidelines.
 
-**Number Field-Specific Security Risks**:
-- **Overflow attacks**: Scientific notation (1e308) can bypass validation
-- **Precision attacks**: >17 digits cause silent data corruption
-- **BasicAutoIncrementer**: Sequential IDs enable enumeration attacks
-- **Type confusion**: JavaScript number coercion bypasses validation
+**Number Field-Specific Security Notes**:
+- Scientific notation (1e308) bypasses validation causing overflow
+- Precision loss beyond 15-17 digits causes silent data corruption
+- BasicAutoIncrementer sequential IDs enable enumeration attacks  
+- JavaScript type coercion bypasses validation
+- All numbers stored as floats causing rounding errors
 
 ### Performance Boundaries {important}
 
@@ -10897,7 +10899,7 @@ See [Data Export Reference](data-export-reference.md) for comprehensive export d
   ```json
   {
     "component-name": "TemplatedStringField",
-    "template": "'{{identifier_field}}",  // Leading apostrophe
+    "template": "'{{identifier_field}}",
     "name": "excel_safe_id"
 }
 ```
@@ -11057,7 +11059,7 @@ Standard numeric data entry supporting floating-point values, null states, and c
 ❌ **NEVER: This component doesn't exist in codebase**
 ```json
 {
-  "component-name": "ControlledNumber"  // ERROR: Not a real component
+  "component-name": "ControlledNumber"
 }
 ```
 ✅ **ALWAYS: Use NumberField**
@@ -11319,7 +11321,7 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
 
 **Cannot use numeric operators**:
 ```json
-// ❌ WRONG - BasicAutoIncrementer returns string
+
 {
   "condition": {
     "operator": ">",
@@ -11328,7 +11330,7 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
   }
 }
 
-// ✅ CORRECT - Use string operations
+
 {
   "condition": {
     "operator": "contains",
@@ -11565,27 +11567,27 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
 
 ❌ **Never: BasicAutoIncrementer for calculations**:
 ```json
-// WRONG - Returns string not number
+
 {
   "component-name": "BasicAutoIncrementer",
   "name": "count"
 }
-// Later: count + 1 // FAILS
+
 ```
 
 ❌ **Never: Unprotected BasicAutoIncrementer export**:
 ```json
-// WRONG - Excel will strip zeros
+
 {
   "component-name": "BasicAutoIncrementer",
   "name": "specimen_id"
 }
-// Export: "00042" → 42
+
 ```
 
 ❌ **Never: ControlledNumber for optional values**:
 ```json
-// WRONG - No null support
+
 {
   "component-name": "ControlledNumber",
   "name": "optional_measurement"
@@ -11663,11 +11665,11 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
 2. Update component configuration (keep name as "NumberField"):
    ```json
    {
-     "component-name": "NumberField", // Yes, still "NumberField"!
+     "component-name": "NumberField",
      "type": "faims-core::Number",
      "validationSchema": [
        ["yup.number"],
-       ["yup.nullable"] // Add explicit null handling
+       ["yup.nullable"]
      ]
    }
    ```
@@ -11713,8 +11715,8 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
 1. Document existing ID ranges and allocations
 2. Implement range allocation protocol:
    ```json
-   // Team A: 1000-1999
-   // Team B: 2000-2999
+
+
    {
      "start_at": 1000,
      "stop_at": 1999
@@ -11884,7 +11886,7 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
 ### Recommended Workarounds
 
 ```json
-// Thousands separator display
+
 {
   "component-name": "TextField",
   "component-parameters": {
@@ -11894,7 +11896,7 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
   }
 }
 
-// Currency with validation
+
 {
   "component-name": "TextField",
   "component-parameters": {
@@ -11904,7 +11906,7 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
   }
 }
 
-// Percentage with bounds
+
 {
   "component-name": "ControlledNumber",
   "component-parameters": {
@@ -12132,7 +12134,7 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 ### Safe Migrations (No Data Loss)
 - `SAFE` Deprecated Number Field → NumberInput when adding nullable validation
   ```json
-  // BEFORE (deprecated)
+
   {
     "component-namespace": "formik-material-ui",
     "component-name": "TextField",
@@ -12140,7 +12142,7 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
     "type-returned": "faims-core::Integer"
   }
   
-  // AFTER (recommended)
+
   {
     "component-name": "NumberField",
     "type": "faims-core::Number",
@@ -12409,98 +12411,98 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 ### NumberInput Patterns
 
 ```json
-// BASE PATTERN (all NumberInput variants start here)
+
 {
-  "component-name": "NumberField",  // ⚠️ NOT "NumberInput" despite Designer label!
+  "component-name": "NumberField",
   "type": "faims-core::Number",
   "name": "measurement",
   "label": "Measurement Value",
-  "initialValue": null,  // null for empty, not ""
+  "initialValue": null,
   "persistent": true,
   "required": false,
   "helperText": ""
 }
 
-// VARIANT: Required with validation
+
 + "required": true,
 + "validationSchema": [
-+   ["yup.number"],  // Type MUST come first
++   ["yup.number"],
 +   ["yup.required", "This measurement is required"],
 +   ["yup.min", 0, "Value cannot be negative"],
 +   ["yup.max", 100, "Value cannot exceed 100"]
 + ]
 
-// VARIANT: Nullable (allows empty without error)
+
 + "validationSchema": [
 +   ["yup.number"],
-+   ["yup.nullable"]  // Critical for optional fields
++   ["yup.nullable"]
 + ]
 
-// VARIANT: Decimal precision control
+
 + "validationSchema": [
 +   ["yup.number"],
 +   ["yup.test", "decimal-places", "Maximum 2 decimal places",
 +     "value => value == null || Number.isInteger(value * 100)"]
 + ]
 
-// VARIANT: Integer enforcement
+
 + "validationSchema": [
 +   ["yup.number"],
 +   ["yup.integer", "Whole numbers only"]
 + ]
 
-// VARIANT: Step validation for specific increments
+
 + "validationSchema": [
 +   ["yup.number"],
 +   ["yup.test", "step-validation", "Must be in increments of 0.25",
 +     "value => value == null || (value * 4) % 1 === 0"]
 + ]
 
-// VARIANT: Scientific notation range handling
+
 + "validationSchema": [
 +   ["yup.number"],
 +   ["yup.max", 1e10, "Value too large - exceeds system limits"],
 +   ["yup.min", 1e-10, "Value too small - exceeds precision"]
 + ]
 
-// VARIANT: Debounced validation for performance
+
 + "validationSchema": [
 +   ["yup.number"],
 +   ["yup.test", "debounced-check", "Complex validation",
 +     "debounce(async (value) => { return await validateComplexRules(value); }, 300)"]
 + ]
 
-// VARIANT: HTML5 constraints (browser-enforced)
+
 + "InputProps": {
 +   "type": "number",
 +   "inputProps": {
 +     "min": 0,
 +     "max": 100,
-+     "step": 0.01  // Increment buttons
++     "step": 0.01
 +   }
 + }
 
-// VARIANT: iOS-safe positive numbers only
+
 + "validationSchema": [
 +   ["yup.number"],
-+   ["yup.min", 0, "Must be positive"]  // Avoids iOS minus key issue
++   ["yup.min", 0, "Must be positive"]
 + ]
 
-// VARIANT: Graceful overflow handling
+
 + "validationSchema": [
 +   ["yup.number"],
 +   ["yup.test", "overflow-check", "Number too large",
 +     "value => value == null || (isFinite(value) && Math.abs(value) < 1e308)"]
 + ]
 
-// VARIANT: NaN prevention
+
 + "validationSchema": [
 +   ["yup.number"],
 +   ["yup.test", "nan-check", "Invalid number",
 +     "value => value == null || !isNaN(value)"]
 + ]
 
-// VARIANT: Required only when visible
+
 + "validationSchema": [
 +   ["yup.number"],
 +   ["yup.when", "$isVisible", {
@@ -12509,7 +12511,7 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 +   }]
 + ]
 
-// VARIANT: Range depends on another field
+
 + "validationSchema": [
 +   ["yup.number"],
 +   ["yup.when", "category", {
@@ -12522,33 +12524,33 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 
 #### NumberInput ANTI-PATTERNS ⚠️
 ```json
-// ❌ NEVER: Wrong component name
+
 {
-  "component-name": "NumberInput"  // Designer label != JSON name
-  // ERROR: "Component 'NumberInput' not found"
+  "component-name": "NumberInput"
+
 }
-// ✅ ALWAYS: Use correct JSON name
+
 {
   "component-name": "NumberField"
 }
 
-// ❌ NEVER: Empty string initial value
+
 {
-  "initialValue": ""  // Causes validation confusion
-  // ERROR: "Must be a number"
+  "initialValue": ""
+
 }
-// ✅ ALWAYS: Use null for empty
+
 {
   "initialValue": null
 }
 
-// ❌ NEVER: Using deprecated Number Field
+
 {
   "component-namespace": "formik-material-ui",
   "component-name": "TextField",
-  "type": "number"  // This is the OLD deprecated version
+  "type": "number"
 }
-// ✅ ALWAYS: Use NumberInput (as "NumberField")
+
 {
   "component-name": "NumberField",
   "type": "faims-core::Number"
@@ -12558,25 +12560,25 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 ### ControlledNumber Patterns
 
 ```json
-// BASE PATTERN (Designer-friendly bounded input)
+
 {
   "component-name": "ControlledNumber",
-  "type": "faims-core::Integer",  // ⚠️ Accepts decimals despite Integer!
+  "type": "faims-core::Integer",
   "name": "rating",
   "label": "Quality Rating",
-  "min": 1,  // Required for this field type
-  "max": 10,  // Required for this field type
-  "initialValue": 0,  // Always 0, not configurable
+  "min": 1,
+  "max": 10,
+  "initialValue": 0,
   "persistent": true
 }
 
-// VARIANT: With integer enforcement (fixes type mismatch)
+
 + "validationSchema": [
 +   ["yup.number"],
 +   ["yup.integer", "Please enter a whole number"]
 + ]
 
-// VARIANT: Percentage (0-100)
+
 {
   "component-name": "ControlledNumber",
   "type": "faims-core::Integer",
@@ -12585,16 +12587,16 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
   "min": 0,
   "max": 100,
   "helperText": "Enter percentage complete",
-  "initialValue": 0  // Note: Cannot be null
+  "initialValue": 0
 }
 
-// VARIANT: Survey scale with initial value fix
+
 {
   "component-name": "ControlledNumber",
   "name": "satisfaction",
   "label": "Satisfaction (1-5)",
-- "min": 1,  // Would cause initial validation error
-+ "min": 0,  // Accept default 0 to avoid error
+- "min": 1,
++ "min": 0,
   "max": 5,
   "helperText": "0 = Not answered, 1-5 = Rating scale"
 }
@@ -12602,27 +12604,27 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 
 #### ControlledNumber ANTI-PATTERNS ⚠️
 ```json
-// ❌ NEVER: Expecting null values
+
 {
   "component-name": "ControlledNumber",
-  "required": false  // Still can't be null!
-  // ERROR: Always has value 0, never null
+  "required": false
+
 }
-// ✅ ALWAYS: Use NumberInput if null needed
+
 {
   "component-name": "NumberField",
   "validationSchema": [["yup.number"], ["yup.nullable"]]
 }
 
-// ❌ NEVER: Initial value below minimum
+
 {
   "min": 1,
   "max": 10,
-  "initialValue": 0  // Immediate validation error!
+  "initialValue": 0
 }
-// ✅ ALWAYS: Ensure initial within bounds
+
 {
-  "min": 0,  // Or set appropriate initial
+  "min": 0,
   "max": 10
 }
 ```
@@ -12630,18 +12632,18 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 ### BasicAutoIncrementer Patterns
 
 ```json
-// BASE PATTERN (sequential string identifiers)
+
 {
   "component-name": "BasicAutoIncrementer",
-  "type": "faims-core::String",  // ⚠️ Returns STRING not number!
+  "type": "faims-core::String",
   "name": "specimen_seq",
-  "form_id": "specimen_registration",  // Links to specific sequence
-  "num_digits": 5,  // Zero-padding width
+  "form_id": "specimen_registration",
+  "num_digits": 5,
   "label": "Specimen Number",
   "persistent": true
 }
 
-// VARIANT: With TemplatedString wrapper (REQUIRED for Excel)
+
 {
   "fields": [
     {
@@ -12661,64 +12663,64 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
   ]
 }
 
-// VARIANT: Museum cataloging pattern
+
 {
   "component-name": "BasicAutoIncrementer",
   "name": "accession_seq",
   "form_id": "accessions",
-  "num_digits": 6,  // Allows up to 999,999
+  "num_digits": 6,
   "label": "Accession Sequence"
 }
 
-// DOCUMENTATION: Range allocation tracking
+
 {
   "_range_allocation": {
     "device_A": {"start": 1, "end": 999},
     "device_B": {"start": 1000, "end": 1999},
     "device_C": {"start": 2000, "end": 2999},
     "comment": "CRITICAL: Never overlap ranges",
-    "tracking_sheet": "https://docs.google.com/spreadsheets/d/xxx"
+    "tracking_sheet": "https:
   }
 }
 ```
 
 #### BasicAutoIncrementer ANTI-PATTERNS ⚠️
 ```json
-// ❌ NEVER: Using for calculations
+
 {
   "component-name": "BasicAutoIncrementer",
   "name": "count"
-  // Later: count + 1
-  // ERROR: "TypeError: Cannot perform arithmetic on string '00042'"
-}
-// ✅ ALWAYS: Use only for identifiers
-{
-  "component-name": "BasicAutoIncrementer",
-  "name": "specimen_id"  // String identifier only
+
+
 }
 
-// ❌ NEVER: Direct CSV export without protection
 {
   "component-name": "BasicAutoIncrementer",
-  "name": "id"  // Excel strips zeros: "00042" → 42
+  "name": "specimen_id"
 }
-// ✅ ALWAYS: Wrap in TemplatedString
+
+
+{
+  "component-name": "BasicAutoIncrementer",
+  "name": "id"
+}
+
 {
   "template": "PREFIX-{{auto_increment}}-SUFFIX"
 }
 
-// ❌ NEVER: Overlapping ranges across devices
-// Device A: 1-1000
-// Device B: 1-1000  // DUPLICATES!
-// ✅ ALWAYS: Non-overlapping ranges
-// Device A: 1-999
-// Device B: 1000-1999
+
+
+
+
+
+
 ```
 
 ### Platform-Specific Configurations
 
 ```json
-// iOS-Optimized (avoids minus key issue)
+
 {
   "component-name": "NumberField",
   "name": "positive_only",
@@ -12727,31 +12729,31 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
     ["yup.number"],
     ["yup.min", 0, "Distance cannot be negative"]
   ],
-  "helperText": "Positive values only"  // User expectation
+  "helperText": "Positive values only"
 }
 
-// Android-Specific (handles minus key confusion)
+
 {
   "component-name": "ControlledNumber",
   "min": 0,
   "max": 100,
-  "helperText": "0-100 only (ignore minus key)"  // Android shows minus even when min=0
+  "helperText": "0-100 only (ignore minus key)"
 }
 
-// Desktop-Optimized (leverages full keyboard)
+
 {
   "component-name": "NumberField",
   "InputProps": {
     "type": "number",
     "inputProps": {
-      "step": 0.001,  // Fine control with arrows
+      "step": 0.001,
       "min": -1000,
       "max": 1000
     }
   }
 }
 
-// Voice Input Configuration
+
 {
   "component-name": "NumberField",
   "helperText": "Say numbers like: 'fifteen point five' not 'fifteen and a half'"
@@ -12762,20 +12764,20 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 ### Performance Optimization Patterns
 
 ```json
-// PATTERN: Optimized for large forms (>50 fields)
+
 {
   "component-name": "NumberField",
   "validationSchema": [
     ["yup.number"],
     ["yup.lazy", "value => value ? yup.number().min(0) : yup.number()"]
   ]
-  // Lazy evaluation reduces initial load
+
 }
 
-// PATTERN: Pagination trigger for memory management
+
 {
   "form_config": {
-    "pagination_threshold": 500,  // Fields per page
+    "pagination_threshold": 500,
     "comment": "Forms with >1000 fields risk browser crash"
   }
 }
@@ -12784,29 +12786,29 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 ### Migration Patterns
 
 ```json
-// MIGRATION: From deprecated Number Field
+
 {
-  // OLD (deprecated)
+
   "component-namespace": "formik-material-ui",
   "component-name": "TextField",
   "type": "number",
   "type-returned": "faims-core::Integer"
 }
-// TO NEW (correct)
+
 {
   "component-name": "NumberField",
   "type": "faims-core::Number",
   "validationSchema": [
     ["yup.number"],
-    ["yup.nullable"]  // Add for proper null handling
+    ["yup.nullable"]
   ]
 }
 
-// MIGRATION: TextField to NumberInput
+
 {
-  // Check existing data first:
-  // grep -E '[^0-9.-]' field_values.txt
-  // If clean, migrate:
+
+
+
   "component-name": "NumberField",
   "validationSchema": [
     ["yup.number"],
@@ -12818,21 +12820,21 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 ### Excel/CSV Export Safety Patterns
 
 ```json
-// PATTERN: Excel-safe number export
+
 {
   "export_config": {
     "number_fields": {
-      "format": "text",  // Prevent Excel auto-formatting
-      "prefix": "'",     // Force text interpretation
+      "format": "text",
+      "prefix": "'",
       "comment": "Prevents scientific notation conversion"
     }
   }
 }
 
-// PATTERN: CSV with preserved precision
+
 {
   "component-name": "NumberField",
-  "export_formatter": "value => value?.toFixed(6)",  // Preserve 6 decimals
+  "export_formatter": "value => value?.toFixed(6)",
   "comment": "Prevents precision loss in export"
 }
 ```
@@ -12840,7 +12842,7 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 ### Integration Patterns (Fields Working Together)
 
 ```json
-// PATTERN: BasicAutoIncrementer + TemplatedString (ESSENTIAL)
+
 {
   "specimen_number": {
     "component-name": "BasicAutoIncrementer",
@@ -12855,7 +12857,7 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
   }
 }
 
-// PATTERN: Multiple numeric fields with calculations
+
 {
   "length_cm": {
     "component-name": "NumberField",
@@ -12868,15 +12870,15 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
     "label": "Width (cm)"
   },
   "area_display": {
-    "component-name": "TextField",  // Display only
+    "component-name": "TextField",
     "label": "Area (cm²)",
     "disabled": true,
     "helperText": "Calculated from length × width"
-    // Note: Actual calculation requires custom code
+
   }
 }
 
-// PATTERN: Conditional number fields
+
 {
   "has_measurement": {
     "component-name": "Checkbox",
@@ -12900,7 +12902,7 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
   }
 }
 
-// PATTERN: Archaeological recording suite
+
 {
   "find_number": {
     "component-name": "BasicAutoIncrementer",
@@ -12927,7 +12929,7 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
   }
 }
 
-// PATTERN: Complete excavation recording
+
 {
   "context_number": {
     "component-name": "BasicAutoIncrementer",
@@ -12962,14 +12964,14 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 ### Common Anti-Patterns Across All Number Fields ⚠️
 
 ```json
-// ❌ NEVER: Wrong validation order
+
 {
   "validationSchema": [
-    ["yup.required"],  // ERROR: Type must come first!
+    ["yup.required"],
     ["yup.number"]
   ]
 }
-// ✅ ALWAYS: Type first, then constraints
+
 {
   "validationSchema": [
     ["yup.number"],
@@ -12977,32 +12979,32 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
   ]
 }
 
-// ❌ NEVER: String operations on numbers
+
 {
   "component-name": "NumberField",
-  "initialValue": "0"  // String instead of number
-}
-// ✅ ALWAYS: Correct type
-{
-  "initialValue": 0  // Or null for empty
+  "initialValue": "0"
 }
 
-// ❌ NEVER: Arithmetic on BasicAutoIncrementer
 {
-  "next_value": "{{auto_increment + 1}}"  // STRING!
-  // ERROR: "NaN"
+  "initialValue": 0
 }
-// ✅ ALWAYS: Use for identifiers only
+
+
+{
+  "next_value": "{{auto_increment + 1}}"
+
+}
+
 {
   "display_id": "NEXT-{{auto_increment}}"
 }
 
-// ❌ NEVER: Precision beyond limits
+
 {
   "validationSchema": [
     ["yup.number"],
     ["yup.test", "precision", "Must have 20 decimal places"]
-    // JavaScript limited to ~15-17 digits!
+
   ]
 }
 ```
@@ -13010,7 +13012,7 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 ### Error Message Quick Reference
 
 ```json
-// Common errors and their meanings:
+
 {
   "Component 'NumberInput' not found": "Use 'NumberField' in JSON despite Designer label",
   "Must be a number": "Empty field needs nullable() validation or has wrong type",
@@ -14766,11 +14768,11 @@ See [Component Namespace Reference](../reference-docs/component-namespace-refere
 See [Security Considerations Reference](../reference-docs/security-considerations-reference.md) for comprehensive guidelines.
 
 **Location-Specific Security Notes:**
-- TakePoint exposes full GPS precision unnecessarily
-- No coordinate obfuscation options
+- Full GPS precision stored (required for research accuracy)
+- No coordinate obfuscation options (privacy consideration for public data)
 - MapFormField accepts self-intersecting polygons
-- Both fields store exact coordinates without fuzzing
-- CSV export maintains full precision
+- Both fields store exact coordinates (intentional for research)
+- CSV export maintains full precision (by design)
 
 ### Performance Boundaries {important}
 See [Performance Thresholds Reference](../reference-docs/performance-thresholds-reference.md#location-field-thresholds-estimates) for detailed metrics including GPS acquisition times, map performance by vertex count, and battery consumption.
@@ -16024,11 +16026,11 @@ See [Component Namespace Reference](../reference-docs/component-namespace-refere
 See [Security Considerations Reference](../reference-docs/security-considerations-reference.md) for comprehensive guidelines.
 
 **Media-Specific Security Notes:**
-- FileUploader accepts executables without validation
-- No client-side content scanning
+- FileUploader accepts any file type (research flexibility)
+- No client-side virus scanning (trust-based system)
 - Base64 encoding increases memory usage 33%
 - Orphaned attachments accumulate without cleanup
-- EXIF location data exposed in original files
+- EXIF location data preserved (research metadata requirement)
 
 ### Performance Boundaries {important}
 See [Performance Thresholds Reference](../reference-docs/performance-thresholds-reference.md) for general limits.
@@ -17500,10 +17502,11 @@ See [Component Namespace Reference](../reference-docs/component-namespace-refere
 See [Security Considerations Reference](../reference-docs/security-considerations-reference.md) for comprehensive guidelines.
 
 **Relationship-Specific Security Notes:**
-- No access control on relationships
-- All users can modify any relationship
+- Access control at notebook level (not field-specific)
+- Users with edit permissions can modify all relationships
+- Read-only users cannot modify any relationships
 - Soft-delete preserves data trail
-- No audit log for relationship changes
+- Changes tracked via PouchDB revision history
 
 ### Performance Boundaries {important}
 See [Performance Thresholds Reference](../reference-docs/performance-thresholds-reference.md) for general limits.
@@ -24110,21 +24113,56 @@ These limitations affect different user groups:
 #### Number Fields
 - JavaScript precision limits can cause data corruption
 - No server-side range validation
-- Scientific notation can bypass validations
-- **Recommendation**: Validate numeric ranges server-side
+- Scientific notation can bypass validations (e.g., `1e308` causes infinity overflow)
+- **BasicAutoIncrementer enumeration risk**: Sequential IDs expose data patterns, enable scraping
+- **Integer vs Float confusion**: All numbers stored as floats, causing rounding errors
+- **Type coercion attacks**: JavaScript coercion bypasses validation (`"10" + 0`, `true + 1`)
+- **Recommendation**: Validate numeric ranges server-side, use UUIDs for sensitive IDs
 
 #### DateTime Fields
 - Future dates accepted (backdating possible)
-- No temporal sequence validation
-- Timezone information leaks user location
-- Format string injection possible
-- **Recommendation**: Implement audit trails server-side
+- No temporal sequence validation (start/end date logic not enforced)
+- Timezone information leaks user location (reveals geographic position, travel patterns)
+- Format string injection possible (malformed dates stored as strings)
+- **DateTimePicker timezone loss**: Silent data corruption, 10+ hour shifts possible
+- **Audit trail note**: User-editable datetime fields are for data collection, not forensics. PouchDB maintains revision history (_rev) and server typically adds trusted timestamps during sync for true audit trails.
+- **Recommendation**: Use DateTimeNow for timezone-critical data, rely on server timestamps for audit trails
 
 #### Selection Fields
 - Option values not validated for special characters
-- Markdown in options can introduce vectors
+- Markdown in options can introduce vectors (JavaScript URLs in RadioGroup)
 - No uniqueness validation on values
-- **Recommendation**: Sanitize option values before storage
+- **CSV Formula Injection**: Excel executes formulas in exported data (`=SUM(A1:A100)`, `=cmd|'/c calc'!A1`)
+- **Option validation bypass (LOW RISK)**: While the UI prevents invalid selections, client could theoretically submit values not in option list via browser DevTools or API manipulation. Defense-in-depth principle suggests server-side validation.
+- **AdvancedSelect path traversal**: Delimiter injection with " > " corrupts hierarchy
+- **Conditional logic bypass**: Browser DevTools can enable disabled fields
+- **Recommendation**: Server should validate all selections against option lists as best practice, prefix CSV exports with `'`
+
+#### Location Fields
+- **GPS precision (PRIVACY CONSIDERATION)**: Full coordinates stored for research accuracy. Consider obfuscation options for public dataset releases.
+- **No coordinate validation**: Self-intersecting polygons accepted
+- **CSV export**: Maintains full precision (intentional for research)
+- **Recommendation**: Implement privacy controls for public data sharing, validate geometries server-side
+
+#### Media Fields  
+- **File type validation**: Accepts any file type including executables (research may require various formats)
+- **EXIF data (FEATURE)**: Location metadata preserved intentionally for research purposes. Users should be aware when sharing publicly.
+- **Base64 encoding**: Increases storage by ~33%
+- **Orphaned attachments**: No automatic cleanup
+- **Recommendation**: Implement virus scanning for public deployments, educate users about EXIF privacy
+
+#### Relationship Fields
+- **Access control**: Operates at notebook level, not field level. Users with edit permissions can modify all relationships; read-only users cannot.
+- **No granular permissions**: Cannot restrict relationship editing while allowing other field edits
+- **Orphan creation**: Deleting parent records leaves child relationships
+- **No cascade delete**: Manual cleanup required
+- **Recommendation**: Suitable for trusted research teams; implement cleanup procedures for orphans
+
+#### Display Fields
+- **DOMPurify configuration**: Hardcoded whitelist cannot be customized
+- **External resources**: All external domains blocked
+- **Base64 images**: Potential vector if user-supplied
+- **Recommendation**: Use for trusted content only
 
 ### Data Validation Layers
 
@@ -24337,8 +24375,8 @@ If you discover a security vulnerability:
 
 ## Document Metadata
 
-- **Generated**: 2025-09-06T18:42:23+10:00
-- **Total Lines**: 24340
+- **Generated**: 2025-09-06T22:27:37+10:00
+- **Total Lines**: 24378
 - **Field Documents**: 8
 - **Pattern Documents**: 4
 - **Reference Documents**: 4

@@ -280,21 +280,56 @@ These limitations affect different user groups:
 #### Number Fields
 - JavaScript precision limits can cause data corruption
 - No server-side range validation
-- Scientific notation can bypass validations
-- **Recommendation**: Validate numeric ranges server-side
+- Scientific notation can bypass validations (e.g., `1e308` causes infinity overflow)
+- **BasicAutoIncrementer enumeration risk**: Sequential IDs expose data patterns, enable scraping
+- **Integer vs Float confusion**: All numbers stored as floats, causing rounding errors
+- **Type coercion attacks**: JavaScript coercion bypasses validation (`"10" + 0`, `true + 1`)
+- **Recommendation**: Validate numeric ranges server-side, use UUIDs for sensitive IDs
 
 #### DateTime Fields
 - Future dates accepted (backdating possible)
-- No temporal sequence validation
-- Timezone information leaks user location
-- Format string injection possible
-- **Recommendation**: Implement audit trails server-side
+- No temporal sequence validation (start/end date logic not enforced)
+- Timezone information leaks user location (reveals geographic position, travel patterns)
+- Format string injection possible (malformed dates stored as strings)
+- **DateTimePicker timezone loss**: Silent data corruption, 10+ hour shifts possible
+- **Audit trail note**: User-editable datetime fields are for data collection, not forensics. PouchDB maintains revision history (_rev) and server typically adds trusted timestamps during sync for true audit trails.
+- **Recommendation**: Use DateTimeNow for timezone-critical data, rely on server timestamps for audit trails
 
 #### Selection Fields
 - Option values not validated for special characters
-- Markdown in options can introduce vectors
+- Markdown in options can introduce vectors (JavaScript URLs in RadioGroup)
 - No uniqueness validation on values
-- **Recommendation**: Sanitize option values before storage
+- **CSV Formula Injection**: Excel executes formulas in exported data (`=SUM(A1:A100)`, `=cmd|'/c calc'!A1`)
+- **Option validation bypass (LOW RISK)**: While the UI prevents invalid selections, client could theoretically submit values not in option list via browser DevTools or API manipulation. Defense-in-depth principle suggests server-side validation.
+- **AdvancedSelect path traversal**: Delimiter injection with " > " corrupts hierarchy
+- **Conditional logic bypass**: Browser DevTools can enable disabled fields
+- **Recommendation**: Server should validate all selections against option lists as best practice, prefix CSV exports with `'`
+
+#### Location Fields
+- **GPS precision (PRIVACY CONSIDERATION)**: Full coordinates stored for research accuracy. Consider obfuscation options for public dataset releases.
+- **No coordinate validation**: Self-intersecting polygons accepted
+- **CSV export**: Maintains full precision (intentional for research)
+- **Recommendation**: Implement privacy controls for public data sharing, validate geometries server-side
+
+#### Media Fields  
+- **File type validation**: Accepts any file type including executables (research may require various formats)
+- **EXIF data (FEATURE)**: Location metadata preserved intentionally for research purposes. Users should be aware when sharing publicly.
+- **Base64 encoding**: Increases storage by ~33%
+- **Orphaned attachments**: No automatic cleanup
+- **Recommendation**: Implement virus scanning for public deployments, educate users about EXIF privacy
+
+#### Relationship Fields
+- **Access control**: Operates at notebook level, not field level. Users with edit permissions can modify all relationships; read-only users cannot.
+- **No granular permissions**: Cannot restrict relationship editing while allowing other field edits
+- **Orphan creation**: Deleting parent records leaves child relationships
+- **No cascade delete**: Manual cleanup required
+- **Recommendation**: Suitable for trusted research teams; implement cleanup procedures for orphans
+
+#### Display Fields
+- **DOMPurify configuration**: Hardcoded whitelist cannot be customized
+- **External resources**: All external domains blocked
+- **Base64 images**: Potential vector if user-supplied
+- **Recommendation**: Use for trusted content only
 
 ### Data Validation Layers
 

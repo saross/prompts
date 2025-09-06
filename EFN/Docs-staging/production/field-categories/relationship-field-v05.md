@@ -260,10 +260,11 @@ See [Component Namespace Reference](../reference-docs/component-namespace-refere
 See [Security Considerations Reference](../reference-docs/security-considerations-reference.md) for comprehensive guidelines.
 
 **Relationship-Specific Security Notes:**
-- No access control on relationships
-- All users can modify any relationship
+- Access control at notebook level (not field-specific)
+- Users with edit permissions can modify all relationships
+- Read-only users cannot modify any relationships
 - Soft-delete preserves data trail
-- No audit log for relationship changes
+- Changes tracked via PouchDB revision history
 
 ### Performance Boundaries {important}
 See [Performance Thresholds Reference](../reference-docs/performance-thresholds-reference.md) for general limits.

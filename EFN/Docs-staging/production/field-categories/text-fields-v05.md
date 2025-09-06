@@ -417,13 +417,14 @@ See [Component Namespace Reference](component-namespace-reference.md) for comple
 
 ### Security Considerations {important}
 
-See [Security Considerations Reference](security-considerations-reference.md) for detailed security analysis, XSS prevention, and SQL injection mitigation.
+See [Security Considerations Reference](../references/constraints-reference.md#field-specific-security-considerations) for comprehensive security guidelines.
 
-**Text Field-Specific Security Requirements**:
-- **TemplatedString**: HTML escaping disabled - critical XSS risk with user input
-- **QRCodeFormField**: No content validation - verify scanned data server-side
-- **RichText**: DOMPurify sanitization present but never trust with user content
-- **All fields**: Implement server-side validation and sanitization
+**Text Field-Specific Security Notes**:
+- TemplatedString HTML escaping disabled - critical XSS risk
+- QRCode scanner accepts any content without validation
+- Address fields vulnerable to JSON injection attacks
+- No server-side validation or sanitization by default
+- Client-side validation easily bypassed via DevTools
 
 ### Performance Boundaries {important}
 

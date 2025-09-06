@@ -499,14 +499,14 @@ const validateDates = (record) => {
 
 ### Security Considerations {important}
 
-See [Security Considerations Reference](security-considerations-reference.md) for comprehensive security guidelines and validation requirements.
+See [Security Considerations Reference](../references/constraints-reference.md#field-specific-security-considerations) for comprehensive security guidelines.
 
-**DateTime Field-Specific Security Issues**:
-- **Timezone disclosure**: DateTimeNow exposes user location via timezone
-- **Validation poverty**: No server-side date validation possible
-- **Format injection**: String storage allows malformed dates
-- **Audit compromise**: User-editable timestamps break forensic trails
-- **DateTimePicker**: Timezone loss causes silent data corruption
+**DateTime Field-Specific Security Notes**:
+- DateTimeNow exposes user location via timezone
+- No temporal sequence validation (start/end dates)
+- String storage accepts malformed dates
+- User-editable timestamps compromise audit trails
+- DateTimePicker silently loses timezone causing data corruption
 
 ### Performance Boundaries {important}
 

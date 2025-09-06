@@ -491,13 +491,14 @@ Voice input requires exact numeric formatting for successful recognition:
 
 ### Security Considerations {important}
 
-See [Security Considerations Reference](security-considerations-reference.md) for comprehensive security guidelines and attack mitigation strategies.
+See [Security Considerations Reference](../references/constraints-reference.md#field-specific-security-considerations) for comprehensive security guidelines.
 
-**Number Field-Specific Security Risks**:
-- **Overflow attacks**: Scientific notation (1e308) can bypass validation
-- **Precision attacks**: >17 digits cause silent data corruption
-- **BasicAutoIncrementer**: Sequential IDs enable enumeration attacks
-- **Type confusion**: JavaScript number coercion bypasses validation
+**Number Field-Specific Security Notes**:
+- Scientific notation (1e308) bypasses validation causing overflow
+- Precision loss beyond 15-17 digits causes silent data corruption
+- BasicAutoIncrementer sequential IDs enable enumeration attacks  
+- JavaScript type coercion bypasses validation
+- All numbers stored as floats causing rounding errors
 
 ### Performance Boundaries {important}
 

@@ -1,13 +1,13 @@
-# Archive Directory
+# Documentation Archive
 
 ## Purpose
 
-This archive directory contains deprecated documentation that has been superseded by consolidated references. These files are maintained for:
+This archive contains the original source documentation for the Fieldmark v3 field system. These 78 files have been consolidated into a streamlined production structure of 17 documents. Files are maintained for:
 
-1. **Disaster Recovery**: In case issues are discovered with consolidation
-2. **Historical Reference**: Understanding documentation evolution
-3. **Source Material**: Original content before reorganization
-4. **Rollback Capability**: Quick restoration if needed
+1. **Disaster Recovery**: Full source material for rebuilding production docs
+2. **Historical Reference**: Complete evolution of the documentation
+3. **Source Material**: Original content before consolidation  
+4. **Reference Reports**: 27 analysis documents with valuable insights
 
 ## Structure
 

@@ -266,11 +266,11 @@ See [Component Namespace Reference](../reference-docs/component-namespace-refere
 See [Security Considerations Reference](../reference-docs/security-considerations-reference.md) for comprehensive guidelines.
 
 **Media-Specific Security Notes:**
-- FileUploader accepts executables without validation
-- No client-side content scanning
+- FileUploader accepts any file type (research flexibility)
+- No client-side virus scanning (trust-based system)
 - Base64 encoding increases memory usage 33%
 - Orphaned attachments accumulate without cleanup
-- EXIF location data exposed in original files
+- EXIF location data preserved (research metadata requirement)
 
 ### Performance Boundaries {important}
 See [Performance Thresholds Reference](../reference-docs/performance-thresholds-reference.md) for general limits.

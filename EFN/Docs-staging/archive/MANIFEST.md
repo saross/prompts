@@ -4,25 +4,28 @@
 
 ## Archive Overview
 
-This archive contains 45 original documentation files that have been consolidated into the new documentation structure. All files retain their original content with added deprecation notices.
+This archive contains 78 original documentation files that have been consolidated into the new documentation structure. All files retain their original content with added deprecation notices where applicable.
 
 ## Directory Structure
 
 ```
 archive/
-├── cross-field/            (10 files) - Cross-field pattern documentation
-├── detail-singlefield-docs/ (21 files) - Individual field detailed documentation
-├── reference/              (4 files)  - Component-level reference docs
-├── reference-docs/         (9 files)  - Platform & operational reference docs
-├── README.md               (1 file)   - Archive overview
-└── MANIFEST.md            (this file) - Complete file inventory
+├── cross-field/              (10 files)  - Cross-field pattern documentation
+├── detail-singlefield-docs/  (21 files)  - Individual field detailed documentation
+├── planning/                 (4 files)   - Planning and architecture documents
+├── reference/                (4 files)   - Component-level reference docs  
+├── reference-docs/           (9 files)   - Platform & operational reference docs
+├── reports/                  (27 files)  - Analysis and optimization reports
+├── templates/                (1 file)    - Documentation templates
+├── README.md                 (1 file)    - Archive overview
+└── MANIFEST.md              (this file)  - Complete file inventory
 ```
 
 ## Complete File Inventory
 
 ### 1. Cross-Field Documentation (`/cross-field/`)
 **Purpose**: Original cross-field pattern and workflow documentation  
-**Status**: All consolidated into `/patterns/` directory
+**Status**: All consolidated into `/production/patterns/` directory
 
 | Original File | Size | Consolidated Into | Purpose |
 |--------------|------|-------------------|---------|
@@ -39,7 +42,7 @@ archive/
 
 ### 2. Single Field Documentation (`/detail-singlefield-docs/`)
 **Purpose**: Detailed third-draft documentation for individual field types  
-**Status**: Source material for field category documents in `/field-categories/`
+**Status**: Source material for field category documents in `/production/field-categories/`
 
 #### Choice Fields (5 files)
 | File | Component | Category Doc |
@@ -50,15 +53,17 @@ archive/
 | radiogroup.md | RadioGroup | select-choice-fields-v05.md |
 | select.md | Select | select-choice-fields-v05.md |
 
-#### DateTime Fields (1 file)
-| File | Components | Category Doc |
+#### DateTime Fields (3 files)
+| File | Component | Category Doc |
 |------|-----------|--------------|
-| datetime-all.md | DateTime, DateTimeNow, DatePicker, etc. | datetime-fields-v05.md |
+| datetime.md | DateTimeNow | datetime-fields-v05.md |
+| datetimepicker.md | DateTimePicker | datetime-fields-v05.md |
+| datepicker.md | DatePicker | datetime-fields-v05.md |
 
 #### Location Fields (2 files)
 | File | Component | Category Doc |
 |------|-----------|--------------|
-| mapform.md | MapFormField | location-fields-v05.md |
+| mapformfield.md | MapFormField | location-fields-v05.md |
 | takepoint.md | TakePoint | location-fields-v05.md |
 
 #### Media Fields (2 files)
@@ -67,121 +72,123 @@ archive/
 | fileuploader.md | FileUploader | media-fields-v05.md |
 | takephoto.md | TakePhoto | media-fields-v05.md |
 
-#### Number Fields (3 files)
+#### Number Fields (2 files)
 | File | Component | Category Doc |
 |------|-----------|--------------|
 | basicautoincrementer.md | BasicAutoIncrementer | number-fields-v05.md |
-| controllednumber.md | NumberField | number-fields-v05.md |
-| numberinput.md | NumberField variants | number-fields-v05.md |
+| numberinput.md | NumberInput | number-fields-v05.md |
 
-#### Text Fields (6 files)
+#### Text Fields (5 files)
 | File | Component | Category Doc |
 |------|-----------|--------------|
-| address.md | AddressField | text-fields-v05.md |
-| email.md | Email validation | text-fields-v05.md |
+| address.md | Address | text-fields-v05.md |
 | multilinetext.md | MultipleTextField | text-fields-v05.md |
 | qrcode.md | QRCodeFormField | text-fields-v05.md |
-| singlelinetext.md | TextField/FAIMSTextField | text-fields-v05.md |
-| templatedstring.md | TemplatedStringField | text-fields-v05.md |
+| richtext.md | RichText | text-fields-v05.md |
+| textfield.md | TextField | text-fields-v05.md |
 
 #### Other Fields (2 files)
 | File | Component | Category Doc |
 |------|-----------|--------------|
-| display.md | RichText | display-field-v05.md |
-| relationship.md | RelatedRecordSelector | relationship-field-v05.md |
+| display.md | RichText (display) | display-field-v05.md |
+| relatedrecordselector.md | RelatedRecordSelector | relationship-field-v05.md |
 
-### 3. Component Reference Documentation (`/reference/`)
-**Purpose**: Component-level technical specifications  
-**Status**: Consolidated into `/references/component-reference.md`
+### 3. Planning Documents (`/planning/`)
+**Purpose**: Architecture and planning documents for documentation improvements  
+**Status**: Completed and archived
 
-| Original File | Size | Content |
-|--------------|------|---------|
-| component-namespace-reference.md | 8KB | Component namespace mappings |
-| formik-integration-reference.md | 10KB | Formik integration details |
-| meta-properties-reference.md | 9KB | Meta property configuration |
-| type-system-reference.md | 7KB | Type system definitions |
+| File | Purpose | Status |
+|------|---------|---------|
+| field-docs-unification-todo.md | Unification checklist | ✅ Completed |
+| phase-3-consolidation-checklist.md | Phase 3 tracking | ✅ Completed |
+| TODO-v05-improvements.md | Version 5 improvements | ✅ Completed |
+| unified-documentation-architecture-plan.md | Master architecture plan | ✅ Phases 1-4 Complete |
 
-### 4. Platform & Operational Reference (`/reference-docs/`)
-**Purpose**: Platform behaviors, operations, and constraints  
-**Status**: Consolidated into multiple `/references/` files
+### 4. Reference Documentation (`/reference/`)
+**Purpose**: Component-level reference documentation  
+**Status**: Consolidated into `/production/references/component-reference.md`
 
-| Original File | Size | Consolidated Into | Content |
-|--------------|------|-------------------|---------|
-| accessibility-reference.md | 13KB | references/platform-reference.md | WCAG compliance |
-| data-export-reference.md | 9KB | references/operations-reference.md | Export formats |
-| designer-limitations-reference.md | 7KB | references/constraints-reference.md | Designer limitations |
-| migration-strategies-reference.md | 11KB | references/operations-reference.md | Migration procedures |
-| performance-thresholds-reference.md | 18KB | references/platform-reference.md | Performance metrics |
-| platform-behaviors-reference.md | 9KB | references/platform-reference.md | Platform-specific behaviors |
-| security-considerations-reference.md | 10KB | references/constraints-reference.md | Security vulnerabilities |
-| troubleshooting-framework-reference.md | 9KB | Split between platform & operations | Troubleshooting procedures |
-| validation-timing-reference.md | 6KB | references/platform-reference.md | Validation timing |
+| File | Purpose | Consolidated Into |
+|------|---------|-------------------|
+| component-namespace-reference.md | Component namespaces | component-reference.md |
+| formik-integration-reference.md | Formik integration details | component-reference.md |
+| meta-properties-reference.md | Meta property configuration | component-reference.md |
+| type-system-reference.md | Type system documentation | component-reference.md |
+
+### 5. Reference Docs (`/reference-docs/`)
+**Purpose**: Platform and operational reference documentation  
+**Status**: Consolidated into `/production/references/`
+
+| File | Purpose | Consolidated Into |
+|------|---------|-------------------|
+| accessibility-reference.md | Accessibility guidelines | platform-reference.md |
+| data-export-reference.md | Export format details | operations-reference.md |
+| designer-limitations-reference.md | Designer constraints | constraints-reference.md |
+| migration-strategies-reference.md | Migration guidance | operations-reference.md |
+| performance-thresholds-reference.md | Performance limits | platform-reference.md |
+| platform-behaviors-reference.md | Platform-specific behavior | platform-reference.md |
+| security-considerations-reference.md | Security guidelines | constraints-reference.md |
+| troubleshooting-framework-reference.md | Troubleshooting guide | operations-reference.md |
+| validation-timing-reference.md | Validation behavior | constraints-reference.md |
+
+### 6. Reports (`/reports/`)
+**Purpose**: Analysis reports and optimization studies  
+**Status**: Reference material, not consolidated
+
+27 analysis and optimization reports including:
+- alignment-plan-for-existing-docs.md
+- centralization-summary-report.md
+- content-analysis-report.md
+- cross-references-added.md
+- field-selection-optimization-guide.md
+- llm-optimal-structure-v4.md
+- media-reference-updates-checklist.md
+- post-refactoring-qa-report.md
+- prompt-gap-analysis.md
+- prompt-restructuring-analysis.md
+- shareable-content-candidates.md
+- structure-comparison.md
+- structure-verification.md
+- template-application-report.md
+- (and 13 more analysis files)
+
+### 7. Templates (`/templates/`)
+**Purpose**: Documentation templates  
+**Status**: Reference template
+
+| File | Purpose |
+|------|---------|
+| llm-optimized-field-doc-template.md | LLM-optimized documentation template |
 
 ## Consolidation Summary
 
-### Phase 3A - Pattern Consolidation
-- **10 cross-field docs** → **4 pattern guides** in `/patterns/`
-- Reduction: 209KB → ~150KB (28% more concise)
-- Result: Unified workflow-based guidance
+### Original Structure (78 files)
+- 10 cross-field pattern docs
+- 21 single field detail docs
+- 4 planning documents
+- 4 component reference docs
+- 9 platform/operational reference docs
+- 27 analysis reports
+- 1 template
+- 2 readme/manifest files
 
-### Phase 3B - Reference Consolidation  
-- **13 reference docs** → **4 reference guides** in `/references/`
-- Reduction: 110KB → ~95KB (14% more concise)
-- Result: Organized technical specifications
+### New Structure (17 production files)
+- 8 field category docs
+- 4 pattern guides
+- 4 reference guides
+- 1 master index
 
-### Field Documentation
-- **21 detail docs** remain as source material
-- Incorporated into **8 field category docs** in `/field-categories/`
-- Result: Comprehensive field type reference
+## Recovery Instructions
 
-## Usage Guidelines
+If production documentation is lost:
+1. All source content exists in this archive
+2. Consolidation mappings show which files combine
+3. Deprecation notices can be removed
+4. Original structure can be restored if needed
 
-### When to Use Archive Files
+## Notes
 
-1. **Disaster Recovery**: If consolidated version has critical errors
-2. **Historical Research**: Understanding documentation evolution
-3. **Detailed Reference**: When consolidated version lacks specific detail
-4. **Migration Rollback**: If consolidation causes issues
-
-### How to Restore Files
-
-```bash
-# 1. Copy file from archive
-cp archive/[subdir]/[filename].md references/
-
-# 2. Remove deprecation notice (first 3 lines)
-sed -i '1,3d' references/[filename].md
-
-# 3. Update build script
-vim scripts/build-reference.sh
-
-# 4. Test build
-bash scripts/build-reference.sh
-```
-
-## Important Notes
-
-⚠️ **All archived files contain deprecation notices** - Remove before use  
-⚠️ **Do not reference archive files directly** - Use consolidated versions  
-⚠️ **Archive is for emergency use only** - Not part of active documentation  
-⚠️ **Preserve archive indefinitely** - Critical for disaster recovery
-
-## File Statistics
-
-- **Total archived files**: 45
-- **Total archive size**: ~500KB
-- **Deprecation notices added**: 23 files
-- **Original content preserved**: 100%
-- **Consolidation date**: 2025-01-06
-
-## Contact
-
-For questions about specific archived files:
-1. Check the consolidated version first
-2. Review this manifest for mapping
-3. Examine git history for consolidation commits
-4. Contact documentation team if unclear
-
----
-
-*This manifest provides complete traceability from original to consolidated documentation.*
+- All archived files retain original content
+- Deprecation notices added where applicable
+- Reports directory contains valuable analysis for future reference
+- Planning documents show complete project history

@@ -278,11 +278,11 @@ See [Component Namespace Reference](../reference-docs/component-namespace-refere
 See [Security Considerations Reference](../reference-docs/security-considerations-reference.md) for comprehensive guidelines.
 
 **Location-Specific Security Notes:**
-- TakePoint exposes full GPS precision unnecessarily
-- No coordinate obfuscation options
+- Full GPS precision stored (required for research accuracy)
+- No coordinate obfuscation options (privacy consideration for public data)
 - MapFormField accepts self-intersecting polygons
-- Both fields store exact coordinates without fuzzing
-- CSV export maintains full precision
+- Both fields store exact coordinates (intentional for research)
+- CSV export maintains full precision (by design)
 
 ### Performance Boundaries {important}
 See [Performance Thresholds Reference](../reference-docs/performance-thresholds-reference.md#location-field-thresholds-estimates) for detailed metrics including GPS acquisition times, map performance by vertex count, and battery consumption.
