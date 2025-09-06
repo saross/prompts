@@ -28,7 +28,7 @@ This guide consolidates implementation patterns, troubleshooting strategies, and
 - **Auto-incrementers**: Sequence conflicts when multiple offline users
 - **Validation**: Client-side only, no server verification
 - **Media fields**: Local storage until sync opportunity
-- **All fields**: Last-write-wins conflict resolution
+- **All fields**: Last-write-wins default, conflicts flagged in Control Centre
 
 **Best Practices**:
 1. Plan for sync delays and conflicts
@@ -468,14 +468,16 @@ if (validateAgainstSchema(newDoc, schema)) {
 
 ### Sync Conflict Resolution
 
-**Pattern**: Last-write-wins is default and only strategy.
+**Pattern**: While last-write-wins is the default behavior, conflicts are flagged to users after sync.
 
-**Manual Resolution**:
-1. Export both versions
-2. Compare differences
-3. Merge manually
-4. Delete conflict
-5. Import merged version
+**Conflict Resolution Process**:
+1. Concurrent edits create conflicts during sync
+2. Control Centre displays conflicts after sync
+3. Users can review both versions
+4. Choose winning version in Control Centre
+5. Or manually merge and reimport if needed
+
+**Note**: The conflict resolution module in Control Centre allows users to see and resolve conflicts, though the underlying system uses last-write-wins if no manual intervention occurs.
 
 ## Integration Patterns
 
