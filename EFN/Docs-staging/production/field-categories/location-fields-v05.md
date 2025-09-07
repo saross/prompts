@@ -21,39 +21,16 @@ last_updated: 2025-01-05
 ### DESIGNER QUICK GUIDE
 **Location Capture Fields Available:**
 - **TakePoint** → GPS coordinate capture via device location services
-## Component Name Mapping {essential}
+## Component Mapping Reference {essential}
 
-| Designer UI Label | JSON component-name | Namespace | Code File | Description |
-|------------------|-------------------|-----------|-----------|-------------|
-| Take GPS Point | TakePoint | mapping-plugin | TakePoint.tsx | GPS coordinate capture |
-| Map Form Field | MapFormField | mapping-plugin | MapFormField.tsx | Interactive map drawing |
+For the complete mapping between Designer field names and JSON component implementations, see:
+→ **[Designer UI to Component Mapping Reference](../references/designer-component-mapping.md)**
 
-### Critical Naming Issues {important}
-- **Plugin namespace**: Both use mapping-plugin, not faims-custom
-- **MapForm variations**: Sometimes "MapFormField", sometimes "MapForm" in docs
-- **Designer limitations**: MapFormField configuration mostly JSON-only
-- **Accuracy confusion**: GPS accuracy thresholds not enforced despite UI
+This central reference provides:
+- Exact component names and namespaces for all fields
+- Configuration requirements and examples
+- Common mapping errors and solutions
 
-- MapFormField: `faims-core::JSON` (GeoJSON FeatureCollection)
-
-**Designer Support:** Limited for both - JSON enhancement often required
-
-### CRITICAL NAMING DISAMBIGUATION
-- **TakePoint** (capital T, capital P) - NOT "takepoint" or "Take Point"
-- **MapFormField** (capital M, F, F) - NOT "mapformfield" or "Map Form Field"
-- TakePoint uses namespace `"faims-custom"`
-- MapFormField uses namespace `"mapping-plugin"` - NOT "faims-custom"
-- Return types are incompatible - cannot transfer data between fields
-
-### Location Capture Fields (2 total)
-1. **TakePoint** - Single-tap GPS coordinate capture with accuracy metadata
-2. **MapFormField** - Visual map interface for drawing points, lines, and polygons
-
-### Component Status Summary
-| Field | Designer | JSON Enhancement | Validation | Platform Support |
-|-------|----------|------------------|------------|------------------|
-| TakePoint | ⚠️ Basic | GPS parameters | ✅ Works | All platforms |
-| MapFormField | ⚠️ Limited | Center, projection | ⚠️ No error display | All platforms |
 
 ## Designer Usage Guide {essential}
 

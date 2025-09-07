@@ -1,0 +1,262 @@
+{
+  "metadata": {
+    "notebook_version": "1.0",
+    "schema_version": "1.0",
+    "name": "Fieldmark Component Test - Comprehensive",
+    "accesses": ["admin", "moderator", "team"],
+    "ispublic": false,
+    "isrequest": false,
+    "lead_institution": "Test Institution",
+    "project_lead": "Test Lead",
+    "project_status": "New",
+    "pre_description": "Comprehensive test of all Fieldmark components",
+    "showQRCodeButton": false
+  },
+  "ui-specification": {
+    "fields": {
+      "text-basic": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Basic Text Field",
+          "fullWidth": true,
+          "helperText": "Standard text input",
+          "variant": "outlined",
+          "required": false,
+          "name": "text-basic"
+        },
+        "validationSchema": [["yup.string"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {"include": false, "label": "annotation"},
+          "uncertainty": {"include": false, "label": "uncertainty"}
+        }
+      },
+      "text-multiline": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "MultipleTextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Multiline Text",
+          "fullWidth": true,
+          "helperText": "Multi-line text area",
+          "variant": "outlined",
+          "multiline": true,
+          "rows": 4,
+          "name": "text-multiline"
+        },
+        "validationSchema": [["yup.string"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {"include": false, "label": "annotation"},
+          "uncertainty": {"include": false, "label": "uncertainty"}
+        }
+      },
+      "number-field": {
+        "component-namespace": "faims-custom",
+        "component-name": "NumberField",
+        "type-returned": "faims-core::Float",
+        "component-parameters": {
+          "label": "Number Input",
+          "fullWidth": true,
+          "helperText": "Numeric input field",
+          "variant": "outlined",
+          "name": "number-field"
+        },
+        "validationSchema": [["yup.number"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {"include": false, "label": "annotation"},
+          "uncertainty": {"include": false, "label": "uncertainty"}
+        }
+      },
+      "controlled-number": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::Integer",
+        "component-parameters": {
+          "label": "Controlled Number",
+          "fullWidth": true,
+          "helperText": "Number with min/max bounds",
+          "variant": "outlined",
+          "name": "controlled-number",
+          "InputProps": {
+            "type": "number"
+          }
+        },
+        "validationSchema": [
+          ["yup.number"],
+          ["yup.min", 0, "Must be at least 0"],
+          ["yup.max", 100, "Must be at most 100"]
+        ],
+        "initialValue": "",
+        "meta": {
+          "annotation": {"include": false, "label": "annotation"},
+          "uncertainty": {"include": false, "label": "uncertainty"}
+        }
+      },
+      "select-single": {
+        "component-namespace": "faims-custom",
+        "component-name": "Select",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Single Select",
+          "fullWidth": true,
+          "helperText": "Choose one option",
+          "variant": "outlined",
+          "name": "select-single",
+          "ElementProps": {
+            "options": [
+              {"value": "opt1", "label": "Option 1"},
+              {"value": "opt2", "label": "Option 2"},
+              {"value": "opt3", "label": "Option 3"}
+            ]
+          }
+        },
+        "validationSchema": [["yup.string"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {"include": false, "label": "annotation"},
+          "uncertainty": {"include": false, "label": "uncertainty"}
+        }
+      },
+      "select-multiple": {
+        "component-namespace": "faims-custom",
+        "component-name": "MultiSelect",
+        "type-returned": "faims-core::Array",
+        "component-parameters": {
+          "label": "Multiple Select",
+          "fullWidth": true,
+          "helperText": "Choose multiple options",
+          "variant": "outlined",
+          "name": "select-multiple",
+          "ElementProps": {
+            "options": [
+              {"value": "a", "label": "Choice A"},
+              {"value": "b", "label": "Choice B"},
+              {"value": "c", "label": "Choice C"},
+              {"value": "d", "label": "Choice D"}
+            ]
+          }
+        },
+        "validationSchema": [["yup.array"]],
+        "initialValue": [],
+        "meta": {
+          "annotation": {"include": false, "label": "annotation"},
+          "uncertainty": {"include": false, "label": "uncertainty"}
+        }
+      },
+      "checkbox-field": {
+        "component-namespace": "faims-custom",
+        "component-name": "Checkbox",
+        "type-returned": "faims-core::Bool",
+        "component-parameters": {
+          "label": "Checkbox",
+          "name": "checkbox-field",
+          "helperText": "Check to confirm"
+        },
+        "validationSchema": [["yup.boolean"]],
+        "initialValue": false,
+        "meta": {
+          "annotation": {"include": false, "label": "annotation"},
+          "uncertainty": {"include": false, "label": "uncertainty"}
+        }
+      },
+      "radio-field": {
+        "component-namespace": "faims-custom",
+        "component-name": "RadioGroup",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Radio Group",
+          "name": "radio-field",
+          "helperText": "Select one option",
+          "ElementProps": {
+            "options": [
+              {"value": "yes", "label": "Yes"},
+              {"value": "no", "label": "No"},
+              {"value": "maybe", "label": "Maybe"}
+            ]
+          }
+        },
+        "validationSchema": [["yup.string"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {"include": false, "label": "annotation"},
+          "uncertainty": {"include": false, "label": "uncertainty"}
+        }
+      },
+      "date-field": {
+        "component-namespace": "faims-custom",
+        "component-name": "DatePicker",
+        "type-returned": "faims-core::Date",
+        "component-parameters": {
+          "label": "Date Picker",
+          "fullWidth": true,
+          "helperText": "Select a date",
+          "variant": "outlined",
+          "name": "date-field"
+        },
+        "validationSchema": [["yup.date"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {"include": false, "label": "annotation"},
+          "uncertainty": {"include": false, "label": "uncertainty"}
+        }
+      },
+      "datetime-field": {
+        "component-namespace": "faims-custom",
+        "component-name": "DateTimePicker",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Date Time Picker",
+          "fullWidth": true,
+          "helperText": "Select date and time",
+          "variant": "outlined",
+          "name": "datetime-field"
+        },
+        "validationSchema": [["yup.string"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {"include": false, "label": "annotation"},
+          "uncertainty": {"include": false, "label": "uncertainty"}
+        }
+      }
+    },
+    "fviews": {
+      "text-fields-view": {
+        "fields": ["text-basic", "text-multiline"],
+        "label": "Text Fields",
+        "uidesign": "form"
+      },
+      "number-fields-view": {
+        "fields": ["number-field", "controlled-number"],
+        "label": "Number Fields",
+        "uidesign": "form"
+      },
+      "selection-fields-view": {
+        "fields": ["select-single", "select-multiple", "checkbox-field", "radio-field"],
+        "label": "Selection Fields",
+        "uidesign": "form"
+      },
+      "datetime-fields-view": {
+        "fields": ["date-field", "datetime-field"],
+        "label": "Date/Time Fields",
+        "uidesign": "form"
+      }
+    },
+    "viewsets": {
+      "basic-fields": {
+        "views": ["text-fields-view", "number-fields-view"],
+        "label": "Basic Fields",
+        "publishButtonBehaviour": "always"
+      },
+      "advanced-fields": {
+        "views": ["selection-fields-view", "datetime-fields-view"],
+        "label": "Advanced Fields",
+        "publishButtonBehaviour": "always"
+      }
+    },
+    "visible_types": ["basic-fields", "advanced-fields"]
+  }
+}

@@ -19,69 +19,16 @@ last_updated: 2025-01-05
 ## Overview {essential}
 
 **Component Names**: `DateTimeNow`, `DateTimePicker`, `DatePicker`, `MonthPicker`  
-## Component Name Mapping {essential}
+## Component Mapping Reference {essential}
 
-| Designer UI Label | JSON component-name | Namespace | Code File | Description |
-|------------------|-------------------|-----------|-----------|-------------|
-| Date Time Now | DateTimeNow | Timestamp with timezone support |
-| Date Time Picker | DateTimePicker | faims-custom | DateTimePicker.tsx | Date and time selection |
-| Date Picker | DatePicker | faims-custom | DatePicker.tsx | Date-only selection |
-| Month Picker | MonthPicker | faims-custom | MonthPicker.tsx | Month/year selection |
+For the complete mapping between Designer field names and JSON component implementations, see:
+→ **[Designer UI to Component Mapping Reference](../references/designer-component-mapping.md)**
 
-### Critical Naming Issues {important}
-- **Auto-population confusion**: DateTimeNow can be configured to NOT auto-populate via checkbox
-- **Picker variations**: All pickers look similar in Designer but have different behaviors
-- **Format limitations**: Custom formats require JSON configuration
-- **Timezone handling**: All dates stored in local time without timezone info
+This central reference provides:
+- Exact component names and namespaces for all fields
+- Configuration requirements and examples
+- Common mapping errors and solutions
 
-**Component Names**: `DateTimeNow`, `DateTimePicker`, `DatePicker`, `MonthPicker`  
-**Namespace**: `faims-custom`  
-**Type Returned**: Declared as faims-core::String or faims-core::String (actual storage is strings in various formats - see Storage Formats section)
-
-The date and time field subsystem provides four interconnected components for temporal data capture in archaeological fieldwork. These fields serve predominantly administrative and observational metadata functions — recording when data was collected, when specimens were photographed, or when excavations commenced. They explicitly do **not** address interpretive archaeological dating, which requires specialist vocabularies, uncertainty quantification, and period taxonomies better served by controlled choice fields or structured text inputs.
-
-**Important**: For archaeological chronology, use established vocabularies like Periodo (periodo.github.io) with Select/RadioGroup fields rather than date fields. Date fields are for absolute calendar dates, not cultural periods or interpretive chronologies.
-
-All four components share a fundamental dependency on HTML5 native input types (`datetime-local`, `date`, and `month`), creating significant platform variance in user interfaces whilst maintaining consistent data storage. This architectural decision prioritises platform-familiar interactions over cross-device consistency — a pragmatic trade-off that reduces training burden at the cost of interface standardisation.
-
-⚠️ **Critical Design Limitation**: These fields suffer from validation poverty, supporting only required/optional constraints without temporal range enforcement, cross-field validation, or format standardisation. Projects requiring sophisticated temporal constraints must implement post-collection validation or deploy alternative recording strategies.
-
-### DESIGNER QUICK GUIDE
-**For most projects, use DateTimeNow (DateTime with Now button in Designer)**:
-- ✅ Timestamps with timezone preservation
-- ✅ Auto-population capability  
-- ✅ Multi-site project safe
-- ❌ Avoid DateTimePicker (timezone issues)
-
-**Quick Selection**:
-- **Data collection timestamps**: DateTimeNow with auto-population
-- **Event dates without time**: DatePicker
-- **Period recording (preventing false precision)**: MonthPicker
-- **Never use**: DateTimePicker for multi-site projects
-
-### CRITICAL NAMING DISAMBIGUATION
-**⚠️ Designer names are confusing - actual components differ significantly**:
-
-| Designer Label | Actual Component | Use When |
-|---------------|-----------------|----------|
-| "DateTime with Now button" | DateTimeNow | ✅ **Default choice** - All timestamps |
-| "DateTime" | DateTimePicker | ❌ **Avoid** - No timezone storage |
-| "Date" | DatePicker | ✅ Date-only recording |
-| "Month" | MonthPicker | ✅ Coarse temporal precision |
-
-**Critical**: "DateTime" and "DateTime with Now button" are completely different components with different data storage, timezone handling, and use cases.
-
-### Field Capabilities Summary
-DateTime fields provide administrative and observational temporal metadata capture for fieldwork, supporting HTML5 native date/time interfaces with platform-specific rendering. These components explicitly serve absolute calendar dating needs rather than archaeological chronological interpretation, which requires specialist vocabularies and uncertainty quantification better addressed through controlled choice fields.
-
-### Component Status Summary
-
-| Component | Status | Critical Notes |
-|-----------|--------|----------------|
-| **DateTimeNow** | ✅ Production Ready | Default choice for all timestamps |
-| **DateTimePicker** | ⚠️ Discouraged | No timezone stored - timestamps ambiguous when devices/locations change |
-| **DatePicker** | ✅ Production Ready | Use when time irrelevant |
-| **MonthPicker** | ✅ Production Ready | Prevents false precision |
 
 ## Designer Usage Guide {essential}
 
@@ -1149,7 +1096,7 @@ Common date field error messages and their meanings:
 {
   "sample-time": {
     "component-namespace": "faims-custom",
-    "component-name": "TimePicker",
+    "component-name": "DateTimePicker",
     "type-returned": "faims-core::String",
     "component-parameters": {
       "name": "sample-time",
@@ -1342,7 +1289,7 @@ Common date field error messages and their meanings:
 {
   "observation-time": {
     "component-namespace": "faims-custom",
-    "component-name": "TimePicker",
+    "component-name": "DateTimePicker",
     "type-returned": "faims-core::String",
     "component-parameters": {
       "name": "observation-time",
@@ -1487,7 +1434,7 @@ Common date field error messages and their meanings:
 {
   "work-start-time": {
     "component-namespace": "faims-custom",
-    "component-name": "TimePicker",
+    "component-name": "DateTimePicker",
     "type-returned": "faims-core::String",
     "component-parameters": {
       "name": "work-start-time",
@@ -2479,7 +2426,7 @@ When standard date fields don't meet requirements, consider these alternatives:
 
 {
   "year_field": {
-    "component-name": "NumberInput",
+    "component-name": "NumberField",
     "component-parameters": {
       "label": "Year",
       "min": 1800,
@@ -2499,7 +2446,7 @@ When standard date fields don't meet requirements, consider these alternatives:
     }
   },
   "day_field": {
-    "component-name": "NumberInput",
+    "component-name": "NumberField",
     "component-parameters": {
       "label": "Day (if known)",
       "min": 1,
@@ -2640,7 +2587,7 @@ For **absolute dates** (e.g., C14 dates, dendrochronology):
     "condition": {"field": "date_type", "operator": "equal", "value": "month"}
   },
   "year_only": {
-    "component-name": "NumberInput",
+    "component-name": "NumberField",
     "component-parameters": {"label": "Year", "min": 1000, "max": 2100},
     "condition": {"field": "date_type", "operator": "equal", "value": "year"}
   },
@@ -2713,7 +2660,7 @@ For ancient history and archaeology spanning BCE/CE, use numeric fields rather t
 ```json
 {
   "date_not_before": {
-    "component-name": "NumberInput",
+    "component-name": "NumberField",
     "component-parameters": {
       "label": "Not Before (negative = BCE)",
       "helperText": "e.g., -150 for 150 BCE",
@@ -2722,7 +2669,7 @@ For ancient history and archaeology spanning BCE/CE, use numeric fields rather t
     }
   },
   "date_not_after": {
-    "component-name": "NumberInput",
+    "component-name": "NumberField",
     "component-parameters": {
       "label": "Not After (negative = BCE)",
       "helperText": "e.g., -50 for 50 BCE",
@@ -2752,7 +2699,7 @@ For ancient history and archaeology spanning BCE/CE, use numeric fields rather t
 ```json
 {
   "date_central": {
-    "component-name": "NumberInput",
+    "component-name": "NumberField",
     "component-parameters": {
       "label": "Approximate Date (negative = BCE)",
       "helperText": "e.g., -100 for 100 BCE",
@@ -2761,7 +2708,7 @@ For ancient history and archaeology spanning BCE/CE, use numeric fields rather t
     }
   },
   "date_uncertainty": {
-    "component-name": "NumberInput",
+    "component-name": "NumberField",
     "component-parameters": {
       "label": "Uncertainty (+/- years)",
       "helperText": "e.g., 50 for ±50 years",
@@ -2794,7 +2741,7 @@ For ancient history and archaeology spanning BCE/CE, use numeric fields rather t
     }
   },
   "absolute_earliest": {
-    "component-name": "NumberInput",
+    "component-name": "NumberField",
     "component-parameters": {
       "label": "Absolute Earliest (negative = BCE)",
       "helperText": "Terminus post quem",
@@ -2802,7 +2749,7 @@ For ancient history and archaeology spanning BCE/CE, use numeric fields rather t
     }
   },
   "absolute_latest": {
-    "component-name": "NumberInput",
+    "component-name": "NumberField",
     "component-parameters": {
       "label": "Absolute Latest (negative = BCE)",
       "helperText": "Terminus ante quem",
@@ -2852,7 +2799,7 @@ For ancient history and archaeology spanning BCE/CE, use numeric fields rather t
 
 {
   "duration_value": {
-    "component-name": "NumberInput",
+    "component-name": "NumberField",
     "component-parameters": {
       "label": "Duration",
       "min": 0
@@ -2891,7 +2838,7 @@ For ancient history and archaeology spanning BCE/CE, use numeric fields rather t
     }
   },
   "days_offset": {
-    "component-name": "NumberInput",
+    "component-name": "NumberField",
     "component-parameters": {
       "label": "Days From Reference",
       "helperText": "Negative for before, positive for after"

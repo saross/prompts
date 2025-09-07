@@ -41,31 +41,16 @@ All fields share static vocabulary requirements—options must be predefined at 
 4. **RadioGroup - Single visible selection, returns `faims-core::String`
 5. **AdvancedSelect 🔟 NEW - Hierarchical trees, returns `faims-core::String`
 
-## Component Name Mapping {essential}
+## Component Mapping Reference {essential}
 
-| Designer UI Label | JSON component-name | Namespace | Code File | Description |
-|------------------|-------------------|-----------|-----------|-------------|
-| Checkbox | Checkbox | formik-material-ui | Checkbox.tsx | Boolean checkbox |
-| Select Field | Select | formik-material-ui | Select.tsx | Single dropdown |
-| Select Multiple | MultiSelect | formik-material-ui | MultiSelect.tsx | Multiple dropdown |
-| Select one option | RadioGroup | formik-material-ui | RadioGroup.tsx | Radio buttons |
-| Select Field (Hierarchical) | AdvancedSelect | faims-custom | AdvancedSelect.tsx | Tree selection (beta) |
+For the complete mapping between Designer field names and JSON component implementations, see:
+→ **[Designer UI to Component Mapping Reference](../references/designer-component-mapping.md)**
 
-### Critical Naming Issues {important}
-- **MultiSelect label**: Designer shows "Select Multiple" but component is MultiSelect
-- **RadioGroup deprecation**: Still available in Designer but deprecated - use Select instead
-- **AdvancedSelect stability**: Beta feature with JSON builder but incomplete Designer support
-- **Namespace consistency**: Most use formik-material-ui except AdvancedSelect (faims-custom)
+This central reference provides:
+- Exact component names and namespaces for all fields
+- Configuration requirements and examples
+- Common mapping errors and solutions
 
-### Component Status
-
-| Component | Status | Error Display | Mobile Support | Primary Use Case |
-|-----------|--------|---------------|----------------|------------------|
-| Checkbox | ✅ Production | ✅ Full messages | ⚠️ Label not clickable | Binary states, consent |
-| Select | ✅ Production | ❌ None | ✅ Good | Single choice dropdown |
-| MultiSelect | ✅ Production | ❌ None | ⚠️ Performance limits | Multiple selections |
-| RadioGroup | ✅ Production | ❌ Color only | ❌ Accessibility issues | Single visible options |
-| AdvancedSelect | 🔟 New | ❌ Limited | ⚠️ In progress | Hierarchical vocabularies |
 
 ## Designer Usage Guide {essential}
 

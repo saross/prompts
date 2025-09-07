@@ -1101,7 +1101,7 @@ Different operators required:
       }
     },
     "team-size": {
-      "component-name": "NumberInput",
+      "component-name": "NumberField",
       "component-parameters": {
         "label": "Team Size"
       }
@@ -1212,7 +1212,7 @@ This example shows how conditional sections affect navigation and progress indic
   },
   "fields": {
     "artifact-length": {
-      "component-name": "NumberInput",
+      "component-name": "NumberField",
       "component-parameters": {
         "label": "Artefact Length (mm)",
         "helperText": "Length of the artefact in mm"

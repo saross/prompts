@@ -22,71 +22,16 @@ last_updated: 2025-01-05
 
 The Number Input category encompasses three distinct field types for numeric and sequential data management in Fieldmark, each serving fundamentally different purposes despite their shared categorization.
 
-## Component Name Mapping {essential}
+## Component Mapping Reference {essential}
 
-| Designer UI Label | JSON component-name | Namespace | Code File | Description |
-|------------------|-------------------|-----------|-----------|-------------|
-| Number Field | NumberField | faims-custom | NumberField.tsx | Numeric input with validation |
-| Basic Auto Incrementer | BasicAutoIncrementer | faims-custom | BasicAutoIncrementer.tsx | Auto-incrementing counter |
+For the complete mapping between Designer field names and JSON component implementations, see:
+→ **[Designer UI to Component Mapping Reference](../references/designer-component-mapping.md)**
 
-### Critical Naming Issues {important}
-- **ControlledNumber absence**: Referenced in docs but is actually TextField with type="number"
-- **Step increment confusion**: Cannot set step increments in Designer, use BasicAutoIncrementer instead
-- **TextField variant**: "Controlled Number" is TextField (formik-material-ui) with numeric configuration
-- **Namespace discrepancy**: All number fields use faims-custom namespace
+This central reference provides:
+- Exact component names and namespaces for all fields
+- Configuration requirements and examples
+- Common mapping errors and solutions
 
-
-### Components in this Category
-- **Number Input** (NumberField in JSON) - Standard floating-point numeric entry
-- **Controlled Number** - Designer-accessible bounded numeric input  
-- **Basic Auto-incrementer** - Sequential string identifier generator
-
-### DESIGNER QUICK GUIDE
-
-**For Standard Numeric Values**: Choose "Number Input" - handles decimals, measurements, counts
-**For Bounded Values**: Choose "Controlled Number" - includes sliders, min/max validation  
-**For Sequential IDs**: Choose "Basic Auto-incrementer" - generates "BAI-001" style strings
-**NEVER Use**: "Number Field" (deprecated) - appears in Designer but has known issues
-
-**Critical iOS Warning**: No direct negative number entry on iOS - users must copy-paste negative values
-
-### CRITICAL NAMING DISAMBIGUATION
-
-⚠️ **CONFUSING NAMES - READ CAREFULLY**:
-
-- ✅ **"Number Input"** (Designer label) → Creates `NumberField` component (recommended)
-- ❌ **"Number Field"** (Designer label) → Creates deprecated `TextField` component (avoid)
-- 📊 **"Controlled Number"** (Designer label) → Creates `TextField` with numeric configuration (formik-material-ui namespace, NOT a separate component)
-- 🔤 **"Basic Auto-incrementer"** → Creates `BasicAutoIncrementer` (returns STRINGS, not numbers)
-
-The naming confusion exists because:
-1. "Number Input" was created to replace the problematic "Number Field", but the JSON component name stayed as `NumberField` for backwards compatibility
-2. "Controlled Number" isn't actually a distinct component but rather a pre-configured TextField with bounded validation
-
-### Field Capabilities Summary
-
-Number fields provide numeric data entry with three specialized approaches: unrestricted decimal input (NumberInput), bounded validation with UI controls (ControlledNumber), and sequential string identifier generation (BasicAutoIncrementer). All support offline operation and cross-platform deployment, with iOS limitations on negative number entry requiring alternative input methods.
-
-### Historical Context {important}
-
-The three-field structure reflects Fieldmark's evolution from simpler numeric inputs to better-formed inputs and complex identification systems:
-
-1. **NumberField (deprecated)** - Original implementation with poor null handling and other problems
-2. **NumberInput** - Resolved null ambiguities, maintains flexibility  
-3. **ControlledNumber** - Designer accessibility compromise for non-technical users
-4. **BasicAutoIncrementer** - Sequential ID solution for offline-capable systems
-
-The **component name paradox** (NumberInput using "NumberField" in JSON) results from backwards compatibility requirements when the deprecated NumberField was replaced. Changing the JSON component name would break existing notebooks, so the display name was changed while preserving the technical implementation.
-
-The **type mismatches** (ControlledNumber declaring Integer but accepting decimals, BasicAutoIncrementer in "Number Fields" but returning strings) reflect the Designer interface's limitations in representing complex type systems to non-technical users.
-
-### Component Status Summary {essential}
-
-| Component | Maturity | iOS Support | Offline | Known Issues | Recommended |
-|-----------|----------|-------------|---------|--------------|-------------|
-| NumberInput | Stable | ⚠️ No minus key | ✅ Full | 🟡 7 medium | ✅ Yes |
-| ControlledNumber | Stable | ⚠️ No minus key | ✅ Full | 🔴 Type mismatch | ⚠️ Conditional |
-| BasicAutoIncrementer | Stable | ✅ Full | ✅ With ranges | 🔴 No duplicate detection | ⚠️ With protocols |
 
 ## Designer Usage Guide {essential}
 
@@ -118,12 +63,13 @@ When using the Designer interface, follow these simple rules:
 | Designer Label | JSON component-name | Returns | Designer Config | Key Purpose |
 |----------------|-------------------|---------|-----------------|-------------|
 | 🔢 **Number Input** | `NumberField`* | Number | Partial | Measurements, calculations |
-| 📊 **Controlled Number** | `ControlledNumber` | Number** | Full | Bounded values, ratings |
-| 🔤 **Basic Auto-incrementer** | `BasicAutoIncrementer` | String*** | Full | Sequential IDs |
+| 📊 **Controlled Number** | `TextField`** | Number*** | Full | Bounded values, ratings |
+| 🔤 **Basic Auto-incrementer** | `BasicAutoIncrementer` | String**** | Full | Sequential IDs |
 
 *⚠️ **Component name paradox**: Designer shows "Number Input" but JSON requires "NumberField"  
-**⚠️ **Type mismatch**: Declares Integer but accepts/stores decimals  
-***⚠️ **Critical**: Returns strings not numbers despite "Number Fields" category  
+**⚠️ **Not a real component**: "Controlled Number" uses TextField with type="number"
+***⚠️ **Type mismatch**: Declares Integer but accepts/stores decimals  
+****⚠️ **Critical**: Returns strings not numbers despite "Number Fields" category  
 ****Note: Do not confuse with deprecated "Number Field" - always use "Number Input"**
 
 ### When JSON Enhancement is Required
@@ -316,7 +262,7 @@ Need numeric/sequential functionality?
 | Designer UI Label | JSON component-name | Component Namespace | Description |
 |-------------------|---------------------|---------------------|-------------|
 | Number Input | NumberField | faims-custom | Standard numeric input with validation |
-| Controlled Number | ControlledNumber | faims-custom | Bounded numeric with slider |
+| Controlled Number | TextField | formik-material-ui | TextField with type="number" and validation |
 | Basic Auto-incrementer | BasicAutoIncrementer | faims-custom | Sequential ID generator (returns string) |
 | ~~Number Field~~ | ~~TextField~~ | ~~formik-material-ui~~ | **DEPRECATED - Do not use** |
 
@@ -368,7 +314,7 @@ See [Component Namespace Reference](component-namespace-reference.md) for comple
 |-----------|-----------|---------------|-------|
 | NumberField | `faims-custom` | Number Input | Primary numeric field |
 | BasicAutoIncrementer | `faims-custom` | Auto-incrementer | Returns string, not number |
-| ControlledNumber | `faims-custom` | Controlled Number | Designer-only abstraction |
+| TextField | `formik-material-ui` | Controlled Number | With type="number" and validation |
 
 **Common confusion**: 
 - Designer shows "Number Input" but JSON requires "NumberField"
@@ -400,8 +346,9 @@ See [Component Namespace Reference](component-namespace-reference.md) for comple
 | Property | Type | Required | NumberInput | ControlledNumber | BasicAutoIncrementer |
 |----------|------|----------|------------|------------------|---------------------|
 | `name` | string | Yes | Field ID | Field ID | Field ID |
-| `type` | string | Yes | `"faims-core::Number"` | `"faims-core::Integer"`* | `"faims-core::String"` |
-| `component-name` | string | Yes | `"NumberField"`** | `"ControlledNumber"` | `"BasicAutoIncrementer"` |
+| `type` | string | Yes | `"faims-core::Float"` | `"faims-core::Integer"`* | `"faims-core::String"` |
+| `component-name` | string | Yes | `"NumberField"` | `"TextField"` | `"BasicAutoIncrementer"` |
+| `component-namespace` | string | Yes | `"faims-custom"` | `"formik-material-ui"` | `"faims-custom"` |
 | `label` | string | Yes | User label | User label | User label (hidden) |
 | `initialValue` | varies | No | `null` | `0` | `""` (auto) |
 | `persistent` | boolean | No | `true` | `true` | `true` |
@@ -730,7 +677,7 @@ Standard numeric data entry supporting floating-point values, null states, and c
 ❌ **NEVER: This component doesn't exist in codebase**
 ```json
 {
-  "component-name": "ControlledNumber"
+  "component-name": "TextField"
 }
 ```
 ✅ **ALWAYS: Use NumberField**
@@ -761,7 +708,7 @@ Designer-accessible bounded numeric input for non-technical users needing range 
 **Designer Configuration**:
 ```json
 {
-  "component-name": "ControlledNumber",
+  "component-name": "TextField",
   "type": "faims-core::Integer",
   "name": "artifact_condition",
   "label": "Condition Score (1-10)",
@@ -812,7 +759,7 @@ Designer-accessible bounded numeric input for non-technical users needing range 
 ```json
 {
   "quality_rating": {
-    "component-name": "ControlledNumber",
+    "component-name": "TextField",
     "type": "faims-core::Integer",
     "name": "quality_rating",
     "min": 1,
@@ -836,7 +783,7 @@ Designer-accessible bounded numeric input for non-technical users needing range 
 **Survey Rating**:
 ```json
 {
-  "component-name": "ControlledNumber",
+  "component-name": "TextField",
   "type": "faims-core::Integer",
   "name": "satisfaction",
   "label": "Satisfaction (1-5)",
@@ -1187,8 +1134,8 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
 ```json
 {
   "artifact-count": {
-    "component-namespace": "formik-material-ui",
-    "component-name": "TemplatedIntegerField",
+    "component-namespace": "faims-custom",
+    "component-name": "NumberField",
     "type-returned": "faims-core::Integer",
     "component-parameters": {
       "name": "artifact-count",
@@ -1211,8 +1158,8 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
 ```json
 {
   "depth-measurement": {
-    "component-namespace": "formik-material-ui",
-    "component-name": "TemplatedFloatField",
+    "component-namespace": "faims-custom",
+    "component-name": "NumberField",
     "type-returned": "faims-core::Float",
     "component-parameters": {
       "name": "depth-measurement",
@@ -1236,8 +1183,8 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
 ```json
 {
   "quality-rating": {
-    "component-namespace": "faims-custom",
-    "component-name": "ControlledNumber",
+    "component-namespace": "formik-material-ui",
+    "component-name": "TextField",
     "type-returned": "faims-core::Integer",
     "component-parameters": {
       "name": "quality-rating",
@@ -1285,8 +1232,8 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
 ```json
 {
   "soil-ph": {
-    "component-namespace": "formik-material-ui",
-    "component-name": "TemplatedFloatField",
+    "component-namespace": "faims-custom",
+    "component-name": "NumberField",
     "type-returned": "faims-core::Float",
     "component-parameters": {
       "name": "soil-ph",
@@ -1312,8 +1259,8 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
 ```json
 {
   "completion-percentage": {
-    "component-namespace": "formik-material-ui",
-    "component-name": "TemplatedIntegerField",
+    "component-namespace": "faims-custom",
+    "component-name": "NumberField",
     "type-returned": "faims-core::Integer",
     "component-parameters": {
       "name": "completion-percentage",
@@ -1339,8 +1286,8 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
 ```json
 {
   "temperature": {
-    "component-namespace": "formik-material-ui",
-    "component-name": "TemplatedFloatField",
+    "component-namespace": "faims-custom",
+    "component-name": "NumberField",
     "type-returned": "faims-core::Float",
     "component-parameters": {
       "name": "temperature",
@@ -1363,8 +1310,8 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
 ```json
 {
   "ceramic-thickness": {
-    "component-namespace": "formik-material-ui",
-    "component-name": "TemplatedFloatField",
+    "component-namespace": "faims-custom",
+    "component-name": "NumberField",
     "type-returned": "faims-core::Float",
     "component-parameters": {
       "name": "ceramic-thickness",
@@ -1393,8 +1340,8 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
 ```json
 {
   "latitude": {
-    "component-namespace": "formik-material-ui",
-    "component-name": "TemplatedFloatField",
+    "component-namespace": "faims-custom",
+    "component-name": "NumberField",
     "type-returned": "faims-core::Float",
     "component-parameters": {
       "name": "latitude",
@@ -1418,8 +1365,8 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
 ```json
 {
   "budget-amount": {
-    "component-namespace": "formik-material-ui",
-    "component-name": "TemplatedFloatField",
+    "component-namespace": "faims-custom",
+    "component-name": "NumberField",
     "type-returned": "faims-core::Float",
     "component-parameters": {
       "name": "budget-amount",
@@ -1444,8 +1391,8 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
 ```json
 {
   "artifact-weight": {
-    "component-namespace": "formik-material-ui",
-    "component-name": "TemplatedFloatField",
+    "component-namespace": "faims-custom",
+    "component-name": "NumberField",
     "type-returned": "faims-core::Float",
     "component-parameters": {
       "name": "artifact-weight",
@@ -1477,8 +1424,8 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
 ```json
 {
   "excavation-year": {
-    "component-namespace": "formik-material-ui",
-    "component-name": "TemplatedIntegerField",
+    "component-namespace": "faims-custom",
+    "component-name": "NumberField",
     "type-returned": "faims-core::Integer",
     "component-parameters": {
       "name": "excavation-year",
@@ -1502,8 +1449,8 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
 ```json
 {
   "grid-square": {
-    "component-namespace": "faims-custom",
-    "component-name": "ControlledNumber",
+    "component-namespace": "formik-material-ui",
+    "component-name": "TextField",
     "type-returned": "faims-core::Integer",
     "component-parameters": {
       "name": "grid-square",
@@ -1527,8 +1474,8 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
 ```json
 {
   "excavation-area": {
-    "component-namespace": "formik-material-ui",
-    "component-name": "TemplatedFloatField",
+    "component-namespace": "faims-custom",
+    "component-name": "NumberField",
     "type-returned": "faims-core::Float",
     "component-parameters": {
       "name": "excavation-area",
@@ -1554,8 +1501,8 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
 ```json
 {
   "sample-size": {
-    "component-namespace": "formik-material-ui",
-    "component-name": "TemplatedIntegerField",
+    "component-namespace": "faims-custom",
+    "component-name": "NumberField",
     "type-returned": "faims-core::Integer",
     "component-parameters": {
       "name": "sample-size",
@@ -1579,8 +1526,8 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
 ```json
 {
   "elevation": {
-    "component-namespace": "formik-material-ui",
-    "component-name": "TemplatedFloatField",
+    "component-namespace": "faims-custom",
+    "component-name": "NumberField",
     "type-returned": "faims-core::Float",
     "component-parameters": {
       "name": "elevation",
@@ -1603,8 +1550,8 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
 ```json
 {
   "bearing": {
-    "component-namespace": "formik-material-ui",
-    "component-name": "TemplatedIntegerField",
+    "component-namespace": "faims-custom",
+    "component-name": "NumberField",
     "type-returned": "faims-core::Integer",
     "component-parameters": {
       "name": "bearing",
@@ -1630,8 +1577,8 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
 ```json
 {
   "processing-time": {
-    "component-namespace": "formik-material-ui",
-    "component-name": "TemplatedIntegerField",
+    "component-namespace": "faims-custom",
+    "component-name": "NumberField",
     "type-returned": "faims-core::Integer",
     "component-parameters": {
       "name": "processing-time",
@@ -1657,8 +1604,8 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
 ```json
 {
   "soil-volume": {
-    "component-namespace": "formik-material-ui",
-    "component-name": "TemplatedFloatField",
+    "component-namespace": "faims-custom",
+    "component-name": "NumberField",
     "type-returned": "faims-core::Float",
     "component-parameters": {
       "name": "soil-volume",
@@ -1750,7 +1697,7 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
     ]
   },
   {
-    "component-name": "ControlledNumber",
+    "component-name": "TextField",
     "type": "faims-core::Integer",
     "name": "condition",
     "label": "Condition (1-5)",
@@ -2018,7 +1965,7 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
 
 
 {
-  "component-name": "ControlledNumber",
+  "component-name": "TextField",
   "component-parameters": {
     "label": "Completion (%)",
     "min": 0,
@@ -2636,7 +2583,7 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 ```json
 
 {
-  "component-name": "NumberInput"
+  "component-name": "NumberField"
 
 }
 
@@ -2672,7 +2619,7 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 ```json
 
 {
-  "component-name": "ControlledNumber",
+  "component-name": "TextField",
   "type": "faims-core::Integer",
   "name": "rating",
   "label": "Quality Rating",
@@ -2690,7 +2637,7 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 
 
 {
-  "component-name": "ControlledNumber",
+  "component-name": "TextField",
   "type": "faims-core::Integer",
   "name": "completion_percentage",
   "label": "Completion (%)",
@@ -2702,7 +2649,7 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 
 
 {
-  "component-name": "ControlledNumber",
+  "component-name": "TextField",
   "name": "satisfaction",
   "label": "Satisfaction (1-5)",
 - "min": 1,
@@ -2716,7 +2663,7 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 ```json
 
 {
-  "component-name": "ControlledNumber",
+  "component-name": "TextField",
   "required": false
 
 }
@@ -2844,7 +2791,7 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 
 
 {
-  "component-name": "ControlledNumber",
+  "component-name": "TextField",
   "min": 0,
   "max": 100,
   "helperText": "0-100 only (ignore minus key)"
@@ -3032,7 +2979,7 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
     ]
   },
   "artifact_count": {
-    "component-name": "ControlledNumber",
+    "component-name": "TextField",
     "min": 0,
     "max": 9999,
     "helperText": "Number of artifacts in this context"

@@ -1,0 +1,55 @@
+{
+  "metadata": {
+    "name": "Minimal Test Notebook",
+    "project_id": "test-minimal-2025",
+    "notebook_version": "1.0.0",
+    "schema_version": "1.0.0"
+  },
+  "ui-specification": {
+    "fields": {
+      "simple-text": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Simple Text",
+          "name": "simple-text"
+        }
+      },
+      "simple-number": {
+        "component-namespace": "faims-custom",
+        "component-name": "NumberField",
+        "type-returned": "faims-core::Float",
+        "component-parameters": {
+          "label": "Simple Number",
+          "name": "simple-number"
+        }
+      },
+      "simple-select": {
+        "component-namespace": "faims-custom",
+        "component-name": "Select",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Simple Select",
+          "name": "simple-select",
+          "options": [
+            {"value": "opt1", "label": "Option 1"},
+            {"value": "opt2", "label": "Option 2"}
+          ]
+        }
+      }
+    },
+    "viewsets": {
+      "main": {
+        "label": "Main Form",
+        "views": {
+          "view1": {
+            "label": "Test View",
+            "fields": ["simple-text", "simple-number", "simple-select"]
+          }
+        }
+      }
+    },
+    "visible_types": ["main"]
+  }
+}

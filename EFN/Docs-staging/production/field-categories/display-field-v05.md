@@ -22,34 +22,16 @@ last_updated: 2025-01-05
 ### DESIGNER QUICK GUIDE
 **Display Field Available:**
 - **RichText** → Static formatted content and instructions
-## Component Name Mapping {essential}
+## Component Mapping Reference {essential}
 
-| Designer UI Label | JSON component-name | Namespace | Code File | Description |
-|------------------|-------------------|-----------|-----------|-------------|
-| Rich Text | RichText | faims-custom | RichText.tsx | Display-only formatted content |
+For the complete mapping between Designer field names and JSON component implementations, see:
+→ **[Designer UI to Component Mapping Reference](../references/designer-component-mapping.md)**
 
-### Critical Naming Issues {important}
-- **Single component**: Only one display field type available
-- **Not a field**: Despite being called a "field", captures no data
-- **Memory leaks**: Known performance issues on mobile devices
-- **Markdown limitations**: Tables stripped, external images blocked at runtime
+This central reference provides:
+- Exact component names and namespaces for all fields
+- Configuration requirements and examples
+- Common mapping errors and solutions
 
-- **NOT TextField/MultilineText** - Those capture user input
-- Component uses namespace `"faims-custom"` despite being display-only
-- Returns empty string always - no data storage
-
-### Field Capabilities Summary
-Provides formatted instructional content and section headings through markdown rendering. Purely presentational component that displays static content without capturing user input. Content defined in notebook configuration, parsed with markdown-it, and sanitized with DOMPurify. Critical performance issues with content over 1000 words total due to lack of memoization.
-
-### Component Status
-| Property | Status | Notes |
-|----------|--------|-------|
-| Designer Support | ✅ Full | MDX editor with preview |
-| JSON Enhancement | Minimal | Content editing mainly |
-| Validation | N/A | Display only |
-| Performance | ⚠️ Poor | No memoization |
-| Memory | ❌ Leaks | No cleanup on unmount |
-| Accessibility | ❌ None | No ARIA support |
 
 ## Designer Usage Guide {essential}
 

@@ -1,0 +1,116 @@
+{
+  "metadata": {
+    "notebook_version": "1.0",
+    "schema_version": "1.0",
+    "name": "Fieldmark Test Notebook - Minimal",
+    "accesses": ["admin", "moderator", "team"],
+    "ispublic": false,
+    "isrequest": false,
+    "lead_institution": "Test Institution",
+    "project_lead": "Test Lead",
+    "project_status": "New",
+    "pre_description": "Minimal test notebook to verify component functionality",
+    "showQRCodeButton": false
+  },
+  "ui-specification": {
+    "fields": {
+      "test-text": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Test Text Field",
+          "fullWidth": true,
+          "helperText": "Enter some text",
+          "variant": "outlined",
+          "required": false,
+          "name": "test-text"
+        },
+        "validationSchema": [["yup.string"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": false,
+            "label": "annotation"
+          },
+          "uncertainty": {
+            "include": false,
+            "label": "uncertainty"
+          }
+        }
+      },
+      "test-number": {
+        "component-namespace": "faims-custom",
+        "component-name": "NumberField",
+        "type-returned": "faims-core::Float",
+        "component-parameters": {
+          "label": "Test Number Field",
+          "fullWidth": true,
+          "helperText": "Enter a number",
+          "variant": "outlined",
+          "required": false,
+          "name": "test-number"
+        },
+        "validationSchema": [["yup.number"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": false,
+            "label": "annotation"
+          },
+          "uncertainty": {
+            "include": false,
+            "label": "uncertainty"
+          }
+        }
+      },
+      "test-select": {
+        "component-namespace": "faims-custom",
+        "component-name": "Select",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Test Select Field",
+          "fullWidth": true,
+          "helperText": "Select an option",
+          "variant": "outlined",
+          "required": false,
+          "name": "test-select",
+          "ElementProps": {
+            "options": [
+              {"value": "option1", "label": "Option 1"},
+              {"value": "option2", "label": "Option 2"},
+              {"value": "option3", "label": "Option 3"}
+            ]
+          }
+        },
+        "validationSchema": [["yup.string"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": false,
+            "label": "annotation"
+          },
+          "uncertainty": {
+            "include": false,
+            "label": "uncertainty"
+          }
+        }
+      }
+    },
+    "fviews": {
+      "test-view": {
+        "fields": ["test-text", "test-number", "test-select"],
+        "label": "Test Form",
+        "uidesign": "form"
+      }
+    },
+    "viewsets": {
+      "test-viewset": {
+        "views": ["test-view"],
+        "label": "Test Viewset",
+        "publishButtonBehaviour": "always"
+      }
+    },
+    "visible_types": ["test-viewset"]
+  }
+}

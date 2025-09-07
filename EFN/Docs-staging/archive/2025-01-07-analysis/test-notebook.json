@@ -1,0 +1,618 @@
+{
+  "metadata": {
+    "name": "Fieldmark Documentation Test Notebook",
+    "project_id": "fieldmark-test-2025",
+    "notebook_version": "1.0.0",
+    "schema_version": "1.0.0",
+    "description": "Comprehensive test notebook for validating all field types and features documented in Fieldmark v3"
+  },
+  "ui-specification": {
+    "fields": {
+      "test-text-field": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Basic Text Field",
+          "helperText": "Enter any text up to 255 characters",
+          "required": true
+        },
+        "validationSchema": [
+          ["yup", "string"],
+          ["yup", "required", "This field is required"]
+        ],
+        "initialValue": ""
+      },
+      "test-multiline-text": {
+        "component-namespace": "faims-custom",
+        "component-name": "MultipleTextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Multiline Text Area",
+          "helperText": "Enter detailed notes or descriptions",
+          "required": false,
+          "multiline": true,
+          "rows": 4
+        },
+        "initialValue": ""
+      },
+      "test-email": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Email Address",
+          "helperText": "Must be a valid email format",
+          "type": "email",
+          "required": true
+        },
+        "validationSchema": [
+          ["yup", "string"],
+          ["yup", "email", "Must be a valid email address"],
+          ["yup", "required", "Email is required"]
+        ],
+        "initialValue": ""
+      },
+      "test-templated-string": {
+        "component-namespace": "faims-custom",
+        "component-name": "TemplatedStringField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Auto-generated ID",
+          "template": "SITE-{{test-site-type}}-{{test-auto-incrementer}}-{{test-date-picker}}",
+          "helperText": "Format: SITE-TYPE-NUMBER-DATE"
+        },
+        "initialValue": ""
+      },
+      "test-auto-incrementer": {
+        "component-namespace": "faims-custom",
+        "component-name": "BasicAutoIncrementer",
+        "type-returned": "faims-core::Integer",
+        "component-parameters": {
+          "label": "Record Number",
+          "helperText": "Auto-incremented value"
+        },
+        "initialValue": 1
+      },
+      "test-select": {
+        "component-namespace": "faims-custom",
+        "component-name": "Select",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Single Selection",
+          "helperText": "Choose one option",
+          "required": true,
+          "options": [
+            {"label": "Option A", "value": "opt_a"},
+            {"label": "Option B", "value": "opt_b"},
+            {"label": "Option C", "value": "opt_c"}
+          ]
+        },
+        "validationSchema": [
+          ["yup", "string"],
+          ["yup", "required", "Please select an option"]
+        ],
+        "initialValue": ""
+      },
+      "test-site-type": {
+        "component-namespace": "faims-custom",
+        "component-name": "Select",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Site Type",
+          "helperText": "Select the type of site",
+          "required": true,
+          "options": [
+            {"label": "Archaeological", "value": "ARCH"},
+            {"label": "Historical", "value": "HIST"},
+            {"label": "Natural", "value": "NAT"}
+          ]
+        },
+        "initialValue": ""
+      },
+      "test-multi-select": {
+        "component-namespace": "faims-custom",
+        "component-name": "MultiSelect",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Multiple Selection",
+          "helperText": "Choose multiple options",
+          "required": false,
+          "options": [
+            {"label": "Feature 1", "value": "f1"},
+            {"label": "Feature 2", "value": "f2"},
+            {"label": "Feature 3", "value": "f3"},
+            {"label": "Feature 4", "value": "f4"}
+          ]
+        },
+        "initialValue": []
+      },
+      "test-radio-group": {
+        "component-namespace": "faims-custom",
+        "component-name": "RadioGroup",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Radio Button Group",
+          "helperText": "Select one option using radio buttons",
+          "required": true,
+          "options": [
+            {"label": "Yes", "value": "yes"},
+            {"label": "No", "value": "no"},
+            {"label": "Not Applicable", "value": "na"}
+          ]
+        },
+        "initialValue": ""
+      },
+      "test-checkbox": {
+        "component-namespace": "faims-custom",
+        "component-name": "Checkbox",
+        "type-returned": "faims-core::Bool",
+        "component-parameters": {
+          "label": "Confirmation Checkbox",
+          "helperText": "Check to confirm",
+          "required": false
+        },
+        "initialValue": false
+      },
+      "test-advanced-select": {
+        "component-namespace": "faims-custom",
+        "component-name": "AdvancedSelect",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Hierarchical Selection",
+          "helperText": "Navigate through hierarchy",
+          "required": false,
+          "options": [
+            {
+              "label": "Vertebrates",
+              "value": "vertebrates",
+              "children": [
+                {
+                  "label": "Mammals",
+                  "value": "mammals",
+                  "children": [
+                    {"label": "Primates", "value": "primates"},
+                    {"label": "Carnivores", "value": "carnivores"}
+                  ]
+                },
+                {
+                  "label": "Birds",
+                  "value": "birds",
+                  "children": [
+                    {"label": "Raptors", "value": "raptors"},
+                    {"label": "Songbirds", "value": "songbirds"}
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "initialValue": ""
+      },
+      "test-date-picker": {
+        "component-namespace": "faims-custom",
+        "component-name": "DatePicker",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Date Field",
+          "helperText": "Select a date",
+          "required": false
+        },
+        "initialValue": ""
+      },
+      "test-time-picker": {
+        "component-namespace": "faims-custom",
+        "component-name": "TimePicker",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Time Field",
+          "helperText": "Select a time",
+          "required": false
+        },
+        "initialValue": ""
+      },
+      "test-datetime-picker": {
+        "component-namespace": "faims-custom",
+        "component-name": "DateTimePicker",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Date and Time",
+          "helperText": "Select both date and time",
+          "required": false
+        },
+        "initialValue": ""
+      },
+      "test-datetime-now": {
+        "component-namespace": "faims-custom",
+        "component-name": "DateTimeNow",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Timestamp",
+          "helperText": "Auto-captured timestamp"
+        },
+        "initialValue": ""
+      },
+      "test-integer": {
+        "component-namespace": "faims-custom",
+        "component-name": "TemplatedIntegerField",
+        "type-returned": "faims-core::Integer",
+        "component-parameters": {
+          "label": "Integer Number",
+          "helperText": "Whole numbers only",
+          "required": false
+        },
+        "validationSchema": [
+          ["yup", "number"],
+          ["yup", "integer", "Must be a whole number"],
+          ["yup", "min", 0, "Must be positive"],
+          ["yup", "max", 1000, "Must be less than 1000"]
+        ],
+        "initialValue": 0
+      },
+      "test-float": {
+        "component-namespace": "faims-custom",
+        "component-name": "TemplatedFloatField",
+        "type-returned": "faims-core::Float",
+        "component-parameters": {
+          "label": "Decimal Number",
+          "helperText": "Decimal values allowed",
+          "required": false
+        },
+        "validationSchema": [
+          ["yup", "number"],
+          ["yup", "min", 0.0, "Must be positive"],
+          ["yup", "max", 100.0, "Must be less than 100"]
+        ],
+        "initialValue": 0.0
+      },
+      "test-controlled-number": {
+        "component-namespace": "faims-custom",
+        "component-name": "ControlledNumber",
+        "type-returned": "faims-core::Float",
+        "component-parameters": {
+          "label": "Range Slider",
+          "helperText": "Adjust value with slider",
+          "min": 0,
+          "max": 10,
+          "step": 0.5
+        },
+        "initialValue": 5.0
+      },
+      "test-take-point": {
+        "component-namespace": "faims-custom",
+        "component-name": "TakePoint",
+        "type-returned": "faims-pos::Location",
+        "component-parameters": {
+          "label": "GPS Point",
+          "helperText": "Capture current location"
+        },
+        "initialValue": null
+      },
+      "test-map-field": {
+        "component-namespace": "mapping-plugin",
+        "component-name": "MapFormField",
+        "type-returned": "faims-pos::Location",
+        "component-parameters": {
+          "label": "Map Selection",
+          "helperText": "Draw on map or select location"
+        },
+        "initialValue": null
+      },
+      "test-take-photo": {
+        "component-namespace": "faims-custom",
+        "component-name": "TakePhoto",
+        "type-returned": "faims-attachment::Files",
+        "component-parameters": {
+          "label": "Photo Capture",
+          "helperText": "Take or select photos"
+        },
+        "initialValue": null
+      },
+      "test-file-uploader": {
+        "component-namespace": "faims-custom",
+        "component-name": "FileUploader",
+        "type-returned": "faims-attachment::Files",
+        "component-parameters": {
+          "label": "File Upload",
+          "helperText": "Upload any file type",
+          "multiple": true
+        },
+        "initialValue": null
+      },
+      "test-audio-recorder": {
+        "component-namespace": "faims-custom",
+        "component-name": "AudioRecorder",
+        "type-returned": "faims-attachment::Files",
+        "component-parameters": {
+          "label": "Audio Recording",
+          "helperText": "Record audio notes"
+        },
+        "initialValue": null
+      },
+      "test-video-recorder": {
+        "component-namespace": "faims-custom",
+        "component-name": "VideoRecorder",
+        "type-returned": "faims-attachment::Files",
+        "component-parameters": {
+          "label": "Video Recording",
+          "helperText": "Record video clips"
+        },
+        "initialValue": null
+      },
+      "test-qrcode": {
+        "component-namespace": "qrcode",
+        "component-name": "QRCodeFormField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "QR/Barcode Scanner",
+          "helperText": "Scan QR codes or barcodes (mobile only)",
+          "required": false
+        },
+        "initialValue": ""
+      },
+      "test-rich-text": {
+        "component-namespace": "faims-custom",
+        "component-name": "RichText",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Instructions",
+          "content": "## Test Instructions\n\nThis is **rich text** with:\n- Bullet points\n- *Italic* text\n- [Links](https://example.com)\n\n### Sub-heading\nAdditional formatted content here."
+        },
+        "initialValue": ""
+      },
+      "test-related-record": {
+        "component-namespace": "faims-custom",
+        "component-name": "RelatedRecordSelector",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Related Record",
+          "helperText": "Link to another record",
+          "relation_type": "test-relation"
+        },
+        "initialValue": ""
+      },
+      "test-address": {
+        "component-namespace": "faims-custom",
+        "component-name": "Address",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Address Field",
+          "helperText": "Enter complete address"
+        },
+        "initialValue": null
+      },
+      "test-condition-trigger": {
+        "component-namespace": "faims-custom",
+        "component-name": "RadioGroup",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Show Additional Fields?",
+          "helperText": "Controls visibility of conditional fields",
+          "options": [
+            {"label": "Show Text Fields", "value": "text"},
+            {"label": "Show Number Fields", "value": "number"},
+            {"label": "Show Media Fields", "value": "media"},
+            {"label": "Hide All", "value": "none"}
+          ]
+        },
+        "initialValue": "none"
+      },
+      "test-conditional-text": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Conditional Text Field",
+          "helperText": "Only visible when 'Show Text Fields' is selected"
+        },
+        "condition": {
+          "operator": "equal",
+          "field": "test-condition-trigger",
+          "value": "text"
+        },
+        "initialValue": ""
+      },
+      "test-conditional-number": {
+        "component-namespace": "faims-custom",
+        "component-name": "TemplatedIntegerField",
+        "type-returned": "faims-core::Integer",
+        "component-parameters": {
+          "label": "Conditional Number Field",
+          "helperText": "Only visible when 'Show Number Fields' is selected"
+        },
+        "condition": {
+          "operator": "equal",
+          "field": "test-condition-trigger",
+          "value": "number"
+        },
+        "initialValue": 0
+      },
+      "test-conditional-media": {
+        "component-namespace": "faims-custom",
+        "component-name": "TakePhoto",
+        "type-returned": "faims-attachment::Files",
+        "component-parameters": {
+          "label": "Conditional Photo Field",
+          "helperText": "Only visible when 'Show Media Fields' is selected"
+        },
+        "condition": {
+          "operator": "equal",
+          "field": "test-condition-trigger",
+          "value": "media"
+        },
+        "initialValue": null
+      },
+      "test-complex-condition": {
+        "component-namespace": "faims-custom",
+        "component-name": "MultipleTextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Complex Conditional Field",
+          "helperText": "Visible when checkbox is true AND trigger is not 'none'"
+        },
+        "condition": {
+          "operator": "and",
+          "conditions": [
+            {
+              "operator": "equal",
+              "field": "test-checkbox",
+              "value": true
+            },
+            {
+              "operator": "not_equal",
+              "field": "test-condition-trigger",
+              "value": "none"
+            }
+          ]
+        },
+        "initialValue": ""
+      },
+      "test-meta-annotation": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Field with Annotation",
+          "helperText": "This field has annotation capability"
+        },
+        "meta": {
+          "annotation": true,
+          "annotation_label": "Add notes about this field"
+        },
+        "initialValue": ""
+      },
+      "test-meta-uncertainty": {
+        "component-namespace": "faims-custom",
+        "component-name": "Select",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Field with Uncertainty",
+          "helperText": "This field has uncertainty flag",
+          "options": [
+            {"label": "Certain", "value": "certain"},
+            {"label": "Probable", "value": "probable"},
+            {"label": "Possible", "value": "possible"}
+          ]
+        },
+        "meta": {
+          "uncertainty": true,
+          "uncertainty_label": "How confident are you?"
+        },
+        "initialValue": ""
+      }
+    },
+    "fviews": {
+      "section-text-fields": {
+        "label": "Text Fields",
+        "fields": [
+          "test-text-field",
+          "test-multiline-text",
+          "test-email",
+          "test-templated-string",
+          "test-auto-incrementer"
+        ]
+      },
+      "section-selection-fields": {
+        "label": "Selection Fields",
+        "fields": [
+          "test-site-type",
+          "test-select",
+          "test-multi-select",
+          "test-radio-group",
+          "test-checkbox",
+          "test-advanced-select"
+        ]
+      },
+      "section-datetime-fields": {
+        "label": "Date & Time Fields",
+        "fields": [
+          "test-date-picker",
+          "test-time-picker",
+          "test-datetime-picker",
+          "test-datetime-now"
+        ]
+      },
+      "section-number-fields": {
+        "label": "Number Fields",
+        "fields": [
+          "test-integer",
+          "test-float",
+          "test-controlled-number"
+        ]
+      },
+      "section-location-fields": {
+        "label": "Location Fields",
+        "fields": [
+          "test-take-point",
+          "test-map-field"
+        ]
+      },
+      "section-media-fields": {
+        "label": "Media Fields",
+        "fields": [
+          "test-take-photo",
+          "test-file-uploader",
+          "test-audio-recorder",
+          "test-video-recorder"
+        ]
+      },
+      "section-special-fields": {
+        "label": "Special Fields",
+        "fields": [
+          "test-qrcode",
+          "test-rich-text",
+          "test-related-record",
+          "test-address"
+        ]
+      },
+      "section-conditional-logic": {
+        "label": "Conditional Logic",
+        "fields": [
+          "test-condition-trigger",
+          "test-conditional-text",
+          "test-conditional-number",
+          "test-conditional-media",
+          "test-complex-condition"
+        ]
+      },
+      "section-meta-properties": {
+        "label": "Meta Properties",
+        "fields": [
+          "test-meta-annotation",
+          "test-meta-uncertainty"
+        ]
+      }
+    },
+    "viewsets": {
+      "viewset-basic": {
+        "label": "Basic Fields",
+        "views": [
+          "section-text-fields",
+          "section-selection-fields",
+          "section-datetime-fields",
+          "section-number-fields"
+        ]
+      },
+      "viewset-advanced": {
+        "label": "Advanced Fields",
+        "views": [
+          "section-location-fields",
+          "section-media-fields",
+          "section-special-fields"
+        ]
+      },
+      "viewset-features": {
+        "label": "Features & Logic",
+        "views": [
+          "section-conditional-logic",
+          "section-meta-properties"
+        ]
+      }
+    },
+    "visible_types": [
+      "viewset-basic",
+      "viewset-advanced",
+      "viewset-features"
+    ]
+  }
+}

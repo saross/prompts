@@ -1,24 +1,31 @@
 # Production Manifest - Fieldmark Documentation
-**Last Updated**: 2025-01-06  
+**Last Updated**: 2025-01-07 (Final Cleanup)  
 **Purpose**: Complete inventory of production documentation
 
 ## Production Overview
 
-This production folder contains the authoritative Fieldmark v3 field documentation, consolidated from 78 source files into 17 comprehensive documents optimized for LLM consumption.
+This production folder contains the authoritative Fieldmark v3 field documentation, consolidated from 78 source files into comprehensive documents optimized for LLM consumption.
 
 ## Directory Structure
 
 ```
 production/
-├── field-categories/    (8 files)   - Field type documentation by category
-├── patterns/           (4 files)   - Cross-field patterns and workflows
-├── references/         (4 files)   - Technical reference guides
-├── scripts/            (1 file)    - Build and maintenance scripts
-├── field-type-index.md (1 file)    - Master navigation index
-├── reference.md        (1 file)    - LLM-optimized concatenated reference (868K)
-├── MANIFEST.md         (this file) - Production inventory
-└── README.md           (1 file)    - Production overview
+├── field-categories/       (8 files)   - Field type documentation by category
+├── patterns/              (4 files)   - Cross-field patterns and workflows
+├── references/            (9 files)   - Technical references, guides, mappings, and index
+├── scripts/               (2 files)   - Build and validation scripts
+├── reference.md           (1 file)   - LLM-optimized concatenated reference
+├── test-notebook-correct.json (1 file) - Minimal working test notebook
+├── test-notebook-comprehensive.json (1 file) - Comprehensive component test
+├── PRODUCTION_UPDATE_SUMMARY.md (1 file) - Summary of recent updates
+├── MANIFEST.md            (this file) - Production inventory
+└── README.md              (1 file)   - Production overview
 ```
+
+**Archives Created**:
+- `archive/2025-01-07-analysis/` - Validation reports and analysis files
+- `archive/2025-01-07-notebooks/` - Old test notebooks with incorrect structure
+- `archive/2025-01-07-scripts/` - One-time fix scripts
 
 ## Complete File Inventory
 
@@ -52,20 +59,35 @@ production/
 **Purpose**: Consolidated technical documentation  
 **Status**: Merged from 13 source documents
 
-| File | Source Docs | Lines | Topics |
-|------|------------|-------|---------|
+| File | Source | Lines | Topics |
+|------|--------|-------|---------|
 | component-reference.md | 4 docs merged | 977 | Namespaces, types, Formik integration |
-| platform-reference.md | 3 docs merged | 656 | Platform behaviors, performance, accessibility |
-| operations-reference.md | 3 docs merged | 787 | Migration, export, troubleshooting |
 | constraints-reference.md | 3 docs merged | 497 | Designer limits, security, validation |
+| designer-component-mapping.md | New | 295 | Designer UI → Component translation |
+| field-type-index.md | Original | 299 | Master navigation index |
+| field-type-summary-table.md | From FAIMS3 | 122 | Quick reference table for all fields |
+| file-organization-guide.md | New | 135 | Production vs temporary file structure |
+| notebook-format-guide.md | New | 198 | Correct notebook JSON structure |
+| operations-reference.md | 3 docs merged | 787 | Migration, export, troubleshooting |
+| platform-reference.md | 3 docs merged | 656 | Platform behaviors, performance, accessibility |
 
-### 4. Navigation & Build (`/`)
+### 4. Scripts (`/scripts/`)
+
+| File | Purpose | Type |
+|------|---------|------|
+| build-reference.sh | Build concatenated reference.md | Build |
+| validate-notebook.py | Validate notebook JSON structure | Validation |
+| fix-mapping-tables.sh | Fix component mapping tables (archived) | One-time |
+
+### 5. Navigation & Test Files (`/`)
 
 | File | Purpose | Lines |
 |------|---------|-------|
 | field-type-index.md | Master navigation with depth tags | 299 |
-| reference.md | Concatenated LLM reference | 24,407 |
-| scripts/build-reference.sh | Build script for reference.md | 132 |
+| reference.md | Concatenated LLM reference | ~26,000 |
+| test-notebook-fixed.json | Working test notebook | 875 |
+| FILE_ORGANIZATION_GUIDE.md | Organization documentation | 135 |
+| PRODUCTION_UPDATE_SUMMARY.md | Update history | 112 |
 
 ## Key Features
 
@@ -90,8 +112,8 @@ production/
 ## Statistics
 
 ### Document Metrics
-- **Total Files**: 20 (including scripts and meta files)
-- **Documentation Files**: 17
+- **Total Files**: 21 (including scripts and meta files)
+- **Documentation Files**: 18
 - **Total Lines**: ~33,000 (including reference.md)
 - **Compressed from**: 78 original files
 - **Reduction**: 78% fewer files
@@ -112,10 +134,16 @@ production/
 - Performance threshold adjustments
 
 ### Remaining Enhancements
-- Add 60-80 production JSON examples
+- ~~Add 60-80 production JSON examples~~ ✅ Added 20 per file
 - Expand platform-specific behaviors
 - Enhanced troubleshooting sections
 - Additional migration scenarios
+
+### Recent Fixes (2025-01-06)
+- Fixed all incorrect component names in JSON examples
+- Corrected TemplatedIntegerField/FloatField → NumberField
+- Fixed ControlledNumber → TextField with type="number"
+- Added Designer UI to Component mapping reference
 
 ## Build Process
 
@@ -146,3 +174,16 @@ All production documentation follows:
 - **Phase 3-4**: Consolidation (completed)
 - **2025-01-06**: Security sections standardized
 - **2025-01-06**: JSON cleaned for LLM consumption
+- **2025-01-06**: Fixed component names in JSON examples
+- **2025-01-06**: Added Designer → Component mapping reference
+- **2025-01-07 Morning**: Fixed mapping table contradictions in field docs
+- **2025-01-07 Morning**: Corrected namespaces (select/location fields)
+- **2025-01-07 Morning**: Resolved RelatedRecordSelector naming confusion
+- **2025-01-07 Morning**: Archived analysis files to archive/2025-01-07-analysis/
+- **2025-01-07 Afternoon**: Fixed notebook structure issues (added fviews)
+- **2025-01-07 Afternoon**: Created working test notebooks
+- **2025-01-07 Afternoon**: Added notebook-format-guide.md
+- **2025-01-07 Final**: Moved field-type-summary-table.md from FAIMS3
+- **2025-01-07 Final**: Archived old notebooks and scripts
+- **2025-01-07 Final**: Updated build script with all new documentation
+- **2025-01-07 Final**: Final cleanup and organization

@@ -64,30 +64,16 @@ Fieldmark text fields provide comprehensive text capture capabilities spanning s
 
 6. **QRCodeFormField** - Delivers **mobile-exclusive** barcode scanning functionality through ML Kit barcode scanning, supporting thirteen distinct barcode formats despite its nomenclature suggesting QR-only capability. Uses sophisticated ten-scan validation mechanism ensuring reading accuracy whilst operating without user feedback. **⚠️ PLATFORM WARNING**: Web platform deployment renders the component entirely non-functional, displaying a disabled interface that critically breaks form validation when marked as required.
 
-## Component Name Mapping {essential}
+## Component Mapping Reference {essential}
 
-| Designer UI Label | JSON component-name | Namespace | Code File | Description |
-|------------------|-------------------|-----------|-----------|-------------|
-| FAIMS Text Field | FAIMSTextField | faims-custom | FAIMSTextField.tsx | Single-line text input |
-| Text Field | MultipleTextField | formik-material-ui | TextField.tsx | Multi-line text area |
-| Email | TextField | formik-material-ui | TextField.tsx | Email with validation |
-| Template String | TemplatedStringField | faims-custom | TemplatedString.tsx | Auto-generated text |
-| Address | AddressField | faims-custom | Address.tsx | Structured address |
-| QR Code Scanner | QRCodeFormField | qrcode | QRCodeFormField.tsx | Barcode scanner |
-| Rich Text | RichText | faims-custom | RichText.tsx | Display-only formatted content |
+For the complete mapping between Designer field names and JSON component implementations, see:
+→ **[Designer UI to Component Mapping Reference](../references/designer-component-mapping.md)**
 
-### Critical Naming Issues {important}
-- **TextField confusion**: The base TextField component (formik-material-ui) is NOT directly available in Designer
-- **MultipleTextField misnomer**: Despite the name suggesting multiple values, this is actually a multi-LINE text area
-- **Designer label mismatch**: "Text Field" in Designer creates MultipleTextField, not TextField
-- **Component file discrepancy**: TemplatedStringField component is in TemplatedString.tsx (without "Field")
+This central reference provides:
+- Exact component names and namespaces for all fields
+- Configuration requirements and examples
+- Common mapping errors and solutions
 
-### Display Field (7)
-
-7. **RichText Field** - Provides formatted instructional content and headings within forms through markdown rendering. Purely presentational—displays static content without capturing or storing user input. Exists within field architecture for consistency but does not participate in form validation, data storage, or export operations. Content rendered through markdown-it parser with aggressive DOMPurify sanitization. **Note**: Tables and external images not yet supported, no accessibility implementation, and feature discrepancies between Designer editing and runtime display.
-
-
----
 
 ## Designer Usage Guide {essential}
 
@@ -765,7 +751,7 @@ Extended text entry for narrative content, detailed observations, and interpreta
 ❌ **NEVER: Use "MultilineText" as component name**
 ```json
 {
-  "component-name": "MultilineText",
+  "component-name": "MultipleTextField",
 }
 ```
 ✅ **ALWAYS: Use MultipleTextField**
@@ -1001,7 +987,7 @@ Also see [Troubleshooting Guide > Common Problems Table] for general validation 
 ```json
 {
   "component-namespace": "ANY-namespace",
-  "component-name": "Email"
+  "component-name": "TextField"
 }
 ```
 ✅ **ALWAYS: Use TextField with email type**

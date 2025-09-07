@@ -18,9 +18,9 @@ OUTPUT_FILE="$BASE_DIR/reference.md"
 echo -e "${GREEN}Building Fieldmark v3 Reference Documentation${NC}"
 echo "================================================"
 
-# Start with the index
+# Start with the index from references directory
 echo -e "${YELLOW}Adding master index...${NC}"
-cat "$BASE_DIR/field-type-index.md" > "$OUTPUT_FILE"
+cat "$BASE_DIR/references/field-type-index.md" > "$OUTPUT_FILE"
 
 # Add separator
 echo -e "\n\n<!-- ============================================ -->" >> "$OUTPUT_FILE"
@@ -83,11 +83,15 @@ echo "<!-- ============================================ -->" >> "$OUTPUT_FILE"
 echo -e "${YELLOW}Adding consolidated technical references...${NC}"
 
 # Add all references from the 'references' directory
+# Note: field-type-index is added separately at the beginning
 REFERENCE_DOCS=(
-    "component-reference"
-    "platform-reference"
-    "operations-reference"
-    "constraints-reference"
+    "designer-component-mapping"  # Primary field mapping reference
+    "component-reference"          # Namespaces and types
+    "constraints-reference"        # Limitations and security
+    "operations-reference"         # Migration and troubleshooting
+    "platform-reference"          # Platform-specific behaviors
+    "notebook-format-guide"       # JSON structure guide
+    "file-organization-guide"     # Project structure
 )
 
 for doc in "${REFERENCE_DOCS[@]}"; do

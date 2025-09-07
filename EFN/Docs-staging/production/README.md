@@ -9,7 +9,7 @@ cat reference.md
 ```
 
 ### For Human Navigation
-Start with [field-type-index.md](field-type-index.md) - the master navigation index.
+Start with [field-type-index.md](references/field-type-index.md) - the master navigation index.
 
 ### To Rebuild Reference
 ```bash
@@ -38,16 +38,21 @@ This is the authoritative documentation for Fieldmark v3's field system, optimiz
 - **dynamic-forms-guide.md** - Validation and conditional logic
 - **implementation-patterns-guide.md** - Common patterns and troubleshooting
 
-### 📁 `/references/` - Technical References
-4 consolidated technical guides:
+### 📁 `/references/` - Technical References & Guides
+8 reference documents and guides:
 - **component-reference.md** - Namespaces, types, Formik integration
-- **platform-reference.md** - Platform behaviors, performance, accessibility
-- **operations-reference.md** - Migration, export, troubleshooting
 - **constraints-reference.md** - Designer limitations, security considerations
+- **designer-component-mapping.md** - Designer UI → Component translation
+- **field-type-summary-table.md** - Quick reference table for all fields
+- **file-organization-guide.md** - Production vs temporary file structure
+- **notebook-format-guide.md** - Correct notebook JSON structure
+- **operations-reference.md** - Migration, export, troubleshooting
+- **platform-reference.md** - Platform behaviors, performance, accessibility
 
-### 📄 Key Files
-- **field-type-index.md** - Master navigation with categorized links
-- **reference.md** - 24,400-line concatenated reference for LLM consumption
+### 📄 Key Files  
+- **reference.md** - Concatenated reference for LLM consumption (~27,000 lines)
+- **test-notebook-correct.json** - Minimal working test notebook (3 fields)
+- **test-notebook-comprehensive.json** - Comprehensive test (10 field types)
 - **MANIFEST.md** - Complete inventory of all documentation
 
 ## Documentation Features

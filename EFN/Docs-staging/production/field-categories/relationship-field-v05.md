@@ -22,32 +22,16 @@ last_updated: 2025-01-05
 ### DESIGNER QUICK GUIDE
 **Relationship Field Available:**
 - **RelatedRecordSelector** → Connect records with bidirectional relationships
-## Component Name Mapping {essential}
+## Component Mapping Reference {essential}
 
-| Designer UI Label | JSON component-name | Namespace | Code File | Description |
-|------------------|-------------------|-----------|-----------|-------------|
-| Related Record Selector | RelationshipField | faims-custom | RelationshipField.tsx | Record linking |
+For the complete mapping between Designer field names and JSON component implementations, see:
+→ **[Designer UI to Component Mapping Reference](../references/designer-component-mapping.md)**
 
-### Critical Naming Issues {important}
-- **Component name mismatch**: Designer shows "Related Record Selector" but component is "RelationshipField"
-- **Type confusion**: Returns faims-core::Array, not a custom Relationship type
-- **Child vs Linked**: Can switch between modes in Designer but affects behavior significantly
-- **Performance critical**: Degrades rapidly with >50 relationships
+This central reference provides:
+- Exact component names and namespaces for all fields
+- Configuration requirements and examples
+- Common mapping errors and solutions
 
-- Two relationship types: `"Child"` (hierarchical) or `"is-related-to"` (peer)
-- Vocabulary pairs immutable after creation - plan carefully
-
-### Field Capabilities Summary
-Enables bidirectional connections between records with automatic reciprocal updates. Supports hierarchical parent-child relationships with cascade behavior and semantic peer associations with qualified vocabulary pairs. Critical performance degradation beyond 50 relationships (unusable at 200+). Offline reciprocal updates delayed until synchronization.
-
-### Component Status
-| Property | Status | Notes |
-|----------|--------|-------|
-| Designer Support | ⚠️ Limited | No vocabulary pair configuration |
-| JSON Enhancement | Required | Vocabulary pairs, advanced options |
-| Validation | ✅ Works | Array/string based on multiple |
-| Performance | ⚠️ 50 limit | Degrades rapidly above threshold |
-| Offline | ⚠️ Delayed | Reciprocals after sync only |
 
 ## Designer Usage Guide {essential}
 
@@ -231,20 +215,20 @@ See [Security Considerations Reference](../reference-docs/security-consideration
 See [Component Namespace Reference](../reference-docs/component-namespace-reference.md) for troubleshooting.
 
 **Common Relationship Errors:**
-- Using "RelationshipField" instead of "RelatedRecordSelector"
-- Wrong case in component name
+- Using incorrect component names (e.g., "RelationshipField")
+- Wrong case in component name (must be exact: "RelatedRecordSelector")
 - Missing related_type parameter
 
 
 ## When to Use This Field {essential}
 
-### Use RelationshipField When
+### Use RelatedRecordSelector When
 - Linking parent records to child records (hierarchical data)
 - Creating associations between peer records (many-to-many)
 - Building specimen/sample hierarchies
 - Connecting related observations
 
-### Do NOT Use RelationshipField When
+### Do NOT Use RelatedRecordSelector When
 - You have >50 relationships per record (performance degrades)
 - Relationships might exceed 200 (becomes unusable)
 - You need one-way relationships (always bidirectional)

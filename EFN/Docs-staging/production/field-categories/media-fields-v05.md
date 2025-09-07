@@ -22,33 +22,16 @@ last_updated: 2025-01-05
 ### DESIGNER QUICK GUIDE
 **Media Capture Fields Available:**
 - **FileUploader** → Upload any existing files from device
-## Component Name Mapping {essential}
+## Component Mapping Reference {essential}
 
-| Designer UI Label | JSON component-name | Namespace | Code File | Description |
-|------------------|-------------------|-----------|-----------|-------------|
-| Take Photo | TakePhoto | faims-custom | TakePhoto.tsx | Camera capture & gallery |
-| File Uploader | FileUploader | faims-custom | FileUploader.tsx | General file attachment |
+For the complete mapping between Designer field names and JSON component implementations, see:
+→ **[Designer UI to Component Mapping Reference](../references/designer-component-mapping.md)**
 
-### Critical Naming Issues {important}
-- **TakePhoto misnomer**: Also handles gallery selection, not just camera
-- **Required validation broken**: Known issue with required field validation
-- **File type restrictions**: Cannot actually restrict file types despite settings
-- **Silent failures**: Upload errors often fail silently
+This central reference provides:
+- Exact component names and namespaces for all fields
+- Configuration requirements and examples
+- Common mapping errors and solutions
 
-- **FileUploader** (capital F, capital U) - NOT "fileuploader" or "File Uploader"
-- **TakePhoto** (capital T, capital P) - NOT "takephoto" or "Take Photo"
-- Both components use namespace `"faims-custom"` - never "core" or "basic"
-- Return type is `faims-attachment::Files` for both - maintains compatibility
-
-### Media Capture Fields (2 total)
-1. **FileUploader** - Upload existing files of any type from device storage
-2. **TakePhoto** - Capture new photos using device camera with gallery fallback
-
-### Component Status Summary
-| Field | Designer | JSON Enhancement | Validation | Platform Support |
-|-------|----------|------------------|------------|------------------|
-| FileUploader | ✅ Basic | Required for constraints | ⚠️ Broken required | All platforms |
-| TakePhoto | ✅ Full | Optional for validation | ⚠️ Manual required | All platforms |
 
 ## Designer Usage Guide {essential}
 
