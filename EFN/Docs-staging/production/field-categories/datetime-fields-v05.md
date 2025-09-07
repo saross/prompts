@@ -16,6 +16,17 @@ see-also: [field-selection-guide, platform-reference]
 
 # Date-Time Input Fields
 
+
+<!-- structured:metadata
+meta:purpose: field-configuration
+meta:summary: Four date/time components with critical format warnings, Excel corruption issues, and timezone handling requirements.
+meta:generates: json-fields
+meta:requires: [valid-json, unique-names, fviews-layer]
+meta:version: 3.0.0
+meta:document: datetime_fields
+meta:depth-tags: [essential, important, comprehensive]
+-->
+
 ## Document Navigation {essential}
 <!-- concat:nav-mode:individual -->
 [← Selection Fields](./select-choice-fields-v05.md) | **Date & Time Fields** | [Numeric Fields →](./number-fields-v05.md)
@@ -385,6 +396,7 @@ All date/time fields require:
 
 #### Auto-population (DateTimeNow only)
 ```json
+// Example datetime-fields-01
 "component-parameters": {
   "is_auto_pick": true
 }
@@ -392,14 +404,16 @@ All date/time fields require:
 
 #### Common Configuration Patterns
 ```json
+// Example datetime-fields-02
+// Template markers added for parametric generation
 {
   "component-namespace": "faims-custom",
   "component-name": "DateTimeNow",
   "type-returned": "faims-core::String",
   "component-parameters": {
-    "name": "timestamp-field",
-    "label": "Record Timestamp",
-    "helperText": "Automatically captured (UTC)",
+    "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+    "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+    "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
     "fullWidth": true,
     "required": false
   },
@@ -611,12 +625,14 @@ Timezone-aware timestamp capture with automatic current time option. Stores time
 - Platform-specific optimizations
 
 ```json
+// Example datetime-fields-03
+// Template markers added for parametric generation
 {
   "component-parameters": {
-    "label": "Record Created",
-    "name": "record_created",
+    "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+    "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
     "is_auto_pick": true,
-    "helperText": "Automatically captured when record opened",
+    "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
     "fullWidth": true,
     "required": false
   }
@@ -637,20 +653,22 @@ Timezone-aware timestamp capture with automatic current time option. Stores time
 
 **Auto-populated Creation Timestamp**
 ```json
+// Example datetime-fields-04
+// Template markers added for parametric generation
 {
   "record_created": {
     "component-namespace": "faims-custom",
     "component-name": "DateTimeNow",
     "component-parameters": {
-      "name": "record_created",
-      "label": "Record Created",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
       "is_auto_pick": true,
-      "helperText": "Automatically captured (UTC)",
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "disabled": false
     },
     "validationSchema": [
       ["yup.string"],
-      ["yup.required", "Creation time required"]
+      ["yup.Creation time required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
     ],
     "initialValue": ""
   }
@@ -659,20 +677,22 @@ Timezone-aware timestamp capture with automatic current time option. Stores time
 
 **Manual Timestamp with Annotation**
 ```json
+// Example datetime-fields-05
+// Template markers added for parametric generation
 {
   "observation_time": {
     "component-namespace": "faims-custom",
     "component-name": "DateTimeNow",
     "component-parameters": {
-      "name": "observation_time",
-      "label": "Observation Time",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
       "is_auto_pick": false,
-      "helperText": "Click 'Now' or select specific time"
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
     },
     "meta": {
       "annotation": {
         "include": true,
-        "label": "Time notes"
+        "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
       }
     }
   }
@@ -684,6 +704,7 @@ Timezone-aware timestamp capture with automatic current time option. Stores time
 
 ❌ **NEVER: Wrong namespace (faims3 doesn't exist)**
 ```json
+// Example datetime-fields-06
 {
   "component-name": "DateTimeNow",
   "component-namespace": "faims3"
@@ -691,6 +712,7 @@ Timezone-aware timestamp capture with automatic current time option. Stores time
 ```
 ✅ **ALWAYS: Use faims-custom namespace**
 ```json
+// Example datetime-fields-07
 {
   "component-name": "DateTimeNow",
   "component-namespace": "faims-custom"
@@ -699,6 +721,7 @@ Timezone-aware timestamp capture with automatic current time option. Stores time
 
 ❌ **NEVER: Invalid timezone**
 ```json
+// Example datetime-fields-08
 {
   "meta": {
     "timezone": "Sydney"
@@ -707,6 +730,7 @@ Timezone-aware timestamp capture with automatic current time option. Stores time
 ```
 ✅ **ALWAYS: Use IANA timezone identifiers**
 ```json
+// Example datetime-fields-09
 {
   "meta": {
     "timezone": "Australia/Sydney"
@@ -730,12 +754,14 @@ Timezone-aware timestamp capture with automatic current time option. Stores time
 
 ❌ **NEVER: Using DateTimePicker for new forms**
 ```json
+// Example datetime-fields-10
 {
   "component-name": "DateTimePicker"
 }
 ```
 ✅ **ALWAYS: Use DateTimeNow for timezone support**
 ```json
+// Example datetime-fields-11
 {
   "component-name": "DateTimeNow",
   "component-namespace": "faims-custom"
@@ -744,6 +770,7 @@ Timezone-aware timestamp capture with automatic current time option. Stores time
 
 ❌ **NEVER: Expecting timezone handling**
 ```json
+// Example datetime-fields-12
 {
   "component-name": "DateTimePicker",
   "meta": {
@@ -790,11 +817,13 @@ Legacy datetime field that stores timestamps without timezone information, causi
 #### If You Must Use DateTimePicker
 **Document these assumptions**:
 ```json
-"helperText": "Time recorded in Sydney timezone (UTC+10/+11)",
+// Example datetime-fields-13
+// Template markers added for parametric generation
+"helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
 "meta": {
   "annotation": {
     "include": true,
-    "label": "Timezone context (if device was elsewhere)"
+    "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
   }
 }
 ```
@@ -841,11 +870,13 @@ Date-only selection for administrative and observational records where time comp
 **Designer creates basic field** with label, required, and helper text. JSON enhancement needed for fullWidth, variant styles, and platform-specific configurations.
 
 ```json
+// Example datetime-fields-14
+// Template markers added for parametric generation
 {
   "component-parameters": {
-    "label": "Excavation Date",
-    "name": "excavation_date",
-    "helperText": "Date work commenced",
+    "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+    "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+    "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
     "required": true
   }
 }
@@ -866,12 +897,14 @@ Date-only selection for administrative and observational records where time comp
 
 ❌ **NEVER: Wrong date format in initialValue**
 ```json
+// Example datetime-fields-15
 {
   "initialValue": "15/03/2024"
 }
 ```
 ✅ **ALWAYS: Use ISO 8601 format**
 ```json
+// Example datetime-fields-16
 {
   "initialValue": "2024-03-15"
 }
@@ -879,12 +912,14 @@ Date-only selection for administrative and observational records where time comp
 
 ❌ **NEVER: Including time in date-only field**
 ```json
+// Example datetime-fields-17
 {
   "initialValue": "2024-03-15T10:30:00Z"
 }
 ```
 ✅ **ALWAYS: Date only, no time**
 ```json
+// Example datetime-fields-18
 {
   "initialValue": "2024-03-15"
 }
@@ -914,11 +949,13 @@ Month-year selection that deliberately avoids false daily precision, particularl
 **Designer creates basic field** with label, required, and helper text. JSON enhancement needed for fullWidth and platform-specific configurations.
 
 ```json
+// Example datetime-fields-19
+// Template markers added for parametric generation
 {
   "component-parameters": {
-    "label": "Publication Date",
-    "name": "publication_month",
-    "helperText": "Month and year of publication"
+    "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+    "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+    "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
   }
 }
 ```
@@ -941,12 +978,14 @@ Month-year selection that deliberately avoids false daily precision, particularl
 
 ❌ **NEVER: Wrong month format**
 ```json
+// Example datetime-fields-20
 {
   "initialValue": "March 2024"
 }
 ```
 ✅ **ALWAYS: Use YYYY-MM format**
 ```json
+// Example datetime-fields-21
 {
   "initialValue": "2024-03"
 }
@@ -954,12 +993,14 @@ Month-year selection that deliberately avoids false daily precision, particularl
 
 ❌ **NEVER: Including day in month field**
 ```json
+// Example datetime-fields-22
 {
   "initialValue": "2024-03-15"
 }
 ```
 ✅ **ALWAYS: Year and month only**
 ```json
+// Example datetime-fields-23
 {
   "initialValue": "2024-03"
 }
@@ -1077,20 +1118,22 @@ Common date field error messages and their meanings:
 
 ### Example 1: Basic Date Field
 ```json
+// Example datetime-fields-24
+// Template markers added for parametric generation
 {
-  "excavation-date": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "DatePicker",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "excavation-date",
-      "label": "Excavation Date",
-      "helperText": "Date of excavation",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": true
     },
     "validationSchema": [
       ["yup.string"],
-      ["yup.required", "Excavation date is required"]
+      ["yup.Excavation date is required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
     ],
     "initialValue": ""
   }
@@ -1099,15 +1142,17 @@ Common date field error messages and their meanings:
 
 ### Example 2: Time-only Field
 ```json
+// Example datetime-fields-25
+// Template markers added for parametric generation
 {
-  "sample-time": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "DateTimePicker",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "sample-time",
-      "label": "Sample Collection Time",
-      "helperText": "Time of day (24-hour format)",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": false
     },
     "validationSchema": [
@@ -1120,21 +1165,23 @@ Common date field error messages and their meanings:
 
 ### Example 3: Full DateTime Field
 ```json
+// Example datetime-fields-26
+// Template markers added for parametric generation
 {
-  "discovery-datetime": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "DateTimePicker",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "discovery-datetime",
-      "label": "Discovery Date and Time",
-      "helperText": "When was this artifact discovered?",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": true,
       "fullWidth": true
     },
     "validationSchema": [
       ["yup.string"],
-      ["yup.required", "Discovery date/time is required"]
+      ["yup.Discovery date/time is required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
     ],
     "initialValue": ""
   }
@@ -1143,15 +1190,17 @@ Common date field error messages and their meanings:
 
 ### Example 4: Auto-capture Timestamp
 ```json
+// Example datetime-fields-27
+// Template markers added for parametric generation
 {
-  "record-created": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "DateTimeNow",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "record-created",
-      "label": "Record Created",
-      "helperText": "Automatically captured",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "is_auto_pick": true,
       "disabled": true
     },
@@ -1165,21 +1214,23 @@ Common date field error messages and their meanings:
 
 ### Example 5: Manual Timestamp with Now Button
 ```json
+// Example datetime-fields-28
+// Template markers added for parametric generation
 {
-  "field-timestamp": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "DateTimeNow",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "field-timestamp",
-      "label": "Field Timestamp",
-      "helperText": "Click 'Now' for current time",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "is_auto_pick": false,
       "required": true
     },
     "validationSchema": [
       ["yup.string"],
-      ["yup.required", "Timestamp required"]
+      ["yup.Timestamp required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
     ],
     "initialValue": ""
   }
@@ -1188,20 +1239,22 @@ Common date field error messages and their meanings:
 
 ### Example 6: Date with Range Validation
 ```json
+// Example datetime-fields-29
+// Template markers added for parametric generation
 {
-  "project-date": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "DatePicker",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "project-date",
-      "label": "Project Date",
-      "helperText": "Must be within project period",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": true
     },
     "validationSchema": [
       ["yup.string"],
-      ["yup.required", "Date is required"],
+      ["yup.Date is required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message,
       ["yup.min", "2024-01-01", "Date must be after Jan 1, 2024"],
       ["yup.max", "2024-12-31", "Date must be before Dec 31, 2024"]
     ],
@@ -1212,15 +1265,17 @@ Common date field error messages and their meanings:
 
 ### Example 7: Optional Date with Metadata
 ```json
+// Example datetime-fields-30
+// Template markers added for parametric generation
 {
-  "analysis-date": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "DatePicker",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "analysis-date",
-      "label": "Analysis Date",
-      "helperText": "Date of laboratory analysis",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": false
     },
     "validationSchema": [
@@ -1230,11 +1285,11 @@ Common date field error messages and their meanings:
     "meta": {
       "uncertainty": {
         "include": true,
-        "label": "Date certainty"
+        "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
       },
       "annotation": {
         "include": true,
-        "label": "Date notes"
+        "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
       }
     }
   }
@@ -1243,20 +1298,22 @@ Common date field error messages and their meanings:
 
 ### Example 8: Conditional DateTime Field
 ```json
+// Example datetime-fields-31
+// Template markers added for parametric generation
 {
-  "treatment-datetime": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "DateTimePicker",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "treatment-datetime",
-      "label": "Treatment Date/Time",
-      "helperText": "When was conservation treatment applied?",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": true
     },
     "validationSchema": [
       ["yup.string"],
-      ["yup.required", "Treatment date/time required"]
+      ["yup.Treatment date/time required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
     ],
     "initialValue": "",
     "condition": {
@@ -1270,15 +1327,17 @@ Common date field error messages and their meanings:
 
 ### Example 9: Birth Date with Age Calculation
 ```json
+// Example datetime-fields-32
+// Template markers added for parametric generation
 {
-  "birth-date": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "DatePicker",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "birth-date",
-      "label": "Date of Birth",
-      "helperText": "For age calculation",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": false
     },
     "validationSchema": [
@@ -1292,26 +1351,28 @@ Common date field error messages and their meanings:
 
 ### Example 10: Time Field with Precision
 ```json
+// Example datetime-fields-33
+// Template markers added for parametric generation
 {
-  "observation-time": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "DateTimePicker",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "observation-time",
-      "label": "Observation Time",
-      "helperText": "Local time of observation",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": true
     },
     "validationSchema": [
       ["yup.string"],
-      ["yup.required", "Time is required"]
+      ["yup.Time is required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
     ],
     "initialValue": "",
     "meta": {
       "annotation": {
         "include": true,
-        "label": "Timezone and precision notes"
+        "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
       }
     }
   }
@@ -1320,20 +1381,22 @@ Common date field error messages and their meanings:
 
 ### Example 11: Season/Period Date Range
 ```json
+// Example datetime-fields-34
+// Template markers added for parametric generation
 {
-  "season-start": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "DatePicker",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "season-start",
-      "label": "Field Season Start",
-      "helperText": "First day of excavation season",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": true
     },
     "validationSchema": [
       ["yup.string"],
-      ["yup.required", "Season start date required"]
+      ["yup.Season start date required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
     ],
     "initialValue": "2024-06-01"
   }
@@ -1342,6 +1405,7 @@ Common date field error messages and their meanings:
 
 ### Example 12: DateTime with Default Now
 ```json
+// Example datetime-fields-35
 {
   "submission-datetime": {
     "component-namespace": "faims-custom",
@@ -1364,15 +1428,17 @@ Common date field error messages and their meanings:
 
 ### Example 13: Historical Date Field
 ```json
+// Example datetime-fields-36
+// Template markers added for parametric generation
 {
-  "historical-date": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "DatePicker",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "historical-date",
-      "label": "Historical Date",
-      "helperText": "Approximate date (BCE/CE)",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": false
     },
     "validationSchema": [
@@ -1382,7 +1448,7 @@ Common date field error messages and their meanings:
     "meta": {
       "uncertainty": {
         "include": true,
-        "label": "Date precision (exact, circa, before/after)"
+        "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
       }
     }
   }
@@ -1391,15 +1457,17 @@ Common date field error messages and their meanings:
 
 ### Example 14: Restricted Future Date
 ```json
+// Example datetime-fields-37
+// Template markers added for parametric generation
 {
-  "planned-visit": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "DatePicker",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "planned-visit",
-      "label": "Planned Visit Date",
-      "helperText": "Next site visit (max 1 year ahead)",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": false
     },
     "validationSchema": [
@@ -1415,20 +1483,22 @@ Common date field error messages and their meanings:
 
 ### Example 15: Multiple DateTime Fields
 ```json
+// Example datetime-fields-38
+// Template markers added for parametric generation
 {
-  "excavation-start": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "DateTimePicker",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "excavation-start",
-      "label": "Excavation Start",
-      "helperText": "Begin excavation timestamp",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": true
     },
     "validationSchema": [
       ["yup.string"],
-      ["yup.required", "Start time required"]
+      ["yup.Start time required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
     ],
     "initialValue": ""
   }
@@ -1437,20 +1507,22 @@ Common date field error messages and their meanings:
 
 ### Example 16: Time Duration Tracking
 ```json
+// Example datetime-fields-39
+// Template markers added for parametric generation
 {
-  "work-start-time": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "DateTimePicker",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "work-start-time",
-      "label": "Work Start Time",
-      "helperText": "Daily work begin time",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": true
     },
     "validationSchema": [
       ["yup.string"],
-      ["yup.required", "Start time required"],
+      ["yup.Start time required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message,
       ["yup.matches", "^([01]?[0-9]|2[0-3]):[0-5][0-9]$", "Use HH:MM format"]
     ],
     "initialValue": "08:00"
@@ -1460,15 +1532,17 @@ Common date field error messages and their meanings:
 
 ### Example 17: Readonly System Timestamp
 ```json
+// Example datetime-fields-40
+// Template markers added for parametric generation
 {
-  "last-modified": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "DateTimeNow",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "last-modified",
-      "label": "Last Modified",
-      "helperText": "System-managed timestamp",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "is_auto_pick": true,
       "disabled": true,
       "readOnly": true
@@ -1483,15 +1557,17 @@ Common date field error messages and their meanings:
 
 ### Example 18: Date with Custom Format Display
 ```json
+// Example datetime-fields-41
+// Template markers added for parametric generation
 {
-  "publication-date": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "DatePicker",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "publication-date",
-      "label": "Publication Date",
-      "helperText": "Article/report publication date",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "format": "DD/MM/YYYY",
       "required": false
     },
@@ -1505,20 +1581,22 @@ Common date field error messages and their meanings:
 
 ### Example 19: Complex Conditional Date
 ```json
+// Example datetime-fields-42
+// Template markers added for parametric generation
 {
-  "completion-date": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "DatePicker",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "completion-date",
-      "label": "Completion Date",
-      "helperText": "When was this phase completed?",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": true
     },
     "validationSchema": [
       ["yup.string"],
-      ["yup.required", "Completion date required"],
+      ["yup.Completion date required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message,
       ["yup.min", "${start-date}", "Must be after start date"]
     ],
     "initialValue": "",
@@ -1542,27 +1620,29 @@ Common date field error messages and their meanings:
 
 ### Example 20: DateTime with Timezone Awareness
 ```json
+// Example datetime-fields-43
+// Template markers added for parametric generation
 {
-  "international-meeting": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "DateTimePicker",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "international-meeting",
-      "label": "Meeting Time (UTC)",
-      "helperText": "Enter in UTC timezone",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": true,
       "timezone": "UTC"
     },
     "validationSchema": [
       ["yup.string"],
-      ["yup.required", "Meeting time required"]
+      ["yup.Meeting time required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
     ],
     "initialValue": "",
     "meta": {
       "annotation": {
         "include": true,
-        "label": "Local timezone for reference"
+        "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
       }
     }
   }
@@ -1572,6 +1652,8 @@ Common date field error messages and their meanings:
 
 #### DateTimeNow ANTI-PATTERNS ⚠️
 ```json
+// Example datetime-fields-44
+// Template markers added for parametric generation
 
 {
   "initialValue": null
@@ -1580,7 +1662,7 @@ Common date field error messages and their meanings:
 
 {
   "component-parameters": {
-    "label": "Time"
+    "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
 
   }
 }
@@ -1589,7 +1671,7 @@ Common date field error messages and their meanings:
 {
   "is_auto_pick": true,
   "component-parameters": {
-    "label": "Date"
+    "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
 
   }
 }
@@ -1598,15 +1680,17 @@ Common date field error messages and their meanings:
 ### DateTimePicker Patterns (DISCOURAGED - Use DateTimeNow Instead)
 
 ```json
+// Example datetime-fields-45
+// Template markers added for parametric generation
 
 {
   "component-namespace": "faims-custom",
   "component-name": "DateTimePicker",
   "type-returned": "faims-core::String",
   "component-parameters": {
-    "name": "legacy-datetime",
-    "label": "Time (Legacy)",
-    "helperText": "⚠️ No timezone - ambiguous timestamp"
+    "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+    "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+    "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
   }
 }
 
@@ -1615,7 +1699,7 @@ Common date field error messages and their meanings:
 - "component-name": "DateTimePicker",
 + "component-name": "DateTimeNow",
   "component-parameters": {
-    "helperText": "Enter in your local time, stored as UTC"
+    "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
   }
 }
 ```
@@ -1623,15 +1707,17 @@ Common date field error messages and their meanings:
 ### DatePicker Patterns
 
 ```json
+// Example datetime-fields-46
+// Template markers added for parametric generation
 
 {
   "component-namespace": "faims-custom",
   "component-name": "DatePicker",
   "type-returned": "faims-core::String",
   "component-parameters": {
-    "name": "date-field",
-    "label": "Date",
-    "helperText": "Select date (no time component)"
+    "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+    "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+    "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
   },
   "validationSchema": [["yup.string"]],
   "initialValue": ""
@@ -1639,36 +1725,38 @@ Common date field error messages and their meanings:
 
 
 + "component-parameters": {
-+   "label": "Excavation Start Date",
-+   "helperText": "When excavation commenced",
++   "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
++   "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
 +   "required": true
 + }
 + "validationSchema": [
 +   ["yup.string"],
-+   ["yup.required", "Start date required"]
++   ["yup.Start date required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
 + ]
 
 
 + "meta": {
 +   "annotation": {
 +     "include": true,
-+     "label": "Date uncertainty (circa, before, after)"
++     "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
 +   }
 + }
 ```
 
 #### DatePicker ANTI-PATTERNS ⚠️
 ```json
+// Example datetime-fields-47
+// Template markers added for parametric generation
 
 {
   "component-name": "DatePicker",
-  "helperText": "Enter date and time"
+  "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
 
 }
 
 
 {
-  "helperText": "Format: DD/MM/YYYY"
+  "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
 
 }
 
@@ -1676,7 +1764,7 @@ Common date field error messages and their meanings:
 {
   "validationSchema": [
     ["yup.date"],
-    ["yup.min", ["yup.ref", "start_date"], "Must be after start"]
+    ["yup.min", ["yup.start_date", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message, "Must be after start"]
   ]
 }
 
@@ -1691,15 +1779,17 @@ Common date field error messages and their meanings:
 ### MonthPicker Patterns
 
 ```json
+// Example datetime-fields-48
+// Template markers added for parametric generation
 
 {
   "component-namespace": "faims-custom",
   "component-name": "MonthPicker",
   "type-returned": "faims-core::String",
   "component-parameters": {
-    "name": "month-field",
-    "label": "Month/Year",
-    "helperText": "Select month and year (no day)"
+    "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+    "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+    "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
   },
   "validationSchema": [["yup.string"]],
   "initialValue": ""
@@ -1707,25 +1797,26 @@ Common date field error messages and their meanings:
 
 
 + "component-parameters": {
-+   "label": "Excavation Season",
-+   "helperText": "Month of field season",
++   "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
++   "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
 +   "required": true
 + }
 + "validationSchema": [
 +   ["yup.string"],
-+   ["yup.required", "Season must be specified"]
++   ["yup.Season must be specified", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
 + ]
 
 
 + "component-parameters": {
-+   "label": "Publication Date",
-+   "helperText": "Month/year from source (avoids false precision)"
++   "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
++   "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
 + }
 + "initialValue": "1887-03"
 ```
 
 #### MonthPicker ANTI-PATTERNS ⚠️
 ```json
+// Example datetime-fields-49
 
 {
   "initialValue": "2024-03-15"
@@ -1745,6 +1836,8 @@ Optimize date field behavior for specific platforms:
 
 #### iOS-Optimized Configuration
 ```json
+// Example datetime-fields-50
+// Template markers added for parametric generation
 
 {
   "component-namespace": "faims-custom",
@@ -1752,7 +1845,7 @@ Optimize date field behavior for specific platforms:
   "component-parameters": {
     "fullWidth": true,
     "margin": "dense",
-    "helperText": "Swipe up/down on wheels to select time",
+    "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
     "InputProps": {
       "style": {
         "paddingBottom": "20px"
@@ -1764,6 +1857,8 @@ Optimize date field behavior for specific platforms:
 
 #### Android-Optimized Configuration
 ```json
+// Example datetime-fields-51
+// Template markers added for parametric generation
 
 {
   "component-namespace": "faims-custom",
@@ -1771,7 +1866,7 @@ Optimize date field behavior for specific platforms:
   "component-parameters": {
     "fullWidth": true,
     "variant": "outlined",
-    "helperText": "Tap to open calendar",
+    "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
     "InputProps": {
       "style": {
         "minHeight": "56px",
@@ -1784,6 +1879,8 @@ Optimize date field behavior for specific platforms:
 
 #### Desktop-Optimized Configuration
 ```json
+// Example datetime-fields-52
+// Template markers added for parametric generation
 
 {
   "component-namespace": "faims-custom",
@@ -1791,7 +1888,7 @@ Optimize date field behavior for specific platforms:
   "component-parameters": {
     "fullWidth": false,
     "variant": "standard",
-    "helperText": "Click field then use picker or type YYYY-MM-DD HH:MM",
+    "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
     "InputProps": {
       "placeholder": "YYYY-MM-DD HH:MM",
       "style": {
@@ -1804,13 +1901,15 @@ Optimize date field behavior for specific platforms:
 
 #### Multi-Platform Responsive Configuration
 ```json
+// Example datetime-fields-53
+// Template markers added for parametric generation
 
 {
   "component-namespace": "faims-custom",
   "component-name": "DateTimeNow",
   "component-parameters": {
     "fullWidth": true,
-    "helperText": "Select date/time (stored as UTC)",
+    "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
     "InputProps": {
       "style": {
         "minHeight": "48px",
@@ -1831,6 +1930,7 @@ Optimize date field behavior for specific platforms:
 ### Integration Patterns (Date Fields Working Together)
 
 ```json
+// Example datetime-fields-54
 
 {
   "excavation_start": {
@@ -2063,6 +2163,7 @@ Optimize date field behavior for specific platforms:
 **Migration Steps**:
 1. Add companion text field for uncertainty:
    ```json
+// Example datetime-fields-55
    "date_uncertainty": {
      "component-name": "TextField",
      "label": "Date Uncertainty/Notes"
@@ -2429,12 +2530,14 @@ When standard date fields don't meet requirements, consider these alternatives:
 
 ##### Separate Component Fields
 ```json
+// Example datetime-fields-56
+// Template markers added for parametric generation
 
 {
   "year_field": {
     "component-name": "NumberField",
     "component-parameters": {
-      "label": "Year",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
       "min": 1800,
       "max": 2100
     }
@@ -2442,11 +2545,11 @@ When standard date fields don't meet requirements, consider these alternatives:
   "month_field": {
     "component-name": "Select",
     "component-parameters": {
-      "label": "Month",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
       "options": [
-        {"value": "", "label": "Unknown"},
-        {"value": "01", "label": "January"},
-        {"value": "02", "label": "February"}
+        {"value": "", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "01", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "02", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label}
 
       ]
     }
@@ -2454,7 +2557,7 @@ When standard date fields don't meet requirements, consider these alternatives:
   "day_field": {
     "component-name": "NumberField",
     "component-parameters": {
-      "label": "Day (if known)",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
       "min": 1,
       "max": 31,
       "required": false
@@ -2465,13 +2568,15 @@ When standard date fields don't meet requirements, consider these alternatives:
 
 ##### Text Field with Pattern Validation
 ```json
+// Example datetime-fields-57
+// Template markers added for parametric generation
 
 {
   "historical_date": {
     "component-name": "TextField",
     "component-parameters": {
-      "label": "Historical Date",
-      "helperText": "Format: YYYY-MM-DD (negative year for BCE)",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "placeholder": "-0753-04-21"
     },
     "validationSchema": [
@@ -2484,16 +2589,18 @@ When standard date fields don't meet requirements, consider these alternatives:
 
 ##### Controlled Vocabulary for Periods
 ```json
+// Example datetime-fields-58
+// Template markers added for parametric generation
 
 {
   "temporal_period": {
     "component-name": "Select",
     "component-parameters": {
-      "label": "Archaeological Period",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
       "options": [
-        {"value": "early_bronze", "label": "Early Bronze Age (3300-2000 BCE)"},
-        {"value": "middle_bronze", "label": "Middle Bronze Age (2000-1550 BCE)"},
-        {"value": "late_bronze", "label": "Late Bronze Age (1550-1200 BCE)"}
+        {"value": "early_bronze", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "middle_bronze", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "late_bronze", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label}
       ]
     }
   }
@@ -2510,20 +2617,22 @@ When standard date fields don't meet requirements, consider these alternatives:
 - Spatially and temporally scoped period definitions
 - Example implementation:
 ```json
+// Example datetime-fields-59
+// Template markers added for parametric generation
 {
   "chronological_period": {
     "component-name": "Select",
     "component-parameters": {
-      "label": "Period (from Periodo)",
-      "helperText": "Periods from periodo.github.io",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "options": [
         {
           "value": "p0qhb66", 
-          "label": "Late Bronze Age, Levant (1550-1200 BCE)"
+          "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
         },
         {
           "value": "p0qhb65",
-          "label": "Middle Bronze Age IIB, Levant (1750-1550 BCE)"
+          "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
         }
       ]
     }
@@ -2531,8 +2640,8 @@ When standard date fields don't meet requirements, consider these alternatives:
   "periodo_uri": {
     "component-name": "TextField",
     "component-parameters": {
-      "label": "Periodo URI",
-      "helperText": "Full Periodo identifier for external reference",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "placeholder": "http:
     }
   }
@@ -2569,18 +2678,20 @@ For **absolute dates** (e.g., C14 dates, dendrochronology):
 
 ##### Comprehensive Uncertainty Pattern
 ```json
+// Example datetime-fields-60
+// Template markers added for parametric generation
 {
   "date_type": {
     "component-name": "RadioGroup",
     "component-parameters": {
-      "label": "Date Precision",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
       "options": [
-        {"value": "exact", "label": "Exact date known"},
-        {"value": "month", "label": "Month/year only"},
-        {"value": "year", "label": "Year only"},
-        {"value": "decade", "label": "Decade"},
-        {"value": "century", "label": "Century"},
-        {"value": "period", "label": "Historical period"}
+        {"value": "exact", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "month", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "year", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "decade", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "century", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "period", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label}
       ]
     }
   },
@@ -2594,27 +2705,27 @@ For **absolute dates** (e.g., C14 dates, dendrochronology):
   },
   "year_only": {
     "component-name": "NumberField",
-    "component-parameters": {"label": "Year", "min": 1000, "max": 2100},
+    "component-parameters": {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "min": 1000, "max": 2100},
     "condition": {"field": "date_type", "operator": "equal", "value": "year"}
   },
   "date_qualifier": {
     "component-name": "Select",
     "component-parameters": {
-      "label": "Date Qualifier",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
       "options": [
-        {"value": "exact", "label": "Exact"},
-        {"value": "circa", "label": "Circa"},
-        {"value": "before", "label": "Before"},
-        {"value": "after", "label": "After"},
-        {"value": "range", "label": "Range"}
+        {"value": "exact", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "circa", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "before", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "after", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "range", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label}
       ]
     }
   },
   "date_notes": {
     "component-name": "TextField",
     "component-parameters": {
-      "label": "Date Notes",
-      "helperText": "Additional context (e.g., 'Spring 1887', 'Early in reign')"
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
     }
   }
 }
@@ -2622,36 +2733,38 @@ For **absolute dates** (e.g., C14 dates, dendrochronology):
 
 ##### Fuzzy Date Storage Pattern
 ```json
+// Example datetime-fields-61
+// Template markers added for parametric generation
 
 {
   "event_date_min": {
     "component-name": "DatePicker",
     "component-parameters": {
-      "label": "Earliest Possible Date"
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
     }
   },
   "event_date_max": {
     "component-name": "DatePicker",
     "component-parameters": {
-      "label": "Latest Possible Date"
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
     }
   },
   "event_date_likely": {
     "component-name": "DatePicker",
     "component-parameters": {
-      "label": "Most Likely Date",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
       "required": false
     }
   },
   "confidence_level": {
     "component-name": "Select",
     "component-parameters": {
-      "label": "Confidence",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
       "options": [
-        {"value": "certain", "label": "Certain"},
-        {"value": "probable", "label": "Probable"},
-        {"value": "possible", "label": "Possible"},
-        {"value": "uncertain", "label": "Uncertain"}
+        {"value": "certain", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "probable", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "possible", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "uncertain", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label}
       ]
     }
   }
@@ -2664,12 +2777,14 @@ For ancient history and archaeology spanning BCE/CE, use numeric fields rather t
 
 **Pattern 1: Terminus Post/Ante Quem (Not Before/Not After)**
 ```json
+// Example datetime-fields-62
+// Template markers added for parametric generation
 {
   "date_not_before": {
     "component-name": "NumberField",
     "component-parameters": {
-      "label": "Not Before (negative = BCE)",
-      "helperText": "e.g., -150 for 150 BCE",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "min": -3500,
       "max": 2100
     }
@@ -2677,8 +2792,8 @@ For ancient history and archaeology spanning BCE/CE, use numeric fields rather t
   "date_not_after": {
     "component-name": "NumberField",
     "component-parameters": {
-      "label": "Not After (negative = BCE)",
-      "helperText": "e.g., -50 for 50 BCE",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "min": -3500,
       "max": 2100
     }
@@ -2686,15 +2801,15 @@ For ancient history and archaeology spanning BCE/CE, use numeric fields rather t
   "date_basis": {
     "component-name": "Select",
     "component-parameters": {
-      "label": "Dating Basis",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
       "options": [
-        {"value": "stratigraphic", "label": "Stratigraphic"},
-        {"value": "ceramic", "label": "Ceramic typology"},
-        {"value": "numismatic", "label": "Numismatic"},
-        {"value": "epigraphic", "label": "Epigraphic"},
-        {"value": "historical", "label": "Historical sources"},
-        {"value": "c14", "label": "Radiocarbon"},
-        {"value": "stylistic", "label": "Stylistic"}
+        {"value": "stratigraphic", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "ceramic", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "numismatic", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "epigraphic", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "historical", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "c14", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "stylistic", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label}
       ]
     }
   }
@@ -2703,12 +2818,14 @@ For ancient history and archaeology spanning BCE/CE, use numeric fields rather t
 
 **Pattern 2: Central Date with Plus/Minus Uncertainty**
 ```json
+// Example datetime-fields-63
+// Template markers added for parametric generation
 {
   "date_central": {
     "component-name": "NumberField",
     "component-parameters": {
-      "label": "Approximate Date (negative = BCE)",
-      "helperText": "e.g., -100 for 100 BCE",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "min": -3500,
       "max": 2100
     }
@@ -2716,8 +2833,8 @@ For ancient history and archaeology spanning BCE/CE, use numeric fields rather t
   "date_uncertainty": {
     "component-name": "NumberField",
     "component-parameters": {
-      "label": "Uncertainty (+/- years)",
-      "helperText": "e.g., 50 for ±50 years",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "min": 0,
       "max": 500
     }
@@ -2725,8 +2842,8 @@ For ancient history and archaeology spanning BCE/CE, use numeric fields rather t
   "date_note": {
     "component-name": "TextField",
     "component-parameters": {
-      "label": "Dating Notes",
-      "helperText": "Additional context (e.g., 'late in the reign of Augustus')"
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
     }
   }
 }
@@ -2734,44 +2851,46 @@ For ancient history and archaeology spanning BCE/CE, use numeric fields rather t
 
 **Pattern 3: Combined Periodo Vocabulary with Absolute Date Range**
 ```json
+// Example datetime-fields-64
+// Template markers added for parametric generation
 {
   "periodo_term": {
     "component-name": "Select",
     "component-parameters": {
-      "label": "Cultural Period",
-      "helperText": "From Periodo gazetteer",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "options": [
-        {"value": "p0qhb66", "label": "Late Hellenistic Period, Eastern Mediterranean"},
-        {"value": "p0qhb67", "label": "Early Roman Period, Eastern Mediterranean"}
+        {"value": "p0qhb66", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "p0qhb67", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label}
       ]
     }
   },
   "absolute_earliest": {
     "component-name": "NumberField",
     "component-parameters": {
-      "label": "Absolute Earliest (negative = BCE)",
-      "helperText": "Terminus post quem",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": false
     }
   },
   "absolute_latest": {
     "component-name": "NumberField",
     "component-parameters": {
-      "label": "Absolute Latest (negative = BCE)",
-      "helperText": "Terminus ante quem",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": false
     }
   },
   "is_uncertain": {
     "component-name": "Checkbox",
     "component-parameters": {
-      "label": "Dating uncertain"
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
     }
   },
   "uncertainty_note": {
     "component-name": "TextField",
     "component-parameters": {
-      "label": "Uncertainty explanation"
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
     },
     "condition": {
       "field": "is_uncertain",
@@ -2802,26 +2921,28 @@ For ancient history and archaeology spanning BCE/CE, use numeric fields rather t
 
 ##### Duration Recording
 ```json
+// Example datetime-fields-65
+// Template markers added for parametric generation
 
 {
   "duration_value": {
     "component-name": "NumberField",
     "component-parameters": {
-      "label": "Duration",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
       "min": 0
     }
   },
   "duration_unit": {
     "component-name": "Select",
     "component-parameters": {
-      "label": "Unit",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
       "options": [
-        {"value": "minutes", "label": "Minutes"},
-        {"value": "hours", "label": "Hours"},
-        {"value": "days", "label": "Days"},
-        {"value": "weeks", "label": "Weeks"},
-        {"value": "months", "label": "Months"},
-        {"value": "years", "label": "Years"}
+        {"value": "minutes", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "hours", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "days", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "weeks", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "months", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "years", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label}
       ]
     }
   }
@@ -2830,24 +2951,26 @@ For ancient history and archaeology spanning BCE/CE, use numeric fields rather t
 
 ##### Relative Date Recording
 ```json
+// Example datetime-fields-66
+// Template markers added for parametric generation
 
 {
   "relative_to": {
     "component-name": "Select",
     "component-parameters": {
-      "label": "Relative To",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
       "options": [
-        {"value": "project_start", "label": "Project Start"},
-        {"value": "excavation_start", "label": "Excavation Start"},
-        {"value": "previous_phase", "label": "Previous Phase End"}
+        {"value": "project_start", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "excavation_start", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "previous_phase", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label}
       ]
     }
   },
   "days_offset": {
     "component-name": "NumberField",
     "component-parameters": {
-      "label": "Days From Reference",
-      "helperText": "Negative for before, positive for after"
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
     }
   }
 }
@@ -2868,6 +2991,7 @@ For ancient history and archaeology spanning BCE/CE, use numeric fields rather t
 - `FIX` For local display add helper text: "Times shown in UTC, enter in your local timezone"
 - `FIX` For protected timestamps use paired pattern:
   ```json
+// Example datetime-fields-67
   "created_display": {"component-name": "TemplatedString", "content": "{{created_time}}"},
   "created_time": {"component-name": "DateTimeNow", "is_auto_pick": true}
   ```
@@ -2913,7 +3037,9 @@ For ancient history and archaeology spanning BCE/CE, use numeric fields rather t
 - `FIX` For month-year only use MonthPicker instead
 - `FIX` For uncertain dates add annotation field:
   ```json
-  "date": {"component-name": "DatePicker"},
+// Example datetime-fields-68
+// Template markers added for parametric generation
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {"component-name": "DatePicker"},
   "date_certainty": {
     "component-name": "Select",
     "component-parameters": {
@@ -2973,6 +3099,7 @@ For ancient history and archaeology spanning BCE/CE, use numeric fields rather t
   ```
 - `FIX` For BCE dates use TextField with pattern:
   ```json
+// Example datetime-fields-69
   "validationSchema": [
     ["yup.matches", "^-?\\d{1,4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])$", "Format: YYYY-MM-DD (negative year for BCE)"]
   ]
@@ -3022,15 +3149,17 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
   - `VALIDATE` Check all DateTimeNow fields have either annotation or clear helperText
   - `IMPLEMENT`:
     ```json
-    "timestamp": {
+// Example datetime-fields-70
+// Template markers added for parametric generation
+    "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
       "component-name": "DateTimeNow",
       "component-parameters": {
-        "helperText": "Enter in your local time (stored as UTC)"
+        "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
       },
       "meta": {
         "annotation": {
           "include": true,
-          "label": "Timezone notes"
+          "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
         }
       }
     }
@@ -3038,16 +3167,18 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 - `REQUIRED` DatePicker with MonthPicker fallback when day precision uncertain
   - `PATTERN` Paired fields for flexible precision:
     ```json
+// Example datetime-fields-71
+// Template markers added for parametric generation
     "precise_date": {
       "component-name": "DatePicker",
       "component-parameters": {
-        "label": "Exact date (if known)"
+        "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
       }
     },
     "approximate_date": {
       "component-name": "MonthPicker",
       "component-parameters": {
-        "label": "Month/Year (if day unknown)"
+        "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
       }
     }
     ```
@@ -3138,6 +3269,7 @@ Anti-patterns have been distributed to their respective field sections for bette
 - `TEST` Compare sample timestamps with known events
 - `ROLLBACK` Keep original field hidden for 30 days:
   ```json
+// Example datetime-fields-72
   "old_datetime": {
     "component-name": "DateTimePicker",
     "component-parameters": {"hidden": true}
@@ -3165,6 +3297,7 @@ Anti-patterns have been distributed to their respective field sections for bette
 - `NO ROLLBACK` Timezone information unrecoverable
 - `ALTERNATIVE` Keep DateTimeNow, add display field:
   ```json
+// Example datetime-fields-73
   "display_local": {
     "component-name": "TemplatedString",
     "component-parameters": {
@@ -3187,6 +3320,7 @@ Anti-patterns have been distributed to their respective field sections for bette
 - `UNSAFE IF` Any nulls exist
 - `ROLLBACK`:
   ```json
+// Example datetime-fields-74
 
   "validationSchema": [
     ["yup.string"]
@@ -3301,6 +3435,7 @@ Anti-patterns have been distributed to their respective field sections for bette
 - `ROLLBACK` Paginate forms if >100 date fields
 - `QUICK FIX` Disable auto-populate temporarily:
   ```json
+// Example datetime-fields-75
   "is_auto_pick": false
   ```
 - `VERSION` 2025-08
@@ -3312,14 +3447,16 @@ Anti-patterns have been distributed to their respective field sections for bette
 ### DateTimeNow Patterns
 
 ```json
+// Example datetime-fields-76
+// Template markers added for parametric generation
 
 {
   "component-namespace": "faims-custom",
   "component-name": "DateTimeNow",
   "type-returned": "faims-core::String",
   "component-parameters": {
-    "name": "timestamp-field",
-    "label": "Timestamp"
+    "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+    "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
   },
   "validationSchema": [["yup.string"]],
   "initialValue": ""
@@ -3328,24 +3465,24 @@ Anti-patterns have been distributed to their respective field sections for bette
 
 + "component-parameters": {
 +   "is_auto_pick": true,
-+   "helperText": "Automatically captured (UTC)",
++   "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
 +   "fullWidth": true
 + }
 + "validationSchema": [
 +   ["yup.string"],
-+   ["yup.required", "Timestamp required"]
++   ["yup.Timestamp required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
 + ]
 
 
 + "component-parameters": {
 +   "is_auto_pick": false,
-+   "helperText": "Click 'Now' for current time",
++   "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
 +   "required": true
 + }
 + "meta": {
 +   "annotation": {
 +     "include": true,
-+     "label": "Time notes (timezone, accuracy)"
++     "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
 +   }
 + }
 
@@ -3358,6 +3495,8 @@ Anti-patterns have been distributed to their respective field sections for bette
 
 #### DateTimeNow ANTI-PATTERNS ⚠️
 ```json
+// Example datetime-fields-77
+// Template markers added for parametric generation
 
 {
   "initialValue": null
@@ -3366,7 +3505,7 @@ Anti-patterns have been distributed to their respective field sections for bette
 
 {
   "component-parameters": {
-    "label": "Time"
+    "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
 
   }
 }
@@ -3375,7 +3514,7 @@ Anti-patterns have been distributed to their respective field sections for bette
 {
   "is_auto_pick": true,
   "component-parameters": {
-    "label": "Date"
+    "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
 
   }
 }
@@ -3384,15 +3523,17 @@ Anti-patterns have been distributed to their respective field sections for bette
 ### DateTimePicker Patterns (DISCOURAGED - Use DateTimeNow Instead)
 
 ```json
+// Example datetime-fields-78
+// Template markers added for parametric generation
 
 {
   "component-namespace": "faims-custom",
   "component-name": "DateTimePicker",
   "type-returned": "faims-core::String",
   "component-parameters": {
-    "name": "legacy-datetime",
-    "label": "Time (Legacy)",
-    "helperText": "⚠️ No timezone - ambiguous timestamp"
+    "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+    "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+    "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
   }
 }
 
@@ -3401,7 +3542,7 @@ Anti-patterns have been distributed to their respective field sections for bette
 - "component-name": "DateTimePicker",
 + "component-name": "DateTimeNow",
   "component-parameters": {
-    "helperText": "Enter in your local time, stored as UTC"
+    "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
   }
 }
 ```

@@ -1,6 +1,17 @@
 # Fieldmark Notebook Format Guide
 
 <!-- discovery:metadata
+
+<!-- structured:metadata
+meta:purpose: technical-reference
+meta:summary: Complete JSON structure specification with required sections and hierarchy.
+meta:generates: lookup-tables
+meta:requires: [fieldmark-knowledge]
+meta:version: 3.0.0
+meta:document: notebook_format_guide
+meta:depth-tags: [essential]
+-->
+
 provides: [json-structure, notebook-requirements, fviews-structure, validation]
 see-also: [form-structure-guide, designer-component-mapping]
 -->

@@ -1,6 +1,17 @@
 # File Organization Guide - Fieldmark Documentation
 
 <!-- discovery:metadata
+
+<!-- structured:metadata
+meta:purpose: technical-reference
+meta:summary: Project structure and file naming conventions for Fieldmark documentation.
+meta:generates: lookup-tables
+meta:requires: [fieldmark-knowledge]
+meta:version: 3.0.0
+meta:document: file_organization_guide
+meta:depth-tags: [essential]
+-->
+
 provides: [project-structure, file-layout, documentation-organization]
 see-also: [manifest]
 -->

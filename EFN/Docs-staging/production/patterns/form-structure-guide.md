@@ -19,6 +19,17 @@ see-also: [notebook-format-guide, relationship-field-v05]
 
 # Form Structure Guide
 
+
+<!-- structured:metadata
+meta:purpose: implementation-patterns
+meta:summary: Three-tier architecture (fields→fviews→viewsets) requirements and structural patterns.
+meta:generates: notebook-structures
+meta:requires: [field-definitions, form-hierarchy]
+meta:version: 3.0.0
+meta:document: form_structure_guide
+meta:depth-tags: [essential, important]
+-->
+
 ## Overview {essential}
 
 This guide consolidates all knowledge about Fieldmark's hierarchical form architecture, navigation patterns, and structural best practices. It covers the three-tier system of Forms (viewsets), Sections (views), and Fields, along with navigation strategies for different use cases and platforms.

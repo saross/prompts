@@ -16,6 +16,17 @@ see-also: [field-selection-guide, dynamic-forms-guide]
 
 # Selection and Choice Fields
 
+
+<!-- structured:metadata
+meta:purpose: field-configuration
+meta:summary: Nine selection components from dropdowns to multi-select, with complex conditional logic and platform-specific behaviors.
+meta:generates: json-fields
+meta:requires: [valid-json, unique-names, fviews-layer]
+meta:version: 3.0.0
+meta:document: select_choice_fields
+meta:depth-tags: [essential, important, comprehensive]
+-->
+
 ## Document Navigation {essential}
 <!-- concat:nav-mode:individual -->
 [← Text Fields](./text-fields-v05.md) | **Selection & Choice Fields** | [Date & Time Fields →](./datetime-fields-v05.md)
@@ -548,13 +559,15 @@ All selection fields require predefined option lists configured at design time. 
 
 **Required Configuration Elements**:
 ```json
+// Example select-choice-fields-01
+// Template markers added for parametric generation
 {
   "component-namespace": "faims-custom",
   "component-name": "Select",
   "type-returned": "faims-core::String",
   "component-parameters": {
-    "name": "field-name",
-    "label": "Field Label"
+    "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+    "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
   }
 }
 ```
@@ -575,9 +588,11 @@ All selection fields require predefined option lists configured at design time. 
 
 **Universal Validation Schema Structure**:
 ```json
+// Example select-choice-fields-02
+// Template markers added for parametric generation
 "validationSchema": [
   ["yup.string"],
-  ["yup.required", "Error message"],
+  ["yup.Error message", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message,
 
 ]
 ```
@@ -902,14 +917,16 @@ The Checkbox field provides binary state capture through a Material-UI checkbox 
 ### Core Configuration {essential}
 
 ```json
+// Example select-choice-fields-03
+// Template markers added for parametric generation
 {
   "component-namespace": "faims-custom",
   "component-name": "Checkbox",
   "type-returned": "faims-core::Bool",
   "component-parameters": {
-    "name": "terms-accept",
-    "label": "I accept the terms and conditions",
-    "helperText": "You must accept to continue",
+    "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+    "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+    "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
     "required": true
   },
   "validationSchema": [
@@ -1004,15 +1021,17 @@ The Checkbox field provides binary state capture through a Material-UI checkbox 
 
 #### Terms Acceptance (Must Be Checked)
 ```json
+// Example select-choice-fields-04
+// Template markers added for parametric generation
 {
-  "terms-accept": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "Checkbox",
     "type-returned": "faims-core::Bool",
     "component-parameters": {
-      "name": "terms-accept",
-      "label": "I accept the terms and conditions",
-      "helperText": "You must accept to continue",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": true
     },
     "validationSchema": [
@@ -1026,15 +1045,17 @@ The Checkbox field provides binary state capture through a Material-UI checkbox 
 
 #### Optional Enhancement Flag
 ```json
+// Example select-choice-fields-05
+// Template markers added for parametric generation
 {
-  "include-detailed": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "Checkbox",
     "type-returned": "faims-core::Bool",
     "component-parameters": {
-      "name": "include-detailed",
-      "label": "Record detailed measurements",
-      "helperText": "Check to show additional measurement fields"
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
     },
     "validationSchema": [["yup.bool"]],
     "initialValue": false,
@@ -1047,14 +1068,16 @@ The Checkbox field provides binary state capture through a Material-UI checkbox 
 
 #### Data Quality Indicator with Persistence
 ```json
+// Example select-choice-fields-06
+// Template markers added for parametric generation
 {
-  "peer-reviewed": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "Checkbox",
     "type-returned": "faims-core::Bool",
     "component-parameters": {
-      "name": "peer-reviewed",
-      "label": "Data peer reviewed",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
       "advancedHelperText": "Check after secondary verification completed"
     },
     "validationSchema": [["yup.bool"]],
@@ -1069,15 +1092,17 @@ The Checkbox field provides binary state capture through a Material-UI checkbox 
 
 #### Migration from RadioGroup Pattern
 ```json
+// Example select-choice-fields-07
+// Template markers added for parametric generation
 {
-  "heritage-present": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "Checkbox",
     "type-returned": "faims-core::Bool",
     "component-parameters": {
-      "name": "heritage-present",
-      "label": "Aboriginal heritage identified",
-      "helperText": "Previously Yes/No radio - now checkbox for boolean logic",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": true
     },
     "validationSchema": [
@@ -1086,7 +1111,7 @@ The Checkbox field provides binary state capture through a Material-UI checkbox 
     ],
     "initialValue": false,
     "meta": {
-      "annotation": {"include": true, "label": "heritage notes"},
+      "annotation": {"include": true, "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
       "displayParent": true
     }
   }
@@ -1096,6 +1121,8 @@ The Checkbox field provides binary state capture through a Material-UI checkbox 
 ### JSON Anti-patterns
 
 ```json
+// Example select-choice-fields-08
+// Template markers added for parametric generation
 
 "validationSchema": [["yup.required"]]
 
@@ -1106,10 +1133,10 @@ The Checkbox field provides binary state capture through a Material-UI checkbox 
 
 
 
-"helperText": "Click the label to select"
+"helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
 
 
-"helperText": "Click the checkbox (not the label) to select"
+"helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
 ```
 
 ### Common Spec Mappings
@@ -1159,20 +1186,22 @@ The MultiSelect field enables multiple value selection from predefined option li
 ### Core Configuration {essential}
 
 ```json
+// Example select-choice-fields-09
+// Template markers added for parametric generation
 {
   "component-namespace": "faims-custom",
   "component-name": "MultiSelect",
   "type-returned": "faims-core::Array",
   "component-parameters": {
-    "name": "site-features",
+    "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
     "id": "site-features",
-    "label": "Site Features",
-    "helperText": "Select all that apply",
+    "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+    "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
     "ElementProps": {
       "options": [
-        {"value": "defensive", "label": "Defensive structures"},
-        {"value": "domestic", "label": "Domestic occupation"},
-        {"value": "industrial", "label": "Industrial remains"}
+        {"value": "defensive", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "domestic", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "industrial", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label}
       ],
       "expandedChecklist": true
     }
@@ -1261,22 +1290,24 @@ The MultiSelect field enables multiple value selection from predefined option li
 
 #### Basic Multi-Selection with Validation
 ```json
+// Example select-choice-fields-10
+// Template markers added for parametric generation
 {
-  "artefact-materials": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-name": "MultiSelect",
     "component-parameters": {
-      "label": "Artefact Materials",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
       "required": true,
-      "helperText": "Select all materials present",
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "ElementProps": {
         "expandedChecklist": true,
         "options": [
-          {"value": "ceramic", "label": "Ceramic"},
-          {"value": "glass", "label": "Glass"},
-          {"value": "metal", "label": "Metal"},
-          {"value": "bone", "label": "Bone"},
-          {"value": "shell", "label": "Shell"},
-          {"value": "stone", "label": "Stone"}
+          {"value": "ceramic", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+          {"value": "glass", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+          {"value": "metal", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+          {"value": "bone", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+          {"value": "shell", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+          {"value": "stone", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label}
         ]
       }
     },
@@ -1291,21 +1322,23 @@ The MultiSelect field enables multiple value selection from predefined option li
 
 #### Exclusive Options Pattern
 ```json
+// Example select-choice-fields-11
+// Template markers added for parametric generation
 {
-  "site-visibility": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-name": "MultiSelect",
     "component-parameters": {
-      "label": "Visibility Conditions",
-      "helperText": "Factors affecting site visibility",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "ElementProps": {
         "expandedChecklist": true,
         "options": [
-          {"value": "vegetation", "label": "Vegetation cover"},
-          {"value": "erosion", "label": "Erosion"},
-          {"value": "modern-development", "label": "Modern development"},
-          {"value": "flooding", "label": "Seasonal flooding"},
-          {"value": "excellent-visibility", "label": "Excellent visibility"},
-          {"value": "not-accessed", "label": "Could not access"}
+          {"value": "vegetation", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+          {"value": "erosion", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+          {"value": "modern-development", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+          {"value": "flooding", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+          {"value": "excellent-visibility", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+          {"value": "not-accessed", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label}
         ],
         "exclusiveOptions": ["excellent-visibility", "not-accessed"]
       }
@@ -1317,25 +1350,27 @@ The MultiSelect field enables multiple value selection from predefined option li
 
 #### Dropdown for Long Lists
 ```json
+// Example select-choice-fields-12
+// Template markers added for parametric generation
 {
-  "permits-required": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-name": "MultiSelect",
     "component-parameters": {
-      "label": "Permits Required",
-      "helperText": "Select all applicable permit types",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "ElementProps": {
         "expandedChecklist": false,
         "options": [
-          {"value": "aboriginal-heritage", "label": "Aboriginal Heritage"},
-          {"value": "environmental", "label": "Environmental Protection"},
-          {"value": "local-council", "label": "Local Council"},
-          {"value": "state-heritage", "label": "State Heritage"},
-          {"value": "commonwealth", "label": "Commonwealth Heritage"},
-          {"value": "landowner", "label": "Landowner Permission"},
-          {"value": "mining-lease", "label": "Mining Lease Access"},
-          {"value": "national-parks", "label": "National Parks"},
-          {"value": "crown-lands", "label": "Crown Lands"},
-          {"value": "none-required", "label": "No permits required"}
+          {"value": "aboriginal-heritage", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+          {"value": "environmental", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+          {"value": "local-council", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+          {"value": "state-heritage", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+          {"value": "commonwealth", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+          {"value": "landowner", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+          {"value": "mining-lease", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+          {"value": "national-parks", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+          {"value": "crown-lands", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+          {"value": "none-required", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label}
         ],
         "exclusiveOptions": ["none-required"]
       }
@@ -1350,19 +1385,21 @@ The MultiSelect field enables multiple value selection from predefined option li
 
 #### Migration from Multiple Checkboxes
 ```json
+// Example select-choice-fields-13
+// Template markers added for parametric generation
 {
-  "recording-methods": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-name": "MultiSelect",
     "component-parameters": {
-      "label": "Recording Methods Used",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
       "ElementProps": {
         "expandedChecklist": true,
         "options": [
-          {"value": "photography", "label": "Photography"},
-          {"value": "drawing", "label": "Scale drawing"},
-          {"value": "gps", "label": "GPS coordinates"},
-          {"value": "total-station", "label": "Total station"},
-          {"value": "photogrammetry", "label": "Photogrammetry"}
+          {"value": "photography", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+          {"value": "drawing", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+          {"value": "gps", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+          {"value": "total-station", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+          {"value": "photogrammetry", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label}
         ]
       }
     },
@@ -1370,7 +1407,7 @@ The MultiSelect field enables multiple value selection from predefined option li
     "meta": {
       "annotation": {
         "include": true,
-        "label": "recording notes"
+        "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
       }
     }
   }
@@ -1380,6 +1417,8 @@ The MultiSelect field enables multiple value selection from predefined option li
 ### JSON Anti-patterns
 
 ```json
+// Example select-choice-fields-14
+// Template markers added for parametric generation
 
 "validationSchema": [["yup.required"]]
 
@@ -1387,10 +1426,10 @@ The MultiSelect field enables multiple value selection from predefined option li
 "validationSchema": [["yup.min", 1, "Select at least one"]]
 
 
-{"value": "pottery, ceramics", "label": "Pottery, ceramics"}
+{"value": "pottery, ceramics", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label}
 
 
-{"value": "pottery and ceramics", "label": "Pottery and ceramics"}
+{"value": "pottery and ceramics", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label}
 
 
 "initialValue": ""
@@ -1458,29 +1497,31 @@ The RadioGroup field provides single selection from 2–10 mutually exclusive op
 ### Core Configuration {essential}
 
 ```json
+// Example select-choice-fields-15
+// Template markers added for parametric generation
 {
   "component-namespace": "faims-custom",
   "component-name": "RadioGroup",
   "type-returned": "faims-core::String",
   "component-parameters": {
-    "name": "fabric-condition",
-    "label": "Fabric Condition",
-    "helperText": "Click selected option to deselect (mouse only - accessibility issue)",
+    "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+    "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+    "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
     "fullWidth": true,
     "required": true,
     "ElementProps": {
       "options": [
-        {"value": "excellent", "label": "Excellent"},
-        {"value": "good", "label": "Good"},
-        {"value": "fair", "label": "Fair"},
-        {"value": "poor", "label": "Poor"},
-        {"value": "na", "label": "Not Applicable"}
+        {"value": "excellent", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "good", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "fair", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "poor", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "na", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label}
       ]
     }
   },
   "validationSchema": [
     ["yup.string"],
-    ["yup.required", "Condition required (message won't show)"],
+    ["yup.Condition required (message won't show)", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message,
     ["yup.oneOf", ["excellent","good","fair","poor","na"], "Invalid (won't show)"]
   ],
   "initialValue": "na"
@@ -1554,29 +1595,31 @@ The RadioGroup field provides single selection from 2–10 mutually exclusive op
 
 #### Heritage Condition Assessment (Deprecated Pattern)
 ```json
+// Example select-choice-fields-16
+// Template markers added for parametric generation
 {
   "component-namespace": "faims-custom",
   "component-name": "RadioGroup",
   "type-returned": "faims-core::String",
   "component-parameters": {
-    "name": "fabric-condition",
-    "label": "Fabric Condition",
-    "helperText": "Click selected option to deselect (mouse only)",
+    "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+    "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+    "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
     "fullWidth": true,
     "required": true,
     "ElementProps": {
       "options": [
-        {"value": "excellent", "label": "Excellent"},
-        {"value": "good", "label": "Good"},
-        {"value": "fair", "label": "Fair"},
-        {"value": "poor", "label": "Poor"},
-        {"value": "na", "label": "Not Applicable"}
+        {"value": "excellent", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "good", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "fair", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "poor", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "na", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label}
       ]
     }
   },
   "validationSchema": [
     ["yup.string"],
-    ["yup.required", "Condition required (message won't show)"],
+    ["yup.Condition required (message won't show)", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message,
     ["yup.oneOf", ["excellent","good","fair","poor","na"], "Invalid (won't show)"]
   ],
   "initialValue": "na"
@@ -1585,30 +1628,32 @@ The RadioGroup field provides single selection from 2–10 mutually exclusive op
 
 #### Migration to Select (Recommended)
 ```json
+// Example select-choice-fields-17
+// Template markers added for parametric generation
 {
   "component-namespace": "faims-custom",
   "component-name": "Select",
   "type-returned": "faims-core::String",
   "component-parameters": {
-    "name": "fabric-condition",
-    "label": "Fabric Condition",
-    "helperText": "Select the current condition",
+    "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+    "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+    "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
     "fullWidth": true,
     "required": true,
     "ElementProps": {
       "options": [
-        {"value": "", "label": "-- Select Condition --"},
-        {"value": "Excellent", "label": "Excellent"},
-        {"value": "Good", "label": "Good"},
-        {"value": "Fair", "label": "Fair"},
-        {"value": "Poor", "label": "Poor"},
-        {"value": "Not Applicable", "label": "Not Applicable"}
+        {"value": "", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "Excellent", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "Good", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "Fair", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "Poor", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "Not Applicable", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label}
       ]
     }
   },
   "validationSchema": [
     ["yup.string"],
-    ["yup.required", "Condition selection required"]
+    ["yup.Condition selection required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
   ],
   "initialValue": ""
 }
@@ -1616,20 +1661,22 @@ The RadioGroup field provides single selection from 2–10 mutually exclusive op
 
 #### Workflow Branching with Workarounds
 ```json
+// Example select-choice-fields-18
+// Template markers added for parametric generation
 {
   "component-namespace": "faims-custom",
   "component-name": "RadioGroup",
   "type-returned": "faims-core::String",
   "component-parameters": {
-    "name": "recording-type",
-    "label": "Recording Type",
-    "helperText": "Selection is permanent - cannot be cleared",
+    "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+    "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+    "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
     "required": true,
     "ElementProps": {
       "options": [
-        {"value": "full", "label": "Full Recording"},
-        {"value": "rapid", "label": "Rapid Assessment"},
-        {"value": "photo", "label": "Photo Only"}
+        {"value": "full", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "rapid", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "photo", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label}
       ]
     }
   },
@@ -1644,35 +1691,39 @@ The RadioGroup field provides single selection from 2–10 mutually exclusive op
 
 #### Binary Choice Alternative (Use Select Instead)
 ```json
+// Example select-choice-fields-19
+// Template markers added for parametric generation
 {
   "component-namespace": "faims-custom",
   "component-name": "RadioGroup",
   "type-returned": "faims-core::String",
   "component-parameters": {
-    "name": "has-features",
-    "label": "Heritage Features Present",
-    "helperText": "⚠️ DEPRECATED: Use Select or Checkbox instead",
+    "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+    "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+    "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
     "ElementProps": {
       "options": [
-        {"value": "yes", "label": "Yes"},
-        {"value": "no", "label": "No"}
+        {"value": "yes", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "no", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label}
       ]
     }
   },
   "validationSchema": [
     ["yup.string"],
-    ["yup.required", "Required (but won't display)"]
+    ["yup.Required (but won't display)", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
   ],
   "initialValue": ""
 }
 ```
 **Better Alternative**: Use Checkbox for true boolean logic:
 ```json
+// Example select-choice-fields-20
+// Template markers added for parametric generation
 {
   "component-name": "Checkbox",
   "type-returned": "faims-core::Bool",
   "component-parameters": {
-    "label": "Heritage Features Present"
+    "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
   }
 }
 ```
@@ -1680,11 +1731,13 @@ The RadioGroup field provides single selection from 2–10 mutually exclusive op
 ### JSON Anti-patterns
 
 ```json
+// Example select-choice-fields-21
+// Template markers added for parametric generation
 
-"validationSchema": [["yup.required", "This message won't show"]]
+"validationSchema": [["yup.This message won't show", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message]
 
 
-"helperText": "Click again to deselect"
+"helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
 
 
 
@@ -1696,7 +1749,7 @@ The RadioGroup field provides single selection from 2–10 mutually exclusive op
 "component-name": "Select"
 "ElementProps": {
   "options": [
-    {"value": "", "label": "-- Select --"},
+    {"value": "", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
     ...options
   ]
 }
@@ -1750,26 +1803,28 @@ The Select field provides single-choice selection from a dropdown list, offering
 ### Core Configuration {essential}
 
 ```json
+// Example select-choice-fields-22
+// Template markers added for parametric generation
 {
   "component-namespace": "faims-custom",
   "component-name": "Select",
   "type-returned": "faims-core::String",
   "component-parameters": {
-    "label": "Site Type",
-    "name": "site-type",
-    "helperText": "Select the primary site classification",
+    "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+    "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+    "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
     "fullWidth": true,
     "required": true,
     "ElementProps": {
       "options": [
-        {"value": "", "label": "-- Select Site Type --"},
-        {"value": "Artefact scatter", "label": "Artefact scatter"},
-        {"value": "Rock art", "label": "Rock art"},
-        {"value": "Shell midden", "label": "Shell midden"},
-        {"value": "Stone arrangement", "label": "Stone arrangement"},
-        {"value": "Burial", "label": "Burial"},
-        {"value": "Historic structure", "label": "Historic structure"},
-        {"value": "Other", "label": "Other"}
+        {"value": "", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "Artefact scatter", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "Rock art", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "Shell midden", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "Stone arrangement", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "Burial", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "Historic structure", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "Other", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label}
       ]
     }
   },
@@ -1854,34 +1909,36 @@ The Select field provides single-choice selection from a dropdown list, offering
 
 #### Site Classification (Heritage Context)
 ```json
+// Example select-choice-fields-23
+// Template markers added for parametric generation
 {
-  "site-type": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "Select",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "label": "Site Type",
-      "name": "site-type",
-      "helperText": "Select the primary site classification",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "fullWidth": true,
       "required": true,
       "ElementProps": {
         "options": [
-          {"value": "Artefact scatter", "label": "Artefact scatter"},
-          {"value": "Rock art", "label": "Rock art"},
-          {"value": "Shell midden", "label": "Shell midden"},
-          {"value": "Stone arrangement", "label": "Stone arrangement"},
-          {"value": "Burial", "label": "Burial"},
-          {"value": "Historic structure", "label": "Historic structure"},
-          {"value": "Other", "label": "Other"}
+          {"value": "Artefact scatter", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+          {"value": "Rock art", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+          {"value": "Shell midden", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+          {"value": "Stone arrangement", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+          {"value": "Burial", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+          {"value": "Historic structure", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+          {"value": "Other", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label}
         ]
       }
     },
     "validationSchema": [["yup.string"], ["yup.required"]],
     "initialValue": "",
     "meta": {
-      "annotation": {"include": true, "label": "classification notes"},
-      "uncertainty": {"include": true, "label": "confidence"}
+      "annotation": {"include": true, "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+      "uncertainty": {"include": true, "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label}
     }
   }
 }
@@ -1889,31 +1946,33 @@ The Select field provides single-choice selection from a dropdown list, offering
 
 #### Condition Assessment with Null Option
 ```json
+// Example select-choice-fields-24
+// Template markers added for parametric generation
 {
-  "condition-state": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "Select",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "label": "Condition",
-      "name": "condition-state",
-      "helperText": "Assess current preservation state",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "fullWidth": true,
       "ElementProps": {
         "options": [
-          {"value": "", "label": "-- Not assessed --"},
-          {"value": "Excellent", "label": "Excellent"},
-          {"value": "Good", "label": "Good"},
-          {"value": "Fair", "label": "Fair"},
-          {"value": "Poor", "label": "Poor"},
-          {"value": "Destroyed", "label": "Destroyed"}
+          {"value": "", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+          {"value": "Excellent", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+          {"value": "Good", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+          {"value": "Fair", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+          {"value": "Poor", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+          {"value": "Destroyed", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label}
         ]
       }
     },
     "validationSchema": [["yup.string"]],
     "initialValue": "",
     "meta": {
-      "annotation": {"include": true, "label": "condition notes"}
+      "annotation": {"include": true, "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label}
     }
   }
 }
@@ -1921,34 +1980,36 @@ The Select field provides single-choice selection from a dropdown list, offering
 
 #### Triggering Conditional Fields
 ```json
+// Example select-choice-fields-25
+// Template markers added for parametric generation
 {
-  "material-type": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "Select",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "label": "Material Type",
-      "name": "material-type",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "fullWidth": true,
       "ElementProps": {
         "options": [
-          {"value": "Ceramic", "label": "Ceramic"},
-          {"value": "Glass", "label": "Glass"},
-          {"value": "Metal", "label": "Metal"},
-          {"value": "Other", "label": "Other"}
+          {"value": "Ceramic", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+          {"value": "Glass", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+          {"value": "Metal", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+          {"value": "Other", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label}
         ]
       }
     },
     "validationSchema": [["yup.string"]],
     "initialValue": ""
   },
-  "other-material": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "formik-material-ui",
     "component-name": "TextField",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "label": "Specify Other Material",
-      "name": "other-material"
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier
     },
     "condition": {
       "field": "material-type",
@@ -1962,25 +2023,27 @@ The Select field provides single-choice selection from a dropdown list, offering
 ### JSON Anti-patterns
 
 ```json
+// Example select-choice-fields-26
+// Template markers added for parametric generation
 
-{"value": "001", "label": "Archaeological Site"}
+{"value": "001", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label}
 
 
-{"value": "Archaeological Site", "label": "Archaeological Site"}
+{"value": "Archaeological Site", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label}
 
 
-"validationSchema": [["yup.required", "This message won't show"]]
+"validationSchema": [["yup.This message won't show", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message]
 
 
 "options": [
-  {"value": "option1", "label": "Option 1"}
+  {"value": "{{OPTION_VALUE}}"  // REPLACE: option value, "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label}
 
 ]
 
 
 "options": [
-  {"value": "", "label": "-- Select --"},
-  {"value": "option1", "label": "Option 1"}
+  {"value": "", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+  {"value": "{{OPTION_VALUE}}"  // REPLACE: option value, "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label}
 ]
 ```
 
@@ -2043,38 +2106,40 @@ The AdvancedSelect field provides hierarchical tree navigation for selecting val
 ### Core Configuration {essential}
 
 ```json
+// Example select-choice-fields-27
+// Template markers added for parametric generation
 {
   "component-namespace": "faims-custom",
   "component-name": "AdvancedSelect",
   "type-returned": "faims-core::String",
   "component-parameters": {
-    "name": "species-classification",
-    "label": "Species Classification",
+    "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+    "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
     "valuetype": "full",
-    "helperText": "Navigate to the most specific classification possible",
+    "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
     "ElementProps": {
       "optiontree": [
         {
-          "name": "Animalia",
+          "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
           "children": [
             {
-              "name": "Chordata",
+              "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
               "children": [
                 {
-                  "name": "Mammalia",
+                  "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
                   "children": [
                     {
-                      "name": "Primates",
+                      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
                       "children": [
                         {
-                          "name": "Hominidae",
+                          "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
                           "children": [
                             {
-                              "name": "Homo",
+                              "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
                               "children": [
                                 {
-                                  "name": "Homo sapiens",
-                                  "label": "Human"
+                                  "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+                                  "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
                                 }
                               ]
                             }
@@ -2091,7 +2156,7 @@ The AdvancedSelect field provides hierarchical tree navigation for selecting val
       ]
     }
   },
-  "validationSchema": [["yup.string"], ["yup.required", "Classification required"]],
+  "validationSchema": [["yup.string"], ["yup.Classification required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message],
   "initialValue": ""
 }
 ```
@@ -2176,39 +2241,41 @@ interface TreeNode {
 
 #### Biological Taxonomy (Full Path Storage)
 ```json
+// Example select-choice-fields-28
+// Template markers added for parametric generation
 {
-  "species-classification": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "AdvancedSelect",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "label": "Species Classification",
-      "name": "species-classification",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "valuetype": "full",
-      "helperText": "Navigate to the most specific classification possible",
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "ElementProps": {
         "optiontree": [
           {
-            "name": "Animalia",
+            "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
             "children": [
               {
-                "name": "Chordata",
+                "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
                 "children": [
                   {
-                    "name": "Mammalia",
+                    "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
                     "children": [
                       {
-                        "name": "Primates",
+                        "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
                         "children": [
                           {
-                            "name": "Hominidae",
+                            "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
                             "children": [
                               {
-                                "name": "Homo",
+                                "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
                                 "children": [
                                   {
-                                    "name": "Homo sapiens",
-                                    "label": "Human"
+                                    "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+                                    "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
                                   }
                                 ]
                               }
@@ -2227,11 +2294,11 @@ interface TreeNode {
     },
     "validationSchema": [
       ["yup.string"],
-      ["yup.required", "Species classification required"]
+      ["yup.Species classification required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
     ],
     "initialValue": "",
     "meta": {
-      "annotation": {"include": true, "label": "Identification notes"}
+      "annotation": {"include": true, "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label}
     }
   }
 }
@@ -2240,42 +2307,44 @@ interface TreeNode {
 
 #### Archaeological Context Hierarchy (Child Storage)
 ```json
+// Example select-choice-fields-29
+// Template markers added for parametric generation
 {
-  "context-hierarchy": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "AdvancedSelect",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "label": "Stratigraphic Context",
-      "name": "context-hierarchy",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "valuetype": "child",
-      "helperText": "Select the specific context",
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "ElementProps": {
         "optiontree": [
           {
-            "name": "Trench 1",
+            "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
             "children": [
               {
-                "name": "Layer 001",
-                "label": "Topsoil",
+                "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+                "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
                 "children": [
                   {
-                    "name": "Context 001-A",
+                    "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
                     "children": []
                   },
                   {
-                    "name": "Context 001-B",
+                    "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
                     "children": []
                   }
                 ]
               },
               {
-                "name": "Layer 002",
-                "label": "Occupation",
+                "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+                "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
                 "children": [
                   {
-                    "name": "Context 002-A",
-                    "label": "Floor surface",
+                    "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+                    "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
                     "children": []
                   }
                 ]
@@ -2294,28 +2363,30 @@ interface TreeNode {
 
 #### Geographic Hierarchy with Clear Workaround
 ```json
+// Example select-choice-fields-30
+// Template markers added for parametric generation
 {
-  "location-hierarchy": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "AdvancedSelect",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "label": "Site Location",
-      "name": "location-hierarchy",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "valuetype": "full",
       "ElementProps": {
         "optiontree": [
           {
-            "name": "Australia",
+            "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
             "children": [
               {
-                "name": "New South Wales",
+                "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
                 "children": [
                   {
-                    "name": "Sydney Region",
+                    "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
                     "children": [
-                      {"name": "Site 001"},
-                      {"name": "Site 002"}
+                      {"name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier},
+                      {"name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier}
                     ]
                   }
                 ]
@@ -2328,10 +2399,10 @@ interface TreeNode {
     "validationSchema": [["yup.string"]],
     "initialValue": ""
   },
-  "clear-selection": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-name": "TextField",
-    "label": "Clear Selection Workaround",
-    "helperText": "Since selection cannot be cleared, provide manual override",
+    "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+    "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
     "condition": {
       "field": "location-hierarchy",
       "operator": "not-equal",
@@ -2345,8 +2416,10 @@ interface TreeNode {
 ### JSON Anti-patterns
 
 ```json
+// Example select-choice-fields-31
+// Template markers added for parametric generation
 
-"helperText": "Click to deselect"
+"helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
 
 
 
@@ -2355,17 +2428,17 @@ interface TreeNode {
 "optiontree": [...500_nodes]
 
 
-"validationSchema": [["yup.required", "Won't display"]]
+"validationSchema": [["yup.Won't display", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message]
 
 
-"name": "Level > Sublevel"
+"name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier
 
 
 "component-name": "Select",
 "ElementProps": {
   "options": [
-    {"value": "Kingdom: Animalia", "label": "Kingdom: Animalia"},
-    {"value": "Phylum: Chordata", "label": "Phylum: Chordata"}
+    {"value": "Kingdom: Animalia", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+    {"value": "Phylum: Chordata", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label}
   ]
 }
 ```
@@ -2546,28 +2619,30 @@ See Individual Field Reference section for detailed field-specific issues.
 
 ### Example 1: Basic Single Select Field
 ```json
+// Example select-choice-fields-32
+// Template markers added for parametric generation
 {
-  "site-type": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "Select",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "site-type",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "id": "site-type",
-      "label": "Site Type",
-      "helperText": "Select the primary site classification",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": true,
       "options": [
-        {"label": "Residential", "value": "residential"},
-        {"label": "Industrial", "value": "industrial"},
-        {"label": "Religious", "value": "religious"},
-        {"label": "Agricultural", "value": "agricultural"},
-        {"label": "Military", "value": "military"}
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "residential"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "industrial"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "religious"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "agricultural"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "military"}
       ]
     },
     "validationSchema": [
       ["yup.string"],
-      ["yup.required", "Site type is required"]
+      ["yup.Site type is required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
     ],
     "initialValue": ""
   }
@@ -2576,25 +2651,27 @@ See Individual Field Reference section for detailed field-specific issues.
 
 ### Example 2: MultiSelect with Validation
 ```json
+// Example select-choice-fields-33
+// Template markers added for parametric generation
 {
-  "artifact-materials": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "MultiSelect",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "artifact-materials",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "id": "artifact-materials",
-      "label": "Artifact Materials",
-      "helperText": "Select all materials present",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": true,
       "options": [
-        {"label": "Ceramic", "value": "ceramic"},
-        {"label": "Glass", "value": "glass"},
-        {"label": "Metal", "value": "metal"},
-        {"label": "Stone", "value": "stone"},
-        {"label": "Bone", "value": "bone"},
-        {"label": "Wood", "value": "wood"},
-        {"label": "Textile", "value": "textile"}
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "ceramic"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "glass"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "metal"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "stone"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "bone"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "wood"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "textile"}
       ]
     },
     "validationSchema": [
@@ -2609,28 +2686,30 @@ See Individual Field Reference section for detailed field-specific issues.
 
 ### Example 3: RadioGroup for Condition Assessment
 ```json
+// Example select-choice-fields-34
+// Template markers added for parametric generation
 {
-  "condition-assessment": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "RadioGroup",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "condition-assessment",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "id": "condition-assessment",
-      "label": "Condition Assessment",
-      "helperText": "Overall condition of the artifact",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": true,
       "options": [
-        {"label": "Excellent", "value": "excellent"},
-        {"label": "Good", "value": "good"},
-        {"label": "Fair", "value": "fair"},
-        {"label": "Poor", "value": "poor"},
-        {"label": "Critical", "value": "critical"}
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "excellent"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "good"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "fair"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "poor"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "critical"}
       ]
     },
     "validationSchema": [
       ["yup.string"],
-      ["yup.required", "Condition assessment required"]
+      ["yup.Condition assessment required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
     ],
     "initialValue": ""
   }
@@ -2639,17 +2718,19 @@ See Individual Field Reference section for detailed field-specific issues.
 
 ### Example 4: Checkbox for Terms Acceptance
 ```json
+// Example select-choice-fields-35
+// Template markers added for parametric generation
 {
-  "data-consent": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "Checkbox",
     "type-returned": "faims-core::Bool",
     "component-parameters": {
-      "name": "data-consent",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "id": "data-consent",
-      "label": "I consent to data collection and usage",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
       "required": true,
-      "helperText": "Required for participation"
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
     },
     "validationSchema": [
       ["yup.bool"],
@@ -2662,24 +2743,26 @@ See Individual Field Reference section for detailed field-specific issues.
 
 ### Example 5: Select with Conditional Options
 ```json
+// Example select-choice-fields-36
+// Template markers added for parametric generation
 {
-  "pottery-form": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "Select",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "pottery-form",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "id": "pottery-form",
-      "label": "Pottery Form",
-      "helperText": "Select vessel form",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": false,
       "options": [
-        {"label": "Bowl", "value": "bowl"},
-        {"label": "Jar", "value": "jar"},
-        {"label": "Plate", "value": "plate"},
-        {"label": "Cup", "value": "cup"},
-        {"label": "Amphora", "value": "amphora"},
-        {"label": "Jug", "value": "jug"}
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "bowl"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "jar"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "plate"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "cup"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "amphora"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "jug"}
       ]
     },
     "validationSchema": [
@@ -2697,24 +2780,26 @@ See Individual Field Reference section for detailed field-specific issues.
 
 ### Example 6: Advanced MultiSelect with Groups
 ```json
+// Example select-choice-fields-37
+// Template markers added for parametric generation
 {
-  "excavation-tools": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "MultiSelect",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "excavation-tools",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "id": "excavation-tools",
-      "label": "Tools Used",
-      "helperText": "Select all tools used in this excavation",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "options": [
-        {"label": "Hand Tools - Trowel", "value": "trowel"},
-        {"label": "Hand Tools - Brush", "value": "brush"},
-        {"label": "Hand Tools - Pick", "value": "pick"},
-        {"label": "Power Tools - Drill", "value": "drill"},
-        {"label": "Power Tools - Saw", "value": "saw"},
-        {"label": "Measurement - Tape", "value": "tape"},
-        {"label": "Measurement - Level", "value": "level"}
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "trowel"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "brush"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "pick"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "drill"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "saw"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "tape"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "level"}
       ]
     },
     "validationSchema": [
@@ -2727,23 +2812,25 @@ See Individual Field Reference section for detailed field-specific issues.
 
 ### Example 7: Select with External Vocabulary
 ```json
+// Example select-choice-fields-38
+// Template markers added for parametric generation
 {
-  "period-chronology": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "Select",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "period-chronology",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "id": "period-chronology",
-      "label": "Chronological Period",
-      "helperText": "Select from Getty AAT periods",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": true,
       "vocabularyName": "getty-aat-periods",
       "options": []
     },
     "validationSchema": [
       ["yup.string"],
-      ["yup.required", "Period selection required"]
+      ["yup.Period selection required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
     ],
     "initialValue": ""
   }
@@ -2752,16 +2839,18 @@ See Individual Field Reference section for detailed field-specific issues.
 
 ### Example 8: Boolean Checkbox Array
 ```json
+// Example select-choice-fields-39
+// Template markers added for parametric generation
 {
-  "field-conditions": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "Checkbox",
     "type-returned": "faims-core::Bool",
     "component-parameters": {
-      "name": "field-conditions",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "id": "field-conditions",
-      "label": "Hazardous Conditions Present",
-      "helperText": "Check if any hazards exist",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": false
     },
     "validationSchema": [
@@ -2771,7 +2860,7 @@ See Individual Field Reference section for detailed field-specific issues.
     "meta": {
       "annotation": {
         "include": true,
-        "label": "Describe hazards if present"
+        "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
       }
     }
   }
@@ -2780,28 +2869,30 @@ See Individual Field Reference section for detailed field-specific issues.
 
 ### Example 9: RadioGroup with "Other" Option
 ```json
+// Example select-choice-fields-40
+// Template markers added for parametric generation
 {
-  "soil-type": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "RadioGroup",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "soil-type",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "id": "soil-type",
-      "label": "Soil Type",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
       "required": true,
       "options": [
-        {"label": "Clay", "value": "clay"},
-        {"label": "Sandy", "value": "sandy"},
-        {"label": "Loam", "value": "loam"},
-        {"label": "Silt", "value": "silt"},
-        {"label": "Peat", "value": "peat"},
-        {"label": "Other", "value": "other"}
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "clay"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "sandy"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "loam"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "silt"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "peat"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "other"}
       ]
     },
     "validationSchema": [
       ["yup.string"],
-      ["yup.required", "Soil type required"]
+      ["yup.Soil type required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
     ],
     "initialValue": ""
   }
@@ -2810,22 +2901,24 @@ See Individual Field Reference section for detailed field-specific issues.
 
 ### Example 10: MultiSelect with Metadata
 ```json
+// Example select-choice-fields-41
+// Template markers added for parametric generation
 {
-  "conservation-treatments": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "MultiSelect",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "conservation-treatments",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "id": "conservation-treatments",
-      "label": "Conservation Treatments Applied",
-      "helperText": "Select all treatments performed",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "options": [
-        {"label": "Cleaning", "value": "cleaning"},
-        {"label": "Consolidation", "value": "consolidation"},
-        {"label": "Desalination", "value": "desalination"},
-        {"label": "Reconstruction", "value": "reconstruction"},
-        {"label": "Protective coating", "value": "coating"}
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "cleaning"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "consolidation"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "desalination"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "reconstruction"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "coating"}
       ]
     },
     "validationSchema": [
@@ -2835,7 +2928,7 @@ See Individual Field Reference section for detailed field-specific issues.
     "meta": {
       "uncertainty": {
         "include": true,
-        "label": "Treatment effectiveness"
+        "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
       }
     }
   }
@@ -2844,21 +2937,23 @@ See Individual Field Reference section for detailed field-specific issues.
 
 ### Example 11: Select with Default Value
 ```json
+// Example select-choice-fields-42
+// Template markers added for parametric generation
 {
-  "recording-method": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "Select",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "recording-method",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "id": "recording-method",
-      "label": "Recording Method",
-      "helperText": "How was this feature recorded?",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "options": [
-        {"label": "Photography", "value": "photo"},
-        {"label": "Drawing", "value": "drawing"},
-        {"label": "3D Scan", "value": "scan3d"},
-        {"label": "Video", "value": "video"}
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "photo"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "drawing"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "scan3d"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "video"}
       ]
     },
     "validationSchema": [
@@ -2871,25 +2966,27 @@ See Individual Field Reference section for detailed field-specific issues.
 
 ### Example 12: Complex Conditional MultiSelect
 ```json
+// Example select-choice-fields-43
+// Template markers added for parametric generation
 {
-  "metal-types": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "MultiSelect",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "metal-types",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "id": "metal-types",
-      "label": "Metal Types",
-      "helperText": "Specify metal composition",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": true,
       "options": [
-        {"label": "Iron", "value": "iron"},
-        {"label": "Bronze", "value": "bronze"},
-        {"label": "Copper", "value": "copper"},
-        {"label": "Silver", "value": "silver"},
-        {"label": "Gold", "value": "gold"},
-        {"label": "Lead", "value": "lead"},
-        {"label": "Tin", "value": "tin"}
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "iron"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "bronze"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "copper"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "silver"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "gold"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "lead"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "tin"}
       ]
     },
     "validationSchema": [
@@ -2908,28 +3005,30 @@ See Individual Field Reference section for detailed field-specific issues.
 
 ### Example 13: RadioGroup for Priority Level
 ```json
+// Example select-choice-fields-44
+// Template markers added for parametric generation
 {
-  "conservation-priority": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "RadioGroup",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "conservation-priority",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "id": "conservation-priority",
-      "label": "Conservation Priority",
-      "helperText": "Urgency of conservation needed",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": true,
       "options": [
-        {"label": "Immediate (24 hours)", "value": "immediate"},
-        {"label": "High (1 week)", "value": "high"},
-        {"label": "Medium (1 month)", "value": "medium"},
-        {"label": "Low (6 months)", "value": "low"},
-        {"label": "None required", "value": "none"}
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "immediate"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "high"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "medium"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "low"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "none"}
       ]
     },
     "validationSchema": [
       ["yup.string"],
-      ["yup.required", "Priority assessment required"]
+      ["yup.Priority assessment required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
     ],
     "initialValue": "medium"
   }
@@ -2938,28 +3037,30 @@ See Individual Field Reference section for detailed field-specific issues.
 
 ### Example 14: Select with Numeric Values
 ```json
+// Example select-choice-fields-45
+// Template markers added for parametric generation
 {
-  "stratigraphic-phase": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "Select",
     "type-returned": "faims-core::Integer",
     "component-parameters": {
-      "name": "stratigraphic-phase",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "id": "stratigraphic-phase",
-      "label": "Stratigraphic Phase",
-      "helperText": "Select phase number",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": true,
       "options": [
-        {"label": "Phase 1 (Earliest)", "value": 1},
-        {"label": "Phase 2", "value": 2},
-        {"label": "Phase 3", "value": 3},
-        {"label": "Phase 4", "value": 4},
-        {"label": "Phase 5 (Latest)", "value": 5}
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": 1},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": 2},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": 3},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": 4},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": 5}
       ]
     },
     "validationSchema": [
       ["yup.number"],
-      ["yup.required", "Phase required"]
+      ["yup.Phase required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
     ],
     "initialValue": null
   }
@@ -2968,16 +3069,18 @@ See Individual Field Reference section for detailed field-specific issues.
 
 ### Example 15: Checkbox with Advanced Helper
 ```json
+// Example select-choice-fields-46
+// Template markers added for parametric generation
 {
-  "photography-consent": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "Checkbox",
     "type-returned": "faims-core::Bool",
     "component-parameters": {
-      "name": "photography-consent",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "id": "photography-consent",
-      "label": "Photography consent obtained",
-      "helperText": "Required for sensitive sites",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "advancedHelperText": "## Photography Consent\n\nConsent must be obtained for:\n- Sacred sites\n- Private property\n- Human remains\n- Restricted areas",
       "required": false
     },
@@ -2991,24 +3094,26 @@ See Individual Field Reference section for detailed field-specific issues.
 
 ### Example 16: MultiSelect with Extended Options
 ```json
+// Example select-choice-fields-47
+// Template markers added for parametric generation
 {
-  "dating-methods": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "MultiSelect",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "dating-methods",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "id": "dating-methods",
-      "label": "Dating Methods Applied",
-      "helperText": "All methods used for this context",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "options": [
-        {"label": "C14 Radiocarbon", "value": "c14"},
-        {"label": "Dendrochronology", "value": "dendro"},
-        {"label": "Thermoluminescence", "value": "tl"},
-        {"label": "Optically Stimulated Luminescence", "value": "osl"},
-        {"label": "Archaeomagnetic", "value": "archaeomag"},
-        {"label": "Typological", "value": "typological"},
-        {"label": "Stratigraphic", "value": "stratigraphic"}
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "c14"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "dendro"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "tl"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "osl"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "archaeomag"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "typological"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "stratigraphic"}
       ]
     },
     "validationSchema": [
@@ -3021,26 +3126,28 @@ See Individual Field Reference section for detailed field-specific issues.
 
 ### Example 17: RadioGroup with Disabled Option
 ```json
+// Example select-choice-fields-48
+// Template markers added for parametric generation
 {
-  "access-level": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "RadioGroup",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "access-level",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "id": "access-level",
-      "label": "Data Access Level",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
       "required": true,
       "options": [
-        {"label": "Public", "value": "public"},
-        {"label": "Restricted", "value": "restricted"},
-        {"label": "Confidential", "value": "confidential"},
-        {"label": "Classified", "value": "classified", "disabled": true}
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "public"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "restricted"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "confidential"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "classified", "disabled": true}
       ]
     },
     "validationSchema": [
       ["yup.string"],
-      ["yup.required", "Access level required"]
+      ["yup.Access level required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
     ],
     "initialValue": "public"
   }
@@ -3049,16 +3156,18 @@ See Individual Field Reference section for detailed field-specific issues.
 
 ### Example 18: Select with Dynamic Loading
 ```json
+// Example select-choice-fields-49
+// Template markers added for parametric generation
 {
-  "related-records": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "Select",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "related-records",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "id": "related-records",
-      "label": "Related Records",
-      "helperText": "Link to existing records",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "multiple": false,
       "loadOptions": "dynamic",
       "optionsEndpoint": "/api/records/list"
@@ -3073,25 +3182,27 @@ See Individual Field Reference section for detailed field-specific issues.
 
 ### Example 19: MultiSelect with Hierarchical Labels
 ```json
+// Example select-choice-fields-50
+// Template markers added for parametric generation
 {
-  "finds-categories": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "MultiSelect",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "finds-categories",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "id": "finds-categories",
-      "label": "Finds Categories",
-      "helperText": "Classify all finds",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "options": [
-        {"label": "Pottery - Prehistoric", "value": "pottery-prehistoric"},
-        {"label": "Pottery - Roman", "value": "pottery-roman"},
-        {"label": "Pottery - Medieval", "value": "pottery-medieval"},
-        {"label": "Metal - Tools", "value": "metal-tools"},
-        {"label": "Metal - Weapons", "value": "metal-weapons"},
-        {"label": "Metal - Jewelry", "value": "metal-jewelry"},
-        {"label": "Organic - Bone", "value": "organic-bone"},
-        {"label": "Organic - Wood", "value": "organic-wood"}
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "pottery-prehistoric"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "pottery-roman"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "pottery-medieval"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "metal-tools"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "metal-weapons"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "metal-jewelry"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "organic-bone"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "organic-wood"}
       ]
     },
     "validationSchema": [
@@ -3105,29 +3216,31 @@ See Individual Field Reference section for detailed field-specific issues.
 
 ### Example 20: Complex Nested Conditional Select
 ```json
+// Example select-choice-fields-51
+// Template markers added for parametric generation
 {
-  "sub-context-type": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "Select",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "sub-context-type",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "id": "sub-context-type",
-      "label": "Sub-context Type",
-      "helperText": "Specific context classification",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": true,
       "options": [
-        {"label": "Fill - Occupation", "value": "fill-occupation"},
-        {"label": "Fill - Destruction", "value": "fill-destruction"},
-        {"label": "Fill - Construction", "value": "fill-construction"},
-        {"label": "Cut - Pit", "value": "cut-pit"},
-        {"label": "Cut - Posthole", "value": "cut-posthole"},
-        {"label": "Cut - Ditch", "value": "cut-ditch"}
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "fill-occupation"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "fill-destruction"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "fill-construction"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "cut-pit"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "cut-posthole"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "cut-ditch"}
       ]
     },
     "validationSchema": [
       ["yup.string"],
-      ["yup.required", "Sub-context type required"]
+      ["yup.Sub-context type required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
     ],
     "initialValue": "",
     "condition": {
@@ -3151,23 +3264,25 @@ See Individual Field Reference section for detailed field-specific issues.
 
 #### Feature Checklist with Exclusive None
 ```json
+// Example select-choice-fields-52
+// Template markers added for parametric generation
 {
-  "observed-features": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "MultiSelect",
     "type-returned": "faims-core::Array",
     "component-parameters": {
-      "name": "observed-features",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "id": "observed-features",
-      "label": "Observed Features",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
       "required": true,
       "ElementProps": {
         "options": [
-          {"label": "Stone artifacts", "value": "stone"},
-          {"label": "Ceramics", "value": "ceramics"},
-          {"label": "Bone fragments", "value": "bone"},
-          {"label": "Charcoal", "value": "charcoal"},
-          {"label": "No features observed", "value": "none", "exclusive": true}
+          {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "stone"},
+          {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "ceramics"},
+          {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "bone"},
+          {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "charcoal"},
+          {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "none", "exclusive": true}
         ],
         "displayType": "expandedChecklist"
       }
@@ -3185,24 +3300,26 @@ See Individual Field Reference section for detailed field-specific issues.
 
 #### Deprecated - Condition Assessment
 ```json
+// Example select-choice-fields-53
+// Template markers added for parametric generation
 {
-  "condition": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "RadioGroup",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "condition",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "id": "condition",
-      "label": "Site Condition",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
       "required": true,
-      "helperText": "Note: RadioGroup is deprecated - use Select",
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "ElementProps": {
         "options": [
-          {"label": "Excellent", "value": "excellent"},
-          {"label": "Good", "value": "good"},
-          {"label": "Fair", "value": "fair"},
-          {"label": "Poor", "value": "poor"},
-          {"label": "Not assessed", "value": ""}
+          {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "excellent"},
+          {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "good"},
+          {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "fair"},
+          {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "poor"},
+          {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": ""}
         ]
       }
     },
@@ -3215,23 +3332,25 @@ See Individual Field Reference section for detailed field-specific issues.
 
 #### Site Type with Empty Option
 ```json
+// Example select-choice-fields-54
+// Template markers added for parametric generation
 {
-  "site-type": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "Select",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "site-type",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "id": "site-type",
-      "label": "Site Type",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
       "required": false,
       "ElementProps": {
         "options": [
-          {"label": "-- Select type --", "value": ""},
-          {"label": "Rockshelter", "value": "rockshelter"},
-          {"label": "Open camp", "value": "open_camp"},
-          {"label": "Quarry", "value": "quarry"},
-          {"label": "Rock art", "value": "rock_art"}
+          {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": ""},
+          {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "rockshelter"},
+          {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "open_camp"},
+          {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "quarry"},
+          {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "rock_art"}
         ]
       }
     },
@@ -3244,38 +3363,40 @@ See Individual Field Reference section for detailed field-specific issues.
 
 #### Beta - Taxonomic Classification
 ```json
+// Example select-choice-fields-55
+// Template markers added for parametric generation
 {
-  "taxonomy": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "AdvancedSelect",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "taxonomy",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "id": "taxonomy",
-      "label": "Taxonomic Classification (BETA)",
-      "helperText": "Warning: Cannot clear once selected",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "ElementProps": {
         "options": [
           {
-            "label": "Animalia",
+            "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
             "value": "animalia",
             "children": [
               {
-                "label": "Chordata",
+                "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
                 "value": "chordata",
                 "children": [
-                  {"label": "Mammalia", "value": "mammalia"},
-                  {"label": "Aves", "value": "aves"}
+                  {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "mammalia"},
+                  {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "aves"}
                 ]
               }
             ]
           },
           {
-            "label": "Plantae",
+            "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
             "value": "plantae",
             "children": [
-              {"label": "Angiosperms", "value": "angiosperms"},
-              {"label": "Gymnosperms", "value": "gymnosperms"}
+              {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "angiosperms"},
+              {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "gymnosperms"}
             ]
           }
         ]
@@ -3342,6 +3463,7 @@ Current Field Type?
 
 2. **Update JSON configuration**
    ```json
+// Example select-choice-fields-56
 
    "component-name": "RadioGroup"
 
@@ -3350,6 +3472,7 @@ Current Field Type?
 
 3. **Add empty option if needed**
    ```json
+// Example select-choice-fields-57
    {"label": "-- None selected --", "value": ""}
    ```
 
@@ -3363,12 +3486,14 @@ Current Field Type?
 
 1. **Map checkbox fields to options**
    ```json
+// Example select-choice-fields-58
 
    {"label": "Option 1", "value": "opt1"}
    ```
 
 2. **Configure display type**
    ```json
+// Example select-choice-fields-59
    "ElementProps": {
      "displayType": "expandedChecklist"
    }
@@ -3380,6 +3505,7 @@ Current Field Type?
 
 4. **Add validation**
    ```json
+// Example select-choice-fields-60
    ["yup.min", 1, "Select at least one"]
    ```
 
@@ -3578,13 +3704,15 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 
 #### Binary Choice Pattern
 ```json
+// Example select-choice-fields-61
+// Template markers added for parametric generation
 {
-  "field-name": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "Checkbox",
     "type-returned": "faims-core::Bool",
     "component-parameters": {
-      "label": "Yes/No Question?"
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
     },
     "initialValue": false
   }
@@ -3593,16 +3721,18 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 
 #### Single Selection with None Pattern
 ```json
+// Example select-choice-fields-62
+// Template markers added for parametric generation
 {
-  "field-name": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "Select",
     "type-returned": "faims-core::String",
     "component-parameters": {
       "ElementProps": {
         "options": [
-          {"label": "-- None --", "value": ""},
-          {"label": "Option 1", "value": "opt1"}
+          {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": ""},
+          {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "opt1"}
         ]
       }
     }
@@ -3612,16 +3742,18 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 
 #### Multiple Selection with Exclusive Pattern
 ```json
+// Example select-choice-fields-63
+// Template markers added for parametric generation
 {
-  "field-name": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "MultiSelect",
     "type-returned": "faims-core::Array",
     "component-parameters": {
       "ElementProps": {
         "options": [
-          {"label": "Option 1", "value": "opt1"},
-          {"label": "None of the above", "value": "none", "exclusive": true}
+          {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "opt1"},
+          {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "none", "exclusive": true}
         ]
       }
     }
@@ -3633,8 +3765,10 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 
 #### Must Accept Pattern
 ```json
+// Example select-choice-fields-64
+// Template markers added for parametric generation
 {
-  "must-accept": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "Checkbox",
     "type-returned": "faims-core::Bool",
@@ -3648,8 +3782,10 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 
 #### Optional Flag Pattern
 ```json
+// Example select-choice-fields-65
+// Template markers added for parametric generation
 {
-  "optional-flag": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "Checkbox",
     "type-returned": "faims-core::Bool",
@@ -3664,8 +3800,10 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 
 #### Expanded Checklist Pattern
 ```json
+// Example select-choice-fields-66
+// Template markers added for parametric generation
 {
-  "checklist": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "MultiSelect",
     "component-parameters": {
@@ -3680,8 +3818,10 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 
 #### Required Multiple Pattern
 ```json
+// Example select-choice-fields-67
+// Template markers added for parametric generation
 {
-  "required-multi": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "MultiSelect",
     "validationSchema": [
@@ -3699,6 +3839,7 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 
 #### ❌ Wrong Namespace
 ```json
+// Example select-choice-fields-68
 
 "component-namespace": "formik-material-ui"
 
@@ -3707,6 +3848,7 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 
 #### ❌ Dynamic Options
 ```json
+// Example select-choice-fields-69
 
 "ElementProps": {
   "optionsUrl": "/api/options"
@@ -3719,21 +3861,24 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 
 #### ❌ Missing Empty Option
 ```json
+// Example select-choice-fields-70
+// Template markers added for parametric generation
 
 "options": [
-  {"label": "Yes", "value": "yes"},
-  {"label": "No", "value": "no"}
+  {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "yes"},
+  {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "no"}
 ]
 
 "options": [
-  {"label": "-- Select --", "value": ""},
-  {"label": "Yes", "value": "yes"},
-  {"label": "No", "value": "no"}
+  {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": ""},
+  {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "yes"},
+  {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "no"}
 ]
 ```
 
 #### ❌ Wrong Data Types
 ```json
+// Example select-choice-fields-71
 
 "component-name": "MultiSelect",
 "initialValue": ""

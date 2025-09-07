@@ -19,6 +19,17 @@ see-also: [select-choice-fields-v05, implementation-patterns-guide]
 
 # Dynamic Forms Guide
 
+
+<!-- structured:metadata
+meta:purpose: implementation-patterns
+meta:summary: Conditional visibility patterns using is-logic for creating adaptive forms.
+meta:generates: notebook-structures
+meta:requires: [field-definitions, form-hierarchy]
+meta:version: 3.0.0
+meta:document: dynamic_forms_guide
+meta:depth-tags: [essential, important]
+-->
+
 ## Overview {essential}
 
 This guide consolidates all knowledge about creating dynamic, responsive forms in Fieldmark through validation rules and conditional logic. It covers validation strategies, conditional field display, cross-field dependencies, error handling patterns, and performance considerations for creating adaptive data collection instruments.

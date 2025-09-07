@@ -7,6 +7,17 @@ last_updated: 2025-01-06
 
 # Designer UI to Component Mapping Reference
 
+
+<!-- structured:metadata
+meta:purpose: technical-reference
+meta:summary: Complete mapping table from Designer UI names to actual JSON component names.
+meta:generates: lookup-tables
+meta:requires: [fieldmark-knowledge]
+meta:version: 3.0.0
+meta:document: designer_component_mapping
+meta:depth-tags: [essential]
+-->
+
 ## Document Navigation {essential}
 [← Operations Reference](./operations-reference.md) | **Designer Mapping** | [Constraints Reference →](./constraints-reference.md)
 

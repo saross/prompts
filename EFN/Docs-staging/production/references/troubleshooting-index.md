@@ -5,6 +5,17 @@
 **Usage**: Search by error message or symptom to find immediate solutions
 
 <!-- discovery:metadata
+
+<!-- structured:metadata
+meta:purpose: technical-reference
+meta:summary: Error-to-solution mapping with diagnostic flowcharts covering 95% of common issues.
+meta:generates: lookup-tables
+meta:requires: [fieldmark-knowledge]
+meta:version: 3.0.0
+meta:document: troubleshooting_index
+meta:depth-tags: [essential]
+-->
+
 provides: [error-solutions, diagnostic-flowcharts, validation-decoder, common-problems]
 see-also: [notebook-format-guide, constraints-reference, platform-reference]
 -->

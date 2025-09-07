@@ -5,6 +5,17 @@
 **Usage**: Copy, modify placeholders ({{FIELD_NAME}}), and import into Designer
 
 <!-- discovery:metadata
+
+<!-- structured:metadata
+meta:purpose: technical-reference
+meta:summary: Five complete working notebook examples from minimal to production complexity.
+meta:generates: lookup-tables
+meta:requires: [fieldmark-knowledge]
+meta:version: 3.0.0
+meta:document: notebook_templates
+meta:depth-tags: [essential]
+-->
+
 provides: [complete-notebooks, working-templates, scaffolding-examples, import-ready-json]
 see-also: [notebook-format-guide, designer-component-mapping, field-selection-guide]
 -->

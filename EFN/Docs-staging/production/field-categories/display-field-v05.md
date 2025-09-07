@@ -16,6 +16,17 @@ see-also: [text-fields-v05]
 
 # Display Field - Fieldmark v3 Documentation
 
+
+<!-- structured:metadata
+meta:purpose: field-configuration
+meta:summary: Display-only RichText component for instructions and headers, with markdown support but no data capture.
+meta:generates: json-fields
+meta:requires: [valid-json, unique-names, fviews-layer]
+meta:version: 3.0.0
+meta:document: display_field
+meta:depth-tags: [essential, important, comprehensive]
+-->
+
 ## Document Navigation {essential}
 <!-- concat:nav-mode:individual -->
 [← Numeric Fields](./number-fields-v05.md) | **Display Fields** | [Location Fields →](./location-fields-v05.md)
@@ -218,6 +229,7 @@ Need to display content?
 
 ### JSON-Only Configuration
 ```json
+// Example display-field-01
 {
   "content": "Complex\nmulti-line\nmarkdown",
   "condition": {
@@ -403,12 +415,14 @@ Provides formatted instructional content and section headings within forms throu
 
 #### Core Configuration
 ```json
+// Example display-field-02
+// Template markers added for parametric generation
 {
   "component-namespace": "faims-custom",
   "component-name": "RichText",
   "type-returned": "faims-core::String",
   "component-parameters": {
-    "name": "instructions",
+    "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
     "content": "## Recording Instructions\n\nCapture all visible features before excavation."
   },
   "validationSchema": [["yup.string"]],
@@ -418,13 +432,15 @@ Provides formatted instructional content and section headings within forms throu
 
 #### Advanced Configuration
 ```json
+// Example display-field-03
+// Template markers added for parametric generation
 {
-  "safety-warning": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "RichText",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "safety-warning",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "content": "# ⚠️ SAFETY WARNING\n\n**STOP** - Hazardous site requires:\n\n- Full PPE including respirator\n- Confined space certification\n- Gas monitoring equipment\n- Emergency evacuation plan\n\nContact supervisor before entry.\n\n---\n\n*Failure to comply may result in serious injury or death.*"
     },
     "validationSchema": [["yup.string"]],
@@ -474,6 +490,7 @@ Provides formatted instructional content and section headings within forms throu
 2. Validate markdown in external tool
 3. Common fixes:
    ```json
+// Example display-field-04
    // BAD - Unclosed code block
    "content": "```\ncode here"
    
@@ -580,13 +597,15 @@ Provides formatted instructional content and section headings within forms throu
 
 ### Example 1: Basic Section Header
 ```json
+// Example display-field-05
+// Template markers added for parametric generation
 {
-  "section-header": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "RichText",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "section-header",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "content": "## Site Information\n\nPlease complete all fields in this section."
     },
     "validationSchema": [["yup.string"]],
@@ -597,13 +616,15 @@ Provides formatted instructional content and section headings within forms throu
 
 ### Example 2: Form Introduction with Instructions
 ```json
+// Example display-field-06
+// Template markers added for parametric generation
 {
-  "form-intro": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "RichText",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "form-intro",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "content": "# Archaeological Context Recording\n\nThis form captures stratigraphic context data.\n\n**Required Equipment:**\n- Measuring tape\n- Camera with scale\n- GPS unit"
     },
     "validationSchema": [["yup.string"]],
@@ -614,13 +635,15 @@ Provides formatted instructional content and section headings within forms throu
 
 ### Example 3: Safety Warning
 ```json
+// Example display-field-07
+// Template markers added for parametric generation
 {
-  "safety-warning": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "RichText",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "safety-warning",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "content": "### ⚠️ SAFETY WARNING\n\n**STOP** - Check before proceeding:\n- Hard hat required\n- High-vis vest mandatory\n- Safety boots essential\n\nDo not enter excavation without supervision."
     },
     "validationSchema": [["yup.string"]],
@@ -631,13 +654,15 @@ Provides formatted instructional content and section headings within forms throu
 
 ### Example 4: Conditional Help Text
 ```json
+// Example display-field-08
+// Template markers added for parametric generation
 {
-  "excavation-help": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "RichText",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "excavation-help",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "content": "### Manual Excavation Guidelines\n\nUse trowel and brush only.\nMaintain vertical sections.\nRecord every 5cm depth change."
     },
     "validationSchema": [["yup.string"]],
@@ -653,13 +678,15 @@ Provides formatted instructional content and section headings within forms throu
 
 ### Example 5: Methodology Instructions
 ```json
+// Example display-field-09
+// Template markers added for parametric generation
 {
-  "recording-standards": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "RichText",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "recording-standards",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "content": "## Recording Standards\n\n### Photography Requirements\n1. Overview shot with north arrow\n2. Detail shots with 10cm scale\n3. Working shots showing excavation\n\n### Measurements\n- All measurements in metric\n- Record to nearest centimeter\n- Include estimated uncertainty"
     },
     "validationSchema": [["yup.string"]],
@@ -670,13 +697,15 @@ Provides formatted instructional content and section headings within forms throu
 
 ### Example 6: Data Entry Guidelines
 ```json
+// Example display-field-10
+// Template markers added for parametric generation
 {
-  "data-guidelines": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "RichText",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "data-guidelines",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "content": "### Data Entry Tips\n\n**Coordinates:** Use decimal degrees (WGS84)\n**Dates:** Format as DD/MM/YYYY\n**Measurements:** Metric units only\n**Photos:** Include scale in every shot"
     },
     "validationSchema": [["yup.string"]],
@@ -687,13 +716,15 @@ Provides formatted instructional content and section headings within forms throu
 
 ### Example 7: Multi-Language Instructions
 ```json
+// Example display-field-11
+// Template markers added for parametric generation
 {
-  "multilingual-help": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "RichText",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "multilingual-help",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "content": "## Instructions / Instrucciones\n\n**English:** Record all visible features\n\n**Español:** Registre todas las características visibles"
     },
     "validationSchema": [["yup.string"]],
@@ -704,13 +735,15 @@ Provides formatted instructional content and section headings within forms throu
 
 ### Example 8: Visual Separator
 ```json
+// Example display-field-12
+// Template markers added for parametric generation
 {
-  "section-divider": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "RichText",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "section-divider",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "content": "---\n\n## Additional Information\n\n---"
     },
     "validationSchema": [["yup.string"]],
@@ -721,13 +754,15 @@ Provides formatted instructional content and section headings within forms throu
 
 ### Example 9: Numbered Procedure
 ```json
+// Example display-field-13
+// Template markers added for parametric generation
 {
-  "sampling-procedure": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "RichText",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "sampling-procedure",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "content": "### Soil Sampling Procedure\n\n1. Clean sampling area\n2. Use sterile tools\n3. Collect 100g minimum\n4. Label immediately\n5. Store in cool conditions\n6. Record GPS location"
     },
     "validationSchema": [["yup.string"]],
@@ -738,13 +773,15 @@ Provides formatted instructional content and section headings within forms throu
 
 ### Example 10: Compliance Notice
 ```json
+// Example display-field-14
+// Template markers added for parametric generation
 {
-  "compliance-notice": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "RichText",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "compliance-notice",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "content": "### Heritage Compliance\n\n**Permit #:** HER-2025-001\n**Valid until:** 31/12/2025\n**Conditions:** No excavation below 1m without additional approval"
     },
     "validationSchema": [["yup.string"]],
@@ -755,13 +792,15 @@ Provides formatted instructional content and section headings within forms throu
 
 ### Example 11: Conditional Warning Based on Selection
 ```json
+// Example display-field-15
+// Template markers added for parametric generation
 {
-  "depth-warning": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "RichText",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "depth-warning",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "content": "## ⚠️ DEEP EXCAVATION WARNING\n\n**Shoring required below 1.5m**\n\nContact site engineer before proceeding.\nOxygen monitoring mandatory."
     },
     "validationSchema": [["yup.string"]],
@@ -777,13 +816,15 @@ Provides formatted instructional content and section headings within forms throu
 
 ### Example 12: Quick Reference Guide
 ```json
+// Example display-field-16
+// Template markers added for parametric generation
 {
-  "soil-colors": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "RichText",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "soil-colors",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "content": "### Munsell Soil Colors\n\n**Common values:**\n- 10YR 3/2: Very dark grayish brown\n- 10YR 4/3: Brown\n- 10YR 5/4: Yellowish brown\n- 7.5YR 4/4: Brown"
     },
     "validationSchema": [["yup.string"]],
@@ -794,13 +835,15 @@ Provides formatted instructional content and section headings within forms throu
 
 ### Example 13: Embedded Base64 Image
 ```json
+// Example display-field-17
+// Template markers added for parametric generation
 {
-  "diagram-display": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "RichText",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "diagram-display",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "content": "### Recording Diagram\n\n![Excavation Grid](data:image/png;base64,iVBORw0KGgoAAAANS...)\n\nFollow the grid system shown above."
     },
     "validationSchema": [["yup.string"]],
@@ -811,13 +854,15 @@ Provides formatted instructional content and section headings within forms throu
 
 ### Example 14: Attribution and Copyright
 ```json
+// Example display-field-18
+// Template markers added for parametric generation
 {
-  "attribution": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "RichText",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "attribution",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "content": "---\n\n*Recording system developed by Archaeological Institute*\n\n*Version 2.1 - January 2025*\n\n*Licensed under CC BY-SA 4.0*"
     },
     "validationSchema": [["yup.string"]],
@@ -828,13 +873,15 @@ Provides formatted instructional content and section headings within forms throu
 
 ### Example 15: Emergency Contact Information
 ```json
+// Example display-field-19
+// Template markers added for parametric generation
 {
-  "emergency-info": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "RichText",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "emergency-info",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "content": "## Emergency Contacts\n\n**Site Director:** Dr. Smith - 0400 123 456\n**Safety Officer:** J. Brown - 0400 789 012\n**Emergency Services:** 000\n**Site First Aid:** Station A near main tent"
     },
     "validationSchema": [["yup.string"]],
@@ -845,13 +892,15 @@ Provides formatted instructional content and section headings within forms throu
 
 ### Example 16: Glossary of Terms
 ```json
+// Example display-field-20
+// Template markers added for parametric generation
 {
-  "glossary": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "RichText",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "glossary",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "content": "### Terms\n\n**Context:** Single stratigraphic unit\n**Cut:** Negative feature interface\n**Fill:** Material within cut\n**Layer:** Horizontal deposit"
     },
     "validationSchema": [["yup.string"]],
@@ -1007,6 +1056,7 @@ See [Performance Thresholds Reference](../reference-docs/performance-thresholds-
 
 ### Pattern: Conditional Help Text
 ```json
+// Example display-field-21
 {
   "condition": {
     "operator": "is-truthy",
@@ -1017,6 +1067,7 @@ See [Performance Thresholds Reference](../reference-docs/performance-thresholds-
 
 ### Pattern: Section Separator
 ```json
+// Example display-field-22
 {
   "content": "---\n\n## Next Section"
 }
@@ -1024,6 +1075,7 @@ See [Performance Thresholds Reference](../reference-docs/performance-thresholds-
 
 ### Pattern: Embedded Image
 ```json
+// Example display-field-23
 {
   "content": "![Icon](data:image/png;base64,iVBORw...)"
 }
@@ -1033,6 +1085,7 @@ See [Performance Thresholds Reference](../reference-docs/performance-thresholds-
 
 ### ❌ Don't: Large Content Blocks
 ```json
+// Example display-field-24
 // WRONG - Performance killer
 {
   "content": "2000+ word essay..."
@@ -1041,6 +1094,7 @@ See [Performance Thresholds Reference](../reference-docs/performance-thresholds-
 
 ### ❌ Don't: External Images
 ```json
+// Example display-field-25
 // WRONG - Will be blocked
 {
   "content": "![Image](https://external.com/image.jpg)"
@@ -1049,6 +1103,7 @@ See [Performance Thresholds Reference](../reference-docs/performance-thresholds-
 
 ### ❌ Don't: Tables
 ```json
+// Example display-field-26
 // WRONG - Stripped at runtime
 {
   "content": "| Col1 | Col2 |\n|------|------|\n| Data | Data |"

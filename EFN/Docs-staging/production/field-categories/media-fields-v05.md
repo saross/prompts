@@ -16,6 +16,17 @@ see-also: [platform-reference, location-fields-v05]
 
 # Media Fields - Fieldmark v3 Documentation
 
+
+<!-- structured:metadata
+meta:purpose: field-configuration
+meta:summary: Three media capture components (TakePhoto, AnnotationFormField, AudioFormField) with platform limitations.
+meta:generates: json-fields
+meta:requires: [valid-json, unique-names, fviews-layer]
+meta:version: 3.0.0
+meta:document: media_fields
+meta:depth-tags: [essential, important, comprehensive]
+-->
+
 ## Document Navigation {essential}
 <!-- concat:nav-mode:individual -->
 [← Location Fields](./location-fields-v05.md) | **Media Fields** | [Relationship Fields →](./relationship-field-v05.md)
@@ -203,6 +214,7 @@ See [Security Considerations Reference](../reference-docs/security-consideration
 
 **FileUploader:**
 ```json
+// Example media-fields-01
 {
   "multiple": true,                    // Allow multiple files
   "maximum_file_size": 10485760,       // 10MB limit
@@ -213,10 +225,12 @@ See [Security Considerations Reference](../reference-docs/security-consideration
 
 **TakePhoto:**
 ```json
+// Example media-fields-02
+// Template markers added for parametric generation
 {
   "validationSchema": [
     ["yup.array"],
-    ["yup.required", "Photos required"],
+    ["yup.Photos required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message,
     ["yup.min", 1, "Minimum 1 photo"],
     ["yup.max", 10, "Maximum 10 photos"]
   ]
@@ -337,14 +351,16 @@ Provides comprehensive file attachment capabilities accepting any file type with
 
 #### Core Configuration
 ```json
+// Example media-fields-03
+// Template markers added for parametric generation
 {
   "component-namespace": "faims-custom",
   "component-name": "FileUploader",
   "type-returned": "faims-attachment::Files",
   "component-parameters": {
-    "label": "Upload Documents",
-    "name": "documents",
-    "helperText": "Upload permits, maps, reports (max 10MB each)",
+    "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+    "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+    "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
     "required": false,
     "multiple": true,
     "maximum_file_size": 10485760,
@@ -357,15 +373,17 @@ Provides comprehensive file attachment capabilities accepting any file type with
 
 #### Advanced Configuration
 ```json
+// Example media-fields-04
+// Template markers added for parametric generation
 {
-  "survey-media": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "FileUploader",
     "type-returned": "faims-attachment::Files",
     "component-parameters": {
-      "label": "Survey Documentation",
-      "name": "survey-media",
-      "helperText": "DSLR photos, drone footage, GIS exports",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "advancedHelperText": "## Accepted Formats\n- Images: JPG, PNG, TIFF, RAW\n- Documents: PDF, DOCX\n- Data: CSV, SHP, KML\n- Video: MP4, MOV (max 50MB)",
       "multiple": true,
       "maximum_file_size": 52428800,
@@ -376,7 +394,7 @@ Provides comprehensive file attachment capabilities accepting any file type with
     "meta": {
       "annotation": {
         "include": true,
-        "label": "File descriptions"
+        "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
       }
     }
   }
@@ -418,14 +436,16 @@ Integrates platform-native camera functionality with gallery selection through u
 
 #### Core Configuration
 ```json
+// Example media-fields-05
+// Template markers added for parametric generation
 {
   "component-namespace": "faims-custom",
   "component-name": "TakePhoto",
   "type-returned": "faims-attachment::Files",
   "component-parameters": {
-    "label": "Site Photos",
-    "name": "site-photos",
-    "helperText": "Capture site overview and details",
+    "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+    "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+    "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
     "required": false
   },
   "validationSchema": [
@@ -439,21 +459,23 @@ Integrates platform-native camera functionality with gallery selection through u
 
 #### Advanced Configuration
 ```json
+// Example media-fields-06
+// Template markers added for parametric generation
 {
-  "artefact-photos": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "TakePhoto",
     "type-returned": "faims-attachment::Files",
     "component-parameters": {
-      "label": "Artefact Documentation",
-      "name": "artefact-photos",
-      "helperText": "Capture 2-10 photos from multiple angles",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": true
     },
     "validationSchema": [
       ["yup.array"],
       ["yup.of", [["yup.object"], ["yup.nullable"]]],
-      ["yup.required", "Artefact photos required"],
+      ["yup.Artefact photos required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message,
       ["yup.min", 2, "Minimum 2 angles required"],
       ["yup.max", 10, "Maximum 10 photos"]
     ],
@@ -461,11 +483,11 @@ Integrates platform-native camera functionality with gallery selection through u
     "meta": {
       "annotation": {
         "include": true,
-        "label": "Angle and lighting notes"
+        "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
       },
       "uncertainty": {
         "include": true,
-        "label": "Image quality"
+        "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
       }
     }
   }
@@ -521,6 +543,7 @@ Integrates platform-native camera functionality with gallery selection through u
 
 For FileUploader (use helper text workaround):
 ```json
+// Example media-fields-07
 {
   "validationSchema": [["yup.mixed"]],
   "helperText": "⚠️ REQUIRED: Upload at least one document"
@@ -529,10 +552,12 @@ For FileUploader (use helper text workaround):
 
 For TakePhoto (manual validation configuration):
 ```json
+// Example media-fields-08
+// Template markers added for parametric generation
 {
   "validationSchema": [
     ["yup.array"],
-    ["yup.required", "Photos required"],
+    ["yup.Photos required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message,
     ["yup.min", 1, "At least one photo required"]
   ]
 }
@@ -607,15 +632,17 @@ For TakePhoto (manual validation configuration):
 
 ### Example 1: Basic File Upload with Size Limits
 ```json
+// Example media-fields-09
+// Template markers added for parametric generation
 {
-  "supporting-documents": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "FileUploader",
     "type-returned": "faims-attachment::Files",
     "component-parameters": {
-      "label": "Supporting Documents",
-      "name": "supporting-documents",
-      "helperText": "Upload permits, maps, protocols (max 10MB each)",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "multiple": true,
       "maximum_file_size": 10485760,
       "minimum_file_size": 1024
@@ -628,21 +655,23 @@ For TakePhoto (manual validation configuration):
 
 ### Example 2: Required Single Photo Capture
 ```json
+// Example media-fields-10
+// Template markers added for parametric generation
 {
-  "artifact-photo": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "TakePhoto",
     "type-returned": "faims-attachment::Files",
     "component-parameters": {
-      "label": "Artifact Photo",
-      "name": "artifact-photo",
-      "helperText": "Photograph artifact with scale",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": true,
       "multiple": false
     },
     "validationSchema": [
       ["yup.mixed"],
-      ["yup.required", "Artifact photo required"]
+      ["yup.Artifact photo required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
     ],
     "initialValue": null
   }
@@ -651,15 +680,17 @@ For TakePhoto (manual validation configuration):
 
 ### Example 3: Multiple File Upload with Count Restriction
 ```json
+// Example media-fields-11
+// Template markers added for parametric generation
 {
-  "site-documentation": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "FileUploader",
     "type-returned": "faims-attachment::Files",
     "component-parameters": {
-      "label": "Site Documentation",
-      "name": "site-documentation",
-      "helperText": "Upload up to 5 files (photos, PDFs, spreadsheets)",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "advancedHelperText": "## File Requirements\n\n- Maximum 5 files total\n- Each file max 25MB\n- Accepted: JPG, PNG, PDF, XLSX, CSV",
       "multiple": true,
       "maximum_file_size": 26214400,
@@ -673,15 +704,17 @@ For TakePhoto (manual validation configuration):
 
 ### Example 4: Conditional Photo Documentation
 ```json
+// Example media-fields-12
+// Template markers added for parametric generation
 {
-  "damage-photos": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "TakePhoto",
     "type-returned": "faims-attachment::Files",
     "component-parameters": {
-      "label": "Damage Documentation",
-      "name": "damage-photos",
-      "helperText": "Photograph all damaged areas",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "multiple": true
     },
     "validationSchema": [
@@ -700,15 +733,17 @@ For TakePhoto (manual validation configuration):
 
 ### Example 5: PDF-Only Document Upload
 ```json
+// Example media-fields-13
+// Template markers added for parametric generation
 {
-  "permits": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "FileUploader",
     "type-returned": "faims-attachment::Files",
     "component-parameters": {
-      "label": "Heritage Permits",
-      "name": "permits",
-      "helperText": "Upload PDF permits only (max 10MB each)",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "advancedHelperText": "⚠️ **PDF Files Only**\n\nPlease convert all documents to PDF before uploading.\nNon-PDF files will need to be removed.",
       "multiple": true,
       "maximum_file_size": 10485760
@@ -718,7 +753,7 @@ For TakePhoto (manual validation configuration):
     "meta": {
       "annotation": {
         "include": true,
-        "label": "Permit conditions and restrictions"
+        "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
       }
     }
   }
@@ -727,34 +762,36 @@ For TakePhoto (manual validation configuration):
 
 ### Example 6: Staged Photography Workflow
 ```json
+// Example media-fields-14
+// Template markers added for parametric generation
 {
-  "before-excavation": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "TakePhoto",
     "type-returned": "faims-attachment::Files",
     "component-parameters": {
-      "label": "Before Excavation",
-      "name": "before-excavation",
-      "helperText": "Document initial state (2-5 photos)",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": true,
       "multiple": true
     },
     "validationSchema": [
       ["yup.array"],
-      ["yup.required", "Before photos required"],
+      ["yup.Before photos required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message,
       ["yup.min", 2, "Minimum 2 photos"],
       ["yup.max", 5, "Maximum 5 photos"]
     ],
     "initialValue": null
   },
-  "after-excavation": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "TakePhoto",
     "type-returned": "faims-attachment::Files",
     "component-parameters": {
-      "label": "After Excavation",
-      "name": "after-excavation",
-      "helperText": "Document final state (2-5 photos)"
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
     },
     "validationSchema": [
       ["yup.array"],
@@ -771,15 +808,17 @@ For TakePhoto (manual validation configuration):
 
 ### Example 7: Large Media Files with Warning
 ```json
+// Example media-fields-15
+// Template markers added for parametric generation
 {
-  "video-documentation": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "FileUploader",
     "type-returned": "faims-attachment::Files",
     "component-parameters": {
-      "label": "Video Documentation",
-      "name": "video-documentation",
-      "helperText": "Upload video files (max 100MB)",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "advancedHelperText": "## ⚠️ Large File Warning\n\n- Files over 50MB may cause sync delays\n- Ensure stable WiFi before syncing\n- Consider compressing videos first",
       "multiple": false,
       "maximum_file_size": 104857600
@@ -792,15 +831,17 @@ For TakePhoto (manual validation configuration):
 
 ### Example 8: Mixed Media Documentation
 ```json
+// Example media-fields-16
+// Template markers added for parametric generation
 {
-  "excavation-media": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "FileUploader",
     "type-returned": "faims-attachment::Files",
     "component-parameters": {
-      "label": "Excavation Media",
-      "name": "excavation-media",
-      "helperText": "Photos, videos, plans (max 25MB each, 10 files total)",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "multiple": true,
       "maximum_file_size": 26214400,
       "maximum_number_of_files": 10
@@ -813,20 +854,22 @@ For TakePhoto (manual validation configuration):
 
 ### Example 9: Progressive Photo Requirements
 ```json
+// Example media-fields-17
+// Template markers added for parametric generation
 {
-  "context-photos": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "TakePhoto",
     "type-returned": "faims-attachment::Files",
     "component-parameters": {
-      "label": "Context Photos",
-      "name": "context-photos",
-      "helperText": "North, South, East, West views plus overhead",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "multiple": true
     },
     "validationSchema": [
       ["yup.array"],
-      ["yup.required", "Context photos required"],
+      ["yup.Context photos required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message,
       ["yup.min", 5, "Need all 5 standard views"]
     ],
     "initialValue": null
@@ -836,15 +879,17 @@ For TakePhoto (manual validation configuration):
 
 ### Example 10: Data Files with Metadata
 ```json
+// Example media-fields-18
+// Template markers added for parametric generation
 {
-  "analysis-data": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "FileUploader",
     "type-returned": "faims-attachment::Files",
     "component-parameters": {
-      "label": "Analysis Data Files",
-      "name": "analysis-data",
-      "helperText": "Upload CSV, XLSX data files",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "multiple": true,
       "maximum_file_size": 5242880,
       "maximum_number_of_files": 3
@@ -854,11 +899,11 @@ For TakePhoto (manual validation configuration):
     "meta": {
       "annotation": {
         "include": true,
-        "label": "Data collection methods and parameters"
+        "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
       },
       "uncertainty": {
         "include": true,
-        "label": "Data quality concerns"
+        "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
       }
     }
   }
@@ -867,15 +912,17 @@ For TakePhoto (manual validation configuration):
 
 ### Example 11: Emergency Documentation Mode
 ```json
+// Example media-fields-19
+// Template markers added for parametric generation
 {
-  "salvage-photos": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "TakePhoto",
     "type-returned": "faims-attachment::Files",
     "component-parameters": {
-      "label": "Salvage Documentation",
-      "name": "salvage-photos",
-      "helperText": "Quick capture - as many as needed",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "multiple": true
     },
     "validationSchema": [["yup.mixed"]],
@@ -891,15 +938,17 @@ For TakePhoto (manual validation configuration):
 
 ### Example 12: Structured Upload Workflow
 ```json
+// Example media-fields-20
+// Template markers added for parametric generation
 {
-  "plans": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "FileUploader",
     "type-returned": "faims-attachment::Files",
     "component-parameters": {
-      "label": "Site Plans",
-      "name": "plans",
-      "helperText": "Upload georeferenced plans (PDF/TIFF)",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "multiple": true,
       "maximum_file_size": 52428800,
       "maximum_number_of_files": 3
@@ -907,14 +956,14 @@ For TakePhoto (manual validation configuration):
     "validationSchema": [["yup.mixed"]],
     "initialValue": null
   },
-  "sections": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "FileUploader",
     "type-returned": "faims-attachment::Files",
     "component-parameters": {
-      "label": "Section Drawings",
-      "name": "sections",
-      "helperText": "Upload section drawings (PDF/JPG)",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "multiple": true,
       "maximum_file_size": 26214400,
       "maximum_number_of_files": 5
@@ -931,15 +980,17 @@ For TakePhoto (manual validation configuration):
 
 ### Example 13: Performance-Optimized Configuration
 ```json
+// Example media-fields-21
+// Template markers added for parametric generation
 {
-  "field-photos": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "TakePhoto",
     "type-returned": "faims-attachment::Files",
     "component-parameters": {
-      "label": "Field Photos",
-      "name": "field-photos",
-      "helperText": "Max 10 photos to prevent sync issues",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "multiple": true
     },
     "validationSchema": [
@@ -953,15 +1004,17 @@ For TakePhoto (manual validation configuration):
 
 ### Example 14: Compliance Documentation
 ```json
+// Example media-fields-22
+// Template markers added for parametric generation
 {
-  "compliance-docs": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "FileUploader",
     "type-returned": "faims-attachment::Files",
     "component-parameters": {
-      "label": "Compliance Documentation",
-      "name": "compliance-docs",
-      "helperText": "Safety certificates, insurance, permits",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "advancedHelperText": "## Required Documents\n\n1. Public liability insurance\n2. Safety management plan\n3. Heritage permit\n4. Landowner consent",
       "required": true,
       "multiple": true,
@@ -971,7 +1024,7 @@ For TakePhoto (manual validation configuration):
     },
     "validationSchema": [
       ["yup.mixed"],
-      ["yup.required", "Compliance documentation required"]
+      ["yup.Compliance documentation required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
     ],
     "initialValue": null
   }
@@ -980,29 +1033,31 @@ For TakePhoto (manual validation configuration):
 
 ### Example 15: Artifact Photography Standards
 ```json
+// Example media-fields-23
+// Template markers added for parametric generation
 {
-  "artifact-images": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "TakePhoto",
     "type-returned": "faims-attachment::Files",
     "component-parameters": {
-      "label": "Artifact Photography",
-      "name": "artifact-images",
-      "helperText": "Multiple angles with scale",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "advancedHelperText": "## Photography Requirements\n\n- Front view with scale\n- Back view\n- Profile views if relevant\n- Detail shots of diagnostic features",
       "required": true,
       "multiple": true
     },
     "validationSchema": [
       ["yup.array"],
-      ["yup.required", "Artifact photos required"],
+      ["yup.Artifact photos required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message,
       ["yup.min", 2, "Minimum front and back views"]
     ],
     "initialValue": null,
     "meta": {
       "annotation": {
         "include": true,
-        "label": "Photography conditions and issues"
+        "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
       }
     }
   }
@@ -1011,15 +1066,17 @@ For TakePhoto (manual validation configuration):
 
 ### Example 16: Conditional Document Upload
 ```json
+// Example media-fields-24
+// Template markers added for parametric generation
 {
-  "permit-documents": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "FileUploader",
     "type-returned": "faims-attachment::Files",
     "component-parameters": {
-      "label": "Permit Documentation",
-      "name": "permit-documents",
-      "helperText": "Upload permits and approvals (Max 10MB each)",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "multiple": true,
       "maximum_file_size": 10485760,
       "maximum_number_of_files": 5
@@ -1036,15 +1093,17 @@ For TakePhoto (manual validation configuration):
 
 ### Example 17: Large File Warning Configuration
 ```json
+// Example media-fields-25
+// Template markers added for parametric generation
 {
-  "video-documentation": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "FileUploader",
     "type-returned": "faims-attachment::Files",
     "component-parameters": {
-      "label": "Video Files",
-      "name": "video-documentation",
-      "helperText": "⚠️ WARNING: Max 100MB per file. Videos will impact sync performance.",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "advancedHelperText": "## Video Guidelines\n\n- Compress videos before upload\n- Consider frame extraction for analysis\n- Upload will timeout after 120 seconds",
       "multiple": false,
       "maximum_file_size": 104857600,
@@ -1054,7 +1113,7 @@ For TakePhoto (manual validation configuration):
     "meta": {
       "annotation": {
         "include": true,
-        "label": "Video content description"
+        "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
       }
     }
   }
@@ -1063,15 +1122,17 @@ For TakePhoto (manual validation configuration):
 
 ### Example 18: Multi-Stage Photo Workflow
 ```json
+// Example media-fields-26
+// Template markers added for parametric generation
 {
-  "excavation-progress": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "TakePhoto",
     "type-returned": "faims-attachment::Files",
     "component-parameters": {
-      "label": "Excavation Stage Photos",
-      "name": "excavation-progress",
-      "helperText": "Document each 10cm level",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "advancedHelperText": "## Photo Protocol\n\n1. Overview from fixed photo point\n2. Plan view with north arrow\n3. Representative profile\n4. Any features or finds in situ",
       "multiple": true
     },
@@ -1083,11 +1144,11 @@ For TakePhoto (manual validation configuration):
     "meta": {
       "annotation": {
         "include": true,
-        "label": "Depth and stage notes"
+        "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
       },
       "uncertainty": {
         "include": true,
-        "label": "Photo quality issues"
+        "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
       }
     }
   }
@@ -1096,15 +1157,17 @@ For TakePhoto (manual validation configuration):
 
 ### Example 19: Emergency Documentation Fallback
 ```json
+// Example media-fields-27
+// Template markers added for parametric generation
 {
-  "emergency-capture": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "TakePhoto",
     "type-returned": "faims-attachment::Files",
     "component-parameters": {
-      "label": "Emergency Documentation",
-      "name": "emergency-capture",
-      "helperText": "Quick capture - quality secondary to speed",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "multiple": true
     },
     "validationSchema": [["yup.array"]],
@@ -1119,15 +1182,17 @@ For TakePhoto (manual validation configuration):
 
 ### Example 20: Mixed Media Archive Upload
 ```json
+// Example media-fields-28
+// Template markers added for parametric generation
 {
-  "archive-materials": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "FileUploader",
     "type-returned": "faims-attachment::Files",
     "component-parameters": {
-      "label": "Archive Materials",
-      "name": "archive-materials",
-      "helperText": "PDFs, images, spreadsheets accepted. Max 50MB each.",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "advancedHelperText": "## Accepted Formats\n\n- Documents: PDF, DOC, DOCX\n- Images: JPG, PNG, TIFF\n- Data: CSV, XLS, XLSX\n- Archives: ZIP (under 50MB)",
       "multiple": true,
       "maximum_file_size": 52428800,
@@ -1137,7 +1202,7 @@ For TakePhoto (manual validation configuration):
     "meta": {
       "annotation": {
         "include": true,
-        "label": "Archive catalog numbers and descriptions"
+        "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
       }
     }
   }
@@ -1285,8 +1350,10 @@ See [Performance Thresholds Reference](../reference-docs/performance-thresholds-
 
 ### Pattern: Conditional Media Requirements
 ```json
+// Example media-fields-29
+// Template markers added for parametric generation
 {
-  "damage-photos": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "TakePhoto",
     "type-returned": "faims-attachment::Files",
@@ -1303,12 +1370,14 @@ See [Performance Thresholds Reference](../reference-docs/performance-thresholds-
 
 ### Pattern: Size-Limited Document Upload
 ```json
+// Example media-fields-30
+// Template markers added for parametric generation
 {
   "permits": {
     "component-parameters": {
       "maximum_file_size": 5242880,  // 5MB
       "maximum_number_of_files": 3,
-      "helperText": "Max 3 files, 5MB each. Larger files will disappear without warning."
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
     }
   }
 }
@@ -1316,12 +1385,14 @@ See [Performance Thresholds Reference](../reference-docs/performance-thresholds-
 
 ### Pattern: Required Photo Documentation
 ```json
+// Example media-fields-31
+// Template markers added for parametric generation
 {
   "validationSchema": [
     ["yup.array"],
-    ["yup.required", "Photos are mandatory"],
+    ["yup.Photos are mandatory", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message,
     ["yup.test", "file-check", "Invalid photo array", 
-      ["yup.ref", "$"], 
+      ["yup.$", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message, 
       "function(value) { return value && value.length > 0; }"]
   ]
 }
@@ -1331,6 +1402,7 @@ See [Performance Thresholds Reference](../reference-docs/performance-thresholds-
 
 ### ❌ Don't: Mix Parameters
 ```json
+// Example media-fields-32
 // WRONG - TakePhoto doesn't support file size limits
 {
   "component-name": "TakePhoto",
@@ -1342,6 +1414,7 @@ See [Performance Thresholds Reference](../reference-docs/performance-thresholds-
 
 ### ❌ Don't: Wrong Namespace
 ```json
+// Example media-fields-33
 // WRONG - Must be faims-custom
 {
   "component-namespace": "core",
@@ -1351,6 +1424,7 @@ See [Performance Thresholds Reference](../reference-docs/performance-thresholds-
 
 ### ❌ Don't: Invalid Initial Value
 ```json
+// Example media-fields-34
 // WRONG - Must be null, not empty array
 {
   "initialValue": []

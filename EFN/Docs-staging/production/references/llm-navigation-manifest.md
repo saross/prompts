@@ -1,6 +1,17 @@
 # LLM Navigation Manifest for Fieldmark Documentation
 
 <!-- discovery:metadata
+
+<!-- structured:metadata
+meta:purpose: technical-reference
+meta:summary: Purpose-driven document discovery tables for LLM content navigation.
+meta:generates: lookup-tables
+meta:requires: [fieldmark-knowledge]
+meta:version: 3.0.0
+meta:document: llm_navigation_manifest
+meta:depth-tags: [essential]
+-->
+
 provides: [document-discovery, purpose-tables, quick-navigation, content-matrix]
 see-also: [field-type-index, all-documents]
 -->

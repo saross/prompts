@@ -16,6 +16,17 @@ see-also: [field-selection-guide, constraints-reference]
 
 # Number Input Fields
 
+
+<!-- structured:metadata
+meta:purpose: field-configuration
+meta:summary: Two number input components (BasicAutoIncrementer and TextField variants) with validation patterns and increment strategies.
+meta:generates: json-fields
+meta:requires: [valid-json, unique-names, fviews-layer]
+meta:version: 3.0.0
+meta:document: number_fields
+meta:depth-tags: [essential, important, comprehensive]
+-->
+
 ## Document Navigation {essential}
 <!-- concat:nav-mode:individual -->
 [← Date & Time Fields](./datetime-fields-v05.md) | **Numeric Fields** | [Display Fields →](./display-field-v05.md)
@@ -388,6 +399,7 @@ See [Validation System Documentation](../detail-crossfield-docs/validation.md) f
 **Number Field-Specific Validation:**
 
 ```json
+// Example number-fields-01
 
 "validationSchema": [
   ["yup.number"],
@@ -521,6 +533,7 @@ See [Data Export Reference](data-export-reference.md) for comprehensive export d
 - **Infinity/NaN**: Export as empty cells in CSV, may cause #NUM! errors in Excel
 - **Prevention**: Use TemplatedString wrapper with leading apostrophe for Excel-safe IDs:
   ```json
+// Example number-fields-02
   {
     "component-name": "TemplatedStringField",
     "template": "'{{identifier_field}}",
@@ -550,19 +563,22 @@ Standard numeric data entry supporting floating-point values, null states, and c
 
 **Designer Accessible**:
 ```json
+// Example number-fields-03
+// Template markers added for parametric generation
 {
   "component-name": "NumberField",
   "type": "faims-core::Number",
-  "name": "measurement",
-  "label": "Measurement (cm)",
+  "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+  "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
   "initialValue": null,
   "required": false,
-  "helperText": "Record to 0.1cm precision"
+  "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
 }
 ```
 
 **JSON Enhancement**:
 ```json
+// Example number-fields-04
 {
   "validationSchema": [
     ["yup.number"],
@@ -614,16 +630,18 @@ Standard numeric data entry supporting floating-point values, null states, and c
 
 **Show field when value exceeds threshold**:
 ```json
+// Example number-fields-05
+// Template markers added for parametric generation
 {
   "ph_measurement": {
     "component-name": "NumberField",
     "type": "faims-core::Number",
-    "name": "ph_measurement",
-    "label": "pH Reading"
+    "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+    "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
   },
   "alkaline_warning": {
     "component-name": "RichText",
-    "name": "alkaline_warning",
+    "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
     "content": "⚠️ High pH detected - verify calibration",
     "condition": {
       "operator": ">",
@@ -636,6 +654,7 @@ Standard numeric data entry supporting floating-point values, null states, and c
 
 **Null value handling in conditions**:
 ```json
+// Example number-fields-06
 {
   "condition": {
     "operator": "and",
@@ -659,12 +678,14 @@ Standard numeric data entry supporting floating-point values, null states, and c
 
 **Environmental Monitoring**:
 ```json
+// Example number-fields-07
+// Template markers added for parametric generation
 {
   "component-name": "NumberField",
   "type": "faims-core::Number",
-  "name": "water_temperature",
-  "label": "Water Temperature (°C)",
-  "helperText": "Record to 0.1°C precision",
+  "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+  "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+  "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
   "validationSchema": [
     ["yup.number"],
     ["yup.required"],
@@ -682,12 +703,14 @@ Standard numeric data entry supporting floating-point values, null states, and c
 
 ❌ **NEVER: This component doesn't exist in codebase**
 ```json
+// Example number-fields-08
 {
   "component-name": "TextField"
 }
 ```
 ✅ **ALWAYS: Use NumberField**
 ```json
+// Example number-fields-09
 {
   "component-name": "NumberField",
   "component-namespace": "faims-custom"
@@ -713,24 +736,28 @@ Designer-accessible bounded numeric input for non-technical users needing range 
 
 **Designer Configuration**:
 ```json
+// Example number-fields-10
+// Template markers added for parametric generation
 {
   "component-name": "TextField",
   "type": "faims-core::Integer",
-  "name": "artifact_condition",
-  "label": "Condition Score (1-10)",
+  "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+  "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
   "min": 1,
   "max": 10,
-  "helperText": "1 = Poor, 10 = Excellent",
+  "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
   "initialValue": 0
 }
 ```
 
 **JSON Enhancement** (optional):
 ```json
+// Example number-fields-11
+// Template markers added for parametric generation
 {
   "validationSchema": [
     ["yup.number"],
-    ["yup.integer", "Whole numbers only"],
+    ["yup.Whole numbers only", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message,
     ["yup.required"]
   ]
 }
@@ -763,18 +790,20 @@ Designer-accessible bounded numeric input for non-technical users needing range 
 
 **Trigger action based on rating**:
 ```json
+// Example number-fields-12
+// Template markers added for parametric generation
 {
   "quality_rating": {
     "component-name": "TextField",
     "type": "faims-core::Integer",
-    "name": "quality_rating",
+    "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
     "min": 1,
     "max": 5
   },
   "poor_quality_notes": {
     "component-name": "MultilineTextField",
-    "name": "poor_quality_notes",
-    "label": "Explain quality issues",
+    "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+    "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
     "condition": {
       "operator": "<=",
       "field": "quality_rating",
@@ -788,15 +817,17 @@ Designer-accessible bounded numeric input for non-technical users needing range 
 
 **Survey Rating**:
 ```json
+// Example number-fields-13
+// Template markers added for parametric generation
 {
   "component-name": "TextField",
   "type": "faims-core::Integer",
-  "name": "satisfaction",
-  "label": "Satisfaction (1-5)",
+  "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+  "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
   "min": 1,
   "max": 5,
   "initialValue": 3,
-  "helperText": "1=Very Unsatisfied, 5=Very Satisfied"
+  "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
 }
 ```
 
@@ -819,18 +850,21 @@ Generates sequential string identifiers for distributed offline data collection.
 
 **Designer Configuration**:
 ```json
+// Example number-fields-14
+// Template markers added for parametric generation
 {
   "component-name": "BasicAutoIncrementer",
   "type": "faims-core::String",
-  "name": "specimen_number",
+  "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
   "form_id": "specimen_registration",
   "num_digits": 5,
-  "label": "Specimen ID"
+  "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
 }
 ```
 
 **Required Integration Pattern**:
 ```json
+// Example number-fields-15
 {
   "component-name": "TemplatedStringField",
   "name": "full_specimen_id",
@@ -923,11 +957,13 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
 
 **String comparison for identifiers**:
 ```json
+// Example number-fields-16
+// Template markers added for parametric generation
 {
   "specimen_id": {
     "component-name": "BasicAutoIncrementer",
     "type": "faims-core::String",
-    "name": "specimen_id",
+    "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
     "form_id": "specimens",
     "num_digits": 5
   },
@@ -945,6 +981,7 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
 
 **Cannot use numeric operators**:
 ```json
+// Example number-fields-17
 
 {
   "condition": {
@@ -968,6 +1005,7 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
 
 **Museum Cataloging**:
 ```json
+// Example number-fields-18
 [
   {
     "component-name": "BasicAutoIncrementer",
@@ -1138,22 +1176,24 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
 
 ### Example 1: Basic Integer Field
 ```json
+// Example number-fields-19
+// Template markers added for parametric generation
 {
-  "artifact-count": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "NumberField",
     "type-returned": "faims-core::Integer",
     "component-parameters": {
-      "name": "artifact-count",
-      "label": "Artifact Count",
-      "helperText": "Total number of artifacts",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": true
     },
     "validationSchema": [
       ["yup.number"],
-      ["yup.required", "Count is required"],
+      ["yup.Count is required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message,
       ["yup.min", 0, "Count cannot be negative"],
-      ["yup.integer", "Must be a whole number"]
+      ["yup.Must be a whole number", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
     ],
     "initialValue": 0
   }
@@ -1162,21 +1202,23 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
 
 ### Example 2: Decimal Measurement Field
 ```json
+// Example number-fields-20
+// Template markers added for parametric generation
 {
-  "depth-measurement": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "NumberField",
     "type-returned": "faims-core::Float",
     "component-parameters": {
-      "name": "depth-measurement",
-      "label": "Depth (meters)",
-      "helperText": "Depth below surface",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": true,
       "precision": 2
     },
     "validationSchema": [
       ["yup.number"],
-      ["yup.required", "Depth is required"],
+      ["yup.Depth is required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message,
       ["yup.min", 0, "Depth cannot be negative"],
       ["yup.max", 100, "Maximum depth 100m"]
     ],
@@ -1187,15 +1229,17 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
 
 ### Example 3: Controlled Range Slider
 ```json
+// Example number-fields-21
+// Template markers added for parametric generation
 {
-  "quality-rating": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "formik-material-ui",
     "component-name": "TextField",
     "type-returned": "faims-core::Integer",
     "component-parameters": {
-      "name": "quality-rating",
-      "label": "Quality Rating",
-      "helperText": "Rate from 1 (poor) to 10 (excellent)",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "min": 1,
       "max": 10,
       "step": 1,
@@ -1203,7 +1247,7 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
     },
     "validationSchema": [
       ["yup.number"],
-      ["yup.required", "Rating is required"]
+      ["yup.Rating is required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
     ],
     "initialValue": 5
   }
@@ -1212,22 +1256,24 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
 
 ### Example 4: Auto-incrementing ID
 ```json
+// Example number-fields-22
+// Template markers added for parametric generation
 {
-  "specimen-number": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "BasicAutoIncrementer",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "specimen-number",
-      "label": "Specimen Number",
-      "helperText": "Auto-generated sequence",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "incrementer": "specimen-counter",
       "num_digits": 5,
       "form_id": "specimens"
     },
     "validationSchema": [
       ["yup.string"],
-      ["yup.required", "Specimen number required"]
+      ["yup.Specimen number required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
     ],
     "initialValue": ""
   }
@@ -1236,21 +1282,23 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
 
 ### Example 5: pH Value with Precision
 ```json
+// Example number-fields-23
+// Template markers added for parametric generation
 {
-  "soil-ph": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "NumberField",
     "type-returned": "faims-core::Float",
     "component-parameters": {
-      "name": "soil-ph",
-      "label": "Soil pH",
-      "helperText": "pH value (0-14)",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": true,
       "precision": 2
     },
     "validationSchema": [
       ["yup.number"],
-      ["yup.required", "pH value required"],
+      ["yup.pH value required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message,
       ["yup.min", 0, "pH cannot be less than 0"],
       ["yup.max", 14, "pH cannot exceed 14"],
       ["yup.test", "precision", "Maximum 2 decimal places",
@@ -1263,15 +1311,17 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
 
 ### Example 6: Percentage Field
 ```json
+// Example number-fields-24
+// Template markers added for parametric generation
 {
-  "completion-percentage": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "NumberField",
     "type-returned": "faims-core::Integer",
     "component-parameters": {
-      "name": "completion-percentage",
-      "label": "Completion %",
-      "helperText": "Percentage complete (0-100)",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": false,
       "InputProps": {
         "endAdornment": "%"
@@ -1281,7 +1331,7 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
       ["yup.number"],
       ["yup.min", 0, "Cannot be less than 0%"],
       ["yup.max", 100, "Cannot exceed 100%"],
-      ["yup.integer", "Must be whole number"]
+      ["yup.Must be whole number", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
     ],
     "initialValue": 0
   }
@@ -1290,15 +1340,17 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
 
 ### Example 7: Temperature with Negative Values
 ```json
+// Example number-fields-25
+// Template markers added for parametric generation
 {
-  "temperature": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "NumberField",
     "type-returned": "faims-core::Float",
     "component-parameters": {
-      "name": "temperature",
-      "label": "Temperature (°C)",
-      "helperText": "Ambient temperature",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": false,
       "precision": 1
     },
@@ -1314,21 +1366,23 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
 
 ### Example 8: Conditional Number Field
 ```json
+// Example number-fields-26
+// Template markers added for parametric generation
 {
-  "ceramic-thickness": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "NumberField",
     "type-returned": "faims-core::Float",
     "component-parameters": {
-      "name": "ceramic-thickness",
-      "label": "Thickness (mm)",
-      "helperText": "Average wall thickness",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": true,
       "precision": 1
     },
     "validationSchema": [
       ["yup.number"],
-      ["yup.required", "Thickness required for ceramics"],
+      ["yup.Thickness required for ceramics", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message,
       ["yup.min", 0.1, "Minimum 0.1mm"],
       ["yup.max", 100, "Maximum 100mm"]
     ],
@@ -1344,21 +1398,23 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
 
 ### Example 9: GPS Coordinates
 ```json
+// Example number-fields-27
+// Template markers added for parametric generation
 {
-  "latitude": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "NumberField",
     "type-returned": "faims-core::Float",
     "component-parameters": {
-      "name": "latitude",
-      "label": "Latitude",
-      "helperText": "Decimal degrees",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": true,
       "precision": 6
     },
     "validationSchema": [
       ["yup.number"],
-      ["yup.required", "Latitude required"],
+      ["yup.Latitude required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message,
       ["yup.min", -90, "Latitude must be between -90 and 90"],
       ["yup.max", 90, "Latitude must be between -90 and 90"]
     ],
@@ -1369,15 +1425,17 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
 
 ### Example 10: Currency/Budget Field
 ```json
+// Example number-fields-28
+// Template markers added for parametric generation
 {
-  "budget-amount": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "NumberField",
     "type-returned": "faims-core::Float",
     "component-parameters": {
-      "name": "budget-amount",
-      "label": "Budget Amount",
-      "helperText": "In local currency",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": false,
       "precision": 2,
       "InputProps": {
@@ -1395,15 +1453,17 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
 
 ### Example 11: Weight with Units
 ```json
+// Example number-fields-29
+// Template markers added for parametric generation
 {
-  "artifact-weight": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "NumberField",
     "type-returned": "faims-core::Float",
     "component-parameters": {
-      "name": "artifact-weight",
-      "label": "Weight",
-      "helperText": "Weight in grams",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": false,
       "precision": 3,
       "InputProps": {
@@ -1419,7 +1479,7 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
     "meta": {
       "uncertainty": {
         "include": true,
-        "label": "Weight accuracy"
+        "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
       }
     }
   }
@@ -1428,21 +1488,23 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
 
 ### Example 12: Year Field
 ```json
+// Example number-fields-30
+// Template markers added for parametric generation
 {
-  "excavation-year": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "NumberField",
     "type-returned": "faims-core::Integer",
     "component-parameters": {
-      "name": "excavation-year",
-      "label": "Excavation Year",
-      "helperText": "Year of excavation",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": true
     },
     "validationSchema": [
       ["yup.number"],
-      ["yup.required", "Year is required"],
-      ["yup.integer", "Must be a valid year"],
+      ["yup.Year is required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message,
+      ["yup.Must be a valid year", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message,
       ["yup.min", 1900, "Year must be 1900 or later"],
       ["yup.max", "new Date().getFullYear()", "Cannot be future year"]
     ],
@@ -1453,15 +1515,17 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
 
 ### Example 13: Stepped Counter
 ```json
+// Example number-fields-31
+// Template markers added for parametric generation
 {
-  "grid-square": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "formik-material-ui",
     "component-name": "TextField",
     "type-returned": "faims-core::Integer",
     "component-parameters": {
-      "name": "grid-square",
-      "label": "Grid Square Number",
-      "helperText": "1m x 1m grid squares",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "min": 1,
       "max": 100,
       "step": 1,
@@ -1469,7 +1533,7 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
     },
     "validationSchema": [
       ["yup.number"],
-      ["yup.required", "Grid square required"]
+      ["yup.Grid square required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
     ],
     "initialValue": 1
   }
@@ -1478,15 +1542,17 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
 
 ### Example 14: Area Calculation
 ```json
+// Example number-fields-32
+// Template markers added for parametric generation
 {
-  "excavation-area": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "NumberField",
     "type-returned": "faims-core::Float",
     "component-parameters": {
-      "name": "excavation-area",
-      "label": "Area (m²)",
-      "helperText": "Total excavation area",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": false,
       "precision": 2,
       "InputProps": {
@@ -1505,21 +1571,23 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
 
 ### Example 15: Sample Size with Validation
 ```json
+// Example number-fields-33
+// Template markers added for parametric generation
 {
-  "sample-size": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "NumberField",
     "type-returned": "faims-core::Integer",
     "component-parameters": {
-      "name": "sample-size",
-      "label": "Sample Size",
-      "helperText": "Number of samples collected",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": true
     },
     "validationSchema": [
       ["yup.number"],
-      ["yup.required", "Sample size required"],
-      ["yup.integer", "Must be whole number"],
+      ["yup.Sample size required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message,
+      ["yup.Must be whole number", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message,
       ["yup.min", 1, "At least 1 sample required"],
       ["yup.max", 1000, "Maximum 1000 samples"]
     ],
@@ -1530,15 +1598,17 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
 
 ### Example 16: Elevation Field
 ```json
+// Example number-fields-34
+// Template markers added for parametric generation
 {
-  "elevation": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "NumberField",
     "type-returned": "faims-core::Float",
     "component-parameters": {
-      "name": "elevation",
-      "label": "Elevation (m ASL)",
-      "helperText": "Meters above sea level",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": false,
       "precision": 1
     },
@@ -1554,15 +1624,17 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
 
 ### Example 17: Bearing/Azimuth
 ```json
+// Example number-fields-35
+// Template markers added for parametric generation
 {
-  "bearing": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "NumberField",
     "type-returned": "faims-core::Integer",
     "component-parameters": {
-      "name": "bearing",
-      "label": "Bearing",
-      "helperText": "Compass bearing (0-359°)",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": false,
       "InputProps": {
         "endAdornment": "°"
@@ -1570,7 +1642,7 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
     },
     "validationSchema": [
       ["yup.number"],
-      ["yup.integer", "Must be whole number"],
+      ["yup.Must be whole number", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message,
       ["yup.min", 0, "Bearing must be 0-359"],
       ["yup.max", 359, "Bearing must be 0-359"]
     ],
@@ -1581,15 +1653,17 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
 
 ### Example 18: Duration in Minutes
 ```json
+// Example number-fields-36
+// Template markers added for parametric generation
 {
-  "processing-time": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "NumberField",
     "type-returned": "faims-core::Integer",
     "component-parameters": {
-      "name": "processing-time",
-      "label": "Processing Time",
-      "helperText": "Time spent (minutes)",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": false,
       "InputProps": {
         "endAdornment": "min"
@@ -1597,7 +1671,7 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
     },
     "validationSchema": [
       ["yup.number"],
-      ["yup.integer", "Use whole minutes"],
+      ["yup.Use whole minutes", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message,
       ["yup.min", 1, "Minimum 1 minute"],
       ["yup.max", 480, "Maximum 8 hours (480 min)"]
     ],
@@ -1608,15 +1682,17 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
 
 ### Example 19: Volume Measurement
 ```json
+// Example number-fields-37
+// Template markers added for parametric generation
 {
-  "soil-volume": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "NumberField",
     "type-returned": "faims-core::Float",
     "component-parameters": {
-      "name": "soil-volume",
-      "label": "Soil Volume",
-      "helperText": "Volume in liters",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": false,
       "precision": 2,
       "InputProps": {
@@ -1632,7 +1708,7 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
     "meta": {
       "annotation": {
         "include": true,
-        "label": "Volume estimation method"
+        "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
       }
     }
   }
@@ -1641,15 +1717,17 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
 
 ### Example 20: Complex Sequential ID
 ```json
+// Example number-fields-38
+// Template markers added for parametric generation
 {
-  "context-number": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "BasicAutoIncrementer",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "context-number",
-      "label": "Context Number",
-      "helperText": "Auto-generated context ID",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "incrementer": "context-sequence",
       "num_digits": 4,
       "form_id": "contexts",
@@ -1657,13 +1735,13 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
     },
     "validationSchema": [
       ["yup.string"],
-      ["yup.required", "Context number required"]
+      ["yup.Context number required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
     ],
     "initialValue": "",
     "meta": {
       "annotation": {
         "include": true,
-        "label": "Additional context notes"
+        "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
       }
     }
   }
@@ -1677,6 +1755,7 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
 
 **Complete Archaeological Recording**:
 ```json
+// Example number-fields-39
 [
   {
     "component-name": "BasicAutoIncrementer",
@@ -1727,6 +1806,7 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
 1. Export existing data to preserve number values
 2. Update component configuration (keep name as "NumberField"):
    ```json
+// Example number-fields-40
    {
      "component-name": "NumberField",
      "type": "faims-core::Number",
@@ -1778,6 +1858,7 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
 1. Document existing ID ranges and allocations
 2. Implement range allocation protocol:
    ```json
+// Example number-fields-41
 
 
    {
@@ -1787,6 +1868,7 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
    ```
 3. Wrap with TemplatedString for display:
    ```json
+// Example number-fields-42
    {
      "component-name": "TemplatedStringField",
      "template": "SITE-{{auto_id}}"
@@ -1817,6 +1899,7 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
    - Cannot be null (always has value)
 4. For NumberInput (JSON editing):
    ```json
+// Example number-fields-43
    "validationSchema": [
      ["yup.number"],
      ["yup.min", 0, "Must be positive"],
@@ -1841,6 +1924,7 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
 2. Choose approach based on use case:
    - Option A: Switch to TextField with pattern:
    ```json
+// Example number-fields-44
    {
      "component-name": "TextField",
      "pattern": "^-?[0-9]+(\.[0-9]+)?$"
@@ -1949,13 +2033,15 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
 ### Recommended Workarounds
 
 ```json
+// Example number-fields-45
+// Template markers added for parametric generation
 
 {
   "component-name": "TextField",
   "component-parameters": {
-    "label": "Budget (with commas)",
+    "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
     "pattern": "^[0-9]{1,3}(,[0-9]{3})*$",
-    "helperText": "Format: 1,234,567"
+    "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
   }
 }
 
@@ -1963,9 +2049,9 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
 {
   "component-name": "TextField",
   "component-parameters": {
-    "label": "Price",
+    "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
     "pattern": "^\\$[0-9]+(\\.[0-9]{2})?$",
-    "helperText": "Format: $123.45"
+    "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
   }
 }
 
@@ -1973,10 +2059,10 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
 {
   "component-name": "TextField",
   "component-parameters": {
-    "label": "Completion (%)",
+    "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
     "min": 0,
     "max": 100,
-    "helperText": "Enter percentage without % symbol"
+    "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
   }
 }
 ```
@@ -2031,6 +2117,7 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
   - `ERROR` "Must be a number" on blur of empty non-required field
   - `FIX` Add nullable validation:
     ```json
+// Example number-fields-46
     "validationSchema": [
       ["yup.number"],
       ["yup.nullable"]
@@ -2074,6 +2161,7 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
   - `ERROR` "faims-core::Integer" type allows 3.14159
   - `FIX` Enforce integers explicitly:
     ```json
+// Example number-fields-47
     "validationSchema": [
       ["yup.number"],
       ["yup.integer", "Whole numbers only"]
@@ -2115,6 +2203,7 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
   - `ERROR` CSV "00042" becomes 42 in Excel
   - `FIX` Always wrap in TemplatedString:
     ```json
+// Example number-fields-48
     {
       "component-name": "TemplatedStringField",
       "template": "SPEC-{{auto_increment}}-{{_YYYY}}"
@@ -2197,6 +2286,7 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 ### Safe Migrations (No Data Loss)
 - `SAFE` Deprecated Number Field → NumberInput when adding nullable validation
   ```json
+// Example number-fields-49
 
   {
     "component-namespace": "formik-material-ui",
@@ -2236,6 +2326,7 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
   - `NO ROLLBACK` Once null→0 conversion occurs, original state lost
   - `ALTERNATIVE` Keep NumberInput, add min/max via JSON:
     ```json
+// Example number-fields-50
     {
       "component-name": "NumberField",
       "validationSchema": [
@@ -2474,23 +2565,25 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 ### NumberInput Patterns
 
 ```json
+// Example number-fields-51
+// Template markers added for parametric generation
 
 {
   "component-name": "NumberField",
   "type": "faims-core::Number",
-  "name": "measurement",
-  "label": "Measurement Value",
+  "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+  "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
   "initialValue": null,
   "persistent": true,
   "required": false,
-  "helperText": ""
+  "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
 }
 
 
 + "required": true,
 + "validationSchema": [
 +   ["yup.number"],
-+   ["yup.required", "This measurement is required"],
++   ["yup.This measurement is required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message,
 +   ["yup.min", 0, "Value cannot be negative"],
 +   ["yup.max", 100, "Value cannot exceed 100"]
 + ]
@@ -2511,7 +2604,7 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 
 + "validationSchema": [
 +   ["yup.number"],
-+   ["yup.integer", "Whole numbers only"]
++   ["yup.Whole numbers only", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
 + ]
 
 
@@ -2570,7 +2663,7 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 +   ["yup.number"],
 +   ["yup.when", "$isVisible", {
 +     "is": true,
-+     "then": ["yup.required", "Field is required when visible"]
++     "then": ["yup.Field is required when visible", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
 +   }]
 + ]
 
@@ -2587,6 +2680,7 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 
 #### NumberInput ANTI-PATTERNS ⚠️
 ```json
+// Example number-fields-52
 
 {
   "component-name": "NumberField"
@@ -2623,12 +2717,14 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 ### ControlledNumber Patterns
 
 ```json
+// Example number-fields-53
+// Template markers added for parametric generation
 
 {
   "component-name": "TextField",
   "type": "faims-core::Integer",
-  "name": "rating",
-  "label": "Quality Rating",
+  "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+  "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
   "min": 1,
   "max": 10,
   "initialValue": 0,
@@ -2638,35 +2734,36 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 
 + "validationSchema": [
 +   ["yup.number"],
-+   ["yup.integer", "Please enter a whole number"]
++   ["yup.Please enter a whole number", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
 + ]
 
 
 {
   "component-name": "TextField",
   "type": "faims-core::Integer",
-  "name": "completion_percentage",
-  "label": "Completion (%)",
+  "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+  "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
   "min": 0,
   "max": 100,
-  "helperText": "Enter percentage complete",
+  "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
   "initialValue": 0
 }
 
 
 {
   "component-name": "TextField",
-  "name": "satisfaction",
-  "label": "Satisfaction (1-5)",
+  "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+  "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
 - "min": 1,
 + "min": 0,
   "max": 5,
-  "helperText": "0 = Not answered, 1-5 = Rating scale"
+  "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
 }
 ```
 
 #### ControlledNumber ANTI-PATTERNS ⚠️
 ```json
+// Example number-fields-54
 
 {
   "component-name": "TextField",
@@ -2695,6 +2792,7 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 ### BasicAutoIncrementer Patterns
 
 ```json
+// Example number-fields-55
 
 {
   "component-name": "BasicAutoIncrementer",
@@ -2749,6 +2847,7 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 
 #### BasicAutoIncrementer ANTI-PATTERNS ⚠️
 ```json
+// Example number-fields-56
 
 {
   "component-name": "BasicAutoIncrementer",
@@ -2783,16 +2882,18 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 ### Platform-Specific Configurations
 
 ```json
+// Example number-fields-57
+// Template markers added for parametric generation
 
 {
   "component-name": "NumberField",
-  "name": "positive_only",
-  "label": "Distance (m)",
+  "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+  "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
   "validationSchema": [
     ["yup.number"],
     ["yup.min", 0, "Distance cannot be negative"]
   ],
-  "helperText": "Positive values only"
+  "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
 }
 
 
@@ -2800,7 +2901,7 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
   "component-name": "TextField",
   "min": 0,
   "max": 100,
-  "helperText": "0-100 only (ignore minus key)"
+  "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
 }
 
 
@@ -2819,7 +2920,7 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 
 {
   "component-name": "NumberField",
-  "helperText": "Say numbers like: 'fifteen point five' not 'fifteen and a half'"
+  "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
 }
 ```
 
@@ -2827,12 +2928,14 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 ### Performance Optimization Patterns
 
 ```json
+// Example number-fields-58
+// Template markers added for parametric generation
 
 {
   "component-name": "NumberField",
   "validationSchema": [
     ["yup.number"],
-    ["yup.lazy", "value => value ? yup.number().min(0) : yup.number()"]
+    ["yup.value => value ? yup.number().min(0) : yup.number()", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
   ]
 
 }
@@ -2849,6 +2952,8 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 ### Migration Patterns
 
 ```json
+// Example number-fields-59
+// Template markers added for parametric generation
 
 {
 
@@ -2875,7 +2980,7 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
   "component-name": "NumberField",
   "validationSchema": [
     ["yup.number"],
-    ["yup.transform", "(value, originalValue) => originalValue === '' ? null : value"]
+    ["yup.(value, originalValue) => originalValue === '' ? null : value", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
   ]
 }
 ```
@@ -2883,6 +2988,7 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 ### Excel/CSV Export Safety Patterns
 
 ```json
+// Example number-fields-60
 
 {
   "export_config": {
@@ -2905,6 +3011,7 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 ### Integration Patterns (Fields Working Together)
 
 ```json
+// Example number-fields-61
 
 {
   "specimen_number": {
@@ -3027,6 +3134,7 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 ### Common Anti-Patterns Across All Number Fields ⚠️
 
 ```json
+// Example number-fields-62
 
 {
   "validationSchema": [
@@ -3075,6 +3183,7 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 ### Error Message Quick Reference
 
 ```json
+// Example number-fields-63
 
 {
   "Component 'NumberInput' not found": "Use 'NumberField' in JSON despite Designer label",

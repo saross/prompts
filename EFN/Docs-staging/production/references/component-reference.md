@@ -20,6 +20,17 @@ see-also: [designer-component-mapping, all-field-categories]
 
 # Component Reference
 
+
+<!-- structured:metadata
+meta:purpose: technical-reference
+meta:summary: Technical specifications for namespaces, types, and component parameters.
+meta:generates: lookup-tables
+meta:requires: [fieldmark-knowledge]
+meta:version: 3.0.0
+meta:document: component_reference
+meta:depth-tags: [essential]
+-->
+
 ## Overview {essential}
 
 This comprehensive reference consolidates all technical details about Fieldmark v3 component configuration, including namespaces, type systems, meta properties, and Formik integration. It serves as the authoritative source for component implementation and troubleshooting.

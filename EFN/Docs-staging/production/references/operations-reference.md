@@ -1,6 +1,17 @@
 # Operations Reference
 
 <!-- discovery:metadata
+
+<!-- structured:metadata
+meta:purpose: technical-reference
+meta:summary: Migration procedures, deployment strategies, and operational guidelines.
+meta:generates: lookup-tables
+meta:requires: [fieldmark-knowledge]
+meta:version: 3.0.0
+meta:document: operations_reference
+meta:depth-tags: [essential]
+-->
+
 provides: [migration-procedures, troubleshooting, deployment, maintenance]
 see-also: [constraints-reference, platform-reference]
 -->

@@ -95,6 +95,7 @@ echo -e "${YELLOW}Adding consolidated technical references...${NC}"
 # Add all references from the 'references' directory
 # Note: field-type-index is added separately at the beginning
 REFERENCE_DOCS=(
+    "glossary"                    # Key terms and concepts
     "designer-component-mapping"  # Primary field mapping reference
     "component-reference"          # Namespaces and types
     "constraints-reference"        # Limitations and security

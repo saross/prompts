@@ -1,0 +1,50 @@
+{
+  "metadata": {
+    "name": "Site Survey 2024",
+    "hridField": "survey-id"
+  },
+  "ui-specification": {
+    "fields": {
+      "survey-id": {
+        "component-namespace": "faims-custom",
+        "component-name": "TemplatedStringField",
+        "component-parameters": {
+          "name": "survey-id",
+          "label": "Record ID",
+          "template": "SS24-{{_CREATED_DATE}}-{{_INCREMENT}}"
+        },
+        "type-returned": "faims-core::String"
+      },
+      "site-name": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "FAIMSTextField",
+        "component-parameters": {
+          "name": "site-name",
+          "label": "Site Name"
+        },
+        "type-returned": "faims-core::String"
+      }
+    },
+    "fviews": {
+      "basic-info": {
+        "fields": [
+          "survey-id",
+          "site-name"
+        ],
+        "label": "Basic Information",
+        "uidesign": "form"
+      }
+    },
+    "viewsets": {
+      "survey-form": {
+        "views": [
+          "basic-info"
+        ],
+        "label": "Site Survey Form"
+      }
+    },
+    "visible_types": [
+      "survey-form"
+    ]
+  }
+}

@@ -16,6 +16,17 @@ see-also: [form-structure-guide, dynamic-forms-guide]
 
 # Relationship Field - Fieldmark v3 Documentation
 
+
+<!-- structured:metadata
+meta:purpose: field-configuration
+meta:summary: RelationshipField for complex record linking with performance limits and hierarchical structure support.
+meta:generates: json-fields
+meta:requires: [valid-json, unique-names, fviews-layer]
+meta:version: 3.0.0
+meta:document: relationship_field
+meta:depth-tags: [essential, important, comprehensive]
+-->
+
 ## Document Navigation {essential}
 <!-- concat:nav-mode:individual -->
 [← Media Fields](./media-fields-v05.md) | **Relationship Fields** | [Field Index →](../field-type-index.md)
@@ -112,6 +123,7 @@ Need to connect records?
 ### Vocabulary Pairs for Linked Relationships
 **Bidirectional labeling (JSON-only configuration):**
 ```json
+// Example relationship-field-01
 {
   "relation_linked_vocabPair": [
     ["cuts", "is cut by"],
@@ -208,6 +220,7 @@ See [Security Considerations Reference](../reference-docs/security-consideration
 
 ### JSON-Only Configuration
 ```json
+// Example relationship-field-02
 {
   "relation_linked_vocabPair": [
     ["forward", "reverse"]  // Custom relationship labels
@@ -322,18 +335,20 @@ Enables bidirectional connections between records, supporting both hierarchical 
 
 #### Core Configuration
 ```json
+// Example relationship-field-03
+// Template markers added for parametric generation
 {
   "component-namespace": "faims-custom",
   "component-name": "RelatedRecordSelector",
   "type-returned": "faims-core::Array",
   "component-parameters": {
-    "name": "field-name",
-    "label": "Relationships",
+    "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+    "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
     "related_type": "TargetFormID",
-    "relation_type": "Child",
+    "relation_type": "{{RELATION_TYPE}}"  // REPLACE: relationship type,
     "multiple": true,
     "required": false,
-    "helperText": "Add related records"
+    "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
   },
   "validationSchema": [["yup.array"]],
   "initialValue": []
@@ -342,16 +357,18 @@ Enables bidirectional connections between records, supporting both hierarchical 
 
 #### Advanced Configuration
 ```json
+// Example relationship-field-04
+// Template markers added for parametric generation
 {
   "stratigraphic_relationships": {
     "component-namespace": "faims-custom",
     "component-name": "RelatedRecordSelector",
     "type-returned": "faims-core::Array",
     "component-parameters": {
-      "name": "stratigraphic_relationships",
-      "label": "Stratigraphic Relationships",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
       "related_type": "Context",
-      "relation_type": "is-related-to",
+      "relation_type": "{{RELATION_TYPE}}"  // REPLACE: relationship type,
       "multiple": true,
       "allowLinkToExisting": true,
       "related_type_label": "Context Record",
@@ -363,7 +380,7 @@ Enables bidirectional connections between records, supporting both hierarchical 
         ["same as", "same as"],
         ["contemporary with", "contemporary with"]
       ],
-      "helperText": "Define stratigraphic relationships"
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
     },
     "validationSchema": [
       ["yup.array"],
@@ -373,11 +390,11 @@ Enables bidirectional connections between records, supporting both hierarchical 
     "meta": {
       "annotation": {
         "include": true,
-        "label": "Relationship notes"
+        "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
       },
       "uncertainty": {
         "include": true,
-        "label": "Confidence level"
+        "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
       }
     }
   }
@@ -481,6 +498,7 @@ Enables bidirectional connections between records, supporting both hierarchical 
 
 **Common Validation Issues**:
 ```json
+// Example relationship-field-05
 {
   "WRONG_example": {
     "comment": "Single relationship with array validation - MISMATCH",
@@ -520,16 +538,18 @@ Enables bidirectional connections between records, supporting both hierarchical 
 
 ### Example 1: Basic Parent-Child Hierarchy
 ```json
+// Example relationship-field-06
+// Template markers added for parametric generation
 {
-  "child-contexts": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "RelatedRecordSelector",
     "type-returned": "faims-core::Array",
     "component-parameters": {
-      "name": "child-contexts",
-      "label": "Contexts",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
       "related_type": "Context",
-      "relation_type": "Child",
+      "relation_type": "{{RELATION_TYPE}}"  // REPLACE: relationship type,
       "multiple": true,
       "allowLinkToExisting": false
     },
@@ -541,24 +561,26 @@ Enables bidirectional connections between records, supporting both hierarchical 
 
 ### Example 2: Required Single Parent
 ```json
+// Example relationship-field-07
+// Template markers added for parametric generation
 {
-  "parent-trench": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "RelatedRecordSelector",
     "type-returned": "faims-core::Array",
     "component-parameters": {
-      "name": "parent-trench",
-      "label": "Parent Trench",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
       "related_type": "Trench",
-      "relation_type": "Child",
+      "relation_type": "{{RELATION_TYPE}}"  // REPLACE: relationship type,
       "multiple": false,
       "required": true,
       "allowLinkToExisting": true,
-      "helperText": "Select the trench this context belongs to"
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
     },
     "validationSchema": [
       ["yup.string"],
-      ["yup.required", "Parent trench required"]
+      ["yup.Parent trench required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
     ],
     "initialValue": null
   }
@@ -567,16 +589,18 @@ Enables bidirectional connections between records, supporting both hierarchical 
 
 ### Example 3: Stratigraphic Relationships with Vocabulary
 ```json
+// Example relationship-field-08
+// Template markers added for parametric generation
 {
-  "stratigraphic-relationships": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "RelatedRecordSelector",
     "type-returned": "faims-core::Array",
     "component-parameters": {
-      "name": "stratigraphic-relationships",
-      "label": "Stratigraphic Relationships",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
       "related_type": "Context",
-      "relation_type": "is-related-to",
+      "relation_type": "{{RELATION_TYPE}}"  // REPLACE: relationship type,
       "multiple": true,
       "allowLinkToExisting": true,
       "relation_linked_vocabPair": [
@@ -586,7 +610,7 @@ Enables bidirectional connections between records, supporting both hierarchical 
         ["abuts", "abuts"],
         ["same as", "same as"]
       ],
-      "helperText": "Define relationships with other contexts"
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
     },
     "validationSchema": [["yup.array"]],
     "initialValue": []
@@ -596,16 +620,18 @@ Enables bidirectional connections between records, supporting both hierarchical 
 
 ### Example 4: Find Assemblage Grouping
 ```json
+// Example relationship-field-09
+// Template markers added for parametric generation
 {
-  "related-finds": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "RelatedRecordSelector",
     "type-returned": "faims-core::Array",
     "component-parameters": {
-      "name": "related-finds",
-      "label": "Related Finds",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
       "related_type": "Find",
-      "relation_type": "is-related-to",
+      "relation_type": "{{RELATION_TYPE}}"  // REPLACE: relationship type,
       "multiple": true,
       "allowLinkToExisting": true,
       "relation_linked_vocabPair": [
@@ -619,7 +645,7 @@ Enables bidirectional connections between records, supporting both hierarchical 
     "meta": {
       "annotation": {
         "include": true,
-        "label": "Relationship justification"
+        "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
       }
     }
   }
@@ -628,16 +654,18 @@ Enables bidirectional connections between records, supporting both hierarchical 
 
 ### Example 5: Sample Chain of Custody
 ```json
+// Example relationship-field-10
+// Template markers added for parametric generation
 {
-  "sample-relationships": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "RelatedRecordSelector",
     "type-returned": "faims-core::Array",
     "component-parameters": {
-      "name": "sample-relationships",
-      "label": "Sample Relationships",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
       "related_type": "Sample",
-      "relation_type": "is-related-to",
+      "relation_type": "{{RELATION_TYPE}}"  // REPLACE: relationship type,
       "multiple": true,
       "relation_linked_vocabPair": [
         ["subsample of", "has subsample"],
@@ -654,20 +682,22 @@ Enables bidirectional connections between records, supporting both hierarchical 
 
 ### Example 6: Site-Trench-Context Hierarchy
 ```json
+// Example relationship-field-11
+// Template markers added for parametric generation
 {
-  "trenches": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "RelatedRecordSelector",
     "type-returned": "faims-core::Array",
     "component-parameters": {
-      "name": "trenches",
-      "label": "Trenches within Site",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
       "related_type": "Trench",
-      "relation_type": "Child",
+      "relation_type": "{{RELATION_TYPE}}"  // REPLACE: relationship type,
       "multiple": true,
       "allowLinkToExisting": false,
       "related_type_label": "Trench Record",
-      "helperText": "Create new trenches for this site"
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
     },
     "validationSchema": [["yup.array"]],
     "initialValue": []
@@ -677,16 +707,18 @@ Enables bidirectional connections between records, supporting both hierarchical 
 
 ### Example 7: Feature Cross-References
 ```json
+// Example relationship-field-12
+// Template markers added for parametric generation
 {
-  "related-features": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "RelatedRecordSelector",
     "type-returned": "faims-core::Array",
     "component-parameters": {
-      "name": "related-features",
-      "label": "Related Features",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
       "related_type": "Feature",
-      "relation_type": "is-related-to",
+      "relation_type": "{{RELATION_TYPE}}"  // REPLACE: relationship type,
       "multiple": true,
       "allowLinkToExisting": true,
       "relation_linked_vocabPair": [
@@ -704,26 +736,28 @@ Enables bidirectional connections between records, supporting both hierarchical 
 
 ### Example 8: Specialist Analysis Links
 ```json
+// Example relationship-field-13
+// Template markers added for parametric generation
 {
-  "specialist-analyses": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "RelatedRecordSelector",
     "type-returned": "faims-core::Array",
     "component-parameters": {
-      "name": "specialist-analyses",
-      "label": "Specialist Analyses",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
       "related_type": "Analysis",
-      "relation_type": "Child",
+      "relation_type": "{{RELATION_TYPE}}"  // REPLACE: relationship type,
       "multiple": true,
       "allowLinkToExisting": false,
-      "helperText": "Create analysis records for this context"
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
     },
     "validationSchema": [["yup.array"]],
     "initialValue": [],
     "meta": {
       "annotation": {
         "include": true,
-        "label": "Analysis type and specialist"
+        "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
       }
     }
   }
@@ -732,23 +766,25 @@ Enables bidirectional connections between records, supporting both hierarchical 
 
 ### Example 9: Conditional Parent Requirement
 ```json
+// Example relationship-field-14
+// Template markers added for parametric generation
 {
-  "parent-structure": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "RelatedRecordSelector",
     "type-returned": "faims-core::Array",
     "component-parameters": {
-      "name": "parent-structure",
-      "label": "Parent Structure",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
       "related_type": "Structure",
-      "relation_type": "Child",
+      "relation_type": "{{RELATION_TYPE}}"  // REPLACE: relationship type,
       "multiple": false,
       "allowLinkToExisting": true,
       "required": true
     },
     "validationSchema": [
       ["yup.string"],
-      ["yup.required", "Parent structure required"]
+      ["yup.Parent structure required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
     ],
     "initialValue": null,
     "condition": {
@@ -762,16 +798,18 @@ Enables bidirectional connections between records, supporting both hierarchical 
 
 ### Example 10: Documentation Attachments
 ```json
+// Example relationship-field-15
+// Template markers added for parametric generation
 {
-  "related-documentation": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "RelatedRecordSelector",
     "type-returned": "faims-core::Array",
     "component-parameters": {
-      "name": "related-documentation",
-      "label": "Related Documentation",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
       "related_type": "Document",
-      "relation_type": "is-related-to",
+      "relation_type": "{{RELATION_TYPE}}"  // REPLACE: relationship type,
       "multiple": true,
       "relation_linked_vocabPair": [
         ["documented in", "documents"],
@@ -787,19 +825,21 @@ Enables bidirectional connections between records, supporting both hierarchical 
 
 ### Example 11: Survey Unit Hierarchy
 ```json
+// Example relationship-field-16
+// Template markers added for parametric generation
 {
-  "survey-units": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "RelatedRecordSelector",
     "type-returned": "faims-core::Array",
     "component-parameters": {
-      "name": "survey-units",
-      "label": "Survey Units",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
       "related_type": "SurveyUnit",
-      "relation_type": "Child",
+      "relation_type": "{{RELATION_TYPE}}"  // REPLACE: relationship type,
       "multiple": true,
       "allowLinkToExisting": false,
-      "helperText": "Create survey units within this area"
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
     },
     "validationSchema": [
       ["yup.array"],
@@ -812,16 +852,18 @@ Enables bidirectional connections between records, supporting both hierarchical 
 
 ### Example 12: Temporal Relationships
 ```json
+// Example relationship-field-17
+// Template markers added for parametric generation
 {
-  "temporal-relationships": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "RelatedRecordSelector",
     "type-returned": "faims-core::Array",
     "component-parameters": {
-      "name": "temporal-relationships",
-      "label": "Temporal Relationships",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
       "related_type": "Phase",
-      "relation_type": "is-related-to",
+      "relation_type": "{{RELATION_TYPE}}"  // REPLACE: relationship type,
       "multiple": true,
       "relation_linked_vocabPair": [
         ["earlier than", "later than"],
@@ -838,18 +880,20 @@ Enables bidirectional connections between records, supporting both hierarchical 
 
 ### Example 13: Performance-Limited Configuration
 ```json
+// Example relationship-field-18
+// Template markers added for parametric generation
 {
-  "limited-relationships": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "RelatedRecordSelector",
     "type-returned": "faims-core::Array",
     "component-parameters": {
-      "name": "limited-relationships",
-      "label": "Related Records (Max 30)",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
       "related_type": "Record",
-      "relation_type": "is-related-to",
+      "relation_type": "{{RELATION_TYPE}}"  // REPLACE: relationship type,
       "multiple": true,
-      "helperText": "⚠️ LIMIT 30 relationships for performance"
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
     },
     "validationSchema": [
       ["yup.array"],
@@ -862,16 +906,18 @@ Enables bidirectional connections between records, supporting both hierarchical 
 
 ### Example 14: Excavation Team Assignment
 ```json
+// Example relationship-field-19
+// Template markers added for parametric generation
 {
-  "team-members": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "RelatedRecordSelector",
     "type-returned": "faims-core::Array",
     "component-parameters": {
-      "name": "team-members",
-      "label": "Team Members",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
       "related_type": "Person",
-      "relation_type": "is-related-to",
+      "relation_type": "{{RELATION_TYPE}}"  // REPLACE: relationship type,
       "multiple": true,
       "allowLinkToExisting": true,
       "relation_linked_vocabPair": [
@@ -888,16 +934,18 @@ Enables bidirectional connections between records, supporting both hierarchical 
 
 ### Example 15: Conservation Treatment Chain
 ```json
+// Example relationship-field-20
+// Template markers added for parametric generation
 {
-  "conservation-history": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "RelatedRecordSelector",
     "type-returned": "faims-core::Array",
     "component-parameters": {
-      "name": "conservation-history",
-      "label": "Conservation History",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
       "related_type": "Treatment",
-      "relation_type": "is-related-to",
+      "relation_type": "{{RELATION_TYPE}}"  // REPLACE: relationship type,
       "multiple": true,
       "relation_linked_vocabPair": [
         ["treated with", "applied to"],
@@ -910,7 +958,7 @@ Enables bidirectional connections between records, supporting both hierarchical 
     "meta": {
       "annotation": {
         "include": true,
-        "label": "Treatment notes"
+        "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
       }
     }
   }
@@ -919,16 +967,18 @@ Enables bidirectional connections between records, supporting both hierarchical 
 
 ### Example 16: Interpretive Associations
 ```json
+// Example relationship-field-21
+// Template markers added for parametric generation
 {
-  "interpretations": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "RelatedRecordSelector",
     "type-returned": "faims-core::Array",
     "component-parameters": {
-      "name": "interpretations",
-      "label": "Interpretive Links",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
       "related_type": "Interpretation",
-      "relation_type": "is-related-to",
+      "relation_type": "{{RELATION_TYPE}}"  // REPLACE: relationship type,
       "multiple": true,
       "relation_linked_vocabPair": [
         ["interpreted as", "interpretation of"],
@@ -941,7 +991,7 @@ Enables bidirectional connections between records, supporting both hierarchical 
     "meta": {
       "uncertainty": {
         "include": true,
-        "label": "Interpretive confidence"
+        "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
       }
     }
   }
@@ -950,16 +1000,18 @@ Enables bidirectional connections between records, supporting both hierarchical 
 
 ### Example 17: Conditional Relationship Field
 ```json
+// Example relationship-field-22
+// Template markers added for parametric generation
 {
-  "specialist-samples": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "RelatedRecordSelector",
     "type-returned": "faims-core::Array",
     "component-parameters": {
-      "name": "specialist-samples",
-      "label": "Specialist Analysis Samples",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
       "related_type": "Sample",
-      "relation_type": "Child",
+      "relation_type": "{{RELATION_TYPE}}"  // REPLACE: relationship type,
       "multiple": true,
       "related_type_label": "Analysis Sample",
       "allowLinkToExisting": false
@@ -980,16 +1032,18 @@ Enables bidirectional connections between records, supporting both hierarchical 
 
 ### Example 18: Cross-Referenced Features
 ```json
+// Example relationship-field-23
+// Template markers added for parametric generation
 {
-  "cross-references": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "RelatedRecordSelector",
     "type-returned": "faims-core::Array",
     "component-parameters": {
-      "name": "cross-references",
-      "label": "Cross-Referenced Features",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
       "related_type": "Feature",
-      "relation_type": "is-related-to",
+      "relation_type": "{{RELATION_TYPE}}"  // REPLACE: relationship type,
       "multiple": true,
       "relation_linked_vocabPair": [
         ["references", "referenced by"],
@@ -998,7 +1052,7 @@ Enables bidirectional connections between records, supporting both hierarchical 
         ["contradicts", "contradicted by"],
         ["supports", "supported by"]
       ],
-      "helperText": "⚠️ Performance limit: 50 relationships maximum"
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
     },
     "validationSchema": [
       ["yup.array"],
@@ -1011,16 +1065,18 @@ Enables bidirectional connections between records, supporting both hierarchical 
 
 ### Example 19: Equipment Assignment Tracking
 ```json
+// Example relationship-field-24
+// Template markers added for parametric generation
 {
-  "equipment-used": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "RelatedRecordSelector",
     "type-returned": "faims-core::Array",
     "component-parameters": {
-      "name": "equipment-used",
-      "label": "Equipment Used",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
       "related_type": "Equipment",
-      "relation_type": "is-related-to",
+      "relation_type": "{{RELATION_TYPE}}"  // REPLACE: relationship type,
       "multiple": true,
       "relation_linked_vocabPair": [
         ["used equipment", "used in operation"],
@@ -1034,7 +1090,7 @@ Enables bidirectional connections between records, supporting both hierarchical 
     "meta": {
       "annotation": {
         "include": true,
-        "label": "Equipment condition notes"
+        "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
       }
     },
     "initialValue": []
@@ -1044,16 +1100,18 @@ Enables bidirectional connections between records, supporting both hierarchical 
 
 ### Example 20: Publication Citations Network
 ```json
+// Example relationship-field-25
+// Template markers added for parametric generation
 {
-  "related-publications": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "RelatedRecordSelector",
     "type-returned": "faims-core::Array",
     "component-parameters": {
-      "name": "related-publications",
-      "label": "Related Publications",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
       "related_type": "Publication",
-      "relation_type": "is-related-to",
+      "relation_type": "{{RELATION_TYPE}}"  // REPLACE: relationship type,
       "multiple": true,
       "relation_linked_vocabPair": [
         ["cites", "cited by"],
@@ -1062,7 +1120,7 @@ Enables bidirectional connections between records, supporting both hierarchical 
         ["critiques", "critiqued by"],
         ["corroborates", "corroborated by"]
       ],
-      "helperText": "Build citation network for literature review"
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
     },
     "validationSchema": [["yup.array"]],
     "initialValue": []
@@ -1084,6 +1142,7 @@ Enables bidirectional connections between records, supporting both hierarchical 
 1. Export existing relationships to CSV for backup
 2. Create multiple relationship fields with semantic groupings:
    ```json
+// Example relationship-field-26
    {
      "primary-relationships": { 
        "multiple": true, 
@@ -1131,6 +1190,7 @@ Enables bidirectional connections between records, supporting both hierarchical 
 2. Replace Child relationships with is-related-to
 3. Use vocabulary pairs to maintain semantic relationships:
    ```json
+// Example relationship-field-27
    "relation_linked_vocabPair": [
      ["contains", "contained by"],
      ["parent of", "child of"]
@@ -1232,6 +1292,7 @@ See [Performance Thresholds Reference](../reference-docs/performance-thresholds-
 
 ### Pattern: Conditional Relationships
 ```json
+// Example relationship-field-28
 {
   "condition": {
     "operator": "is",
@@ -1243,6 +1304,7 @@ See [Performance Thresholds Reference](../reference-docs/performance-thresholds-
 
 ### Pattern: Validation Enforcement
 ```json
+// Example relationship-field-29
 {
   "validationSchema": [
     ["yup.array"],
@@ -1256,6 +1318,7 @@ See [Performance Thresholds Reference](../reference-docs/performance-thresholds-
 
 ### ❌ Don't: Exceed Performance Limits
 ```json
+// Example relationship-field-30
 {
   "comment": "WRONG - Will cause severe degradation, no maximum validation",
   "multiple": true
@@ -1267,6 +1330,7 @@ Note: Vocabulary is immutable - must plan before deployment
 
 ### ❌ Don't: Mix Validation Types
 ```json
+// Example relationship-field-31
 {
   "comment": "WRONG - Multiple requires array validation",
   "multiple": true,

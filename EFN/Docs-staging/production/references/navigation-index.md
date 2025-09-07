@@ -5,6 +5,17 @@
 **Usage**: Reference for maintaining link integrity across documentation updates
 
 <!-- discovery:metadata
+
+<!-- structured:metadata
+meta:purpose: technical-reference
+meta:summary: Bidirectional link registry and cross-reference validation checklist.
+meta:generates: lookup-tables
+meta:requires: [fieldmark-knowledge]
+meta:version: 3.0.0
+meta:document: navigation_index
+meta:depth-tags: [essential]
+-->
+
 provides: [bidirectional-links, cross-reference-registry, anchor-inventory]
 see-also: [llm-navigation-manifest, field-type-index]
 -->

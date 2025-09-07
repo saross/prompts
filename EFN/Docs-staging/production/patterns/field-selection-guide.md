@@ -19,6 +19,17 @@ see-also: [all-field-categories, platform-reference]
 
 # Field Selection Guide for Fieldmark Notebooks {essential}
 
+
+<!-- structured:metadata
+meta:purpose: implementation-patterns
+meta:summary: Decision trees and matrices for choosing the right field component based on data requirements.
+meta:generates: notebook-structures
+meta:requires: [field-definitions, form-hierarchy]
+meta:version: 3.0.0
+meta:document: field_selection_guide
+meta:depth-tags: [essential, important]
+-->
+
 📚 [Field Documentation](../field-type-index.md) > Patterns > Field Selection Guide
 
 ## Overview {essential}

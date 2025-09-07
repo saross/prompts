@@ -16,6 +16,17 @@ see-also: [platform-reference, media-fields-v05]
 
 # Location Fields - Fieldmark v3 Documentation
 
+
+<!-- structured:metadata
+meta:purpose: field-configuration
+meta:summary: Two GPS/mapping components (TakePoint and MapFormField) with mobile-first design and accuracy requirements.
+meta:generates: json-fields
+meta:requires: [valid-json, unique-names, fviews-layer]
+meta:version: 3.0.0
+meta:document: location_fields
+meta:depth-tags: [essential, important, comprehensive]
+-->
+
 ## Document Navigation {essential}
 <!-- concat:nav-mode:individual -->
 [← Display Fields](./display-field-v05.md) | **Location Fields** | [Media Fields →](./media-fields-v05.md)
@@ -213,6 +224,7 @@ See [Security Considerations Reference](../reference-docs/security-consideration
 
 **TakePoint GPS parameters:**
 ```json
+// Example location-fields-01
 {
   "enableHighAccuracy": true,    // Request best GPS
   "timeout": 30000,              // 30 second timeout
@@ -222,6 +234,7 @@ See [Security Considerations Reference](../reference-docs/security-consideration
 
 **MapFormField map parameters:**
 ```json
+// Example location-fields-02
 {
   "center": [151.2093, -33.8688],  // Sydney coordinates
   "featureType": "Polygon",        // Point/LineString/Polygon
@@ -348,14 +361,16 @@ Single-tap GPS coordinate capture through device geolocation services, returning
 
 #### Core Configuration
 ```json
+// Example location-fields-03
+// Template markers added for parametric generation
 {
   "component-namespace": "faims-custom",
   "component-name": "TakePoint",
   "type-returned": "faims-pos::Location",
   "component-parameters": {
-    "label": "GPS Location",
-    "name": "gps-point",
-    "helperText": "Capture current GPS position",
+    "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+    "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+    "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
     "required": false,
     "enableHighAccuracy": true,
     "timeout": 10000,
@@ -371,31 +386,33 @@ Single-tap GPS coordinate capture through device geolocation services, returning
 
 #### Advanced Configuration
 ```json
+// Example location-fields-04
+// Template markers added for parametric generation
 {
-  "control-point": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "TakePoint",
     "type-returned": "faims-pos::Location",
     "component-parameters": {
-      "label": "Control Point (High Accuracy)",
-      "name": "control-point",
-      "helperText": "Wait for accuracy < 10m before capturing",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "timeout": 30000,
       "enableHighAccuracy": true,
       "required": true
     },
     "validationSchema": [
       ["yup.object"],
-      ["yup.required", "Control point required"]
+      ["yup.Control point required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
     ],
     "meta": {
       "annotation": {
         "include": true,
-        "label": "Accuracy justification if >10m"
+        "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
       },
       "uncertainty": {
         "include": true,
-        "label": "GPS quality poor"
+        "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
       }
     }
   }
@@ -436,16 +453,18 @@ Interactive geometry creation through web-based mapping, enabling spatial featur
 
 #### Core Configuration
 ```json
+// Example location-fields-05
+// Template markers added for parametric generation
 {
   "component-namespace": "mapping-plugin",
   "component-name": "MapFormField",
   "type-returned": "faims-core::JSON",
   "component-parameters": {
-    "label": "Site Boundary",
-    "name": "site-boundary",
+    "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+    "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
     "featureType": "Polygon",
     "zoom": 18,
-    "helperText": "Draw site perimeter on map",
+    "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
     "fullWidth": true,
     "required": false
   },
@@ -459,29 +478,31 @@ Interactive geometry creation through web-based mapping, enabling spatial featur
 
 #### Advanced Configuration
 ```json
+// Example location-fields-06
+// Template markers added for parametric generation
 {
-  "transect-path": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "mapping-plugin",
     "component-name": "MapFormField",
     "type-returned": "faims-core::JSON",
     "component-parameters": {
-      "label": "Survey Transect",
-      "name": "transect-path",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "featureType": "LineString",
       "zoom": 17,
       "center": [151.2093, -33.8688],
-      "helperText": "Draw walked path. Limit to 1000 points",
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "fullWidth": true,
       "required": true
     },
     "validationSchema": [
       ["yup.object"],
-      ["yup.required", "Transect path required"]
+      ["yup.Transect path required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
     ],
     "meta": {
       "annotation": {
         "include": true,
-        "label": "Path deviation notes"
+        "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
       }
     }
   }
@@ -541,20 +562,22 @@ Interactive geometry creation through web-based mapping, enabling spatial featur
 
 ### Example 1: Basic GPS Point Capture
 ```json
+// Example location-fields-07
+// Template markers added for parametric generation
 {
-  "site-location": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "TakePoint",
     "type-returned": "faims-pos::Location",
     "component-parameters": {
-      "label": "Site Location",
-      "name": "site-location",
-      "helperText": "Capture GPS coordinates",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": true
     },
     "validationSchema": [
       ["yup.object"],
-      ["yup.required", "Site location required"]
+      ["yup.Site location required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
     ],
     "initialValue": null
   }
@@ -563,15 +586,17 @@ Interactive geometry creation through web-based mapping, enabling spatial featur
 
 ### Example 2: High-Accuracy GPS with Timeout
 ```json
+// Example location-fields-08
+// Template markers added for parametric generation
 {
-  "precise-location": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "TakePoint",
     "type-returned": "faims-pos::Location",
     "component-parameters": {
-      "label": "Precise GPS Location",
-      "name": "precise-location",
-      "helperText": "Wait for accuracy <5m (45 second timeout)",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "timeout": 45000,
       "enableHighAccuracy": true,
       "maximumAge": 0,
@@ -579,16 +604,16 @@ Interactive geometry creation through web-based mapping, enabling spatial featur
     },
     "validationSchema": [
       ["yup.object"],
-      ["yup.required", "Precise GPS required"]
+      ["yup.Precise GPS required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
     ],
     "meta": {
       "annotation": {
         "include": true,
-        "label": "GPS conditions and satellite count"
+        "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
       },
       "uncertainty": {
         "include": true,
-        "label": "Accuracy concerns"
+        "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
       }
     }
   }
@@ -597,17 +622,19 @@ Interactive geometry creation through web-based mapping, enabling spatial featur
 
 ### Example 3: Simple Polygon Drawing
 ```json
+// Example location-fields-09
+// Template markers added for parametric generation
 {
-  "site-boundary": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "mapping-plugin",
     "component-name": "MapFormField",
     "type-returned": "faims-core::JSON",
     "component-parameters": {
-      "label": "Site Boundary",
-      "name": "site-boundary",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "featureType": "Polygon",
       "zoom": 18,
-      "helperText": "Draw site perimeter on map"
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
     },
     "validationSchema": [["yup.object"]],
     "initialValue": null
@@ -617,24 +644,26 @@ Interactive geometry creation through web-based mapping, enabling spatial featur
 
 ### Example 4: Complex Excavation Area with Center
 ```json
+// Example location-fields-10
+// Template markers added for parametric generation
 {
-  "excavation-area": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "mapping-plugin",
     "component-name": "MapFormField",
     "type-returned": "faims-core::JSON",
     "component-parameters": {
-      "label": "Excavation Area",
-      "name": "excavation-area",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "featureType": "Polygon",
       "zoom": 19,
       "center": [151.2093, -33.8688],
-      "helperText": "Draw excavation boundary (max 500 vertices)",
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "fullWidth": true,
       "required": true
     },
     "validationSchema": [
       ["yup.object"],
-      ["yup.required", "Excavation boundary required"]
+      ["yup.Excavation boundary required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
     ]
   }
 }
@@ -642,17 +671,19 @@ Interactive geometry creation through web-based mapping, enabling spatial featur
 
 ### Example 5: Survey Transect Line
 ```json
+// Example location-fields-11
+// Template markers added for parametric generation
 {
-  "survey-transect": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "mapping-plugin",
     "component-name": "MapFormField",
     "type-returned": "faims-core::JSON",
     "component-parameters": {
-      "label": "Survey Transect",
-      "name": "survey-transect",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "featureType": "LineString",
       "zoom": 16,
-      "helperText": "Draw survey walking route"
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
     },
     "validationSchema": [["yup.object"]],
     "initialValue": null
@@ -662,27 +693,29 @@ Interactive geometry creation through web-based mapping, enabling spatial featur
 
 ### Example 6: Find Spot Location
 ```json
+// Example location-fields-12
+// Template markers added for parametric generation
 {
-  "find-location": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "mapping-plugin",
     "component-name": "MapFormField",
     "type-returned": "faims-core::JSON",
     "component-parameters": {
-      "label": "Find Spot",
-      "name": "find-location",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "featureType": "Point",
       "zoom": 20,
-      "helperText": "Click map to mark find location",
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": true
     },
     "validationSchema": [
       ["yup.object"],
-      ["yup.required", "Find location required"]
+      ["yup.Find location required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
     ],
     "meta": {
       "annotation": {
         "include": true,
-        "label": "Location method and accuracy"
+        "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
       }
     }
   }
@@ -691,15 +724,17 @@ Interactive geometry creation through web-based mapping, enabling spatial featur
 
 ### Example 7: Rapid Survey Waypoints
 ```json
+// Example location-fields-13
+// Template markers added for parametric generation
 {
-  "waypoint": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "TakePoint",
     "type-returned": "faims-pos::Location",
     "component-parameters": {
-      "label": "Survey Waypoint",
-      "name": "waypoint",
-      "helperText": "Quick capture for traverse",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "timeout": 5000,
       "maximumAge": 3000,
       "enableHighAccuracy": false
@@ -712,21 +747,23 @@ Interactive geometry creation through web-based mapping, enabling spatial featur
 
 ### Example 8: Conditional Location Capture
 ```json
+// Example location-fields-14
+// Template markers added for parametric generation
 {
-  "structure-location": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "TakePoint",
     "type-returned": "faims-pos::Location",
     "component-parameters": {
-      "label": "Structure GPS",
-      "name": "structure-location",
-      "helperText": "Capture center point of structure",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "enableHighAccuracy": true,
       "timeout": 30000
     },
     "validationSchema": [
       ["yup.object"],
-      ["yup.required", "Structure location required"]
+      ["yup.Structure location required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
     ],
     "condition": {
       "operator": "equal",
@@ -739,17 +776,19 @@ Interactive geometry creation through web-based mapping, enabling spatial featur
 
 ### Example 9: MultiPolygon for Complex Sites
 ```json
+// Example location-fields-15
+// Template markers added for parametric generation
 {
-  "site-areas": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "mapping-plugin",
     "component-name": "MapFormField",
     "type-returned": "faims-core::JSON",
     "component-parameters": {
-      "label": "Site Areas",
-      "name": "site-areas",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "featureType": "MultiPolygon",
       "zoom": 17,
-      "helperText": "Draw multiple disconnected areas",
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "advancedHelperText": "## Drawing Tips\n\n- Complete first polygon\n- Click draw tool again for next\n- Each polygon separate feature"
     },
     "validationSchema": [["yup.object"]],
@@ -760,15 +799,17 @@ Interactive geometry creation through web-based mapping, enabling spatial featur
 
 ### Example 10: Battery-Optimized GPS
 ```json
+// Example location-fields-16
+// Template markers added for parametric generation
 {
-  "check-in-location": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "TakePoint",
     "type-returned": "faims-pos::Location",
     "component-parameters": {
-      "label": "Daily Check-in",
-      "name": "check-in-location",
-      "helperText": "Morning location verification",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "timeout": 10000,
       "enableHighAccuracy": false,
       "maximumAge": 60000
@@ -781,25 +822,27 @@ Interactive geometry creation through web-based mapping, enabling spatial featur
 
 ### Example 11: Geofence Area Definition
 ```json
+// Example location-fields-17
+// Template markers added for parametric generation
 {
-  "restricted-zone": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "mapping-plugin",
     "component-name": "MapFormField",
     "type-returned": "faims-core::JSON",
     "component-parameters": {
-      "label": "Restricted Area",
-      "name": "restricted-zone",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "featureType": "Polygon",
       "zoom": 18,
       "center": [144.9631, -37.8136],
-      "helperText": "Define no-entry zone",
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "fullWidth": true
     },
     "validationSchema": [["yup.object"]],
     "meta": {
       "annotation": {
         "include": true,
-        "label": "Restriction reason and authority"
+        "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
       }
     }
   }
@@ -808,22 +851,24 @@ Interactive geometry creation through web-based mapping, enabling spatial featur
 
 ### Example 12: Survey Grid Square
 ```json
+// Example location-fields-18
+// Template markers added for parametric generation
 {
-  "grid-square": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "mapping-plugin",
     "component-name": "MapFormField",
     "type-returned": "faims-core::JSON",
     "component-parameters": {
-      "label": "Survey Grid Square",
-      "name": "grid-square",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "featureType": "Polygon",
       "zoom": 20,
-      "helperText": "Draw 10m x 10m survey square",
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "advancedHelperText": "Try to maintain square shape.\nUse satellite view for alignment."
     },
     "validationSchema": [
       ["yup.object"],
-      ["yup.required", "Grid square required"]
+      ["yup.Grid square required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
     ]
   }
 }
@@ -831,15 +876,17 @@ Interactive geometry creation through web-based mapping, enabling spatial featur
 
 ### Example 13: Emergency Location Fallback
 ```json
+// Example location-fields-19
+// Template markers added for parametric generation
 {
-  "emergency-location": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "TakePoint",
     "type-returned": "faims-pos::Location",
     "component-parameters": {
-      "label": "Emergency Position",
-      "name": "emergency-location",
-      "helperText": "Any accuracy accepted - for safety",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "timeout": 3000,
       "enableHighAccuracy": false,
       "maximumAge": 300000
@@ -852,22 +899,24 @@ Interactive geometry creation through web-based mapping, enabling spatial featur
 
 ### Example 14: Feature Centroid Marking
 ```json
+// Example location-fields-20
+// Template markers added for parametric generation
 {
-  "feature-center": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "mapping-plugin",
     "component-name": "MapFormField",
     "type-returned": "faims-core::JSON",
     "component-parameters": {
-      "label": "Feature Center Point",
-      "name": "feature-center",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "featureType": "Point",
       "zoom": 21,
-      "helperText": "Mark exact center of feature",
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": true
     },
     "validationSchema": [
       ["yup.object"],
-      ["yup.required", "Center point required"]
+      ["yup.Center point required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
     ],
     "condition": {
       "operator": "is-truthy",
@@ -879,17 +928,19 @@ Interactive geometry creation through web-based mapping, enabling spatial featur
 
 ### Example 15: Performance-Optimized Polygon
 ```json
+// Example location-fields-21
+// Template markers added for parametric generation
 {
-  "simplified-boundary": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "mapping-plugin",
     "component-name": "MapFormField",
     "type-returned": "faims-core::JSON",
     "component-parameters": {
-      "label": "Simplified Boundary",
-      "name": "simplified-boundary",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "featureType": "Polygon",
       "zoom": 17,
-      "helperText": "⚠️ LIMIT 100 VERTICES - Generalize complex shapes",
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "advancedHelperText": "## Performance Warning\n\nUse fewer points for better performance.\nDetailed shapes can crash mobile devices."
     },
     "validationSchema": [["yup.object"]],
@@ -900,31 +951,33 @@ Interactive geometry creation through web-based mapping, enabling spatial featur
 
 ### Example 16: Sampling Location with Metadata
 ```json
+// Example location-fields-22
+// Template markers added for parametric generation
 {
-  "sample-location": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "TakePoint",
     "type-returned": "faims-pos::Location",
     "component-parameters": {
-      "label": "Sample Collection Point",
-      "name": "sample-location",
-      "helperText": "GPS where sample collected",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "enableHighAccuracy": true,
       "timeout": 20000,
       "required": true
     },
     "validationSchema": [
       ["yup.object"],
-      ["yup.required", "Sample location required"]
+      ["yup.Sample location required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
     ],
     "meta": {
       "annotation": {
         "include": true,
-        "label": "Collection method and depth"
+        "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
       },
       "uncertainty": {
         "include": true,
-        "label": "Location precision notes"
+        "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
       }
     }
   }
@@ -1073,8 +1126,10 @@ See [Performance Thresholds Reference](../reference-docs/performance-thresholds-
 
 ### Pattern: Conditional Location Capture
 ```json
+// Example location-fields-23
+// Template markers added for parametric generation
 {
-  "feature-location": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "TakePoint",
     "type-returned": "faims-pos::Location",
@@ -1089,6 +1144,8 @@ See [Performance Thresholds Reference](../reference-docs/performance-thresholds-
 
 ### Pattern: Accuracy-Focused Configuration
 ```json
+// Example location-fields-24
+// Template markers added for parametric generation
 {
   "component-parameters": {
     "timeout": 30000,
@@ -1096,18 +1153,20 @@ See [Performance Thresholds Reference](../reference-docs/performance-thresholds-
     "maximumAge": 0
   },
   "meta": {
-    "annotation": {"include": true, "label": "GPS quality notes"},
-    "uncertainty": {"include": true, "label": "Poor accuracy"}
+    "annotation": {"include": true, "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+    "uncertainty": {"include": true, "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label}
   }
 }
 ```
 
 ### Pattern: Performance-Optimised Map
 ```json
+// Example location-fields-25
+// Template markers added for parametric generation
 {
   "component-parameters": {
     "featureType": "Polygon",
-    "helperText": "Maximum 500 vertices for mobile devices"
+    "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
   }
 }
 ```
@@ -1116,6 +1175,7 @@ See [Performance Thresholds Reference](../reference-docs/performance-thresholds-
 
 ### ❌ Don't: Wrong Namespace
 ```json
+// Example location-fields-26
 // WRONG - TakePoint doesn't use mapping-plugin
 {
   "component-namespace": "mapping-plugin",
@@ -1125,6 +1185,7 @@ See [Performance Thresholds Reference](../reference-docs/performance-thresholds-
 
 ### ❌ Don't: Mix Return Types
 ```json
+// Example location-fields-27
 // WRONG - Can't transfer between fields
 {
   "takepoint-data": "faims-pos::Location",
@@ -1135,6 +1196,7 @@ See [Performance Thresholds Reference](../reference-docs/performance-thresholds-
 
 ### ❌ Don't: Expect Accuracy Validation
 ```json
+// Example location-fields-28
 // WRONG - No accuracy threshold enforcement
 {
   "minimum_accuracy": 10  // This parameter doesn't exist

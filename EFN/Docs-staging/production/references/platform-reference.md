@@ -20,6 +20,17 @@ see-also: [location-fields, media-fields, constraints-reference]
 
 # Platform Reference
 
+
+<!-- structured:metadata
+meta:purpose: technical-reference
+meta:summary: Platform-specific behaviors for web, iOS, and Android deployments.
+meta:generates: lookup-tables
+meta:requires: [fieldmark-knowledge]
+meta:version: 3.0.0
+meta:document: platform_reference
+meta:depth-tags: [essential]
+-->
+
 ## Overview {essential}
 
 This comprehensive reference consolidates all platform-specific technical details for Fieldmark v3, including behaviors across iOS, Android, Web Desktop, and Web Mobile platforms, performance thresholds, accessibility standards, and platform-specific troubleshooting. All performance thresholds are estimates based on empirical observations and code analysis - they are advisory only and should be tested with your specific hardware and use cases. We welcome performance feedback to improve these estimates.

@@ -16,6 +16,17 @@ see-also: [field-selection-guide, platform-reference, constraints-reference]
 
 # Text Input Fields
 
+
+<!-- structured:metadata
+meta:purpose: field-configuration
+meta:summary: Seven components for text input, display, and auto-generation, including critical HRID handling and XSS security considerations.
+meta:generates: json-fields
+meta:requires: [valid-json, unique-names, fviews-layer]
+meta:version: 3.0.0
+meta:document: text_fields
+meta:depth-tags: [essential, important, comprehensive]
+-->
+
 ## Document Navigation {essential}
 <!-- concat:nav-mode:individual -->
 [← Field Index](../field-type-index.md) | **Text & Input Fields** | [Selection Fields →](./select-choice-fields-v05.md)
@@ -583,19 +594,21 @@ Single-line text input for brief, unconstrained textual data. Primary choice for
 
 #### Core Configuration {essential}
 ```json
+// Example text-fields-01
+// Template markers added for parametric generation
 {
   "component-namespace": "formik-material-ui",
   "component-name": "TextField",
   "type-returned": "faims-core::String",
   "component-parameters": {
-    "name": "site-code",
-    "label": "Site Code",
-    "helperText": "Enter 3-letter site code",
+    "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+    "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+    "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
     "required": true
   },
   "validationSchema": [
     ["yup.string"],
-    ["yup.required", "Site code is required"],
+    ["yup.Site code is required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message,
     ["yup.matches", "^[A-Z]{3}$", "Must be 3 capital letters"]
   ],
   "initialValue": ""
@@ -624,6 +637,7 @@ For solutions, see [Troubleshooting Guide > Quick Fixes Table]
 
 ❌ **NEVER: Wrong initialValue type**
 ```json
+// Example text-fields-02
 {
   "component-name": "TextField",
   "initialValue": null  
@@ -631,6 +645,7 @@ For solutions, see [Troubleshooting Guide > Quick Fixes Table]
 ```
 ✅ **ALWAYS: Use empty string for text fields**
 ```json
+// Example text-fields-03
 {
   "initialValue": ""
 }
@@ -638,25 +653,30 @@ For solutions, see [Troubleshooting Guide > Quick Fixes Table]
 
 ❌ **NEVER: Validation schema in wrong order**
 ```json
+// Example text-fields-04
+// Template markers added for parametric generation
 {
   "validationSchema": [
-    ["yup.required", "Required"],
+    ["yup.Required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message,
     ["yup.string"]
   ]
 }
 ```
 ✅ **ALWAYS: Type declaration first**
 ```json
+// Example text-fields-05
+// Template markers added for parametric generation
 {
   "validationSchema": [
     ["yup.string"],
-    ["yup.required", "Required"]
+    ["yup.Required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
   ]
 }
 ```
 
 ❌ **NEVER: Wrong component name for enhanced variant**
 ```json
+// Example text-fields-06
 {
   "component-namespace": "faims-custom",
   "component-name": "TextField"
@@ -664,6 +684,7 @@ For solutions, see [Troubleshooting Guide > Quick Fixes Table]
 ```
 ✅ **ALWAYS: Match namespace to component**
 ```json
+// Example text-fields-07
 
 {
   "component-namespace": "faims-custom",
@@ -701,13 +722,15 @@ Extended text entry for narrative content, detailed observations, and interpreta
 
 #### Core Configuration {essential}
 ```json
+// Example text-fields-08
+// Template markers added for parametric generation
 {
   "component-namespace": "formik-material-ui",
   "component-name": "MultipleTextField",
   "type-returned": "faims-core::String",
   "component-parameters": {
-    "name": "site-description",
-    "label": "Site Description",
+    "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+    "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
     "multiline": true,
     "InputProps": {
       "rows": 4
@@ -747,6 +770,7 @@ Extended text entry for narrative content, detailed observations, and interpreta
 
 ❌ **NEVER: Wrong component name**
 ```json
+// Example text-fields-09
 {
   "component-name": "MultilineTextField",
   "component-parameters": {
@@ -756,12 +780,14 @@ Extended text entry for narrative content, detailed observations, and interpreta
 ```
 ❌ **NEVER: Use "MultilineText" as component name**
 ```json
+// Example text-fields-10
 {
   "component-name": "MultipleTextField",
 }
 ```
 ✅ **ALWAYS: Use MultipleTextField**
 ```json
+// Example text-fields-11
 {
   "component-name": "MultipleTextField",
   "component-parameters": {
@@ -773,6 +799,7 @@ Extended text entry for narrative content, detailed observations, and interpreta
 
 ❌ **NEVER: Missing multiline flag**
 ```json
+// Example text-fields-12
 {
   "component-name": "MultipleTextField",
   "component-parameters": {
@@ -782,6 +809,7 @@ Extended text entry for narrative content, detailed observations, and interpreta
 ```
 ✅ **ALWAYS: Set multiline and use InputProps.rows**
 ```json
+// Example text-fields-13
 {
   "component-parameters": {
     "multiline": true,
@@ -810,6 +838,7 @@ Auto-generates text values from other fields using Mustache templates. **MANDATO
 
 #### Core Configuration {essential}
 ```json
+// Example text-fields-14
 {
   "component-namespace": "faims-custom",
   "component-name": "TemplatedStringField",
@@ -846,6 +875,7 @@ Auto-generates text values from other fields using Mustache templates. **MANDATO
 
 ❌ **NEVER: User text input without sanitization (CRITICAL SECURITY RISK)**
 ```json
+// Example text-fields-15
 {
   "template": "Record: {{user-text-field}}"
 
@@ -854,12 +884,14 @@ Auto-generates text values from other fields using Mustache templates. **MANDATO
 ```
 ✅ **ALWAYS: Use controlled vocabularies or sanitize**
 ```json
+// Example text-fields-16
 {
   "template": "{{record-type}}-{{counter}}"
 
 
 ❌ **NEVER: Include any user-editable field in templates**
 ```json
+// Example text-fields-17
 
 {
   "template": "Site: {{site_name}}"
@@ -874,6 +906,7 @@ Auto-generates text values from other fields using Mustache templates. **MANDATO
 
 ✅ **ALWAYS: Use only system-generated or controlled fields**
 ```json
+// Example text-fields-18
 
 {
   "template": "{{_USER}}-{{_YYYY}}-{{auto_increment}}"
@@ -890,6 +923,7 @@ Auto-generates text values from other fields using Mustache templates. **MANDATO
 
 ❌ **NEVER: Reference another TemplatedString**
 ```json
+// Example text-fields-19
 {
   "template": "{{other-template}}-{{number}}"
 
@@ -897,6 +931,7 @@ Auto-generates text values from other fields using Mustache templates. **MANDATO
 ```
 ✅ **ALWAYS: Reference only non-template fields**
 ```json
+// Example text-fields-20
 {
   "template": "{{site}}-{{date}}-{{counter}}"
 }
@@ -904,12 +939,14 @@ Auto-generates text values from other fields using Mustache templates. **MANDATO
 
 ❌ **NEVER: Reference fields from different forms**
 ```json
+// Example text-fields-21
 {
   "template": "{{parent.field}}-{{local-field}}"
 }
 ```
 ✅ **ALWAYS: Keep all referenced fields in same form**
 ```json
+// Example text-fields-22
 {
   "template": "{{field1}}-{{field2}}"
 }
@@ -927,13 +964,15 @@ Auto-generates text values from other fields using Mustache templates. **MANDATO
 
 #### Core Configuration {essential}
 ```json
+// Example text-fields-23
+// Template markers added for parametric generation
 {
   "component-namespace": "formik-material-ui",
   "component-name": "TextField",
   "type-returned": "faims-core::String",
   "component-parameters": {
-    "name": "email-field",
-    "label": "Email Address",
+    "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+    "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
     "InputProps": {
       "type": "email"
     }
@@ -971,6 +1010,7 @@ Also see [Troubleshooting Guide > Common Problems Table] for general validation 
 
 ❌ **NEVER: Wrong type-returned**
 ```json
+// Example text-fields-24
 {
   "component-name": "TextField",
   "type-returned": "faims-core::String",
@@ -981,6 +1021,7 @@ Also see [Troubleshooting Guide > Common Problems Table] for general validation 
 ```
 ✅ **ALWAYS: Email fields return String**
 ```json
+// Example text-fields-25
 {
   "type-returned": "faims-core::String",
   "component-parameters": {
@@ -991,6 +1032,7 @@ Also see [Troubleshooting Guide > Common Problems Table] for general validation 
 
 ❌ **NEVER: Look for an Email component**
 ```json
+// Example text-fields-26
 {
   "component-namespace": "ANY-namespace",
   "component-name": "TextField"
@@ -998,6 +1040,7 @@ Also see [Troubleshooting Guide > Common Problems Table] for general validation 
 ```
 ✅ **ALWAYS: Use TextField with email type**
 ```json
+// Example text-fields-27
 {
   "component-name": "TextField",
   "component-parameters": {
@@ -1018,16 +1061,19 @@ Also see [Troubleshooting Guide > Common Problems Table] for general validation 
 
 #### Core Configuration {essential}
 ```json
+// Example text-fields-28
+// Template markers added for parametric generation
 {
   "component-namespace": "faims-custom",
   "component-name": "AddressField",
-  "name": "site-address",
+  "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
   "type-returned": "faims-core::JSON"
 }
 ```
 
 #### Address-Specific Storage {important}
 ```json
+// Example text-fields-29
 {
   "display_name": "123 Main St, Parramatta, NSW, 2150",
   "address": {
@@ -1073,6 +1119,7 @@ df['postcode'] = df['address_data'].apply(lambda x: x['address']['postcode'])
 
 ❌ **NEVER: Wrong initialValue for Address**
 ```json
+// Example text-fields-30
 {
   "component-name": "AddressField",
   "initialValue": ""
@@ -1080,6 +1127,7 @@ df['postcode'] = df['address_data'].apply(lambda x: x['address']['postcode'])
 ```
 ✅ **ALWAYS: Use null for Address fields**
 ```json
+// Example text-fields-31
 {
   "component-name": "AddressField",
   "initialValue": null
@@ -1088,6 +1136,7 @@ df['postcode'] = df['address_data'].apply(lambda x: x['address']['postcode'])
 
 ❌ **NEVER: Wrong validation schema**
 ```json
+// Example text-fields-32
 {
   "validationSchema": [
     ["yup.string"]
@@ -1096,6 +1145,7 @@ df['postcode'] = df['address_data'].apply(lambda x: x['address']['postcode'])
 ```
 ✅ **ALWAYS: Use object validation**
 ```json
+// Example text-fields-33
 {
   "validationSchema": [
     ["yup.object"],
@@ -1106,6 +1156,7 @@ df['postcode'] = df['address_data'].apply(lambda x: x['address']['postcode'])
 
 ❌ **NEVER: Wrong type-returned**
 ```json
+// Example text-fields-34
 {
   "component-name": "AddressField",
   "type-returned": "faims-core::String"
@@ -1113,6 +1164,7 @@ df['postcode'] = df['address_data'].apply(lambda x: x['address']['postcode'])
 ```
 ✅ **ALWAYS: Address returns JSON**
 ```json
+// Example text-fields-35
 {
   "type-returned": "faims-core::JSON"
 }
@@ -1130,14 +1182,16 @@ df['postcode'] = df['address_data'].apply(lambda x: x['address']['postcode'])
 
 #### Core Configuration {essential}
 ```json
+// Example text-fields-36
+// Template markers added for parametric generation
 {
   "component-namespace": "qrcode",
   "component-name": "QRCodeFormField",
   "type-returned": "faims-core::String",
   "component-parameters": {
-    "label": "Scan Barcode",
-    "name": "barcode-field",
-    "helperText": "Position barcode within frame",
+    "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+    "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+    "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
     "fullWidth": true
   }
 }
@@ -1184,16 +1238,19 @@ df['postcode'] = df['address_data'].apply(lambda x: x['address']['postcode'])
 
 ❌ **NEVER: Mark as required (CRITICAL PLATFORM ISSUE)**
 ```json
+// Example text-fields-37
+// Template markers added for parametric generation
 {
   "component-name": "QRCodeFormField",
   "validationSchema": [
     ["yup.string"],
-    ["yup.required", "Scan required"]
+    ["yup.Scan required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
   ]
 }
 ```
 ✅ **ALWAYS: Keep optional or pair with TextField**
 ```json
+// Example text-fields-38
 {
   "component-name": "QRCodeFormField",
   "validationSchema": [["yup.string"]]
@@ -1203,18 +1260,22 @@ df['postcode'] = df['address_data'].apply(lambda x: x['address']['postcode'])
 
 ❌ **NEVER: Assume cross-platform functionality**
 ```json
+// Example text-fields-39
+// Template markers added for parametric generation
 {
   "component-name": "QRCodeFormField",
   "component-parameters": {
-    "helperText": "Scan or type barcode"
+    "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
   }
 }
 ```
 ✅ **ALWAYS: Document platform limitation**
 ```json
+// Example text-fields-40
+// Template markers added for parametric generation
 {
   "component-parameters": {
-    "helperText": "Scan barcode (mobile only)"
+    "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
   }
 }
 ```
@@ -1231,12 +1292,14 @@ df['postcode'] = df['address_data'].apply(lambda x: x['address']['postcode'])
 
 #### Core Configuration {essential}
 ```json
+// Example text-fields-41
+// Template markers added for parametric generation
 {
   "component-namespace": "faims-custom",
   "component-name": "RichText",
   "type-returned": "faims-core::String",
   "component-parameters": {
-    "name": "field-id",
+    "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
     "content": "# Heading\n\nInstructional text with **markdown** formatting."
   },
   "validationSchema": [["yup.string"]],
@@ -1282,16 +1345,19 @@ df['postcode'] = df['address_data'].apply(lambda x: x['address']['postcode'])
 
 ❌ **NEVER: Expect data storage**
 ```json
+// Example text-fields-42
+// Template markers added for parametric generation
 {
   "component-name": "RichText",
   "component-parameters": {
-    "name": "important-data",
+    "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
     "content": "Enter notes here"
   }
 }
 ```
 ✅ **ALWAYS: Use only for display**
 ```json
+// Example text-fields-43
 {
   "component-name": "RichText",
   "component-parameters": {
@@ -1302,6 +1368,7 @@ df['postcode'] = df['address_data'].apply(lambda x: x['address']['postcode'])
 
 ❌ **NEVER: Include user-generated content in RichText**
 ```json
+// Example text-fields-44
 
 {
   "content": "User said: {{user_comment}}"
@@ -1313,6 +1380,7 @@ df['postcode'] = df['address_data'].apply(lambda x: x['address']['postcode'])
 
 ✅ **ALWAYS: Use static, developer-controlled content only**
 ```json
+// Example text-fields-45
 
 {
   "content": "## Field Instructions\n\nPlease complete all required fields"
@@ -1324,6 +1392,7 @@ df['postcode'] = df['address_data'].apply(lambda x: x['address']['postcode'])
 
 ❌ **NEVER: External image URLs**
 ```json
+// Example text-fields-46
 {
   "content": "![Diagram](https:
 
@@ -1331,6 +1400,7 @@ df['postcode'] = df['address_data'].apply(lambda x: x['address']['postcode'])
 ```
 ✅ **ALWAYS: Use Base64 embedded images**
 ```json
+// Example text-fields-47
 {
   "content": "![Diagram](data:image/png;base64,iVBORw0KGg...)"
 
@@ -1339,6 +1409,7 @@ df['postcode'] = df['address_data'].apply(lambda x: x['address']['postcode'])
 
 ❌ **NEVER: Tables in content**
 ```json
+// Example text-fields-48
 {
   "content": "| Header | Value |\n|--------|-------|\n| Data | 123 |"
 
@@ -1346,6 +1417,7 @@ df['postcode'] = df['address_data'].apply(lambda x: x['address']['postcode'])
 ```
 ✅ **ALWAYS: Use lists or embedded images**
 ```json
+// Example text-fields-49
 {
   "content": "**Data Values:**\n- Header: 123\n- Other: 456"
 
@@ -1556,22 +1628,24 @@ See [Common Characteristics > Validation Patterns > Validation Behavior]
 
 ### Example 1: Basic Required Text Field
 ```json
+// Example text-fields-50
+// Template markers added for parametric generation
 {
-  "site-name": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "formik-material-ui",
     "component-name": "TextField",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "site-name",
-      "label": "Site Name",
-      "helperText": "Official site designation",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": true,
       "fullWidth": true,
       "variant": "outlined"
     },
     "validationSchema": [
       ["yup.string"],
-      ["yup.required", "Site name is required"]
+      ["yup.Site name is required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
     ],
     "initialValue": ""
   }
@@ -1580,21 +1654,23 @@ See [Common Characteristics > Validation Patterns > Validation Behavior]
 
 ### Example 2: Text Field with Pattern Validation
 ```json
+// Example text-fields-51
+// Template markers added for parametric generation
 {
-  "specimen-id": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "formik-material-ui",
     "component-name": "TextField",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "specimen-id",
-      "label": "Specimen ID",
-      "helperText": "Format: ABC-1234",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "placeholder": "ABC-1234",
       "required": true
     },
     "validationSchema": [
       ["yup.string"],
-      ["yup.required", "Specimen ID is required"],
+      ["yup.Specimen ID is required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message,
       ["yup.matches", "^[A-Z]{3}-[0-9]{4}$", "Must match format ABC-1234"]
     ],
     "initialValue": ""
@@ -1604,15 +1680,17 @@ See [Common Characteristics > Validation Patterns > Validation Behavior]
 
 ### Example 3: Email Field with Validation
 ```json
+// Example text-fields-52
+// Template markers added for parametric generation
 {
-  "contact-email": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "formik-material-ui",
     "component-name": "TextField",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "contact-email",
-      "label": "Contact Email",
-      "helperText": "Principal investigator email",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "InputProps": {
         "type": "email"
       },
@@ -1620,8 +1698,8 @@ See [Common Characteristics > Validation Patterns > Validation Behavior]
     },
     "validationSchema": [
       ["yup.string"],
-      ["yup.email", "Invalid email format"],
-      ["yup.required", "Email is required"]
+      ["yup.Invalid email format", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message,
+      ["yup.Email is required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
     ],
     "initialValue": ""
   }
@@ -1630,15 +1708,17 @@ See [Common Characteristics > Validation Patterns > Validation Behavior]
 
 ### Example 4: Optional Text with Character Limit
 ```json
+// Example text-fields-53
+// Template markers added for parametric generation
 {
-  "brief-notes": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "formik-material-ui",
     "component-name": "TextField",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "brief-notes",
-      "label": "Brief Notes",
-      "helperText": "Optional, max 100 characters",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "inputProps": { 
         "maxLength": 100 
       },
@@ -1655,15 +1735,17 @@ See [Common Characteristics > Validation Patterns > Validation Behavior]
 
 ### Example 5: Multiline Text Area
 ```json
+// Example text-fields-54
+// Template markers added for parametric generation
 {
-  "site-description": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "formik-material-ui",
     "component-name": "MultipleTextField",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "site-description",
-      "label": "Site Description",
-      "helperText": "Detailed site characteristics",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "placeholder": "Describe the site location, features, and condition...",
       "required": true,
       "fullWidth": true,
@@ -1674,7 +1756,7 @@ See [Common Characteristics > Validation Patterns > Validation Behavior]
     },
     "validationSchema": [
       ["yup.string"],
-      ["yup.required", "Description is required"],
+      ["yup.Description is required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message,
       ["yup.min", 50, "Minimum 50 characters"]
     ],
     "initialValue": ""
@@ -1684,21 +1766,23 @@ See [Common Characteristics > Validation Patterns > Validation Behavior]
 
 ### Example 6: Text with Advanced Helper
 ```json
+// Example text-fields-55
+// Template markers added for parametric generation
 {
-  "excavation-unit": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "FAIMSTextField",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "excavation-unit",
-      "label": "Excavation Unit",
-      "helperText": "Unit designation code",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "advancedHelperText": "## Unit Coding System\n\n**Format:** [Area]-[Trench]-[Unit]\n\n- Area: Single letter (A-Z)\n- Trench: T + number (T1-T99)\n- Unit: 3 digits (001-999)\n\n**Example:** A-T1-001",
       "required": true
     },
     "validationSchema": [
       ["yup.string"],
-      ["yup.required", "Unit code required"],
+      ["yup.Unit code required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message,
       ["yup.matches", "^[A-Z]-T[0-9]{1,2}-[0-9]{3}$", "Invalid format"]
     ],
     "initialValue": ""
@@ -1708,21 +1792,23 @@ See [Common Characteristics > Validation Patterns > Validation Behavior]
 
 ### Example 7: Auto-incrementing Identifier
 ```json
+// Example text-fields-56
+// Template markers added for parametric generation
 {
-  "artifact-number": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "BasicAutoIncrementer",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "artifact-number",
-      "label": "Artifact Number",
-      "helperText": "Auto-generated sequential ID",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "incrementer": "artifact-counter",
       "required": true
     },
     "validationSchema": [
       ["yup.string"],
-      ["yup.required", "Artifact number required"]
+      ["yup.Artifact number required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
     ],
     "initialValue": ""
   }
@@ -1731,6 +1817,7 @@ See [Common Characteristics > Validation Patterns > Validation Behavior]
 
 ### Example 8: Templated String Field
 ```json
+// Example text-fields-57
 {
   "sample-id": {
     "component-namespace": "faims-custom",
@@ -1749,20 +1836,22 @@ See [Common Characteristics > Validation Patterns > Validation Behavior]
 
 ### Example 9: Text with Conditional Visibility
 ```json
+// Example text-fields-58
+// Template markers added for parametric generation
 {
-  "damage-description": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "formik-material-ui",
     "component-name": "TextField",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "damage-description",
-      "label": "Damage Description",
-      "helperText": "Describe the damage observed",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": true
     },
     "validationSchema": [
       ["yup.string"],
-      ["yup.required", "Description required when damage present"]
+      ["yup.Description required when damage present", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
     ],
     "initialValue": "",
     "condition": {
@@ -1776,15 +1865,17 @@ See [Common Characteristics > Validation Patterns > Validation Behavior]
 
 ### Example 10: Rich Text with Metadata
 ```json
+// Example text-fields-59
+// Template markers added for parametric generation
 {
-  "interpretation": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "formik-material-ui",
     "component-name": "MultipleTextField",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "interpretation",
-      "label": "Archaeological Interpretation",
-      "helperText": "Detailed analysis and interpretation",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": false,
       "fullWidth": true,
       "multiline": true,
@@ -1800,11 +1891,11 @@ See [Common Characteristics > Validation Patterns > Validation Behavior]
     "meta": {
       "uncertainty": {
         "include": true,
-        "label": "Interpretation confidence"
+        "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
       },
       "annotation": {
         "include": true,
-        "label": "Additional notes"
+        "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
       }
     }
   }
@@ -1813,15 +1904,17 @@ See [Common Characteristics > Validation Patterns > Validation Behavior]
 
 ### Example 11: URL Field with Validation
 ```json
+// Example text-fields-60
+// Template markers added for parametric generation
 {
-  "reference-url": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "formik-material-ui",
     "component-name": "TextField",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "reference-url",
-      "label": "Reference URL",
-      "helperText": "Link to related documentation",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "InputProps": {
         "type": "url"
       },
@@ -1829,7 +1922,7 @@ See [Common Characteristics > Validation Patterns > Validation Behavior]
     },
     "validationSchema": [
       ["yup.string"],
-      ["yup.url", "Must be a valid URL"],
+      ["yup.Must be a valid URL", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message,
       ["yup.matches", "^https://", "URL must use HTTPS"]
     ],
     "initialValue": null
@@ -1839,15 +1932,17 @@ See [Common Characteristics > Validation Patterns > Validation Behavior]
 
 ### Example 12: Alphanumeric Code with Custom Format
 ```json
+// Example text-fields-61
+// Template markers added for parametric generation
 {
-  "grid-reference": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "formik-material-ui",
     "component-name": "TextField",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "grid-reference",
-      "label": "Grid Reference",
-      "helperText": "6-figure grid reference",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "placeholder": "123456",
       "inputProps": {
         "maxLength": 6,
@@ -1857,7 +1952,7 @@ See [Common Characteristics > Validation Patterns > Validation Behavior]
     "validationSchema": [
       ["yup.string"],
       ["yup.matches", "^[0-9]{6}$", "Must be exactly 6 digits"],
-      ["yup.required", "Grid reference required"]
+      ["yup.Grid reference required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
     ],
     "initialValue": ""
   }
@@ -1866,6 +1961,7 @@ See [Common Characteristics > Validation Patterns > Validation Behavior]
 
 ### Example 13: Advanced HRID with Multiple Variables
 ```json
+// Example text-fields-62
 {
   "record-hrid": {
     "component-namespace": "faims-custom",
@@ -1885,15 +1981,17 @@ See [Common Characteristics > Validation Patterns > Validation Behavior]
 
 ### Example 14: Password Field (Sensitive Data)
 ```json
+// Example text-fields-63
+// Template markers added for parametric generation
 {
-  "access-code": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "formik-material-ui",
     "component-name": "TextField",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "access-code",
-      "label": "Site Access Code",
-      "helperText": "Required for restricted areas",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "InputProps": {
         "type": "password"
       },
@@ -1901,7 +1999,7 @@ See [Common Characteristics > Validation Patterns > Validation Behavior]
     },
     "validationSchema": [
       ["yup.string"],
-      ["yup.required", "Access code required"],
+      ["yup.Access code required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message,
       ["yup.min", 6, "Minimum 6 characters"]
     ],
     "initialValue": ""
@@ -1911,14 +2009,16 @@ See [Common Characteristics > Validation Patterns > Validation Behavior]
 
 ### Example 15: Search Field with Placeholder
 ```json
+// Example text-fields-64
+// Template markers added for parametric generation
 {
-  "catalog-search": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "formik-material-ui",
     "component-name": "TextField",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "catalog-search",
-      "label": "Catalog Search",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
       "placeholder": "Enter catalog number or description...",
       "InputProps": {
         "type": "search"
@@ -1936,15 +2036,17 @@ See [Common Characteristics > Validation Patterns > Validation Behavior]
 
 ### Example 16: Multi-value Text Array
 ```json
+// Example text-fields-65
+// Template markers added for parametric generation
 {
-  "team-members": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "FAIMSTextField",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "team-members",
-      "label": "Team Members",
-      "helperText": "Enter each team member name",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "multiple": true,
       "required": true
     },
@@ -1959,15 +2061,17 @@ See [Common Characteristics > Validation Patterns > Validation Behavior]
 
 ### Example 17: Phone Number with Format
 ```json
+// Example text-fields-66
+// Template markers added for parametric generation
 {
-  "contact-phone": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "formik-material-ui",
     "component-name": "TextField",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "contact-phone",
-      "label": "Contact Phone",
-      "helperText": "Include country code",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "placeholder": "+61 400 000 000",
       "InputProps": {
         "type": "tel"
@@ -1984,15 +2088,17 @@ See [Common Characteristics > Validation Patterns > Validation Behavior]
 
 ### Example 18: Disabled Field with Default
 ```json
+// Example text-fields-67
+// Template markers added for parametric generation
 {
-  "project-code": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "formik-material-ui",
     "component-name": "TextField",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "project-code",
-      "label": "Project Code",
-      "helperText": "Auto-assigned project identifier",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "disabled": true,
       "variant": "outlined"
     },
@@ -2006,15 +2112,17 @@ See [Common Characteristics > Validation Patterns > Validation Behavior]
 
 ### Example 19: Text with Word Count Validation
 ```json
+// Example text-fields-68
+// Template markers added for parametric generation
 {
-  "abstract": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "formik-material-ui",
     "component-name": "MultipleTextField",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "abstract",
-      "label": "Abstract",
-      "helperText": "150-300 words",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": true,
       "fullWidth": true,
       "multiline": true,
@@ -2024,7 +2132,7 @@ See [Common Characteristics > Validation Patterns > Validation Behavior]
     },
     "validationSchema": [
       ["yup.string"],
-      ["yup.required", "Abstract is required"],
+      ["yup.Abstract is required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message,
       ["yup.test", "word-count", "Must be 150-300 words",
         "value => { const words = value ? value.trim().split(/\\s+/).length : 0; return words >= 150 && words <= 300; }"]
     ],
@@ -2035,15 +2143,17 @@ See [Common Characteristics > Validation Patterns > Validation Behavior]
 
 ### Example 20: Complex Nested Form Reference
 ```json
+// Example text-fields-69
+// Template markers added for parametric generation
 {
-  "location-notes": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "formik-material-ui",
     "component-name": "TextField",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "location-notes",
-      "label": "Location Notes",
-      "helperText": "Additional location details",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": false
     },
     "validationSchema": [
@@ -2086,6 +2196,7 @@ See [Common Characteristics > Validation Patterns > Validation Behavior]
 }
 #### Conditional Template with Boolean Logic {comprehensive}
 ```json
+// Example text-fields-70
 {
   "_has_photos": {
     "component-namespace": "faims-custom",
@@ -2102,15 +2213,17 @@ See [Common Characteristics > Validation Patterns > Validation Behavior]
 
 ### Email Field Pattern {important}
 ```json
+// Example text-fields-71
+// Template markers added for parametric generation
 {
-  "principal-investigator-email": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "formik-material-ui",
     "component-name": "TextField",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "label": "Principal Investigator Email",
-      "name": "principal-investigator-email",
-      "helperText": "Required for data access requests",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": true,
       "InputProps": {
         "type": "email"
@@ -2118,8 +2231,8 @@ See [Common Characteristics > Validation Patterns > Validation Behavior]
     },
     "validationSchema": [
       ["yup.string"],
-      ["yup.email", "Valid email required"],
-      ["yup.required", "PI email is mandatory"]
+      ["yup.Valid email required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message,
+      ["yup.PI email is mandatory", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
     ],
     "initialValue": ""
   }
@@ -2128,15 +2241,17 @@ See [Common Characteristics > Validation Patterns > Validation Behavior]
 
 ### Address Field Pattern {important}
 ```json
+// Example text-fields-72
+// Template markers added for parametric generation
 {
-  "site-street-address": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "AddressField",
     "type-returned": "faims-core::JSON",
     "component-parameters": {
-      "label": "Site Street Address",
-      "name": "site-street-address",
-      "helperText": "Enter the formal street address for site access",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": false,
       "fullWidth": true
     },
@@ -2145,7 +2260,7 @@ See [Common Characteristics > Validation Patterns > Validation Behavior]
     "meta": {
       "annotation": {
         "include": true,
-        "label": "Address notes (e.g., alternative access points)"
+        "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
       }
     }
   }
@@ -2154,26 +2269,28 @@ See [Common Characteristics > Validation Patterns > Validation Behavior]
 
 ### QRCodeFormField with Manual Fallback {important}
 ```json
+// Example text-fields-73
+// Template markers added for parametric generation
 {
-  "artefact-id-scan": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "qrcode",
     "component-name": "QRCodeFormField",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "label": "Scan Artefact Tag",
-      "name": "artefact-id-scan",
-      "helperText": "Use mobile scanner for barcode"
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
     },
     "initialValue": ""
   },
-  "artefact-id-manual": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "formik-material-ui",
     "component-name": "TextField",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "label": "Or Enter Artefact ID Manually",
-      "name": "artefact-id-manual",
-      "helperText": "Type ID if scanner unavailable"
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
     },
     "validationSchema": [
       ["yup.string"],
@@ -2185,13 +2302,15 @@ See [Common Characteristics > Validation Patterns > Validation Behavior]
 
 ### RichText Conditional Instructions {important}
 ```json
+// Example text-fields-74
+// Template markers added for parametric generation
 {
-  "excavation-warning": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "RichText",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "excavation-warning",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "content": "⚠️ **STOP**: Consult heritage officer before excavation.\n\nThis site requires special permits."
     },
     "condition": {
@@ -2253,6 +2372,7 @@ For ready-to-use scripts, see [Migration Script Templates] below
 
 **Legacy Patterns to Avoid**:
 ```json
+// Example text-fields-75
 
 {
   "component-namespace": "formik-material-ui",
@@ -2742,6 +2862,7 @@ Requirement for full field definition despite non-participation in data operatio
 - `QUIRK` Voice input creates run-on text without punctuation
 - `FIX` Implement character counter in helperText:
   ```json
+// Example text-fields-76
   "component-parameters": {
     "helperText": "Site identifier (max 50 characters)",
     "inputProps": { "maxLength": 50 }
@@ -2768,6 +2889,7 @@ Requirement for full field definition despite non-participation in data operatio
   - Set as: `"InputProps": { "rows": 5 }`  // Most common
 - `FIX` Add validation for content length:
   ```json
+// Example text-fields-77
   "validationSchema": [
     ["yup.string"],
     ["yup.max", 10000, "Content exceeds 10,000 character recommendation"],
@@ -2833,6 +2955,7 @@ Requirement for full field definition despite non-participation in data operatio
   ```
 - `FIX` Add domain-specific email validation:
   ```json
+// Example text-fields-78
 
   ["yup.matches", "@[\\w.-]+\\.edu\\.au$", "Must be .edu.au email"]
 
@@ -2857,22 +2980,24 @@ Requirement for full field definition despite non-participation in data operatio
 - `QUIRK` No manual entry option built-in
 - `FIX` Implement scanner/manual field pairing:
   ```json
+// Example text-fields-79
+// Template markers added for parametric generation
   {
-    "barcode-scan": {
+    "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
       "component-namespace": "qrcode",
       "component-name": "QRCodeFormField",
       "component-parameters": {
-        "label": "Scan Barcode (Mobile Only)",
-        "name": "barcode-scan"
+        "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+        "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier
       }
     },
-    "barcode-manual": {
+    "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
       "component-namespace": "formik-material-ui",
       "component-name": "TextField",
       "component-parameters": {
-        "label": "Or Enter Barcode Manually",
-        "name": "barcode-manual",
-        "helperText": "Type if scanner unavailable"
+        "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+        "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+        "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
       }
     }
   }
@@ -2885,15 +3010,17 @@ Requirement for full field definition despite non-participation in data operatio
   For training materials: `"helperText": "Scanner requires: 1) Mobile device 2) Camera permission 3) Good lighting 4) Clean barcode 5) Steady hold"`
 - `FIX` Implement platform-aware conditional display:
   ```json
+// Example text-fields-80
+// Template markers added for parametric generation
 
   {
-    "is-mobile": {
+    "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
       "component-name": "RadioGroup",
       "component-parameters": {
-        "label": "Device Type",
+        "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
         "options": [
-          {"value": "mobile", "label": "Mobile (iOS/Android)"},
-          {"value": "web", "label": "Web Browser"}
+          {"value": "mobile", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+          {"value": "web", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label}
         ]
       }
     }
@@ -2950,30 +3077,32 @@ Requirement for full field definition despite non-participation in data operatio
   ```
 - `FIX` Replace Address field with TextFields for international use:
   ```json
+// Example text-fields-81
+// Template markers added for parametric generation
   {
-    "addr-line-1": {
+    "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
       "component-name": "TextField",
-      "label": "Address Line 1"
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
     },
-    "addr-line-2": {
+    "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
       "component-name": "TextField",
-      "label": "Address Line 2"
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
     },
-    "addr-city": {
+    "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
       "component-name": "TextField",
-      "label": "City/Town"
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
     },
-    "addr-state": {
+    "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
       "component-name": "TextField",
-      "label": "State/Province/Region"
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
     },
-    "addr-postcode": {
+    "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
       "component-name": "TextField",
-      "label": "Post/ZIP Code"
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
     },
-    "addr-country": {
+    "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
       "component-name": "Select",
-      "label": "Country",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
       "options": [/* country list */]
     }
   }
@@ -3054,14 +3183,16 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 ### TextField Patterns
 
 ```json
+// Example text-fields-82
+// Template markers added for parametric generation
 
 {
   "component-namespace": "formik-material-ui",
   "component-name": "TextField",
   "type-returned": "faims-core::String",
   "component-parameters": {
-    "name": "field-name",
-    "label": "Field Label"
+    "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+    "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
   },
   "validationSchema": [["yup.string"]],
   "initialValue": ""
@@ -3070,16 +3201,16 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 
 + "component-parameters": {
 +   "required": true,
-+   "helperText": "This field is mandatory"
++   "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
 + }
 + "validationSchema": [
 +   ["yup.string"],
-+   ["yup.required", "Field is required"]
++   ["yup.Field is required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
 + ]
 
 
 + "component-parameters": {
-+   "helperText": "Format: ABC-123",
++   "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
 +   "placeholder": "e.g., SYD-001"
 + }
 + "validationSchema": [
@@ -3093,7 +3224,7 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 + }
 + "validationSchema": [
 +   ["yup.string"],
-+   ["yup.email", "Invalid email address"]
++   ["yup.Invalid email address", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
 + ]
 
 
@@ -3116,14 +3247,16 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 ### MultilineText Patterns
 
 ```json
+// Example text-fields-83
+// Template markers added for parametric generation
 
 {
   "component-namespace": "formik-material-ui",
   "component-name": "MultipleTextField",
   "type-returned": "faims-core::String",
   "component-parameters": {
-    "name": "description",
-    "label": "Description",
+    "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+    "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
     "multiline": true,
     "InputProps": {
       "rows": 4
@@ -3140,11 +3273,11 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 +     "rows": 8
 +   },
 +   "required": true,
-+   "helperText": "Provide detailed description (200-10000 chars)"
++   "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
 + }
 + "validationSchema": [
 +   ["yup.string"],
-+   ["yup.required", "Description required"],
++   ["yup.Description required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message,
 +   ["yup.min", 200, "Minimum 200 characters"],
 +   ["yup.max", 10000, "Maximum 10,000 characters"]
 + ]
@@ -3153,7 +3286,7 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 + "meta": {
 +   "uncertainty": {
 +     "include": true,
-+     "label": "Confidence level"
++     "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
 +   }
 + }
 
@@ -3161,7 +3294,7 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 + "meta": {
 +   "annotation": {
 +     "include": true,
-+     "label": "Additional notes"
++     "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
 +   }
 + }
 ```
@@ -3169,6 +3302,7 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 ### TemplatedString Patterns
 
 ```json
+// Example text-fields-84
 
 {
   "component-namespace": "faims-custom",
@@ -3213,21 +3347,23 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 ### Email Patterns
 
 ```json
+// Example text-fields-85
+// Template markers added for parametric generation
 
 {
   "component-namespace": "formik-material-ui",
   "component-name": "TextField",
   "type-returned": "faims-core::String",
   "component-parameters": {
-    "name": "contact-email",
-    "label": "Contact Email",
+    "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+    "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
     "InputProps": {
       "type": "email"
     }
   },
   "validationSchema": [
     ["yup.string"],
-    ["yup.email", "Invalid email format"]
+    ["yup.Invalid email format", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
   ],
   "initialValue": ""
 }
@@ -3235,12 +3371,12 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 
 + "component-parameters": {
 +   "required": true,
-+   "helperText": "Use institutional email only"
++   "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
 + }
 + "validationSchema": [
 +   ["yup.string"],
-+   ["yup.required", "Email is required"],
-+   ["yup.email", "Invalid email format"],
++   ["yup.Email is required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message,
++   ["yup.Invalid email format", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message,
 +   ["yup.matches", "@(uni\\.edu|gov\\.au)$", "Must use institutional email"]
 + ]
 ```
@@ -3248,14 +3384,16 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 ### Address Patterns
 
 ```json
+// Example text-fields-86
+// Template markers added for parametric generation
 
 {
   "component-namespace": "faims-custom",
   "component-name": "AddressField",
   "type-returned": "faims-core::JSON",
   "component-parameters": {
-    "name": "site-address",
-    "label": "Site Address",
+    "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+    "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
     "fullWidth": true
   },
   "validationSchema": [
@@ -3268,7 +3406,7 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 
 + "component-parameters": {
 +   "required": true,
-+   "helperText": "Physical address required for access"
++   "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
 + }
 - "validationSchema": [
 -   ["yup.object"],
@@ -3276,14 +3414,14 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 - ]
 + "validationSchema": [
 +   ["yup.object"],
-+   ["yup.required", "Address is required"]
++   ["yup.Address is required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
 + ]
 
 
 + "meta": {
 +   "annotation": {
 +     "include": true,
-+     "label": "Access notes (gate codes, etc.)"
++     "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
 +   }
 + }
 ```
@@ -3291,14 +3429,16 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 ### QRCodeFormField Patterns
 
 ```json
+// Example text-fields-87
+// Template markers added for parametric generation
 
 {
   "component-namespace": "qrcode",
   "component-name": "QRCodeFormField",
   "type-returned": "faims-core::String",
   "component-parameters": {
-    "name": "barcode-scan",
-    "label": "Scan Barcode"
+    "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+    "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
   },
   "validationSchema": [["yup.string"]],
   "initialValue": ""
@@ -3306,28 +3446,28 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 
 
 + "component-parameters": {
-+   "helperText": "Position barcode in frame (mobile only)",
++   "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
 +   "fullWidth": true
 + }
 
 
 {
-  "barcode-scan": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "qrcode",
     "component-name": "QRCodeFormField",
     "component-parameters": {
-      "name": "barcode-scan",
-      "label": "Scan Barcode (Mobile)"
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
     },
     "initialValue": ""
   },
-  "barcode-manual": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "formik-material-ui",
     "component-name": "TextField",
     "component-parameters": {
-      "name": "barcode-manual",
-      "label": "Or Enter Manually",
-      "helperText": "Type barcode if scanner unavailable"
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
     },
     "validationSchema": [
       ["yup.string"],
@@ -3341,13 +3481,15 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 ### RichText Patterns
 
 ```json
+// Example text-fields-88
+// Template markers added for parametric generation
 
 {
   "component-namespace": "faims-custom",
   "component-name": "RichText",
   "type-returned": "faims-core::String",
   "component-parameters": {
-    "name": "instructions",
+    "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
     "content": "# Instructions\n\n**Important**: Follow these steps..."
   },
   "validationSchema": [["yup.string"]],
@@ -3376,6 +3518,8 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 ### Common Patterns Across Types
 
 ```json
+// Example text-fields-89
+// Template markers added for parametric generation
 
 + "condition": {
 +   "field": "trigger-field",
@@ -3387,11 +3531,11 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 + "meta": {
 +   "uncertainty": {
 +     "include": true,
-+     "label": "Confidence"
++     "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
 +   },
 +   "annotation": {
 +     "include": true,
-+     "label": "Notes"
++     "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
 +   }
 + }
 

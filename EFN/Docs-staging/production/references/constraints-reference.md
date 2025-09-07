@@ -1,6 +1,17 @@
 # Constraints Reference
 
 <!-- discovery:metadata
+
+<!-- structured:metadata
+meta:purpose: technical-reference
+meta:summary: System limitations, performance boundaries, and security considerations.
+meta:generates: lookup-tables
+meta:requires: [fieldmark-knowledge]
+meta:version: 3.0.0
+meta:document: constraints_reference
+meta:depth-tags: [essential]
+-->
+
 provides: [security-issues, designer-limitations, vulnerabilities, workarounds]
 see-also: [platform-reference, operations-reference]
 -->

@@ -90,6 +90,17 @@ Output: Single ~27,000 line reference optimized for LLM consumption.
 # LLM Navigation Manifest for Fieldmark Documentation
 
 <!-- discovery:metadata
+
+<!-- structured:metadata
+meta:purpose: technical-reference
+meta:summary: Purpose-driven document discovery tables for LLM content navigation.
+meta:generates: lookup-tables
+meta:requires: [fieldmark-knowledge]
+meta:version: 3.0.0
+meta:document: llm_navigation_manifest
+meta:depth-tags: [essential]
+-->
+
 provides: [document-discovery, purpose-tables, quick-navigation, content-matrix]
 see-also: [field-type-index, all-documents]
 -->
@@ -266,6 +277,17 @@ see-also: [field-selection-guide, platform-reference, constraints-reference]
 
 
 # Text Input Fields
+
+
+<!-- structured:metadata
+meta:purpose: field-configuration
+meta:summary: Seven components for text input, display, and auto-generation, including critical HRID handling and XSS security considerations.
+meta:generates: json-fields
+meta:requires: [valid-json, unique-names, fviews-layer]
+meta:version: 3.0.0
+meta:document: text_fields
+meta:depth-tags: [essential, important, comprehensive]
+-->
 
 ## Document Navigation {essential}
 <!-- concat:nav-mode:individual -->
@@ -834,19 +856,21 @@ Single-line text input for brief, unconstrained textual data. Primary choice for
 
 #### Core Configuration {essential}
 ```json
+// Example text-fields-01
+// Template markers added for parametric generation
 {
   "component-namespace": "formik-material-ui",
   "component-name": "TextField",
   "type-returned": "faims-core::String",
   "component-parameters": {
-    "name": "site-code",
-    "label": "Site Code",
-    "helperText": "Enter 3-letter site code",
+    "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+    "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+    "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
     "required": true
   },
   "validationSchema": [
     ["yup.string"],
-    ["yup.required", "Site code is required"],
+    ["yup.Site code is required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message,
     ["yup.matches", "^[A-Z]{3}$", "Must be 3 capital letters"]
   ],
   "initialValue": ""
@@ -875,6 +899,7 @@ For solutions, see [Troubleshooting Guide > Quick Fixes Table]
 
 ❌ **NEVER: Wrong initialValue type**
 ```json
+// Example text-fields-02
 {
   "component-name": "TextField",
   "initialValue": null  
@@ -882,6 +907,7 @@ For solutions, see [Troubleshooting Guide > Quick Fixes Table]
 ```
 ✅ **ALWAYS: Use empty string for text fields**
 ```json
+// Example text-fields-03
 {
   "initialValue": ""
 }
@@ -889,25 +915,30 @@ For solutions, see [Troubleshooting Guide > Quick Fixes Table]
 
 ❌ **NEVER: Validation schema in wrong order**
 ```json
+// Example text-fields-04
+// Template markers added for parametric generation
 {
   "validationSchema": [
-    ["yup.required", "Required"],
+    ["yup.Required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message,
     ["yup.string"]
   ]
 }
 ```
 ✅ **ALWAYS: Type declaration first**
 ```json
+// Example text-fields-05
+// Template markers added for parametric generation
 {
   "validationSchema": [
     ["yup.string"],
-    ["yup.required", "Required"]
+    ["yup.Required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
   ]
 }
 ```
 
 ❌ **NEVER: Wrong component name for enhanced variant**
 ```json
+// Example text-fields-06
 {
   "component-namespace": "faims-custom",
   "component-name": "TextField"
@@ -915,6 +946,7 @@ For solutions, see [Troubleshooting Guide > Quick Fixes Table]
 ```
 ✅ **ALWAYS: Match namespace to component**
 ```json
+// Example text-fields-07
 
 {
   "component-namespace": "faims-custom",
@@ -952,13 +984,15 @@ Extended text entry for narrative content, detailed observations, and interpreta
 
 #### Core Configuration {essential}
 ```json
+// Example text-fields-08
+// Template markers added for parametric generation
 {
   "component-namespace": "formik-material-ui",
   "component-name": "MultipleTextField",
   "type-returned": "faims-core::String",
   "component-parameters": {
-    "name": "site-description",
-    "label": "Site Description",
+    "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+    "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
     "multiline": true,
     "InputProps": {
       "rows": 4
@@ -998,6 +1032,7 @@ Extended text entry for narrative content, detailed observations, and interpreta
 
 ❌ **NEVER: Wrong component name**
 ```json
+// Example text-fields-09
 {
   "component-name": "MultilineTextField",
   "component-parameters": {
@@ -1007,12 +1042,14 @@ Extended text entry for narrative content, detailed observations, and interpreta
 ```
 ❌ **NEVER: Use "MultilineText" as component name**
 ```json
+// Example text-fields-10
 {
   "component-name": "MultipleTextField",
 }
 ```
 ✅ **ALWAYS: Use MultipleTextField**
 ```json
+// Example text-fields-11
 {
   "component-name": "MultipleTextField",
   "component-parameters": {
@@ -1024,6 +1061,7 @@ Extended text entry for narrative content, detailed observations, and interpreta
 
 ❌ **NEVER: Missing multiline flag**
 ```json
+// Example text-fields-12
 {
   "component-name": "MultipleTextField",
   "component-parameters": {
@@ -1033,6 +1071,7 @@ Extended text entry for narrative content, detailed observations, and interpreta
 ```
 ✅ **ALWAYS: Set multiline and use InputProps.rows**
 ```json
+// Example text-fields-13
 {
   "component-parameters": {
     "multiline": true,
@@ -1061,6 +1100,7 @@ Auto-generates text values from other fields using Mustache templates. **MANDATO
 
 #### Core Configuration {essential}
 ```json
+// Example text-fields-14
 {
   "component-namespace": "faims-custom",
   "component-name": "TemplatedStringField",
@@ -1097,6 +1137,7 @@ Auto-generates text values from other fields using Mustache templates. **MANDATO
 
 ❌ **NEVER: User text input without sanitization (CRITICAL SECURITY RISK)**
 ```json
+// Example text-fields-15
 {
   "template": "Record: {{user-text-field}}"
 
@@ -1105,12 +1146,14 @@ Auto-generates text values from other fields using Mustache templates. **MANDATO
 ```
 ✅ **ALWAYS: Use controlled vocabularies or sanitize**
 ```json
+// Example text-fields-16
 {
   "template": "{{record-type}}-{{counter}}"
 
 
 ❌ **NEVER: Include any user-editable field in templates**
 ```json
+// Example text-fields-17
 
 {
   "template": "Site: {{site_name}}"
@@ -1125,6 +1168,7 @@ Auto-generates text values from other fields using Mustache templates. **MANDATO
 
 ✅ **ALWAYS: Use only system-generated or controlled fields**
 ```json
+// Example text-fields-18
 
 {
   "template": "{{_USER}}-{{_YYYY}}-{{auto_increment}}"
@@ -1141,6 +1185,7 @@ Auto-generates text values from other fields using Mustache templates. **MANDATO
 
 ❌ **NEVER: Reference another TemplatedString**
 ```json
+// Example text-fields-19
 {
   "template": "{{other-template}}-{{number}}"
 
@@ -1148,6 +1193,7 @@ Auto-generates text values from other fields using Mustache templates. **MANDATO
 ```
 ✅ **ALWAYS: Reference only non-template fields**
 ```json
+// Example text-fields-20
 {
   "template": "{{site}}-{{date}}-{{counter}}"
 }
@@ -1155,12 +1201,14 @@ Auto-generates text values from other fields using Mustache templates. **MANDATO
 
 ❌ **NEVER: Reference fields from different forms**
 ```json
+// Example text-fields-21
 {
   "template": "{{parent.field}}-{{local-field}}"
 }
 ```
 ✅ **ALWAYS: Keep all referenced fields in same form**
 ```json
+// Example text-fields-22
 {
   "template": "{{field1}}-{{field2}}"
 }
@@ -1178,13 +1226,15 @@ Auto-generates text values from other fields using Mustache templates. **MANDATO
 
 #### Core Configuration {essential}
 ```json
+// Example text-fields-23
+// Template markers added for parametric generation
 {
   "component-namespace": "formik-material-ui",
   "component-name": "TextField",
   "type-returned": "faims-core::String",
   "component-parameters": {
-    "name": "email-field",
-    "label": "Email Address",
+    "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+    "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
     "InputProps": {
       "type": "email"
     }
@@ -1222,6 +1272,7 @@ Also see [Troubleshooting Guide > Common Problems Table] for general validation 
 
 ❌ **NEVER: Wrong type-returned**
 ```json
+// Example text-fields-24
 {
   "component-name": "TextField",
   "type-returned": "faims-core::String",
@@ -1232,6 +1283,7 @@ Also see [Troubleshooting Guide > Common Problems Table] for general validation 
 ```
 ✅ **ALWAYS: Email fields return String**
 ```json
+// Example text-fields-25
 {
   "type-returned": "faims-core::String",
   "component-parameters": {
@@ -1242,6 +1294,7 @@ Also see [Troubleshooting Guide > Common Problems Table] for general validation 
 
 ❌ **NEVER: Look for an Email component**
 ```json
+// Example text-fields-26
 {
   "component-namespace": "ANY-namespace",
   "component-name": "TextField"
@@ -1249,6 +1302,7 @@ Also see [Troubleshooting Guide > Common Problems Table] for general validation 
 ```
 ✅ **ALWAYS: Use TextField with email type**
 ```json
+// Example text-fields-27
 {
   "component-name": "TextField",
   "component-parameters": {
@@ -1269,16 +1323,19 @@ Also see [Troubleshooting Guide > Common Problems Table] for general validation 
 
 #### Core Configuration {essential}
 ```json
+// Example text-fields-28
+// Template markers added for parametric generation
 {
   "component-namespace": "faims-custom",
   "component-name": "AddressField",
-  "name": "site-address",
+  "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
   "type-returned": "faims-core::JSON"
 }
 ```
 
 #### Address-Specific Storage {important}
 ```json
+// Example text-fields-29
 {
   "display_name": "123 Main St, Parramatta, NSW, 2150",
   "address": {
@@ -1324,6 +1381,7 @@ df['postcode'] = df['address_data'].apply(lambda x: x['address']['postcode'])
 
 ❌ **NEVER: Wrong initialValue for Address**
 ```json
+// Example text-fields-30
 {
   "component-name": "AddressField",
   "initialValue": ""
@@ -1331,6 +1389,7 @@ df['postcode'] = df['address_data'].apply(lambda x: x['address']['postcode'])
 ```
 ✅ **ALWAYS: Use null for Address fields**
 ```json
+// Example text-fields-31
 {
   "component-name": "AddressField",
   "initialValue": null
@@ -1339,6 +1398,7 @@ df['postcode'] = df['address_data'].apply(lambda x: x['address']['postcode'])
 
 ❌ **NEVER: Wrong validation schema**
 ```json
+// Example text-fields-32
 {
   "validationSchema": [
     ["yup.string"]
@@ -1347,6 +1407,7 @@ df['postcode'] = df['address_data'].apply(lambda x: x['address']['postcode'])
 ```
 ✅ **ALWAYS: Use object validation**
 ```json
+// Example text-fields-33
 {
   "validationSchema": [
     ["yup.object"],
@@ -1357,6 +1418,7 @@ df['postcode'] = df['address_data'].apply(lambda x: x['address']['postcode'])
 
 ❌ **NEVER: Wrong type-returned**
 ```json
+// Example text-fields-34
 {
   "component-name": "AddressField",
   "type-returned": "faims-core::String"
@@ -1364,6 +1426,7 @@ df['postcode'] = df['address_data'].apply(lambda x: x['address']['postcode'])
 ```
 ✅ **ALWAYS: Address returns JSON**
 ```json
+// Example text-fields-35
 {
   "type-returned": "faims-core::JSON"
 }
@@ -1381,14 +1444,16 @@ df['postcode'] = df['address_data'].apply(lambda x: x['address']['postcode'])
 
 #### Core Configuration {essential}
 ```json
+// Example text-fields-36
+// Template markers added for parametric generation
 {
   "component-namespace": "qrcode",
   "component-name": "QRCodeFormField",
   "type-returned": "faims-core::String",
   "component-parameters": {
-    "label": "Scan Barcode",
-    "name": "barcode-field",
-    "helperText": "Position barcode within frame",
+    "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+    "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+    "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
     "fullWidth": true
   }
 }
@@ -1435,16 +1500,19 @@ df['postcode'] = df['address_data'].apply(lambda x: x['address']['postcode'])
 
 ❌ **NEVER: Mark as required (CRITICAL PLATFORM ISSUE)**
 ```json
+// Example text-fields-37
+// Template markers added for parametric generation
 {
   "component-name": "QRCodeFormField",
   "validationSchema": [
     ["yup.string"],
-    ["yup.required", "Scan required"]
+    ["yup.Scan required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
   ]
 }
 ```
 ✅ **ALWAYS: Keep optional or pair with TextField**
 ```json
+// Example text-fields-38
 {
   "component-name": "QRCodeFormField",
   "validationSchema": [["yup.string"]]
@@ -1454,18 +1522,22 @@ df['postcode'] = df['address_data'].apply(lambda x: x['address']['postcode'])
 
 ❌ **NEVER: Assume cross-platform functionality**
 ```json
+// Example text-fields-39
+// Template markers added for parametric generation
 {
   "component-name": "QRCodeFormField",
   "component-parameters": {
-    "helperText": "Scan or type barcode"
+    "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
   }
 }
 ```
 ✅ **ALWAYS: Document platform limitation**
 ```json
+// Example text-fields-40
+// Template markers added for parametric generation
 {
   "component-parameters": {
-    "helperText": "Scan barcode (mobile only)"
+    "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
   }
 }
 ```
@@ -1482,12 +1554,14 @@ df['postcode'] = df['address_data'].apply(lambda x: x['address']['postcode'])
 
 #### Core Configuration {essential}
 ```json
+// Example text-fields-41
+// Template markers added for parametric generation
 {
   "component-namespace": "faims-custom",
   "component-name": "RichText",
   "type-returned": "faims-core::String",
   "component-parameters": {
-    "name": "field-id",
+    "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
     "content": "# Heading\n\nInstructional text with **markdown** formatting."
   },
   "validationSchema": [["yup.string"]],
@@ -1533,16 +1607,19 @@ df['postcode'] = df['address_data'].apply(lambda x: x['address']['postcode'])
 
 ❌ **NEVER: Expect data storage**
 ```json
+// Example text-fields-42
+// Template markers added for parametric generation
 {
   "component-name": "RichText",
   "component-parameters": {
-    "name": "important-data",
+    "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
     "content": "Enter notes here"
   }
 }
 ```
 ✅ **ALWAYS: Use only for display**
 ```json
+// Example text-fields-43
 {
   "component-name": "RichText",
   "component-parameters": {
@@ -1553,6 +1630,7 @@ df['postcode'] = df['address_data'].apply(lambda x: x['address']['postcode'])
 
 ❌ **NEVER: Include user-generated content in RichText**
 ```json
+// Example text-fields-44
 
 {
   "content": "User said: {{user_comment}}"
@@ -1564,6 +1642,7 @@ df['postcode'] = df['address_data'].apply(lambda x: x['address']['postcode'])
 
 ✅ **ALWAYS: Use static, developer-controlled content only**
 ```json
+// Example text-fields-45
 
 {
   "content": "## Field Instructions\n\nPlease complete all required fields"
@@ -1575,6 +1654,7 @@ df['postcode'] = df['address_data'].apply(lambda x: x['address']['postcode'])
 
 ❌ **NEVER: External image URLs**
 ```json
+// Example text-fields-46
 {
   "content": "![Diagram](https:
 
@@ -1582,6 +1662,7 @@ df['postcode'] = df['address_data'].apply(lambda x: x['address']['postcode'])
 ```
 ✅ **ALWAYS: Use Base64 embedded images**
 ```json
+// Example text-fields-47
 {
   "content": "![Diagram](data:image/png;base64,iVBORw0KGg...)"
 
@@ -1590,6 +1671,7 @@ df['postcode'] = df['address_data'].apply(lambda x: x['address']['postcode'])
 
 ❌ **NEVER: Tables in content**
 ```json
+// Example text-fields-48
 {
   "content": "| Header | Value |\n|--------|-------|\n| Data | 123 |"
 
@@ -1597,6 +1679,7 @@ df['postcode'] = df['address_data'].apply(lambda x: x['address']['postcode'])
 ```
 ✅ **ALWAYS: Use lists or embedded images**
 ```json
+// Example text-fields-49
 {
   "content": "**Data Values:**\n- Header: 123\n- Other: 456"
 
@@ -1807,22 +1890,24 @@ See [Common Characteristics > Validation Patterns > Validation Behavior]
 
 ### Example 1: Basic Required Text Field
 ```json
+// Example text-fields-50
+// Template markers added for parametric generation
 {
-  "site-name": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "formik-material-ui",
     "component-name": "TextField",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "site-name",
-      "label": "Site Name",
-      "helperText": "Official site designation",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": true,
       "fullWidth": true,
       "variant": "outlined"
     },
     "validationSchema": [
       ["yup.string"],
-      ["yup.required", "Site name is required"]
+      ["yup.Site name is required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
     ],
     "initialValue": ""
   }
@@ -1831,21 +1916,23 @@ See [Common Characteristics > Validation Patterns > Validation Behavior]
 
 ### Example 2: Text Field with Pattern Validation
 ```json
+// Example text-fields-51
+// Template markers added for parametric generation
 {
-  "specimen-id": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "formik-material-ui",
     "component-name": "TextField",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "specimen-id",
-      "label": "Specimen ID",
-      "helperText": "Format: ABC-1234",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "placeholder": "ABC-1234",
       "required": true
     },
     "validationSchema": [
       ["yup.string"],
-      ["yup.required", "Specimen ID is required"],
+      ["yup.Specimen ID is required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message,
       ["yup.matches", "^[A-Z]{3}-[0-9]{4}$", "Must match format ABC-1234"]
     ],
     "initialValue": ""
@@ -1855,15 +1942,17 @@ See [Common Characteristics > Validation Patterns > Validation Behavior]
 
 ### Example 3: Email Field with Validation
 ```json
+// Example text-fields-52
+// Template markers added for parametric generation
 {
-  "contact-email": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "formik-material-ui",
     "component-name": "TextField",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "contact-email",
-      "label": "Contact Email",
-      "helperText": "Principal investigator email",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "InputProps": {
         "type": "email"
       },
@@ -1871,8 +1960,8 @@ See [Common Characteristics > Validation Patterns > Validation Behavior]
     },
     "validationSchema": [
       ["yup.string"],
-      ["yup.email", "Invalid email format"],
-      ["yup.required", "Email is required"]
+      ["yup.Invalid email format", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message,
+      ["yup.Email is required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
     ],
     "initialValue": ""
   }
@@ -1881,15 +1970,17 @@ See [Common Characteristics > Validation Patterns > Validation Behavior]
 
 ### Example 4: Optional Text with Character Limit
 ```json
+// Example text-fields-53
+// Template markers added for parametric generation
 {
-  "brief-notes": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "formik-material-ui",
     "component-name": "TextField",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "brief-notes",
-      "label": "Brief Notes",
-      "helperText": "Optional, max 100 characters",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "inputProps": { 
         "maxLength": 100 
       },
@@ -1906,15 +1997,17 @@ See [Common Characteristics > Validation Patterns > Validation Behavior]
 
 ### Example 5: Multiline Text Area
 ```json
+// Example text-fields-54
+// Template markers added for parametric generation
 {
-  "site-description": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "formik-material-ui",
     "component-name": "MultipleTextField",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "site-description",
-      "label": "Site Description",
-      "helperText": "Detailed site characteristics",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "placeholder": "Describe the site location, features, and condition...",
       "required": true,
       "fullWidth": true,
@@ -1925,7 +2018,7 @@ See [Common Characteristics > Validation Patterns > Validation Behavior]
     },
     "validationSchema": [
       ["yup.string"],
-      ["yup.required", "Description is required"],
+      ["yup.Description is required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message,
       ["yup.min", 50, "Minimum 50 characters"]
     ],
     "initialValue": ""
@@ -1935,21 +2028,23 @@ See [Common Characteristics > Validation Patterns > Validation Behavior]
 
 ### Example 6: Text with Advanced Helper
 ```json
+// Example text-fields-55
+// Template markers added for parametric generation
 {
-  "excavation-unit": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "FAIMSTextField",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "excavation-unit",
-      "label": "Excavation Unit",
-      "helperText": "Unit designation code",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "advancedHelperText": "## Unit Coding System\n\n**Format:** [Area]-[Trench]-[Unit]\n\n- Area: Single letter (A-Z)\n- Trench: T + number (T1-T99)\n- Unit: 3 digits (001-999)\n\n**Example:** A-T1-001",
       "required": true
     },
     "validationSchema": [
       ["yup.string"],
-      ["yup.required", "Unit code required"],
+      ["yup.Unit code required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message,
       ["yup.matches", "^[A-Z]-T[0-9]{1,2}-[0-9]{3}$", "Invalid format"]
     ],
     "initialValue": ""
@@ -1959,21 +2054,23 @@ See [Common Characteristics > Validation Patterns > Validation Behavior]
 
 ### Example 7: Auto-incrementing Identifier
 ```json
+// Example text-fields-56
+// Template markers added for parametric generation
 {
-  "artifact-number": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "BasicAutoIncrementer",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "artifact-number",
-      "label": "Artifact Number",
-      "helperText": "Auto-generated sequential ID",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "incrementer": "artifact-counter",
       "required": true
     },
     "validationSchema": [
       ["yup.string"],
-      ["yup.required", "Artifact number required"]
+      ["yup.Artifact number required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
     ],
     "initialValue": ""
   }
@@ -1982,6 +2079,7 @@ See [Common Characteristics > Validation Patterns > Validation Behavior]
 
 ### Example 8: Templated String Field
 ```json
+// Example text-fields-57
 {
   "sample-id": {
     "component-namespace": "faims-custom",
@@ -2000,20 +2098,22 @@ See [Common Characteristics > Validation Patterns > Validation Behavior]
 
 ### Example 9: Text with Conditional Visibility
 ```json
+// Example text-fields-58
+// Template markers added for parametric generation
 {
-  "damage-description": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "formik-material-ui",
     "component-name": "TextField",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "damage-description",
-      "label": "Damage Description",
-      "helperText": "Describe the damage observed",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": true
     },
     "validationSchema": [
       ["yup.string"],
-      ["yup.required", "Description required when damage present"]
+      ["yup.Description required when damage present", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
     ],
     "initialValue": "",
     "condition": {
@@ -2027,15 +2127,17 @@ See [Common Characteristics > Validation Patterns > Validation Behavior]
 
 ### Example 10: Rich Text with Metadata
 ```json
+// Example text-fields-59
+// Template markers added for parametric generation
 {
-  "interpretation": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "formik-material-ui",
     "component-name": "MultipleTextField",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "interpretation",
-      "label": "Archaeological Interpretation",
-      "helperText": "Detailed analysis and interpretation",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": false,
       "fullWidth": true,
       "multiline": true,
@@ -2051,11 +2153,11 @@ See [Common Characteristics > Validation Patterns > Validation Behavior]
     "meta": {
       "uncertainty": {
         "include": true,
-        "label": "Interpretation confidence"
+        "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
       },
       "annotation": {
         "include": true,
-        "label": "Additional notes"
+        "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
       }
     }
   }
@@ -2064,15 +2166,17 @@ See [Common Characteristics > Validation Patterns > Validation Behavior]
 
 ### Example 11: URL Field with Validation
 ```json
+// Example text-fields-60
+// Template markers added for parametric generation
 {
-  "reference-url": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "formik-material-ui",
     "component-name": "TextField",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "reference-url",
-      "label": "Reference URL",
-      "helperText": "Link to related documentation",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "InputProps": {
         "type": "url"
       },
@@ -2080,7 +2184,7 @@ See [Common Characteristics > Validation Patterns > Validation Behavior]
     },
     "validationSchema": [
       ["yup.string"],
-      ["yup.url", "Must be a valid URL"],
+      ["yup.Must be a valid URL", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message,
       ["yup.matches", "^https://", "URL must use HTTPS"]
     ],
     "initialValue": null
@@ -2090,15 +2194,17 @@ See [Common Characteristics > Validation Patterns > Validation Behavior]
 
 ### Example 12: Alphanumeric Code with Custom Format
 ```json
+// Example text-fields-61
+// Template markers added for parametric generation
 {
-  "grid-reference": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "formik-material-ui",
     "component-name": "TextField",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "grid-reference",
-      "label": "Grid Reference",
-      "helperText": "6-figure grid reference",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "placeholder": "123456",
       "inputProps": {
         "maxLength": 6,
@@ -2108,7 +2214,7 @@ See [Common Characteristics > Validation Patterns > Validation Behavior]
     "validationSchema": [
       ["yup.string"],
       ["yup.matches", "^[0-9]{6}$", "Must be exactly 6 digits"],
-      ["yup.required", "Grid reference required"]
+      ["yup.Grid reference required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
     ],
     "initialValue": ""
   }
@@ -2117,6 +2223,7 @@ See [Common Characteristics > Validation Patterns > Validation Behavior]
 
 ### Example 13: Advanced HRID with Multiple Variables
 ```json
+// Example text-fields-62
 {
   "record-hrid": {
     "component-namespace": "faims-custom",
@@ -2136,15 +2243,17 @@ See [Common Characteristics > Validation Patterns > Validation Behavior]
 
 ### Example 14: Password Field (Sensitive Data)
 ```json
+// Example text-fields-63
+// Template markers added for parametric generation
 {
-  "access-code": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "formik-material-ui",
     "component-name": "TextField",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "access-code",
-      "label": "Site Access Code",
-      "helperText": "Required for restricted areas",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "InputProps": {
         "type": "password"
       },
@@ -2152,7 +2261,7 @@ See [Common Characteristics > Validation Patterns > Validation Behavior]
     },
     "validationSchema": [
       ["yup.string"],
-      ["yup.required", "Access code required"],
+      ["yup.Access code required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message,
       ["yup.min", 6, "Minimum 6 characters"]
     ],
     "initialValue": ""
@@ -2162,14 +2271,16 @@ See [Common Characteristics > Validation Patterns > Validation Behavior]
 
 ### Example 15: Search Field with Placeholder
 ```json
+// Example text-fields-64
+// Template markers added for parametric generation
 {
-  "catalog-search": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "formik-material-ui",
     "component-name": "TextField",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "catalog-search",
-      "label": "Catalog Search",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
       "placeholder": "Enter catalog number or description...",
       "InputProps": {
         "type": "search"
@@ -2187,15 +2298,17 @@ See [Common Characteristics > Validation Patterns > Validation Behavior]
 
 ### Example 16: Multi-value Text Array
 ```json
+// Example text-fields-65
+// Template markers added for parametric generation
 {
-  "team-members": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "FAIMSTextField",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "team-members",
-      "label": "Team Members",
-      "helperText": "Enter each team member name",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "multiple": true,
       "required": true
     },
@@ -2210,15 +2323,17 @@ See [Common Characteristics > Validation Patterns > Validation Behavior]
 
 ### Example 17: Phone Number with Format
 ```json
+// Example text-fields-66
+// Template markers added for parametric generation
 {
-  "contact-phone": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "formik-material-ui",
     "component-name": "TextField",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "contact-phone",
-      "label": "Contact Phone",
-      "helperText": "Include country code",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "placeholder": "+61 400 000 000",
       "InputProps": {
         "type": "tel"
@@ -2235,15 +2350,17 @@ See [Common Characteristics > Validation Patterns > Validation Behavior]
 
 ### Example 18: Disabled Field with Default
 ```json
+// Example text-fields-67
+// Template markers added for parametric generation
 {
-  "project-code": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "formik-material-ui",
     "component-name": "TextField",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "project-code",
-      "label": "Project Code",
-      "helperText": "Auto-assigned project identifier",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "disabled": true,
       "variant": "outlined"
     },
@@ -2257,15 +2374,17 @@ See [Common Characteristics > Validation Patterns > Validation Behavior]
 
 ### Example 19: Text with Word Count Validation
 ```json
+// Example text-fields-68
+// Template markers added for parametric generation
 {
-  "abstract": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "formik-material-ui",
     "component-name": "MultipleTextField",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "abstract",
-      "label": "Abstract",
-      "helperText": "150-300 words",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": true,
       "fullWidth": true,
       "multiline": true,
@@ -2275,7 +2394,7 @@ See [Common Characteristics > Validation Patterns > Validation Behavior]
     },
     "validationSchema": [
       ["yup.string"],
-      ["yup.required", "Abstract is required"],
+      ["yup.Abstract is required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message,
       ["yup.test", "word-count", "Must be 150-300 words",
         "value => { const words = value ? value.trim().split(/\\s+/).length : 0; return words >= 150 && words <= 300; }"]
     ],
@@ -2286,15 +2405,17 @@ See [Common Characteristics > Validation Patterns > Validation Behavior]
 
 ### Example 20: Complex Nested Form Reference
 ```json
+// Example text-fields-69
+// Template markers added for parametric generation
 {
-  "location-notes": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "formik-material-ui",
     "component-name": "TextField",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "location-notes",
-      "label": "Location Notes",
-      "helperText": "Additional location details",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": false
     },
     "validationSchema": [
@@ -2337,6 +2458,7 @@ See [Common Characteristics > Validation Patterns > Validation Behavior]
 }
 #### Conditional Template with Boolean Logic {comprehensive}
 ```json
+// Example text-fields-70
 {
   "_has_photos": {
     "component-namespace": "faims-custom",
@@ -2353,15 +2475,17 @@ See [Common Characteristics > Validation Patterns > Validation Behavior]
 
 ### Email Field Pattern {important}
 ```json
+// Example text-fields-71
+// Template markers added for parametric generation
 {
-  "principal-investigator-email": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "formik-material-ui",
     "component-name": "TextField",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "label": "Principal Investigator Email",
-      "name": "principal-investigator-email",
-      "helperText": "Required for data access requests",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": true,
       "InputProps": {
         "type": "email"
@@ -2369,8 +2493,8 @@ See [Common Characteristics > Validation Patterns > Validation Behavior]
     },
     "validationSchema": [
       ["yup.string"],
-      ["yup.email", "Valid email required"],
-      ["yup.required", "PI email is mandatory"]
+      ["yup.Valid email required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message,
+      ["yup.PI email is mandatory", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
     ],
     "initialValue": ""
   }
@@ -2379,15 +2503,17 @@ See [Common Characteristics > Validation Patterns > Validation Behavior]
 
 ### Address Field Pattern {important}
 ```json
+// Example text-fields-72
+// Template markers added for parametric generation
 {
-  "site-street-address": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "AddressField",
     "type-returned": "faims-core::JSON",
     "component-parameters": {
-      "label": "Site Street Address",
-      "name": "site-street-address",
-      "helperText": "Enter the formal street address for site access",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": false,
       "fullWidth": true
     },
@@ -2396,7 +2522,7 @@ See [Common Characteristics > Validation Patterns > Validation Behavior]
     "meta": {
       "annotation": {
         "include": true,
-        "label": "Address notes (e.g., alternative access points)"
+        "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
       }
     }
   }
@@ -2405,26 +2531,28 @@ See [Common Characteristics > Validation Patterns > Validation Behavior]
 
 ### QRCodeFormField with Manual Fallback {important}
 ```json
+// Example text-fields-73
+// Template markers added for parametric generation
 {
-  "artefact-id-scan": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "qrcode",
     "component-name": "QRCodeFormField",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "label": "Scan Artefact Tag",
-      "name": "artefact-id-scan",
-      "helperText": "Use mobile scanner for barcode"
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
     },
     "initialValue": ""
   },
-  "artefact-id-manual": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "formik-material-ui",
     "component-name": "TextField",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "label": "Or Enter Artefact ID Manually",
-      "name": "artefact-id-manual",
-      "helperText": "Type ID if scanner unavailable"
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
     },
     "validationSchema": [
       ["yup.string"],
@@ -2436,13 +2564,15 @@ See [Common Characteristics > Validation Patterns > Validation Behavior]
 
 ### RichText Conditional Instructions {important}
 ```json
+// Example text-fields-74
+// Template markers added for parametric generation
 {
-  "excavation-warning": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "RichText",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "excavation-warning",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "content": "⚠️ **STOP**: Consult heritage officer before excavation.\n\nThis site requires special permits."
     },
     "condition": {
@@ -2504,6 +2634,7 @@ For ready-to-use scripts, see [Migration Script Templates] below
 
 **Legacy Patterns to Avoid**:
 ```json
+// Example text-fields-75
 
 {
   "component-namespace": "formik-material-ui",
@@ -2993,6 +3124,7 @@ Requirement for full field definition despite non-participation in data operatio
 - `QUIRK` Voice input creates run-on text without punctuation
 - `FIX` Implement character counter in helperText:
   ```json
+// Example text-fields-76
   "component-parameters": {
     "helperText": "Site identifier (max 50 characters)",
     "inputProps": { "maxLength": 50 }
@@ -3019,6 +3151,7 @@ Requirement for full field definition despite non-participation in data operatio
   - Set as: `"InputProps": { "rows": 5 }`  // Most common
 - `FIX` Add validation for content length:
   ```json
+// Example text-fields-77
   "validationSchema": [
     ["yup.string"],
     ["yup.max", 10000, "Content exceeds 10,000 character recommendation"],
@@ -3084,6 +3217,7 @@ Requirement for full field definition despite non-participation in data operatio
   ```
 - `FIX` Add domain-specific email validation:
   ```json
+// Example text-fields-78
 
   ["yup.matches", "@[\\w.-]+\\.edu\\.au$", "Must be .edu.au email"]
 
@@ -3108,22 +3242,24 @@ Requirement for full field definition despite non-participation in data operatio
 - `QUIRK` No manual entry option built-in
 - `FIX` Implement scanner/manual field pairing:
   ```json
+// Example text-fields-79
+// Template markers added for parametric generation
   {
-    "barcode-scan": {
+    "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
       "component-namespace": "qrcode",
       "component-name": "QRCodeFormField",
       "component-parameters": {
-        "label": "Scan Barcode (Mobile Only)",
-        "name": "barcode-scan"
+        "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+        "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier
       }
     },
-    "barcode-manual": {
+    "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
       "component-namespace": "formik-material-ui",
       "component-name": "TextField",
       "component-parameters": {
-        "label": "Or Enter Barcode Manually",
-        "name": "barcode-manual",
-        "helperText": "Type if scanner unavailable"
+        "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+        "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+        "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
       }
     }
   }
@@ -3136,15 +3272,17 @@ Requirement for full field definition despite non-participation in data operatio
   For training materials: `"helperText": "Scanner requires: 1) Mobile device 2) Camera permission 3) Good lighting 4) Clean barcode 5) Steady hold"`
 - `FIX` Implement platform-aware conditional display:
   ```json
+// Example text-fields-80
+// Template markers added for parametric generation
 
   {
-    "is-mobile": {
+    "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
       "component-name": "RadioGroup",
       "component-parameters": {
-        "label": "Device Type",
+        "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
         "options": [
-          {"value": "mobile", "label": "Mobile (iOS/Android)"},
-          {"value": "web", "label": "Web Browser"}
+          {"value": "mobile", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+          {"value": "web", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label}
         ]
       }
     }
@@ -3201,30 +3339,32 @@ Requirement for full field definition despite non-participation in data operatio
   ```
 - `FIX` Replace Address field with TextFields for international use:
   ```json
+// Example text-fields-81
+// Template markers added for parametric generation
   {
-    "addr-line-1": {
+    "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
       "component-name": "TextField",
-      "label": "Address Line 1"
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
     },
-    "addr-line-2": {
+    "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
       "component-name": "TextField",
-      "label": "Address Line 2"
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
     },
-    "addr-city": {
+    "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
       "component-name": "TextField",
-      "label": "City/Town"
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
     },
-    "addr-state": {
+    "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
       "component-name": "TextField",
-      "label": "State/Province/Region"
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
     },
-    "addr-postcode": {
+    "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
       "component-name": "TextField",
-      "label": "Post/ZIP Code"
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
     },
-    "addr-country": {
+    "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
       "component-name": "Select",
-      "label": "Country",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
       "options": [/* country list */]
     }
   }
@@ -3305,14 +3445,16 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 ### TextField Patterns
 
 ```json
+// Example text-fields-82
+// Template markers added for parametric generation
 
 {
   "component-namespace": "formik-material-ui",
   "component-name": "TextField",
   "type-returned": "faims-core::String",
   "component-parameters": {
-    "name": "field-name",
-    "label": "Field Label"
+    "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+    "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
   },
   "validationSchema": [["yup.string"]],
   "initialValue": ""
@@ -3321,16 +3463,16 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 
 + "component-parameters": {
 +   "required": true,
-+   "helperText": "This field is mandatory"
++   "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
 + }
 + "validationSchema": [
 +   ["yup.string"],
-+   ["yup.required", "Field is required"]
++   ["yup.Field is required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
 + ]
 
 
 + "component-parameters": {
-+   "helperText": "Format: ABC-123",
++   "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
 +   "placeholder": "e.g., SYD-001"
 + }
 + "validationSchema": [
@@ -3344,7 +3486,7 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 + }
 + "validationSchema": [
 +   ["yup.string"],
-+   ["yup.email", "Invalid email address"]
++   ["yup.Invalid email address", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
 + ]
 
 
@@ -3367,14 +3509,16 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 ### MultilineText Patterns
 
 ```json
+// Example text-fields-83
+// Template markers added for parametric generation
 
 {
   "component-namespace": "formik-material-ui",
   "component-name": "MultipleTextField",
   "type-returned": "faims-core::String",
   "component-parameters": {
-    "name": "description",
-    "label": "Description",
+    "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+    "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
     "multiline": true,
     "InputProps": {
       "rows": 4
@@ -3391,11 +3535,11 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 +     "rows": 8
 +   },
 +   "required": true,
-+   "helperText": "Provide detailed description (200-10000 chars)"
++   "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
 + }
 + "validationSchema": [
 +   ["yup.string"],
-+   ["yup.required", "Description required"],
++   ["yup.Description required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message,
 +   ["yup.min", 200, "Minimum 200 characters"],
 +   ["yup.max", 10000, "Maximum 10,000 characters"]
 + ]
@@ -3404,7 +3548,7 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 + "meta": {
 +   "uncertainty": {
 +     "include": true,
-+     "label": "Confidence level"
++     "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
 +   }
 + }
 
@@ -3412,7 +3556,7 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 + "meta": {
 +   "annotation": {
 +     "include": true,
-+     "label": "Additional notes"
++     "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
 +   }
 + }
 ```
@@ -3420,6 +3564,7 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 ### TemplatedString Patterns
 
 ```json
+// Example text-fields-84
 
 {
   "component-namespace": "faims-custom",
@@ -3464,21 +3609,23 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 ### Email Patterns
 
 ```json
+// Example text-fields-85
+// Template markers added for parametric generation
 
 {
   "component-namespace": "formik-material-ui",
   "component-name": "TextField",
   "type-returned": "faims-core::String",
   "component-parameters": {
-    "name": "contact-email",
-    "label": "Contact Email",
+    "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+    "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
     "InputProps": {
       "type": "email"
     }
   },
   "validationSchema": [
     ["yup.string"],
-    ["yup.email", "Invalid email format"]
+    ["yup.Invalid email format", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
   ],
   "initialValue": ""
 }
@@ -3486,12 +3633,12 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 
 + "component-parameters": {
 +   "required": true,
-+   "helperText": "Use institutional email only"
++   "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
 + }
 + "validationSchema": [
 +   ["yup.string"],
-+   ["yup.required", "Email is required"],
-+   ["yup.email", "Invalid email format"],
++   ["yup.Email is required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message,
++   ["yup.Invalid email format", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message,
 +   ["yup.matches", "@(uni\\.edu|gov\\.au)$", "Must use institutional email"]
 + ]
 ```
@@ -3499,14 +3646,16 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 ### Address Patterns
 
 ```json
+// Example text-fields-86
+// Template markers added for parametric generation
 
 {
   "component-namespace": "faims-custom",
   "component-name": "AddressField",
   "type-returned": "faims-core::JSON",
   "component-parameters": {
-    "name": "site-address",
-    "label": "Site Address",
+    "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+    "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
     "fullWidth": true
   },
   "validationSchema": [
@@ -3519,7 +3668,7 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 
 + "component-parameters": {
 +   "required": true,
-+   "helperText": "Physical address required for access"
++   "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
 + }
 - "validationSchema": [
 -   ["yup.object"],
@@ -3527,14 +3676,14 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 - ]
 + "validationSchema": [
 +   ["yup.object"],
-+   ["yup.required", "Address is required"]
++   ["yup.Address is required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
 + ]
 
 
 + "meta": {
 +   "annotation": {
 +     "include": true,
-+     "label": "Access notes (gate codes, etc.)"
++     "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
 +   }
 + }
 ```
@@ -3542,14 +3691,16 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 ### QRCodeFormField Patterns
 
 ```json
+// Example text-fields-87
+// Template markers added for parametric generation
 
 {
   "component-namespace": "qrcode",
   "component-name": "QRCodeFormField",
   "type-returned": "faims-core::String",
   "component-parameters": {
-    "name": "barcode-scan",
-    "label": "Scan Barcode"
+    "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+    "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
   },
   "validationSchema": [["yup.string"]],
   "initialValue": ""
@@ -3557,28 +3708,28 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 
 
 + "component-parameters": {
-+   "helperText": "Position barcode in frame (mobile only)",
++   "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
 +   "fullWidth": true
 + }
 
 
 {
-  "barcode-scan": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "qrcode",
     "component-name": "QRCodeFormField",
     "component-parameters": {
-      "name": "barcode-scan",
-      "label": "Scan Barcode (Mobile)"
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
     },
     "initialValue": ""
   },
-  "barcode-manual": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "formik-material-ui",
     "component-name": "TextField",
     "component-parameters": {
-      "name": "barcode-manual",
-      "label": "Or Enter Manually",
-      "helperText": "Type barcode if scanner unavailable"
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
     },
     "validationSchema": [
       ["yup.string"],
@@ -3592,13 +3743,15 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 ### RichText Patterns
 
 ```json
+// Example text-fields-88
+// Template markers added for parametric generation
 
 {
   "component-namespace": "faims-custom",
   "component-name": "RichText",
   "type-returned": "faims-core::String",
   "component-parameters": {
-    "name": "instructions",
+    "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
     "content": "# Instructions\n\n**Important**: Follow these steps..."
   },
   "validationSchema": [["yup.string"]],
@@ -3627,6 +3780,8 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 ### Common Patterns Across Types
 
 ```json
+// Example text-fields-89
+// Template markers added for parametric generation
 
 + "condition": {
 +   "field": "trigger-field",
@@ -3638,11 +3793,11 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 + "meta": {
 +   "uncertainty": {
 +     "include": true,
-+     "label": "Confidence"
++     "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
 +   },
 +   "annotation": {
 +     "include": true,
-+     "label": "Notes"
++     "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
 +   }
 + }
 
@@ -4096,6 +4251,17 @@ see-also: [field-selection-guide, dynamic-forms-guide]
 
 
 # Selection and Choice Fields
+
+
+<!-- structured:metadata
+meta:purpose: field-configuration
+meta:summary: Nine selection components from dropdowns to multi-select, with complex conditional logic and platform-specific behaviors.
+meta:generates: json-fields
+meta:requires: [valid-json, unique-names, fviews-layer]
+meta:version: 3.0.0
+meta:document: select_choice_fields
+meta:depth-tags: [essential, important, comprehensive]
+-->
 
 ## Document Navigation {essential}
 <!-- concat:nav-mode:individual -->
@@ -4629,13 +4795,15 @@ All selection fields require predefined option lists configured at design time. 
 
 **Required Configuration Elements**:
 ```json
+// Example select-choice-fields-01
+// Template markers added for parametric generation
 {
   "component-namespace": "faims-custom",
   "component-name": "Select",
   "type-returned": "faims-core::String",
   "component-parameters": {
-    "name": "field-name",
-    "label": "Field Label"
+    "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+    "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
   }
 }
 ```
@@ -4656,9 +4824,11 @@ All selection fields require predefined option lists configured at design time. 
 
 **Universal Validation Schema Structure**:
 ```json
+// Example select-choice-fields-02
+// Template markers added for parametric generation
 "validationSchema": [
   ["yup.string"],
-  ["yup.required", "Error message"],
+  ["yup.Error message", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message,
 
 ]
 ```
@@ -4983,14 +5153,16 @@ The Checkbox field provides binary state capture through a Material-UI checkbox 
 ### Core Configuration {essential}
 
 ```json
+// Example select-choice-fields-03
+// Template markers added for parametric generation
 {
   "component-namespace": "faims-custom",
   "component-name": "Checkbox",
   "type-returned": "faims-core::Bool",
   "component-parameters": {
-    "name": "terms-accept",
-    "label": "I accept the terms and conditions",
-    "helperText": "You must accept to continue",
+    "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+    "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+    "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
     "required": true
   },
   "validationSchema": [
@@ -5085,15 +5257,17 @@ The Checkbox field provides binary state capture through a Material-UI checkbox 
 
 #### Terms Acceptance (Must Be Checked)
 ```json
+// Example select-choice-fields-04
+// Template markers added for parametric generation
 {
-  "terms-accept": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "Checkbox",
     "type-returned": "faims-core::Bool",
     "component-parameters": {
-      "name": "terms-accept",
-      "label": "I accept the terms and conditions",
-      "helperText": "You must accept to continue",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": true
     },
     "validationSchema": [
@@ -5107,15 +5281,17 @@ The Checkbox field provides binary state capture through a Material-UI checkbox 
 
 #### Optional Enhancement Flag
 ```json
+// Example select-choice-fields-05
+// Template markers added for parametric generation
 {
-  "include-detailed": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "Checkbox",
     "type-returned": "faims-core::Bool",
     "component-parameters": {
-      "name": "include-detailed",
-      "label": "Record detailed measurements",
-      "helperText": "Check to show additional measurement fields"
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
     },
     "validationSchema": [["yup.bool"]],
     "initialValue": false,
@@ -5128,14 +5304,16 @@ The Checkbox field provides binary state capture through a Material-UI checkbox 
 
 #### Data Quality Indicator with Persistence
 ```json
+// Example select-choice-fields-06
+// Template markers added for parametric generation
 {
-  "peer-reviewed": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "Checkbox",
     "type-returned": "faims-core::Bool",
     "component-parameters": {
-      "name": "peer-reviewed",
-      "label": "Data peer reviewed",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
       "advancedHelperText": "Check after secondary verification completed"
     },
     "validationSchema": [["yup.bool"]],
@@ -5150,15 +5328,17 @@ The Checkbox field provides binary state capture through a Material-UI checkbox 
 
 #### Migration from RadioGroup Pattern
 ```json
+// Example select-choice-fields-07
+// Template markers added for parametric generation
 {
-  "heritage-present": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "Checkbox",
     "type-returned": "faims-core::Bool",
     "component-parameters": {
-      "name": "heritage-present",
-      "label": "Aboriginal heritage identified",
-      "helperText": "Previously Yes/No radio - now checkbox for boolean logic",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": true
     },
     "validationSchema": [
@@ -5167,7 +5347,7 @@ The Checkbox field provides binary state capture through a Material-UI checkbox 
     ],
     "initialValue": false,
     "meta": {
-      "annotation": {"include": true, "label": "heritage notes"},
+      "annotation": {"include": true, "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
       "displayParent": true
     }
   }
@@ -5177,6 +5357,8 @@ The Checkbox field provides binary state capture through a Material-UI checkbox 
 ### JSON Anti-patterns
 
 ```json
+// Example select-choice-fields-08
+// Template markers added for parametric generation
 
 "validationSchema": [["yup.required"]]
 
@@ -5187,10 +5369,10 @@ The Checkbox field provides binary state capture through a Material-UI checkbox 
 
 
 
-"helperText": "Click the label to select"
+"helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
 
 
-"helperText": "Click the checkbox (not the label) to select"
+"helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
 ```
 
 ### Common Spec Mappings
@@ -5240,20 +5422,22 @@ The MultiSelect field enables multiple value selection from predefined option li
 ### Core Configuration {essential}
 
 ```json
+// Example select-choice-fields-09
+// Template markers added for parametric generation
 {
   "component-namespace": "faims-custom",
   "component-name": "MultiSelect",
   "type-returned": "faims-core::Array",
   "component-parameters": {
-    "name": "site-features",
+    "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
     "id": "site-features",
-    "label": "Site Features",
-    "helperText": "Select all that apply",
+    "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+    "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
     "ElementProps": {
       "options": [
-        {"value": "defensive", "label": "Defensive structures"},
-        {"value": "domestic", "label": "Domestic occupation"},
-        {"value": "industrial", "label": "Industrial remains"}
+        {"value": "defensive", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "domestic", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "industrial", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label}
       ],
       "expandedChecklist": true
     }
@@ -5342,22 +5526,24 @@ The MultiSelect field enables multiple value selection from predefined option li
 
 #### Basic Multi-Selection with Validation
 ```json
+// Example select-choice-fields-10
+// Template markers added for parametric generation
 {
-  "artefact-materials": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-name": "MultiSelect",
     "component-parameters": {
-      "label": "Artefact Materials",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
       "required": true,
-      "helperText": "Select all materials present",
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "ElementProps": {
         "expandedChecklist": true,
         "options": [
-          {"value": "ceramic", "label": "Ceramic"},
-          {"value": "glass", "label": "Glass"},
-          {"value": "metal", "label": "Metal"},
-          {"value": "bone", "label": "Bone"},
-          {"value": "shell", "label": "Shell"},
-          {"value": "stone", "label": "Stone"}
+          {"value": "ceramic", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+          {"value": "glass", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+          {"value": "metal", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+          {"value": "bone", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+          {"value": "shell", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+          {"value": "stone", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label}
         ]
       }
     },
@@ -5372,21 +5558,23 @@ The MultiSelect field enables multiple value selection from predefined option li
 
 #### Exclusive Options Pattern
 ```json
+// Example select-choice-fields-11
+// Template markers added for parametric generation
 {
-  "site-visibility": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-name": "MultiSelect",
     "component-parameters": {
-      "label": "Visibility Conditions",
-      "helperText": "Factors affecting site visibility",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "ElementProps": {
         "expandedChecklist": true,
         "options": [
-          {"value": "vegetation", "label": "Vegetation cover"},
-          {"value": "erosion", "label": "Erosion"},
-          {"value": "modern-development", "label": "Modern development"},
-          {"value": "flooding", "label": "Seasonal flooding"},
-          {"value": "excellent-visibility", "label": "Excellent visibility"},
-          {"value": "not-accessed", "label": "Could not access"}
+          {"value": "vegetation", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+          {"value": "erosion", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+          {"value": "modern-development", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+          {"value": "flooding", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+          {"value": "excellent-visibility", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+          {"value": "not-accessed", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label}
         ],
         "exclusiveOptions": ["excellent-visibility", "not-accessed"]
       }
@@ -5398,25 +5586,27 @@ The MultiSelect field enables multiple value selection from predefined option li
 
 #### Dropdown for Long Lists
 ```json
+// Example select-choice-fields-12
+// Template markers added for parametric generation
 {
-  "permits-required": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-name": "MultiSelect",
     "component-parameters": {
-      "label": "Permits Required",
-      "helperText": "Select all applicable permit types",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "ElementProps": {
         "expandedChecklist": false,
         "options": [
-          {"value": "aboriginal-heritage", "label": "Aboriginal Heritage"},
-          {"value": "environmental", "label": "Environmental Protection"},
-          {"value": "local-council", "label": "Local Council"},
-          {"value": "state-heritage", "label": "State Heritage"},
-          {"value": "commonwealth", "label": "Commonwealth Heritage"},
-          {"value": "landowner", "label": "Landowner Permission"},
-          {"value": "mining-lease", "label": "Mining Lease Access"},
-          {"value": "national-parks", "label": "National Parks"},
-          {"value": "crown-lands", "label": "Crown Lands"},
-          {"value": "none-required", "label": "No permits required"}
+          {"value": "aboriginal-heritage", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+          {"value": "environmental", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+          {"value": "local-council", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+          {"value": "state-heritage", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+          {"value": "commonwealth", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+          {"value": "landowner", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+          {"value": "mining-lease", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+          {"value": "national-parks", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+          {"value": "crown-lands", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+          {"value": "none-required", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label}
         ],
         "exclusiveOptions": ["none-required"]
       }
@@ -5431,19 +5621,21 @@ The MultiSelect field enables multiple value selection from predefined option li
 
 #### Migration from Multiple Checkboxes
 ```json
+// Example select-choice-fields-13
+// Template markers added for parametric generation
 {
-  "recording-methods": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-name": "MultiSelect",
     "component-parameters": {
-      "label": "Recording Methods Used",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
       "ElementProps": {
         "expandedChecklist": true,
         "options": [
-          {"value": "photography", "label": "Photography"},
-          {"value": "drawing", "label": "Scale drawing"},
-          {"value": "gps", "label": "GPS coordinates"},
-          {"value": "total-station", "label": "Total station"},
-          {"value": "photogrammetry", "label": "Photogrammetry"}
+          {"value": "photography", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+          {"value": "drawing", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+          {"value": "gps", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+          {"value": "total-station", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+          {"value": "photogrammetry", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label}
         ]
       }
     },
@@ -5451,7 +5643,7 @@ The MultiSelect field enables multiple value selection from predefined option li
     "meta": {
       "annotation": {
         "include": true,
-        "label": "recording notes"
+        "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
       }
     }
   }
@@ -5461,6 +5653,8 @@ The MultiSelect field enables multiple value selection from predefined option li
 ### JSON Anti-patterns
 
 ```json
+// Example select-choice-fields-14
+// Template markers added for parametric generation
 
 "validationSchema": [["yup.required"]]
 
@@ -5468,10 +5662,10 @@ The MultiSelect field enables multiple value selection from predefined option li
 "validationSchema": [["yup.min", 1, "Select at least one"]]
 
 
-{"value": "pottery, ceramics", "label": "Pottery, ceramics"}
+{"value": "pottery, ceramics", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label}
 
 
-{"value": "pottery and ceramics", "label": "Pottery and ceramics"}
+{"value": "pottery and ceramics", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label}
 
 
 "initialValue": ""
@@ -5539,29 +5733,31 @@ The RadioGroup field provides single selection from 2–10 mutually exclusive op
 ### Core Configuration {essential}
 
 ```json
+// Example select-choice-fields-15
+// Template markers added for parametric generation
 {
   "component-namespace": "faims-custom",
   "component-name": "RadioGroup",
   "type-returned": "faims-core::String",
   "component-parameters": {
-    "name": "fabric-condition",
-    "label": "Fabric Condition",
-    "helperText": "Click selected option to deselect (mouse only - accessibility issue)",
+    "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+    "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+    "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
     "fullWidth": true,
     "required": true,
     "ElementProps": {
       "options": [
-        {"value": "excellent", "label": "Excellent"},
-        {"value": "good", "label": "Good"},
-        {"value": "fair", "label": "Fair"},
-        {"value": "poor", "label": "Poor"},
-        {"value": "na", "label": "Not Applicable"}
+        {"value": "excellent", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "good", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "fair", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "poor", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "na", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label}
       ]
     }
   },
   "validationSchema": [
     ["yup.string"],
-    ["yup.required", "Condition required (message won't show)"],
+    ["yup.Condition required (message won't show)", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message,
     ["yup.oneOf", ["excellent","good","fair","poor","na"], "Invalid (won't show)"]
   ],
   "initialValue": "na"
@@ -5635,29 +5831,31 @@ The RadioGroup field provides single selection from 2–10 mutually exclusive op
 
 #### Heritage Condition Assessment (Deprecated Pattern)
 ```json
+// Example select-choice-fields-16
+// Template markers added for parametric generation
 {
   "component-namespace": "faims-custom",
   "component-name": "RadioGroup",
   "type-returned": "faims-core::String",
   "component-parameters": {
-    "name": "fabric-condition",
-    "label": "Fabric Condition",
-    "helperText": "Click selected option to deselect (mouse only)",
+    "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+    "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+    "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
     "fullWidth": true,
     "required": true,
     "ElementProps": {
       "options": [
-        {"value": "excellent", "label": "Excellent"},
-        {"value": "good", "label": "Good"},
-        {"value": "fair", "label": "Fair"},
-        {"value": "poor", "label": "Poor"},
-        {"value": "na", "label": "Not Applicable"}
+        {"value": "excellent", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "good", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "fair", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "poor", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "na", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label}
       ]
     }
   },
   "validationSchema": [
     ["yup.string"],
-    ["yup.required", "Condition required (message won't show)"],
+    ["yup.Condition required (message won't show)", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message,
     ["yup.oneOf", ["excellent","good","fair","poor","na"], "Invalid (won't show)"]
   ],
   "initialValue": "na"
@@ -5666,30 +5864,32 @@ The RadioGroup field provides single selection from 2–10 mutually exclusive op
 
 #### Migration to Select (Recommended)
 ```json
+// Example select-choice-fields-17
+// Template markers added for parametric generation
 {
   "component-namespace": "faims-custom",
   "component-name": "Select",
   "type-returned": "faims-core::String",
   "component-parameters": {
-    "name": "fabric-condition",
-    "label": "Fabric Condition",
-    "helperText": "Select the current condition",
+    "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+    "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+    "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
     "fullWidth": true,
     "required": true,
     "ElementProps": {
       "options": [
-        {"value": "", "label": "-- Select Condition --"},
-        {"value": "Excellent", "label": "Excellent"},
-        {"value": "Good", "label": "Good"},
-        {"value": "Fair", "label": "Fair"},
-        {"value": "Poor", "label": "Poor"},
-        {"value": "Not Applicable", "label": "Not Applicable"}
+        {"value": "", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "Excellent", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "Good", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "Fair", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "Poor", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "Not Applicable", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label}
       ]
     }
   },
   "validationSchema": [
     ["yup.string"],
-    ["yup.required", "Condition selection required"]
+    ["yup.Condition selection required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
   ],
   "initialValue": ""
 }
@@ -5697,20 +5897,22 @@ The RadioGroup field provides single selection from 2–10 mutually exclusive op
 
 #### Workflow Branching with Workarounds
 ```json
+// Example select-choice-fields-18
+// Template markers added for parametric generation
 {
   "component-namespace": "faims-custom",
   "component-name": "RadioGroup",
   "type-returned": "faims-core::String",
   "component-parameters": {
-    "name": "recording-type",
-    "label": "Recording Type",
-    "helperText": "Selection is permanent - cannot be cleared",
+    "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+    "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+    "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
     "required": true,
     "ElementProps": {
       "options": [
-        {"value": "full", "label": "Full Recording"},
-        {"value": "rapid", "label": "Rapid Assessment"},
-        {"value": "photo", "label": "Photo Only"}
+        {"value": "full", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "rapid", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "photo", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label}
       ]
     }
   },
@@ -5725,35 +5927,39 @@ The RadioGroup field provides single selection from 2–10 mutually exclusive op
 
 #### Binary Choice Alternative (Use Select Instead)
 ```json
+// Example select-choice-fields-19
+// Template markers added for parametric generation
 {
   "component-namespace": "faims-custom",
   "component-name": "RadioGroup",
   "type-returned": "faims-core::String",
   "component-parameters": {
-    "name": "has-features",
-    "label": "Heritage Features Present",
-    "helperText": "⚠️ DEPRECATED: Use Select or Checkbox instead",
+    "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+    "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+    "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
     "ElementProps": {
       "options": [
-        {"value": "yes", "label": "Yes"},
-        {"value": "no", "label": "No"}
+        {"value": "yes", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "no", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label}
       ]
     }
   },
   "validationSchema": [
     ["yup.string"],
-    ["yup.required", "Required (but won't display)"]
+    ["yup.Required (but won't display)", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
   ],
   "initialValue": ""
 }
 ```
 **Better Alternative**: Use Checkbox for true boolean logic:
 ```json
+// Example select-choice-fields-20
+// Template markers added for parametric generation
 {
   "component-name": "Checkbox",
   "type-returned": "faims-core::Bool",
   "component-parameters": {
-    "label": "Heritage Features Present"
+    "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
   }
 }
 ```
@@ -5761,11 +5967,13 @@ The RadioGroup field provides single selection from 2–10 mutually exclusive op
 ### JSON Anti-patterns
 
 ```json
+// Example select-choice-fields-21
+// Template markers added for parametric generation
 
-"validationSchema": [["yup.required", "This message won't show"]]
+"validationSchema": [["yup.This message won't show", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message]
 
 
-"helperText": "Click again to deselect"
+"helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
 
 
 
@@ -5777,7 +5985,7 @@ The RadioGroup field provides single selection from 2–10 mutually exclusive op
 "component-name": "Select"
 "ElementProps": {
   "options": [
-    {"value": "", "label": "-- Select --"},
+    {"value": "", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
     ...options
   ]
 }
@@ -5831,26 +6039,28 @@ The Select field provides single-choice selection from a dropdown list, offering
 ### Core Configuration {essential}
 
 ```json
+// Example select-choice-fields-22
+// Template markers added for parametric generation
 {
   "component-namespace": "faims-custom",
   "component-name": "Select",
   "type-returned": "faims-core::String",
   "component-parameters": {
-    "label": "Site Type",
-    "name": "site-type",
-    "helperText": "Select the primary site classification",
+    "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+    "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+    "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
     "fullWidth": true,
     "required": true,
     "ElementProps": {
       "options": [
-        {"value": "", "label": "-- Select Site Type --"},
-        {"value": "Artefact scatter", "label": "Artefact scatter"},
-        {"value": "Rock art", "label": "Rock art"},
-        {"value": "Shell midden", "label": "Shell midden"},
-        {"value": "Stone arrangement", "label": "Stone arrangement"},
-        {"value": "Burial", "label": "Burial"},
-        {"value": "Historic structure", "label": "Historic structure"},
-        {"value": "Other", "label": "Other"}
+        {"value": "", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "Artefact scatter", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "Rock art", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "Shell midden", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "Stone arrangement", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "Burial", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "Historic structure", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "Other", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label}
       ]
     }
   },
@@ -5935,34 +6145,36 @@ The Select field provides single-choice selection from a dropdown list, offering
 
 #### Site Classification (Heritage Context)
 ```json
+// Example select-choice-fields-23
+// Template markers added for parametric generation
 {
-  "site-type": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "Select",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "label": "Site Type",
-      "name": "site-type",
-      "helperText": "Select the primary site classification",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "fullWidth": true,
       "required": true,
       "ElementProps": {
         "options": [
-          {"value": "Artefact scatter", "label": "Artefact scatter"},
-          {"value": "Rock art", "label": "Rock art"},
-          {"value": "Shell midden", "label": "Shell midden"},
-          {"value": "Stone arrangement", "label": "Stone arrangement"},
-          {"value": "Burial", "label": "Burial"},
-          {"value": "Historic structure", "label": "Historic structure"},
-          {"value": "Other", "label": "Other"}
+          {"value": "Artefact scatter", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+          {"value": "Rock art", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+          {"value": "Shell midden", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+          {"value": "Stone arrangement", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+          {"value": "Burial", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+          {"value": "Historic structure", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+          {"value": "Other", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label}
         ]
       }
     },
     "validationSchema": [["yup.string"], ["yup.required"]],
     "initialValue": "",
     "meta": {
-      "annotation": {"include": true, "label": "classification notes"},
-      "uncertainty": {"include": true, "label": "confidence"}
+      "annotation": {"include": true, "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+      "uncertainty": {"include": true, "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label}
     }
   }
 }
@@ -5970,31 +6182,33 @@ The Select field provides single-choice selection from a dropdown list, offering
 
 #### Condition Assessment with Null Option
 ```json
+// Example select-choice-fields-24
+// Template markers added for parametric generation
 {
-  "condition-state": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "Select",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "label": "Condition",
-      "name": "condition-state",
-      "helperText": "Assess current preservation state",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "fullWidth": true,
       "ElementProps": {
         "options": [
-          {"value": "", "label": "-- Not assessed --"},
-          {"value": "Excellent", "label": "Excellent"},
-          {"value": "Good", "label": "Good"},
-          {"value": "Fair", "label": "Fair"},
-          {"value": "Poor", "label": "Poor"},
-          {"value": "Destroyed", "label": "Destroyed"}
+          {"value": "", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+          {"value": "Excellent", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+          {"value": "Good", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+          {"value": "Fair", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+          {"value": "Poor", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+          {"value": "Destroyed", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label}
         ]
       }
     },
     "validationSchema": [["yup.string"]],
     "initialValue": "",
     "meta": {
-      "annotation": {"include": true, "label": "condition notes"}
+      "annotation": {"include": true, "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label}
     }
   }
 }
@@ -6002,34 +6216,36 @@ The Select field provides single-choice selection from a dropdown list, offering
 
 #### Triggering Conditional Fields
 ```json
+// Example select-choice-fields-25
+// Template markers added for parametric generation
 {
-  "material-type": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "Select",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "label": "Material Type",
-      "name": "material-type",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "fullWidth": true,
       "ElementProps": {
         "options": [
-          {"value": "Ceramic", "label": "Ceramic"},
-          {"value": "Glass", "label": "Glass"},
-          {"value": "Metal", "label": "Metal"},
-          {"value": "Other", "label": "Other"}
+          {"value": "Ceramic", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+          {"value": "Glass", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+          {"value": "Metal", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+          {"value": "Other", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label}
         ]
       }
     },
     "validationSchema": [["yup.string"]],
     "initialValue": ""
   },
-  "other-material": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "formik-material-ui",
     "component-name": "TextField",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "label": "Specify Other Material",
-      "name": "other-material"
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier
     },
     "condition": {
       "field": "material-type",
@@ -6043,25 +6259,27 @@ The Select field provides single-choice selection from a dropdown list, offering
 ### JSON Anti-patterns
 
 ```json
+// Example select-choice-fields-26
+// Template markers added for parametric generation
 
-{"value": "001", "label": "Archaeological Site"}
+{"value": "001", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label}
 
 
-{"value": "Archaeological Site", "label": "Archaeological Site"}
+{"value": "Archaeological Site", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label}
 
 
-"validationSchema": [["yup.required", "This message won't show"]]
+"validationSchema": [["yup.This message won't show", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message]
 
 
 "options": [
-  {"value": "option1", "label": "Option 1"}
+  {"value": "{{OPTION_VALUE}}"  // REPLACE: option value, "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label}
 
 ]
 
 
 "options": [
-  {"value": "", "label": "-- Select --"},
-  {"value": "option1", "label": "Option 1"}
+  {"value": "", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+  {"value": "{{OPTION_VALUE}}"  // REPLACE: option value, "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label}
 ]
 ```
 
@@ -6124,38 +6342,40 @@ The AdvancedSelect field provides hierarchical tree navigation for selecting val
 ### Core Configuration {essential}
 
 ```json
+// Example select-choice-fields-27
+// Template markers added for parametric generation
 {
   "component-namespace": "faims-custom",
   "component-name": "AdvancedSelect",
   "type-returned": "faims-core::String",
   "component-parameters": {
-    "name": "species-classification",
-    "label": "Species Classification",
+    "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+    "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
     "valuetype": "full",
-    "helperText": "Navigate to the most specific classification possible",
+    "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
     "ElementProps": {
       "optiontree": [
         {
-          "name": "Animalia",
+          "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
           "children": [
             {
-              "name": "Chordata",
+              "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
               "children": [
                 {
-                  "name": "Mammalia",
+                  "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
                   "children": [
                     {
-                      "name": "Primates",
+                      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
                       "children": [
                         {
-                          "name": "Hominidae",
+                          "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
                           "children": [
                             {
-                              "name": "Homo",
+                              "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
                               "children": [
                                 {
-                                  "name": "Homo sapiens",
-                                  "label": "Human"
+                                  "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+                                  "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
                                 }
                               ]
                             }
@@ -6172,7 +6392,7 @@ The AdvancedSelect field provides hierarchical tree navigation for selecting val
       ]
     }
   },
-  "validationSchema": [["yup.string"], ["yup.required", "Classification required"]],
+  "validationSchema": [["yup.string"], ["yup.Classification required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message],
   "initialValue": ""
 }
 ```
@@ -6257,39 +6477,41 @@ interface TreeNode {
 
 #### Biological Taxonomy (Full Path Storage)
 ```json
+// Example select-choice-fields-28
+// Template markers added for parametric generation
 {
-  "species-classification": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "AdvancedSelect",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "label": "Species Classification",
-      "name": "species-classification",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "valuetype": "full",
-      "helperText": "Navigate to the most specific classification possible",
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "ElementProps": {
         "optiontree": [
           {
-            "name": "Animalia",
+            "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
             "children": [
               {
-                "name": "Chordata",
+                "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
                 "children": [
                   {
-                    "name": "Mammalia",
+                    "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
                     "children": [
                       {
-                        "name": "Primates",
+                        "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
                         "children": [
                           {
-                            "name": "Hominidae",
+                            "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
                             "children": [
                               {
-                                "name": "Homo",
+                                "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
                                 "children": [
                                   {
-                                    "name": "Homo sapiens",
-                                    "label": "Human"
+                                    "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+                                    "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
                                   }
                                 ]
                               }
@@ -6308,11 +6530,11 @@ interface TreeNode {
     },
     "validationSchema": [
       ["yup.string"],
-      ["yup.required", "Species classification required"]
+      ["yup.Species classification required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
     ],
     "initialValue": "",
     "meta": {
-      "annotation": {"include": true, "label": "Identification notes"}
+      "annotation": {"include": true, "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label}
     }
   }
 }
@@ -6321,42 +6543,44 @@ interface TreeNode {
 
 #### Archaeological Context Hierarchy (Child Storage)
 ```json
+// Example select-choice-fields-29
+// Template markers added for parametric generation
 {
-  "context-hierarchy": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "AdvancedSelect",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "label": "Stratigraphic Context",
-      "name": "context-hierarchy",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "valuetype": "child",
-      "helperText": "Select the specific context",
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "ElementProps": {
         "optiontree": [
           {
-            "name": "Trench 1",
+            "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
             "children": [
               {
-                "name": "Layer 001",
-                "label": "Topsoil",
+                "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+                "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
                 "children": [
                   {
-                    "name": "Context 001-A",
+                    "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
                     "children": []
                   },
                   {
-                    "name": "Context 001-B",
+                    "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
                     "children": []
                   }
                 ]
               },
               {
-                "name": "Layer 002",
-                "label": "Occupation",
+                "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+                "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
                 "children": [
                   {
-                    "name": "Context 002-A",
-                    "label": "Floor surface",
+                    "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+                    "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
                     "children": []
                   }
                 ]
@@ -6375,28 +6599,30 @@ interface TreeNode {
 
 #### Geographic Hierarchy with Clear Workaround
 ```json
+// Example select-choice-fields-30
+// Template markers added for parametric generation
 {
-  "location-hierarchy": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "AdvancedSelect",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "label": "Site Location",
-      "name": "location-hierarchy",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "valuetype": "full",
       "ElementProps": {
         "optiontree": [
           {
-            "name": "Australia",
+            "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
             "children": [
               {
-                "name": "New South Wales",
+                "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
                 "children": [
                   {
-                    "name": "Sydney Region",
+                    "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
                     "children": [
-                      {"name": "Site 001"},
-                      {"name": "Site 002"}
+                      {"name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier},
+                      {"name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier}
                     ]
                   }
                 ]
@@ -6409,10 +6635,10 @@ interface TreeNode {
     "validationSchema": [["yup.string"]],
     "initialValue": ""
   },
-  "clear-selection": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-name": "TextField",
-    "label": "Clear Selection Workaround",
-    "helperText": "Since selection cannot be cleared, provide manual override",
+    "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+    "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
     "condition": {
       "field": "location-hierarchy",
       "operator": "not-equal",
@@ -6426,8 +6652,10 @@ interface TreeNode {
 ### JSON Anti-patterns
 
 ```json
+// Example select-choice-fields-31
+// Template markers added for parametric generation
 
-"helperText": "Click to deselect"
+"helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
 
 
 
@@ -6436,17 +6664,17 @@ interface TreeNode {
 "optiontree": [...500_nodes]
 
 
-"validationSchema": [["yup.required", "Won't display"]]
+"validationSchema": [["yup.Won't display", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message]
 
 
-"name": "Level > Sublevel"
+"name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier
 
 
 "component-name": "Select",
 "ElementProps": {
   "options": [
-    {"value": "Kingdom: Animalia", "label": "Kingdom: Animalia"},
-    {"value": "Phylum: Chordata", "label": "Phylum: Chordata"}
+    {"value": "Kingdom: Animalia", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+    {"value": "Phylum: Chordata", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label}
   ]
 }
 ```
@@ -6627,28 +6855,30 @@ See Individual Field Reference section for detailed field-specific issues.
 
 ### Example 1: Basic Single Select Field
 ```json
+// Example select-choice-fields-32
+// Template markers added for parametric generation
 {
-  "site-type": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "Select",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "site-type",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "id": "site-type",
-      "label": "Site Type",
-      "helperText": "Select the primary site classification",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": true,
       "options": [
-        {"label": "Residential", "value": "residential"},
-        {"label": "Industrial", "value": "industrial"},
-        {"label": "Religious", "value": "religious"},
-        {"label": "Agricultural", "value": "agricultural"},
-        {"label": "Military", "value": "military"}
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "residential"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "industrial"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "religious"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "agricultural"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "military"}
       ]
     },
     "validationSchema": [
       ["yup.string"],
-      ["yup.required", "Site type is required"]
+      ["yup.Site type is required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
     ],
     "initialValue": ""
   }
@@ -6657,25 +6887,27 @@ See Individual Field Reference section for detailed field-specific issues.
 
 ### Example 2: MultiSelect with Validation
 ```json
+// Example select-choice-fields-33
+// Template markers added for parametric generation
 {
-  "artifact-materials": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "MultiSelect",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "artifact-materials",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "id": "artifact-materials",
-      "label": "Artifact Materials",
-      "helperText": "Select all materials present",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": true,
       "options": [
-        {"label": "Ceramic", "value": "ceramic"},
-        {"label": "Glass", "value": "glass"},
-        {"label": "Metal", "value": "metal"},
-        {"label": "Stone", "value": "stone"},
-        {"label": "Bone", "value": "bone"},
-        {"label": "Wood", "value": "wood"},
-        {"label": "Textile", "value": "textile"}
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "ceramic"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "glass"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "metal"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "stone"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "bone"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "wood"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "textile"}
       ]
     },
     "validationSchema": [
@@ -6690,28 +6922,30 @@ See Individual Field Reference section for detailed field-specific issues.
 
 ### Example 3: RadioGroup for Condition Assessment
 ```json
+// Example select-choice-fields-34
+// Template markers added for parametric generation
 {
-  "condition-assessment": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "RadioGroup",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "condition-assessment",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "id": "condition-assessment",
-      "label": "Condition Assessment",
-      "helperText": "Overall condition of the artifact",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": true,
       "options": [
-        {"label": "Excellent", "value": "excellent"},
-        {"label": "Good", "value": "good"},
-        {"label": "Fair", "value": "fair"},
-        {"label": "Poor", "value": "poor"},
-        {"label": "Critical", "value": "critical"}
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "excellent"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "good"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "fair"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "poor"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "critical"}
       ]
     },
     "validationSchema": [
       ["yup.string"],
-      ["yup.required", "Condition assessment required"]
+      ["yup.Condition assessment required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
     ],
     "initialValue": ""
   }
@@ -6720,17 +6954,19 @@ See Individual Field Reference section for detailed field-specific issues.
 
 ### Example 4: Checkbox for Terms Acceptance
 ```json
+// Example select-choice-fields-35
+// Template markers added for parametric generation
 {
-  "data-consent": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "Checkbox",
     "type-returned": "faims-core::Bool",
     "component-parameters": {
-      "name": "data-consent",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "id": "data-consent",
-      "label": "I consent to data collection and usage",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
       "required": true,
-      "helperText": "Required for participation"
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
     },
     "validationSchema": [
       ["yup.bool"],
@@ -6743,24 +6979,26 @@ See Individual Field Reference section for detailed field-specific issues.
 
 ### Example 5: Select with Conditional Options
 ```json
+// Example select-choice-fields-36
+// Template markers added for parametric generation
 {
-  "pottery-form": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "Select",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "pottery-form",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "id": "pottery-form",
-      "label": "Pottery Form",
-      "helperText": "Select vessel form",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": false,
       "options": [
-        {"label": "Bowl", "value": "bowl"},
-        {"label": "Jar", "value": "jar"},
-        {"label": "Plate", "value": "plate"},
-        {"label": "Cup", "value": "cup"},
-        {"label": "Amphora", "value": "amphora"},
-        {"label": "Jug", "value": "jug"}
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "bowl"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "jar"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "plate"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "cup"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "amphora"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "jug"}
       ]
     },
     "validationSchema": [
@@ -6778,24 +7016,26 @@ See Individual Field Reference section for detailed field-specific issues.
 
 ### Example 6: Advanced MultiSelect with Groups
 ```json
+// Example select-choice-fields-37
+// Template markers added for parametric generation
 {
-  "excavation-tools": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "MultiSelect",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "excavation-tools",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "id": "excavation-tools",
-      "label": "Tools Used",
-      "helperText": "Select all tools used in this excavation",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "options": [
-        {"label": "Hand Tools - Trowel", "value": "trowel"},
-        {"label": "Hand Tools - Brush", "value": "brush"},
-        {"label": "Hand Tools - Pick", "value": "pick"},
-        {"label": "Power Tools - Drill", "value": "drill"},
-        {"label": "Power Tools - Saw", "value": "saw"},
-        {"label": "Measurement - Tape", "value": "tape"},
-        {"label": "Measurement - Level", "value": "level"}
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "trowel"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "brush"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "pick"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "drill"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "saw"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "tape"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "level"}
       ]
     },
     "validationSchema": [
@@ -6808,23 +7048,25 @@ See Individual Field Reference section for detailed field-specific issues.
 
 ### Example 7: Select with External Vocabulary
 ```json
+// Example select-choice-fields-38
+// Template markers added for parametric generation
 {
-  "period-chronology": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "Select",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "period-chronology",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "id": "period-chronology",
-      "label": "Chronological Period",
-      "helperText": "Select from Getty AAT periods",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": true,
       "vocabularyName": "getty-aat-periods",
       "options": []
     },
     "validationSchema": [
       ["yup.string"],
-      ["yup.required", "Period selection required"]
+      ["yup.Period selection required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
     ],
     "initialValue": ""
   }
@@ -6833,16 +7075,18 @@ See Individual Field Reference section for detailed field-specific issues.
 
 ### Example 8: Boolean Checkbox Array
 ```json
+// Example select-choice-fields-39
+// Template markers added for parametric generation
 {
-  "field-conditions": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "Checkbox",
     "type-returned": "faims-core::Bool",
     "component-parameters": {
-      "name": "field-conditions",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "id": "field-conditions",
-      "label": "Hazardous Conditions Present",
-      "helperText": "Check if any hazards exist",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": false
     },
     "validationSchema": [
@@ -6852,7 +7096,7 @@ See Individual Field Reference section for detailed field-specific issues.
     "meta": {
       "annotation": {
         "include": true,
-        "label": "Describe hazards if present"
+        "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
       }
     }
   }
@@ -6861,28 +7105,30 @@ See Individual Field Reference section for detailed field-specific issues.
 
 ### Example 9: RadioGroup with "Other" Option
 ```json
+// Example select-choice-fields-40
+// Template markers added for parametric generation
 {
-  "soil-type": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "RadioGroup",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "soil-type",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "id": "soil-type",
-      "label": "Soil Type",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
       "required": true,
       "options": [
-        {"label": "Clay", "value": "clay"},
-        {"label": "Sandy", "value": "sandy"},
-        {"label": "Loam", "value": "loam"},
-        {"label": "Silt", "value": "silt"},
-        {"label": "Peat", "value": "peat"},
-        {"label": "Other", "value": "other"}
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "clay"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "sandy"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "loam"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "silt"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "peat"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "other"}
       ]
     },
     "validationSchema": [
       ["yup.string"],
-      ["yup.required", "Soil type required"]
+      ["yup.Soil type required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
     ],
     "initialValue": ""
   }
@@ -6891,22 +7137,24 @@ See Individual Field Reference section for detailed field-specific issues.
 
 ### Example 10: MultiSelect with Metadata
 ```json
+// Example select-choice-fields-41
+// Template markers added for parametric generation
 {
-  "conservation-treatments": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "MultiSelect",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "conservation-treatments",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "id": "conservation-treatments",
-      "label": "Conservation Treatments Applied",
-      "helperText": "Select all treatments performed",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "options": [
-        {"label": "Cleaning", "value": "cleaning"},
-        {"label": "Consolidation", "value": "consolidation"},
-        {"label": "Desalination", "value": "desalination"},
-        {"label": "Reconstruction", "value": "reconstruction"},
-        {"label": "Protective coating", "value": "coating"}
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "cleaning"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "consolidation"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "desalination"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "reconstruction"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "coating"}
       ]
     },
     "validationSchema": [
@@ -6916,7 +7164,7 @@ See Individual Field Reference section for detailed field-specific issues.
     "meta": {
       "uncertainty": {
         "include": true,
-        "label": "Treatment effectiveness"
+        "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
       }
     }
   }
@@ -6925,21 +7173,23 @@ See Individual Field Reference section for detailed field-specific issues.
 
 ### Example 11: Select with Default Value
 ```json
+// Example select-choice-fields-42
+// Template markers added for parametric generation
 {
-  "recording-method": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "Select",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "recording-method",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "id": "recording-method",
-      "label": "Recording Method",
-      "helperText": "How was this feature recorded?",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "options": [
-        {"label": "Photography", "value": "photo"},
-        {"label": "Drawing", "value": "drawing"},
-        {"label": "3D Scan", "value": "scan3d"},
-        {"label": "Video", "value": "video"}
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "photo"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "drawing"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "scan3d"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "video"}
       ]
     },
     "validationSchema": [
@@ -6952,25 +7202,27 @@ See Individual Field Reference section for detailed field-specific issues.
 
 ### Example 12: Complex Conditional MultiSelect
 ```json
+// Example select-choice-fields-43
+// Template markers added for parametric generation
 {
-  "metal-types": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "MultiSelect",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "metal-types",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "id": "metal-types",
-      "label": "Metal Types",
-      "helperText": "Specify metal composition",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": true,
       "options": [
-        {"label": "Iron", "value": "iron"},
-        {"label": "Bronze", "value": "bronze"},
-        {"label": "Copper", "value": "copper"},
-        {"label": "Silver", "value": "silver"},
-        {"label": "Gold", "value": "gold"},
-        {"label": "Lead", "value": "lead"},
-        {"label": "Tin", "value": "tin"}
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "iron"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "bronze"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "copper"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "silver"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "gold"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "lead"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "tin"}
       ]
     },
     "validationSchema": [
@@ -6989,28 +7241,30 @@ See Individual Field Reference section for detailed field-specific issues.
 
 ### Example 13: RadioGroup for Priority Level
 ```json
+// Example select-choice-fields-44
+// Template markers added for parametric generation
 {
-  "conservation-priority": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "RadioGroup",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "conservation-priority",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "id": "conservation-priority",
-      "label": "Conservation Priority",
-      "helperText": "Urgency of conservation needed",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": true,
       "options": [
-        {"label": "Immediate (24 hours)", "value": "immediate"},
-        {"label": "High (1 week)", "value": "high"},
-        {"label": "Medium (1 month)", "value": "medium"},
-        {"label": "Low (6 months)", "value": "low"},
-        {"label": "None required", "value": "none"}
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "immediate"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "high"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "medium"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "low"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "none"}
       ]
     },
     "validationSchema": [
       ["yup.string"],
-      ["yup.required", "Priority assessment required"]
+      ["yup.Priority assessment required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
     ],
     "initialValue": "medium"
   }
@@ -7019,28 +7273,30 @@ See Individual Field Reference section for detailed field-specific issues.
 
 ### Example 14: Select with Numeric Values
 ```json
+// Example select-choice-fields-45
+// Template markers added for parametric generation
 {
-  "stratigraphic-phase": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "Select",
     "type-returned": "faims-core::Integer",
     "component-parameters": {
-      "name": "stratigraphic-phase",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "id": "stratigraphic-phase",
-      "label": "Stratigraphic Phase",
-      "helperText": "Select phase number",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": true,
       "options": [
-        {"label": "Phase 1 (Earliest)", "value": 1},
-        {"label": "Phase 2", "value": 2},
-        {"label": "Phase 3", "value": 3},
-        {"label": "Phase 4", "value": 4},
-        {"label": "Phase 5 (Latest)", "value": 5}
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": 1},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": 2},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": 3},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": 4},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": 5}
       ]
     },
     "validationSchema": [
       ["yup.number"],
-      ["yup.required", "Phase required"]
+      ["yup.Phase required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
     ],
     "initialValue": null
   }
@@ -7049,16 +7305,18 @@ See Individual Field Reference section for detailed field-specific issues.
 
 ### Example 15: Checkbox with Advanced Helper
 ```json
+// Example select-choice-fields-46
+// Template markers added for parametric generation
 {
-  "photography-consent": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "Checkbox",
     "type-returned": "faims-core::Bool",
     "component-parameters": {
-      "name": "photography-consent",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "id": "photography-consent",
-      "label": "Photography consent obtained",
-      "helperText": "Required for sensitive sites",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "advancedHelperText": "## Photography Consent\n\nConsent must be obtained for:\n- Sacred sites\n- Private property\n- Human remains\n- Restricted areas",
       "required": false
     },
@@ -7072,24 +7330,26 @@ See Individual Field Reference section for detailed field-specific issues.
 
 ### Example 16: MultiSelect with Extended Options
 ```json
+// Example select-choice-fields-47
+// Template markers added for parametric generation
 {
-  "dating-methods": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "MultiSelect",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "dating-methods",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "id": "dating-methods",
-      "label": "Dating Methods Applied",
-      "helperText": "All methods used for this context",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "options": [
-        {"label": "C14 Radiocarbon", "value": "c14"},
-        {"label": "Dendrochronology", "value": "dendro"},
-        {"label": "Thermoluminescence", "value": "tl"},
-        {"label": "Optically Stimulated Luminescence", "value": "osl"},
-        {"label": "Archaeomagnetic", "value": "archaeomag"},
-        {"label": "Typological", "value": "typological"},
-        {"label": "Stratigraphic", "value": "stratigraphic"}
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "c14"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "dendro"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "tl"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "osl"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "archaeomag"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "typological"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "stratigraphic"}
       ]
     },
     "validationSchema": [
@@ -7102,26 +7362,28 @@ See Individual Field Reference section for detailed field-specific issues.
 
 ### Example 17: RadioGroup with Disabled Option
 ```json
+// Example select-choice-fields-48
+// Template markers added for parametric generation
 {
-  "access-level": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "RadioGroup",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "access-level",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "id": "access-level",
-      "label": "Data Access Level",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
       "required": true,
       "options": [
-        {"label": "Public", "value": "public"},
-        {"label": "Restricted", "value": "restricted"},
-        {"label": "Confidential", "value": "confidential"},
-        {"label": "Classified", "value": "classified", "disabled": true}
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "public"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "restricted"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "confidential"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "classified", "disabled": true}
       ]
     },
     "validationSchema": [
       ["yup.string"],
-      ["yup.required", "Access level required"]
+      ["yup.Access level required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
     ],
     "initialValue": "public"
   }
@@ -7130,16 +7392,18 @@ See Individual Field Reference section for detailed field-specific issues.
 
 ### Example 18: Select with Dynamic Loading
 ```json
+// Example select-choice-fields-49
+// Template markers added for parametric generation
 {
-  "related-records": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "Select",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "related-records",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "id": "related-records",
-      "label": "Related Records",
-      "helperText": "Link to existing records",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "multiple": false,
       "loadOptions": "dynamic",
       "optionsEndpoint": "/api/records/list"
@@ -7154,25 +7418,27 @@ See Individual Field Reference section for detailed field-specific issues.
 
 ### Example 19: MultiSelect with Hierarchical Labels
 ```json
+// Example select-choice-fields-50
+// Template markers added for parametric generation
 {
-  "finds-categories": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "MultiSelect",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "finds-categories",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "id": "finds-categories",
-      "label": "Finds Categories",
-      "helperText": "Classify all finds",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "options": [
-        {"label": "Pottery - Prehistoric", "value": "pottery-prehistoric"},
-        {"label": "Pottery - Roman", "value": "pottery-roman"},
-        {"label": "Pottery - Medieval", "value": "pottery-medieval"},
-        {"label": "Metal - Tools", "value": "metal-tools"},
-        {"label": "Metal - Weapons", "value": "metal-weapons"},
-        {"label": "Metal - Jewelry", "value": "metal-jewelry"},
-        {"label": "Organic - Bone", "value": "organic-bone"},
-        {"label": "Organic - Wood", "value": "organic-wood"}
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "pottery-prehistoric"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "pottery-roman"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "pottery-medieval"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "metal-tools"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "metal-weapons"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "metal-jewelry"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "organic-bone"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "organic-wood"}
       ]
     },
     "validationSchema": [
@@ -7186,29 +7452,31 @@ See Individual Field Reference section for detailed field-specific issues.
 
 ### Example 20: Complex Nested Conditional Select
 ```json
+// Example select-choice-fields-51
+// Template markers added for parametric generation
 {
-  "sub-context-type": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "Select",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "sub-context-type",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "id": "sub-context-type",
-      "label": "Sub-context Type",
-      "helperText": "Specific context classification",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": true,
       "options": [
-        {"label": "Fill - Occupation", "value": "fill-occupation"},
-        {"label": "Fill - Destruction", "value": "fill-destruction"},
-        {"label": "Fill - Construction", "value": "fill-construction"},
-        {"label": "Cut - Pit", "value": "cut-pit"},
-        {"label": "Cut - Posthole", "value": "cut-posthole"},
-        {"label": "Cut - Ditch", "value": "cut-ditch"}
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "fill-occupation"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "fill-destruction"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "fill-construction"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "cut-pit"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "cut-posthole"},
+        {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "cut-ditch"}
       ]
     },
     "validationSchema": [
       ["yup.string"],
-      ["yup.required", "Sub-context type required"]
+      ["yup.Sub-context type required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
     ],
     "initialValue": "",
     "condition": {
@@ -7232,23 +7500,25 @@ See Individual Field Reference section for detailed field-specific issues.
 
 #### Feature Checklist with Exclusive None
 ```json
+// Example select-choice-fields-52
+// Template markers added for parametric generation
 {
-  "observed-features": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "MultiSelect",
     "type-returned": "faims-core::Array",
     "component-parameters": {
-      "name": "observed-features",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "id": "observed-features",
-      "label": "Observed Features",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
       "required": true,
       "ElementProps": {
         "options": [
-          {"label": "Stone artifacts", "value": "stone"},
-          {"label": "Ceramics", "value": "ceramics"},
-          {"label": "Bone fragments", "value": "bone"},
-          {"label": "Charcoal", "value": "charcoal"},
-          {"label": "No features observed", "value": "none", "exclusive": true}
+          {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "stone"},
+          {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "ceramics"},
+          {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "bone"},
+          {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "charcoal"},
+          {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "none", "exclusive": true}
         ],
         "displayType": "expandedChecklist"
       }
@@ -7266,24 +7536,26 @@ See Individual Field Reference section for detailed field-specific issues.
 
 #### Deprecated - Condition Assessment
 ```json
+// Example select-choice-fields-53
+// Template markers added for parametric generation
 {
-  "condition": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "RadioGroup",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "condition",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "id": "condition",
-      "label": "Site Condition",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
       "required": true,
-      "helperText": "Note: RadioGroup is deprecated - use Select",
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "ElementProps": {
         "options": [
-          {"label": "Excellent", "value": "excellent"},
-          {"label": "Good", "value": "good"},
-          {"label": "Fair", "value": "fair"},
-          {"label": "Poor", "value": "poor"},
-          {"label": "Not assessed", "value": ""}
+          {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "excellent"},
+          {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "good"},
+          {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "fair"},
+          {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "poor"},
+          {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": ""}
         ]
       }
     },
@@ -7296,23 +7568,25 @@ See Individual Field Reference section for detailed field-specific issues.
 
 #### Site Type with Empty Option
 ```json
+// Example select-choice-fields-54
+// Template markers added for parametric generation
 {
-  "site-type": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "Select",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "site-type",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "id": "site-type",
-      "label": "Site Type",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
       "required": false,
       "ElementProps": {
         "options": [
-          {"label": "-- Select type --", "value": ""},
-          {"label": "Rockshelter", "value": "rockshelter"},
-          {"label": "Open camp", "value": "open_camp"},
-          {"label": "Quarry", "value": "quarry"},
-          {"label": "Rock art", "value": "rock_art"}
+          {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": ""},
+          {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "rockshelter"},
+          {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "open_camp"},
+          {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "quarry"},
+          {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "rock_art"}
         ]
       }
     },
@@ -7325,38 +7599,40 @@ See Individual Field Reference section for detailed field-specific issues.
 
 #### Beta - Taxonomic Classification
 ```json
+// Example select-choice-fields-55
+// Template markers added for parametric generation
 {
-  "taxonomy": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "AdvancedSelect",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "taxonomy",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "id": "taxonomy",
-      "label": "Taxonomic Classification (BETA)",
-      "helperText": "Warning: Cannot clear once selected",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "ElementProps": {
         "options": [
           {
-            "label": "Animalia",
+            "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
             "value": "animalia",
             "children": [
               {
-                "label": "Chordata",
+                "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
                 "value": "chordata",
                 "children": [
-                  {"label": "Mammalia", "value": "mammalia"},
-                  {"label": "Aves", "value": "aves"}
+                  {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "mammalia"},
+                  {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "aves"}
                 ]
               }
             ]
           },
           {
-            "label": "Plantae",
+            "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
             "value": "plantae",
             "children": [
-              {"label": "Angiosperms", "value": "angiosperms"},
-              {"label": "Gymnosperms", "value": "gymnosperms"}
+              {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "angiosperms"},
+              {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "gymnosperms"}
             ]
           }
         ]
@@ -7423,6 +7699,7 @@ Current Field Type?
 
 2. **Update JSON configuration**
    ```json
+// Example select-choice-fields-56
 
    "component-name": "RadioGroup"
 
@@ -7431,6 +7708,7 @@ Current Field Type?
 
 3. **Add empty option if needed**
    ```json
+// Example select-choice-fields-57
    {"label": "-- None selected --", "value": ""}
    ```
 
@@ -7444,12 +7722,14 @@ Current Field Type?
 
 1. **Map checkbox fields to options**
    ```json
+// Example select-choice-fields-58
 
    {"label": "Option 1", "value": "opt1"}
    ```
 
 2. **Configure display type**
    ```json
+// Example select-choice-fields-59
    "ElementProps": {
      "displayType": "expandedChecklist"
    }
@@ -7461,6 +7741,7 @@ Current Field Type?
 
 4. **Add validation**
    ```json
+// Example select-choice-fields-60
    ["yup.min", 1, "Select at least one"]
    ```
 
@@ -7659,13 +7940,15 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 
 #### Binary Choice Pattern
 ```json
+// Example select-choice-fields-61
+// Template markers added for parametric generation
 {
-  "field-name": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "Checkbox",
     "type-returned": "faims-core::Bool",
     "component-parameters": {
-      "label": "Yes/No Question?"
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
     },
     "initialValue": false
   }
@@ -7674,16 +7957,18 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 
 #### Single Selection with None Pattern
 ```json
+// Example select-choice-fields-62
+// Template markers added for parametric generation
 {
-  "field-name": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "Select",
     "type-returned": "faims-core::String",
     "component-parameters": {
       "ElementProps": {
         "options": [
-          {"label": "-- None --", "value": ""},
-          {"label": "Option 1", "value": "opt1"}
+          {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": ""},
+          {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "opt1"}
         ]
       }
     }
@@ -7693,16 +7978,18 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 
 #### Multiple Selection with Exclusive Pattern
 ```json
+// Example select-choice-fields-63
+// Template markers added for parametric generation
 {
-  "field-name": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "MultiSelect",
     "type-returned": "faims-core::Array",
     "component-parameters": {
       "ElementProps": {
         "options": [
-          {"label": "Option 1", "value": "opt1"},
-          {"label": "None of the above", "value": "none", "exclusive": true}
+          {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "opt1"},
+          {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "none", "exclusive": true}
         ]
       }
     }
@@ -7714,8 +8001,10 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 
 #### Must Accept Pattern
 ```json
+// Example select-choice-fields-64
+// Template markers added for parametric generation
 {
-  "must-accept": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "Checkbox",
     "type-returned": "faims-core::Bool",
@@ -7729,8 +8018,10 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 
 #### Optional Flag Pattern
 ```json
+// Example select-choice-fields-65
+// Template markers added for parametric generation
 {
-  "optional-flag": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "Checkbox",
     "type-returned": "faims-core::Bool",
@@ -7745,8 +8036,10 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 
 #### Expanded Checklist Pattern
 ```json
+// Example select-choice-fields-66
+// Template markers added for parametric generation
 {
-  "checklist": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "MultiSelect",
     "component-parameters": {
@@ -7761,8 +8054,10 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 
 #### Required Multiple Pattern
 ```json
+// Example select-choice-fields-67
+// Template markers added for parametric generation
 {
-  "required-multi": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "MultiSelect",
     "validationSchema": [
@@ -7780,6 +8075,7 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 
 #### ❌ Wrong Namespace
 ```json
+// Example select-choice-fields-68
 
 "component-namespace": "formik-material-ui"
 
@@ -7788,6 +8084,7 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 
 #### ❌ Dynamic Options
 ```json
+// Example select-choice-fields-69
 
 "ElementProps": {
   "optionsUrl": "/api/options"
@@ -7800,21 +8097,24 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 
 #### ❌ Missing Empty Option
 ```json
+// Example select-choice-fields-70
+// Template markers added for parametric generation
 
 "options": [
-  {"label": "Yes", "value": "yes"},
-  {"label": "No", "value": "no"}
+  {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "yes"},
+  {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "no"}
 ]
 
 "options": [
-  {"label": "-- Select --", "value": ""},
-  {"label": "Yes", "value": "yes"},
-  {"label": "No", "value": "no"}
+  {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": ""},
+  {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "yes"},
+  {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "value": "no"}
 ]
 ```
 
 #### ❌ Wrong Data Types
 ```json
+// Example select-choice-fields-71
 
 "component-name": "MultiSelect",
 "initialValue": ""
@@ -8061,6 +8361,17 @@ see-also: [field-selection-guide, platform-reference]
 
 
 # Date-Time Input Fields
+
+
+<!-- structured:metadata
+meta:purpose: field-configuration
+meta:summary: Four date/time components with critical format warnings, Excel corruption issues, and timezone handling requirements.
+meta:generates: json-fields
+meta:requires: [valid-json, unique-names, fviews-layer]
+meta:version: 3.0.0
+meta:document: datetime_fields
+meta:depth-tags: [essential, important, comprehensive]
+-->
 
 ## Document Navigation {essential}
 <!-- concat:nav-mode:individual -->
@@ -8431,6 +8742,7 @@ All date/time fields require:
 
 #### Auto-population (DateTimeNow only)
 ```json
+// Example datetime-fields-01
 "component-parameters": {
   "is_auto_pick": true
 }
@@ -8438,14 +8750,16 @@ All date/time fields require:
 
 #### Common Configuration Patterns
 ```json
+// Example datetime-fields-02
+// Template markers added for parametric generation
 {
   "component-namespace": "faims-custom",
   "component-name": "DateTimeNow",
   "type-returned": "faims-core::String",
   "component-parameters": {
-    "name": "timestamp-field",
-    "label": "Record Timestamp",
-    "helperText": "Automatically captured (UTC)",
+    "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+    "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+    "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
     "fullWidth": true,
     "required": false
   },
@@ -8657,12 +8971,14 @@ Timezone-aware timestamp capture with automatic current time option. Stores time
 - Platform-specific optimizations
 
 ```json
+// Example datetime-fields-03
+// Template markers added for parametric generation
 {
   "component-parameters": {
-    "label": "Record Created",
-    "name": "record_created",
+    "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+    "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
     "is_auto_pick": true,
-    "helperText": "Automatically captured when record opened",
+    "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
     "fullWidth": true,
     "required": false
   }
@@ -8683,20 +8999,22 @@ Timezone-aware timestamp capture with automatic current time option. Stores time
 
 **Auto-populated Creation Timestamp**
 ```json
+// Example datetime-fields-04
+// Template markers added for parametric generation
 {
   "record_created": {
     "component-namespace": "faims-custom",
     "component-name": "DateTimeNow",
     "component-parameters": {
-      "name": "record_created",
-      "label": "Record Created",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
       "is_auto_pick": true,
-      "helperText": "Automatically captured (UTC)",
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "disabled": false
     },
     "validationSchema": [
       ["yup.string"],
-      ["yup.required", "Creation time required"]
+      ["yup.Creation time required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
     ],
     "initialValue": ""
   }
@@ -8705,20 +9023,22 @@ Timezone-aware timestamp capture with automatic current time option. Stores time
 
 **Manual Timestamp with Annotation**
 ```json
+// Example datetime-fields-05
+// Template markers added for parametric generation
 {
   "observation_time": {
     "component-namespace": "faims-custom",
     "component-name": "DateTimeNow",
     "component-parameters": {
-      "name": "observation_time",
-      "label": "Observation Time",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
       "is_auto_pick": false,
-      "helperText": "Click 'Now' or select specific time"
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
     },
     "meta": {
       "annotation": {
         "include": true,
-        "label": "Time notes"
+        "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
       }
     }
   }
@@ -8730,6 +9050,7 @@ Timezone-aware timestamp capture with automatic current time option. Stores time
 
 ❌ **NEVER: Wrong namespace (faims3 doesn't exist)**
 ```json
+// Example datetime-fields-06
 {
   "component-name": "DateTimeNow",
   "component-namespace": "faims3"
@@ -8737,6 +9058,7 @@ Timezone-aware timestamp capture with automatic current time option. Stores time
 ```
 ✅ **ALWAYS: Use faims-custom namespace**
 ```json
+// Example datetime-fields-07
 {
   "component-name": "DateTimeNow",
   "component-namespace": "faims-custom"
@@ -8745,6 +9067,7 @@ Timezone-aware timestamp capture with automatic current time option. Stores time
 
 ❌ **NEVER: Invalid timezone**
 ```json
+// Example datetime-fields-08
 {
   "meta": {
     "timezone": "Sydney"
@@ -8753,6 +9076,7 @@ Timezone-aware timestamp capture with automatic current time option. Stores time
 ```
 ✅ **ALWAYS: Use IANA timezone identifiers**
 ```json
+// Example datetime-fields-09
 {
   "meta": {
     "timezone": "Australia/Sydney"
@@ -8776,12 +9100,14 @@ Timezone-aware timestamp capture with automatic current time option. Stores time
 
 ❌ **NEVER: Using DateTimePicker for new forms**
 ```json
+// Example datetime-fields-10
 {
   "component-name": "DateTimePicker"
 }
 ```
 ✅ **ALWAYS: Use DateTimeNow for timezone support**
 ```json
+// Example datetime-fields-11
 {
   "component-name": "DateTimeNow",
   "component-namespace": "faims-custom"
@@ -8790,6 +9116,7 @@ Timezone-aware timestamp capture with automatic current time option. Stores time
 
 ❌ **NEVER: Expecting timezone handling**
 ```json
+// Example datetime-fields-12
 {
   "component-name": "DateTimePicker",
   "meta": {
@@ -8836,11 +9163,13 @@ Legacy datetime field that stores timestamps without timezone information, causi
 #### If You Must Use DateTimePicker
 **Document these assumptions**:
 ```json
-"helperText": "Time recorded in Sydney timezone (UTC+10/+11)",
+// Example datetime-fields-13
+// Template markers added for parametric generation
+"helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
 "meta": {
   "annotation": {
     "include": true,
-    "label": "Timezone context (if device was elsewhere)"
+    "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
   }
 }
 ```
@@ -8887,11 +9216,13 @@ Date-only selection for administrative and observational records where time comp
 **Designer creates basic field** with label, required, and helper text. JSON enhancement needed for fullWidth, variant styles, and platform-specific configurations.
 
 ```json
+// Example datetime-fields-14
+// Template markers added for parametric generation
 {
   "component-parameters": {
-    "label": "Excavation Date",
-    "name": "excavation_date",
-    "helperText": "Date work commenced",
+    "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+    "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+    "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
     "required": true
   }
 }
@@ -8912,12 +9243,14 @@ Date-only selection for administrative and observational records where time comp
 
 ❌ **NEVER: Wrong date format in initialValue**
 ```json
+// Example datetime-fields-15
 {
   "initialValue": "15/03/2024"
 }
 ```
 ✅ **ALWAYS: Use ISO 8601 format**
 ```json
+// Example datetime-fields-16
 {
   "initialValue": "2024-03-15"
 }
@@ -8925,12 +9258,14 @@ Date-only selection for administrative and observational records where time comp
 
 ❌ **NEVER: Including time in date-only field**
 ```json
+// Example datetime-fields-17
 {
   "initialValue": "2024-03-15T10:30:00Z"
 }
 ```
 ✅ **ALWAYS: Date only, no time**
 ```json
+// Example datetime-fields-18
 {
   "initialValue": "2024-03-15"
 }
@@ -8960,11 +9295,13 @@ Month-year selection that deliberately avoids false daily precision, particularl
 **Designer creates basic field** with label, required, and helper text. JSON enhancement needed for fullWidth and platform-specific configurations.
 
 ```json
+// Example datetime-fields-19
+// Template markers added for parametric generation
 {
   "component-parameters": {
-    "label": "Publication Date",
-    "name": "publication_month",
-    "helperText": "Month and year of publication"
+    "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+    "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+    "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
   }
 }
 ```
@@ -8987,12 +9324,14 @@ Month-year selection that deliberately avoids false daily precision, particularl
 
 ❌ **NEVER: Wrong month format**
 ```json
+// Example datetime-fields-20
 {
   "initialValue": "March 2024"
 }
 ```
 ✅ **ALWAYS: Use YYYY-MM format**
 ```json
+// Example datetime-fields-21
 {
   "initialValue": "2024-03"
 }
@@ -9000,12 +9339,14 @@ Month-year selection that deliberately avoids false daily precision, particularl
 
 ❌ **NEVER: Including day in month field**
 ```json
+// Example datetime-fields-22
 {
   "initialValue": "2024-03-15"
 }
 ```
 ✅ **ALWAYS: Year and month only**
 ```json
+// Example datetime-fields-23
 {
   "initialValue": "2024-03"
 }
@@ -9123,20 +9464,22 @@ Common date field error messages and their meanings:
 
 ### Example 1: Basic Date Field
 ```json
+// Example datetime-fields-24
+// Template markers added for parametric generation
 {
-  "excavation-date": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "DatePicker",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "excavation-date",
-      "label": "Excavation Date",
-      "helperText": "Date of excavation",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": true
     },
     "validationSchema": [
       ["yup.string"],
-      ["yup.required", "Excavation date is required"]
+      ["yup.Excavation date is required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
     ],
     "initialValue": ""
   }
@@ -9145,15 +9488,17 @@ Common date field error messages and their meanings:
 
 ### Example 2: Time-only Field
 ```json
+// Example datetime-fields-25
+// Template markers added for parametric generation
 {
-  "sample-time": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "DateTimePicker",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "sample-time",
-      "label": "Sample Collection Time",
-      "helperText": "Time of day (24-hour format)",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": false
     },
     "validationSchema": [
@@ -9166,21 +9511,23 @@ Common date field error messages and their meanings:
 
 ### Example 3: Full DateTime Field
 ```json
+// Example datetime-fields-26
+// Template markers added for parametric generation
 {
-  "discovery-datetime": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "DateTimePicker",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "discovery-datetime",
-      "label": "Discovery Date and Time",
-      "helperText": "When was this artifact discovered?",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": true,
       "fullWidth": true
     },
     "validationSchema": [
       ["yup.string"],
-      ["yup.required", "Discovery date/time is required"]
+      ["yup.Discovery date/time is required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
     ],
     "initialValue": ""
   }
@@ -9189,15 +9536,17 @@ Common date field error messages and their meanings:
 
 ### Example 4: Auto-capture Timestamp
 ```json
+// Example datetime-fields-27
+// Template markers added for parametric generation
 {
-  "record-created": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "DateTimeNow",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "record-created",
-      "label": "Record Created",
-      "helperText": "Automatically captured",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "is_auto_pick": true,
       "disabled": true
     },
@@ -9211,21 +9560,23 @@ Common date field error messages and their meanings:
 
 ### Example 5: Manual Timestamp with Now Button
 ```json
+// Example datetime-fields-28
+// Template markers added for parametric generation
 {
-  "field-timestamp": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "DateTimeNow",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "field-timestamp",
-      "label": "Field Timestamp",
-      "helperText": "Click 'Now' for current time",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "is_auto_pick": false,
       "required": true
     },
     "validationSchema": [
       ["yup.string"],
-      ["yup.required", "Timestamp required"]
+      ["yup.Timestamp required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
     ],
     "initialValue": ""
   }
@@ -9234,20 +9585,22 @@ Common date field error messages and their meanings:
 
 ### Example 6: Date with Range Validation
 ```json
+// Example datetime-fields-29
+// Template markers added for parametric generation
 {
-  "project-date": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "DatePicker",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "project-date",
-      "label": "Project Date",
-      "helperText": "Must be within project period",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": true
     },
     "validationSchema": [
       ["yup.string"],
-      ["yup.required", "Date is required"],
+      ["yup.Date is required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message,
       ["yup.min", "2024-01-01", "Date must be after Jan 1, 2024"],
       ["yup.max", "2024-12-31", "Date must be before Dec 31, 2024"]
     ],
@@ -9258,15 +9611,17 @@ Common date field error messages and their meanings:
 
 ### Example 7: Optional Date with Metadata
 ```json
+// Example datetime-fields-30
+// Template markers added for parametric generation
 {
-  "analysis-date": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "DatePicker",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "analysis-date",
-      "label": "Analysis Date",
-      "helperText": "Date of laboratory analysis",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": false
     },
     "validationSchema": [
@@ -9276,11 +9631,11 @@ Common date field error messages and their meanings:
     "meta": {
       "uncertainty": {
         "include": true,
-        "label": "Date certainty"
+        "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
       },
       "annotation": {
         "include": true,
-        "label": "Date notes"
+        "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
       }
     }
   }
@@ -9289,20 +9644,22 @@ Common date field error messages and their meanings:
 
 ### Example 8: Conditional DateTime Field
 ```json
+// Example datetime-fields-31
+// Template markers added for parametric generation
 {
-  "treatment-datetime": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "DateTimePicker",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "treatment-datetime",
-      "label": "Treatment Date/Time",
-      "helperText": "When was conservation treatment applied?",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": true
     },
     "validationSchema": [
       ["yup.string"],
-      ["yup.required", "Treatment date/time required"]
+      ["yup.Treatment date/time required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
     ],
     "initialValue": "",
     "condition": {
@@ -9316,15 +9673,17 @@ Common date field error messages and their meanings:
 
 ### Example 9: Birth Date with Age Calculation
 ```json
+// Example datetime-fields-32
+// Template markers added for parametric generation
 {
-  "birth-date": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "DatePicker",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "birth-date",
-      "label": "Date of Birth",
-      "helperText": "For age calculation",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": false
     },
     "validationSchema": [
@@ -9338,26 +9697,28 @@ Common date field error messages and their meanings:
 
 ### Example 10: Time Field with Precision
 ```json
+// Example datetime-fields-33
+// Template markers added for parametric generation
 {
-  "observation-time": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "DateTimePicker",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "observation-time",
-      "label": "Observation Time",
-      "helperText": "Local time of observation",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": true
     },
     "validationSchema": [
       ["yup.string"],
-      ["yup.required", "Time is required"]
+      ["yup.Time is required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
     ],
     "initialValue": "",
     "meta": {
       "annotation": {
         "include": true,
-        "label": "Timezone and precision notes"
+        "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
       }
     }
   }
@@ -9366,20 +9727,22 @@ Common date field error messages and their meanings:
 
 ### Example 11: Season/Period Date Range
 ```json
+// Example datetime-fields-34
+// Template markers added for parametric generation
 {
-  "season-start": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "DatePicker",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "season-start",
-      "label": "Field Season Start",
-      "helperText": "First day of excavation season",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": true
     },
     "validationSchema": [
       ["yup.string"],
-      ["yup.required", "Season start date required"]
+      ["yup.Season start date required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
     ],
     "initialValue": "2024-06-01"
   }
@@ -9388,6 +9751,7 @@ Common date field error messages and their meanings:
 
 ### Example 12: DateTime with Default Now
 ```json
+// Example datetime-fields-35
 {
   "submission-datetime": {
     "component-namespace": "faims-custom",
@@ -9410,15 +9774,17 @@ Common date field error messages and their meanings:
 
 ### Example 13: Historical Date Field
 ```json
+// Example datetime-fields-36
+// Template markers added for parametric generation
 {
-  "historical-date": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "DatePicker",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "historical-date",
-      "label": "Historical Date",
-      "helperText": "Approximate date (BCE/CE)",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": false
     },
     "validationSchema": [
@@ -9428,7 +9794,7 @@ Common date field error messages and their meanings:
     "meta": {
       "uncertainty": {
         "include": true,
-        "label": "Date precision (exact, circa, before/after)"
+        "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
       }
     }
   }
@@ -9437,15 +9803,17 @@ Common date field error messages and their meanings:
 
 ### Example 14: Restricted Future Date
 ```json
+// Example datetime-fields-37
+// Template markers added for parametric generation
 {
-  "planned-visit": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "DatePicker",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "planned-visit",
-      "label": "Planned Visit Date",
-      "helperText": "Next site visit (max 1 year ahead)",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": false
     },
     "validationSchema": [
@@ -9461,20 +9829,22 @@ Common date field error messages and their meanings:
 
 ### Example 15: Multiple DateTime Fields
 ```json
+// Example datetime-fields-38
+// Template markers added for parametric generation
 {
-  "excavation-start": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "DateTimePicker",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "excavation-start",
-      "label": "Excavation Start",
-      "helperText": "Begin excavation timestamp",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": true
     },
     "validationSchema": [
       ["yup.string"],
-      ["yup.required", "Start time required"]
+      ["yup.Start time required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
     ],
     "initialValue": ""
   }
@@ -9483,20 +9853,22 @@ Common date field error messages and their meanings:
 
 ### Example 16: Time Duration Tracking
 ```json
+// Example datetime-fields-39
+// Template markers added for parametric generation
 {
-  "work-start-time": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "DateTimePicker",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "work-start-time",
-      "label": "Work Start Time",
-      "helperText": "Daily work begin time",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": true
     },
     "validationSchema": [
       ["yup.string"],
-      ["yup.required", "Start time required"],
+      ["yup.Start time required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message,
       ["yup.matches", "^([01]?[0-9]|2[0-3]):[0-5][0-9]$", "Use HH:MM format"]
     ],
     "initialValue": "08:00"
@@ -9506,15 +9878,17 @@ Common date field error messages and their meanings:
 
 ### Example 17: Readonly System Timestamp
 ```json
+// Example datetime-fields-40
+// Template markers added for parametric generation
 {
-  "last-modified": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "DateTimeNow",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "last-modified",
-      "label": "Last Modified",
-      "helperText": "System-managed timestamp",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "is_auto_pick": true,
       "disabled": true,
       "readOnly": true
@@ -9529,15 +9903,17 @@ Common date field error messages and their meanings:
 
 ### Example 18: Date with Custom Format Display
 ```json
+// Example datetime-fields-41
+// Template markers added for parametric generation
 {
-  "publication-date": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "DatePicker",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "publication-date",
-      "label": "Publication Date",
-      "helperText": "Article/report publication date",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "format": "DD/MM/YYYY",
       "required": false
     },
@@ -9551,20 +9927,22 @@ Common date field error messages and their meanings:
 
 ### Example 19: Complex Conditional Date
 ```json
+// Example datetime-fields-42
+// Template markers added for parametric generation
 {
-  "completion-date": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "DatePicker",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "completion-date",
-      "label": "Completion Date",
-      "helperText": "When was this phase completed?",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": true
     },
     "validationSchema": [
       ["yup.string"],
-      ["yup.required", "Completion date required"],
+      ["yup.Completion date required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message,
       ["yup.min", "${start-date}", "Must be after start date"]
     ],
     "initialValue": "",
@@ -9588,27 +9966,29 @@ Common date field error messages and their meanings:
 
 ### Example 20: DateTime with Timezone Awareness
 ```json
+// Example datetime-fields-43
+// Template markers added for parametric generation
 {
-  "international-meeting": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "DateTimePicker",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "international-meeting",
-      "label": "Meeting Time (UTC)",
-      "helperText": "Enter in UTC timezone",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": true,
       "timezone": "UTC"
     },
     "validationSchema": [
       ["yup.string"],
-      ["yup.required", "Meeting time required"]
+      ["yup.Meeting time required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
     ],
     "initialValue": "",
     "meta": {
       "annotation": {
         "include": true,
-        "label": "Local timezone for reference"
+        "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
       }
     }
   }
@@ -9618,6 +9998,8 @@ Common date field error messages and their meanings:
 
 #### DateTimeNow ANTI-PATTERNS ⚠️
 ```json
+// Example datetime-fields-44
+// Template markers added for parametric generation
 
 {
   "initialValue": null
@@ -9626,7 +10008,7 @@ Common date field error messages and their meanings:
 
 {
   "component-parameters": {
-    "label": "Time"
+    "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
 
   }
 }
@@ -9635,7 +10017,7 @@ Common date field error messages and their meanings:
 {
   "is_auto_pick": true,
   "component-parameters": {
-    "label": "Date"
+    "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
 
   }
 }
@@ -9644,15 +10026,17 @@ Common date field error messages and their meanings:
 ### DateTimePicker Patterns (DISCOURAGED - Use DateTimeNow Instead)
 
 ```json
+// Example datetime-fields-45
+// Template markers added for parametric generation
 
 {
   "component-namespace": "faims-custom",
   "component-name": "DateTimePicker",
   "type-returned": "faims-core::String",
   "component-parameters": {
-    "name": "legacy-datetime",
-    "label": "Time (Legacy)",
-    "helperText": "⚠️ No timezone - ambiguous timestamp"
+    "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+    "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+    "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
   }
 }
 
@@ -9661,7 +10045,7 @@ Common date field error messages and their meanings:
 - "component-name": "DateTimePicker",
 + "component-name": "DateTimeNow",
   "component-parameters": {
-    "helperText": "Enter in your local time, stored as UTC"
+    "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
   }
 }
 ```
@@ -9669,15 +10053,17 @@ Common date field error messages and their meanings:
 ### DatePicker Patterns
 
 ```json
+// Example datetime-fields-46
+// Template markers added for parametric generation
 
 {
   "component-namespace": "faims-custom",
   "component-name": "DatePicker",
   "type-returned": "faims-core::String",
   "component-parameters": {
-    "name": "date-field",
-    "label": "Date",
-    "helperText": "Select date (no time component)"
+    "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+    "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+    "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
   },
   "validationSchema": [["yup.string"]],
   "initialValue": ""
@@ -9685,36 +10071,38 @@ Common date field error messages and their meanings:
 
 
 + "component-parameters": {
-+   "label": "Excavation Start Date",
-+   "helperText": "When excavation commenced",
++   "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
++   "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
 +   "required": true
 + }
 + "validationSchema": [
 +   ["yup.string"],
-+   ["yup.required", "Start date required"]
++   ["yup.Start date required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
 + ]
 
 
 + "meta": {
 +   "annotation": {
 +     "include": true,
-+     "label": "Date uncertainty (circa, before, after)"
++     "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
 +   }
 + }
 ```
 
 #### DatePicker ANTI-PATTERNS ⚠️
 ```json
+// Example datetime-fields-47
+// Template markers added for parametric generation
 
 {
   "component-name": "DatePicker",
-  "helperText": "Enter date and time"
+  "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
 
 }
 
 
 {
-  "helperText": "Format: DD/MM/YYYY"
+  "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
 
 }
 
@@ -9722,7 +10110,7 @@ Common date field error messages and their meanings:
 {
   "validationSchema": [
     ["yup.date"],
-    ["yup.min", ["yup.ref", "start_date"], "Must be after start"]
+    ["yup.min", ["yup.start_date", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message, "Must be after start"]
   ]
 }
 
@@ -9737,15 +10125,17 @@ Common date field error messages and their meanings:
 ### MonthPicker Patterns
 
 ```json
+// Example datetime-fields-48
+// Template markers added for parametric generation
 
 {
   "component-namespace": "faims-custom",
   "component-name": "MonthPicker",
   "type-returned": "faims-core::String",
   "component-parameters": {
-    "name": "month-field",
-    "label": "Month/Year",
-    "helperText": "Select month and year (no day)"
+    "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+    "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+    "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
   },
   "validationSchema": [["yup.string"]],
   "initialValue": ""
@@ -9753,25 +10143,26 @@ Common date field error messages and their meanings:
 
 
 + "component-parameters": {
-+   "label": "Excavation Season",
-+   "helperText": "Month of field season",
++   "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
++   "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
 +   "required": true
 + }
 + "validationSchema": [
 +   ["yup.string"],
-+   ["yup.required", "Season must be specified"]
++   ["yup.Season must be specified", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
 + ]
 
 
 + "component-parameters": {
-+   "label": "Publication Date",
-+   "helperText": "Month/year from source (avoids false precision)"
++   "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
++   "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
 + }
 + "initialValue": "1887-03"
 ```
 
 #### MonthPicker ANTI-PATTERNS ⚠️
 ```json
+// Example datetime-fields-49
 
 {
   "initialValue": "2024-03-15"
@@ -9791,6 +10182,8 @@ Optimize date field behavior for specific platforms:
 
 #### iOS-Optimized Configuration
 ```json
+// Example datetime-fields-50
+// Template markers added for parametric generation
 
 {
   "component-namespace": "faims-custom",
@@ -9798,7 +10191,7 @@ Optimize date field behavior for specific platforms:
   "component-parameters": {
     "fullWidth": true,
     "margin": "dense",
-    "helperText": "Swipe up/down on wheels to select time",
+    "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
     "InputProps": {
       "style": {
         "paddingBottom": "20px"
@@ -9810,6 +10203,8 @@ Optimize date field behavior for specific platforms:
 
 #### Android-Optimized Configuration
 ```json
+// Example datetime-fields-51
+// Template markers added for parametric generation
 
 {
   "component-namespace": "faims-custom",
@@ -9817,7 +10212,7 @@ Optimize date field behavior for specific platforms:
   "component-parameters": {
     "fullWidth": true,
     "variant": "outlined",
-    "helperText": "Tap to open calendar",
+    "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
     "InputProps": {
       "style": {
         "minHeight": "56px",
@@ -9830,6 +10225,8 @@ Optimize date field behavior for specific platforms:
 
 #### Desktop-Optimized Configuration
 ```json
+// Example datetime-fields-52
+// Template markers added for parametric generation
 
 {
   "component-namespace": "faims-custom",
@@ -9837,7 +10234,7 @@ Optimize date field behavior for specific platforms:
   "component-parameters": {
     "fullWidth": false,
     "variant": "standard",
-    "helperText": "Click field then use picker or type YYYY-MM-DD HH:MM",
+    "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
     "InputProps": {
       "placeholder": "YYYY-MM-DD HH:MM",
       "style": {
@@ -9850,13 +10247,15 @@ Optimize date field behavior for specific platforms:
 
 #### Multi-Platform Responsive Configuration
 ```json
+// Example datetime-fields-53
+// Template markers added for parametric generation
 
 {
   "component-namespace": "faims-custom",
   "component-name": "DateTimeNow",
   "component-parameters": {
     "fullWidth": true,
-    "helperText": "Select date/time (stored as UTC)",
+    "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
     "InputProps": {
       "style": {
         "minHeight": "48px",
@@ -9877,6 +10276,7 @@ Optimize date field behavior for specific platforms:
 ### Integration Patterns (Date Fields Working Together)
 
 ```json
+// Example datetime-fields-54
 
 {
   "excavation_start": {
@@ -10109,6 +10509,7 @@ Optimize date field behavior for specific platforms:
 **Migration Steps**:
 1. Add companion text field for uncertainty:
    ```json
+// Example datetime-fields-55
    "date_uncertainty": {
      "component-name": "TextField",
      "label": "Date Uncertainty/Notes"
@@ -10475,12 +10876,14 @@ When standard date fields don't meet requirements, consider these alternatives:
 
 ##### Separate Component Fields
 ```json
+// Example datetime-fields-56
+// Template markers added for parametric generation
 
 {
   "year_field": {
     "component-name": "NumberField",
     "component-parameters": {
-      "label": "Year",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
       "min": 1800,
       "max": 2100
     }
@@ -10488,11 +10891,11 @@ When standard date fields don't meet requirements, consider these alternatives:
   "month_field": {
     "component-name": "Select",
     "component-parameters": {
-      "label": "Month",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
       "options": [
-        {"value": "", "label": "Unknown"},
-        {"value": "01", "label": "January"},
-        {"value": "02", "label": "February"}
+        {"value": "", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "01", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "02", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label}
 
       ]
     }
@@ -10500,7 +10903,7 @@ When standard date fields don't meet requirements, consider these alternatives:
   "day_field": {
     "component-name": "NumberField",
     "component-parameters": {
-      "label": "Day (if known)",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
       "min": 1,
       "max": 31,
       "required": false
@@ -10511,13 +10914,15 @@ When standard date fields don't meet requirements, consider these alternatives:
 
 ##### Text Field with Pattern Validation
 ```json
+// Example datetime-fields-57
+// Template markers added for parametric generation
 
 {
   "historical_date": {
     "component-name": "TextField",
     "component-parameters": {
-      "label": "Historical Date",
-      "helperText": "Format: YYYY-MM-DD (negative year for BCE)",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "placeholder": "-0753-04-21"
     },
     "validationSchema": [
@@ -10530,16 +10935,18 @@ When standard date fields don't meet requirements, consider these alternatives:
 
 ##### Controlled Vocabulary for Periods
 ```json
+// Example datetime-fields-58
+// Template markers added for parametric generation
 
 {
   "temporal_period": {
     "component-name": "Select",
     "component-parameters": {
-      "label": "Archaeological Period",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
       "options": [
-        {"value": "early_bronze", "label": "Early Bronze Age (3300-2000 BCE)"},
-        {"value": "middle_bronze", "label": "Middle Bronze Age (2000-1550 BCE)"},
-        {"value": "late_bronze", "label": "Late Bronze Age (1550-1200 BCE)"}
+        {"value": "early_bronze", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "middle_bronze", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "late_bronze", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label}
       ]
     }
   }
@@ -10556,20 +10963,22 @@ When standard date fields don't meet requirements, consider these alternatives:
 - Spatially and temporally scoped period definitions
 - Example implementation:
 ```json
+// Example datetime-fields-59
+// Template markers added for parametric generation
 {
   "chronological_period": {
     "component-name": "Select",
     "component-parameters": {
-      "label": "Period (from Periodo)",
-      "helperText": "Periods from periodo.github.io",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "options": [
         {
           "value": "p0qhb66", 
-          "label": "Late Bronze Age, Levant (1550-1200 BCE)"
+          "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
         },
         {
           "value": "p0qhb65",
-          "label": "Middle Bronze Age IIB, Levant (1750-1550 BCE)"
+          "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
         }
       ]
     }
@@ -10577,8 +10986,8 @@ When standard date fields don't meet requirements, consider these alternatives:
   "periodo_uri": {
     "component-name": "TextField",
     "component-parameters": {
-      "label": "Periodo URI",
-      "helperText": "Full Periodo identifier for external reference",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "placeholder": "http:
     }
   }
@@ -10615,18 +11024,20 @@ For **absolute dates** (e.g., C14 dates, dendrochronology):
 
 ##### Comprehensive Uncertainty Pattern
 ```json
+// Example datetime-fields-60
+// Template markers added for parametric generation
 {
   "date_type": {
     "component-name": "RadioGroup",
     "component-parameters": {
-      "label": "Date Precision",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
       "options": [
-        {"value": "exact", "label": "Exact date known"},
-        {"value": "month", "label": "Month/year only"},
-        {"value": "year", "label": "Year only"},
-        {"value": "decade", "label": "Decade"},
-        {"value": "century", "label": "Century"},
-        {"value": "period", "label": "Historical period"}
+        {"value": "exact", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "month", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "year", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "decade", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "century", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "period", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label}
       ]
     }
   },
@@ -10640,27 +11051,27 @@ For **absolute dates** (e.g., C14 dates, dendrochronology):
   },
   "year_only": {
     "component-name": "NumberField",
-    "component-parameters": {"label": "Year", "min": 1000, "max": 2100},
+    "component-parameters": {"label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label, "min": 1000, "max": 2100},
     "condition": {"field": "date_type", "operator": "equal", "value": "year"}
   },
   "date_qualifier": {
     "component-name": "Select",
     "component-parameters": {
-      "label": "Date Qualifier",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
       "options": [
-        {"value": "exact", "label": "Exact"},
-        {"value": "circa", "label": "Circa"},
-        {"value": "before", "label": "Before"},
-        {"value": "after", "label": "After"},
-        {"value": "range", "label": "Range"}
+        {"value": "exact", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "circa", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "before", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "after", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "range", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label}
       ]
     }
   },
   "date_notes": {
     "component-name": "TextField",
     "component-parameters": {
-      "label": "Date Notes",
-      "helperText": "Additional context (e.g., 'Spring 1887', 'Early in reign')"
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
     }
   }
 }
@@ -10668,36 +11079,38 @@ For **absolute dates** (e.g., C14 dates, dendrochronology):
 
 ##### Fuzzy Date Storage Pattern
 ```json
+// Example datetime-fields-61
+// Template markers added for parametric generation
 
 {
   "event_date_min": {
     "component-name": "DatePicker",
     "component-parameters": {
-      "label": "Earliest Possible Date"
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
     }
   },
   "event_date_max": {
     "component-name": "DatePicker",
     "component-parameters": {
-      "label": "Latest Possible Date"
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
     }
   },
   "event_date_likely": {
     "component-name": "DatePicker",
     "component-parameters": {
-      "label": "Most Likely Date",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
       "required": false
     }
   },
   "confidence_level": {
     "component-name": "Select",
     "component-parameters": {
-      "label": "Confidence",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
       "options": [
-        {"value": "certain", "label": "Certain"},
-        {"value": "probable", "label": "Probable"},
-        {"value": "possible", "label": "Possible"},
-        {"value": "uncertain", "label": "Uncertain"}
+        {"value": "certain", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "probable", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "possible", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "uncertain", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label}
       ]
     }
   }
@@ -10710,12 +11123,14 @@ For ancient history and archaeology spanning BCE/CE, use numeric fields rather t
 
 **Pattern 1: Terminus Post/Ante Quem (Not Before/Not After)**
 ```json
+// Example datetime-fields-62
+// Template markers added for parametric generation
 {
   "date_not_before": {
     "component-name": "NumberField",
     "component-parameters": {
-      "label": "Not Before (negative = BCE)",
-      "helperText": "e.g., -150 for 150 BCE",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "min": -3500,
       "max": 2100
     }
@@ -10723,8 +11138,8 @@ For ancient history and archaeology spanning BCE/CE, use numeric fields rather t
   "date_not_after": {
     "component-name": "NumberField",
     "component-parameters": {
-      "label": "Not After (negative = BCE)",
-      "helperText": "e.g., -50 for 50 BCE",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "min": -3500,
       "max": 2100
     }
@@ -10732,15 +11147,15 @@ For ancient history and archaeology spanning BCE/CE, use numeric fields rather t
   "date_basis": {
     "component-name": "Select",
     "component-parameters": {
-      "label": "Dating Basis",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
       "options": [
-        {"value": "stratigraphic", "label": "Stratigraphic"},
-        {"value": "ceramic", "label": "Ceramic typology"},
-        {"value": "numismatic", "label": "Numismatic"},
-        {"value": "epigraphic", "label": "Epigraphic"},
-        {"value": "historical", "label": "Historical sources"},
-        {"value": "c14", "label": "Radiocarbon"},
-        {"value": "stylistic", "label": "Stylistic"}
+        {"value": "stratigraphic", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "ceramic", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "numismatic", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "epigraphic", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "historical", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "c14", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "stylistic", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label}
       ]
     }
   }
@@ -10749,12 +11164,14 @@ For ancient history and archaeology spanning BCE/CE, use numeric fields rather t
 
 **Pattern 2: Central Date with Plus/Minus Uncertainty**
 ```json
+// Example datetime-fields-63
+// Template markers added for parametric generation
 {
   "date_central": {
     "component-name": "NumberField",
     "component-parameters": {
-      "label": "Approximate Date (negative = BCE)",
-      "helperText": "e.g., -100 for 100 BCE",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "min": -3500,
       "max": 2100
     }
@@ -10762,8 +11179,8 @@ For ancient history and archaeology spanning BCE/CE, use numeric fields rather t
   "date_uncertainty": {
     "component-name": "NumberField",
     "component-parameters": {
-      "label": "Uncertainty (+/- years)",
-      "helperText": "e.g., 50 for ±50 years",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "min": 0,
       "max": 500
     }
@@ -10771,8 +11188,8 @@ For ancient history and archaeology spanning BCE/CE, use numeric fields rather t
   "date_note": {
     "component-name": "TextField",
     "component-parameters": {
-      "label": "Dating Notes",
-      "helperText": "Additional context (e.g., 'late in the reign of Augustus')"
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
     }
   }
 }
@@ -10780,44 +11197,46 @@ For ancient history and archaeology spanning BCE/CE, use numeric fields rather t
 
 **Pattern 3: Combined Periodo Vocabulary with Absolute Date Range**
 ```json
+// Example datetime-fields-64
+// Template markers added for parametric generation
 {
   "periodo_term": {
     "component-name": "Select",
     "component-parameters": {
-      "label": "Cultural Period",
-      "helperText": "From Periodo gazetteer",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "options": [
-        {"value": "p0qhb66", "label": "Late Hellenistic Period, Eastern Mediterranean"},
-        {"value": "p0qhb67", "label": "Early Roman Period, Eastern Mediterranean"}
+        {"value": "p0qhb66", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "p0qhb67", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label}
       ]
     }
   },
   "absolute_earliest": {
     "component-name": "NumberField",
     "component-parameters": {
-      "label": "Absolute Earliest (negative = BCE)",
-      "helperText": "Terminus post quem",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": false
     }
   },
   "absolute_latest": {
     "component-name": "NumberField",
     "component-parameters": {
-      "label": "Absolute Latest (negative = BCE)",
-      "helperText": "Terminus ante quem",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": false
     }
   },
   "is_uncertain": {
     "component-name": "Checkbox",
     "component-parameters": {
-      "label": "Dating uncertain"
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
     }
   },
   "uncertainty_note": {
     "component-name": "TextField",
     "component-parameters": {
-      "label": "Uncertainty explanation"
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
     },
     "condition": {
       "field": "is_uncertain",
@@ -10848,26 +11267,28 @@ For ancient history and archaeology spanning BCE/CE, use numeric fields rather t
 
 ##### Duration Recording
 ```json
+// Example datetime-fields-65
+// Template markers added for parametric generation
 
 {
   "duration_value": {
     "component-name": "NumberField",
     "component-parameters": {
-      "label": "Duration",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
       "min": 0
     }
   },
   "duration_unit": {
     "component-name": "Select",
     "component-parameters": {
-      "label": "Unit",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
       "options": [
-        {"value": "minutes", "label": "Minutes"},
-        {"value": "hours", "label": "Hours"},
-        {"value": "days", "label": "Days"},
-        {"value": "weeks", "label": "Weeks"},
-        {"value": "months", "label": "Months"},
-        {"value": "years", "label": "Years"}
+        {"value": "minutes", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "hours", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "days", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "weeks", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "months", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "years", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label}
       ]
     }
   }
@@ -10876,24 +11297,26 @@ For ancient history and archaeology spanning BCE/CE, use numeric fields rather t
 
 ##### Relative Date Recording
 ```json
+// Example datetime-fields-66
+// Template markers added for parametric generation
 
 {
   "relative_to": {
     "component-name": "Select",
     "component-parameters": {
-      "label": "Relative To",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
       "options": [
-        {"value": "project_start", "label": "Project Start"},
-        {"value": "excavation_start", "label": "Excavation Start"},
-        {"value": "previous_phase", "label": "Previous Phase End"}
+        {"value": "project_start", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "excavation_start", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+        {"value": "previous_phase", "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label}
       ]
     }
   },
   "days_offset": {
     "component-name": "NumberField",
     "component-parameters": {
-      "label": "Days From Reference",
-      "helperText": "Negative for before, positive for after"
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
     }
   }
 }
@@ -10914,6 +11337,7 @@ For ancient history and archaeology spanning BCE/CE, use numeric fields rather t
 - `FIX` For local display add helper text: "Times shown in UTC, enter in your local timezone"
 - `FIX` For protected timestamps use paired pattern:
   ```json
+// Example datetime-fields-67
   "created_display": {"component-name": "TemplatedString", "content": "{{created_time}}"},
   "created_time": {"component-name": "DateTimeNow", "is_auto_pick": true}
   ```
@@ -10959,7 +11383,9 @@ For ancient history and archaeology spanning BCE/CE, use numeric fields rather t
 - `FIX` For month-year only use MonthPicker instead
 - `FIX` For uncertain dates add annotation field:
   ```json
-  "date": {"component-name": "DatePicker"},
+// Example datetime-fields-68
+// Template markers added for parametric generation
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {"component-name": "DatePicker"},
   "date_certainty": {
     "component-name": "Select",
     "component-parameters": {
@@ -11019,6 +11445,7 @@ For ancient history and archaeology spanning BCE/CE, use numeric fields rather t
   ```
 - `FIX` For BCE dates use TextField with pattern:
   ```json
+// Example datetime-fields-69
   "validationSchema": [
     ["yup.matches", "^-?\\d{1,4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])$", "Format: YYYY-MM-DD (negative year for BCE)"]
   ]
@@ -11068,15 +11495,17 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
   - `VALIDATE` Check all DateTimeNow fields have either annotation or clear helperText
   - `IMPLEMENT`:
     ```json
-    "timestamp": {
+// Example datetime-fields-70
+// Template markers added for parametric generation
+    "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
       "component-name": "DateTimeNow",
       "component-parameters": {
-        "helperText": "Enter in your local time (stored as UTC)"
+        "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
       },
       "meta": {
         "annotation": {
           "include": true,
-          "label": "Timezone notes"
+          "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
         }
       }
     }
@@ -11084,16 +11513,18 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 - `REQUIRED` DatePicker with MonthPicker fallback when day precision uncertain
   - `PATTERN` Paired fields for flexible precision:
     ```json
+// Example datetime-fields-71
+// Template markers added for parametric generation
     "precise_date": {
       "component-name": "DatePicker",
       "component-parameters": {
-        "label": "Exact date (if known)"
+        "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
       }
     },
     "approximate_date": {
       "component-name": "MonthPicker",
       "component-parameters": {
-        "label": "Month/Year (if day unknown)"
+        "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
       }
     }
     ```
@@ -11184,6 +11615,7 @@ Anti-patterns have been distributed to their respective field sections for bette
 - `TEST` Compare sample timestamps with known events
 - `ROLLBACK` Keep original field hidden for 30 days:
   ```json
+// Example datetime-fields-72
   "old_datetime": {
     "component-name": "DateTimePicker",
     "component-parameters": {"hidden": true}
@@ -11211,6 +11643,7 @@ Anti-patterns have been distributed to their respective field sections for bette
 - `NO ROLLBACK` Timezone information unrecoverable
 - `ALTERNATIVE` Keep DateTimeNow, add display field:
   ```json
+// Example datetime-fields-73
   "display_local": {
     "component-name": "TemplatedString",
     "component-parameters": {
@@ -11233,6 +11666,7 @@ Anti-patterns have been distributed to their respective field sections for bette
 - `UNSAFE IF` Any nulls exist
 - `ROLLBACK`:
   ```json
+// Example datetime-fields-74
 
   "validationSchema": [
     ["yup.string"]
@@ -11347,6 +11781,7 @@ Anti-patterns have been distributed to their respective field sections for bette
 - `ROLLBACK` Paginate forms if >100 date fields
 - `QUICK FIX` Disable auto-populate temporarily:
   ```json
+// Example datetime-fields-75
   "is_auto_pick": false
   ```
 - `VERSION` 2025-08
@@ -11358,14 +11793,16 @@ Anti-patterns have been distributed to their respective field sections for bette
 ### DateTimeNow Patterns
 
 ```json
+// Example datetime-fields-76
+// Template markers added for parametric generation
 
 {
   "component-namespace": "faims-custom",
   "component-name": "DateTimeNow",
   "type-returned": "faims-core::String",
   "component-parameters": {
-    "name": "timestamp-field",
-    "label": "Timestamp"
+    "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+    "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
   },
   "validationSchema": [["yup.string"]],
   "initialValue": ""
@@ -11374,24 +11811,24 @@ Anti-patterns have been distributed to their respective field sections for bette
 
 + "component-parameters": {
 +   "is_auto_pick": true,
-+   "helperText": "Automatically captured (UTC)",
++   "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
 +   "fullWidth": true
 + }
 + "validationSchema": [
 +   ["yup.string"],
-+   ["yup.required", "Timestamp required"]
++   ["yup.Timestamp required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
 + ]
 
 
 + "component-parameters": {
 +   "is_auto_pick": false,
-+   "helperText": "Click 'Now' for current time",
++   "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
 +   "required": true
 + }
 + "meta": {
 +   "annotation": {
 +     "include": true,
-+     "label": "Time notes (timezone, accuracy)"
++     "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
 +   }
 + }
 
@@ -11404,6 +11841,8 @@ Anti-patterns have been distributed to their respective field sections for bette
 
 #### DateTimeNow ANTI-PATTERNS ⚠️
 ```json
+// Example datetime-fields-77
+// Template markers added for parametric generation
 
 {
   "initialValue": null
@@ -11412,7 +11851,7 @@ Anti-patterns have been distributed to their respective field sections for bette
 
 {
   "component-parameters": {
-    "label": "Time"
+    "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
 
   }
 }
@@ -11421,7 +11860,7 @@ Anti-patterns have been distributed to their respective field sections for bette
 {
   "is_auto_pick": true,
   "component-parameters": {
-    "label": "Date"
+    "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
 
   }
 }
@@ -11430,15 +11869,17 @@ Anti-patterns have been distributed to their respective field sections for bette
 ### DateTimePicker Patterns (DISCOURAGED - Use DateTimeNow Instead)
 
 ```json
+// Example datetime-fields-78
+// Template markers added for parametric generation
 
 {
   "component-namespace": "faims-custom",
   "component-name": "DateTimePicker",
   "type-returned": "faims-core::String",
   "component-parameters": {
-    "name": "legacy-datetime",
-    "label": "Time (Legacy)",
-    "helperText": "⚠️ No timezone - ambiguous timestamp"
+    "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+    "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+    "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
   }
 }
 
@@ -11447,7 +11888,7 @@ Anti-patterns have been distributed to their respective field sections for bette
 - "component-name": "DateTimePicker",
 + "component-name": "DateTimeNow",
   "component-parameters": {
-    "helperText": "Enter in your local time, stored as UTC"
+    "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
   }
 }
 ```
@@ -11648,6 +12089,17 @@ see-also: [field-selection-guide, constraints-reference]
 
 
 # Number Input Fields
+
+
+<!-- structured:metadata
+meta:purpose: field-configuration
+meta:summary: Two number input components (BasicAutoIncrementer and TextField variants) with validation patterns and increment strategies.
+meta:generates: json-fields
+meta:requires: [valid-json, unique-names, fviews-layer]
+meta:version: 3.0.0
+meta:document: number_fields
+meta:depth-tags: [essential, important, comprehensive]
+-->
 
 ## Document Navigation {essential}
 <!-- concat:nav-mode:individual -->
@@ -12021,6 +12473,7 @@ See [Validation System Documentation](../detail-crossfield-docs/validation.md) f
 **Number Field-Specific Validation:**
 
 ```json
+// Example number-fields-01
 
 "validationSchema": [
   ["yup.number"],
@@ -12154,6 +12607,7 @@ See [Data Export Reference](data-export-reference.md) for comprehensive export d
 - **Infinity/NaN**: Export as empty cells in CSV, may cause #NUM! errors in Excel
 - **Prevention**: Use TemplatedString wrapper with leading apostrophe for Excel-safe IDs:
   ```json
+// Example number-fields-02
   {
     "component-name": "TemplatedStringField",
     "template": "'{{identifier_field}}",
@@ -12183,19 +12637,22 @@ Standard numeric data entry supporting floating-point values, null states, and c
 
 **Designer Accessible**:
 ```json
+// Example number-fields-03
+// Template markers added for parametric generation
 {
   "component-name": "NumberField",
   "type": "faims-core::Number",
-  "name": "measurement",
-  "label": "Measurement (cm)",
+  "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+  "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
   "initialValue": null,
   "required": false,
-  "helperText": "Record to 0.1cm precision"
+  "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
 }
 ```
 
 **JSON Enhancement**:
 ```json
+// Example number-fields-04
 {
   "validationSchema": [
     ["yup.number"],
@@ -12247,16 +12704,18 @@ Standard numeric data entry supporting floating-point values, null states, and c
 
 **Show field when value exceeds threshold**:
 ```json
+// Example number-fields-05
+// Template markers added for parametric generation
 {
   "ph_measurement": {
     "component-name": "NumberField",
     "type": "faims-core::Number",
-    "name": "ph_measurement",
-    "label": "pH Reading"
+    "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+    "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
   },
   "alkaline_warning": {
     "component-name": "RichText",
-    "name": "alkaline_warning",
+    "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
     "content": "⚠️ High pH detected - verify calibration",
     "condition": {
       "operator": ">",
@@ -12269,6 +12728,7 @@ Standard numeric data entry supporting floating-point values, null states, and c
 
 **Null value handling in conditions**:
 ```json
+// Example number-fields-06
 {
   "condition": {
     "operator": "and",
@@ -12292,12 +12752,14 @@ Standard numeric data entry supporting floating-point values, null states, and c
 
 **Environmental Monitoring**:
 ```json
+// Example number-fields-07
+// Template markers added for parametric generation
 {
   "component-name": "NumberField",
   "type": "faims-core::Number",
-  "name": "water_temperature",
-  "label": "Water Temperature (°C)",
-  "helperText": "Record to 0.1°C precision",
+  "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+  "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+  "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
   "validationSchema": [
     ["yup.number"],
     ["yup.required"],
@@ -12315,12 +12777,14 @@ Standard numeric data entry supporting floating-point values, null states, and c
 
 ❌ **NEVER: This component doesn't exist in codebase**
 ```json
+// Example number-fields-08
 {
   "component-name": "TextField"
 }
 ```
 ✅ **ALWAYS: Use NumberField**
 ```json
+// Example number-fields-09
 {
   "component-name": "NumberField",
   "component-namespace": "faims-custom"
@@ -12346,24 +12810,28 @@ Designer-accessible bounded numeric input for non-technical users needing range 
 
 **Designer Configuration**:
 ```json
+// Example number-fields-10
+// Template markers added for parametric generation
 {
   "component-name": "TextField",
   "type": "faims-core::Integer",
-  "name": "artifact_condition",
-  "label": "Condition Score (1-10)",
+  "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+  "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
   "min": 1,
   "max": 10,
-  "helperText": "1 = Poor, 10 = Excellent",
+  "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
   "initialValue": 0
 }
 ```
 
 **JSON Enhancement** (optional):
 ```json
+// Example number-fields-11
+// Template markers added for parametric generation
 {
   "validationSchema": [
     ["yup.number"],
-    ["yup.integer", "Whole numbers only"],
+    ["yup.Whole numbers only", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message,
     ["yup.required"]
   ]
 }
@@ -12396,18 +12864,20 @@ Designer-accessible bounded numeric input for non-technical users needing range 
 
 **Trigger action based on rating**:
 ```json
+// Example number-fields-12
+// Template markers added for parametric generation
 {
   "quality_rating": {
     "component-name": "TextField",
     "type": "faims-core::Integer",
-    "name": "quality_rating",
+    "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
     "min": 1,
     "max": 5
   },
   "poor_quality_notes": {
     "component-name": "MultilineTextField",
-    "name": "poor_quality_notes",
-    "label": "Explain quality issues",
+    "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+    "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
     "condition": {
       "operator": "<=",
       "field": "quality_rating",
@@ -12421,15 +12891,17 @@ Designer-accessible bounded numeric input for non-technical users needing range 
 
 **Survey Rating**:
 ```json
+// Example number-fields-13
+// Template markers added for parametric generation
 {
   "component-name": "TextField",
   "type": "faims-core::Integer",
-  "name": "satisfaction",
-  "label": "Satisfaction (1-5)",
+  "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+  "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
   "min": 1,
   "max": 5,
   "initialValue": 3,
-  "helperText": "1=Very Unsatisfied, 5=Very Satisfied"
+  "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
 }
 ```
 
@@ -12452,18 +12924,21 @@ Generates sequential string identifiers for distributed offline data collection.
 
 **Designer Configuration**:
 ```json
+// Example number-fields-14
+// Template markers added for parametric generation
 {
   "component-name": "BasicAutoIncrementer",
   "type": "faims-core::String",
-  "name": "specimen_number",
+  "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
   "form_id": "specimen_registration",
   "num_digits": 5,
-  "label": "Specimen ID"
+  "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
 }
 ```
 
 **Required Integration Pattern**:
 ```json
+// Example number-fields-15
 {
   "component-name": "TemplatedStringField",
   "name": "full_specimen_id",
@@ -12556,11 +13031,13 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
 
 **String comparison for identifiers**:
 ```json
+// Example number-fields-16
+// Template markers added for parametric generation
 {
   "specimen_id": {
     "component-name": "BasicAutoIncrementer",
     "type": "faims-core::String",
-    "name": "specimen_id",
+    "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
     "form_id": "specimens",
     "num_digits": 5
   },
@@ -12578,6 +13055,7 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
 
 **Cannot use numeric operators**:
 ```json
+// Example number-fields-17
 
 {
   "condition": {
@@ -12601,6 +13079,7 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
 
 **Museum Cataloging**:
 ```json
+// Example number-fields-18
 [
   {
     "component-name": "BasicAutoIncrementer",
@@ -12771,22 +13250,24 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
 
 ### Example 1: Basic Integer Field
 ```json
+// Example number-fields-19
+// Template markers added for parametric generation
 {
-  "artifact-count": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "NumberField",
     "type-returned": "faims-core::Integer",
     "component-parameters": {
-      "name": "artifact-count",
-      "label": "Artifact Count",
-      "helperText": "Total number of artifacts",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": true
     },
     "validationSchema": [
       ["yup.number"],
-      ["yup.required", "Count is required"],
+      ["yup.Count is required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message,
       ["yup.min", 0, "Count cannot be negative"],
-      ["yup.integer", "Must be a whole number"]
+      ["yup.Must be a whole number", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
     ],
     "initialValue": 0
   }
@@ -12795,21 +13276,23 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
 
 ### Example 2: Decimal Measurement Field
 ```json
+// Example number-fields-20
+// Template markers added for parametric generation
 {
-  "depth-measurement": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "NumberField",
     "type-returned": "faims-core::Float",
     "component-parameters": {
-      "name": "depth-measurement",
-      "label": "Depth (meters)",
-      "helperText": "Depth below surface",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": true,
       "precision": 2
     },
     "validationSchema": [
       ["yup.number"],
-      ["yup.required", "Depth is required"],
+      ["yup.Depth is required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message,
       ["yup.min", 0, "Depth cannot be negative"],
       ["yup.max", 100, "Maximum depth 100m"]
     ],
@@ -12820,15 +13303,17 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
 
 ### Example 3: Controlled Range Slider
 ```json
+// Example number-fields-21
+// Template markers added for parametric generation
 {
-  "quality-rating": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "formik-material-ui",
     "component-name": "TextField",
     "type-returned": "faims-core::Integer",
     "component-parameters": {
-      "name": "quality-rating",
-      "label": "Quality Rating",
-      "helperText": "Rate from 1 (poor) to 10 (excellent)",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "min": 1,
       "max": 10,
       "step": 1,
@@ -12836,7 +13321,7 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
     },
     "validationSchema": [
       ["yup.number"],
-      ["yup.required", "Rating is required"]
+      ["yup.Rating is required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
     ],
     "initialValue": 5
   }
@@ -12845,22 +13330,24 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
 
 ### Example 4: Auto-incrementing ID
 ```json
+// Example number-fields-22
+// Template markers added for parametric generation
 {
-  "specimen-number": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "BasicAutoIncrementer",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "specimen-number",
-      "label": "Specimen Number",
-      "helperText": "Auto-generated sequence",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "incrementer": "specimen-counter",
       "num_digits": 5,
       "form_id": "specimens"
     },
     "validationSchema": [
       ["yup.string"],
-      ["yup.required", "Specimen number required"]
+      ["yup.Specimen number required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
     ],
     "initialValue": ""
   }
@@ -12869,21 +13356,23 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
 
 ### Example 5: pH Value with Precision
 ```json
+// Example number-fields-23
+// Template markers added for parametric generation
 {
-  "soil-ph": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "NumberField",
     "type-returned": "faims-core::Float",
     "component-parameters": {
-      "name": "soil-ph",
-      "label": "Soil pH",
-      "helperText": "pH value (0-14)",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": true,
       "precision": 2
     },
     "validationSchema": [
       ["yup.number"],
-      ["yup.required", "pH value required"],
+      ["yup.pH value required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message,
       ["yup.min", 0, "pH cannot be less than 0"],
       ["yup.max", 14, "pH cannot exceed 14"],
       ["yup.test", "precision", "Maximum 2 decimal places",
@@ -12896,15 +13385,17 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
 
 ### Example 6: Percentage Field
 ```json
+// Example number-fields-24
+// Template markers added for parametric generation
 {
-  "completion-percentage": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "NumberField",
     "type-returned": "faims-core::Integer",
     "component-parameters": {
-      "name": "completion-percentage",
-      "label": "Completion %",
-      "helperText": "Percentage complete (0-100)",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": false,
       "InputProps": {
         "endAdornment": "%"
@@ -12914,7 +13405,7 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
       ["yup.number"],
       ["yup.min", 0, "Cannot be less than 0%"],
       ["yup.max", 100, "Cannot exceed 100%"],
-      ["yup.integer", "Must be whole number"]
+      ["yup.Must be whole number", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
     ],
     "initialValue": 0
   }
@@ -12923,15 +13414,17 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
 
 ### Example 7: Temperature with Negative Values
 ```json
+// Example number-fields-25
+// Template markers added for parametric generation
 {
-  "temperature": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "NumberField",
     "type-returned": "faims-core::Float",
     "component-parameters": {
-      "name": "temperature",
-      "label": "Temperature (°C)",
-      "helperText": "Ambient temperature",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": false,
       "precision": 1
     },
@@ -12947,21 +13440,23 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
 
 ### Example 8: Conditional Number Field
 ```json
+// Example number-fields-26
+// Template markers added for parametric generation
 {
-  "ceramic-thickness": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "NumberField",
     "type-returned": "faims-core::Float",
     "component-parameters": {
-      "name": "ceramic-thickness",
-      "label": "Thickness (mm)",
-      "helperText": "Average wall thickness",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": true,
       "precision": 1
     },
     "validationSchema": [
       ["yup.number"],
-      ["yup.required", "Thickness required for ceramics"],
+      ["yup.Thickness required for ceramics", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message,
       ["yup.min", 0.1, "Minimum 0.1mm"],
       ["yup.max", 100, "Maximum 100mm"]
     ],
@@ -12977,21 +13472,23 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
 
 ### Example 9: GPS Coordinates
 ```json
+// Example number-fields-27
+// Template markers added for parametric generation
 {
-  "latitude": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "NumberField",
     "type-returned": "faims-core::Float",
     "component-parameters": {
-      "name": "latitude",
-      "label": "Latitude",
-      "helperText": "Decimal degrees",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": true,
       "precision": 6
     },
     "validationSchema": [
       ["yup.number"],
-      ["yup.required", "Latitude required"],
+      ["yup.Latitude required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message,
       ["yup.min", -90, "Latitude must be between -90 and 90"],
       ["yup.max", 90, "Latitude must be between -90 and 90"]
     ],
@@ -13002,15 +13499,17 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
 
 ### Example 10: Currency/Budget Field
 ```json
+// Example number-fields-28
+// Template markers added for parametric generation
 {
-  "budget-amount": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "NumberField",
     "type-returned": "faims-core::Float",
     "component-parameters": {
-      "name": "budget-amount",
-      "label": "Budget Amount",
-      "helperText": "In local currency",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": false,
       "precision": 2,
       "InputProps": {
@@ -13028,15 +13527,17 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
 
 ### Example 11: Weight with Units
 ```json
+// Example number-fields-29
+// Template markers added for parametric generation
 {
-  "artifact-weight": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "NumberField",
     "type-returned": "faims-core::Float",
     "component-parameters": {
-      "name": "artifact-weight",
-      "label": "Weight",
-      "helperText": "Weight in grams",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": false,
       "precision": 3,
       "InputProps": {
@@ -13052,7 +13553,7 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
     "meta": {
       "uncertainty": {
         "include": true,
-        "label": "Weight accuracy"
+        "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
       }
     }
   }
@@ -13061,21 +13562,23 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
 
 ### Example 12: Year Field
 ```json
+// Example number-fields-30
+// Template markers added for parametric generation
 {
-  "excavation-year": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "NumberField",
     "type-returned": "faims-core::Integer",
     "component-parameters": {
-      "name": "excavation-year",
-      "label": "Excavation Year",
-      "helperText": "Year of excavation",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": true
     },
     "validationSchema": [
       ["yup.number"],
-      ["yup.required", "Year is required"],
-      ["yup.integer", "Must be a valid year"],
+      ["yup.Year is required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message,
+      ["yup.Must be a valid year", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message,
       ["yup.min", 1900, "Year must be 1900 or later"],
       ["yup.max", "new Date().getFullYear()", "Cannot be future year"]
     ],
@@ -13086,15 +13589,17 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
 
 ### Example 13: Stepped Counter
 ```json
+// Example number-fields-31
+// Template markers added for parametric generation
 {
-  "grid-square": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "formik-material-ui",
     "component-name": "TextField",
     "type-returned": "faims-core::Integer",
     "component-parameters": {
-      "name": "grid-square",
-      "label": "Grid Square Number",
-      "helperText": "1m x 1m grid squares",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "min": 1,
       "max": 100,
       "step": 1,
@@ -13102,7 +13607,7 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
     },
     "validationSchema": [
       ["yup.number"],
-      ["yup.required", "Grid square required"]
+      ["yup.Grid square required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
     ],
     "initialValue": 1
   }
@@ -13111,15 +13616,17 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
 
 ### Example 14: Area Calculation
 ```json
+// Example number-fields-32
+// Template markers added for parametric generation
 {
-  "excavation-area": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "NumberField",
     "type-returned": "faims-core::Float",
     "component-parameters": {
-      "name": "excavation-area",
-      "label": "Area (m²)",
-      "helperText": "Total excavation area",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": false,
       "precision": 2,
       "InputProps": {
@@ -13138,21 +13645,23 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
 
 ### Example 15: Sample Size with Validation
 ```json
+// Example number-fields-33
+// Template markers added for parametric generation
 {
-  "sample-size": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "NumberField",
     "type-returned": "faims-core::Integer",
     "component-parameters": {
-      "name": "sample-size",
-      "label": "Sample Size",
-      "helperText": "Number of samples collected",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": true
     },
     "validationSchema": [
       ["yup.number"],
-      ["yup.required", "Sample size required"],
-      ["yup.integer", "Must be whole number"],
+      ["yup.Sample size required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message,
+      ["yup.Must be whole number", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message,
       ["yup.min", 1, "At least 1 sample required"],
       ["yup.max", 1000, "Maximum 1000 samples"]
     ],
@@ -13163,15 +13672,17 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
 
 ### Example 16: Elevation Field
 ```json
+// Example number-fields-34
+// Template markers added for parametric generation
 {
-  "elevation": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "NumberField",
     "type-returned": "faims-core::Float",
     "component-parameters": {
-      "name": "elevation",
-      "label": "Elevation (m ASL)",
-      "helperText": "Meters above sea level",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": false,
       "precision": 1
     },
@@ -13187,15 +13698,17 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
 
 ### Example 17: Bearing/Azimuth
 ```json
+// Example number-fields-35
+// Template markers added for parametric generation
 {
-  "bearing": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "NumberField",
     "type-returned": "faims-core::Integer",
     "component-parameters": {
-      "name": "bearing",
-      "label": "Bearing",
-      "helperText": "Compass bearing (0-359°)",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": false,
       "InputProps": {
         "endAdornment": "°"
@@ -13203,7 +13716,7 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
     },
     "validationSchema": [
       ["yup.number"],
-      ["yup.integer", "Must be whole number"],
+      ["yup.Must be whole number", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message,
       ["yup.min", 0, "Bearing must be 0-359"],
       ["yup.max", 359, "Bearing must be 0-359"]
     ],
@@ -13214,15 +13727,17 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
 
 ### Example 18: Duration in Minutes
 ```json
+// Example number-fields-36
+// Template markers added for parametric generation
 {
-  "processing-time": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "NumberField",
     "type-returned": "faims-core::Integer",
     "component-parameters": {
-      "name": "processing-time",
-      "label": "Processing Time",
-      "helperText": "Time spent (minutes)",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": false,
       "InputProps": {
         "endAdornment": "min"
@@ -13230,7 +13745,7 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
     },
     "validationSchema": [
       ["yup.number"],
-      ["yup.integer", "Use whole minutes"],
+      ["yup.Use whole minutes", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message,
       ["yup.min", 1, "Minimum 1 minute"],
       ["yup.max", 480, "Maximum 8 hours (480 min)"]
     ],
@@ -13241,15 +13756,17 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
 
 ### Example 19: Volume Measurement
 ```json
+// Example number-fields-37
+// Template markers added for parametric generation
 {
-  "soil-volume": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "NumberField",
     "type-returned": "faims-core::Float",
     "component-parameters": {
-      "name": "soil-volume",
-      "label": "Soil Volume",
-      "helperText": "Volume in liters",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": false,
       "precision": 2,
       "InputProps": {
@@ -13265,7 +13782,7 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
     "meta": {
       "annotation": {
         "include": true,
-        "label": "Volume estimation method"
+        "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
       }
     }
   }
@@ -13274,15 +13791,17 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
 
 ### Example 20: Complex Sequential ID
 ```json
+// Example number-fields-38
+// Template markers added for parametric generation
 {
-  "context-number": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "BasicAutoIncrementer",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "context-number",
-      "label": "Context Number",
-      "helperText": "Auto-generated context ID",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "incrementer": "context-sequence",
       "num_digits": 4,
       "form_id": "contexts",
@@ -13290,13 +13809,13 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
     },
     "validationSchema": [
       ["yup.string"],
-      ["yup.required", "Context number required"]
+      ["yup.Context number required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
     ],
     "initialValue": "",
     "meta": {
       "annotation": {
         "include": true,
-        "label": "Additional context notes"
+        "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
       }
     }
   }
@@ -13310,6 +13829,7 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
 
 **Complete Archaeological Recording**:
 ```json
+// Example number-fields-39
 [
   {
     "component-name": "BasicAutoIncrementer",
@@ -13360,6 +13880,7 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
 1. Export existing data to preserve number values
 2. Update component configuration (keep name as "NumberField"):
    ```json
+// Example number-fields-40
    {
      "component-name": "NumberField",
      "type": "faims-core::Number",
@@ -13411,6 +13932,7 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
 1. Document existing ID ranges and allocations
 2. Implement range allocation protocol:
    ```json
+// Example number-fields-41
 
 
    {
@@ -13420,6 +13942,7 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
    ```
 3. Wrap with TemplatedString for display:
    ```json
+// Example number-fields-42
    {
      "component-name": "TemplatedStringField",
      "template": "SITE-{{auto_id}}"
@@ -13450,6 +13973,7 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
    - Cannot be null (always has value)
 4. For NumberInput (JSON editing):
    ```json
+// Example number-fields-43
    "validationSchema": [
      ["yup.number"],
      ["yup.min", 0, "Must be positive"],
@@ -13474,6 +13998,7 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
 2. Choose approach based on use case:
    - Option A: Switch to TextField with pattern:
    ```json
+// Example number-fields-44
    {
      "component-name": "TextField",
      "pattern": "^-?[0-9]+(\.[0-9]+)?$"
@@ -13582,13 +14107,15 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
 ### Recommended Workarounds
 
 ```json
+// Example number-fields-45
+// Template markers added for parametric generation
 
 {
   "component-name": "TextField",
   "component-parameters": {
-    "label": "Budget (with commas)",
+    "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
     "pattern": "^[0-9]{1,3}(,[0-9]{3})*$",
-    "helperText": "Format: 1,234,567"
+    "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
   }
 }
 
@@ -13596,9 +14123,9 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
 {
   "component-name": "TextField",
   "component-parameters": {
-    "label": "Price",
+    "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
     "pattern": "^\\$[0-9]+(\\.[0-9]{2})?$",
-    "helperText": "Format: $123.45"
+    "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
   }
 }
 
@@ -13606,10 +14133,10 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
 {
   "component-name": "TextField",
   "component-parameters": {
-    "label": "Completion (%)",
+    "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
     "min": 0,
     "max": 100,
-    "helperText": "Enter percentage without % symbol"
+    "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
   }
 }
 ```
@@ -13664,6 +14191,7 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
   - `ERROR` "Must be a number" on blur of empty non-required field
   - `FIX` Add nullable validation:
     ```json
+// Example number-fields-46
     "validationSchema": [
       ["yup.number"],
       ["yup.nullable"]
@@ -13707,6 +14235,7 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
   - `ERROR` "faims-core::Integer" type allows 3.14159
   - `FIX` Enforce integers explicitly:
     ```json
+// Example number-fields-47
     "validationSchema": [
       ["yup.number"],
       ["yup.integer", "Whole numbers only"]
@@ -13748,6 +14277,7 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
   - `ERROR` CSV "00042" becomes 42 in Excel
   - `FIX` Always wrap in TemplatedString:
     ```json
+// Example number-fields-48
     {
       "component-name": "TemplatedStringField",
       "template": "SPEC-{{auto_increment}}-{{_YYYY}}"
@@ -13830,6 +14360,7 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 ### Safe Migrations (No Data Loss)
 - `SAFE` Deprecated Number Field → NumberInput when adding nullable validation
   ```json
+// Example number-fields-49
 
   {
     "component-namespace": "formik-material-ui",
@@ -13869,6 +14400,7 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
   - `NO ROLLBACK` Once null→0 conversion occurs, original state lost
   - `ALTERNATIVE` Keep NumberInput, add min/max via JSON:
     ```json
+// Example number-fields-50
     {
       "component-name": "NumberField",
       "validationSchema": [
@@ -14107,23 +14639,25 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 ### NumberInput Patterns
 
 ```json
+// Example number-fields-51
+// Template markers added for parametric generation
 
 {
   "component-name": "NumberField",
   "type": "faims-core::Number",
-  "name": "measurement",
-  "label": "Measurement Value",
+  "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+  "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
   "initialValue": null,
   "persistent": true,
   "required": false,
-  "helperText": ""
+  "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
 }
 
 
 + "required": true,
 + "validationSchema": [
 +   ["yup.number"],
-+   ["yup.required", "This measurement is required"],
++   ["yup.This measurement is required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message,
 +   ["yup.min", 0, "Value cannot be negative"],
 +   ["yup.max", 100, "Value cannot exceed 100"]
 + ]
@@ -14144,7 +14678,7 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 
 + "validationSchema": [
 +   ["yup.number"],
-+   ["yup.integer", "Whole numbers only"]
++   ["yup.Whole numbers only", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
 + ]
 
 
@@ -14203,7 +14737,7 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 +   ["yup.number"],
 +   ["yup.when", "$isVisible", {
 +     "is": true,
-+     "then": ["yup.required", "Field is required when visible"]
++     "then": ["yup.Field is required when visible", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
 +   }]
 + ]
 
@@ -14220,6 +14754,7 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 
 #### NumberInput ANTI-PATTERNS ⚠️
 ```json
+// Example number-fields-52
 
 {
   "component-name": "NumberField"
@@ -14256,12 +14791,14 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 ### ControlledNumber Patterns
 
 ```json
+// Example number-fields-53
+// Template markers added for parametric generation
 
 {
   "component-name": "TextField",
   "type": "faims-core::Integer",
-  "name": "rating",
-  "label": "Quality Rating",
+  "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+  "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
   "min": 1,
   "max": 10,
   "initialValue": 0,
@@ -14271,35 +14808,36 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 
 + "validationSchema": [
 +   ["yup.number"],
-+   ["yup.integer", "Please enter a whole number"]
++   ["yup.Please enter a whole number", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
 + ]
 
 
 {
   "component-name": "TextField",
   "type": "faims-core::Integer",
-  "name": "completion_percentage",
-  "label": "Completion (%)",
+  "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+  "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
   "min": 0,
   "max": 100,
-  "helperText": "Enter percentage complete",
+  "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
   "initialValue": 0
 }
 
 
 {
   "component-name": "TextField",
-  "name": "satisfaction",
-  "label": "Satisfaction (1-5)",
+  "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+  "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
 - "min": 1,
 + "min": 0,
   "max": 5,
-  "helperText": "0 = Not answered, 1-5 = Rating scale"
+  "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
 }
 ```
 
 #### ControlledNumber ANTI-PATTERNS ⚠️
 ```json
+// Example number-fields-54
 
 {
   "component-name": "TextField",
@@ -14328,6 +14866,7 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 ### BasicAutoIncrementer Patterns
 
 ```json
+// Example number-fields-55
 
 {
   "component-name": "BasicAutoIncrementer",
@@ -14382,6 +14921,7 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 
 #### BasicAutoIncrementer ANTI-PATTERNS ⚠️
 ```json
+// Example number-fields-56
 
 {
   "component-name": "BasicAutoIncrementer",
@@ -14416,16 +14956,18 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 ### Platform-Specific Configurations
 
 ```json
+// Example number-fields-57
+// Template markers added for parametric generation
 
 {
   "component-name": "NumberField",
-  "name": "positive_only",
-  "label": "Distance (m)",
+  "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+  "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
   "validationSchema": [
     ["yup.number"],
     ["yup.min", 0, "Distance cannot be negative"]
   ],
-  "helperText": "Positive values only"
+  "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
 }
 
 
@@ -14433,7 +14975,7 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
   "component-name": "TextField",
   "min": 0,
   "max": 100,
-  "helperText": "0-100 only (ignore minus key)"
+  "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
 }
 
 
@@ -14452,7 +14994,7 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 
 {
   "component-name": "NumberField",
-  "helperText": "Say numbers like: 'fifteen point five' not 'fifteen and a half'"
+  "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
 }
 ```
 
@@ -14460,12 +15002,14 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 ### Performance Optimization Patterns
 
 ```json
+// Example number-fields-58
+// Template markers added for parametric generation
 
 {
   "component-name": "NumberField",
   "validationSchema": [
     ["yup.number"],
-    ["yup.lazy", "value => value ? yup.number().min(0) : yup.number()"]
+    ["yup.value => value ? yup.number().min(0) : yup.number()", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
   ]
 
 }
@@ -14482,6 +15026,8 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 ### Migration Patterns
 
 ```json
+// Example number-fields-59
+// Template markers added for parametric generation
 
 {
 
@@ -14508,7 +15054,7 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
   "component-name": "NumberField",
   "validationSchema": [
     ["yup.number"],
-    ["yup.transform", "(value, originalValue) => originalValue === '' ? null : value"]
+    ["yup.(value, originalValue) => originalValue === '' ? null : value", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
   ]
 }
 ```
@@ -14516,6 +15062,7 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 ### Excel/CSV Export Safety Patterns
 
 ```json
+// Example number-fields-60
 
 {
   "export_config": {
@@ -14538,6 +15085,7 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 ### Integration Patterns (Fields Working Together)
 
 ```json
+// Example number-fields-61
 
 {
   "specimen_number": {
@@ -14660,6 +15208,7 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 ### Common Anti-Patterns Across All Number Fields ⚠️
 
 ```json
+// Example number-fields-62
 
 {
   "validationSchema": [
@@ -14708,6 +15257,7 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 ### Error Message Quick Reference
 
 ```json
+// Example number-fields-63
 
 {
   "Component 'NumberInput' not found": "Use 'NumberField' in JSON despite Designer label",
@@ -15068,6 +15618,17 @@ see-also: [text-fields-v05]
 
 # Display Field - Fieldmark v3 Documentation
 
+
+<!-- structured:metadata
+meta:purpose: field-configuration
+meta:summary: Display-only RichText component for instructions and headers, with markdown support but no data capture.
+meta:generates: json-fields
+meta:requires: [valid-json, unique-names, fviews-layer]
+meta:version: 3.0.0
+meta:document: display_field
+meta:depth-tags: [essential, important, comprehensive]
+-->
+
 ## Document Navigation {essential}
 <!-- concat:nav-mode:individual -->
 [← Numeric Fields](./number-fields-v05.md) | **Display Fields** | [Location Fields →](./location-fields-v05.md)
@@ -15270,6 +15831,7 @@ Need to display content?
 
 ### JSON-Only Configuration
 ```json
+// Example display-field-01
 {
   "content": "Complex\nmulti-line\nmarkdown",
   "condition": {
@@ -15455,12 +16017,14 @@ Provides formatted instructional content and section headings within forms throu
 
 #### Core Configuration
 ```json
+// Example display-field-02
+// Template markers added for parametric generation
 {
   "component-namespace": "faims-custom",
   "component-name": "RichText",
   "type-returned": "faims-core::String",
   "component-parameters": {
-    "name": "instructions",
+    "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
     "content": "## Recording Instructions\n\nCapture all visible features before excavation."
   },
   "validationSchema": [["yup.string"]],
@@ -15470,13 +16034,15 @@ Provides formatted instructional content and section headings within forms throu
 
 #### Advanced Configuration
 ```json
+// Example display-field-03
+// Template markers added for parametric generation
 {
-  "safety-warning": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "RichText",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "safety-warning",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "content": "# ⚠️ SAFETY WARNING\n\n**STOP** - Hazardous site requires:\n\n- Full PPE including respirator\n- Confined space certification\n- Gas monitoring equipment\n- Emergency evacuation plan\n\nContact supervisor before entry.\n\n---\n\n*Failure to comply may result in serious injury or death.*"
     },
     "validationSchema": [["yup.string"]],
@@ -15526,6 +16092,7 @@ Provides formatted instructional content and section headings within forms throu
 2. Validate markdown in external tool
 3. Common fixes:
    ```json
+// Example display-field-04
    // BAD - Unclosed code block
    "content": "```\ncode here"
    
@@ -15632,13 +16199,15 @@ Provides formatted instructional content and section headings within forms throu
 
 ### Example 1: Basic Section Header
 ```json
+// Example display-field-05
+// Template markers added for parametric generation
 {
-  "section-header": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "RichText",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "section-header",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "content": "## Site Information\n\nPlease complete all fields in this section."
     },
     "validationSchema": [["yup.string"]],
@@ -15649,13 +16218,15 @@ Provides formatted instructional content and section headings within forms throu
 
 ### Example 2: Form Introduction with Instructions
 ```json
+// Example display-field-06
+// Template markers added for parametric generation
 {
-  "form-intro": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "RichText",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "form-intro",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "content": "# Archaeological Context Recording\n\nThis form captures stratigraphic context data.\n\n**Required Equipment:**\n- Measuring tape\n- Camera with scale\n- GPS unit"
     },
     "validationSchema": [["yup.string"]],
@@ -15666,13 +16237,15 @@ Provides formatted instructional content and section headings within forms throu
 
 ### Example 3: Safety Warning
 ```json
+// Example display-field-07
+// Template markers added for parametric generation
 {
-  "safety-warning": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "RichText",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "safety-warning",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "content": "### ⚠️ SAFETY WARNING\n\n**STOP** - Check before proceeding:\n- Hard hat required\n- High-vis vest mandatory\n- Safety boots essential\n\nDo not enter excavation without supervision."
     },
     "validationSchema": [["yup.string"]],
@@ -15683,13 +16256,15 @@ Provides formatted instructional content and section headings within forms throu
 
 ### Example 4: Conditional Help Text
 ```json
+// Example display-field-08
+// Template markers added for parametric generation
 {
-  "excavation-help": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "RichText",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "excavation-help",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "content": "### Manual Excavation Guidelines\n\nUse trowel and brush only.\nMaintain vertical sections.\nRecord every 5cm depth change."
     },
     "validationSchema": [["yup.string"]],
@@ -15705,13 +16280,15 @@ Provides formatted instructional content and section headings within forms throu
 
 ### Example 5: Methodology Instructions
 ```json
+// Example display-field-09
+// Template markers added for parametric generation
 {
-  "recording-standards": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "RichText",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "recording-standards",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "content": "## Recording Standards\n\n### Photography Requirements\n1. Overview shot with north arrow\n2. Detail shots with 10cm scale\n3. Working shots showing excavation\n\n### Measurements\n- All measurements in metric\n- Record to nearest centimeter\n- Include estimated uncertainty"
     },
     "validationSchema": [["yup.string"]],
@@ -15722,13 +16299,15 @@ Provides formatted instructional content and section headings within forms throu
 
 ### Example 6: Data Entry Guidelines
 ```json
+// Example display-field-10
+// Template markers added for parametric generation
 {
-  "data-guidelines": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "RichText",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "data-guidelines",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "content": "### Data Entry Tips\n\n**Coordinates:** Use decimal degrees (WGS84)\n**Dates:** Format as DD/MM/YYYY\n**Measurements:** Metric units only\n**Photos:** Include scale in every shot"
     },
     "validationSchema": [["yup.string"]],
@@ -15739,13 +16318,15 @@ Provides formatted instructional content and section headings within forms throu
 
 ### Example 7: Multi-Language Instructions
 ```json
+// Example display-field-11
+// Template markers added for parametric generation
 {
-  "multilingual-help": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "RichText",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "multilingual-help",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "content": "## Instructions / Instrucciones\n\n**English:** Record all visible features\n\n**Español:** Registre todas las características visibles"
     },
     "validationSchema": [["yup.string"]],
@@ -15756,13 +16337,15 @@ Provides formatted instructional content and section headings within forms throu
 
 ### Example 8: Visual Separator
 ```json
+// Example display-field-12
+// Template markers added for parametric generation
 {
-  "section-divider": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "RichText",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "section-divider",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "content": "---\n\n## Additional Information\n\n---"
     },
     "validationSchema": [["yup.string"]],
@@ -15773,13 +16356,15 @@ Provides formatted instructional content and section headings within forms throu
 
 ### Example 9: Numbered Procedure
 ```json
+// Example display-field-13
+// Template markers added for parametric generation
 {
-  "sampling-procedure": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "RichText",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "sampling-procedure",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "content": "### Soil Sampling Procedure\n\n1. Clean sampling area\n2. Use sterile tools\n3. Collect 100g minimum\n4. Label immediately\n5. Store in cool conditions\n6. Record GPS location"
     },
     "validationSchema": [["yup.string"]],
@@ -15790,13 +16375,15 @@ Provides formatted instructional content and section headings within forms throu
 
 ### Example 10: Compliance Notice
 ```json
+// Example display-field-14
+// Template markers added for parametric generation
 {
-  "compliance-notice": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "RichText",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "compliance-notice",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "content": "### Heritage Compliance\n\n**Permit #:** HER-2025-001\n**Valid until:** 31/12/2025\n**Conditions:** No excavation below 1m without additional approval"
     },
     "validationSchema": [["yup.string"]],
@@ -15807,13 +16394,15 @@ Provides formatted instructional content and section headings within forms throu
 
 ### Example 11: Conditional Warning Based on Selection
 ```json
+// Example display-field-15
+// Template markers added for parametric generation
 {
-  "depth-warning": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "RichText",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "depth-warning",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "content": "## ⚠️ DEEP EXCAVATION WARNING\n\n**Shoring required below 1.5m**\n\nContact site engineer before proceeding.\nOxygen monitoring mandatory."
     },
     "validationSchema": [["yup.string"]],
@@ -15829,13 +16418,15 @@ Provides formatted instructional content and section headings within forms throu
 
 ### Example 12: Quick Reference Guide
 ```json
+// Example display-field-16
+// Template markers added for parametric generation
 {
-  "soil-colors": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "RichText",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "soil-colors",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "content": "### Munsell Soil Colors\n\n**Common values:**\n- 10YR 3/2: Very dark grayish brown\n- 10YR 4/3: Brown\n- 10YR 5/4: Yellowish brown\n- 7.5YR 4/4: Brown"
     },
     "validationSchema": [["yup.string"]],
@@ -15846,13 +16437,15 @@ Provides formatted instructional content and section headings within forms throu
 
 ### Example 13: Embedded Base64 Image
 ```json
+// Example display-field-17
+// Template markers added for parametric generation
 {
-  "diagram-display": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "RichText",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "diagram-display",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "content": "### Recording Diagram\n\n![Excavation Grid](data:image/png;base64,iVBORw0KGgoAAAANS...)\n\nFollow the grid system shown above."
     },
     "validationSchema": [["yup.string"]],
@@ -15863,13 +16456,15 @@ Provides formatted instructional content and section headings within forms throu
 
 ### Example 14: Attribution and Copyright
 ```json
+// Example display-field-18
+// Template markers added for parametric generation
 {
-  "attribution": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "RichText",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "attribution",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "content": "---\n\n*Recording system developed by Archaeological Institute*\n\n*Version 2.1 - January 2025*\n\n*Licensed under CC BY-SA 4.0*"
     },
     "validationSchema": [["yup.string"]],
@@ -15880,13 +16475,15 @@ Provides formatted instructional content and section headings within forms throu
 
 ### Example 15: Emergency Contact Information
 ```json
+// Example display-field-19
+// Template markers added for parametric generation
 {
-  "emergency-info": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "RichText",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "emergency-info",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "content": "## Emergency Contacts\n\n**Site Director:** Dr. Smith - 0400 123 456\n**Safety Officer:** J. Brown - 0400 789 012\n**Emergency Services:** 000\n**Site First Aid:** Station A near main tent"
     },
     "validationSchema": [["yup.string"]],
@@ -15897,13 +16494,15 @@ Provides formatted instructional content and section headings within forms throu
 
 ### Example 16: Glossary of Terms
 ```json
+// Example display-field-20
+// Template markers added for parametric generation
 {
-  "glossary": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "RichText",
     "type-returned": "faims-core::String",
     "component-parameters": {
-      "name": "glossary",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "content": "### Terms\n\n**Context:** Single stratigraphic unit\n**Cut:** Negative feature interface\n**Fill:** Material within cut\n**Layer:** Horizontal deposit"
     },
     "validationSchema": [["yup.string"]],
@@ -16059,6 +16658,7 @@ See [Performance Thresholds Reference](../reference-docs/performance-thresholds-
 
 ### Pattern: Conditional Help Text
 ```json
+// Example display-field-21
 {
   "condition": {
     "operator": "is-truthy",
@@ -16069,6 +16669,7 @@ See [Performance Thresholds Reference](../reference-docs/performance-thresholds-
 
 ### Pattern: Section Separator
 ```json
+// Example display-field-22
 {
   "content": "---\n\n## Next Section"
 }
@@ -16076,6 +16677,7 @@ See [Performance Thresholds Reference](../reference-docs/performance-thresholds-
 
 ### Pattern: Embedded Image
 ```json
+// Example display-field-23
 {
   "content": "![Icon](data:image/png;base64,iVBORw...)"
 }
@@ -16085,6 +16687,7 @@ See [Performance Thresholds Reference](../reference-docs/performance-thresholds-
 
 ### ❌ Don't: Large Content Blocks
 ```json
+// Example display-field-24
 // WRONG - Performance killer
 {
   "content": "2000+ word essay..."
@@ -16093,6 +16696,7 @@ See [Performance Thresholds Reference](../reference-docs/performance-thresholds-
 
 ### ❌ Don't: External Images
 ```json
+// Example display-field-25
 // WRONG - Will be blocked
 {
   "content": "![Image](https://external.com/image.jpg)"
@@ -16101,6 +16705,7 @@ See [Performance Thresholds Reference](../reference-docs/performance-thresholds-
 
 ### ❌ Don't: Tables
 ```json
+// Example display-field-26
 // WRONG - Stripped at runtime
 {
   "content": "| Col1 | Col2 |\n|------|------|\n| Data | Data |"
@@ -16255,6 +16860,17 @@ see-also: [platform-reference, media-fields-v05]
 
 
 # Location Fields - Fieldmark v3 Documentation
+
+
+<!-- structured:metadata
+meta:purpose: field-configuration
+meta:summary: Two GPS/mapping components (TakePoint and MapFormField) with mobile-first design and accuracy requirements.
+meta:generates: json-fields
+meta:requires: [valid-json, unique-names, fviews-layer]
+meta:version: 3.0.0
+meta:document: location_fields
+meta:depth-tags: [essential, important, comprehensive]
+-->
 
 ## Document Navigation {essential}
 <!-- concat:nav-mode:individual -->
@@ -16453,6 +17069,7 @@ See [Security Considerations Reference](../reference-docs/security-consideration
 
 **TakePoint GPS parameters:**
 ```json
+// Example location-fields-01
 {
   "enableHighAccuracy": true,    // Request best GPS
   "timeout": 30000,              // 30 second timeout
@@ -16462,6 +17079,7 @@ See [Security Considerations Reference](../reference-docs/security-consideration
 
 **MapFormField map parameters:**
 ```json
+// Example location-fields-02
 {
   "center": [151.2093, -33.8688],  // Sydney coordinates
   "featureType": "Polygon",        // Point/LineString/Polygon
@@ -16588,14 +17206,16 @@ Single-tap GPS coordinate capture through device geolocation services, returning
 
 #### Core Configuration
 ```json
+// Example location-fields-03
+// Template markers added for parametric generation
 {
   "component-namespace": "faims-custom",
   "component-name": "TakePoint",
   "type-returned": "faims-pos::Location",
   "component-parameters": {
-    "label": "GPS Location",
-    "name": "gps-point",
-    "helperText": "Capture current GPS position",
+    "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+    "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+    "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
     "required": false,
     "enableHighAccuracy": true,
     "timeout": 10000,
@@ -16611,31 +17231,33 @@ Single-tap GPS coordinate capture through device geolocation services, returning
 
 #### Advanced Configuration
 ```json
+// Example location-fields-04
+// Template markers added for parametric generation
 {
-  "control-point": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "TakePoint",
     "type-returned": "faims-pos::Location",
     "component-parameters": {
-      "label": "Control Point (High Accuracy)",
-      "name": "control-point",
-      "helperText": "Wait for accuracy < 10m before capturing",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "timeout": 30000,
       "enableHighAccuracy": true,
       "required": true
     },
     "validationSchema": [
       ["yup.object"],
-      ["yup.required", "Control point required"]
+      ["yup.Control point required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
     ],
     "meta": {
       "annotation": {
         "include": true,
-        "label": "Accuracy justification if >10m"
+        "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
       },
       "uncertainty": {
         "include": true,
-        "label": "GPS quality poor"
+        "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
       }
     }
   }
@@ -16676,16 +17298,18 @@ Interactive geometry creation through web-based mapping, enabling spatial featur
 
 #### Core Configuration
 ```json
+// Example location-fields-05
+// Template markers added for parametric generation
 {
   "component-namespace": "mapping-plugin",
   "component-name": "MapFormField",
   "type-returned": "faims-core::JSON",
   "component-parameters": {
-    "label": "Site Boundary",
-    "name": "site-boundary",
+    "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+    "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
     "featureType": "Polygon",
     "zoom": 18,
-    "helperText": "Draw site perimeter on map",
+    "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
     "fullWidth": true,
     "required": false
   },
@@ -16699,29 +17323,31 @@ Interactive geometry creation through web-based mapping, enabling spatial featur
 
 #### Advanced Configuration
 ```json
+// Example location-fields-06
+// Template markers added for parametric generation
 {
-  "transect-path": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "mapping-plugin",
     "component-name": "MapFormField",
     "type-returned": "faims-core::JSON",
     "component-parameters": {
-      "label": "Survey Transect",
-      "name": "transect-path",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "featureType": "LineString",
       "zoom": 17,
       "center": [151.2093, -33.8688],
-      "helperText": "Draw walked path. Limit to 1000 points",
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "fullWidth": true,
       "required": true
     },
     "validationSchema": [
       ["yup.object"],
-      ["yup.required", "Transect path required"]
+      ["yup.Transect path required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
     ],
     "meta": {
       "annotation": {
         "include": true,
-        "label": "Path deviation notes"
+        "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
       }
     }
   }
@@ -16781,20 +17407,22 @@ Interactive geometry creation through web-based mapping, enabling spatial featur
 
 ### Example 1: Basic GPS Point Capture
 ```json
+// Example location-fields-07
+// Template markers added for parametric generation
 {
-  "site-location": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "TakePoint",
     "type-returned": "faims-pos::Location",
     "component-parameters": {
-      "label": "Site Location",
-      "name": "site-location",
-      "helperText": "Capture GPS coordinates",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": true
     },
     "validationSchema": [
       ["yup.object"],
-      ["yup.required", "Site location required"]
+      ["yup.Site location required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
     ],
     "initialValue": null
   }
@@ -16803,15 +17431,17 @@ Interactive geometry creation through web-based mapping, enabling spatial featur
 
 ### Example 2: High-Accuracy GPS with Timeout
 ```json
+// Example location-fields-08
+// Template markers added for parametric generation
 {
-  "precise-location": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "TakePoint",
     "type-returned": "faims-pos::Location",
     "component-parameters": {
-      "label": "Precise GPS Location",
-      "name": "precise-location",
-      "helperText": "Wait for accuracy <5m (45 second timeout)",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "timeout": 45000,
       "enableHighAccuracy": true,
       "maximumAge": 0,
@@ -16819,16 +17449,16 @@ Interactive geometry creation through web-based mapping, enabling spatial featur
     },
     "validationSchema": [
       ["yup.object"],
-      ["yup.required", "Precise GPS required"]
+      ["yup.Precise GPS required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
     ],
     "meta": {
       "annotation": {
         "include": true,
-        "label": "GPS conditions and satellite count"
+        "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
       },
       "uncertainty": {
         "include": true,
-        "label": "Accuracy concerns"
+        "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
       }
     }
   }
@@ -16837,17 +17467,19 @@ Interactive geometry creation through web-based mapping, enabling spatial featur
 
 ### Example 3: Simple Polygon Drawing
 ```json
+// Example location-fields-09
+// Template markers added for parametric generation
 {
-  "site-boundary": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "mapping-plugin",
     "component-name": "MapFormField",
     "type-returned": "faims-core::JSON",
     "component-parameters": {
-      "label": "Site Boundary",
-      "name": "site-boundary",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "featureType": "Polygon",
       "zoom": 18,
-      "helperText": "Draw site perimeter on map"
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
     },
     "validationSchema": [["yup.object"]],
     "initialValue": null
@@ -16857,24 +17489,26 @@ Interactive geometry creation through web-based mapping, enabling spatial featur
 
 ### Example 4: Complex Excavation Area with Center
 ```json
+// Example location-fields-10
+// Template markers added for parametric generation
 {
-  "excavation-area": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "mapping-plugin",
     "component-name": "MapFormField",
     "type-returned": "faims-core::JSON",
     "component-parameters": {
-      "label": "Excavation Area",
-      "name": "excavation-area",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "featureType": "Polygon",
       "zoom": 19,
       "center": [151.2093, -33.8688],
-      "helperText": "Draw excavation boundary (max 500 vertices)",
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "fullWidth": true,
       "required": true
     },
     "validationSchema": [
       ["yup.object"],
-      ["yup.required", "Excavation boundary required"]
+      ["yup.Excavation boundary required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
     ]
   }
 }
@@ -16882,17 +17516,19 @@ Interactive geometry creation through web-based mapping, enabling spatial featur
 
 ### Example 5: Survey Transect Line
 ```json
+// Example location-fields-11
+// Template markers added for parametric generation
 {
-  "survey-transect": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "mapping-plugin",
     "component-name": "MapFormField",
     "type-returned": "faims-core::JSON",
     "component-parameters": {
-      "label": "Survey Transect",
-      "name": "survey-transect",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "featureType": "LineString",
       "zoom": 16,
-      "helperText": "Draw survey walking route"
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
     },
     "validationSchema": [["yup.object"]],
     "initialValue": null
@@ -16902,27 +17538,29 @@ Interactive geometry creation through web-based mapping, enabling spatial featur
 
 ### Example 6: Find Spot Location
 ```json
+// Example location-fields-12
+// Template markers added for parametric generation
 {
-  "find-location": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "mapping-plugin",
     "component-name": "MapFormField",
     "type-returned": "faims-core::JSON",
     "component-parameters": {
-      "label": "Find Spot",
-      "name": "find-location",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "featureType": "Point",
       "zoom": 20,
-      "helperText": "Click map to mark find location",
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": true
     },
     "validationSchema": [
       ["yup.object"],
-      ["yup.required", "Find location required"]
+      ["yup.Find location required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
     ],
     "meta": {
       "annotation": {
         "include": true,
-        "label": "Location method and accuracy"
+        "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
       }
     }
   }
@@ -16931,15 +17569,17 @@ Interactive geometry creation through web-based mapping, enabling spatial featur
 
 ### Example 7: Rapid Survey Waypoints
 ```json
+// Example location-fields-13
+// Template markers added for parametric generation
 {
-  "waypoint": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "TakePoint",
     "type-returned": "faims-pos::Location",
     "component-parameters": {
-      "label": "Survey Waypoint",
-      "name": "waypoint",
-      "helperText": "Quick capture for traverse",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "timeout": 5000,
       "maximumAge": 3000,
       "enableHighAccuracy": false
@@ -16952,21 +17592,23 @@ Interactive geometry creation through web-based mapping, enabling spatial featur
 
 ### Example 8: Conditional Location Capture
 ```json
+// Example location-fields-14
+// Template markers added for parametric generation
 {
-  "structure-location": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "TakePoint",
     "type-returned": "faims-pos::Location",
     "component-parameters": {
-      "label": "Structure GPS",
-      "name": "structure-location",
-      "helperText": "Capture center point of structure",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "enableHighAccuracy": true,
       "timeout": 30000
     },
     "validationSchema": [
       ["yup.object"],
-      ["yup.required", "Structure location required"]
+      ["yup.Structure location required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
     ],
     "condition": {
       "operator": "equal",
@@ -16979,17 +17621,19 @@ Interactive geometry creation through web-based mapping, enabling spatial featur
 
 ### Example 9: MultiPolygon for Complex Sites
 ```json
+// Example location-fields-15
+// Template markers added for parametric generation
 {
-  "site-areas": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "mapping-plugin",
     "component-name": "MapFormField",
     "type-returned": "faims-core::JSON",
     "component-parameters": {
-      "label": "Site Areas",
-      "name": "site-areas",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "featureType": "MultiPolygon",
       "zoom": 17,
-      "helperText": "Draw multiple disconnected areas",
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "advancedHelperText": "## Drawing Tips\n\n- Complete first polygon\n- Click draw tool again for next\n- Each polygon separate feature"
     },
     "validationSchema": [["yup.object"]],
@@ -17000,15 +17644,17 @@ Interactive geometry creation through web-based mapping, enabling spatial featur
 
 ### Example 10: Battery-Optimized GPS
 ```json
+// Example location-fields-16
+// Template markers added for parametric generation
 {
-  "check-in-location": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "TakePoint",
     "type-returned": "faims-pos::Location",
     "component-parameters": {
-      "label": "Daily Check-in",
-      "name": "check-in-location",
-      "helperText": "Morning location verification",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "timeout": 10000,
       "enableHighAccuracy": false,
       "maximumAge": 60000
@@ -17021,25 +17667,27 @@ Interactive geometry creation through web-based mapping, enabling spatial featur
 
 ### Example 11: Geofence Area Definition
 ```json
+// Example location-fields-17
+// Template markers added for parametric generation
 {
-  "restricted-zone": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "mapping-plugin",
     "component-name": "MapFormField",
     "type-returned": "faims-core::JSON",
     "component-parameters": {
-      "label": "Restricted Area",
-      "name": "restricted-zone",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "featureType": "Polygon",
       "zoom": 18,
       "center": [144.9631, -37.8136],
-      "helperText": "Define no-entry zone",
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "fullWidth": true
     },
     "validationSchema": [["yup.object"]],
     "meta": {
       "annotation": {
         "include": true,
-        "label": "Restriction reason and authority"
+        "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
       }
     }
   }
@@ -17048,22 +17696,24 @@ Interactive geometry creation through web-based mapping, enabling spatial featur
 
 ### Example 12: Survey Grid Square
 ```json
+// Example location-fields-18
+// Template markers added for parametric generation
 {
-  "grid-square": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "mapping-plugin",
     "component-name": "MapFormField",
     "type-returned": "faims-core::JSON",
     "component-parameters": {
-      "label": "Survey Grid Square",
-      "name": "grid-square",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "featureType": "Polygon",
       "zoom": 20,
-      "helperText": "Draw 10m x 10m survey square",
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "advancedHelperText": "Try to maintain square shape.\nUse satellite view for alignment."
     },
     "validationSchema": [
       ["yup.object"],
-      ["yup.required", "Grid square required"]
+      ["yup.Grid square required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
     ]
   }
 }
@@ -17071,15 +17721,17 @@ Interactive geometry creation through web-based mapping, enabling spatial featur
 
 ### Example 13: Emergency Location Fallback
 ```json
+// Example location-fields-19
+// Template markers added for parametric generation
 {
-  "emergency-location": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "TakePoint",
     "type-returned": "faims-pos::Location",
     "component-parameters": {
-      "label": "Emergency Position",
-      "name": "emergency-location",
-      "helperText": "Any accuracy accepted - for safety",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "timeout": 3000,
       "enableHighAccuracy": false,
       "maximumAge": 300000
@@ -17092,22 +17744,24 @@ Interactive geometry creation through web-based mapping, enabling spatial featur
 
 ### Example 14: Feature Centroid Marking
 ```json
+// Example location-fields-20
+// Template markers added for parametric generation
 {
-  "feature-center": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "mapping-plugin",
     "component-name": "MapFormField",
     "type-returned": "faims-core::JSON",
     "component-parameters": {
-      "label": "Feature Center Point",
-      "name": "feature-center",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "featureType": "Point",
       "zoom": 21,
-      "helperText": "Mark exact center of feature",
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": true
     },
     "validationSchema": [
       ["yup.object"],
-      ["yup.required", "Center point required"]
+      ["yup.Center point required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
     ],
     "condition": {
       "operator": "is-truthy",
@@ -17119,17 +17773,19 @@ Interactive geometry creation through web-based mapping, enabling spatial featur
 
 ### Example 15: Performance-Optimized Polygon
 ```json
+// Example location-fields-21
+// Template markers added for parametric generation
 {
-  "simplified-boundary": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "mapping-plugin",
     "component-name": "MapFormField",
     "type-returned": "faims-core::JSON",
     "component-parameters": {
-      "label": "Simplified Boundary",
-      "name": "simplified-boundary",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
       "featureType": "Polygon",
       "zoom": 17,
-      "helperText": "⚠️ LIMIT 100 VERTICES - Generalize complex shapes",
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "advancedHelperText": "## Performance Warning\n\nUse fewer points for better performance.\nDetailed shapes can crash mobile devices."
     },
     "validationSchema": [["yup.object"]],
@@ -17140,31 +17796,33 @@ Interactive geometry creation through web-based mapping, enabling spatial featur
 
 ### Example 16: Sampling Location with Metadata
 ```json
+// Example location-fields-22
+// Template markers added for parametric generation
 {
-  "sample-location": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "TakePoint",
     "type-returned": "faims-pos::Location",
     "component-parameters": {
-      "label": "Sample Collection Point",
-      "name": "sample-location",
-      "helperText": "GPS where sample collected",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "enableHighAccuracy": true,
       "timeout": 20000,
       "required": true
     },
     "validationSchema": [
       ["yup.object"],
-      ["yup.required", "Sample location required"]
+      ["yup.Sample location required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
     ],
     "meta": {
       "annotation": {
         "include": true,
-        "label": "Collection method and depth"
+        "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
       },
       "uncertainty": {
         "include": true,
-        "label": "Location precision notes"
+        "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
       }
     }
   }
@@ -17313,8 +17971,10 @@ See [Performance Thresholds Reference](../reference-docs/performance-thresholds-
 
 ### Pattern: Conditional Location Capture
 ```json
+// Example location-fields-23
+// Template markers added for parametric generation
 {
-  "feature-location": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "TakePoint",
     "type-returned": "faims-pos::Location",
@@ -17329,6 +17989,8 @@ See [Performance Thresholds Reference](../reference-docs/performance-thresholds-
 
 ### Pattern: Accuracy-Focused Configuration
 ```json
+// Example location-fields-24
+// Template markers added for parametric generation
 {
   "component-parameters": {
     "timeout": 30000,
@@ -17336,18 +17998,20 @@ See [Performance Thresholds Reference](../reference-docs/performance-thresholds-
     "maximumAge": 0
   },
   "meta": {
-    "annotation": {"include": true, "label": "GPS quality notes"},
-    "uncertainty": {"include": true, "label": "Poor accuracy"}
+    "annotation": {"include": true, "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label},
+    "uncertainty": {"include": true, "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label}
   }
 }
 ```
 
 ### Pattern: Performance-Optimised Map
 ```json
+// Example location-fields-25
+// Template markers added for parametric generation
 {
   "component-parameters": {
     "featureType": "Polygon",
-    "helperText": "Maximum 500 vertices for mobile devices"
+    "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
   }
 }
 ```
@@ -17356,6 +18020,7 @@ See [Performance Thresholds Reference](../reference-docs/performance-thresholds-
 
 ### ❌ Don't: Wrong Namespace
 ```json
+// Example location-fields-26
 // WRONG - TakePoint doesn't use mapping-plugin
 {
   "component-namespace": "mapping-plugin",
@@ -17365,6 +18030,7 @@ See [Performance Thresholds Reference](../reference-docs/performance-thresholds-
 
 ### ❌ Don't: Mix Return Types
 ```json
+// Example location-fields-27
 // WRONG - Can't transfer between fields
 {
   "takepoint-data": "faims-pos::Location",
@@ -17375,6 +18041,7 @@ See [Performance Thresholds Reference](../reference-docs/performance-thresholds-
 
 ### ❌ Don't: Expect Accuracy Validation
 ```json
+// Example location-fields-28
 // WRONG - No accuracy threshold enforcement
 {
   "minimum_accuracy": 10  // This parameter doesn't exist
@@ -17530,6 +18197,17 @@ see-also: [platform-reference, location-fields-v05]
 
 
 # Media Fields - Fieldmark v3 Documentation
+
+
+<!-- structured:metadata
+meta:purpose: field-configuration
+meta:summary: Three media capture components (TakePhoto, AnnotationFormField, AudioFormField) with platform limitations.
+meta:generates: json-fields
+meta:requires: [valid-json, unique-names, fviews-layer]
+meta:version: 3.0.0
+meta:document: media_fields
+meta:depth-tags: [essential, important, comprehensive]
+-->
 
 ## Document Navigation {essential}
 <!-- concat:nav-mode:individual -->
@@ -17718,6 +18396,7 @@ See [Security Considerations Reference](../reference-docs/security-consideration
 
 **FileUploader:**
 ```json
+// Example media-fields-01
 {
   "multiple": true,                    // Allow multiple files
   "maximum_file_size": 10485760,       // 10MB limit
@@ -17728,10 +18407,12 @@ See [Security Considerations Reference](../reference-docs/security-consideration
 
 **TakePhoto:**
 ```json
+// Example media-fields-02
+// Template markers added for parametric generation
 {
   "validationSchema": [
     ["yup.array"],
-    ["yup.required", "Photos required"],
+    ["yup.Photos required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message,
     ["yup.min", 1, "Minimum 1 photo"],
     ["yup.max", 10, "Maximum 10 photos"]
   ]
@@ -17852,14 +18533,16 @@ Provides comprehensive file attachment capabilities accepting any file type with
 
 #### Core Configuration
 ```json
+// Example media-fields-03
+// Template markers added for parametric generation
 {
   "component-namespace": "faims-custom",
   "component-name": "FileUploader",
   "type-returned": "faims-attachment::Files",
   "component-parameters": {
-    "label": "Upload Documents",
-    "name": "documents",
-    "helperText": "Upload permits, maps, reports (max 10MB each)",
+    "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+    "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+    "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
     "required": false,
     "multiple": true,
     "maximum_file_size": 10485760,
@@ -17872,15 +18555,17 @@ Provides comprehensive file attachment capabilities accepting any file type with
 
 #### Advanced Configuration
 ```json
+// Example media-fields-04
+// Template markers added for parametric generation
 {
-  "survey-media": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "FileUploader",
     "type-returned": "faims-attachment::Files",
     "component-parameters": {
-      "label": "Survey Documentation",
-      "name": "survey-media",
-      "helperText": "DSLR photos, drone footage, GIS exports",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "advancedHelperText": "## Accepted Formats\n- Images: JPG, PNG, TIFF, RAW\n- Documents: PDF, DOCX\n- Data: CSV, SHP, KML\n- Video: MP4, MOV (max 50MB)",
       "multiple": true,
       "maximum_file_size": 52428800,
@@ -17891,7 +18576,7 @@ Provides comprehensive file attachment capabilities accepting any file type with
     "meta": {
       "annotation": {
         "include": true,
-        "label": "File descriptions"
+        "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
       }
     }
   }
@@ -17933,14 +18618,16 @@ Integrates platform-native camera functionality with gallery selection through u
 
 #### Core Configuration
 ```json
+// Example media-fields-05
+// Template markers added for parametric generation
 {
   "component-namespace": "faims-custom",
   "component-name": "TakePhoto",
   "type-returned": "faims-attachment::Files",
   "component-parameters": {
-    "label": "Site Photos",
-    "name": "site-photos",
-    "helperText": "Capture site overview and details",
+    "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+    "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+    "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
     "required": false
   },
   "validationSchema": [
@@ -17954,21 +18641,23 @@ Integrates platform-native camera functionality with gallery selection through u
 
 #### Advanced Configuration
 ```json
+// Example media-fields-06
+// Template markers added for parametric generation
 {
-  "artefact-photos": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "TakePhoto",
     "type-returned": "faims-attachment::Files",
     "component-parameters": {
-      "label": "Artefact Documentation",
-      "name": "artefact-photos",
-      "helperText": "Capture 2-10 photos from multiple angles",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": true
     },
     "validationSchema": [
       ["yup.array"],
       ["yup.of", [["yup.object"], ["yup.nullable"]]],
-      ["yup.required", "Artefact photos required"],
+      ["yup.Artefact photos required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message,
       ["yup.min", 2, "Minimum 2 angles required"],
       ["yup.max", 10, "Maximum 10 photos"]
     ],
@@ -17976,11 +18665,11 @@ Integrates platform-native camera functionality with gallery selection through u
     "meta": {
       "annotation": {
         "include": true,
-        "label": "Angle and lighting notes"
+        "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
       },
       "uncertainty": {
         "include": true,
-        "label": "Image quality"
+        "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
       }
     }
   }
@@ -18036,6 +18725,7 @@ Integrates platform-native camera functionality with gallery selection through u
 
 For FileUploader (use helper text workaround):
 ```json
+// Example media-fields-07
 {
   "validationSchema": [["yup.mixed"]],
   "helperText": "⚠️ REQUIRED: Upload at least one document"
@@ -18044,10 +18734,12 @@ For FileUploader (use helper text workaround):
 
 For TakePhoto (manual validation configuration):
 ```json
+// Example media-fields-08
+// Template markers added for parametric generation
 {
   "validationSchema": [
     ["yup.array"],
-    ["yup.required", "Photos required"],
+    ["yup.Photos required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message,
     ["yup.min", 1, "At least one photo required"]
   ]
 }
@@ -18122,15 +18814,17 @@ For TakePhoto (manual validation configuration):
 
 ### Example 1: Basic File Upload with Size Limits
 ```json
+// Example media-fields-09
+// Template markers added for parametric generation
 {
-  "supporting-documents": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "FileUploader",
     "type-returned": "faims-attachment::Files",
     "component-parameters": {
-      "label": "Supporting Documents",
-      "name": "supporting-documents",
-      "helperText": "Upload permits, maps, protocols (max 10MB each)",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "multiple": true,
       "maximum_file_size": 10485760,
       "minimum_file_size": 1024
@@ -18143,21 +18837,23 @@ For TakePhoto (manual validation configuration):
 
 ### Example 2: Required Single Photo Capture
 ```json
+// Example media-fields-10
+// Template markers added for parametric generation
 {
-  "artifact-photo": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "TakePhoto",
     "type-returned": "faims-attachment::Files",
     "component-parameters": {
-      "label": "Artifact Photo",
-      "name": "artifact-photo",
-      "helperText": "Photograph artifact with scale",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": true,
       "multiple": false
     },
     "validationSchema": [
       ["yup.mixed"],
-      ["yup.required", "Artifact photo required"]
+      ["yup.Artifact photo required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
     ],
     "initialValue": null
   }
@@ -18166,15 +18862,17 @@ For TakePhoto (manual validation configuration):
 
 ### Example 3: Multiple File Upload with Count Restriction
 ```json
+// Example media-fields-11
+// Template markers added for parametric generation
 {
-  "site-documentation": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "FileUploader",
     "type-returned": "faims-attachment::Files",
     "component-parameters": {
-      "label": "Site Documentation",
-      "name": "site-documentation",
-      "helperText": "Upload up to 5 files (photos, PDFs, spreadsheets)",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "advancedHelperText": "## File Requirements\n\n- Maximum 5 files total\n- Each file max 25MB\n- Accepted: JPG, PNG, PDF, XLSX, CSV",
       "multiple": true,
       "maximum_file_size": 26214400,
@@ -18188,15 +18886,17 @@ For TakePhoto (manual validation configuration):
 
 ### Example 4: Conditional Photo Documentation
 ```json
+// Example media-fields-12
+// Template markers added for parametric generation
 {
-  "damage-photos": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "TakePhoto",
     "type-returned": "faims-attachment::Files",
     "component-parameters": {
-      "label": "Damage Documentation",
-      "name": "damage-photos",
-      "helperText": "Photograph all damaged areas",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "multiple": true
     },
     "validationSchema": [
@@ -18215,15 +18915,17 @@ For TakePhoto (manual validation configuration):
 
 ### Example 5: PDF-Only Document Upload
 ```json
+// Example media-fields-13
+// Template markers added for parametric generation
 {
-  "permits": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "FileUploader",
     "type-returned": "faims-attachment::Files",
     "component-parameters": {
-      "label": "Heritage Permits",
-      "name": "permits",
-      "helperText": "Upload PDF permits only (max 10MB each)",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "advancedHelperText": "⚠️ **PDF Files Only**\n\nPlease convert all documents to PDF before uploading.\nNon-PDF files will need to be removed.",
       "multiple": true,
       "maximum_file_size": 10485760
@@ -18233,7 +18935,7 @@ For TakePhoto (manual validation configuration):
     "meta": {
       "annotation": {
         "include": true,
-        "label": "Permit conditions and restrictions"
+        "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
       }
     }
   }
@@ -18242,34 +18944,36 @@ For TakePhoto (manual validation configuration):
 
 ### Example 6: Staged Photography Workflow
 ```json
+// Example media-fields-14
+// Template markers added for parametric generation
 {
-  "before-excavation": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "TakePhoto",
     "type-returned": "faims-attachment::Files",
     "component-parameters": {
-      "label": "Before Excavation",
-      "name": "before-excavation",
-      "helperText": "Document initial state (2-5 photos)",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "required": true,
       "multiple": true
     },
     "validationSchema": [
       ["yup.array"],
-      ["yup.required", "Before photos required"],
+      ["yup.Before photos required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message,
       ["yup.min", 2, "Minimum 2 photos"],
       ["yup.max", 5, "Maximum 5 photos"]
     ],
     "initialValue": null
   },
-  "after-excavation": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "TakePhoto",
     "type-returned": "faims-attachment::Files",
     "component-parameters": {
-      "label": "After Excavation",
-      "name": "after-excavation",
-      "helperText": "Document final state (2-5 photos)"
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
     },
     "validationSchema": [
       ["yup.array"],
@@ -18286,15 +18990,17 @@ For TakePhoto (manual validation configuration):
 
 ### Example 7: Large Media Files with Warning
 ```json
+// Example media-fields-15
+// Template markers added for parametric generation
 {
-  "video-documentation": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "FileUploader",
     "type-returned": "faims-attachment::Files",
     "component-parameters": {
-      "label": "Video Documentation",
-      "name": "video-documentation",
-      "helperText": "Upload video files (max 100MB)",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "advancedHelperText": "## ⚠️ Large File Warning\n\n- Files over 50MB may cause sync delays\n- Ensure stable WiFi before syncing\n- Consider compressing videos first",
       "multiple": false,
       "maximum_file_size": 104857600
@@ -18307,15 +19013,17 @@ For TakePhoto (manual validation configuration):
 
 ### Example 8: Mixed Media Documentation
 ```json
+// Example media-fields-16
+// Template markers added for parametric generation
 {
-  "excavation-media": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "FileUploader",
     "type-returned": "faims-attachment::Files",
     "component-parameters": {
-      "label": "Excavation Media",
-      "name": "excavation-media",
-      "helperText": "Photos, videos, plans (max 25MB each, 10 files total)",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "multiple": true,
       "maximum_file_size": 26214400,
       "maximum_number_of_files": 10
@@ -18328,20 +19036,22 @@ For TakePhoto (manual validation configuration):
 
 ### Example 9: Progressive Photo Requirements
 ```json
+// Example media-fields-17
+// Template markers added for parametric generation
 {
-  "context-photos": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "TakePhoto",
     "type-returned": "faims-attachment::Files",
     "component-parameters": {
-      "label": "Context Photos",
-      "name": "context-photos",
-      "helperText": "North, South, East, West views plus overhead",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "multiple": true
     },
     "validationSchema": [
       ["yup.array"],
-      ["yup.required", "Context photos required"],
+      ["yup.Context photos required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message,
       ["yup.min", 5, "Need all 5 standard views"]
     ],
     "initialValue": null
@@ -18351,15 +19061,17 @@ For TakePhoto (manual validation configuration):
 
 ### Example 10: Data Files with Metadata
 ```json
+// Example media-fields-18
+// Template markers added for parametric generation
 {
-  "analysis-data": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "FileUploader",
     "type-returned": "faims-attachment::Files",
     "component-parameters": {
-      "label": "Analysis Data Files",
-      "name": "analysis-data",
-      "helperText": "Upload CSV, XLSX data files",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "multiple": true,
       "maximum_file_size": 5242880,
       "maximum_number_of_files": 3
@@ -18369,11 +19081,11 @@ For TakePhoto (manual validation configuration):
     "meta": {
       "annotation": {
         "include": true,
-        "label": "Data collection methods and parameters"
+        "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
       },
       "uncertainty": {
         "include": true,
-        "label": "Data quality concerns"
+        "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
       }
     }
   }
@@ -18382,15 +19094,17 @@ For TakePhoto (manual validation configuration):
 
 ### Example 11: Emergency Documentation Mode
 ```json
+// Example media-fields-19
+// Template markers added for parametric generation
 {
-  "salvage-photos": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "TakePhoto",
     "type-returned": "faims-attachment::Files",
     "component-parameters": {
-      "label": "Salvage Documentation",
-      "name": "salvage-photos",
-      "helperText": "Quick capture - as many as needed",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "multiple": true
     },
     "validationSchema": [["yup.mixed"]],
@@ -18406,15 +19120,17 @@ For TakePhoto (manual validation configuration):
 
 ### Example 12: Structured Upload Workflow
 ```json
+// Example media-fields-20
+// Template markers added for parametric generation
 {
-  "plans": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "FileUploader",
     "type-returned": "faims-attachment::Files",
     "component-parameters": {
-      "label": "Site Plans",
-      "name": "plans",
-      "helperText": "Upload georeferenced plans (PDF/TIFF)",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "multiple": true,
       "maximum_file_size": 52428800,
       "maximum_number_of_files": 3
@@ -18422,14 +19138,14 @@ For TakePhoto (manual validation configuration):
     "validationSchema": [["yup.mixed"]],
     "initialValue": null
   },
-  "sections": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "FileUploader",
     "type-returned": "faims-attachment::Files",
     "component-parameters": {
-      "label": "Section Drawings",
-      "name": "sections",
-      "helperText": "Upload section drawings (PDF/JPG)",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "multiple": true,
       "maximum_file_size": 26214400,
       "maximum_number_of_files": 5
@@ -18446,15 +19162,17 @@ For TakePhoto (manual validation configuration):
 
 ### Example 13: Performance-Optimized Configuration
 ```json
+// Example media-fields-21
+// Template markers added for parametric generation
 {
-  "field-photos": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "TakePhoto",
     "type-returned": "faims-attachment::Files",
     "component-parameters": {
-      "label": "Field Photos",
-      "name": "field-photos",
-      "helperText": "Max 10 photos to prevent sync issues",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "multiple": true
     },
     "validationSchema": [
@@ -18468,15 +19186,17 @@ For TakePhoto (manual validation configuration):
 
 ### Example 14: Compliance Documentation
 ```json
+// Example media-fields-22
+// Template markers added for parametric generation
 {
-  "compliance-docs": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "FileUploader",
     "type-returned": "faims-attachment::Files",
     "component-parameters": {
-      "label": "Compliance Documentation",
-      "name": "compliance-docs",
-      "helperText": "Safety certificates, insurance, permits",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "advancedHelperText": "## Required Documents\n\n1. Public liability insurance\n2. Safety management plan\n3. Heritage permit\n4. Landowner consent",
       "required": true,
       "multiple": true,
@@ -18486,7 +19206,7 @@ For TakePhoto (manual validation configuration):
     },
     "validationSchema": [
       ["yup.mixed"],
-      ["yup.required", "Compliance documentation required"]
+      ["yup.Compliance documentation required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
     ],
     "initialValue": null
   }
@@ -18495,29 +19215,31 @@ For TakePhoto (manual validation configuration):
 
 ### Example 15: Artifact Photography Standards
 ```json
+// Example media-fields-23
+// Template markers added for parametric generation
 {
-  "artifact-images": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "TakePhoto",
     "type-returned": "faims-attachment::Files",
     "component-parameters": {
-      "label": "Artifact Photography",
-      "name": "artifact-images",
-      "helperText": "Multiple angles with scale",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "advancedHelperText": "## Photography Requirements\n\n- Front view with scale\n- Back view\n- Profile views if relevant\n- Detail shots of diagnostic features",
       "required": true,
       "multiple": true
     },
     "validationSchema": [
       ["yup.array"],
-      ["yup.required", "Artifact photos required"],
+      ["yup.Artifact photos required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message,
       ["yup.min", 2, "Minimum front and back views"]
     ],
     "initialValue": null,
     "meta": {
       "annotation": {
         "include": true,
-        "label": "Photography conditions and issues"
+        "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
       }
     }
   }
@@ -18526,15 +19248,17 @@ For TakePhoto (manual validation configuration):
 
 ### Example 16: Conditional Document Upload
 ```json
+// Example media-fields-24
+// Template markers added for parametric generation
 {
-  "permit-documents": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "FileUploader",
     "type-returned": "faims-attachment::Files",
     "component-parameters": {
-      "label": "Permit Documentation",
-      "name": "permit-documents",
-      "helperText": "Upload permits and approvals (Max 10MB each)",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "multiple": true,
       "maximum_file_size": 10485760,
       "maximum_number_of_files": 5
@@ -18551,15 +19275,17 @@ For TakePhoto (manual validation configuration):
 
 ### Example 17: Large File Warning Configuration
 ```json
+// Example media-fields-25
+// Template markers added for parametric generation
 {
-  "video-documentation": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "FileUploader",
     "type-returned": "faims-attachment::Files",
     "component-parameters": {
-      "label": "Video Files",
-      "name": "video-documentation",
-      "helperText": "⚠️ WARNING: Max 100MB per file. Videos will impact sync performance.",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "advancedHelperText": "## Video Guidelines\n\n- Compress videos before upload\n- Consider frame extraction for analysis\n- Upload will timeout after 120 seconds",
       "multiple": false,
       "maximum_file_size": 104857600,
@@ -18569,7 +19295,7 @@ For TakePhoto (manual validation configuration):
     "meta": {
       "annotation": {
         "include": true,
-        "label": "Video content description"
+        "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
       }
     }
   }
@@ -18578,15 +19304,17 @@ For TakePhoto (manual validation configuration):
 
 ### Example 18: Multi-Stage Photo Workflow
 ```json
+// Example media-fields-26
+// Template markers added for parametric generation
 {
-  "excavation-progress": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "TakePhoto",
     "type-returned": "faims-attachment::Files",
     "component-parameters": {
-      "label": "Excavation Stage Photos",
-      "name": "excavation-progress",
-      "helperText": "Document each 10cm level",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "advancedHelperText": "## Photo Protocol\n\n1. Overview from fixed photo point\n2. Plan view with north arrow\n3. Representative profile\n4. Any features or finds in situ",
       "multiple": true
     },
@@ -18598,11 +19326,11 @@ For TakePhoto (manual validation configuration):
     "meta": {
       "annotation": {
         "include": true,
-        "label": "Depth and stage notes"
+        "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
       },
       "uncertainty": {
         "include": true,
-        "label": "Photo quality issues"
+        "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
       }
     }
   }
@@ -18611,15 +19339,17 @@ For TakePhoto (manual validation configuration):
 
 ### Example 19: Emergency Documentation Fallback
 ```json
+// Example media-fields-27
+// Template markers added for parametric generation
 {
-  "emergency-capture": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "TakePhoto",
     "type-returned": "faims-attachment::Files",
     "component-parameters": {
-      "label": "Emergency Documentation",
-      "name": "emergency-capture",
-      "helperText": "Quick capture - quality secondary to speed",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "multiple": true
     },
     "validationSchema": [["yup.array"]],
@@ -18634,15 +19364,17 @@ For TakePhoto (manual validation configuration):
 
 ### Example 20: Mixed Media Archive Upload
 ```json
+// Example media-fields-28
+// Template markers added for parametric generation
 {
-  "archive-materials": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "FileUploader",
     "type-returned": "faims-attachment::Files",
     "component-parameters": {
-      "label": "Archive Materials",
-      "name": "archive-materials",
-      "helperText": "PDFs, images, spreadsheets accepted. Max 50MB each.",
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance,
       "advancedHelperText": "## Accepted Formats\n\n- Documents: PDF, DOC, DOCX\n- Images: JPG, PNG, TIFF\n- Data: CSV, XLS, XLSX\n- Archives: ZIP (under 50MB)",
       "multiple": true,
       "maximum_file_size": 52428800,
@@ -18652,7 +19384,7 @@ For TakePhoto (manual validation configuration):
     "meta": {
       "annotation": {
         "include": true,
-        "label": "Archive catalog numbers and descriptions"
+        "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
       }
     }
   }
@@ -18800,8 +19532,10 @@ See [Performance Thresholds Reference](../reference-docs/performance-thresholds-
 
 ### Pattern: Conditional Media Requirements
 ```json
+// Example media-fields-29
+// Template markers added for parametric generation
 {
-  "damage-photos": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "TakePhoto",
     "type-returned": "faims-attachment::Files",
@@ -18818,12 +19552,14 @@ See [Performance Thresholds Reference](../reference-docs/performance-thresholds-
 
 ### Pattern: Size-Limited Document Upload
 ```json
+// Example media-fields-30
+// Template markers added for parametric generation
 {
   "permits": {
     "component-parameters": {
       "maximum_file_size": 5242880,  // 5MB
       "maximum_number_of_files": 3,
-      "helperText": "Max 3 files, 5MB each. Larger files will disappear without warning."
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
     }
   }
 }
@@ -18831,12 +19567,14 @@ See [Performance Thresholds Reference](../reference-docs/performance-thresholds-
 
 ### Pattern: Required Photo Documentation
 ```json
+// Example media-fields-31
+// Template markers added for parametric generation
 {
   "validationSchema": [
     ["yup.array"],
-    ["yup.required", "Photos are mandatory"],
+    ["yup.Photos are mandatory", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message,
     ["yup.test", "file-check", "Invalid photo array", 
-      ["yup.ref", "$"], 
+      ["yup.$", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message, 
       "function(value) { return value && value.length > 0; }"]
   ]
 }
@@ -18846,6 +19584,7 @@ See [Performance Thresholds Reference](../reference-docs/performance-thresholds-
 
 ### ❌ Don't: Mix Parameters
 ```json
+// Example media-fields-32
 // WRONG - TakePhoto doesn't support file size limits
 {
   "component-name": "TakePhoto",
@@ -18857,6 +19596,7 @@ See [Performance Thresholds Reference](../reference-docs/performance-thresholds-
 
 ### ❌ Don't: Wrong Namespace
 ```json
+// Example media-fields-33
 // WRONG - Must be faims-custom
 {
   "component-namespace": "core",
@@ -18866,6 +19606,7 @@ See [Performance Thresholds Reference](../reference-docs/performance-thresholds-
 
 ### ❌ Don't: Invalid Initial Value
 ```json
+// Example media-fields-34
 // WRONG - Must be null, not empty array
 {
   "initialValue": []
@@ -19024,6 +19765,17 @@ see-also: [form-structure-guide, dynamic-forms-guide]
 
 # Relationship Field - Fieldmark v3 Documentation
 
+
+<!-- structured:metadata
+meta:purpose: field-configuration
+meta:summary: RelationshipField for complex record linking with performance limits and hierarchical structure support.
+meta:generates: json-fields
+meta:requires: [valid-json, unique-names, fviews-layer]
+meta:version: 3.0.0
+meta:document: relationship_field
+meta:depth-tags: [essential, important, comprehensive]
+-->
+
 ## Document Navigation {essential}
 <!-- concat:nav-mode:individual -->
 [← Media Fields](./media-fields-v05.md) | **Relationship Fields** | [Field Index →](../field-type-index.md)
@@ -19120,6 +19872,7 @@ Need to connect records?
 ### Vocabulary Pairs for Linked Relationships
 **Bidirectional labeling (JSON-only configuration):**
 ```json
+// Example relationship-field-01
 {
   "relation_linked_vocabPair": [
     ["cuts", "is cut by"],
@@ -19216,6 +19969,7 @@ See [Security Considerations Reference](../reference-docs/security-consideration
 
 ### JSON-Only Configuration
 ```json
+// Example relationship-field-02
 {
   "relation_linked_vocabPair": [
     ["forward", "reverse"]  // Custom relationship labels
@@ -19330,18 +20084,20 @@ Enables bidirectional connections between records, supporting both hierarchical 
 
 #### Core Configuration
 ```json
+// Example relationship-field-03
+// Template markers added for parametric generation
 {
   "component-namespace": "faims-custom",
   "component-name": "RelatedRecordSelector",
   "type-returned": "faims-core::Array",
   "component-parameters": {
-    "name": "field-name",
-    "label": "Relationships",
+    "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+    "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
     "related_type": "TargetFormID",
-    "relation_type": "Child",
+    "relation_type": "{{RELATION_TYPE}}"  // REPLACE: relationship type,
     "multiple": true,
     "required": false,
-    "helperText": "Add related records"
+    "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
   },
   "validationSchema": [["yup.array"]],
   "initialValue": []
@@ -19350,16 +20106,18 @@ Enables bidirectional connections between records, supporting both hierarchical 
 
 #### Advanced Configuration
 ```json
+// Example relationship-field-04
+// Template markers added for parametric generation
 {
   "stratigraphic_relationships": {
     "component-namespace": "faims-custom",
     "component-name": "RelatedRecordSelector",
     "type-returned": "faims-core::Array",
     "component-parameters": {
-      "name": "stratigraphic_relationships",
-      "label": "Stratigraphic Relationships",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
       "related_type": "Context",
-      "relation_type": "is-related-to",
+      "relation_type": "{{RELATION_TYPE}}"  // REPLACE: relationship type,
       "multiple": true,
       "allowLinkToExisting": true,
       "related_type_label": "Context Record",
@@ -19371,7 +20129,7 @@ Enables bidirectional connections between records, supporting both hierarchical 
         ["same as", "same as"],
         ["contemporary with", "contemporary with"]
       ],
-      "helperText": "Define stratigraphic relationships"
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
     },
     "validationSchema": [
       ["yup.array"],
@@ -19381,11 +20139,11 @@ Enables bidirectional connections between records, supporting both hierarchical 
     "meta": {
       "annotation": {
         "include": true,
-        "label": "Relationship notes"
+        "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
       },
       "uncertainty": {
         "include": true,
-        "label": "Confidence level"
+        "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
       }
     }
   }
@@ -19489,6 +20247,7 @@ Enables bidirectional connections between records, supporting both hierarchical 
 
 **Common Validation Issues**:
 ```json
+// Example relationship-field-05
 {
   "WRONG_example": {
     "comment": "Single relationship with array validation - MISMATCH",
@@ -19528,16 +20287,18 @@ Enables bidirectional connections between records, supporting both hierarchical 
 
 ### Example 1: Basic Parent-Child Hierarchy
 ```json
+// Example relationship-field-06
+// Template markers added for parametric generation
 {
-  "child-contexts": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "RelatedRecordSelector",
     "type-returned": "faims-core::Array",
     "component-parameters": {
-      "name": "child-contexts",
-      "label": "Contexts",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
       "related_type": "Context",
-      "relation_type": "Child",
+      "relation_type": "{{RELATION_TYPE}}"  // REPLACE: relationship type,
       "multiple": true,
       "allowLinkToExisting": false
     },
@@ -19549,24 +20310,26 @@ Enables bidirectional connections between records, supporting both hierarchical 
 
 ### Example 2: Required Single Parent
 ```json
+// Example relationship-field-07
+// Template markers added for parametric generation
 {
-  "parent-trench": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "RelatedRecordSelector",
     "type-returned": "faims-core::Array",
     "component-parameters": {
-      "name": "parent-trench",
-      "label": "Parent Trench",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
       "related_type": "Trench",
-      "relation_type": "Child",
+      "relation_type": "{{RELATION_TYPE}}"  // REPLACE: relationship type,
       "multiple": false,
       "required": true,
       "allowLinkToExisting": true,
-      "helperText": "Select the trench this context belongs to"
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
     },
     "validationSchema": [
       ["yup.string"],
-      ["yup.required", "Parent trench required"]
+      ["yup.Parent trench required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
     ],
     "initialValue": null
   }
@@ -19575,16 +20338,18 @@ Enables bidirectional connections between records, supporting both hierarchical 
 
 ### Example 3: Stratigraphic Relationships with Vocabulary
 ```json
+// Example relationship-field-08
+// Template markers added for parametric generation
 {
-  "stratigraphic-relationships": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "RelatedRecordSelector",
     "type-returned": "faims-core::Array",
     "component-parameters": {
-      "name": "stratigraphic-relationships",
-      "label": "Stratigraphic Relationships",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
       "related_type": "Context",
-      "relation_type": "is-related-to",
+      "relation_type": "{{RELATION_TYPE}}"  // REPLACE: relationship type,
       "multiple": true,
       "allowLinkToExisting": true,
       "relation_linked_vocabPair": [
@@ -19594,7 +20359,7 @@ Enables bidirectional connections between records, supporting both hierarchical 
         ["abuts", "abuts"],
         ["same as", "same as"]
       ],
-      "helperText": "Define relationships with other contexts"
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
     },
     "validationSchema": [["yup.array"]],
     "initialValue": []
@@ -19604,16 +20369,18 @@ Enables bidirectional connections between records, supporting both hierarchical 
 
 ### Example 4: Find Assemblage Grouping
 ```json
+// Example relationship-field-09
+// Template markers added for parametric generation
 {
-  "related-finds": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "RelatedRecordSelector",
     "type-returned": "faims-core::Array",
     "component-parameters": {
-      "name": "related-finds",
-      "label": "Related Finds",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
       "related_type": "Find",
-      "relation_type": "is-related-to",
+      "relation_type": "{{RELATION_TYPE}}"  // REPLACE: relationship type,
       "multiple": true,
       "allowLinkToExisting": true,
       "relation_linked_vocabPair": [
@@ -19627,7 +20394,7 @@ Enables bidirectional connections between records, supporting both hierarchical 
     "meta": {
       "annotation": {
         "include": true,
-        "label": "Relationship justification"
+        "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
       }
     }
   }
@@ -19636,16 +20403,18 @@ Enables bidirectional connections between records, supporting both hierarchical 
 
 ### Example 5: Sample Chain of Custody
 ```json
+// Example relationship-field-10
+// Template markers added for parametric generation
 {
-  "sample-relationships": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "RelatedRecordSelector",
     "type-returned": "faims-core::Array",
     "component-parameters": {
-      "name": "sample-relationships",
-      "label": "Sample Relationships",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
       "related_type": "Sample",
-      "relation_type": "is-related-to",
+      "relation_type": "{{RELATION_TYPE}}"  // REPLACE: relationship type,
       "multiple": true,
       "relation_linked_vocabPair": [
         ["subsample of", "has subsample"],
@@ -19662,20 +20431,22 @@ Enables bidirectional connections between records, supporting both hierarchical 
 
 ### Example 6: Site-Trench-Context Hierarchy
 ```json
+// Example relationship-field-11
+// Template markers added for parametric generation
 {
-  "trenches": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "RelatedRecordSelector",
     "type-returned": "faims-core::Array",
     "component-parameters": {
-      "name": "trenches",
-      "label": "Trenches within Site",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
       "related_type": "Trench",
-      "relation_type": "Child",
+      "relation_type": "{{RELATION_TYPE}}"  // REPLACE: relationship type,
       "multiple": true,
       "allowLinkToExisting": false,
       "related_type_label": "Trench Record",
-      "helperText": "Create new trenches for this site"
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
     },
     "validationSchema": [["yup.array"]],
     "initialValue": []
@@ -19685,16 +20456,18 @@ Enables bidirectional connections between records, supporting both hierarchical 
 
 ### Example 7: Feature Cross-References
 ```json
+// Example relationship-field-12
+// Template markers added for parametric generation
 {
-  "related-features": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "RelatedRecordSelector",
     "type-returned": "faims-core::Array",
     "component-parameters": {
-      "name": "related-features",
-      "label": "Related Features",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
       "related_type": "Feature",
-      "relation_type": "is-related-to",
+      "relation_type": "{{RELATION_TYPE}}"  // REPLACE: relationship type,
       "multiple": true,
       "allowLinkToExisting": true,
       "relation_linked_vocabPair": [
@@ -19712,26 +20485,28 @@ Enables bidirectional connections between records, supporting both hierarchical 
 
 ### Example 8: Specialist Analysis Links
 ```json
+// Example relationship-field-13
+// Template markers added for parametric generation
 {
-  "specialist-analyses": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "RelatedRecordSelector",
     "type-returned": "faims-core::Array",
     "component-parameters": {
-      "name": "specialist-analyses",
-      "label": "Specialist Analyses",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
       "related_type": "Analysis",
-      "relation_type": "Child",
+      "relation_type": "{{RELATION_TYPE}}"  // REPLACE: relationship type,
       "multiple": true,
       "allowLinkToExisting": false,
-      "helperText": "Create analysis records for this context"
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
     },
     "validationSchema": [["yup.array"]],
     "initialValue": [],
     "meta": {
       "annotation": {
         "include": true,
-        "label": "Analysis type and specialist"
+        "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
       }
     }
   }
@@ -19740,23 +20515,25 @@ Enables bidirectional connections between records, supporting both hierarchical 
 
 ### Example 9: Conditional Parent Requirement
 ```json
+// Example relationship-field-14
+// Template markers added for parametric generation
 {
-  "parent-structure": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "RelatedRecordSelector",
     "type-returned": "faims-core::Array",
     "component-parameters": {
-      "name": "parent-structure",
-      "label": "Parent Structure",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
       "related_type": "Structure",
-      "relation_type": "Child",
+      "relation_type": "{{RELATION_TYPE}}"  // REPLACE: relationship type,
       "multiple": false,
       "allowLinkToExisting": true,
       "required": true
     },
     "validationSchema": [
       ["yup.string"],
-      ["yup.required", "Parent structure required"]
+      ["yup.Parent structure required", "{VALIDATION_MESSAGE}"]  // CUSTOMIZE: error message
     ],
     "initialValue": null,
     "condition": {
@@ -19770,16 +20547,18 @@ Enables bidirectional connections between records, supporting both hierarchical 
 
 ### Example 10: Documentation Attachments
 ```json
+// Example relationship-field-15
+// Template markers added for parametric generation
 {
-  "related-documentation": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "RelatedRecordSelector",
     "type-returned": "faims-core::Array",
     "component-parameters": {
-      "name": "related-documentation",
-      "label": "Related Documentation",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
       "related_type": "Document",
-      "relation_type": "is-related-to",
+      "relation_type": "{{RELATION_TYPE}}"  // REPLACE: relationship type,
       "multiple": true,
       "relation_linked_vocabPair": [
         ["documented in", "documents"],
@@ -19795,19 +20574,21 @@ Enables bidirectional connections between records, supporting both hierarchical 
 
 ### Example 11: Survey Unit Hierarchy
 ```json
+// Example relationship-field-16
+// Template markers added for parametric generation
 {
-  "survey-units": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "RelatedRecordSelector",
     "type-returned": "faims-core::Array",
     "component-parameters": {
-      "name": "survey-units",
-      "label": "Survey Units",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
       "related_type": "SurveyUnit",
-      "relation_type": "Child",
+      "relation_type": "{{RELATION_TYPE}}"  // REPLACE: relationship type,
       "multiple": true,
       "allowLinkToExisting": false,
-      "helperText": "Create survey units within this area"
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
     },
     "validationSchema": [
       ["yup.array"],
@@ -19820,16 +20601,18 @@ Enables bidirectional connections between records, supporting both hierarchical 
 
 ### Example 12: Temporal Relationships
 ```json
+// Example relationship-field-17
+// Template markers added for parametric generation
 {
-  "temporal-relationships": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "RelatedRecordSelector",
     "type-returned": "faims-core::Array",
     "component-parameters": {
-      "name": "temporal-relationships",
-      "label": "Temporal Relationships",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
       "related_type": "Phase",
-      "relation_type": "is-related-to",
+      "relation_type": "{{RELATION_TYPE}}"  // REPLACE: relationship type,
       "multiple": true,
       "relation_linked_vocabPair": [
         ["earlier than", "later than"],
@@ -19846,18 +20629,20 @@ Enables bidirectional connections between records, supporting both hierarchical 
 
 ### Example 13: Performance-Limited Configuration
 ```json
+// Example relationship-field-18
+// Template markers added for parametric generation
 {
-  "limited-relationships": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "RelatedRecordSelector",
     "type-returned": "faims-core::Array",
     "component-parameters": {
-      "name": "limited-relationships",
-      "label": "Related Records (Max 30)",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
       "related_type": "Record",
-      "relation_type": "is-related-to",
+      "relation_type": "{{RELATION_TYPE}}"  // REPLACE: relationship type,
       "multiple": true,
-      "helperText": "⚠️ LIMIT 30 relationships for performance"
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
     },
     "validationSchema": [
       ["yup.array"],
@@ -19870,16 +20655,18 @@ Enables bidirectional connections between records, supporting both hierarchical 
 
 ### Example 14: Excavation Team Assignment
 ```json
+// Example relationship-field-19
+// Template markers added for parametric generation
 {
-  "team-members": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "RelatedRecordSelector",
     "type-returned": "faims-core::Array",
     "component-parameters": {
-      "name": "team-members",
-      "label": "Team Members",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
       "related_type": "Person",
-      "relation_type": "is-related-to",
+      "relation_type": "{{RELATION_TYPE}}"  // REPLACE: relationship type,
       "multiple": true,
       "allowLinkToExisting": true,
       "relation_linked_vocabPair": [
@@ -19896,16 +20683,18 @@ Enables bidirectional connections between records, supporting both hierarchical 
 
 ### Example 15: Conservation Treatment Chain
 ```json
+// Example relationship-field-20
+// Template markers added for parametric generation
 {
-  "conservation-history": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "RelatedRecordSelector",
     "type-returned": "faims-core::Array",
     "component-parameters": {
-      "name": "conservation-history",
-      "label": "Conservation History",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
       "related_type": "Treatment",
-      "relation_type": "is-related-to",
+      "relation_type": "{{RELATION_TYPE}}"  // REPLACE: relationship type,
       "multiple": true,
       "relation_linked_vocabPair": [
         ["treated with", "applied to"],
@@ -19918,7 +20707,7 @@ Enables bidirectional connections between records, supporting both hierarchical 
     "meta": {
       "annotation": {
         "include": true,
-        "label": "Treatment notes"
+        "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
       }
     }
   }
@@ -19927,16 +20716,18 @@ Enables bidirectional connections between records, supporting both hierarchical 
 
 ### Example 16: Interpretive Associations
 ```json
+// Example relationship-field-21
+// Template markers added for parametric generation
 {
-  "interpretations": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "RelatedRecordSelector",
     "type-returned": "faims-core::Array",
     "component-parameters": {
-      "name": "interpretations",
-      "label": "Interpretive Links",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
       "related_type": "Interpretation",
-      "relation_type": "is-related-to",
+      "relation_type": "{{RELATION_TYPE}}"  // REPLACE: relationship type,
       "multiple": true,
       "relation_linked_vocabPair": [
         ["interpreted as", "interpretation of"],
@@ -19949,7 +20740,7 @@ Enables bidirectional connections between records, supporting both hierarchical 
     "meta": {
       "uncertainty": {
         "include": true,
-        "label": "Interpretive confidence"
+        "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
       }
     }
   }
@@ -19958,16 +20749,18 @@ Enables bidirectional connections between records, supporting both hierarchical 
 
 ### Example 17: Conditional Relationship Field
 ```json
+// Example relationship-field-22
+// Template markers added for parametric generation
 {
-  "specialist-samples": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "RelatedRecordSelector",
     "type-returned": "faims-core::Array",
     "component-parameters": {
-      "name": "specialist-samples",
-      "label": "Specialist Analysis Samples",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
       "related_type": "Sample",
-      "relation_type": "Child",
+      "relation_type": "{{RELATION_TYPE}}"  // REPLACE: relationship type,
       "multiple": true,
       "related_type_label": "Analysis Sample",
       "allowLinkToExisting": false
@@ -19988,16 +20781,18 @@ Enables bidirectional connections between records, supporting both hierarchical 
 
 ### Example 18: Cross-Referenced Features
 ```json
+// Example relationship-field-23
+// Template markers added for parametric generation
 {
-  "cross-references": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "RelatedRecordSelector",
     "type-returned": "faims-core::Array",
     "component-parameters": {
-      "name": "cross-references",
-      "label": "Cross-Referenced Features",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
       "related_type": "Feature",
-      "relation_type": "is-related-to",
+      "relation_type": "{{RELATION_TYPE}}"  // REPLACE: relationship type,
       "multiple": true,
       "relation_linked_vocabPair": [
         ["references", "referenced by"],
@@ -20006,7 +20801,7 @@ Enables bidirectional connections between records, supporting both hierarchical 
         ["contradicts", "contradicted by"],
         ["supports", "supported by"]
       ],
-      "helperText": "⚠️ Performance limit: 50 relationships maximum"
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
     },
     "validationSchema": [
       ["yup.array"],
@@ -20019,16 +20814,18 @@ Enables bidirectional connections between records, supporting both hierarchical 
 
 ### Example 19: Equipment Assignment Tracking
 ```json
+// Example relationship-field-24
+// Template markers added for parametric generation
 {
-  "equipment-used": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "RelatedRecordSelector",
     "type-returned": "faims-core::Array",
     "component-parameters": {
-      "name": "equipment-used",
-      "label": "Equipment Used",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
       "related_type": "Equipment",
-      "relation_type": "is-related-to",
+      "relation_type": "{{RELATION_TYPE}}"  // REPLACE: relationship type,
       "multiple": true,
       "relation_linked_vocabPair": [
         ["used equipment", "used in operation"],
@@ -20042,7 +20839,7 @@ Enables bidirectional connections between records, supporting both hierarchical 
     "meta": {
       "annotation": {
         "include": true,
-        "label": "Equipment condition notes"
+        "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label
       }
     },
     "initialValue": []
@@ -20052,16 +20849,18 @@ Enables bidirectional connections between records, supporting both hierarchical 
 
 ### Example 20: Publication Citations Network
 ```json
+// Example relationship-field-25
+// Template markers added for parametric generation
 {
-  "related-publications": {
+  "{{FIELD_ID}}"  // REPLACE: unique field identifier: {
     "component-namespace": "faims-custom",
     "component-name": "RelatedRecordSelector",
     "type-returned": "faims-core::Array",
     "component-parameters": {
-      "name": "related-publications",
-      "label": "Related Publications",
+      "name": "{{FIELD_ID}}"  // REQUIRED: must match field identifier,
+      "label": "{{FIELD_LABEL}}"  // REPLACE: user-visible label,
       "related_type": "Publication",
-      "relation_type": "is-related-to",
+      "relation_type": "{{RELATION_TYPE}}"  // REPLACE: relationship type,
       "multiple": true,
       "relation_linked_vocabPair": [
         ["cites", "cited by"],
@@ -20070,7 +20869,7 @@ Enables bidirectional connections between records, supporting both hierarchical 
         ["critiques", "critiqued by"],
         ["corroborates", "corroborated by"]
       ],
-      "helperText": "Build citation network for literature review"
+      "helperText": "{{HELPER_TEXT}}"  // OPTIONAL: field guidance
     },
     "validationSchema": [["yup.array"]],
     "initialValue": []
@@ -20092,6 +20891,7 @@ Enables bidirectional connections between records, supporting both hierarchical 
 1. Export existing relationships to CSV for backup
 2. Create multiple relationship fields with semantic groupings:
    ```json
+// Example relationship-field-26
    {
      "primary-relationships": { 
        "multiple": true, 
@@ -20139,6 +20939,7 @@ Enables bidirectional connections between records, supporting both hierarchical 
 2. Replace Child relationships with is-related-to
 3. Use vocabulary pairs to maintain semantic relationships:
    ```json
+// Example relationship-field-27
    "relation_linked_vocabPair": [
      ["contains", "contained by"],
      ["parent of", "child of"]
@@ -20240,6 +21041,7 @@ See [Performance Thresholds Reference](../reference-docs/performance-thresholds-
 
 ### Pattern: Conditional Relationships
 ```json
+// Example relationship-field-28
 {
   "condition": {
     "operator": "is",
@@ -20251,6 +21053,7 @@ See [Performance Thresholds Reference](../reference-docs/performance-thresholds-
 
 ### Pattern: Validation Enforcement
 ```json
+// Example relationship-field-29
 {
   "validationSchema": [
     ["yup.array"],
@@ -20264,6 +21067,7 @@ See [Performance Thresholds Reference](../reference-docs/performance-thresholds-
 
 ### ❌ Don't: Exceed Performance Limits
 ```json
+// Example relationship-field-30
 {
   "comment": "WRONG - Will cause severe degradation, no maximum validation",
   "multiple": true
@@ -20275,6 +21079,7 @@ Note: Vocabulary is immutable - must plan before deployment
 
 ### ❌ Don't: Mix Validation Types
 ```json
+// Example relationship-field-31
 {
   "comment": "WRONG - Multiple requires array validation",
   "multiple": true,
@@ -20435,6 +21240,17 @@ see-also: [all-field-categories, platform-reference]
 
 
 # Field Selection Guide for Fieldmark Notebooks {essential}
+
+
+<!-- structured:metadata
+meta:purpose: implementation-patterns
+meta:summary: Decision trees and matrices for choosing the right field component based on data requirements.
+meta:generates: notebook-structures
+meta:requires: [field-definitions, form-hierarchy]
+meta:version: 3.0.0
+meta:document: field_selection_guide
+meta:depth-tags: [essential, important]
+-->
 
 📚 [Field Documentation](../field-type-index.md) > Patterns > Field Selection Guide
 
@@ -21039,6 +21855,17 @@ see-also: [notebook-format-guide, relationship-field-v05]
 
 # Form Structure Guide
 
+
+<!-- structured:metadata
+meta:purpose: implementation-patterns
+meta:summary: Three-tier architecture (fields→fviews→viewsets) requirements and structural patterns.
+meta:generates: notebook-structures
+meta:requires: [field-definitions, form-hierarchy]
+meta:version: 3.0.0
+meta:document: form_structure_guide
+meta:depth-tags: [essential, important]
+-->
+
 ## Overview {essential}
 
 This guide consolidates all knowledge about Fieldmark's hierarchical form architecture, navigation patterns, and structural best practices. It covers the three-tier system of Forms (viewsets), Sections (views), and Fields, along with navigation strategies for different use cases and platforms.
@@ -21613,6 +22440,17 @@ see-also: [select-choice-fields-v05, implementation-patterns-guide]
 
 
 # Dynamic Forms Guide
+
+
+<!-- structured:metadata
+meta:purpose: implementation-patterns
+meta:summary: Conditional visibility patterns using is-logic for creating adaptive forms.
+meta:generates: notebook-structures
+meta:requires: [field-definitions, form-hierarchy]
+meta:version: 3.0.0
+meta:document: dynamic_forms_guide
+meta:depth-tags: [essential, important]
+-->
 
 ## Overview {essential}
 
@@ -22306,6 +23144,17 @@ see-also: [all-pattern-guides, constraints-reference]
 
 # Implementation Patterns Guide
 
+
+<!-- structured:metadata
+meta:purpose: implementation-patterns
+meta:summary: Common patterns for validation, workflows, and complex form behaviors.
+meta:generates: notebook-structures
+meta:requires: [field-definitions, form-hierarchy]
+meta:version: 3.0.0
+meta:document: implementation_patterns_guide
+meta:depth-tags: [essential, important]
+-->
+
 ## Overview {essential}
 
 This guide consolidates implementation patterns, troubleshooting strategies, and best practices for Fieldmark v3. It addresses common technical challenges, performance optimization, data management patterns, and integration approaches discovered across all field types.
@@ -22956,6 +23805,281 @@ async function writeData(doc) {
 <!-- ============================================ -->
 
 
+<!-- concat:reference:glossary -->
+# Fieldmark Glossary: Key Terms and Concepts
+
+**Purpose**: Define critical terminology for consistent understanding  
+**Created**: 2025-01-07  
+**Usage**: Reference for all Fieldmark-specific terms and concepts
+
+<!-- structured:metadata
+meta:purpose: technical-reference
+meta:summary: Comprehensive glossary defining all Fieldmark-specific terminology and concepts.
+meta:generates: term-definitions
+meta:requires: [fieldmark-knowledge]
+meta:version: 3.0.0
+meta:document: glossary
+meta:depth-tags: [essential]
+-->
+
+<!-- discovery:metadata
+provides: [term-definitions, concept-clarification, ontology]
+see-also: [notebook-format-guide, component-reference, field-type-index]
+-->
+
+## Core Architecture Terms
+
+### fields
+**Definition**: The lowest level of the three-tier hierarchy containing individual field definitions.  
+**Context**: Each field has a unique identifier and contains component configuration.  
+**Example**: `"site-name": { "component-name": "TextField", ... }`  
+**See**: [Form Structure Guide](#form-structure-guide)
+
+### fviews
+**Definition**: Form views - the middle tier that groups fields into logical sections.  
+**Critical**: REQUIRED layer between fields and viewsets. 50% of import failures are due to missing fviews.  
+**Example**: `"basic-info": { "fields": ["field1", "field2"], "label": "Basic Information" }`  
+**See**: [Notebook Structure](#notebook-structure-errors)
+
+### viewsets
+**Definition**: The top tier that groups fviews into complete forms or pages.  
+**Context**: What users see as distinct screens or tabs in the application.  
+**Example**: `"main-form": { "views": ["section1", "section2"], "label": "Survey Form" }`  
+**See**: [Form Structure Guide](#form-structure-guide)
+
+### visible_types
+**Definition**: Array listing which viewsets are accessible to users.  
+**Critical**: Must reference existing viewsets or forms won't appear.  
+**Example**: `"visible_types": ["main-form", "review-form"]`  
+**See**: [Notebook Format Guide](#notebook-format-guide)
+
+### ui-specification
+**Definition**: The container object holding all form structure (fields, fviews, viewsets).  
+**Context**: Required wrapper for all notebook configuration.  
+**Example**: `"ui-specification": { "fields": {...}, "fviews": {...}, "viewsets": {...} }`
+
+## Field Configuration Terms
+
+### component-namespace
+**Definition**: Package/library providing the component implementation.  
+**Values**: `faims-custom`, `formik-material-ui`, `mapping-plugin`, `qrcode`  
+**Example**: `"component-namespace": "faims-custom"`  
+**See**: [Component Reference](#component-reference)
+
+### component-name
+**Definition**: The specific component class within the namespace.  
+**Example**: `"component-name": "FAIMSTextField"`  
+**Note**: Designer UI names often differ from actual component names.  
+**See**: [Designer Component Mapping](#designer-component-mapping)
+
+### component-parameters
+**Definition**: Configuration object containing all field-specific settings.  
+**Critical**: Must include `"name"` parameter matching the field identifier.  
+**Example**: `"component-parameters": { "name": "field-id", "label": "Field Label" }`
+
+### type-returned
+**Definition**: Data type the field returns when saved.  
+**Values**: `faims-core::String`, `faims-core::Number`, `faims-core::Array`, `faims-attachment::Files`  
+**Example**: `"type-returned": "faims-core::String"`
+
+### validationSchema
+**Definition**: Yup-based validation rules array.  
+**Format**: Array of arrays, type validation must come first.  
+**Example**: `[["yup.string"], ["yup.required", "This field is required"]]`  
+**See**: [Validation Errors](#validation-errors)
+
+## Special Field Types
+
+### HRID
+**Definition**: Human-Readable Identifier - user-friendly record IDs instead of UUIDs.  
+**Implementation**: Uses TemplatedStringField with template patterns.  
+**Example**: `"PROJECT-2024-001"` instead of `"rec-a7f3b2c1-d4e5..."`  
+**Critical**: Should be included in every notebook for usability.  
+**See**: [TemplatedStringField](#templatedstringfield)
+
+### TemplatedStringField
+**Definition**: Auto-generates strings from templates with variables.  
+**Variables**: `{{PROJECT}}`, `{{_CREATED_DATE}}`, `{{_INCREMENT}}`  
+**Security**: ⚠️ XSS vulnerability if used with user input - use only for system-generated values.  
+**See**: [Text Fields](#text-input-fields)
+
+### RelationshipField
+**Definition**: Links records within or between notebooks.  
+**Limits**: Performance degrades beyond 50 relationships per record.  
+**Example**: Links artifact to context, sample to site.  
+**See**: [Relationship Field](#relationship-fields)
+
+## Conditional Logic Terms
+
+### is-logic
+**Definition**: Object defining conditional visibility rules for fields.  
+**Format**: `{ "if": "controller-field", "==": "trigger-value" }`  
+**Complex**: Supports `and`, `or`, `in`, `!=`, `>`, `<` operators.  
+**See**: [Dynamic Forms Guide](#dynamic-forms-guide)
+
+### logic_select
+**Definition**: Boolean flag marking a field as a conditional logic controller.  
+**Critical**: Must be `true` on controller field for is-logic to work.  
+**Example**: `"logic_select": true` on RadioGroup controlling dependent fields.
+
+## Platform-Specific Terms
+
+### Mobile-only Components
+**Definition**: Components that only function on iOS/Android apps.  
+**List**: `QRCodeFormField` (scanning), `TakePoint` (GPS), `TakePhoto` (camera)  
+**Best Practice**: Always provide web fallbacks.  
+**See**: [Platform Reference](#platform-reference)
+
+### Offline Mode
+**Definition**: Ability to work without internet connection.  
+**Context**: Mobile apps cache data; web requires initial connection.  
+**Limitation**: MapFormField needs internet for first tile load.
+
+## Data Types
+
+### faims-core::String
+**Definition**: Basic text data type.  
+**Used by**: TextField, Select, DateTimeNow, most fields.
+
+### faims-core::Number
+**Definition**: Numeric data type.  
+**Used by**: TextField with type="number", BasicAutoIncrementer.
+
+### faims-core::Array
+**Definition**: Multiple value data type.  
+**Used by**: MultiSelect, Checkbox groups.
+
+### faims-attachment::Files
+**Definition**: File attachment data type.  
+**Used by**: TakePhoto, AudioFormField.
+
+### faims-core::JSON
+**Definition**: Complex object data type.  
+**Used by**: TakePoint (GPS coordinates), MapFormField.
+
+## Validation Terms
+
+### yup
+**Definition**: JavaScript schema validation library used by Fieldmark.  
+**Usage**: All validation rules start with `yup.` prefix.  
+**Order**: Type validation (yup.string) must come before constraints (yup.required).  
+**See**: [Validation Error Decoder](#validation-error-decoder)
+
+### Cross-field Validation
+**Definition**: Validation rules referencing other fields.  
+**Example**: `["yup.min", ["yup.ref", "start-date"], "Must be after start date"]`  
+**See**: [Cookbook Recipe #1](#recipe-1-date-range-picker)
+
+## Template System Terms
+
+### Template Markers
+**Definition**: Placeholder variables in parametric templates.  
+**Format**: `{{VARIABLE_NAME}}`  
+**Example**: `{{FIELD_ID}}`, `{{FIELD_LABEL}}`, `{{VALIDATION_MESSAGE}}`  
+**Count**: 1,290 markers added to documentation.  
+**See**: [Cookbook](#fieldmark-cookbook)
+
+### Parametric Generation
+**Definition**: Creating notebooks by replacing template variables rather than editing JSON.  
+**Benefit**: Ensures all references update consistently.  
+**See**: [Generation-Ready Patterns](#generation-ready-patterns)
+
+## Common Issues Terms
+
+### Missing fviews
+**Definition**: Most common import failure - missing middle tier.  
+**Impact**: 50% of notebook import failures.  
+**Fix**: Add fviews layer between fields and viewsets.  
+**See**: [Troubleshooting Index](#notebook-structure-errors)
+
+### Circular Reference
+**Definition**: Field relationships creating infinite loops.  
+**Symptom**: "Maximum call stack exceeded" error.  
+**Fix**: Check relationship field configurations.
+
+### Race Condition
+**Definition**: Timing issue where operations complete out of order.  
+**Example**: Address field geocoding vs user typing.  
+**Fix**: Implement debounce configuration.
+
+## Designer vs JSON Terms
+
+### Designer UI Name
+**Definition**: Field name shown in Fieldmark Designer interface.  
+**Issue**: Often differs from actual JSON component name.  
+**Example**: "Text Field" in Designer = "FAIMSTextField" in JSON.  
+**See**: [Designer Component Mapping](#designer-component-mapping)
+
+### Component Mapping
+**Definition**: Translation table between Designer names and JSON components.  
+**Critical**: Required for converting Designer notebooks to JSON.  
+**Location**: designer-component-mapping.md
+
+## Metadata Terms
+
+### metadata
+**Definition**: Notebook-level configuration section.  
+**Contains**: Project name, version, hridField designation.  
+**Example**: `"metadata": { "name": "Project 2024", "hridField": "record-id" }`
+
+### discovery:metadata
+**Definition**: Documentation metadata for content discovery.  
+**Format**: HTML comments with provides/see-also tags.  
+**Purpose**: Helps LLMs understand document relationships.
+
+### structured:metadata
+**Definition**: Enhanced metadata with purpose, summary, requirements.  
+**Format**: HTML comments with meta: prefixed tags.  
+**Purpose**: Semantic understanding of document content.
+
+## Security Terms
+
+### XSS (Cross-Site Scripting)
+**Definition**: Security vulnerability allowing malicious script injection.  
+**Risk**: TemplatedStringField with user input.  
+**Mitigation**: Never use user input in templates.  
+**See**: [Security Considerations](#security-considerations)
+
+## Performance Terms
+
+### Relationship Limit
+**Definition**: ~50 relationships per record before performance degrades.  
+**Impact**: Slow form loading and saving.  
+**Solution**: Split into multiple related forms.
+
+### Notebook Size Limit
+**Definition**: Practical limit of ~100 fields per notebook.  
+**Impact**: Slow import/export, UI lag.  
+**Solution**: Split into multiple viewsets.
+
+## Acronyms
+
+| Acronym | Full Term | Context |
+|---------|-----------|---------|
+| HRID | Human-Readable Identifier | User-friendly record IDs |
+| XSS | Cross-Site Scripting | Security vulnerability |
+| GPS | Global Positioning System | Location capture |
+| JSON | JavaScript Object Notation | Data format |
+| UI | User Interface | Designer or app interface |
+| UUID | Universally Unique Identifier | System-generated IDs |
+| CRUD | Create, Read, Update, Delete | Database operations |
+
+---
+
+## Usage Notes
+
+This glossary provides:
+1. **Consistent terminology** across all documentation
+2. **Clear definitions** for Fieldmark-specific concepts
+3. **Cross-references** to detailed documentation
+4. **Context** for when and how terms are used
+
+For implementation details, see the referenced documentation sections.
+
+---
+
+*This glossary defines ~60 critical terms for Fieldmark notebook development.*
+
 <!-- concat:reference:designer-component-mapping -->
 <!-- concat:boundary:start section="designer-mapping" -->
 <!-- concat:metadata
@@ -22965,6 +24089,17 @@ last_updated: 2025-01-06
 -->
 
 # Designer UI to Component Mapping Reference
+
+
+<!-- structured:metadata
+meta:purpose: technical-reference
+meta:summary: Complete mapping table from Designer UI names to actual JSON component names.
+meta:generates: lookup-tables
+meta:requires: [fieldmark-knowledge]
+meta:version: 3.0.0
+meta:document: designer_component_mapping
+meta:depth-tags: [essential]
+-->
 
 ## Document Navigation {essential}
 [← Operations Reference](./operations-reference.md) | **Designer Mapping** | [Constraints Reference →](./constraints-reference.md)
@@ -23275,6 +24410,17 @@ see-also: [designer-component-mapping, all-field-categories]
 
 
 # Component Reference
+
+
+<!-- structured:metadata
+meta:purpose: technical-reference
+meta:summary: Technical specifications for namespaces, types, and component parameters.
+meta:generates: lookup-tables
+meta:requires: [fieldmark-knowledge]
+meta:version: 3.0.0
+meta:document: component_reference
+meta:depth-tags: [essential]
+-->
 
 ## Overview {essential}
 
@@ -24453,6 +25599,17 @@ Only for these specific cases:
 # Constraints Reference
 
 <!-- discovery:metadata
+
+<!-- structured:metadata
+meta:purpose: technical-reference
+meta:summary: System limitations, performance boundaries, and security considerations.
+meta:generates: lookup-tables
+meta:requires: [fieldmark-knowledge]
+meta:version: 3.0.0
+meta:document: constraints_reference
+meta:depth-tags: [essential]
+-->
+
 provides: [security-issues, designer-limitations, vulnerabilities, workarounds]
 see-also: [platform-reference, operations-reference]
 -->
@@ -24998,6 +26155,17 @@ If you discover a security vulnerability:
 # Operations Reference
 
 <!-- discovery:metadata
+
+<!-- structured:metadata
+meta:purpose: technical-reference
+meta:summary: Migration procedures, deployment strategies, and operational guidelines.
+meta:generates: lookup-tables
+meta:requires: [fieldmark-knowledge]
+meta:version: 3.0.0
+meta:document: operations_reference
+meta:depth-tags: [essential]
+-->
+
 provides: [migration-procedures, troubleshooting, deployment, maintenance]
 see-also: [constraints-reference, platform-reference]
 -->
@@ -25813,6 +26981,17 @@ see-also: [location-fields, media-fields, constraints-reference]
 
 # Platform Reference
 
+
+<!-- structured:metadata
+meta:purpose: technical-reference
+meta:summary: Platform-specific behaviors for web, iOS, and Android deployments.
+meta:generates: lookup-tables
+meta:requires: [fieldmark-knowledge]
+meta:version: 3.0.0
+meta:document: platform_reference
+meta:depth-tags: [essential]
+-->
+
 ## Overview {essential}
 
 This comprehensive reference consolidates all platform-specific technical details for Fieldmark v3, including behaviors across iOS, Android, Web Desktop, and Web Mobile platforms, performance thresholds, accessibility standards, and platform-specific troubleshooting. All performance thresholds are estimates based on empirical observations and code analysis - they are advisory only and should be tested with your specific hardware and use cases. We welcome performance feedback to improve these estimates.
@@ -26496,6 +27675,17 @@ console.timeEnd('Operation');
 # Fieldmark Notebook Format Guide
 
 <!-- discovery:metadata
+
+<!-- structured:metadata
+meta:purpose: technical-reference
+meta:summary: Complete JSON structure specification with required sections and hierarchy.
+meta:generates: lookup-tables
+meta:requires: [fieldmark-knowledge]
+meta:version: 3.0.0
+meta:document: notebook_format_guide
+meta:depth-tags: [essential]
+-->
+
 provides: [json-structure, notebook-requirements, fviews-structure, validation]
 see-also: [form-structure-guide, designer-component-mapping]
 -->
@@ -26685,6 +27875,17 @@ See: [Designer UI to Component Mapping Reference](./references/designer-componen
 **Usage**: Copy, modify placeholders ({{FIELD_NAME}}), and import into Designer
 
 <!-- discovery:metadata
+
+<!-- structured:metadata
+meta:purpose: technical-reference
+meta:summary: Five complete working notebook examples from minimal to production complexity.
+meta:generates: lookup-tables
+meta:requires: [fieldmark-knowledge]
+meta:version: 3.0.0
+meta:document: notebook_templates
+meta:depth-tags: [essential]
+-->
+
 provides: [complete-notebooks, working-templates, scaffolding-examples, import-ready-json]
 see-also: [notebook-format-guide, designer-component-mapping, field-selection-guide]
 -->
@@ -28054,6 +29255,17 @@ see-also: [notebook-format-guide, designer-component-mapping, field-selection-gu
 **Usage**: Search by error message or symptom to find immediate solutions
 
 <!-- discovery:metadata
+
+<!-- structured:metadata
+meta:purpose: technical-reference
+meta:summary: Error-to-solution mapping with diagnostic flowcharts covering 95% of common issues.
+meta:generates: lookup-tables
+meta:requires: [fieldmark-knowledge]
+meta:version: 3.0.0
+meta:document: troubleshooting_index
+meta:depth-tags: [essential]
+-->
+
 provides: [error-solutions, diagnostic-flowcharts, validation-decoder, common-problems]
 see-also: [notebook-format-guide, constraints-reference, platform-reference]
 -->
@@ -28483,6 +29695,17 @@ Remember: Most import failures are due to:
 # File Organization Guide - Fieldmark Documentation
 
 <!-- discovery:metadata
+
+<!-- structured:metadata
+meta:purpose: technical-reference
+meta:summary: Project structure and file naming conventions for Fieldmark documentation.
+meta:generates: lookup-tables
+meta:requires: [fieldmark-knowledge]
+meta:version: 3.0.0
+meta:document: file_organization_guide
+meta:depth-tags: [essential]
+-->
+
 provides: [project-structure, file-layout, documentation-organization]
 see-also: [manifest]
 -->
@@ -28654,6 +29877,17 @@ reference.md
 **Usage**: Reference for maintaining link integrity across documentation updates
 
 <!-- discovery:metadata
+
+<!-- structured:metadata
+meta:purpose: technical-reference
+meta:summary: Bidirectional link registry and cross-reference validation checklist.
+meta:generates: lookup-tables
+meta:requires: [fieldmark-knowledge]
+meta:version: 3.0.0
+meta:document: navigation_index
+meta:depth-tags: [essential]
+-->
+
 provides: [bidirectional-links, cross-reference-registry, anchor-inventory]
 see-also: [llm-navigation-manifest, field-type-index]
 -->
@@ -28893,11 +30127,11 @@ see-also: [llm-navigation-manifest, field-type-index]
 
 ## Document Metadata
 
-- **Generated**: 2025-09-07T14:53:12+10:00
-- **Total Lines**: 28896
+- **Generated**: 2025-09-07T16:20:54+10:00
+- **Total Lines**: 30130
 - **Field Documents**: 8
-- **Pattern Documents**: 4
-- **Reference Documents**: 12
+- **Pattern Documents**: 5
+- **Reference Documents**: 13
 - **Format**: LLM-optimized concatenated reference
 
 ## Quick Jump Index

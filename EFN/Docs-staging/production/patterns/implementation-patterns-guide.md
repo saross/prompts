@@ -19,6 +19,17 @@ see-also: [all-pattern-guides, constraints-reference]
 
 # Implementation Patterns Guide
 
+
+<!-- structured:metadata
+meta:purpose: implementation-patterns
+meta:summary: Common patterns for validation, workflows, and complex form behaviors.
+meta:generates: notebook-structures
+meta:requires: [field-definitions, form-hierarchy]
+meta:version: 3.0.0
+meta:document: implementation_patterns_guide
+meta:depth-tags: [essential, important]
+-->
+
 ## Overview {essential}
 
 This guide consolidates implementation patterns, troubleshooting strategies, and best practices for Fieldmark v3. It addresses common technical challenges, performance optimization, data management patterns, and integration approaches discovered across all field types.
