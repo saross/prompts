@@ -1,0 +1,594 @@
+{
+  "metadata": {
+    "notebook_version": "1.0.0",
+    "created": "2025-01-07",
+    "name": "demo-archaeological",
+    "description": "Production archaeological context recording"
+  },
+  "ui-specification": {
+    "fields": {
+      "context-id": {
+        "component-namespace": "faims-custom",
+        "component-name": "TemplatedStringField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "name": "context-id",
+          "label": "Context Number",
+          "template": "SITE01-CTX-{{_INCREMENT}}",
+          "required": true
+        }
+      },
+      "trench": {
+        "component-namespace": "faims-custom",
+        "component-name": "Select",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "name": "trench",
+          "label": "Trench/Area",
+          "options": [
+            {
+              "value": "T1",
+              "label": "Trench 1"
+            },
+            {
+              "value": "T2",
+              "label": "Trench 2"
+            },
+            {
+              "value": "T3",
+              "label": "Trench 3"
+            },
+            {
+              "value": "A1",
+              "label": "Area 1"
+            },
+            {
+              "value": "A2",
+              "label": "Area 2"
+            }
+          ],
+          "required": true
+        }
+      },
+      "context-type": {
+        "component-namespace": "faims-custom",
+        "component-name": "RadioGroup",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "name": "context-type",
+          "label": "Context Type",
+          "options": [
+            {
+              "value": "deposit",
+              "label": "Deposit"
+            },
+            {
+              "value": "cut",
+              "label": "Cut"
+            },
+            {
+              "value": "structure",
+              "label": "Structure"
+            },
+            {
+              "value": "fill",
+              "label": "Fill"
+            }
+          ],
+          "required": true,
+          "logic_select": true
+        }
+      },
+      "deposit-type": {
+        "component-namespace": "faims-custom",
+        "component-name": "Select",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "name": "deposit-type",
+          "label": "Deposit Type",
+          "options": [
+            {
+              "value": "topsoil",
+              "label": "Topsoil"
+            },
+            {
+              "value": "subsoil",
+              "label": "Subsoil"
+            },
+            {
+              "value": "occupation",
+              "label": "Occupation Layer"
+            },
+            {
+              "value": "destruction",
+              "label": "Destruction Layer"
+            },
+            {
+              "value": "natural",
+              "label": "Natural"
+            }
+          ]
+        },
+        "is-logic": {
+          "if": "context-type",
+          "==": "deposit"
+        }
+      },
+      "cut-type": {
+        "component-namespace": "faims-custom",
+        "component-name": "Select",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "name": "cut-type",
+          "label": "Cut Type",
+          "options": [
+            {
+              "value": "pit",
+              "label": "Pit"
+            },
+            {
+              "value": "posthole",
+              "label": "Posthole"
+            },
+            {
+              "value": "ditch",
+              "label": "Ditch"
+            },
+            {
+              "value": "foundation",
+              "label": "Foundation Trench"
+            },
+            {
+              "value": "grave",
+              "label": "Grave"
+            }
+          ]
+        },
+        "is-logic": {
+          "if": "context-type",
+          "==": "cut"
+        }
+      },
+      "opening-date": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "DatePicker",
+        "type-returned": "faims-core::Date",
+        "component-parameters": {
+          "name": "opening-date",
+          "label": "Date Opened",
+          "required": true
+        }
+      },
+      "excavator": {
+        "component-namespace": "faims-custom",
+        "component-name": "FAIMSTextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "name": "excavator",
+          "label": "Excavator(s)",
+          "required": true
+        }
+      },
+      "soil-colour": {
+        "component-namespace": "faims-custom",
+        "component-name": "FAIMSTextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "name": "soil-colour",
+          "label": "Soil Colour (Munsell)",
+          "helperText": "e.g., 10YR 3/2"
+        }
+      },
+      "soil-texture": {
+        "component-namespace": "faims-custom",
+        "component-name": "Select",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "name": "soil-texture",
+          "label": "Soil Texture",
+          "options": [
+            {
+              "value": "sand",
+              "label": "Sand"
+            },
+            {
+              "value": "silt",
+              "label": "Silt"
+            },
+            {
+              "value": "clay",
+              "label": "Clay"
+            },
+            {
+              "value": "sandy-silt",
+              "label": "Sandy Silt"
+            },
+            {
+              "value": "silty-clay",
+              "label": "Silty Clay"
+            },
+            {
+              "value": "sandy-clay",
+              "label": "Sandy Clay"
+            }
+          ]
+        }
+      },
+      "compaction": {
+        "component-namespace": "faims-custom",
+        "component-name": "RadioGroup",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "name": "compaction",
+          "label": "Compaction",
+          "options": [
+            {
+              "value": "loose",
+              "label": "Loose"
+            },
+            {
+              "value": "moderate",
+              "label": "Moderate"
+            },
+            {
+              "value": "compact",
+              "label": "Compact"
+            },
+            {
+              "value": "very-compact",
+              "label": "Very Compact"
+            }
+          ]
+        }
+      },
+      "inclusions": {
+        "component-namespace": "faims-custom",
+        "component-name": "MultiSelect",
+        "type-returned": "faims-core::Array",
+        "component-parameters": {
+          "name": "inclusions",
+          "label": "Inclusions",
+          "options": [
+            {
+              "value": "none",
+              "label": "None"
+            },
+            {
+              "value": "charcoal",
+              "label": "Charcoal"
+            },
+            {
+              "value": "pottery",
+              "label": "Pottery"
+            },
+            {
+              "value": "bone",
+              "label": "Bone"
+            },
+            {
+              "value": "stone",
+              "label": "Stone"
+            },
+            {
+              "value": "brick",
+              "label": "Brick/Tile"
+            },
+            {
+              "value": "metal",
+              "label": "Metal"
+            },
+            {
+              "value": "glass",
+              "label": "Glass"
+            }
+          ],
+          "expandedChecklist": true,
+          "exclusiveOptions": [
+            "none"
+          ]
+        }
+      },
+      "dimensions-length": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::Number",
+        "component-parameters": {
+          "name": "dimensions-length",
+          "label": "Length (m)",
+          "InputProps": {
+            "type": "number",
+            "step": 0.01
+          },
+          "min": 0
+        }
+      },
+      "dimensions-width": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::Number",
+        "component-parameters": {
+          "name": "dimensions-width",
+          "label": "Width (m)",
+          "InputProps": {
+            "type": "number",
+            "step": 0.01
+          },
+          "min": 0
+        }
+      },
+      "dimensions-depth": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::Number",
+        "component-parameters": {
+          "name": "dimensions-depth",
+          "label": "Depth/Thickness (m)",
+          "InputProps": {
+            "type": "number",
+            "step": 0.01
+          },
+          "min": 0
+        }
+      },
+      "stratigraphic-relationships": {
+        "component-namespace": "faims-custom",
+        "component-name": "RelatedRecordSelector",
+        "type-returned": "faims-core::Relationship",
+        "component-parameters": {
+          "name": "stratigraphic-relationships",
+          "label": "Stratigraphic Relationships",
+          "relation_type": "stratigraphic",
+          "vocabulary": [
+            {
+              "label": "Above",
+              "value": "above"
+            },
+            {
+              "label": "Below",
+              "value": "below"
+            },
+            {
+              "label": "Cuts",
+              "value": "cuts"
+            },
+            {
+              "label": "Cut by",
+              "value": "cut-by"
+            },
+            {
+              "label": "Fills",
+              "value": "fills"
+            },
+            {
+              "label": "Filled by",
+              "value": "filled-by"
+            },
+            {
+              "label": "Same as",
+              "value": "same-as"
+            }
+          ]
+        }
+      },
+      "interpretation": {
+        "component-namespace": "faims-custom",
+        "component-name": "MultipleTextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "name": "interpretation",
+          "label": "Interpretation",
+          "helperText": "Preliminary interpretation of the context",
+          "multiline": true,
+          "rows": 4,
+          "required": true
+        }
+      },
+      "finds-collected": {
+        "component-namespace": "faims-custom",
+        "component-name": "Checkbox",
+        "type-returned": "faims-core::Bool",
+        "component-parameters": {
+          "name": "finds-collected",
+          "label": "Finds collected",
+          "logic_select": true
+        }
+      },
+      "finds-summary": {
+        "component-namespace": "faims-custom",
+        "component-name": "MultipleTextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "name": "finds-summary",
+          "label": "Finds Summary",
+          "helperText": "Brief description of finds",
+          "multiline": true,
+          "rows": 2
+        },
+        "is-logic": {
+          "if": "finds-collected",
+          "==": true
+        }
+      },
+      "samples-taken": {
+        "component-namespace": "faims-custom",
+        "component-name": "MultiSelect",
+        "type-returned": "faims-core::Array",
+        "component-parameters": {
+          "name": "samples-taken",
+          "label": "Samples Taken",
+          "options": [
+            {
+              "value": "none",
+              "label": "None"
+            },
+            {
+              "value": "soil",
+              "label": "Soil Sample"
+            },
+            {
+              "value": "flotation",
+              "label": "Flotation"
+            },
+            {
+              "value": "c14",
+              "label": "C14"
+            },
+            {
+              "value": "pollen",
+              "label": "Pollen"
+            },
+            {
+              "value": "phytolith",
+              "label": "Phytolith"
+            },
+            {
+              "value": "other",
+              "label": "Other"
+            }
+          ],
+          "expandedChecklist": true,
+          "exclusiveOptions": [
+            "none"
+          ]
+        }
+      },
+      "photo-plan": {
+        "component-namespace": "faims-custom",
+        "component-name": "TakePhoto",
+        "type-returned": "faims-core::File",
+        "component-parameters": {
+          "name": "photo-plan",
+          "label": "Plan Photo",
+          "helperText": "Overview from above"
+        }
+      },
+      "photo-section": {
+        "component-namespace": "faims-custom",
+        "component-name": "TakePhoto",
+        "type-returned": "faims-core::File",
+        "component-parameters": {
+          "name": "photo-section",
+          "label": "Section Photo",
+          "helperText": "Profile/section view"
+        }
+      },
+      "drawing-refs": {
+        "component-namespace": "faims-custom",
+        "component-name": "FAIMSTextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "name": "drawing-refs",
+          "label": "Drawing References",
+          "helperText": "Plan/section drawing numbers"
+        }
+      },
+      "closed-date": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "DatePicker",
+        "type-returned": "faims-core::Date",
+        "component-parameters": {
+          "name": "closed-date",
+          "label": "Date Closed"
+        }
+      },
+      "recorder-notes": {
+        "component-namespace": "faims-custom",
+        "component-name": "MultipleTextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "name": "recorder-notes",
+          "label": "Recorder Notes",
+          "helperText": "Additional observations",
+          "multiline": true,
+          "rows": 3
+        }
+      }
+    },
+    "fviews": {
+      "identification": {
+        "fields": [
+          "context-id",
+          "trench",
+          "context-type",
+          "deposit-type",
+          "cut-type",
+          "opening-date",
+          "excavator"
+        ],
+        "label": "Identification",
+        "uidesign": "form"
+      },
+      "description": {
+        "fields": [
+          "soil-colour",
+          "soil-texture",
+          "compaction",
+          "inclusions"
+        ],
+        "label": "Physical Description",
+        "uidesign": "form"
+      },
+      "dimensions": {
+        "fields": [
+          "dimensions-length",
+          "dimensions-width",
+          "dimensions-depth"
+        ],
+        "label": "Dimensions",
+        "uidesign": "form"
+      },
+      "stratigraphy": {
+        "fields": [
+          "stratigraphic-relationships",
+          "interpretation"
+        ],
+        "label": "Stratigraphy & Interpretation",
+        "uidesign": "form"
+      },
+      "finds-samples": {
+        "fields": [
+          "finds-collected",
+          "finds-summary",
+          "samples-taken"
+        ],
+        "label": "Finds & Samples",
+        "uidesign": "form"
+      },
+      "documentation": {
+        "fields": [
+          "photo-plan",
+          "photo-section",
+          "drawing-refs"
+        ],
+        "label": "Documentation",
+        "uidesign": "form"
+      },
+      "closure": {
+        "fields": [
+          "closed-date",
+          "recorder-notes"
+        ],
+        "label": "Closure",
+        "uidesign": "form"
+      }
+    },
+    "viewsets": {
+      "context-record": {
+        "views": [
+          "identification",
+          "description",
+          "dimensions",
+          "stratigraphy",
+          "finds-samples",
+          "documentation",
+          "closure"
+        ],
+        "label": "Context Record",
+        "publishButtonBehaviour": "always"
+      }
+    },
+    "visible_types": [
+      "context-record"
+    ]
+  }
+}

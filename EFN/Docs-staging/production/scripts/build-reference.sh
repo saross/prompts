@@ -22,6 +22,16 @@ echo "================================================"
 echo -e "${YELLOW}Adding master index...${NC}"
 cat "$BASE_DIR/references/field-type-index.md" > "$OUTPUT_FILE"
 
+# Add LLM navigation manifest for content discovery
+echo -e "${YELLOW}Adding LLM navigation manifest...${NC}"
+if [ -f "$BASE_DIR/references/llm-navigation-manifest.md" ]; then
+    echo "  - Adding llm-navigation-manifest.md"
+    echo -e "\n\n<!-- concat:reference:llm-navigation-manifest -->" >> "$OUTPUT_FILE"
+    cat "$BASE_DIR/references/llm-navigation-manifest.md" >> "$OUTPUT_FILE"
+else
+    echo "  ⚠ Warning: llm-navigation-manifest.md not found"
+fi
+
 # Add separator
 echo -e "\n\n<!-- ============================================ -->" >> "$OUTPUT_FILE"
 echo "<!-- FIELD TYPE DOCUMENTATION -->" >> "$OUTPUT_FILE"
@@ -91,7 +101,10 @@ REFERENCE_DOCS=(
     "operations-reference"         # Migration and troubleshooting
     "platform-reference"          # Platform-specific behaviors
     "notebook-format-guide"       # JSON structure guide
+    "notebook-templates"          # Complete working examples
+    "troubleshooting-index"       # Error solutions and diagnostics
     "file-organization-guide"     # Project structure
+    "navigation-index"            # Bidirectional link registry
 )
 
 for doc in "${REFERENCE_DOCS[@]}"; do

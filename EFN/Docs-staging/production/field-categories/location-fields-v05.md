@@ -8,6 +8,12 @@ json_only: ["MapForm", "geometry_types", "map_layers"]
 last_updated: 2025-01-05
 -->
 
+<!-- discovery:metadata
+provides: [gps-capture, map-fields, coordinate-input, location-privacy]
+see-also: [platform-reference, media-fields-v05]
+-->
+
+
 # Location Fields - Fieldmark v3 Documentation
 
 ## Document Navigation {essential}
@@ -1222,6 +1228,28 @@ See [Performance Thresholds Reference](../reference-docs/performance-thresholds-
 - **Security Level**: Location privacy concerns
 - **Performance Limits**: 1000 points (TakePoint), 500 vertices (MapFormField)
 - **Reference Docs**: 9 linked documents
+---
+
+
+## Fields in Complete Notebooks {important}
+
+For complete working examples showing how these fields integrate into full notebook structures with fviews and viewsets, see:
+
+→ **[Complete Notebook Templates](../references/notebook-templates.md)**
+
+The templates include:
+- Minimal survey (3 fields) 
+- Basic data collection (10 fields)
+- Complex form with validation (20 fields)
+- Mobile-optimized with GPS/Photo
+- Production archaeological recording
+
+Each template shows the complete JSON structure required for import into Designer, including:
+- Proper field → fview → viewset hierarchy
+- Required `name` parameters for all fields
+- Working validation schemas
+- Conditional logic examples
+
 ---
 
 ## Related Documentation {important}

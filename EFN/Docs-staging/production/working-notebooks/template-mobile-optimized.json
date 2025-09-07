@@ -1,0 +1,310 @@
+{
+  "metadata": {
+    "notebook_version": "1.0.0",
+    "created": "2025-01-07",
+    "name": "demo-mobile",
+    "description": "Mobile-optimized form with GPS and photo capture"
+  },
+  "ui-specification": {
+    "fields": {
+      "observation-id": {
+        "component-namespace": "faims-custom",
+        "component-name": "TemplatedStringField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "name": "observation-id",
+          "label": "Observation ID",
+          "template": "OBS-{{_CREATED_DATE}}-{{_INCREMENT}}",
+          "required": true
+        }
+      },
+      "observer-name": {
+        "component-namespace": "faims-custom",
+        "component-name": "FAIMSTextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "name": "observer-name",
+          "label": "Observer",
+          "initialValue": "{{_USER}}",
+          "required": true
+        }
+      },
+      "observation-time": {
+        "component-namespace": "faims-custom",
+        "component-name": "DateTimeNow",
+        "type-returned": "faims-core::DateTime",
+        "component-parameters": {
+          "name": "observation-time",
+          "label": "Observation Time"
+        }
+      },
+      "location-point": {
+        "component-namespace": "faims-custom",
+        "component-name": "TakePoint",
+        "type-returned": "faims-core::JSON",
+        "component-parameters": {
+          "name": "location-point",
+          "label": "GPS Location",
+          "helperText": "Tap to capture current GPS position",
+          "required": true
+        }
+      },
+      "location-accuracy": {
+        "component-namespace": "faims-custom",
+        "component-name": "RadioGroup",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "name": "location-accuracy",
+          "label": "GPS Accuracy",
+          "options": [
+            {
+              "value": "high",
+              "label": "High (<5m)"
+            },
+            {
+              "value": "medium",
+              "label": "Medium (5-15m)"
+            },
+            {
+              "value": "low",
+              "label": "Low (>15m)"
+            }
+          ]
+        }
+      },
+      "observation-type": {
+        "component-namespace": "faims-custom",
+        "component-name": "RadioGroup",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "name": "observation-type",
+          "label": "Observation Type",
+          "options": [
+            {
+              "value": "flora",
+              "label": "Flora"
+            },
+            {
+              "value": "fauna",
+              "label": "Fauna"
+            },
+            {
+              "value": "geological",
+              "label": "Geological"
+            },
+            {
+              "value": "cultural",
+              "label": "Cultural"
+            },
+            {
+              "value": "other",
+              "label": "Other"
+            }
+          ],
+          "required": true
+        }
+      },
+      "quick-description": {
+        "component-namespace": "faims-custom",
+        "component-name": "FAIMSTextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "name": "quick-description",
+          "label": "Quick Description",
+          "helperText": "Brief description (voice input available)",
+          "required": true
+        }
+      },
+      "photo-1": {
+        "component-namespace": "faims-custom",
+        "component-name": "TakePhoto",
+        "type-returned": "faims-core::File",
+        "component-parameters": {
+          "name": "photo-1",
+          "label": "Primary Photo",
+          "helperText": "Tap to take photo"
+        }
+      },
+      "photo-2": {
+        "component-namespace": "faims-custom",
+        "component-name": "TakePhoto",
+        "type-returned": "faims-core::File",
+        "component-parameters": {
+          "name": "photo-2",
+          "label": "Context Photo",
+          "helperText": "Optional wider context shot"
+        }
+      },
+      "abundance": {
+        "component-namespace": "faims-custom",
+        "component-name": "RadioGroup",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "name": "abundance",
+          "label": "Abundance",
+          "options": [
+            {
+              "value": "single",
+              "label": "Single"
+            },
+            {
+              "value": "few",
+              "label": "Few (2-10)"
+            },
+            {
+              "value": "many",
+              "label": "Many (11-100)"
+            },
+            {
+              "value": "abundant",
+              "label": "Abundant (>100)"
+            }
+          ]
+        }
+      },
+      "confidence": {
+        "component-namespace": "faims-custom",
+        "component-name": "RadioGroup",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "name": "confidence",
+          "label": "ID Confidence",
+          "options": [
+            {
+              "value": "certain",
+              "label": "Certain"
+            },
+            {
+              "value": "probable",
+              "label": "Probable"
+            },
+            {
+              "value": "possible",
+              "label": "Possible"
+            }
+          ],
+          "required": true
+        }
+      },
+      "specimen-collected": {
+        "component-namespace": "faims-custom",
+        "component-name": "Checkbox",
+        "type-returned": "faims-core::Bool",
+        "component-parameters": {
+          "name": "specimen-collected",
+          "label": "Specimen collected",
+          "logic_select": true
+        }
+      },
+      "specimen-id": {
+        "component-namespace": "faims-custom",
+        "component-name": "FAIMSTextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "name": "specimen-id",
+          "label": "Specimen ID",
+          "helperText": "Enter specimen bag/container ID"
+        },
+        "is-logic": {
+          "if": "specimen-collected",
+          "==": true
+        }
+      },
+      "weather": {
+        "component-namespace": "faims-custom",
+        "component-name": "RadioGroup",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "name": "weather",
+          "label": "Weather",
+          "options": [
+            {
+              "value": "sunny",
+              "label": "\u2600\ufe0f Sunny"
+            },
+            {
+              "value": "cloudy",
+              "label": "\u2601\ufe0f Cloudy"
+            },
+            {
+              "value": "rain",
+              "label": "\ud83c\udf27\ufe0f Rain"
+            },
+            {
+              "value": "wind",
+              "label": "\ud83d\udca8 Windy"
+            }
+          ]
+        }
+      },
+      "field-notes": {
+        "component-namespace": "faims-custom",
+        "component-name": "MultipleTextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "name": "field-notes",
+          "label": "Field Notes",
+          "helperText": "Additional observations",
+          "multiline": true,
+          "rows": 3
+        }
+      }
+    },
+    "fviews": {
+      "quick-capture": {
+        "fields": [
+          "observation-id",
+          "observer-name",
+          "observation-time",
+          "location-point",
+          "location-accuracy"
+        ],
+        "label": "Location & Time",
+        "uidesign": "form"
+      },
+      "observation": {
+        "fields": [
+          "observation-type",
+          "quick-description",
+          "photo-1",
+          "photo-2"
+        ],
+        "label": "Observation",
+        "uidesign": "form"
+      },
+      "details": {
+        "fields": [
+          "abundance",
+          "confidence",
+          "specimen-collected",
+          "specimen-id"
+        ],
+        "label": "Details",
+        "uidesign": "form"
+      },
+      "conditions": {
+        "fields": [
+          "weather",
+          "field-notes"
+        ],
+        "label": "Conditions & Notes",
+        "uidesign": "form"
+      }
+    },
+    "viewsets": {
+      "mobile-observation": {
+        "views": [
+          "quick-capture",
+          "observation",
+          "details",
+          "conditions"
+        ],
+        "label": "Field Observation",
+        "publishButtonBehaviour": "always"
+      }
+    },
+    "visible_types": [
+      "mobile-observation"
+    ]
+  }
+}

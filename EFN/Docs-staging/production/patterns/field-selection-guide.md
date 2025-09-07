@@ -11,6 +11,12 @@ source_documents:
   - quick-start.md (12KB) - selection examples only
 -->
 
+<!-- discovery:metadata
+provides: [decision-matrices, selection-guidance, comparison-tables, use-case-mapping]
+see-also: [all-field-categories, platform-reference]
+-->
+
+
 # Field Selection Guide for Fieldmark Notebooks {essential}
 
 📚 [Field Documentation](../field-type-index.md) > Patterns > Field Selection Guide

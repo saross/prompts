@@ -11,6 +11,12 @@ source_documents:
   - quick-start.md (12KB) - implementation examples only
 -->
 
+<!-- discovery:metadata
+provides: [common-patterns, error-handling, performance-tips, best-practices]
+see-also: [all-pattern-guides, constraints-reference]
+-->
+
+
 # Implementation Patterns Guide
 
 ## Overview {essential}

@@ -12,6 +12,12 @@ source_documents:
   - troubleshooting-framework-reference.md (9KB) - platform issues only
 -->
 
+<!-- discovery:metadata
+provides: [platform-behaviors, mobile-issues, browser-differences, offline-support]
+see-also: [location-fields, media-fields, constraints-reference]
+-->
+
+
 # Platform Reference
 
 ## Overview {essential}

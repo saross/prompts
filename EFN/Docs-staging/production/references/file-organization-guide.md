@@ -1,5 +1,11 @@
 # File Organization Guide - Fieldmark Documentation
 
+<!-- discovery:metadata
+provides: [project-structure, file-layout, documentation-organization]
+see-also: [manifest]
+-->
+
+
 ## Date: 2025-01-07
 
 ## Production Files (Keep & Maintain)

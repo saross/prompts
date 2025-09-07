@@ -1,4 +1,10 @@
 # Constraints Reference
+
+<!-- discovery:metadata
+provides: [security-issues, designer-limitations, vulnerabilities, workarounds]
+see-also: [platform-reference, operations-reference]
+-->
+
 ## Designer Limitations and Security Considerations for Fieldmark v3 {essential}
 
 ## Overview {essential}

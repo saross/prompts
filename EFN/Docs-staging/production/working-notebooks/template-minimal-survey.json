@@ -1,0 +1,103 @@
+{
+  "metadata": {
+    "notebook_version": "1.0.0",
+    "created": "2025-01-07",
+    "name": "demo-minimal",
+    "description": "Minimal survey with 3 fields"
+  },
+  "ui-specification": {
+    "fields": {
+      "survey-id": {
+        "component-namespace": "faims-custom",
+        "component-name": "TemplatedStringField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "name": "survey-id",
+          "label": "Survey ID",
+          "template": "SURV-{{_CREATED_TIME}}-{{_INCREMENT}}",
+          "required": true
+        }
+      },
+      "respondent-name": {
+        "component-namespace": "faims-custom",
+        "component-name": "FAIMSTextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "name": "respondent-name",
+          "label": "Respondent Name",
+          "helperText": "Enter the respondent's full name",
+          "required": true,
+          "inputProps": {
+            "maxLength": 100
+          }
+        },
+        "validationSchema": [
+          [
+            "yup.string"
+          ],
+          [
+            "yup.required",
+            "Name is required"
+          ]
+        ]
+      },
+      "satisfaction-score": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::Number",
+        "component-parameters": {
+          "name": "satisfaction-score",
+          "label": "Satisfaction Score (1-10)",
+          "InputProps": {
+            "type": "number"
+          },
+          "min": 1,
+          "max": 10,
+          "required": true
+        },
+        "validationSchema": [
+          [
+            "yup.number"
+          ],
+          [
+            "yup.min",
+            1,
+            "Score must be at least 1"
+          ],
+          [
+            "yup.max",
+            10,
+            "Score cannot exceed 10"
+          ],
+          [
+            "yup.required",
+            "Score is required"
+          ]
+        ]
+      }
+    },
+    "fviews": {
+      "survey-form": {
+        "fields": [
+          "survey-id",
+          "respondent-name",
+          "satisfaction-score"
+        ],
+        "label": "Survey Form",
+        "uidesign": "form"
+      }
+    },
+    "viewsets": {
+      "main-survey": {
+        "views": [
+          "survey-form"
+        ],
+        "label": "Survey",
+        "publishButtonBehaviour": "always"
+      }
+    },
+    "visible_types": [
+      "main-survey"
+    ]
+  }
+}

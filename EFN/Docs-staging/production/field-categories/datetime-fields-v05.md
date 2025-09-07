@@ -8,6 +8,12 @@ json_only: ["compute_value", "custom_formats"]
 last_updated: 2025-01-05
 -->
 
+<!-- discovery:metadata
+provides: [date-pickers, time-input, datetime-now, month-picker, timezone-handling]
+see-also: [field-selection-guide, platform-reference]
+-->
+
+
 # Date-Time Input Fields
 
 ## Document Navigation {essential}
@@ -2870,8 +2876,8 @@ For ancient history and archaeology spanning BCE/CE, use numeric fields rather t
 - `TEST` Auto-pick protection: Set `is_auto_pick: true`, try to modify after creation
 - `TEST` Historical dates: Enter date from 1800s, verify acceptance
 - `TEST` Now button location: Check position on iOS vs Android vs desktop
-- `XREF` See [Field Reference > DateTimeNow]
-- `XREF` See [Troubleshooting Guide > Critical Issues]
+- See [DateTimeNow Configuration](#datetimenow-configuration)
+- See [Critical Issues](#critical-issues)
 - `VERSION` 2025-08
 
 ### DateTimePicker
@@ -2892,8 +2898,8 @@ For ancient history and archaeology spanning BCE/CE, use numeric fields rather t
 - `TEST` Timezone loss: Save "14:30", export CSV, verify no "Z" or timezone indicator
 - `TEST` Cross-site confusion: Enter same time in different locations, compare exports
 - `TEST` Migration need: Check if stored values lack timezone information
-- `XREF` See [Migration Warnings Index > Safe Migrations]
-- `XREF` See [Field Selection Guide > Quick Decision Matrix]
+- See [Migration Guide](../references/operations-reference.md)
+- See [Field Selection Guide](../patterns/field-selection-guide.md)
 - `VERSION` 2025-08
 
 ### DatePicker
@@ -2919,8 +2925,8 @@ For ancient history and archaeology spanning BCE/CE, use numeric fields rather t
 - `TEST` Locale issues: Enter 01/02/2024, verify interpretation (Jan 2 vs Feb 1)
 - `TEST` Excel corruption: Export dates to CSV, open in Excel, check format changes
 - `TEST` iOS picker: Open on iPhone, verify full-screen behavior blocks form
-- `XREF` See [Field Reference > DatePicker]
-- `XREF` See [Troubleshooting Guide > Excel Date Format Corruption]
+- See [DatePicker Configuration](#datepicker-configuration)
+- See [Excel Export Issues](#excel-export-issues)
 - `VERSION` 2025-08
 
 ### MonthPicker
@@ -2945,8 +2951,8 @@ For ancient history and archaeology spanning BCE/CE, use numeric fields rather t
 - `TEST` Verify format: Save selection, export should show "YYYY-MM" only
 - `TEST` Day appending: Check if "-01" gets added on export or display
 - `TEST` Browser support: Test HTML5 month input on Safari, Firefox, Chrome
-- `XREF` See [Field Reference > MonthPicker]
-- `XREF` See [Troubleshooting Guide > When Format Issues Occur]
+- See [MonthPicker Configuration](#monthpicker-configuration)
+- See [Format Issues](#format-issues)
 - `VERSION` 2025-08
 
 ### Common Date/Time Quirks
@@ -2972,8 +2978,8 @@ For ancient history and archaeology spanning BCE/CE, use numeric fields rather t
   ]
   ```
 - `FIX` Train platform-specific: iOS users swipe wheels, Android users tap calendar
-- `XREF` See [Common Characteristics > Platform Behaviors]
-- `XREF` See [JSON Examples > Integration Patterns]
+- See [Platform-Specific Behaviors](../references/platform-reference.md)
+- See [Integration Patterns](#integration-patterns)
 - `VERSION` 2025-08
 
 ---
@@ -3533,6 +3539,28 @@ Version 2.0 restores approximately 30% of technical implementation details that 
 - ⚠️ ALWAYS import Excel as text to prevent corruption
 - ⚠️ UTC storage may confuse users (training required)
 - ⚠️ No validation for date ranges or temporal constraints
+---
+
+
+## Fields in Complete Notebooks {important}
+
+For complete working examples showing how these fields integrate into full notebook structures with fviews and viewsets, see:
+
+→ **[Complete Notebook Templates](../references/notebook-templates.md)**
+
+The templates include:
+- Minimal survey (3 fields) 
+- Basic data collection (10 fields)
+- Complex form with validation (20 fields)
+- Mobile-optimized with GPS/Photo
+- Production archaeological recording
+
+Each template shows the complete JSON structure required for import into Designer, including:
+- Proper field → fview → viewset hierarchy
+- Required `name` parameters for all fields
+- Working validation schemas
+- Conditional logic examples
+
 ---
 
 ## Related Documentation {important}

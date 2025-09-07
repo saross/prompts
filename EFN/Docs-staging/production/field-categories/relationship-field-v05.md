@@ -8,6 +8,12 @@ json_only: ["complex_rules", "cascading_relationships"]
 last_updated: 2025-01-05
 -->
 
+<!-- discovery:metadata
+provides: [record-relationships, parent-child, peer-links, access-control]
+see-also: [form-structure-guide, dynamic-forms-guide]
+-->
+
+
 # Relationship Field - Fieldmark v3 Documentation
 
 ## Document Navigation {essential}
@@ -1351,6 +1357,28 @@ Note: Vocabulary is immutable - must plan before deployment
 - **Key Limitations**: 50 relationship limit, immutable vocabulary, orphan behavior
 - **Performance Critical**: Yes - degrades rapidly
 - **Reference Docs**: 9 linked documents
+---
+
+
+## Fields in Complete Notebooks {important}
+
+For complete working examples showing how these fields integrate into full notebook structures with fviews and viewsets, see:
+
+→ **[Complete Notebook Templates](../references/notebook-templates.md)**
+
+The templates include:
+- Minimal survey (3 fields) 
+- Basic data collection (10 fields)
+- Complex form with validation (20 fields)
+- Mobile-optimized with GPS/Photo
+- Production archaeological recording
+
+Each template shows the complete JSON structure required for import into Designer, including:
+- Proper field → fview → viewset hierarchy
+- Required `name` parameters for all fields
+- Working validation schemas
+- Conditional logic examples
+
 ---
 
 ## Related Documentation {important}

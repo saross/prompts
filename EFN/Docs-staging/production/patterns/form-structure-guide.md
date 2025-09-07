@@ -11,6 +11,12 @@ source_documents:
   - quick-start.md (12KB) - structure examples only
 -->
 
+<!-- discovery:metadata
+provides: [viewsets, fviews, multi-section-forms, navigation-patterns]
+see-also: [notebook-format-guide, relationship-field-v05]
+-->
+
+
 # Form Structure Guide
 
 ## Overview {essential}

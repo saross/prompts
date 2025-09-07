@@ -12,6 +12,12 @@ source_documents:
   - type-system-reference.md (7KB)
 -->
 
+<!-- discovery:metadata
+provides: [namespaces, formik-integration, component-types, technical-details]
+see-also: [designer-component-mapping, all-field-categories]
+-->
+
+
 # Component Reference
 
 ## Overview {essential}

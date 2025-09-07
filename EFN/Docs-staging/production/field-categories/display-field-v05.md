@@ -8,6 +8,12 @@ json_only: ["html_content", "dynamic_generation"]
 last_updated: 2025-01-05
 -->
 
+<!-- discovery:metadata
+provides: [richtext-display, markdown-rendering, static-content]
+see-also: [text-fields-v05]
+-->
+
+
 # Display Field - Fieldmark v3 Documentation
 
 ## Document Navigation {essential}
@@ -1134,6 +1140,28 @@ See [Performance Thresholds Reference](../reference-docs/performance-thresholds-
 - **Key Limitations**: Memory leaks, no caching, tables stripped, no accessibility
 - **Performance Critical**: Yes - degrades with content
 - **Reference Docs**: 9 linked documents
+---
+
+
+## Fields in Complete Notebooks {important}
+
+For complete working examples showing how these fields integrate into full notebook structures with fviews and viewsets, see:
+
+→ **[Complete Notebook Templates](../references/notebook-templates.md)**
+
+The templates include:
+- Minimal survey (3 fields) 
+- Basic data collection (10 fields)
+- Complex form with validation (20 fields)
+- Mobile-optimized with GPS/Photo
+- Production archaeological recording
+
+Each template shows the complete JSON structure required for import into Designer, including:
+- Proper field → fview → viewset hierarchy
+- Required `name` parameters for all fields
+- Working validation schemas
+- Conditional logic examples
+
 ---
 
 ## Related Documentation {important}

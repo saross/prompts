@@ -8,6 +8,12 @@ json_only: ["BasicAutoIncrementer", "step_increments"]
 last_updated: 2025-01-05
 -->
 
+<!-- discovery:metadata
+provides: [numeric-input, controlled-number, auto-increment, validation-ranges]
+see-also: [field-selection-guide, constraints-reference]
+-->
+
+
 # Number Input Fields
 
 ## Document Navigation {essential}
@@ -1982,32 +1988,32 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
   - `ERROR` User cannot enter negative values on iOS devices
   - `FIX` Copy-paste from Notes app or implement TextField with pattern validation
   - `TEST` Open any numeric field on iOS Safari/Chrome
-  - `XREF` See [Common Characteristics > Platform Behaviors > iOS Platform]
+  - See [Platform-Specific Behaviors](../references/platform-reference.md)
 - `QUIRK` Deprecated "Number Field" still visible in Designer interface
   - `ERROR` Selecting "Number Field" uses legacy TextField implementation
   - `FIX` Always select "Number Input" instead
   - `TEST` Check Designer field selector for both options
-  - `XREF` See [Overview > CRITICAL: Deprecated Field Warning]
+  - See [Deprecated Field Warning](#deprecated-warning)
 - `QUIRK` Touch targets (36px) below WCAG minimum (44px) for all numeric inputs
   - `ERROR` Difficult selection for users with motor impairments
   - `FIX` Custom CSS to increase touch target size
   - `TEST` Measure spinner control dimensions in DevTools
-  - `XREF` See [Common Characteristics > Accessibility Compliance]
+  - See [Accessibility Considerations](#accessibility)
 - `QUIRK` Android shows minus key even when min=0 configured
   - `ERROR` Users type negative values that fail validation
   - `FIX` Add clear helperText explaining valid range
   - `TEST` Open ControlledNumber with min=0 on Android
-  - `XREF` See [Common Characteristics > Platform Behaviors > Android Platform]
+  - See [Platform-Specific Behaviors](../references/platform-reference.md)
 - `QUIRK` Voice input requires exact numeric pronunciation
   - `ERROR` "one thousand" produces NaN, must say "one zero zero zero"
   - `FIX` Train users on exact format or provide manual entry
   - `TEST` Try voice input with natural language vs exact numbers
-  - `XREF` See [Common Characteristics > Voice Input Requirements]
+  - See [Platform Notes](#platform-notes)
 - `QUIRK` No thousands separators in any numeric field
   - `ERROR` 1000000 displays without commas, hard to read
   - `FIX` Feature pending - use TextField for formatted display
   - `TEST` Enter large number, check display format
-  - `XREF` See [Migration and Best Practices > Known Limitations]
+  - See [Known Limitations](#known-limitations)
 - `VERSION` 2025-08
 
 ### NumberInput
@@ -2015,12 +2021,12 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
   - `ERROR` "Field 'NumberInput' not found in component registry"
   - `FIX` Use exact JSON: `"component-name": "NumberField"`
   - `TEST` Verify JSON: `grep '"component-name".*NumberField' notebook.json`
-  - `XREF` See [Overview > Designer Quick Guide]
+  - See [Designer Quick Guide](#designer-quick-guide)
 - `QUIRK` Precision silently truncated beyond 15-17 significant digits
   - `ERROR` No warning when 3.14159265358979323846 → 3.141592653589793
   - `FIX` Document precision limits in helperText
   - `TEST` Enter 20-digit number, check stored value
-  - `XREF` See [Common Characteristics > Configuration Rules]
+  - See [Configuration Rules](#configuration-rules)
 - `QUIRK` Empty field shows "Must be a number" despite not being required
   - `ERROR` "Must be a number" on blur of empty non-required field
   - `FIX` Add nullable validation:
@@ -2031,12 +2037,12 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
     ]
     ```
   - `TEST` Blur empty field without nullable()
-  - `XREF` See [Common Characteristics > Validation Patterns]
+  - See [Validation Patterns](#validation-patterns)
 - `QUIRK` Scientific notation auto-converts at 10000000 (1e7)
   - `ERROR` Users confused by "1e7" display format
   - `FIX` Add helperText explaining scientific notation
   - `TEST` Enter 10000000, observe auto-conversion
-  - `XREF` See [Individual Field Reference > NumberInput > Storage Characteristics]
+  - See field details above
 - `QUIRK` Trailing zeros never preserved (42.000 → 42)
   - `ERROR` Format requirements lost, precision appears reduced
 - `QUIRK` Spin buttons have custom styling (gray background #9F9F9F, 2px black border)
@@ -2045,22 +2051,22 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
   - `TEST` Inspect element to verify webkit-inner-spin-button styles
   - `FIX` Use TextField if trailing zeros critical
   - `TEST` Enter 3.1400, check stored value
-  - `XREF` See [Individual Field Reference > NumberInput > Storage Characteristics]
+  - See field details above
 - `QUIRK` Values >1.8×10³⁰⁸ overflow to Infinity, stored as null
   - `ERROR` Extreme values silently lost
   - `FIX` Add reasonable max bounds validation
   - `TEST` Enter 1e309, check storage (becomes null)
-  - `XREF` See [Common Characteristics > Data Type Specifications]
+  - See [Data Type Specifications](#data-types)
 - `QUIRK` NaN results stored as null
   - `ERROR` Invalid calculations produce null not NaN
   - `FIX` Validate before calculations
   - `TEST` Force NaN condition, check database
-  - `XREF` See [Field Interaction Matrix > Data Type Interactions]
+  - See [Field Interactions](#field-interactions)
 - `QUIRK` Paste non-numeric silently converts to null on blur
   - `ERROR` Paste "about 100" → null without warning
   - `FIX` Pattern validation or preprocessing
   - `TEST` Paste text into numeric field, blur
-  - `XREF` See [Field Interaction Matrix > Validation Cascades]
+  - See [Field Interactions](#field-interactions)
 - `VERSION` 2025-08
 
 ### ControlledNumber
@@ -2074,22 +2080,22 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
     ]
     ```
   - `TEST` Enter 3.14 in Integer field: `typeof value === 'number' && value === 3.14`
-  - `XREF` See [Individual Field Reference > ControlledNumber > Critical Type Declaration Mismatch]
+  - See field details above
 - `QUIRK` Initial value always 0, may violate minimum constraint
   - `ERROR` "Value must be at least 1" on form load when min=1
   - `FIX` Set min=0 or accept initial validation error
   - `TEST` Configure min=1, check initial state
-  - `XREF` See [Individual Field Reference > ControlledNumber > Known Issues]
+  - See field details above
 - `QUIRK` Cannot store null - always has numeric value
   - `ERROR` Cannot distinguish "not measured" from zero
   - `FIX` Use NumberInput if null values needed
   - `TEST` Try to clear field completely
-  - `XREF` See [Individual Field Reference > ControlledNumber > Key Features]
+  - See field details above
 - `QUIRK` Android minus key visible even with min=0
   - `ERROR` Confusing UI - key present but values rejected
   - `FIX` Clear helperText about valid range
   - `TEST` Open field with min=0 on Android device
-  - `XREF` See [Common Characteristics > Platform Behaviors > Android Platform]
+  - See [Platform-Specific Behaviors](../references/platform-reference.md)
 - `VERSION` 2025-08
 
 ### BasicAutoIncrementer
@@ -2104,7 +2110,7 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
     const display = `ID-${autoValue}`; // String concatenation
     ```
   - `TEST` Check type: `typeof fieldValue === 'string'`
-  - `XREF` See [Individual Field Reference > BasicAutoIncrementer > Critical Return Type Warning]
+  - See field details above
 - `QUIRK` Excel strips leading zeros without protection
   - `ERROR` CSV "00042" becomes 42 in Excel
   - `FIX` Always wrap in TemplatedString:
@@ -2115,27 +2121,27 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
     }
     ```
   - `TEST` Export CSV, open in Excel, verify zero preservation
-  - `XREF` See [Individual Field Reference > BasicAutoIncrementer > Field-Specific Features]
+  - See field details above
 - `QUIRK` No duplicate detection across devices
   - `ERROR` Device A and B both generate "00001" with overlapping ranges
   - `FIX` Maintain external range allocation spreadsheet per protocol
   - `TEST` Allocate same range on two devices, check for duplicates
-  - `XREF` See [Individual Field Reference > BasicAutoIncrementer > Range Management Protocol]
+  - See field details above
 - `QUIRK` Hidden field - users confused about auto-generation
   - `ERROR` Users search for field to edit
   - `FIX` Clear labeling that ID is automatic
   - `TEST` Check field visibility in form
-  - `XREF` See [Individual Field Reference > BasicAutoIncrementer > Purpose]
+  - See field details above
 - `QUIRK` Range exhaustion stops generation silently
   - `ERROR` No new IDs generated, no error message
   - `FIX` Monitor range usage, allocate before exhaustion
   - `TEST` Use all numbers in range, try to generate
-  - `XREF` See [Field Interaction Matrix > Validation Cascades]
+  - See [Field Interactions](#field-interactions)
 - `QUIRK` Form ID must match exactly - case sensitive
   - `ERROR` Wrong form_id resets sequence to 1
   - `FIX` Document exact form_id values
   - `TEST` Use form_id with different case
-  - `XREF` See [Individual Field Reference > BasicAutoIncrementer > Configuration Parameters]
+  - See field details above
 - `VERSION` 2025-08
 
 ### Performance Quirks
@@ -2143,17 +2149,17 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
   - `ERROR` 50-200ms delay on field blur
   - `FIX` Simplify or debounce validation
   - `TEST` Add 15 validation rules, measure blur time
-  - `XREF` See [Performance Thresholds Table]
+  - See [Performance Thresholds](#performance-thresholds)
 - `QUIRK` Forms with >50 numeric fields slow initial render
   - `ERROR` 2+ second delay on form load
   - `FIX` Implement pagination or progressive disclosure
   - `TEST` Create form with 100 NumberInput fields
-  - `XREF` See [Performance Thresholds Table]
+  - See [Performance Thresholds](#performance-thresholds)
 - `QUIRK` Memory accumulates with >1000 fields
   - `ERROR` Browser tab crash at ~4GB
   - `FIX` Paginate at 500 field threshold
   - `TEST` Generate form with 2000 fields, monitor memory
-  - `XREF` See [Field Interaction Matrix > Platform-Specific Combinations]
+  - See [Field Interactions](#field-interactions)
 - `VERSION` 2025-08
 
 ### Browser-Specific Quirks
@@ -2161,12 +2167,12 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
   - `ERROR` Validation fails on autofilled data
   - `FIX` Clear and manually re-enter
   - `TEST` Use browser password manager on numeric field
-  - `XREF` See [Troubleshooting Guide > Detailed Issue Matrix]
+  - See [Troubleshooting](../references/troubleshooting-index.md)
 - `QUIRK` Desktop spinner controls respect bounds, mobile doesn't
   - `ERROR` Inconsistent validation behavior
   - `FIX` Document platform differences
   - `TEST` Compare spinner behavior desktop vs mobile
-  - `XREF` See [Common Characteristics > Platform Behaviors]
+  - See [Platform-Specific Behaviors](../references/platform-reference.md)
 - `VERSION` 2025-08
 
 ---
@@ -3335,7 +3341,29 @@ Anti-patterns have been distributed to their respective field sections for bette
 - 2025-07: BasicAutoIncrementer added
 - 2025-06: Initial documentation
 
-### Related Documentation {important}
+#
+## Fields in Complete Notebooks {important}
+
+For complete working examples showing how these fields integrate into full notebook structures with fviews and viewsets, see:
+
+→ **[Complete Notebook Templates](../references/notebook-templates.md)**
+
+The templates include:
+- Minimal survey (3 fields) 
+- Basic data collection (10 fields)
+- Complex form with validation (20 fields)
+- Mobile-optimized with GPS/Photo
+- Production archaeological recording
+
+Each template shows the complete JSON structure required for import into Designer, including:
+- Proper field → fview → viewset hierarchy
+- Required `name` parameters for all fields
+- Working validation schemas
+- Conditional logic examples
+
+---
+
+## Related Documentation {important}
 - TextField Documentation (alternative for iOS negatives)
 - TemplatedString Documentation (required for BasicAutoIncrementer)
 - Validation Schema Reference
@@ -3344,6 +3372,28 @@ Anti-patterns have been distributed to their respective field sections for bette
 ---
 
 *Enhanced documentation with 100% content restoration from original field documentation*
+---
+
+
+## Fields in Complete Notebooks {important}
+
+For complete working examples showing how these fields integrate into full notebook structures with fviews and viewsets, see:
+
+→ **[Complete Notebook Templates](../references/notebook-templates.md)**
+
+The templates include:
+- Minimal survey (3 fields) 
+- Basic data collection (10 fields)
+- Complex form with validation (20 fields)
+- Mobile-optimized with GPS/Photo
+- Production archaeological recording
+
+Each template shows the complete JSON structure required for import into Designer, including:
+- Proper field → fview → viewset hierarchy
+- Required `name` parameters for all fields
+- Working validation schemas
+- Conditional logic examples
+
 ---
 
 ## Related Documentation {important}

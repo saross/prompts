@@ -1,4 +1,10 @@
 # Operations Reference
+
+<!-- discovery:metadata
+provides: [migration-procedures, troubleshooting, deployment, maintenance]
+see-also: [constraints-reference, platform-reference]
+-->
+
 ## Migration, Export, and Troubleshooting Guide for Fieldmark v3 {essential}
 
 ## Overview {essential}

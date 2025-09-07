@@ -8,6 +8,12 @@ json_only: ["dynamic_options", "dependent_selects", "option_generation"]
 last_updated: 2025-01-05
 -->
 
+<!-- discovery:metadata
+provides: [selection-fields, radio-groups, dropdowns, hierarchical-select, multi-select]
+see-also: [field-selection-guide, dynamic-forms-guide]
+-->
+
+
 # Selection and Choice Fields
 
 ## Document Navigation {essential}
@@ -3910,6 +3916,28 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 - 2025-08: Enhanced troubleshooting
 - 2025-08: Added migration procedures
 - 2025-08: Platform-specific documentation- 2025-01: Added concatenation boundaries and navigation
+
+---
+
+
+## Fields in Complete Notebooks {important}
+
+For complete working examples showing how these fields integrate into full notebook structures with fviews and viewsets, see:
+
+→ **[Complete Notebook Templates](../references/notebook-templates.md)**
+
+The templates include:
+- Minimal survey (3 fields) 
+- Basic data collection (10 fields)
+- Complex form with validation (20 fields)
+- Mobile-optimized with GPS/Photo
+- Production archaeological recording
+
+Each template shows the complete JSON structure required for import into Designer, including:
+- Proper field → fview → viewset hierarchy
+- Required `name` parameters for all fields
+- Working validation schemas
+- Conditional logic examples
 
 ---
 

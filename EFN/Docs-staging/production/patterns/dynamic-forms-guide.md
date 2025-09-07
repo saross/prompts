@@ -11,6 +11,12 @@ source_documents:
   - validation-timing-reference.md (6KB)
 -->
 
+<!-- discovery:metadata
+provides: [conditional-visibility, validation-rules, computed-values, form-logic]
+see-also: [select-choice-fields-v05, implementation-patterns-guide]
+-->
+
+
 # Dynamic Forms Guide
 
 ## Overview {essential}

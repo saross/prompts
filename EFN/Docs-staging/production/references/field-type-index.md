@@ -8,6 +8,12 @@ structure: three_tier_depth_tagged
 purpose: navigation_and_structure_only
 -->
 
+<!-- discovery:metadata
+provides: [navigation, document-structure, depth-tagging]
+see-also: [llm-navigation-manifest]
+-->
+
+
 ## Documentation System Overview
 
 This documentation serves as both:

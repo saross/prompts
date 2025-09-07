@@ -1,5 +1,11 @@
 # Fieldmark Notebook Format Guide
 
+<!-- discovery:metadata
+provides: [json-structure, notebook-requirements, fviews-structure, validation]
+see-also: [form-structure-guide, designer-component-mapping]
+-->
+
+
 ## Critical Structure Differences Found
 
 ### ❌ INCORRECT Structure (What we had)

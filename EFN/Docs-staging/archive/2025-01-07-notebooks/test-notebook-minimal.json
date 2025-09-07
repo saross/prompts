@@ -1,55 +1,116 @@
 {
   "metadata": {
-    "name": "Minimal Test Notebook",
-    "project_id": "test-minimal-2025",
-    "notebook_version": "1.0.0",
-    "schema_version": "1.0.0"
+    "notebook_version": "1.0",
+    "schema_version": "1.0",
+    "name": "Fieldmark Test Notebook - Minimal",
+    "accesses": ["admin", "moderator", "team"],
+    "ispublic": false,
+    "isrequest": false,
+    "lead_institution": "Test Institution",
+    "project_lead": "Test Lead",
+    "project_status": "New",
+    "pre_description": "Minimal test notebook to verify component functionality",
+    "showQRCodeButton": false
   },
   "ui-specification": {
     "fields": {
-      "simple-text": {
+      "test-text": {
         "component-namespace": "formik-material-ui",
         "component-name": "TextField",
         "type-returned": "faims-core::String",
         "component-parameters": {
-          "label": "Simple Text",
-          "name": "simple-text"
+          "label": "Test Text Field",
+          "fullWidth": true,
+          "helperText": "Enter some text",
+          "variant": "outlined",
+          "required": false,
+          "name": "test-text"
+        },
+        "validationSchema": [["yup.string"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": false,
+            "label": "annotation"
+          },
+          "uncertainty": {
+            "include": false,
+            "label": "uncertainty"
+          }
         }
       },
-      "simple-number": {
+      "test-number": {
         "component-namespace": "faims-custom",
         "component-name": "NumberField",
         "type-returned": "faims-core::Float",
         "component-parameters": {
-          "label": "Simple Number",
-          "name": "simple-number"
+          "label": "Test Number Field",
+          "fullWidth": true,
+          "helperText": "Enter a number",
+          "variant": "outlined",
+          "required": false,
+          "name": "test-number"
+        },
+        "validationSchema": [["yup.number"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": false,
+            "label": "annotation"
+          },
+          "uncertainty": {
+            "include": false,
+            "label": "uncertainty"
+          }
         }
       },
-      "simple-select": {
+      "test-select": {
         "component-namespace": "faims-custom",
         "component-name": "Select",
         "type-returned": "faims-core::String",
         "component-parameters": {
-          "label": "Simple Select",
-          "name": "simple-select",
-          "options": [
-            {"value": "opt1", "label": "Option 1"},
-            {"value": "opt2", "label": "Option 2"}
-          ]
-        }
-      }
-    },
-    "viewsets": {
-      "main": {
-        "label": "Main Form",
-        "views": {
-          "view1": {
-            "label": "Test View",
-            "fields": ["simple-text", "simple-number", "simple-select"]
+          "label": "Test Select Field",
+          "fullWidth": true,
+          "helperText": "Select an option",
+          "variant": "outlined",
+          "required": false,
+          "name": "test-select",
+          "ElementProps": {
+            "options": [
+              {"value": "option1", "label": "Option 1"},
+              {"value": "option2", "label": "Option 2"},
+              {"value": "option3", "label": "Option 3"}
+            ]
+          }
+        },
+        "validationSchema": [["yup.string"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": false,
+            "label": "annotation"
+          },
+          "uncertainty": {
+            "include": false,
+            "label": "uncertainty"
           }
         }
       }
     },
-    "visible_types": ["main"]
+    "fviews": {
+      "test-view": {
+        "fields": ["test-text", "test-number", "test-select"],
+        "label": "Test Form",
+        "uidesign": "form"
+      }
+    },
+    "viewsets": {
+      "test-viewset": {
+        "views": ["test-view"],
+        "label": "Test Viewset",
+        "publishButtonBehaviour": "always"
+      }
+    },
+    "visible_types": ["test-viewset"]
   }
 }

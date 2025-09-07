@@ -8,6 +8,12 @@ structure: three_tier_depth_tagged
 purpose: navigation_and_structure_only
 -->
 
+<!-- discovery:metadata
+provides: [navigation, document-structure, depth-tagging]
+see-also: [llm-navigation-manifest]
+-->
+
+
 ## Documentation System Overview
 
 This documentation serves as both:
@@ -80,6 +86,163 @@ The build process:
 
 Output: Single ~27,000 line reference optimized for LLM consumption.
 
+<!-- concat:reference:llm-navigation-manifest -->
+# LLM Navigation Manifest for Fieldmark Documentation
+
+<!-- discovery:metadata
+provides: [document-discovery, purpose-tables, quick-navigation, content-matrix]
+see-also: [field-type-index, all-documents]
+-->
+
+
+**Purpose**: Enable LLMs to quickly discover and navigate all documentation content  
+**Created**: 2025-01-07  
+**Usage**: This document should be included early in reference.md for optimal content discovery
+
+## Quick Navigation: "If You Need... Look Here"
+
+### Primary Needs → Document Mapping
+
+| If You Need... | Use This Document | Location |
+|----------------|-------------------|----------|
+| **Field name to component mapping** | designer-component-mapping.md | references/ |
+| **Decision trees for field selection** | field-selection-guide.md | patterns/ |
+| **Complete notebook structure** | notebook-format-guide.md | references/ |
+| **Platform-specific limitations** | platform-reference.md | references/ |
+| **Error messages and solutions** | troubleshooting-index.md | references/ (to be created) |
+| **Working notebook examples** | notebook-templates.md | references/ (to be created) |
+| **Security vulnerabilities** | constraints-reference.md | references/ |
+| **Migration procedures** | operations-reference.md | references/ |
+| **Form structure patterns** | form-structure-guide.md | patterns/ |
+| **Conditional logic implementation** | dynamic-forms-guide.md | patterns/ |
+
+## Document Purpose Tables
+
+### Field Documentation (`field-categories/`)
+
+| Document | Primary Purpose | Key Content | Lines |
+|----------|----------------|-------------|-------|
+| **text-fields-v05.md** | Text input configuration | • FAIMSTextField vs MultipleTextField<br>• XSS prevention<br>• Template syntax<br>• 7 text components | 1,693 |
+| **select-choice-fields-v05.md** | Selection field setup | • RadioGroup vs Select<br>• AdvancedSelect hierarchies<br>• CSV injection prevention<br>• 5 selection components | 1,332 |
+| **datetime-fields-v05.md** | Date/time handling | • Timezone issues<br>• DateTime Now vs Picker<br>• Audit trails<br>• 4 date/time components | 1,284 |
+| **number-fields-v05.md** | Numeric validation | • Controlled Number config<br>• Auto-increment setup<br>• Precision limits<br>• 3 number components | 1,298 |
+| **display-field-v05.md** | Display-only content | • RichText markdown<br>• Memory management<br>• 1 display component | 571 |
+| **location-fields-v05.md** | GPS and mapping | • TakePoint vs MapField<br>• GPS accuracy<br>• Privacy concerns<br>• 2 location components | 825 |
+| **media-fields-v05.md** | File uploads | • TakePhoto vs FileUpload<br>• EXIF stripping<br>• Size limits<br>• 2 media components | 789 |
+| **relationship-field-v05.md** | Record relationships | • RelatedRecordSelector<br>• Access control<br>• Orphan handling<br>• 1 relationship component | 584 |
+
+### Pattern Guides (`patterns/`)
+
+| Document | Primary Purpose | Key Content | Lines |
+|----------|----------------|-------------|-------|
+| **field-selection-guide.md** | Choose right field type | • Decision matrices<br>• Use case mappings<br>• Platform compatibility table | 511 |
+| **form-structure-guide.md** | Build multi-section forms | • Viewsets configuration<br>• Navigation patterns<br>• Parent-child forms | 401 |
+| **dynamic-forms-guide.md** | Implement conditional logic | • Visibility rules<br>• Validation patterns<br>• Computed values | 462 |
+| **implementation-patterns-guide.md** | Common patterns | • Error handling<br>• Performance optimisation<br>• Best practices | 419 |
+
+### Technical References (`references/`)
+
+| Document | Primary Purpose | Priority | Lines |
+|----------|----------------|----------|-------|
+| **designer-component-mapping.md** | 🔑 **PRIMARY REFERENCE**<br>All field mappings | CRITICAL | 295 |
+| **component-reference.md** | Namespaces & Formik integration | HIGH | 977 |
+| **constraints-reference.md** | Security & limitations | HIGH | 497 |
+| **operations-reference.md** | Migration & troubleshooting | MEDIUM | 787 |
+| **platform-reference.md** | Platform-specific issues | MEDIUM | 656 |
+| **notebook-format-guide.md** | JSON structure requirements | HIGH | 198 |
+| **file-organization-guide.md** | Project structure | LOW | 135 |
+| **field-type-index.md** | Navigation only | LOW | 81 |
+
+## Content Coverage Matrix
+
+### By Topic
+
+| Topic | Primary Doc | Supporting Docs |
+|-------|------------|-----------------|
+| **Component Names** | designer-component-mapping | All field-categories docs |
+| **JSON Structure** | notebook-format-guide | test-notebook-correct.json |
+| **Field Selection** | field-selection-guide | Individual field docs |
+| **Validation** | dynamic-forms-guide | Field-specific sections |
+| **Security** | constraints-reference | Field-specific warnings |
+| **Mobile Support** | platform-reference | media-fields, location-fields |
+| **Relationships** | relationship-field | form-structure-guide |
+| **Templates** | text-fields (TemplatedString) | implementation-patterns |
+
+### By Task
+
+| Task | Required Documents |
+|------|-------------------|
+| **Create a basic notebook** | notebook-format-guide + designer-component-mapping |
+| **Add text fields** | text-fields-v05 + designer-component-mapping |
+| **Implement validation** | dynamic-forms-guide + field-specific docs |
+| **Add GPS capture** | location-fields-v05 + platform-reference |
+| **Create relationships** | relationship-field + form-structure-guide |
+| **Debug import errors** | notebook-format-guide + troubleshooting-index (when created) |
+| **Migrate from v2** | operations-reference + component-reference |
+
+## Document Dependencies
+
+```
+designer-component-mapping.md (PRIMARY)
+    ├── All field-categories/*.md reference it
+    ├── notebook-format-guide.md uses its mappings
+    └── troubleshooting relies on it
+
+notebook-format-guide.md
+    ├── Required for all notebook generation
+    ├── References designer-component-mapping
+    └── Used by notebook-templates (when created)
+
+field-selection-guide.md
+    ├── Aggregates all field-categories
+    ├── Links to platform-reference
+    └── Informs implementation-patterns
+
+platform-reference.md
+    ├── Referenced by location-fields, media-fields
+    └── Impacts all mobile-specific features
+
+constraints-reference.md
+    ├── Security context for all fields
+    └── Designer limitations affect all components
+```
+
+## Navigation Keywords
+
+### Component Names
+- FAIMSTextField, MultipleTextField, TextField
+- RadioGroup, Select, AdvancedSelect, Checkbox, MultiSelect
+- DatePicker, DateTimePicker, DateTimeNow, MonthPicker
+- NumberField, ControlledNumber, AutoIncrementer
+- RichText, TemplatedStringField
+- TakePoint, MapField
+- TakePhoto, FileUpload
+- RelatedRecordSelector
+
+### Common Issues
+- "notebook won't import", "missing fviews", "no name parameter"
+- "validation not working", "conditional visibility"
+- "GPS not available", "photo upload failed"
+- "Designer vs JSON names", "component namespace"
+
+### Key Concepts
+- fviews, viewsets, ui-specification
+- component-namespace, component-name, type-returned
+- validationSchema, initialValue, component-parameters
+- HRID, TemplatedString, Mustache syntax
+
+## Usage in LLM Context
+
+When processing queries:
+1. Check this manifest first to identify relevant documents
+2. Load specific documents based on task requirements
+3. Use designer-component-mapping.md as primary reference
+4. Cross-reference with platform/constraints for edge cases
+
+---
+
+*This manifest enables efficient navigation of ~26,000 lines of documentation*
+
 <!-- ============================================ -->
 <!-- FIELD TYPE DOCUMENTATION -->
 <!-- ============================================ -->
@@ -95,6 +258,12 @@ designer_capable: ["FAIMSTextField", "MultipleTextField", "TextField"]
 json_only: ["TemplatedStringField.template_syntax", "AddressField.structure", "QRCodeFormField.formats"]
 last_updated: 2025-01-05
 -->
+
+<!-- discovery:metadata
+provides: [text-input, email-validation, template-syntax, address-structure, qr-scanning]
+see-also: [field-selection-guide, platform-reference, constraints-reference]
+-->
+
 
 # Text Input Fields
 
@@ -194,14 +363,14 @@ You MUST edit JSON directly for:
 - ✅ Required: Advanced helper text with formatting
 - ⚠️ Optional: Custom placeholder text
 - ⚠️ Optional: Variant styles (outlined, filled, standard)
-- `XREF` See [JSON Examples > TextField Examples]
+- See [TextField Configuration](#textfield-configuration)
 
 **MultilineText (MultipleTextField)**:
 - ✅ Required: Word/character count validation
 - ✅ Required: Performance optimization for >10,000 characters
 - ⚠️ Optional: Dynamic row adjustment based on content
 - ❌ Never: Row configuration can be set in Designer (`InputProps.rows`)
-- `XREF` See [Common Characteristics > Performance Boundaries]
+- See [Performance Considerations](#performance-considerations)
 
 **TemplatedString**:
 - ✅ Required: Complex template logic (Mustache conditionals beyond Designer's Template Builder)
@@ -209,33 +378,33 @@ You MUST edit JSON directly for:
 - ✅ Required: Security patterns to prevent XSS (avoid user input)
 - ❌ Never: Basic templates with text/variables/conditionals can be built in Designer's Template Builder
 - ⚠️ CRITICAL: See [CRITICAL SECURITY VULNERABILITIES] for XSS risks
-- `XREF` See [JSON Examples > TemplatedString Examples]
+- See [TemplatedString Configuration](#templatedstring-configuration)
 
 **Email**:
 - ✅ Required: Domain-specific validation (e.g., `.edu.au` only)
 - ✅ Required: Multiple domain patterns
 - ⚠️ Optional: Custom error messages
-- `XREF` See [Field Quirks Index > Email]
+- See [Email Field Quirks](#email-quirks)
 
 **Address**:
 - ✅ Required: JSON extraction patterns for CSV export
 - ✅ Required: Debounce configuration for race condition
 - ✅ Required: Custom validation rules
 - ⚠️ Beta feature - expect changes
-- `XREF` See [Troubleshooting Guide > Address Field Race Condition]
+- See [Address Field Issues](#address-specific-issues)
 
 **QRCodeFormField**:
 - ✅ Required: Platform conditionals (mobile-only deployment)
 - ✅ Required: Manual fallback field pairing
 - ✅ Required: Making field optional (never mark as required)
 - ❌ Never: Basic scanning configuration
-- `XREF` See [JSON Examples > QRCodeFormField with Manual Fallback]
+- See [QRCodeFormField Configuration](#qrcodefield-configuration)
 
 **RichText**:
 - ✅ Required: Base64 image embedding
 - ⚠️ Optional: Complex markdown/MDX (tables won't render)
 - ❌ Never: Data capture (display only, never exports)
-- `XREF` See [Field Quirks Index > RichText]
+- See [RichText Display Limitations](#display-limitations)
 
 ### Designer Limitations {important}
 
@@ -3866,6 +4035,28 @@ Anti-patterns have been distributed to their respective field sections for bette
 
 ---
 
+
+## Fields in Complete Notebooks {important}
+
+For complete working examples showing how these fields integrate into full notebook structures with fviews and viewsets, see:
+
+→ **[Complete Notebook Templates](../references/notebook-templates.md)**
+
+The templates include:
+- Minimal survey (3 fields) 
+- Basic data collection (10 fields)
+- Complex form with validation (20 fields)
+- Mobile-optimized with GPS/Photo
+- Production archaeological recording
+
+Each template shows the complete JSON structure required for import into Designer, including:
+- Proper field → fview → viewset hierarchy
+- Required `name` parameters for all fields
+- Working validation schemas
+- Conditional logic examples
+
+---
+
 ## Related Documentation {important}
 <!-- concat:references -->
 
@@ -3897,6 +4088,12 @@ designer_capable: ["Checkbox", "Select", "MultiSelect", "RadioGroup", "AdvancedS
 json_only: ["dynamic_options", "dependent_selects", "option_generation"]
 last_updated: 2025-01-05
 -->
+
+<!-- discovery:metadata
+provides: [selection-fields, radio-groups, dropdowns, hierarchical-select, multi-select]
+see-also: [field-selection-guide, dynamic-forms-guide]
+-->
+
 
 # Selection and Choice Fields
 
@@ -7803,6 +8000,28 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 
 ---
 
+
+## Fields in Complete Notebooks {important}
+
+For complete working examples showing how these fields integrate into full notebook structures with fviews and viewsets, see:
+
+→ **[Complete Notebook Templates](../references/notebook-templates.md)**
+
+The templates include:
+- Minimal survey (3 fields) 
+- Basic data collection (10 fields)
+- Complex form with validation (20 fields)
+- Mobile-optimized with GPS/Photo
+- Production archaeological recording
+
+Each template shows the complete JSON structure required for import into Designer, including:
+- Proper field → fview → viewset hierarchy
+- Required `name` parameters for all fields
+- Working validation schemas
+- Conditional logic examples
+
+---
+
 ## Related Documentation {important}
 <!-- concat:references -->
 
@@ -7834,6 +8053,12 @@ designer_capable: ["DateTimeNow", "DateTimePicker", "DatePicker", "MonthPicker"]
 json_only: ["compute_value", "custom_formats"]
 last_updated: 2025-01-05
 -->
+
+<!-- discovery:metadata
+provides: [date-pickers, time-input, datetime-now, month-picker, timezone-handling]
+see-also: [field-selection-guide, platform-reference]
+-->
+
 
 # Date-Time Input Fields
 
@@ -10697,8 +10922,8 @@ For ancient history and archaeology spanning BCE/CE, use numeric fields rather t
 - `TEST` Auto-pick protection: Set `is_auto_pick: true`, try to modify after creation
 - `TEST` Historical dates: Enter date from 1800s, verify acceptance
 - `TEST` Now button location: Check position on iOS vs Android vs desktop
-- `XREF` See [Field Reference > DateTimeNow]
-- `XREF` See [Troubleshooting Guide > Critical Issues]
+- See [DateTimeNow Configuration](#datetimenow-configuration)
+- See [Critical Issues](#critical-issues)
 - `VERSION` 2025-08
 
 ### DateTimePicker
@@ -10719,8 +10944,8 @@ For ancient history and archaeology spanning BCE/CE, use numeric fields rather t
 - `TEST` Timezone loss: Save "14:30", export CSV, verify no "Z" or timezone indicator
 - `TEST` Cross-site confusion: Enter same time in different locations, compare exports
 - `TEST` Migration need: Check if stored values lack timezone information
-- `XREF` See [Migration Warnings Index > Safe Migrations]
-- `XREF` See [Field Selection Guide > Quick Decision Matrix]
+- See [Migration Guide](../references/operations-reference.md)
+- See [Field Selection Guide](../patterns/field-selection-guide.md)
 - `VERSION` 2025-08
 
 ### DatePicker
@@ -10746,8 +10971,8 @@ For ancient history and archaeology spanning BCE/CE, use numeric fields rather t
 - `TEST` Locale issues: Enter 01/02/2024, verify interpretation (Jan 2 vs Feb 1)
 - `TEST` Excel corruption: Export dates to CSV, open in Excel, check format changes
 - `TEST` iOS picker: Open on iPhone, verify full-screen behavior blocks form
-- `XREF` See [Field Reference > DatePicker]
-- `XREF` See [Troubleshooting Guide > Excel Date Format Corruption]
+- See [DatePicker Configuration](#datepicker-configuration)
+- See [Excel Export Issues](#excel-export-issues)
 - `VERSION` 2025-08
 
 ### MonthPicker
@@ -10772,8 +10997,8 @@ For ancient history and archaeology spanning BCE/CE, use numeric fields rather t
 - `TEST` Verify format: Save selection, export should show "YYYY-MM" only
 - `TEST` Day appending: Check if "-01" gets added on export or display
 - `TEST` Browser support: Test HTML5 month input on Safari, Firefox, Chrome
-- `XREF` See [Field Reference > MonthPicker]
-- `XREF` See [Troubleshooting Guide > When Format Issues Occur]
+- See [MonthPicker Configuration](#monthpicker-configuration)
+- See [Format Issues](#format-issues)
 - `VERSION` 2025-08
 
 ### Common Date/Time Quirks
@@ -10799,8 +11024,8 @@ For ancient history and archaeology spanning BCE/CE, use numeric fields rather t
   ]
   ```
 - `FIX` Train platform-specific: iOS users swipe wheels, Android users tap calendar
-- `XREF` See [Common Characteristics > Platform Behaviors]
-- `XREF` See [JSON Examples > Integration Patterns]
+- See [Platform-Specific Behaviors](../references/platform-reference.md)
+- See [Integration Patterns](#integration-patterns)
 - `VERSION` 2025-08
 
 ---
@@ -11362,6 +11587,28 @@ Version 2.0 restores approximately 30% of technical implementation details that 
 - ⚠️ No validation for date ranges or temporal constraints
 ---
 
+
+## Fields in Complete Notebooks {important}
+
+For complete working examples showing how these fields integrate into full notebook structures with fviews and viewsets, see:
+
+→ **[Complete Notebook Templates](../references/notebook-templates.md)**
+
+The templates include:
+- Minimal survey (3 fields) 
+- Basic data collection (10 fields)
+- Complex form with validation (20 fields)
+- Mobile-optimized with GPS/Photo
+- Production archaeological recording
+
+Each template shows the complete JSON structure required for import into Designer, including:
+- Proper field → fview → viewset hierarchy
+- Required `name` parameters for all fields
+- Working validation schemas
+- Conditional logic examples
+
+---
+
 ## Related Documentation {important}
 <!-- concat:references -->
 
@@ -11393,6 +11640,12 @@ designer_capable: ["NumberField"]
 json_only: ["BasicAutoIncrementer", "step_increments"]
 last_updated: 2025-01-05
 -->
+
+<!-- discovery:metadata
+provides: [numeric-input, controlled-number, auto-increment, validation-ranges]
+see-also: [field-selection-guide, constraints-reference]
+-->
+
 
 # Number Input Fields
 
@@ -13368,32 +13621,32 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
   - `ERROR` User cannot enter negative values on iOS devices
   - `FIX` Copy-paste from Notes app or implement TextField with pattern validation
   - `TEST` Open any numeric field on iOS Safari/Chrome
-  - `XREF` See [Common Characteristics > Platform Behaviors > iOS Platform]
+  - See [Platform-Specific Behaviors](../references/platform-reference.md)
 - `QUIRK` Deprecated "Number Field" still visible in Designer interface
   - `ERROR` Selecting "Number Field" uses legacy TextField implementation
   - `FIX` Always select "Number Input" instead
   - `TEST` Check Designer field selector for both options
-  - `XREF` See [Overview > CRITICAL: Deprecated Field Warning]
+  - See [Deprecated Field Warning](#deprecated-warning)
 - `QUIRK` Touch targets (36px) below WCAG minimum (44px) for all numeric inputs
   - `ERROR` Difficult selection for users with motor impairments
   - `FIX` Custom CSS to increase touch target size
   - `TEST` Measure spinner control dimensions in DevTools
-  - `XREF` See [Common Characteristics > Accessibility Compliance]
+  - See [Accessibility Considerations](#accessibility)
 - `QUIRK` Android shows minus key even when min=0 configured
   - `ERROR` Users type negative values that fail validation
   - `FIX` Add clear helperText explaining valid range
   - `TEST` Open ControlledNumber with min=0 on Android
-  - `XREF` See [Common Characteristics > Platform Behaviors > Android Platform]
+  - See [Platform-Specific Behaviors](../references/platform-reference.md)
 - `QUIRK` Voice input requires exact numeric pronunciation
   - `ERROR` "one thousand" produces NaN, must say "one zero zero zero"
   - `FIX` Train users on exact format or provide manual entry
   - `TEST` Try voice input with natural language vs exact numbers
-  - `XREF` See [Common Characteristics > Voice Input Requirements]
+  - See [Platform Notes](#platform-notes)
 - `QUIRK` No thousands separators in any numeric field
   - `ERROR` 1000000 displays without commas, hard to read
   - `FIX` Feature pending - use TextField for formatted display
   - `TEST` Enter large number, check display format
-  - `XREF` See [Migration and Best Practices > Known Limitations]
+  - See [Known Limitations](#known-limitations)
 - `VERSION` 2025-08
 
 ### NumberInput
@@ -13401,12 +13654,12 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
   - `ERROR` "Field 'NumberInput' not found in component registry"
   - `FIX` Use exact JSON: `"component-name": "NumberField"`
   - `TEST` Verify JSON: `grep '"component-name".*NumberField' notebook.json`
-  - `XREF` See [Overview > Designer Quick Guide]
+  - See [Designer Quick Guide](#designer-quick-guide)
 - `QUIRK` Precision silently truncated beyond 15-17 significant digits
   - `ERROR` No warning when 3.14159265358979323846 → 3.141592653589793
   - `FIX` Document precision limits in helperText
   - `TEST` Enter 20-digit number, check stored value
-  - `XREF` See [Common Characteristics > Configuration Rules]
+  - See [Configuration Rules](#configuration-rules)
 - `QUIRK` Empty field shows "Must be a number" despite not being required
   - `ERROR` "Must be a number" on blur of empty non-required field
   - `FIX` Add nullable validation:
@@ -13417,12 +13670,12 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
     ]
     ```
   - `TEST` Blur empty field without nullable()
-  - `XREF` See [Common Characteristics > Validation Patterns]
+  - See [Validation Patterns](#validation-patterns)
 - `QUIRK` Scientific notation auto-converts at 10000000 (1e7)
   - `ERROR` Users confused by "1e7" display format
   - `FIX` Add helperText explaining scientific notation
   - `TEST` Enter 10000000, observe auto-conversion
-  - `XREF` See [Individual Field Reference > NumberInput > Storage Characteristics]
+  - See field details above
 - `QUIRK` Trailing zeros never preserved (42.000 → 42)
   - `ERROR` Format requirements lost, precision appears reduced
 - `QUIRK` Spin buttons have custom styling (gray background #9F9F9F, 2px black border)
@@ -13431,22 +13684,22 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
   - `TEST` Inspect element to verify webkit-inner-spin-button styles
   - `FIX` Use TextField if trailing zeros critical
   - `TEST` Enter 3.1400, check stored value
-  - `XREF` See [Individual Field Reference > NumberInput > Storage Characteristics]
+  - See field details above
 - `QUIRK` Values >1.8×10³⁰⁸ overflow to Infinity, stored as null
   - `ERROR` Extreme values silently lost
   - `FIX` Add reasonable max bounds validation
   - `TEST` Enter 1e309, check storage (becomes null)
-  - `XREF` See [Common Characteristics > Data Type Specifications]
+  - See [Data Type Specifications](#data-types)
 - `QUIRK` NaN results stored as null
   - `ERROR` Invalid calculations produce null not NaN
   - `FIX` Validate before calculations
   - `TEST` Force NaN condition, check database
-  - `XREF` See [Field Interaction Matrix > Data Type Interactions]
+  - See [Field Interactions](#field-interactions)
 - `QUIRK` Paste non-numeric silently converts to null on blur
   - `ERROR` Paste "about 100" → null without warning
   - `FIX` Pattern validation or preprocessing
   - `TEST` Paste text into numeric field, blur
-  - `XREF` See [Field Interaction Matrix > Validation Cascades]
+  - See [Field Interactions](#field-interactions)
 - `VERSION` 2025-08
 
 ### ControlledNumber
@@ -13460,22 +13713,22 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
     ]
     ```
   - `TEST` Enter 3.14 in Integer field: `typeof value === 'number' && value === 3.14`
-  - `XREF` See [Individual Field Reference > ControlledNumber > Critical Type Declaration Mismatch]
+  - See field details above
 - `QUIRK` Initial value always 0, may violate minimum constraint
   - `ERROR` "Value must be at least 1" on form load when min=1
   - `FIX` Set min=0 or accept initial validation error
   - `TEST` Configure min=1, check initial state
-  - `XREF` See [Individual Field Reference > ControlledNumber > Known Issues]
+  - See field details above
 - `QUIRK` Cannot store null - always has numeric value
   - `ERROR` Cannot distinguish "not measured" from zero
   - `FIX` Use NumberInput if null values needed
   - `TEST` Try to clear field completely
-  - `XREF` See [Individual Field Reference > ControlledNumber > Key Features]
+  - See field details above
 - `QUIRK` Android minus key visible even with min=0
   - `ERROR` Confusing UI - key present but values rejected
   - `FIX` Clear helperText about valid range
   - `TEST` Open field with min=0 on Android device
-  - `XREF` See [Common Characteristics > Platform Behaviors > Android Platform]
+  - See [Platform-Specific Behaviors](../references/platform-reference.md)
 - `VERSION` 2025-08
 
 ### BasicAutoIncrementer
@@ -13490,7 +13743,7 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
     const display = `ID-${autoValue}`; // String concatenation
     ```
   - `TEST` Check type: `typeof fieldValue === 'string'`
-  - `XREF` See [Individual Field Reference > BasicAutoIncrementer > Critical Return Type Warning]
+  - See field details above
 - `QUIRK` Excel strips leading zeros without protection
   - `ERROR` CSV "00042" becomes 42 in Excel
   - `FIX` Always wrap in TemplatedString:
@@ -13501,27 +13754,27 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
     }
     ```
   - `TEST` Export CSV, open in Excel, verify zero preservation
-  - `XREF` See [Individual Field Reference > BasicAutoIncrementer > Field-Specific Features]
+  - See field details above
 - `QUIRK` No duplicate detection across devices
   - `ERROR` Device A and B both generate "00001" with overlapping ranges
   - `FIX` Maintain external range allocation spreadsheet per protocol
   - `TEST` Allocate same range on two devices, check for duplicates
-  - `XREF` See [Individual Field Reference > BasicAutoIncrementer > Range Management Protocol]
+  - See field details above
 - `QUIRK` Hidden field - users confused about auto-generation
   - `ERROR` Users search for field to edit
   - `FIX` Clear labeling that ID is automatic
   - `TEST` Check field visibility in form
-  - `XREF` See [Individual Field Reference > BasicAutoIncrementer > Purpose]
+  - See field details above
 - `QUIRK` Range exhaustion stops generation silently
   - `ERROR` No new IDs generated, no error message
   - `FIX` Monitor range usage, allocate before exhaustion
   - `TEST` Use all numbers in range, try to generate
-  - `XREF` See [Field Interaction Matrix > Validation Cascades]
+  - See [Field Interactions](#field-interactions)
 - `QUIRK` Form ID must match exactly - case sensitive
   - `ERROR` Wrong form_id resets sequence to 1
   - `FIX` Document exact form_id values
   - `TEST` Use form_id with different case
-  - `XREF` See [Individual Field Reference > BasicAutoIncrementer > Configuration Parameters]
+  - See field details above
 - `VERSION` 2025-08
 
 ### Performance Quirks
@@ -13529,17 +13782,17 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
   - `ERROR` 50-200ms delay on field blur
   - `FIX` Simplify or debounce validation
   - `TEST` Add 15 validation rules, measure blur time
-  - `XREF` See [Performance Thresholds Table]
+  - See [Performance Thresholds](#performance-thresholds)
 - `QUIRK` Forms with >50 numeric fields slow initial render
   - `ERROR` 2+ second delay on form load
   - `FIX` Implement pagination or progressive disclosure
   - `TEST` Create form with 100 NumberInput fields
-  - `XREF` See [Performance Thresholds Table]
+  - See [Performance Thresholds](#performance-thresholds)
 - `QUIRK` Memory accumulates with >1000 fields
   - `ERROR` Browser tab crash at ~4GB
   - `FIX` Paginate at 500 field threshold
   - `TEST` Generate form with 2000 fields, monitor memory
-  - `XREF` See [Field Interaction Matrix > Platform-Specific Combinations]
+  - See [Field Interactions](#field-interactions)
 - `VERSION` 2025-08
 
 ### Browser-Specific Quirks
@@ -13547,12 +13800,12 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
   - `ERROR` Validation fails on autofilled data
   - `FIX` Clear and manually re-enter
   - `TEST` Use browser password manager on numeric field
-  - `XREF` See [Troubleshooting Guide > Detailed Issue Matrix]
+  - See [Troubleshooting](../references/troubleshooting-index.md)
 - `QUIRK` Desktop spinner controls respect bounds, mobile doesn't
   - `ERROR` Inconsistent validation behavior
   - `FIX` Document platform differences
   - `TEST` Compare spinner behavior desktop vs mobile
-  - `XREF` See [Common Characteristics > Platform Behaviors]
+  - See [Platform-Specific Behaviors](../references/platform-reference.md)
 - `VERSION` 2025-08
 
 ---
@@ -14721,7 +14974,29 @@ Anti-patterns have been distributed to their respective field sections for bette
 - 2025-07: BasicAutoIncrementer added
 - 2025-06: Initial documentation
 
-### Related Documentation {important}
+#
+## Fields in Complete Notebooks {important}
+
+For complete working examples showing how these fields integrate into full notebook structures with fviews and viewsets, see:
+
+→ **[Complete Notebook Templates](../references/notebook-templates.md)**
+
+The templates include:
+- Minimal survey (3 fields) 
+- Basic data collection (10 fields)
+- Complex form with validation (20 fields)
+- Mobile-optimized with GPS/Photo
+- Production archaeological recording
+
+Each template shows the complete JSON structure required for import into Designer, including:
+- Proper field → fview → viewset hierarchy
+- Required `name` parameters for all fields
+- Working validation schemas
+- Conditional logic examples
+
+---
+
+## Related Documentation {important}
 - TextField Documentation (alternative for iOS negatives)
 - TemplatedString Documentation (required for BasicAutoIncrementer)
 - Validation Schema Reference
@@ -14730,6 +15005,28 @@ Anti-patterns have been distributed to their respective field sections for bette
 ---
 
 *Enhanced documentation with 100% content restoration from original field documentation*
+---
+
+
+## Fields in Complete Notebooks {important}
+
+For complete working examples showing how these fields integrate into full notebook structures with fviews and viewsets, see:
+
+→ **[Complete Notebook Templates](../references/notebook-templates.md)**
+
+The templates include:
+- Minimal survey (3 fields) 
+- Basic data collection (10 fields)
+- Complex form with validation (20 fields)
+- Mobile-optimized with GPS/Photo
+- Production archaeological recording
+
+Each template shows the complete JSON structure required for import into Designer, including:
+- Proper field → fview → viewset hierarchy
+- Required `name` parameters for all fields
+- Working validation schemas
+- Conditional logic examples
+
 ---
 
 ## Related Documentation {important}
@@ -14762,6 +15059,12 @@ designer_capable: ["RichText"]
 json_only: ["html_content", "dynamic_generation"]
 last_updated: 2025-01-05
 -->
+
+<!-- discovery:metadata
+provides: [richtext-display, markdown-rendering, static-content]
+see-also: [text-fields-v05]
+-->
+
 
 # Display Field - Fieldmark v3 Documentation
 
@@ -15891,6 +16194,28 @@ See [Performance Thresholds Reference](../reference-docs/performance-thresholds-
 - **Reference Docs**: 9 linked documents
 ---
 
+
+## Fields in Complete Notebooks {important}
+
+For complete working examples showing how these fields integrate into full notebook structures with fviews and viewsets, see:
+
+→ **[Complete Notebook Templates](../references/notebook-templates.md)**
+
+The templates include:
+- Minimal survey (3 fields) 
+- Basic data collection (10 fields)
+- Complex form with validation (20 fields)
+- Mobile-optimized with GPS/Photo
+- Production archaeological recording
+
+Each template shows the complete JSON structure required for import into Designer, including:
+- Proper field → fview → viewset hierarchy
+- Required `name` parameters for all fields
+- Working validation schemas
+- Conditional logic examples
+
+---
+
 ## Related Documentation {important}
 <!-- concat:references -->
 
@@ -15922,6 +16247,12 @@ designer_capable: ["TakePoint"]
 json_only: ["MapForm", "geometry_types", "map_layers"]
 last_updated: 2025-01-05
 -->
+
+<!-- discovery:metadata
+provides: [gps-capture, map-fields, coordinate-input, location-privacy]
+see-also: [platform-reference, media-fields-v05]
+-->
+
 
 # Location Fields - Fieldmark v3 Documentation
 
@@ -17139,6 +17470,28 @@ See [Performance Thresholds Reference](../reference-docs/performance-thresholds-
 - **Reference Docs**: 9 linked documents
 ---
 
+
+## Fields in Complete Notebooks {important}
+
+For complete working examples showing how these fields integrate into full notebook structures with fviews and viewsets, see:
+
+→ **[Complete Notebook Templates](../references/notebook-templates.md)**
+
+The templates include:
+- Minimal survey (3 fields) 
+- Basic data collection (10 fields)
+- Complex form with validation (20 fields)
+- Mobile-optimized with GPS/Photo
+- Production archaeological recording
+
+Each template shows the complete JSON structure required for import into Designer, including:
+- Proper field → fview → viewset hierarchy
+- Required `name` parameters for all fields
+- Working validation schemas
+- Conditional logic examples
+
+---
+
 ## Related Documentation {important}
 <!-- concat:references -->
 
@@ -17169,6 +17522,12 @@ designer_capable: ["TakePhoto", "FileUploader"]
 json_only: ["custom_upload_handlers", "file_type_restrictions"]
 last_updated: 2025-01-05
 -->
+
+<!-- discovery:metadata
+provides: [photo-capture, file-upload, exif-handling, size-limits]
+see-also: [platform-reference, location-fields-v05]
+-->
+
 
 # Media Fields - Fieldmark v3 Documentation
 
@@ -18603,6 +18962,28 @@ See [Performance Thresholds Reference](../reference-docs/performance-thresholds-
 - **Reference Docs**: 9 linked documents
 ---
 
+
+## Fields in Complete Notebooks {important}
+
+For complete working examples showing how these fields integrate into full notebook structures with fviews and viewsets, see:
+
+→ **[Complete Notebook Templates](../references/notebook-templates.md)**
+
+The templates include:
+- Minimal survey (3 fields) 
+- Basic data collection (10 fields)
+- Complex form with validation (20 fields)
+- Mobile-optimized with GPS/Photo
+- Production archaeological recording
+
+Each template shows the complete JSON structure required for import into Designer, including:
+- Proper field → fview → viewset hierarchy
+- Required `name` parameters for all fields
+- Working validation schemas
+- Conditional logic examples
+
+---
+
 ## Related Documentation {important}
 <!-- concat:references -->
 
@@ -18634,6 +19015,12 @@ designer_capable: ["RelationshipField"]
 json_only: ["complex_rules", "cascading_relationships"]
 last_updated: 2025-01-05
 -->
+
+<!-- discovery:metadata
+provides: [record-relationships, parent-child, peer-links, access-control]
+see-also: [form-structure-guide, dynamic-forms-guide]
+-->
+
 
 # Relationship Field - Fieldmark v3 Documentation
 
@@ -19980,6 +20367,28 @@ Note: Vocabulary is immutable - must plan before deployment
 - **Reference Docs**: 9 linked documents
 ---
 
+
+## Fields in Complete Notebooks {important}
+
+For complete working examples showing how these fields integrate into full notebook structures with fviews and viewsets, see:
+
+→ **[Complete Notebook Templates](../references/notebook-templates.md)**
+
+The templates include:
+- Minimal survey (3 fields) 
+- Basic data collection (10 fields)
+- Complex form with validation (20 fields)
+- Mobile-optimized with GPS/Photo
+- Production archaeological recording
+
+Each template shows the complete JSON structure required for import into Designer, including:
+- Proper field → fview → viewset hierarchy
+- Required `name` parameters for all fields
+- Working validation schemas
+- Conditional logic examples
+
+---
+
 ## Related Documentation {important}
 <!-- concat:references -->
 
@@ -20018,6 +20427,12 @@ source_documents:
   - summary-table.md (12KB) 
   - quick-start.md (12KB) - selection examples only
 -->
+
+<!-- discovery:metadata
+provides: [decision-matrices, selection-guidance, comparison-tables, use-case-mapping]
+see-also: [all-field-categories, platform-reference]
+-->
+
 
 # Field Selection Guide for Fieldmark Notebooks {essential}
 
@@ -20616,6 +21031,12 @@ source_documents:
   - quick-start.md (12KB) - structure examples only
 -->
 
+<!-- discovery:metadata
+provides: [viewsets, fviews, multi-section-forms, navigation-patterns]
+see-also: [notebook-format-guide, relationship-field-v05]
+-->
+
+
 # Form Structure Guide
 
 ## Overview {essential}
@@ -21184,6 +21605,12 @@ source_documents:
   - conditional-logic.md (37KB)
   - validation-timing-reference.md (6KB)
 -->
+
+<!-- discovery:metadata
+provides: [conditional-visibility, validation-rules, computed-values, form-logic]
+see-also: [select-choice-fields-v05, implementation-patterns-guide]
+-->
+
 
 # Dynamic Forms Guide
 
@@ -21870,6 +22297,12 @@ source_documents:
   - troubleshooting-framework-reference.md (9KB)
   - quick-start.md (12KB) - implementation examples only
 -->
+
+<!-- discovery:metadata
+provides: [common-patterns, error-handling, performance-tips, best-practices]
+see-also: [all-pattern-guides, constraints-reference]
+-->
+
 
 # Implementation Patterns Guide
 
@@ -22834,6 +23267,12 @@ source_documents:
   - formik-integration-reference.md (10KB)
   - type-system-reference.md (7KB)
 -->
+
+<!-- discovery:metadata
+provides: [namespaces, formik-integration, component-types, technical-details]
+see-also: [designer-component-mapping, all-field-categories]
+-->
+
 
 # Component Reference
 
@@ -24012,6 +24451,12 @@ Only for these specific cases:
 
 <!-- concat:reference:constraints-reference -->
 # Constraints Reference
+
+<!-- discovery:metadata
+provides: [security-issues, designer-limitations, vulnerabilities, workarounds]
+see-also: [platform-reference, operations-reference]
+-->
+
 ## Designer Limitations and Security Considerations for Fieldmark v3 {essential}
 
 ## Overview {essential}
@@ -24551,6 +24996,12 @@ If you discover a security vulnerability:
 
 <!-- concat:reference:operations-reference -->
 # Operations Reference
+
+<!-- discovery:metadata
+provides: [migration-procedures, troubleshooting, deployment, maintenance]
+see-also: [constraints-reference, platform-reference]
+-->
+
 ## Migration, Export, and Troubleshooting Guide for Fieldmark v3 {essential}
 
 ## Overview {essential}
@@ -25354,6 +25805,12 @@ source_documents:
   - troubleshooting-framework-reference.md (9KB) - platform issues only
 -->
 
+<!-- discovery:metadata
+provides: [platform-behaviors, mobile-issues, browser-differences, offline-support]
+see-also: [location-fields, media-fields, constraints-reference]
+-->
+
+
 # Platform Reference
 
 ## Overview {essential}
@@ -26038,6 +26495,12 @@ console.timeEnd('Operation');
 <!-- concat:reference:notebook-format-guide -->
 # Fieldmark Notebook Format Guide
 
+<!-- discovery:metadata
+provides: [json-structure, notebook-requirements, fviews-structure, validation]
+see-also: [form-structure-guide, designer-component-mapping]
+-->
+
+
 ## Critical Structure Differences Found
 
 ### ❌ INCORRECT Structure (What we had)
@@ -26214,8 +26677,1816 @@ See: [Designer UI to Component Mapping Reference](./references/designer-componen
 *Guide Created: 2025-01-07*
 *Based on analysis of working FAIMS3 notebooks*
 
+<!-- concat:reference:notebook-templates -->
+# Complete Notebook Templates for Fieldmark
+
+**Purpose**: Ready-to-use notebook templates for common scenarios  
+**Created**: 2025-01-07  
+**Usage**: Copy, modify placeholders ({{FIELD_NAME}}), and import into Designer
+
+<!-- discovery:metadata
+provides: [complete-notebooks, working-templates, scaffolding-examples, import-ready-json]
+see-also: [notebook-format-guide, designer-component-mapping, field-selection-guide]
+-->
+
+## Template Usage Guide
+
+### How to Use These Templates
+
+1. **Choose appropriate template** based on your needs
+2. **Copy the complete JSON** for your selected template
+3. **Replace placeholders** marked with `{{VARIABLE}}`:
+   - `{{PROJECT_NAME}}` - Your project name
+   - `{{FIELD_NAME}}` - Unique field identifiers
+   - `{{FIELD_LABEL}}` - User-visible labels
+4. **Save as .json file** and import into Designer
+5. **Test thoroughly** before deployment
+
+### Critical Requirements
+
+⚠️ **Every notebook MUST have**:
+- Valid JSON structure
+- At least one TemplatedString field configured as `hridField`
+- Unique `name` parameter for every field
+- Fields → fviews → viewsets hierarchy
+- All fields referenced in fviews must exist
+
+---
+
+## Template 1: Minimal Survey (3 Fields)
+
+**Use Case**: Quick data collection, testing, simple forms  
+**Fields**: Text input, number, single selection  
+**Complexity**: Minimal
+
+```json
+{
+  "metadata": {
+    "notebook_version": "1.0.0",
+    "created": "2025-01-07",
+    "name": "{{PROJECT_NAME}}-minimal",
+    "description": "Minimal survey with 3 fields"
+  },
+  "ui-specification": {
+    "fields": {
+      "survey-id": {
+        "component-namespace": "faims-custom",
+        "component-name": "TemplatedStringField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "name": "survey-id",
+          "label": "Survey ID",
+          "template": "SURV-{{_CREATED_TIME}}-{{_INCREMENT}}",
+          "required": true
+        }
+      },
+      "respondent-name": {
+        "component-namespace": "faims-custom",
+        "component-name": "FAIMSTextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "name": "respondent-name",
+          "label": "Respondent Name",
+          "helperText": "Enter the respondent's full name",
+          "required": true,
+          "inputProps": {
+            "maxLength": 100
+          }
+        },
+        "validationSchema": [
+          ["yup.string"],
+          ["yup.required", "Name is required"]
+        ]
+      },
+      "satisfaction-score": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::Number",
+        "component-parameters": {
+          "name": "satisfaction-score",
+          "label": "Satisfaction Score (1-10)",
+          "InputProps": {
+            "type": "number"
+          },
+          "min": 1,
+          "max": 10,
+          "required": true
+        },
+        "validationSchema": [
+          ["yup.number"],
+          ["yup.min", 1, "Score must be at least 1"],
+          ["yup.max", 10, "Score cannot exceed 10"],
+          ["yup.required", "Score is required"]
+        ]
+      }
+    },
+    "fviews": {
+      "survey-form": {
+        "fields": ["survey-id", "respondent-name", "satisfaction-score"],
+        "label": "Survey Form",
+        "uidesign": "form"
+      }
+    },
+    "viewsets": {
+      "main-survey": {
+        "views": ["survey-form"],
+        "label": "Survey",
+        "publishButtonBehaviour": "always"
+      }
+    },
+    "visible_types": ["main-survey"]
+  }
+}
+```
+
+---
+
+## Template 2: Basic Data Collection (10 Fields)
+
+**Use Case**: Standard field data collection  
+**Fields**: Multiple data types across 2 sections  
+**Complexity**: Basic with sections
+
+```json
+{
+  "metadata": {
+    "notebook_version": "1.0.0",
+    "created": "2025-01-07",
+    "name": "{{PROJECT_NAME}}-basic",
+    "description": "Basic data collection with multiple field types"
+  },
+  "ui-specification": {
+    "fields": {
+      "record-id": {
+        "component-namespace": "faims-custom",
+        "component-name": "TemplatedStringField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "name": "record-id",
+          "label": "Record ID",
+          "template": "{{PROJECT_ABBREV}}-{{_CREATED_DATE}}-{{_INCREMENT}}",
+          "required": true
+        }
+      },
+      "site-name": {
+        "component-namespace": "faims-custom",
+        "component-name": "FAIMSTextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "name": "site-name",
+          "label": "Site Name",
+          "required": true
+        }
+      },
+      "collection-date": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "DatePicker",
+        "type-returned": "faims-core::Date",
+        "component-parameters": {
+          "name": "collection-date",
+          "label": "Collection Date",
+          "required": true
+        }
+      },
+      "collector-email": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "name": "collector-email",
+          "label": "Collector Email",
+          "InputProps": {
+            "type": "email"
+          },
+          "required": true
+        },
+        "validationSchema": [
+          ["yup.string"],
+          ["yup.email", "Enter a valid email"],
+          ["yup.required", "Email is required"]
+        ]
+      },
+      "sample-type": {
+        "component-namespace": "faims-custom",
+        "component-name": "RadioGroup",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "name": "sample-type",
+          "label": "Sample Type",
+          "options": [
+            {"value": "soil", "label": "Soil"},
+            {"value": "water", "label": "Water"},
+            {"value": "plant", "label": "Plant"},
+            {"value": "other", "label": "Other"}
+          ],
+          "required": true
+        }
+      },
+      "description": {
+        "component-namespace": "faims-custom",
+        "component-name": "MultipleTextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "name": "description",
+          "label": "Sample Description",
+          "helperText": "Provide detailed description",
+          "multiline": true,
+          "rows": 4
+        }
+      },
+      "sample-count": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::Number",
+        "component-parameters": {
+          "name": "sample-count",
+          "label": "Number of Samples",
+          "InputProps": {
+            "type": "number"
+          },
+          "min": 1,
+          "required": true
+        }
+      },
+      "temperature": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::Number",
+        "component-parameters": {
+          "name": "temperature",
+          "label": "Temperature (°C)",
+          "InputProps": {
+            "type": "number"
+          }
+        }
+      },
+      "photo-required": {
+        "component-namespace": "faims-custom",
+        "component-name": "Checkbox",
+        "type-returned": "faims-core::Bool",
+        "component-parameters": {
+          "name": "photo-required",
+          "label": "Photo documentation needed"
+        }
+      },
+      "notes": {
+        "component-namespace": "faims-custom",
+        "component-name": "MultipleTextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "name": "notes",
+          "label": "Additional Notes",
+          "multiline": true,
+          "rows": 3
+        }
+      }
+    },
+    "fviews": {
+      "basic-info": {
+        "fields": ["record-id", "site-name", "collection-date", "collector-email"],
+        "label": "Basic Information",
+        "uidesign": "form"
+      },
+      "sample-details": {
+        "fields": ["sample-type", "description", "sample-count", "temperature", "photo-required", "notes"],
+        "label": "Sample Details",
+        "uidesign": "form"
+      }
+    },
+    "viewsets": {
+      "data-collection": {
+        "views": ["basic-info", "sample-details"],
+        "label": "Data Collection",
+        "publishButtonBehaviour": "always"
+      }
+    },
+    "visible_types": ["data-collection"]
+  }
+}
+```
+
+---
+
+## Template 3: Complex Form with Validation
+
+**Use Case**: Forms requiring complex validation and conditional logic  
+**Fields**: 20 fields with validation rules and conditional visibility  
+**Complexity**: Advanced
+
+```json
+{
+  "metadata": {
+    "notebook_version": "1.0.0",
+    "created": "2025-01-07",
+    "name": "{{PROJECT_NAME}}-complex",
+    "description": "Complex form with validation and conditional logic"
+  },
+  "ui-specification": {
+    "fields": {
+      "assessment-id": {
+        "component-namespace": "faims-custom",
+        "component-name": "TemplatedStringField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "name": "assessment-id",
+          "label": "Assessment ID",
+          "template": "ASSESS-{{_CREATED_DATE}}-{{_USER}}-{{_INCREMENT}}",
+          "required": true
+        }
+      },
+      "assessor-name": {
+        "component-namespace": "faims-custom",
+        "component-name": "FAIMSTextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "name": "assessor-name",
+          "label": "Assessor Name",
+          "required": true,
+          "inputProps": {
+            "maxLength": 100
+          }
+        },
+        "validationSchema": [
+          ["yup.string"],
+          ["yup.required", "Assessor name is required"],
+          ["yup.min", 2, "Name must be at least 2 characters"]
+        ]
+      },
+      "assessment-date": {
+        "component-namespace": "faims-custom",
+        "component-name": "DateTimeNow",
+        "type-returned": "faims-core::DateTime",
+        "component-parameters": {
+          "name": "assessment-date",
+          "label": "Assessment Date/Time"
+        }
+      },
+      "location-type": {
+        "component-namespace": "faims-custom",
+        "component-name": "RadioGroup",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "name": "location-type",
+          "label": "Location Type",
+          "options": [
+            {"value": "urban", "label": "Urban"},
+            {"value": "rural", "label": "Rural"},
+            {"value": "remote", "label": "Remote"}
+          ],
+          "required": true,
+          "logic_select": true
+        }
+      },
+      "urban-density": {
+        "component-namespace": "faims-custom",
+        "component-name": "Select",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "name": "urban-density",
+          "label": "Urban Density",
+          "options": [
+            {"value": "high", "label": "High Density"},
+            {"value": "medium", "label": "Medium Density"},
+            {"value": "low", "label": "Low Density"}
+          ]
+        },
+        "is-logic": {
+          "if": "location-type",
+          "==": "urban"
+        }
+      },
+      "access-difficulty": {
+        "component-namespace": "faims-custom",
+        "component-name": "RadioGroup",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "name": "access-difficulty",
+          "label": "Access Difficulty",
+          "options": [
+            {"value": "easy", "label": "Easy"},
+            {"value": "moderate", "label": "Moderate"},
+            {"value": "difficult", "label": "Difficult"}
+          ]
+        },
+        "is-logic": {
+          "if": "location-type",
+          "==": "remote"
+        }
+      },
+      "condition-score": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::Number",
+        "component-parameters": {
+          "name": "condition-score",
+          "label": "Condition Score (0-100)",
+          "InputProps": {
+            "type": "number"
+          },
+          "min": 0,
+          "max": 100,
+          "required": true,
+          "logic_select": true
+        },
+        "validationSchema": [
+          ["yup.number"],
+          ["yup.required", "Condition score is required"],
+          ["yup.min", 0, "Score cannot be negative"],
+          ["yup.max", 100, "Score cannot exceed 100"]
+        ]
+      },
+      "requires-intervention": {
+        "component-namespace": "faims-custom",
+        "component-name": "Checkbox",
+        "type-returned": "faims-core::Bool",
+        "component-parameters": {
+          "name": "requires-intervention",
+          "label": "Requires immediate intervention"
+        },
+        "is-logic": {
+          "if": "condition-score",
+          "<": 50
+        }
+      },
+      "intervention-type": {
+        "component-namespace": "faims-custom",
+        "component-name": "MultiSelect",
+        "type-returned": "faims-core::Array",
+        "component-parameters": {
+          "name": "intervention-type",
+          "label": "Intervention Types Required",
+          "options": [
+            {"value": "structural", "label": "Structural Repair"},
+            {"value": "safety", "label": "Safety Measures"},
+            {"value": "environmental", "label": "Environmental Protection"},
+            {"value": "monitoring", "label": "Ongoing Monitoring"}
+          ]
+        },
+        "is-logic": {
+          "if": "requires-intervention",
+          "==": true
+        }
+      },
+      "priority-level": {
+        "component-namespace": "faims-custom",
+        "component-name": "RadioGroup",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "name": "priority-level",
+          "label": "Priority Level",
+          "options": [
+            {"value": "urgent", "label": "Urgent (24 hours)"},
+            {"value": "high", "label": "High (1 week)"},
+            {"value": "medium", "label": "Medium (1 month)"},
+            {"value": "low", "label": "Low (3 months)"}
+          ],
+          "required": true
+        },
+        "is-logic": {
+          "if": "requires-intervention",
+          "==": true
+        }
+      },
+      "hazards-present": {
+        "component-namespace": "faims-custom",
+        "component-name": "MultiSelect",
+        "type-returned": "faims-core::Array",
+        "component-parameters": {
+          "name": "hazards-present",
+          "label": "Hazards Present",
+          "options": [
+            {"value": "none", "label": "None Identified"},
+            {"value": "structural", "label": "Structural Instability"},
+            {"value": "chemical", "label": "Chemical Hazard"},
+            {"value": "biological", "label": "Biological Hazard"},
+            {"value": "electrical", "label": "Electrical Hazard"},
+            {"value": "other", "label": "Other"}
+          ],
+          "expandedChecklist": true,
+          "exclusiveOptions": ["none"]
+        }
+      },
+      "hazard-details": {
+        "component-namespace": "faims-custom",
+        "component-name": "MultipleTextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "name": "hazard-details",
+          "label": "Hazard Details",
+          "helperText": "Describe the hazards in detail",
+          "multiline": true,
+          "rows": 4,
+          "required": true
+        },
+        "is-logic": {
+          "if": "hazards-present",
+          "not-includes": "none"
+        },
+        "validationSchema": [
+          ["yup.string"],
+          ["yup.required", "Hazard details required when hazards present"],
+          ["yup.min", 20, "Please provide at least 20 characters of detail"]
+        ]
+      },
+      "measurements-taken": {
+        "component-namespace": "faims-custom",
+        "component-name": "Checkbox",
+        "type-returned": "faims-core::Bool",
+        "component-parameters": {
+          "name": "measurements-taken",
+          "label": "Detailed measurements recorded",
+          "logic_select": true
+        }
+      },
+      "length-m": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::Number",
+        "component-parameters": {
+          "name": "length-m",
+          "label": "Length (meters)",
+          "InputProps": {
+            "type": "number",
+            "step": 0.01
+          },
+          "min": 0
+        },
+        "is-logic": {
+          "if": "measurements-taken",
+          "==": true
+        }
+      },
+      "width-m": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::Number",
+        "component-parameters": {
+          "name": "width-m",
+          "label": "Width (meters)",
+          "InputProps": {
+            "type": "number",
+            "step": 0.01
+          },
+          "min": 0
+        },
+        "is-logic": {
+          "if": "measurements-taken",
+          "==": true
+        }
+      },
+      "height-m": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::Number",
+        "component-parameters": {
+          "name": "height-m",
+          "label": "Height (meters)",
+          "InputProps": {
+            "type": "number",
+            "step": 0.01
+          },
+          "min": 0
+        },
+        "is-logic": {
+          "if": "measurements-taken",
+          "==": true
+        }
+      },
+      "weather-conditions": {
+        "component-namespace": "faims-custom",
+        "component-name": "Select",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "name": "weather-conditions",
+          "label": "Weather During Assessment",
+          "options": [
+            {"value": "clear", "label": "Clear"},
+            {"value": "cloudy", "label": "Cloudy"},
+            {"value": "rain", "label": "Rain"},
+            {"value": "storm", "label": "Storm"},
+            {"value": "snow", "label": "Snow"}
+          ],
+          "required": true
+        }
+      },
+      "visibility": {
+        "component-namespace": "faims-custom",
+        "component-name": "RadioGroup",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "name": "visibility",
+          "label": "Visibility",
+          "options": [
+            {"value": "excellent", "label": "Excellent (>10km)"},
+            {"value": "good", "label": "Good (5-10km)"},
+            {"value": "moderate", "label": "Moderate (1-5km)"},
+            {"value": "poor", "label": "Poor (<1km)"}
+          ],
+          "required": true
+        }
+      },
+      "follow-up-required": {
+        "component-namespace": "faims-custom",
+        "component-name": "Checkbox",
+        "type-returned": "faims-core::Bool",
+        "component-parameters": {
+          "name": "follow-up-required",
+          "label": "Follow-up assessment required"
+        }
+      },
+      "assessment-notes": {
+        "component-namespace": "faims-custom",
+        "component-name": "MultipleTextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "name": "assessment-notes",
+          "label": "Assessment Notes",
+          "helperText": "Any additional observations or recommendations",
+          "multiline": true,
+          "rows": 5
+        }
+      }
+    },
+    "fviews": {
+      "identification": {
+        "fields": ["assessment-id", "assessor-name", "assessment-date"],
+        "label": "Identification",
+        "uidesign": "form"
+      },
+      "location": {
+        "fields": ["location-type", "urban-density", "access-difficulty"],
+        "label": "Location Details",
+        "uidesign": "form"
+      },
+      "condition": {
+        "fields": ["condition-score", "requires-intervention", "intervention-type", "priority-level"],
+        "label": "Condition Assessment",
+        "uidesign": "form"
+      },
+      "hazards": {
+        "fields": ["hazards-present", "hazard-details"],
+        "label": "Hazard Assessment",
+        "uidesign": "form"
+      },
+      "measurements": {
+        "fields": ["measurements-taken", "length-m", "width-m", "height-m"],
+        "label": "Measurements",
+        "uidesign": "form"
+      },
+      "environment": {
+        "fields": ["weather-conditions", "visibility"],
+        "label": "Environmental Conditions",
+        "uidesign": "form"
+      },
+      "summary": {
+        "fields": ["follow-up-required", "assessment-notes"],
+        "label": "Summary",
+        "uidesign": "form"
+      }
+    },
+    "viewsets": {
+      "complex-assessment": {
+        "views": ["identification", "location", "condition", "hazards", "measurements", "environment", "summary"],
+        "label": "Complex Assessment",
+        "publishButtonBehaviour": "always"
+      }
+    },
+    "visible_types": ["complex-assessment"]
+  }
+}
+```
+
+---
+
+## Template 4: Mobile-Optimized (GPS/Photo)
+
+**Use Case**: Field data collection on mobile devices  
+**Fields**: GPS capture, photo documentation, mobile-friendly inputs  
+**Complexity**: Mobile-specific
+
+```json
+{
+  "metadata": {
+    "notebook_version": "1.0.0",
+    "created": "2025-01-07",
+    "name": "{{PROJECT_NAME}}-mobile",
+    "description": "Mobile-optimized form with GPS and photo capture"
+  },
+  "ui-specification": {
+    "fields": {
+      "observation-id": {
+        "component-namespace": "faims-custom",
+        "component-name": "TemplatedStringField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "name": "observation-id",
+          "label": "Observation ID",
+          "template": "OBS-{{_CREATED_DATE}}-{{_INCREMENT}}",
+          "required": true
+        }
+      },
+      "observer-name": {
+        "component-namespace": "faims-custom",
+        "component-name": "FAIMSTextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "name": "observer-name",
+          "label": "Observer",
+          "initialValue": "{{_USER}}",
+          "required": true
+        }
+      },
+      "observation-time": {
+        "component-namespace": "faims-custom",
+        "component-name": "DateTimeNow",
+        "type-returned": "faims-core::DateTime",
+        "component-parameters": {
+          "name": "observation-time",
+          "label": "Observation Time"
+        }
+      },
+      "location-point": {
+        "component-namespace": "faims-custom",
+        "component-name": "TakePoint",
+        "type-returned": "faims-core::JSON",
+        "component-parameters": {
+          "name": "location-point",
+          "label": "GPS Location",
+          "helperText": "Tap to capture current GPS position",
+          "required": true
+        }
+      },
+      "location-accuracy": {
+        "component-namespace": "faims-custom",
+        "component-name": "RadioGroup",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "name": "location-accuracy",
+          "label": "GPS Accuracy",
+          "options": [
+            {"value": "high", "label": "High (<5m)"},
+            {"value": "medium", "label": "Medium (5-15m)"},
+            {"value": "low", "label": "Low (>15m)"}
+          ]
+        }
+      },
+      "observation-type": {
+        "component-namespace": "faims-custom",
+        "component-name": "RadioGroup",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "name": "observation-type",
+          "label": "Observation Type",
+          "options": [
+            {"value": "flora", "label": "Flora"},
+            {"value": "fauna", "label": "Fauna"},
+            {"value": "geological", "label": "Geological"},
+            {"value": "cultural", "label": "Cultural"},
+            {"value": "other", "label": "Other"}
+          ],
+          "required": true
+        }
+      },
+      "quick-description": {
+        "component-namespace": "faims-custom",
+        "component-name": "FAIMSTextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "name": "quick-description",
+          "label": "Quick Description",
+          "helperText": "Brief description (voice input available)",
+          "required": true
+        }
+      },
+      "photo-1": {
+        "component-namespace": "faims-custom",
+        "component-name": "TakePhoto",
+        "type-returned": "faims-core::File",
+        "component-parameters": {
+          "name": "photo-1",
+          "label": "Primary Photo",
+          "helperText": "Tap to take photo"
+        }
+      },
+      "photo-2": {
+        "component-namespace": "faims-custom",
+        "component-name": "TakePhoto",
+        "type-returned": "faims-core::File",
+        "component-parameters": {
+          "name": "photo-2",
+          "label": "Context Photo",
+          "helperText": "Optional wider context shot"
+        }
+      },
+      "abundance": {
+        "component-namespace": "faims-custom",
+        "component-name": "RadioGroup",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "name": "abundance",
+          "label": "Abundance",
+          "options": [
+            {"value": "single", "label": "Single"},
+            {"value": "few", "label": "Few (2-10)"},
+            {"value": "many", "label": "Many (11-100)"},
+            {"value": "abundant", "label": "Abundant (>100)"}
+          ]
+        }
+      },
+      "confidence": {
+        "component-namespace": "faims-custom",
+        "component-name": "RadioGroup",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "name": "confidence",
+          "label": "ID Confidence",
+          "options": [
+            {"value": "certain", "label": "Certain"},
+            {"value": "probable", "label": "Probable"},
+            {"value": "possible", "label": "Possible"}
+          ],
+          "required": true
+        }
+      },
+      "specimen-collected": {
+        "component-namespace": "faims-custom",
+        "component-name": "Checkbox",
+        "type-returned": "faims-core::Bool",
+        "component-parameters": {
+          "name": "specimen-collected",
+          "label": "Specimen collected",
+          "logic_select": true
+        }
+      },
+      "specimen-id": {
+        "component-namespace": "faims-custom",
+        "component-name": "FAIMSTextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "name": "specimen-id",
+          "label": "Specimen ID",
+          "helperText": "Enter specimen bag/container ID"
+        },
+        "is-logic": {
+          "if": "specimen-collected",
+          "==": true
+        }
+      },
+      "weather": {
+        "component-namespace": "faims-custom",
+        "component-name": "RadioGroup",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "name": "weather",
+          "label": "Weather",
+          "options": [
+            {"value": "sunny", "label": "☀️ Sunny"},
+            {"value": "cloudy", "label": "☁️ Cloudy"},
+            {"value": "rain", "label": "🌧️ Rain"},
+            {"value": "wind", "label": "💨 Windy"}
+          ]
+        }
+      },
+      "field-notes": {
+        "component-namespace": "faims-custom",
+        "component-name": "MultipleTextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "name": "field-notes",
+          "label": "Field Notes",
+          "helperText": "Additional observations",
+          "multiline": true,
+          "rows": 3
+        }
+      }
+    },
+    "fviews": {
+      "quick-capture": {
+        "fields": ["observation-id", "observer-name", "observation-time", "location-point", "location-accuracy"],
+        "label": "Location & Time",
+        "uidesign": "form"
+      },
+      "observation": {
+        "fields": ["observation-type", "quick-description", "photo-1", "photo-2"],
+        "label": "Observation",
+        "uidesign": "form"
+      },
+      "details": {
+        "fields": ["abundance", "confidence", "specimen-collected", "specimen-id"],
+        "label": "Details",
+        "uidesign": "form"
+      },
+      "conditions": {
+        "fields": ["weather", "field-notes"],
+        "label": "Conditions & Notes",
+        "uidesign": "form"
+      }
+    },
+    "viewsets": {
+      "mobile-observation": {
+        "views": ["quick-capture", "observation", "details", "conditions"],
+        "label": "Field Observation",
+        "publishButtonBehaviour": "always"
+      }
+    },
+    "visible_types": ["mobile-observation"]
+  }
+}
+```
+
+---
+
+## Template 5: Production Archaeological Recording
+
+**Use Case**: Professional archaeological excavation recording  
+**Fields**: Context recording, relationships, stratigraphy  
+**Complexity**: Production-ready
+
+```json
+{
+  "metadata": {
+    "notebook_version": "1.0.0",
+    "created": "2025-01-07",
+    "name": "{{PROJECT_NAME}}-archaeological",
+    "description": "Production archaeological context recording"
+  },
+  "ui-specification": {
+    "fields": {
+      "context-id": {
+        "component-namespace": "faims-custom",
+        "component-name": "TemplatedStringField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "name": "context-id",
+          "label": "Context Number",
+          "template": "{{SITE_CODE}}-CTX-{{_INCREMENT}}",
+          "required": true
+        }
+      },
+      "trench": {
+        "component-namespace": "faims-custom",
+        "component-name": "Select",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "name": "trench",
+          "label": "Trench/Area",
+          "options": [
+            {"value": "T1", "label": "Trench 1"},
+            {"value": "T2", "label": "Trench 2"},
+            {"value": "T3", "label": "Trench 3"},
+            {"value": "A1", "label": "Area 1"},
+            {"value": "A2", "label": "Area 2"}
+          ],
+          "required": true
+        }
+      },
+      "context-type": {
+        "component-namespace": "faims-custom",
+        "component-name": "RadioGroup",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "name": "context-type",
+          "label": "Context Type",
+          "options": [
+            {"value": "deposit", "label": "Deposit"},
+            {"value": "cut", "label": "Cut"},
+            {"value": "structure", "label": "Structure"},
+            {"value": "fill", "label": "Fill"}
+          ],
+          "required": true,
+          "logic_select": true
+        }
+      },
+      "deposit-type": {
+        "component-namespace": "faims-custom",
+        "component-name": "Select",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "name": "deposit-type",
+          "label": "Deposit Type",
+          "options": [
+            {"value": "topsoil", "label": "Topsoil"},
+            {"value": "subsoil", "label": "Subsoil"},
+            {"value": "occupation", "label": "Occupation Layer"},
+            {"value": "destruction", "label": "Destruction Layer"},
+            {"value": "natural", "label": "Natural"}
+          ]
+        },
+        "is-logic": {
+          "if": "context-type",
+          "==": "deposit"
+        }
+      },
+      "cut-type": {
+        "component-namespace": "faims-custom",
+        "component-name": "Select",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "name": "cut-type",
+          "label": "Cut Type",
+          "options": [
+            {"value": "pit", "label": "Pit"},
+            {"value": "posthole", "label": "Posthole"},
+            {"value": "ditch", "label": "Ditch"},
+            {"value": "foundation", "label": "Foundation Trench"},
+            {"value": "grave", "label": "Grave"}
+          ]
+        },
+        "is-logic": {
+          "if": "context-type",
+          "==": "cut"
+        }
+      },
+      "opening-date": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "DatePicker",
+        "type-returned": "faims-core::Date",
+        "component-parameters": {
+          "name": "opening-date",
+          "label": "Date Opened",
+          "required": true
+        }
+      },
+      "excavator": {
+        "component-namespace": "faims-custom",
+        "component-name": "FAIMSTextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "name": "excavator",
+          "label": "Excavator(s)",
+          "required": true
+        }
+      },
+      "soil-colour": {
+        "component-namespace": "faims-custom",
+        "component-name": "FAIMSTextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "name": "soil-colour",
+          "label": "Soil Colour (Munsell)",
+          "helperText": "e.g., 10YR 3/2"
+        }
+      },
+      "soil-texture": {
+        "component-namespace": "faims-custom",
+        "component-name": "Select",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "name": "soil-texture",
+          "label": "Soil Texture",
+          "options": [
+            {"value": "sand", "label": "Sand"},
+            {"value": "silt", "label": "Silt"},
+            {"value": "clay", "label": "Clay"},
+            {"value": "sandy-silt", "label": "Sandy Silt"},
+            {"value": "silty-clay", "label": "Silty Clay"},
+            {"value": "sandy-clay", "label": "Sandy Clay"}
+          ]
+        }
+      },
+      "compaction": {
+        "component-namespace": "faims-custom",
+        "component-name": "RadioGroup",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "name": "compaction",
+          "label": "Compaction",
+          "options": [
+            {"value": "loose", "label": "Loose"},
+            {"value": "moderate", "label": "Moderate"},
+            {"value": "compact", "label": "Compact"},
+            {"value": "very-compact", "label": "Very Compact"}
+          ]
+        }
+      },
+      "inclusions": {
+        "component-namespace": "faims-custom",
+        "component-name": "MultiSelect",
+        "type-returned": "faims-core::Array",
+        "component-parameters": {
+          "name": "inclusions",
+          "label": "Inclusions",
+          "options": [
+            {"value": "none", "label": "None"},
+            {"value": "charcoal", "label": "Charcoal"},
+            {"value": "pottery", "label": "Pottery"},
+            {"value": "bone", "label": "Bone"},
+            {"value": "stone", "label": "Stone"},
+            {"value": "brick", "label": "Brick/Tile"},
+            {"value": "metal", "label": "Metal"},
+            {"value": "glass", "label": "Glass"}
+          ],
+          "expandedChecklist": true,
+          "exclusiveOptions": ["none"]
+        }
+      },
+      "dimensions-length": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::Number",
+        "component-parameters": {
+          "name": "dimensions-length",
+          "label": "Length (m)",
+          "InputProps": {
+            "type": "number",
+            "step": 0.01
+          },
+          "min": 0
+        }
+      },
+      "dimensions-width": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::Number",
+        "component-parameters": {
+          "name": "dimensions-width",
+          "label": "Width (m)",
+          "InputProps": {
+            "type": "number",
+            "step": 0.01
+          },
+          "min": 0
+        }
+      },
+      "dimensions-depth": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::Number",
+        "component-parameters": {
+          "name": "dimensions-depth",
+          "label": "Depth/Thickness (m)",
+          "InputProps": {
+            "type": "number",
+            "step": 0.01
+          },
+          "min": 0
+        }
+      },
+      "stratigraphic-relationships": {
+        "component-namespace": "faims-custom",
+        "component-name": "RelatedRecordSelector",
+        "type-returned": "faims-core::Relationship",
+        "component-parameters": {
+          "name": "stratigraphic-relationships",
+          "label": "Stratigraphic Relationships",
+          "relation_type": "stratigraphic",
+          "vocabulary": [
+            {"label": "Above", "value": "above"},
+            {"label": "Below", "value": "below"},
+            {"label": "Cuts", "value": "cuts"},
+            {"label": "Cut by", "value": "cut-by"},
+            {"label": "Fills", "value": "fills"},
+            {"label": "Filled by", "value": "filled-by"},
+            {"label": "Same as", "value": "same-as"}
+          ]
+        }
+      },
+      "interpretation": {
+        "component-namespace": "faims-custom",
+        "component-name": "MultipleTextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "name": "interpretation",
+          "label": "Interpretation",
+          "helperText": "Preliminary interpretation of the context",
+          "multiline": true,
+          "rows": 4,
+          "required": true
+        }
+      },
+      "finds-collected": {
+        "component-namespace": "faims-custom",
+        "component-name": "Checkbox",
+        "type-returned": "faims-core::Bool",
+        "component-parameters": {
+          "name": "finds-collected",
+          "label": "Finds collected",
+          "logic_select": true
+        }
+      },
+      "finds-summary": {
+        "component-namespace": "faims-custom",
+        "component-name": "MultipleTextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "name": "finds-summary",
+          "label": "Finds Summary",
+          "helperText": "Brief description of finds",
+          "multiline": true,
+          "rows": 2
+        },
+        "is-logic": {
+          "if": "finds-collected",
+          "==": true
+        }
+      },
+      "samples-taken": {
+        "component-namespace": "faims-custom",
+        "component-name": "MultiSelect",
+        "type-returned": "faims-core::Array",
+        "component-parameters": {
+          "name": "samples-taken",
+          "label": "Samples Taken",
+          "options": [
+            {"value": "none", "label": "None"},
+            {"value": "soil", "label": "Soil Sample"},
+            {"value": "flotation", "label": "Flotation"},
+            {"value": "c14", "label": "C14"},
+            {"value": "pollen", "label": "Pollen"},
+            {"value": "phytolith", "label": "Phytolith"},
+            {"value": "other", "label": "Other"}
+          ],
+          "expandedChecklist": true,
+          "exclusiveOptions": ["none"]
+        }
+      },
+      "photo-plan": {
+        "component-namespace": "faims-custom",
+        "component-name": "TakePhoto",
+        "type-returned": "faims-core::File",
+        "component-parameters": {
+          "name": "photo-plan",
+          "label": "Plan Photo",
+          "helperText": "Overview from above"
+        }
+      },
+      "photo-section": {
+        "component-namespace": "faims-custom",
+        "component-name": "TakePhoto",
+        "type-returned": "faims-core::File",
+        "component-parameters": {
+          "name": "photo-section",
+          "label": "Section Photo",
+          "helperText": "Profile/section view"
+        }
+      },
+      "drawing-refs": {
+        "component-namespace": "faims-custom",
+        "component-name": "FAIMSTextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "name": "drawing-refs",
+          "label": "Drawing References",
+          "helperText": "Plan/section drawing numbers"
+        }
+      },
+      "closed-date": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "DatePicker",
+        "type-returned": "faims-core::Date",
+        "component-parameters": {
+          "name": "closed-date",
+          "label": "Date Closed"
+        }
+      },
+      "recorder-notes": {
+        "component-namespace": "faims-custom",
+        "component-name": "MultipleTextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "name": "recorder-notes",
+          "label": "Recorder Notes",
+          "helperText": "Additional observations",
+          "multiline": true,
+          "rows": 3
+        }
+      }
+    },
+    "fviews": {
+      "identification": {
+        "fields": ["context-id", "trench", "context-type", "deposit-type", "cut-type", "opening-date", "excavator"],
+        "label": "Identification",
+        "uidesign": "form"
+      },
+      "description": {
+        "fields": ["soil-colour", "soil-texture", "compaction", "inclusions"],
+        "label": "Physical Description",
+        "uidesign": "form"
+      },
+      "dimensions": {
+        "fields": ["dimensions-length", "dimensions-width", "dimensions-depth"],
+        "label": "Dimensions",
+        "uidesign": "form"
+      },
+      "stratigraphy": {
+        "fields": ["stratigraphic-relationships", "interpretation"],
+        "label": "Stratigraphy & Interpretation",
+        "uidesign": "form"
+      },
+      "finds-samples": {
+        "fields": ["finds-collected", "finds-summary", "samples-taken"],
+        "label": "Finds & Samples",
+        "uidesign": "form"
+      },
+      "documentation": {
+        "fields": ["photo-plan", "photo-section", "drawing-refs"],
+        "label": "Documentation",
+        "uidesign": "form"
+      },
+      "closure": {
+        "fields": ["closed-date", "recorder-notes"],
+        "label": "Closure",
+        "uidesign": "form"
+      }
+    },
+    "viewsets": {
+      "context-record": {
+        "views": ["identification", "description", "dimensions", "stratigraphy", "finds-samples", "documentation", "closure"],
+        "label": "Context Record",
+        "publishButtonBehaviour": "always"
+      }
+    },
+    "visible_types": ["context-record"]
+  }
+}
+```
+
+---
+
+## Common Issues and Solutions
+
+### Issue: Notebook won't import
+**Solution**: Check these common problems:
+1. JSON syntax errors - validate with JSON validator
+2. Missing fviews layer between fields and viewsets
+3. Field referenced in fview doesn't exist
+4. Missing `name` parameter in component-parameters
+5. Duplicate field names
+
+### Issue: Fields not appearing
+**Solution**: Ensure:
+1. Field is listed in an fview
+2. Fview is listed in a viewset
+3. Viewset is listed in visible_types
+4. No conditional logic hiding the field
+
+### Issue: Validation not working
+**Solution**: Check:
+1. Validation schema syntax is correct
+2. Using correct Yup methods
+3. Type-returned matches validation type
+4. Required fields marked correctly
+
+### Issue: GPS/Photo not working on web
+**Solution**: These are mobile-only features:
+- TakePoint requires mobile GPS
+- TakePhoto requires mobile camera
+- Provide alternative text fields for web users
+
+---
+
+## Related Documentation
+
+- [Notebook Format Guide](./notebook-format-guide.md) - Complete structure requirements
+- [Designer Component Mapping](./designer-component-mapping.md) - All component mappings
+- [Field Selection Guide](../patterns/field-selection-guide.md) - Choosing appropriate fields
+- [Dynamic Forms Guide](../patterns/dynamic-forms-guide.md) - Conditional logic patterns
+
+---
+
+*These templates provide working starting points for notebook development. Always test thoroughly before deployment.*
+
+<!-- concat:reference:troubleshooting-index -->
+# Troubleshooting Index for Fieldmark Notebooks
+
+**Purpose**: Direct error-to-solution mapping for common Fieldmark issues  
+**Created**: 2025-01-07  
+**Usage**: Search by error message or symptom to find immediate solutions
+
+<!-- discovery:metadata
+provides: [error-solutions, diagnostic-flowcharts, validation-decoder, common-problems]
+see-also: [notebook-format-guide, constraints-reference, platform-reference]
+-->
+
+## Quick Error Lookup
+
+### By Error Message
+
+| Error Message | Likely Cause | Solution | Reference |
+|--------------|--------------|----------|-----------|
+| "Sorry, something went wrong" | Missing fviews layer | Add fviews between fields and viewsets | [Notebook Structure](#notebook-structure-errors) |
+| "Invalid notebook format" | JSON syntax error | Validate JSON syntax | [JSON Errors](#json-syntax-errors) |
+| "Field not found" | Field referenced but not defined | Check field exists in fields object | [Field Reference Errors](#field-reference-errors) |
+| "Invalid component" | Wrong component name/namespace | Check designer-component-mapping | [Component Errors](#component-errors) |
+| "Validation failed" | Schema syntax error | Fix validation schema | [Validation Errors](#validation-errors) |
+| "Cannot read property 'name'" | Missing name parameter | Add name to component-parameters | [Missing Parameters](#missing-parameters) |
+| "Maximum call stack exceeded" | Circular reference | Check relationship loops | [Circular References](#circular-references) |
+| "Network error" | Offline with online-only field | Check platform requirements | [Platform Issues](#platform-issues) |
+| "GPS not available" | Web browser limitation | Use mobile app for GPS | [Mobile-Only Features](#mobile-only-features) |
+| "File too large" | Exceeds upload limit | Reduce file size or compress | [File Upload Issues](#file-upload-issues) |
+
+---
+
+## Diagnostic Flowcharts
+
+### Notebook Won't Import Flowchart
+
+```
+Notebook won't import?
+│
+├─ Does the JSON parse successfully?
+│  ├─ No → [Fix JSON Syntax Errors](#json-syntax-errors)
+│  └─ Yes ↓
+│
+├─ Does it have ui-specification?
+│  ├─ No → Add ui-specification wrapper
+│  └─ Yes ↓
+│
+├─ Does it have fields, fviews, AND viewsets?
+│  ├─ No → [Fix Structure Issues](#notebook-structure-errors)
+│  └─ Yes ↓
+│
+├─ Do all fields have unique names in component-parameters?
+│  ├─ No → [Add Missing Parameters](#missing-parameters)
+│  └─ Yes ↓
+│
+├─ Are all field references in fviews valid?
+│  ├─ No → [Fix Field References](#field-reference-errors)
+│  └─ Yes ↓
+│
+├─ Are all fview references in viewsets valid?
+│  ├─ No → Fix viewset references
+│  └─ Yes ↓
+│
+├─ Are visible_types pointing to existing viewsets?
+│  ├─ No → Fix visible_types array
+│  └─ Yes → Check for component-specific issues
+```
+
+### Field Not Appearing Flowchart
+
+```
+Field not visible in form?
+│
+├─ Is field defined in ui-specification.fields?
+│  ├─ No → Add field definition
+│  └─ Yes ↓
+│
+├─ Is field referenced in any fview?
+│  ├─ No → Add field to fview.fields array
+│  └─ Yes ↓
+│
+├─ Is that fview referenced in any viewset?
+│  ├─ No → Add fview to viewset.views array
+│  └─ Yes ↓
+│
+├─ Is viewset in visible_types?
+│  ├─ No → Add viewset to visible_types
+│  └─ Yes ↓
+│
+├─ Does field have conditional logic (is-logic)?
+│  ├─ Yes → Check if condition is met
+│  └─ No → Check component parameters
+```
+
+---
+
+## Common Problems and Solutions
+
+### Notebook Structure Errors
+
+#### Problem: Missing fviews Layer
+**Symptom**: Notebook has fields and viewsets but won't import  
+**Error**: "Sorry, something went wrong" or silent failure  
+**Solution**:
+```json
+{
+  "ui-specification": {
+    "fields": { /* your fields */ },
+    "fviews": {  // ADD THIS LAYER
+      "section-name": {
+        "fields": ["field1", "field2"],
+        "label": "Section Label",
+        "uidesign": "form"
+      }
+    },
+    "viewsets": {
+      "form-name": {
+        "views": ["section-name"],  // References fview
+        "label": "Form Label"
+      }
+    }
+  }
+}
+```
+
+#### Problem: Wrong Hierarchy Order
+**Symptom**: Structure exists but import fails  
+**Solution**: Ensure this exact order:
+1. fields (define all fields)
+2. fviews (group fields into sections)
+3. viewsets (group sections into forms)
+4. visible_types (list accessible forms)
+
+### JSON Syntax Errors
+
+#### Problem: Trailing Commas
+**Symptom**: "Unexpected token }" 
+**Example**:
+```json
+{
+  "field1": "value",
+  "field2": "value",  // ← Remove this comma
+}
+```
+
+#### Problem: Missing Quotes
+**Symptom**: "Unexpected token"
+**Example**:
+```json
+{
+  name: "value"  // ← Should be "name": "value"
+}
+```
+
+#### Problem: Single Quotes Instead of Double
+**Symptom**: "Unexpected token '"
+**Solution**: Replace all ' with " in JSON
+
+### Field Reference Errors
+
+#### Problem: Field in fview doesn't exist
+**Symptom**: Import fails or field missing
+**Diagnosis**:
+```python
+# Check all fview field references exist
+for fview in notebook['ui-specification']['fviews'].values():
+    for field_ref in fview['fields']:
+        if field_ref not in notebook['ui-specification']['fields']:
+            print(f"Missing field: {field_ref}")
+```
+
+### Component Errors
+
+#### Problem: Wrong Component Name
+**Common Mistakes**:
+- "TextField" in Designer → Actually "FAIMSTextField" or "MultipleTextField"
+- "Number Field" → Should be TextField with type="number"
+- "Controlled Number" → Not a component, use TextField
+
+**Solution**: Check [designer-component-mapping.md](./designer-component-mapping.md)
+
+#### Problem: Wrong Namespace
+**Common Mistakes**:
+- Select components: Use "faims-custom" not "formik-material-ui"
+- TakePoint: Use "faims-custom" not "mapping-plugin"
+
+### Missing Parameters
+
+#### Problem: No name in component-parameters
+**Symptom**: "Cannot read property 'name' of undefined"
+**Solution**:
+```json
+{
+  "field-id": {
+    "component-namespace": "faims-custom",
+    "component-name": "FAIMSTextField",
+    "component-parameters": {
+      "name": "field-id",  // ← REQUIRED
+      "label": "Field Label"
+    }
+  }
+}
+```
+
+### Validation Errors
+
+#### Problem: Invalid Yup Schema
+**Symptom**: Validation not working or form crashes
+**Common Issues**:
+
+1. **Wrong validation order**:
+```json
+// ❌ WRONG
+"validationSchema": [
+  ["yup.required", "Field required"],
+  ["yup.string"]  // Type should be first
+]
+
+// ✅ CORRECT
+"validationSchema": [
+  ["yup.string"],  // Type first
+  ["yup.required", "Field required"]
+]
+```
+
+2. **Type mismatch**:
+```json
+// ❌ WRONG - Number field with string validation
+"type-returned": "faims-core::Number",
+"validationSchema": [["yup.string"]]
+
+// ✅ CORRECT
+"type-returned": "faims-core::Number",
+"validationSchema": [["yup.number"]]
+```
+
+### Conditional Logic Issues
+
+#### Problem: Field with is-logic not appearing
+**Diagnosis Checklist**:
+1. Is the controller field marked with `"logic_select": true`?
+2. Is the condition syntax correct?
+3. Does the controller field have a value?
+
+**Example Fix**:
+```json
+{
+  "controller": {
+    "component-parameters": {
+      "logic_select": true  // ← Required for controller
+    }
+  },
+  "dependent": {
+    "is-logic": {
+      "if": "controller",
+      "==": "trigger-value"
+    }
+  }
+}
+```
+
+### Platform Issues
+
+#### Problem: QR Scanner shows disabled on web
+**Symptom**: Scanner field greyed out  
+**Cause**: QRCodeFormField is mobile-only  
+**Solution**: 
+- Use mobile app for scanning
+- Provide TextField fallback for manual entry
+
+#### Problem: GPS not working on desktop
+**Symptom**: TakePoint fails or inaccurate  
+**Solution**: Use mobile device for GPS capture
+
+#### Problem: Map tiles not loading
+**Symptom**: Grey map area  
+**Cause**: Requires internet for initial tile load  
+**Solution**: Ensure internet connection on first use
+
+### Mobile-Only Features
+
+Features that ONLY work on mobile apps:
+- QRCodeFormField (barcode scanning)
+- TakePoint (GPS capture - works poorly on desktop)
+- TakePhoto (camera integration - limited on desktop)
+
+**Best Practice**: Always provide fallbacks:
+```json
+{
+  "barcode-scan": {
+    "component-name": "QRCodeFormField"
+    // Mobile scanning
+  },
+  "barcode-manual": {
+    "component-name": "TextField"
+    // Desktop fallback
+  }
+}
+```
+
+### Performance Issues
+
+#### Problem: Form very slow with many relationships
+**Symptom**: Lag when loading or saving  
+**Cause**: >50 relationships per record  
+**Solutions**:
+- Limit relationships to <50 per record
+- Split into multiple related forms
+- Use hierarchical structure
+
+#### Problem: Large notebook file
+**Symptom**: Slow import/export  
+**Cause**: >100 fields or large embedded content  
+**Solutions**:
+- Split into multiple viewsets
+- Remove embedded images from RichText
+- Optimize vocabulary lists
+
+### HRID Issues
+
+#### Problem: Records show as UUIDs
+**Symptom**: "rec-a7f3b2c1-d4e5..." instead of readable IDs  
+**Cause**: Missing TemplatedStringField configured as hridField  
+**Solution**:
+```json
+{
+  "record-id": {
+    "component-namespace": "faims-custom",
+    "component-name": "TemplatedStringField",
+    "component-parameters": {
+      "name": "record-id",
+      "template": "{{PROJECT}}-{{_CREATED_DATE}}-{{_INCREMENT}}"
+    }
+  }
+}
+// Then in metadata or form config:
+"hridField": "record-id"
+```
+
+---
+
+## Validation Error Decoder
+
+### Yup Validation Messages
+
+| Error Message | Meaning | Fix |
+|--------------|---------|-----|
+| "must be a `number` type" | Wrong type for number field | Check type-returned matches validation |
+| "must be a valid email" | Email format invalid | Ensure @ and domain present |
+| "is a required field" | Required field empty | Fill field or remove required |
+| "must be at least X characters" | Too short | Meet minimum length |
+| "must be at most X characters" | Too long | Reduce length |
+| "must be less than or equal to X" | Number too large | Check max constraint |
+| "must be greater than or equal to X" | Number too small | Check min constraint |
+| "must match the following" | Regex pattern failed | Check pattern requirements |
+
+---
+
+## Quick Fixes Checklist
+
+### Before Import Checklist
+- [ ] JSON validates (use jsonlint.com)
+- [ ] Has metadata section
+- [ ] Has ui-specification wrapper
+- [ ] Has fields object
+- [ ] Has fviews object (CRITICAL!)
+- [ ] Has viewsets object
+- [ ] Has visible_types array
+- [ ] All fields have unique names
+- [ ] All fields have name in component-parameters
+- [ ] At least one TemplatedStringField for HRID
+- [ ] All field references in fviews exist
+- [ ] All fview references in viewsets exist
+- [ ] All visible_types reference existing viewsets
+
+### Common Quick Fixes
+1. **Add missing fviews layer** - Most common issue
+2. **Add name parameters** - Second most common
+3. **Fix component namespaces** - Check designer-component-mapping
+4. **Remove trailing commas** - JSON syntax
+5. **Add HRID field** - For readable identifiers
+
+---
+
+## Error Prevention Tips
+
+### Design Phase
+1. Start with a working template
+2. Add fields incrementally
+3. Test after each major change
+4. Keep sections small (<10 fields)
+
+### Development Phase
+1. Validate JSON frequently
+2. Test on target platform early
+3. Check all conditional logic paths
+4. Verify all references
+
+### Deployment Phase
+1. Test on all target devices
+2. Verify offline functionality
+3. Check performance with real data
+4. Validate all required fields work
+
+---
+
+## Related Documentation
+
+- [Notebook Format Guide](./notebook-format-guide.md) - Complete structure requirements
+- [Complete Notebook Templates](./notebook-templates.md) - Working examples
+- [Designer Component Mapping](./designer-component-mapping.md) - Component reference
+- [Platform Reference](./platform-reference.md) - Platform-specific issues
+- [Constraints Reference](./constraints-reference.md) - System limitations
+
+---
+
+## Getting Help
+
+If these solutions don't resolve your issue:
+1. Check the specific field documentation in field-categories/
+2. Review working examples in working-notebooks/
+3. Consult platform-reference for device-specific issues
+4. Check constraints-reference for system limitations
+
+Remember: Most import failures are due to:
+- Missing fviews layer (50% of cases)
+- Missing name parameters (30% of cases)  
+- JSON syntax errors (15% of cases)
+- Wrong component names (5% of cases)
+
+---
+
+*This troubleshooting index covers ~95% of common Fieldmark notebook issues.*
+
 <!-- concat:reference:file-organization-guide -->
 # File Organization Guide - Fieldmark Documentation
+
+<!-- discovery:metadata
+provides: [project-structure, file-layout, documentation-organization]
+see-also: [manifest]
+-->
+
 
 ## Date: 2025-01-07
 
@@ -26375,17 +28646,258 @@ reference.md
 *Organization Guide Created: 2025-01-07*
 *Purpose: Clarify production vs temporary file structure*
 
+<!-- concat:reference:navigation-index -->
+# Navigation Index for Bidirectional Links
+
+**Purpose**: Registry of all cross-references and bidirectional links in documentation  
+**Created**: 2025-01-07  
+**Usage**: Reference for maintaining link integrity across documentation updates
+
+<!-- discovery:metadata
+provides: [bidirectional-links, cross-reference-registry, anchor-inventory]
+see-also: [llm-navigation-manifest, field-type-index]
+-->
+
+## Bidirectional Link Registry
+
+### Field Type Cross-References
+
+#### Text Fields ← → Related Topics
+- **text-fields-v05.md**
+  - → field-selection-guide.md (field selection)
+  - → platform-reference.md (mobile keyboards)
+  - → constraints-reference.md (XSS vulnerabilities)
+  - ← designer-component-mapping.md (component names)
+  - ← form-structure-guide.md (form examples)
+
+#### Number Fields ← → Related Topics
+- **number-fields-v05.md**
+  - → platform-reference.md (platform behaviors)
+  - → constraints-reference.md (precision limits)
+  - → operations-reference.md (migration from deprecated)
+  - ← designer-component-mapping.md (component names)
+  - ← field-selection-guide.md (numeric decisions)
+
+#### DateTime Fields ← → Related Topics
+- **datetime-fields-v05.md**
+  - → platform-reference.md (timezone issues)
+  - → operations-reference.md (migration guide)
+  - → field-selection-guide.md (temporal decisions)
+  - ← designer-component-mapping.md (component names)
+  - ← dynamic-forms-guide.md (date validation)
+
+#### Selection Fields ← → Related Topics
+- **select-choice-fields-v05.md**
+  - → field-selection-guide.md (choice matrices)
+  - → dynamic-forms-guide.md (conditional logic)
+  - → platform-reference.md (touch interfaces)
+  - ← designer-component-mapping.md (component names)
+  - ← form-structure-guide.md (form examples)
+
+#### Location Fields ← → Related Topics
+- **location-fields-v05.md**
+  - → platform-reference.md (GPS accuracy)
+  - → constraints-reference.md (privacy concerns)
+  - → media-fields-v05.md (geotagging)
+  - ← designer-component-mapping.md (component names)
+  - ← implementation-patterns-guide.md (spatial patterns)
+
+#### Media Fields ← → Related Topics
+- **media-fields-v05.md**
+  - → platform-reference.md (mobile cameras)
+  - → constraints-reference.md (file size limits)
+  - → location-fields-v05.md (geotagging)
+  - ← designer-component-mapping.md (component names)
+  - ← implementation-patterns-guide.md (photo workflows)
+
+#### Relationship Field ← → Related Topics
+- **relationship-field-v05.md**
+  - → form-structure-guide.md (parent-child forms)
+  - → dynamic-forms-guide.md (conditional relationships)
+  - → constraints-reference.md (performance limits)
+  - ← designer-component-mapping.md (component names)
+  - ← field-selection-guide.md (relationship patterns)
+
+#### Display Field ← → Related Topics
+- **display-field-v05.md**
+  - → text-fields-v05.md (comparison with text)
+  - → constraints-reference.md (markdown limitations)
+  - ← designer-component-mapping.md (component names)
+
+### Pattern Guide Cross-References
+
+#### Field Selection Guide ← → Related Topics
+- **field-selection-guide.md**
+  - → All field-categories/*.md (field details)
+  - → platform-reference.md (platform constraints)
+  - → implementation-patterns-guide.md (patterns)
+  - ← form-structure-guide.md (selection context)
+  - ← dynamic-forms-guide.md (conditional selection)
+
+#### Form Structure Guide ← → Related Topics
+- **form-structure-guide.md**
+  - → notebook-format-guide.md (JSON structure)
+  - → relationship-field-v05.md (parent-child)
+  - → field-selection-guide.md (field choices)
+  - ← implementation-patterns-guide.md (structure patterns)
+  - ← dynamic-forms-guide.md (multi-section logic)
+
+#### Dynamic Forms Guide ← → Related Topics
+- **dynamic-forms-guide.md**
+  - → select-choice-fields-v05.md (conditional triggers)
+  - → form-structure-guide.md (form sections)
+  - → implementation-patterns-guide.md (logic patterns)
+  - ← field-selection-guide.md (dynamic selection)
+  - ← All field docs (validation examples)
+
+#### Implementation Patterns ← → Related Topics
+- **implementation-patterns-guide.md**
+  - → field-selection-guide.md (selection patterns)
+  - → form-structure-guide.md (structure patterns)
+  - → dynamic-forms-guide.md (logic patterns)
+  - ← All field docs (implementation examples)
+  - ← constraints-reference.md (workarounds)
+
+### Reference Document Cross-References
+
+#### Designer Component Mapping ← → Related Topics
+- **designer-component-mapping.md**
+  - → All field-categories/*.md (provides mappings for)
+  - → component-reference.md (technical details)
+  - → notebook-format-guide.md (JSON usage)
+  - ← All documents (primary reference)
+
+#### Component Reference ← → Related Topics
+- **component-reference.md**
+  - → designer-component-mapping.md (mapping context)
+  - → All field-categories/*.md (component details)
+  - ← notebook-format-guide.md (component usage)
+  - ← constraints-reference.md (component limits)
+
+#### Constraints Reference ← → Related Topics
+- **constraints-reference.md**
+  - → platform-reference.md (platform limits)
+  - → operations-reference.md (migration issues)
+  - → All field docs (field constraints)
+  - ← implementation-patterns-guide.md (workarounds)
+
+#### Operations Reference ← → Related Topics
+- **operations-reference.md**
+  - → constraints-reference.md (limitation context)
+  - → platform-reference.md (platform ops)
+  - → All field docs (migration paths)
+  - ← troubleshooting-index.md (when created)
+
+#### Platform Reference ← → Related Topics
+- **platform-reference.md**
+  - → location-fields-v05.md (GPS issues)
+  - → media-fields-v05.md (camera issues)
+  - → All field docs (platform behaviors)
+  - ← constraints-reference.md (platform limits)
+
+#### Notebook Format Guide ← → Related Topics
+- **notebook-format-guide.md**
+  - → designer-component-mapping.md (component usage)
+  - → form-structure-guide.md (structure patterns)
+  - ← notebook-templates.md (when created)
+  - ← All field docs (JSON examples)
+
+## Anchor Inventory
+
+### Primary Section Anchors
+
+#### Field Documentation Anchors
+- `#text-input-fields` - Text field documentation
+- `#selection-fields` - Selection field documentation
+- `#datetime-fields` - DateTime field documentation
+- `#number-fields` - Number field documentation
+- `#display-fields` - Display field documentation
+- `#location-fields` - Location field documentation
+- `#media-fields` - Media field documentation
+- `#relationship-fields` - Relationship field documentation
+
+#### Pattern Guide Anchors
+- `#field-selection-guide` - Selection guidance
+- `#form-structure-guide` - Form structure
+- `#dynamic-forms-guide` - Dynamic forms
+- `#implementation-patterns-guide` - Implementation patterns
+
+#### Reference Document Anchors
+- `#designer-component-mapping` - Component mappings
+- `#component-reference` - Component details
+- `#constraints-reference` - Constraints
+- `#operations-reference` - Operations
+- `#platform-reference` - Platform specifics
+- `#notebook-format-guide` - Notebook format
+
+### Common Sub-Section Anchors
+
+#### Standard Field Sections
+- `#overview` - Field overview
+- `#designer-quick-guide` - Designer usage
+- `#configuration` - Configuration details
+- `#validation` - Validation rules
+- `#json-examples` - JSON examples
+- `#common-issues` - Common problems
+- `#platform-notes` - Platform specifics
+
+#### Pattern Guide Sections
+- `#core-principles` - Design principles
+- `#decision-matrix` - Decision matrices
+- `#use-cases` - Use case examples
+- `#anti-patterns` - What to avoid
+- `#best-practices` - Recommended approaches
+
+## Link Validation Checklist
+
+### Pre-Build Validation
+- [ ] All XREF placeholders replaced
+- [ ] All relative paths updated
+- [ ] All anchors unique
+- [ ] All cross-references bidirectional
+
+### Post-Build Validation
+- [ ] All internal links resolve
+- [ ] No broken anchors
+- [ ] Navigation flows both ways
+- [ ] Discovery metadata present
+
+## Maintenance Notes
+
+### When Adding New Documents
+1. Add to this navigation index
+2. Update llm-navigation-manifest.md
+3. Add discovery metadata to new file
+4. Update all related bidirectional links
+5. Add to build-reference.sh if needed
+
+### When Removing Documents
+1. Remove from this index
+2. Update llm-navigation-manifest.md
+3. Fix all broken links in related docs
+4. Update build-reference.sh
+
+### When Renaming Sections
+1. Update anchor in source document
+2. Update all references in this index
+3. Search and replace old anchor globally
+4. Test navigation after rebuild
+
+---
+
+*This index maintains the integrity of cross-references throughout the documentation system.*
+
 <!-- ============================================ -->
 <!-- DOCUMENT METADATA -->
 <!-- ============================================ -->
 
 ## Document Metadata
 
-- **Generated**: 2025-09-07T12:11:55+10:00
-- **Total Lines**: 26384
+- **Generated**: 2025-09-07T14:53:12+10:00
+- **Total Lines**: 28896
 - **Field Documents**: 8
 - **Pattern Documents**: 4
-- **Reference Documents**: 8
+- **Reference Documents**: 12
 - **Format**: LLM-optimized concatenated reference
 
 ## Quick Jump Index

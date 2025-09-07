@@ -8,6 +8,12 @@ json_only: ["TemplatedStringField.template_syntax", "AddressField.structure", "Q
 last_updated: 2025-01-05
 -->
 
+<!-- discovery:metadata
+provides: [text-input, email-validation, template-syntax, address-structure, qr-scanning]
+see-also: [field-selection-guide, platform-reference, constraints-reference]
+-->
+
+
 # Text Input Fields
 
 ## Document Navigation {essential}
@@ -106,14 +112,14 @@ You MUST edit JSON directly for:
 - ✅ Required: Advanced helper text with formatting
 - ⚠️ Optional: Custom placeholder text
 - ⚠️ Optional: Variant styles (outlined, filled, standard)
-- `XREF` See [JSON Examples > TextField Examples]
+- See [TextField Configuration](#textfield-configuration)
 
 **MultilineText (MultipleTextField)**:
 - ✅ Required: Word/character count validation
 - ✅ Required: Performance optimization for >10,000 characters
 - ⚠️ Optional: Dynamic row adjustment based on content
 - ❌ Never: Row configuration can be set in Designer (`InputProps.rows`)
-- `XREF` See [Common Characteristics > Performance Boundaries]
+- See [Performance Considerations](#performance-considerations)
 
 **TemplatedString**:
 - ✅ Required: Complex template logic (Mustache conditionals beyond Designer's Template Builder)
@@ -121,33 +127,33 @@ You MUST edit JSON directly for:
 - ✅ Required: Security patterns to prevent XSS (avoid user input)
 - ❌ Never: Basic templates with text/variables/conditionals can be built in Designer's Template Builder
 - ⚠️ CRITICAL: See [CRITICAL SECURITY VULNERABILITIES] for XSS risks
-- `XREF` See [JSON Examples > TemplatedString Examples]
+- See [TemplatedString Configuration](#templatedstring-configuration)
 
 **Email**:
 - ✅ Required: Domain-specific validation (e.g., `.edu.au` only)
 - ✅ Required: Multiple domain patterns
 - ⚠️ Optional: Custom error messages
-- `XREF` See [Field Quirks Index > Email]
+- See [Email Field Quirks](#email-quirks)
 
 **Address**:
 - ✅ Required: JSON extraction patterns for CSV export
 - ✅ Required: Debounce configuration for race condition
 - ✅ Required: Custom validation rules
 - ⚠️ Beta feature - expect changes
-- `XREF` See [Troubleshooting Guide > Address Field Race Condition]
+- See [Address Field Issues](#address-specific-issues)
 
 **QRCodeFormField**:
 - ✅ Required: Platform conditionals (mobile-only deployment)
 - ✅ Required: Manual fallback field pairing
 - ✅ Required: Making field optional (never mark as required)
 - ❌ Never: Basic scanning configuration
-- `XREF` See [JSON Examples > QRCodeFormField with Manual Fallback]
+- See [QRCodeFormField Configuration](#qrcodefield-configuration)
 
 **RichText**:
 - ✅ Required: Base64 image embedding
 - ⚠️ Optional: Complex markdown/MDX (tables won't render)
 - ❌ Never: Data capture (display only, never exports)
-- `XREF` See [Field Quirks Index > RichText]
+- See [RichText Display Limitations](#display-limitations)
 
 ### Designer Limitations {important}
 
@@ -3775,6 +3781,28 @@ Anti-patterns have been distributed to their respective field sections for bette
 - **v0.1**: Initial consolidated documentation with Designer disambiguation
 - **v0.2**: Added migration patterns and training requirements (2025-08)
 - **v0.3**: Added concatenation boundaries and navigation (2025-01)
+
+---
+
+
+## Fields in Complete Notebooks {important}
+
+For complete working examples showing how these fields integrate into full notebook structures with fviews and viewsets, see:
+
+→ **[Complete Notebook Templates](../references/notebook-templates.md)**
+
+The templates include:
+- Minimal survey (3 fields) 
+- Basic data collection (10 fields)
+- Complex form with validation (20 fields)
+- Mobile-optimized with GPS/Photo
+- Production archaeological recording
+
+Each template shows the complete JSON structure required for import into Designer, including:
+- Proper field → fview → viewset hierarchy
+- Required `name` parameters for all fields
+- Working validation schemas
+- Conditional logic examples
 
 ---
 
