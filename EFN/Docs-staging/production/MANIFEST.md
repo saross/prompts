@@ -33,43 +33,48 @@ production/
 **Purpose**: Comprehensive documentation for each field type category  
 **Format**: LLM-optimized with depth tags {essential}, {important}, {comprehensive}
 
-| File | Fields Covered | Lines | Key Features |
-|------|---------------|-------|--------------|
-| text-fields-v05.md | TextField, MultipleTextField, TemplatedString, Email, Address, QRCode, RichText | 1,693 | XSS risks, validation patterns |
-| select-choice-fields-v05.md | Select, MultiSelect, RadioGroup, Checkbox, AdvancedSelect | 1,332 | Option validation, CSV injection |
-| datetime-fields-v05.md | DatePicker, DateTimeNow, DateTimePicker | 1,284 | Timezone handling, audit trails |
-| number-fields-v05.md | NumberInput, ControlledNumber, BasicAutoIncrementer | 1,298 | Precision limits, overflow risks |
-| display-field-v05.md | RichText (display only) | 571 | Markdown sanitization, memory |
-| location-fields-v05.md | TakePoint, MapFormField | 825 | GPS precision, privacy |
-| media-fields-v05.md | FileUploader, TakePhoto | 789 | File validation, EXIF data |
-| relationship-field-v05.md | RelatedRecordSelector | 584 | Access control, orphan handling |
+#### Field Documentation Purpose Table
+
+| File | LLM Purpose | Fields Covered | Lines |
+|------|------------|----------------|-------|
+| **text-fields-v05.md** | Text input validation, XSS prevention, template syntax | 7 text components | 1,693 |
+| **select-choice-fields-v05.md** | Option configuration, CSV injection prevention | 5 selection components | 1,332 |
+| **datetime-fields-v05.md** | Date handling, timezone issues, audit trails | 4 date/time components | 1,284 |
+| **number-fields-v05.md** | Numeric validation, precision limits, auto-increment | 3 number components | 1,298 |
+| **display-field-v05.md** | Markdown rendering, memory management | 1 display component | 571 |
+| **location-fields-v05.md** | GPS accuracy, privacy concerns, map configuration | 2 location components | 825 |
+| **media-fields-v05.md** | File validation, EXIF stripping, size limits | 2 media components | 789 |
+| **relationship-field-v05.md** | Record linking, access control, orphan handling | 1 relationship component | 584 |
 
 ### 2. Pattern Guides (`/patterns/`)
 **Purpose**: Cross-field patterns showing how fields work together  
 **Status**: Consolidated from 10 source documents
 
-| File | Source Docs | Lines | Coverage |
-|------|------------|-------|----------|
-| field-selection-guide.md | 3 docs merged | 511 | Decision trees, comparison matrix |
-| form-structure-guide.md | 2 docs merged | 401 | Navigation, architecture |
-| dynamic-forms-guide.md | 3 docs merged | 462 | Validation, conditional logic |
-| implementation-patterns-guide.md | 2 docs merged | 419 | Common patterns, troubleshooting |
+#### Pattern Guide Purpose Table
+
+| File | LLM Purpose | Lines |
+|------|------------|-------|
+| **field-selection-guide.md** | Decision trees for choosing appropriate field types | 511 |
+| **form-structure-guide.md** | Multi-section forms, navigation patterns, viewsets | 401 |
+| **dynamic-forms-guide.md** | Conditional visibility, validation rules, computed values | 462 |
+| **implementation-patterns-guide.md** | Common implementation patterns, error handling | 419 |
 
 ### 3. Technical References (`/references/`)
 **Purpose**: Consolidated technical documentation  
-**Status**: Merged from 13 source documents
+**Status**: 8 reference documents serving distinct LLM purposes
 
-| File | Source | Lines | Topics |
-|------|--------|-------|---------|
-| component-reference.md | 4 docs merged | 977 | Namespaces, types, Formik integration |
-| constraints-reference.md | 3 docs merged | 497 | Designer limits, security, validation |
-| designer-component-mapping.md | New | 295 | Designer UI → Component translation |
-| field-type-index.md | Original | 299 | Master navigation index |
-| field-type-summary-table.md | From FAIMS3 | 122 | Quick reference table for all fields |
-| file-organization-guide.md | New | 135 | Production vs temporary file structure |
-| notebook-format-guide.md | New | 198 | Correct notebook JSON structure |
-| operations-reference.md | 3 docs merged | 787 | Migration, export, troubleshooting |
-| platform-reference.md | 3 docs merged | 656 | Platform behaviors, performance, accessibility |
+#### LLM Purpose Reference Table
+
+| Reference File | LLM Purpose | Lines |
+|---------------|-------------|-------|
+| **designer-component-mapping.md** | 🔑 PRIMARY REFERENCE - All field mappings, components, configurations | 295 |
+| **component-reference.md** | Deep technical dive into namespaces, types, Formik integration | 977 |
+| **constraints-reference.md** | Security vulnerabilities, Designer limitations | 497 |
+| **operations-reference.md** | Migration procedures, troubleshooting workflows | 787 |
+| **platform-reference.md** | Platform-specific behaviors and workarounds | 656 |
+| **notebook-format-guide.md** | JSON structure for notebook creation/debugging | 198 |
+| **file-organization-guide.md** | Project structure (meta-documentation) | 135 |
+| **field-type-index.md** | Navigation and documentation structure only | 81 |
 
 ### 4. Scripts (`/scripts/`)
 
