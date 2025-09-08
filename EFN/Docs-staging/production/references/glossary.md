@@ -244,6 +244,86 @@ see-also: [notebook-format-guide, component-reference, field-type-index]
 **Impact**: Slow import/export, UI lag.  
 **Solution**: Split into multiple viewsets.
 
+## Dashboard Terms
+
+### Dashboard
+**Definition**: Web-based administrative interface for managing Fieldmark projects.  
+**Contains**: Templates, Notebooks, Users, Teams sections.  
+**Access**: Browser-based, requires authentication.  
+**See**: [Dashboard Overview](../dashboard/dashboard-overview.md)
+
+### Team
+**Definition**: Organisational unit that owns and manages shared resources.  
+**Purpose**: Centralised permission management and resource sharing.  
+**Hierarchy**: Teams → Notebooks/Templates → Users.  
+**See**: [Teams Interface](../dashboard/teams-interface.md)
+
+### Notebook
+**Definition**: Deployed instance of a template where data collection occurs.  
+**Context**: Each notebook has its own users, permissions, and records.  
+**Creation**: From template or JSON definition.  
+**See**: [Notebooks Interface](../dashboard/notebooks-interface.md)
+
+### Template
+**Definition**: Reusable design defining notebook structure and validation.  
+**Components**: Fields, validation rules, UI configuration.  
+**Creation**: Via Designer interface or JSON import.  
+**See**: [Templates Interface](../dashboard/templates-interface.md)
+
+### Designer
+**Definition**: Visual interface for creating and editing templates.  
+**Panels**: Info (metadata), Form Builder (fields), Properties (configuration).  
+**Note**: No built-in preview - test in separate browser tab.  
+**See**: [Designer Component Mapping](./designer-component-mapping.md)
+
+### System Role
+**Definition**: Platform-wide permission level (SysAdmin, OrgAdmin, Designer, User).  
+**Scope**: Applies across all notebooks and teams.  
+**Inheritance**: Provides baseline permissions.  
+**See**: [Users Interface](../dashboard/users-interface.md)
+
+### Notebook Role
+**Definition**: Permissions within a specific notebook.  
+**Types**: Notebook Administrator, Data Collector, Data Reviewer, Data Viewer.  
+**Scope**: Single notebook only.  
+**See**: [Notebook Permissions](../dashboard/notebooks-interface.md#notebook-roles)
+
+### Team Role
+**Definition**: Permissions within a team context.  
+**Types**: Team Administrator, Team Member.  
+**Scope**: Team resources only.  
+**See**: [Team Roles](../dashboard/teams-interface.md#team-roles)
+
+### Invitation
+**Definition**: Email-based process for granting access to notebooks or teams.  
+**Workflow**: Send → Pending → Accept/Decline → Active.  
+**Expiry**: 7 days by default.  
+**See**: [Invitation Process](../dashboard/notebooks-interface.md#invitation-process)
+
+### Record Status
+**Definition**: Workflow state of collected data.  
+**States**: Draft → Submitted → Reviewed → Archived.  
+**Transitions**: Role-dependent permissions.  
+**See**: [Record Status Workflow](../dashboard/notebooks-interface.md#record-status-workflow)
+
+### Export Formats
+**Definition**: Available data output formats from notebooks.  
+**Types**: CSV (structured data), Photo Archive (ZIP with HRID-renamed images).  
+**Fallback**: Original filenames if no HRID present.  
+**See**: [Export Options](../dashboard/notebooks-interface.md#export-options)
+
+### Email Verification
+**Definition**: Required confirmation of user email address.  
+**Banner**: Persistent reminder until verified.  
+**Impact**: Limits certain features until complete.  
+**See**: [Email Verification](../dashboard/users-interface.md#email-verification)
+
+### Parametric Workflow
+**Definition**: Template-based UI instructions with customisable variables.  
+**Format**: Steps with {{VARIABLE}} markers for context-specific values.  
+**Purpose**: Enable LLMs to generate customised guidance.  
+**See**: [Dashboard Patterns](../dashboard/dashboard-patterns.md)
+
 ## Acronyms
 
 | Acronym | Full Term | Context |
@@ -255,6 +335,8 @@ see-also: [notebook-format-guide, component-reference, field-type-index]
 | UI | User Interface | Designer or app interface |
 | UUID | Universally Unique Identifier | System-generated IDs |
 | CRUD | Create, Read, Update, Delete | Database operations |
+| CSV | Comma-Separated Values | Export format |
+| ZIP | ZIP Archive | Compressed file format |
 
 ---
 

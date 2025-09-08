@@ -37,8 +37,26 @@ see-also: [field-type-index, all-documents]
 | **Migration procedures** | operations-reference.md | references/ |
 | **Form structure patterns** | form-structure-guide.md | patterns/ |
 | **Conditional logic implementation** | dynamic-forms-guide.md | patterns/ |
+| **Dashboard operations** | dashboard-overview.md | dashboard/ |
+| **Template management** | templates-interface.md | dashboard/ |
+| **User permissions** | users-interface.md | dashboard/ |
+| **Team collaboration** | teams-interface.md | dashboard/ |
+| **Common workflows** | dashboard-patterns.md | dashboard/ |
+| **Dashboard troubleshooting** | dashboard-troubleshooting.md | dashboard/ |
 
 ## Document Purpose Tables
+
+### Dashboard Documentation (`dashboard/`)
+
+| Document | Primary Purpose | Key Content | Lines |
+|----------|----------------|-------------|-------|
+| **dashboard-overview.md** | System architecture | • Navigation structure<br>• Role hierarchy<br>• Permission inheritance<br>• Platform overview | 312 |
+| **templates-interface.md** | Template management | • Designer usage<br>• Field configuration<br>• Version control<br>• JSON export/import | 446 |
+| **notebooks-interface.md** | Data collection | • Deployment process<br>• User management<br>• Record workflow<br>• Export options | 525 |
+| **users-interface.md** | User administration | • System roles<br>• Permission matrix<br>• Activity tracking<br>• Email verification | 498 |
+| **teams-interface.md** | Team collaboration | • Resource ownership<br>• Member management<br>• Team roles<br>• Shared templates | 456 |
+| **dashboard-patterns.md** | Workflow recipes | • 7 parametric workflows<br>• Project setup<br>• User onboarding<br>• Migration patterns | 578 |
+| **dashboard-troubleshooting.md** | Problem resolution | • 45+ common issues<br>• Error decoder<br>• Diagnostic flowcharts<br>• Emergency procedures | 305 |
 
 ### Field Documentation (`field-categories/`)
 
@@ -98,6 +116,12 @@ see-also: [field-type-index, all-documents]
 | **Add text fields** | text-fields-v05 + designer-component-mapping |
 | **Implement validation** | dynamic-forms-guide + field-specific docs |
 | **Add GPS capture** | location-fields-v05 + platform-reference |
+| **Set up new project** | dashboard-patterns + teams-interface + templates-interface |
+| **Manage user permissions** | users-interface + notebooks-interface |
+| **Deploy template** | templates-interface + notebooks-interface |
+| **Troubleshoot UI issues** | dashboard-troubleshooting + troubleshooting-index |
+| **Create team structure** | teams-interface + dashboard-patterns |
+| **Export collected data** | notebooks-interface + dashboard-patterns |
 | **Create relationships** | relationship-field + form-structure-guide |
 | **Debug import errors** | notebook-format-guide + troubleshooting-index (when created) |
 | **Migrate from v2** | operations-reference + component-reference |

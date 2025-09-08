@@ -62,6 +62,33 @@ done
 
 # Add separator
 echo -e "\n\n<!-- ============================================ -->" >> "$OUTPUT_FILE"
+echo "<!-- DASHBOARD DOCUMENTATION -->" >> "$OUTPUT_FILE"
+echo "<!-- ============================================ -->" >> "$OUTPUT_FILE"
+
+# Add dashboard documentation
+echo -e "${YELLOW}Adding dashboard documentation...${NC}"
+DASHBOARD_DOCS=(
+    "dashboard-overview"
+    "templates-interface"
+    "notebooks-interface"
+    "users-interface"
+    "teams-interface"
+    "dashboard-patterns"
+    "dashboard-troubleshooting"
+)
+
+for doc in "${DASHBOARD_DOCS[@]}"; do
+    if [ -f "$BASE_DIR/dashboard/${doc}.md" ]; then
+        echo "  - Adding ${doc}.md"
+        echo -e "\n\n<!-- concat:dashboard:${doc} -->" >> "$OUTPUT_FILE"
+        cat "$BASE_DIR/dashboard/${doc}.md" >> "$OUTPUT_FILE"
+    else
+        echo "  ⚠ Warning: ${doc}.md not found in dashboard"
+    fi
+done
+
+# Add separator
+echo -e "\n\n<!-- ============================================ -->" >> "$OUTPUT_FILE"
 echo "<!-- CROSS-FIELD PATTERNS -->" >> "$OUTPUT_FILE"
 echo "<!-- ============================================ -->" >> "$OUTPUT_FILE"
 

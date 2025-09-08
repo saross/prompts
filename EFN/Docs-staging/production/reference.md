@@ -126,8 +126,26 @@ see-also: [field-type-index, all-documents]
 | **Migration procedures** | operations-reference.md | references/ |
 | **Form structure patterns** | form-structure-guide.md | patterns/ |
 | **Conditional logic implementation** | dynamic-forms-guide.md | patterns/ |
+| **Dashboard operations** | dashboard-overview.md | dashboard/ |
+| **Template management** | templates-interface.md | dashboard/ |
+| **User permissions** | users-interface.md | dashboard/ |
+| **Team collaboration** | teams-interface.md | dashboard/ |
+| **Common workflows** | dashboard-patterns.md | dashboard/ |
+| **Dashboard troubleshooting** | dashboard-troubleshooting.md | dashboard/ |
 
 ## Document Purpose Tables
+
+### Dashboard Documentation (`dashboard/`)
+
+| Document | Primary Purpose | Key Content | Lines |
+|----------|----------------|-------------|-------|
+| **dashboard-overview.md** | System architecture | • Navigation structure<br>• Role hierarchy<br>• Permission inheritance<br>• Platform overview | 312 |
+| **templates-interface.md** | Template management | • Designer usage<br>• Field configuration<br>• Version control<br>• JSON export/import | 446 |
+| **notebooks-interface.md** | Data collection | • Deployment process<br>• User management<br>• Record workflow<br>• Export options | 525 |
+| **users-interface.md** | User administration | • System roles<br>• Permission matrix<br>• Activity tracking<br>• Email verification | 498 |
+| **teams-interface.md** | Team collaboration | • Resource ownership<br>• Member management<br>• Team roles<br>• Shared templates | 456 |
+| **dashboard-patterns.md** | Workflow recipes | • 7 parametric workflows<br>• Project setup<br>• User onboarding<br>• Migration patterns | 578 |
+| **dashboard-troubleshooting.md** | Problem resolution | • 45+ common issues<br>• Error decoder<br>• Diagnostic flowcharts<br>• Emergency procedures | 305 |
 
 ### Field Documentation (`field-categories/`)
 
@@ -187,6 +205,12 @@ see-also: [field-type-index, all-documents]
 | **Add text fields** | text-fields-v05 + designer-component-mapping |
 | **Implement validation** | dynamic-forms-guide + field-specific docs |
 | **Add GPS capture** | location-fields-v05 + platform-reference |
+| **Set up new project** | dashboard-patterns + teams-interface + templates-interface |
+| **Manage user permissions** | users-interface + notebooks-interface |
+| **Deploy template** | templates-interface + notebooks-interface |
+| **Troubleshoot UI issues** | dashboard-troubleshooting + troubleshooting-index |
+| **Create team structure** | teams-interface + dashboard-patterns |
+| **Export collected data** | notebooks-interface + dashboard-patterns |
 | **Create relationships** | relationship-field + form-structure-guide |
 | **Debug import errors** | notebook-format-guide + troubleshooting-index (when created) |
 | **Migrate from v2** | operations-reference + component-reference |
@@ -21215,6 +21239,3172 @@ Each template shows the complete JSON structure required for import into Designe
 
 
 <!-- ============================================ -->
+<!-- DASHBOARD DOCUMENTATION -->
+<!-- ============================================ -->
+
+
+<!-- concat:dashboard:dashboard-overview -->
+<!-- concat:boundary:start section="dashboard-overview" -->
+<!-- concat:metadata
+document_id: dashboard-overview
+category: system_navigation
+component_count: 5
+ui_driven: true
+last_updated: 2025-09-08
+-->
+
+<!-- discovery:metadata
+provides: [system-architecture, navigation-structure, component-overview, role-hierarchy]
+see-also: [templates-interface, notebooks-interface, users-interface, teams-interface, dashboard-patterns]
+-->
+
+# Fieldmark Dashboard Overview
+
+<!-- structured:metadata
+meta:purpose: system-navigation
+meta:summary: Centralised web interface for managing field data collection projects, templates, notebooks, teams, and users.
+meta:generates: ui-navigation
+meta:requires: [authenticated-user, browser-access, network-connection]
+meta:version: 3.0.0
+meta:document: dashboard_overview
+meta:depth-tags: [essential, important, comprehensive]
+-->
+
+## Document Navigation {essential}
+<!-- concat:nav-mode:individual -->
+[← Production Docs](../README.md) | **Dashboard Overview** | [Templates Interface →](./templates-interface.md)
+<!-- concat:nav-mode:concatenated -->
+<!-- When viewing in reference.md: [↑ Top](#fieldmark-v3-documentation-structure) | [Templates Interface ↓](#templates-interface) -->
+
+## System Architecture {essential}
+
+Fieldmark implements a hierarchical organisational structure for field data collection:
+
+```
+Teams (Organisational Units)
+  ├── Notebooks (Data Collection Instances)
+  │     ├── Users (with specific roles)
+  │     ├── Records (collected data)
+  │     └── Invitations (pending access)
+  └── Templates (Notebook Designs)
+        ├── Versions (manual tracking)
+        └── Field definitions (JSON schema)
+```
+
+### Key Concepts {essential}
+
+**Teams**: Organisational containers that own resources and manage collaborative access.
+
+**Templates**: Reusable notebook designs containing field definitions, validation rules, and UI configurations.
+
+**Notebooks**: Deployed instances of templates where actual data collection occurs.
+
+**Users**: System participants with role-based permissions at both system and notebook levels.
+
+## Navigation Structure {essential}
+
+The Dashboard provides five main navigation sections:
+
+| Section | Purpose | Primary Actions |
+|---------|---------|-----------------|
+| **Home** | Dashboard landing and overview | View recent activity |
+| **Templates** | Template management | Create, edit, clone templates |
+| **Notebooks** | Data collection management | Deploy, manage, export data |
+| **Users** | User administration | Manage roles and permissions |
+| **Teams** | Collaboration units | Organise resources and members |
+
+### UI Consistency Patterns {important}
+
+All main interfaces follow consistent patterns:
+
+1. **List Views**
+   - Filter/search bar at top
+   - Create button (+ icon or text)
+   - Sortable columns
+   - Pagination controls
+
+2. **Detail Views**
+   - Tabbed interface for different aspects
+   - Edit button for modifications
+   - Action buttons contextually displayed
+
+3. **Creation Dialogs**
+   - Modal overlays
+   - Required fields marked with asterisks
+   - Cancel/confirm buttons
+   - Validation feedback inline
+
+## Role-Based Access Control {important}
+
+### System-Wide Roles
+
+Fieldmark implements four hierarchical system roles:
+
+| Role | Permissions | Typical User |
+|------|------------|--------------|
+| **System Administrator** | Full system control, all operations | IT administrators |
+| **Organisation Administrator** | Manage teams and users | Project managers |
+| **Template Designer** | Create and modify templates | Field researchers |
+| **Standard User** | Access assigned notebooks | Data collectors |
+
+### Notebook-Specific Roles
+
+Within individual notebooks, users have additional roles:
+
+| Role | Permissions | Scope |
+|------|------------|-------|
+| **Notebook Administrator** | Full notebook control | Single notebook |
+| **Data Collector** | Create/edit own records | Single notebook |
+| **Data Reviewer** | Review/approve records | Single notebook |
+| **Data Viewer** | Read-only access | Single notebook |
+
+### Team Roles
+
+Teams have their own role hierarchy:
+
+| Role | Permissions | Scope |
+|------|------------|-------|
+| **Team Administrator** | Manage team resources | Single team |
+| **Team Member** | Access team resources | Single team |
+
+## Permission Inheritance {important}
+
+Permission precedence follows this hierarchy:
+
+1. System Administrator (overrides all)
+2. Notebook-specific roles (within notebook context)
+3. Team roles (for team-owned resources)
+4. System roles (baseline permissions)
+
+### Critical Permission Rules {comprehensive}
+
+- System Administrators have implicit access to all resources
+- Notebook Administrator role supersedes team membership for that notebook
+- Team Administrators can manage all team-owned resources
+- Users can have different roles in different notebooks
+- Role changes take effect immediately (no logout required)
+
+## Dashboard Components {essential}
+
+### Authentication State
+
+All dashboard screens display authentication status:
+
+```
+Your email is not verified!
+Check your emails for a verification request. Click here to send another request to {{USER_EMAIL}}.
+```
+
+This banner persists until email verification is complete.
+
+### Global Navigation
+
+Breadcrumb navigation shows current location:
+```
+Home > Teams > {{TEAM_NAME}} > Notebooks
+```
+
+### Action Patterns
+
+Primary actions consistently positioned:
+- Create/Add: Top right of lists
+- Edit: Top right of detail views
+- Delete: In dropdown menus (requires confirmation)
+- Export: Context-specific placement
+
+## Data Flow {important}
+
+### Template to Notebook Flow
+
+1. **Template Creation**
+   - Design in Designer/Editor
+   - Save as template
+   - Optional: Assign to team
+
+2. **Notebook Deployment**
+   - Select template (or JSON file)
+   - Configure notebook metadata
+   - Set initial permissions
+   - Deploy for data collection
+
+3. **Data Collection**
+   - Users create records
+   - Data validated against template
+   - Records saved with metadata
+
+4. **Data Export**
+   - CSV format for structured data
+   - Photo archive with HRID renaming
+   - JSON for full fidelity
+
+### User Invitation Flow
+
+1. **Invitation Sent**
+   - Email address entered
+   - Role selected
+   - Optional message added
+
+2. **Pending State**
+   - Shows in Invites tab
+   - Can be resent or cancelled
+   - Expires after set period
+
+3. **Acceptance**
+   - User clicks email link
+   - Creates/links account
+   - Appears in Users list
+
+## Platform Considerations {comprehensive}
+
+### Browser Requirements
+
+- Modern browsers (Chrome, Firefox, Safari, Edge)
+- JavaScript enabled
+- Cookies enabled for session management
+- Minimum 1024x768 resolution
+
+### Network Requirements
+
+- Stable internet connection for sync
+- HTTPS for all communications
+- WebSocket support for real-time updates
+
+### Performance Characteristics
+
+- List views paginated (default 10 items)
+- Lazy loading for large datasets
+- Client-side filtering where possible
+- Server-side sorting for consistency
+
+## Security Model {comprehensive}
+
+### Authentication
+
+- Email/password authentication
+- Session-based with timeout
+- Optional multi-factor authentication
+- Password reset via email
+
+### Authorisation
+
+- Role-based access control (RBAC)
+- Resource-level permissions
+- API key support for programmatic access
+- Audit logging of all actions
+
+### Data Protection
+
+- HTTPS encryption in transit
+- Database encryption at rest
+- Regular automated backups
+- GDPR compliance features
+
+## Integration Points {comprehensive}
+
+### External Systems
+
+- Email service for notifications
+- Cloud storage for media files
+- Geographic services for mapping
+- Export to analysis tools
+
+### API Access
+
+- RESTful API endpoints
+- Authentication via API keys
+- Rate limiting applied
+- Webhook support for events
+
+## Common Terminology {essential}
+
+| Term | Definition |
+|------|------------|
+| **HRID** | Human-Readable Identifier for records |
+| **Designer** | Visual interface for creating templates |
+| **Deployment** | Making a notebook available for data collection |
+| **Sync** | Synchronising local and server data |
+| **Role** | Set of permissions assigned to a user |
+| **Team** | Organisational unit for collaboration |
+
+## Quick Start Checklist {important}
+
+For new projects:
+
+- [ ] Create team (if using team structure)
+- [ ] Design template (or select existing)
+- [ ] Deploy notebook from template
+- [ ] Configure user roles
+- [ ] Send invitations to team members
+- [ ] Test data collection workflow
+- [ ] Verify export functionality
+- [ ] Document project-specific conventions
+
+## Next Steps
+
+- For template creation, see [Templates Interface](./templates-interface.md)
+- For notebook deployment, see [Notebooks Interface](./notebooks-interface.md)
+- For user management, see [Users Interface](./users-interface.md)
+- For team setup, see [Teams Interface](./teams-interface.md)
+- For common workflows, see [Dashboard Patterns](./dashboard-patterns.md)
+
+<!-- concat:boundary:end section="dashboard-overview" -->
+
+<!-- concat:dashboard:templates-interface -->
+<!-- concat:boundary:start section="templates-interface" -->
+<!-- concat:metadata
+document_id: templates-interface
+category: ui_management
+designer_integration: true
+json_generation: true
+last_updated: 2025-09-08
+-->
+
+<!-- discovery:metadata
+provides: [template-management, designer-usage, field-configuration, version-control]
+see-also: [designer-component-mapping, field-selection-guide, notebooks-interface, dashboard-patterns]
+-->
+
+# Templates Interface
+
+<!-- structured:metadata
+meta:purpose: template-management
+meta:summary: Template creation, editing, and management through Designer interface with JSON schema generation.
+meta:generates: template-json
+meta:requires: [template-designer-role, designer-access]
+meta:version: 3.0.0
+meta:document: templates_interface
+meta:depth-tags: [essential, important, comprehensive]
+-->
+
+## Document Navigation {essential}
+<!-- concat:nav-mode:individual -->
+[← Dashboard Overview](./dashboard-overview.md) | **Templates Interface** | [Notebooks Interface →](./notebooks-interface.md)
+<!-- concat:nav-mode:concatenated -->
+<!-- When viewing in reference.md: [↑ Dashboard Overview](#dashboard-overview) | [Notebooks Interface ↓](#notebooks-interface) -->
+
+## Overview {essential}
+
+Templates define the structure and behaviour of data collection notebooks. They contain:
+- Field definitions and types
+- Validation rules and constraints
+- UI configurations and layouts
+- Conditional logic and relationships
+- Human-readable identifier patterns
+
+### Access Requirements {essential}
+
+- **System Role**: Template Designer or higher
+- **Team Context**: Team Administrator (for team templates)
+- **Permissions**: Create, edit, clone templates
+
+## Main Templates List {essential}
+
+The templates interface displays all available templates:
+
+### List View Components
+
+| Element | Description | Actions |
+|---------|-------------|---------|
+| **Filter Bar** | Search by name/metadata | Type to filter |
+| **Create Template** | Initiates new template | Opens creation dialog |
+| **Template Cards** | Individual template entries | Click to view details |
+
+### Template Entry Information
+
+Each template shows:
+- Template name
+- Description (truncated)
+- Owner (user or team)
+- Creation date
+- Last modified date
+- Notebook count (using this template)
+
+## Template Creation Pathways {essential}
+
+### Method 1: From Scratch
+```
+Templates > Create Template > Start from scratch
+→ Opens Designer/Editor
+```
+
+### Method 2: From JSON File
+```
+Templates > Create Template > Upload JSON file
+→ Imports existing definition
+```
+
+### Method 3: From Existing Template
+```
+Templates > View Template > Clone
+→ Creates copy for modification
+```
+
+### Creation Dialog Fields
+
+| Field | Required | Description | Example |
+|-------|----------|-------------|---------|
+| **Template Name** | Yes | Unique identifier | {{TEMPLATE_NAME}} |
+| **Description** | No | Purpose and usage notes | {{TEMPLATE_DESC}} |
+| **JSON File** | No | For import method | {{JSON_FILE_PATH}} |
+| **Team Assignment** | No | If created from team context | {{TEAM_NAME}} |
+
+## Designer/Editor Interface {important}
+
+The Designer is the visual interface for building templates:
+
+### Interface Structure
+
+#### Left Panel: Template Metadata (Info Page)
+- **Notebook Name**: Display name for notebooks
+- **Description**: Detailed template purpose
+- **Version**: Manual version number (e.g., "1.0.0")
+- **Author**: Creator identification
+- **Project**: Associated project name
+
+⚠️ **Version Control Note**: Version numbers are manually maintained metadata, not automated versioning.
+
+#### Centre Panel: Form Builder
+- **Sections**: Logical groupings of fields
+- **Fields**: Drag-and-drop from palette
+- **Field Order**: Drag to reorder
+- **Field Actions**: Configure, duplicate, delete
+
+📝 **Preview Note**: No built-in preview. Keep Fieldmark web app open in separate tab for testing. Updates reflect quickly after saving.
+
+#### Right Panel: Field Properties
+- **Field Identifier**: Unique field name (JSON key)
+- **Display Label**: User-visible text
+- **Field Type**: Component selection
+- **Validation**: Rules and constraints
+- **Help Text**: User guidance
+- **Conditional Logic**: Show/hide rules
+
+### Designer Field Selection {important}
+
+**Critical Naming Clarification**:
+
+| Designer Name | Component Created | Use Case |
+|---------------|------------------|----------|
+| **FAIMS Text Field** | FAIMSTextField | Single-line text |
+| **Text Field** | MultipleTextField | Multi-line text |
+| **Email** | TextField (configured) | Email validation |
+
+⚠️ This naming inconsistency causes significant confusion. Always verify component-name in JSON.
+
+### Available Field Categories {essential}
+
+For complete field documentation, see:
+- [Text Fields](../field-categories/text-fields-v05.md) - Including HRID configuration
+- [Selection Fields](../field-categories/select-choice-fields-v05.md) - RadioGroup, Select, MultiSelect
+- [Date/Time Fields](../field-categories/datetime-fields-v05.md) - Date pickers and timestamps
+- [Number Fields](../field-categories/number-fields-v05.md) - Auto-increment and validation
+- [Location Fields](../field-categories/location-fields-v05.md) - GPS capture and mapping
+- [Media Fields](../field-categories/media-fields-v05.md) - Photo and file uploads
+- [Relationship Field](../field-categories/relationship-field-v05.md) - Record linking
+- [Display Field](../field-categories/display-field-v05.md) - RichText markdown
+
+For Designer-specific mappings:
+→ [Designer Component Mapping](../references/designer-component-mapping.md) - **Critical reference**
+→ [Component Reference](../references/component-reference.md) - Namespaces and types
+→ [Constraints Reference](../references/constraints-reference.md) - Designer limitations
+
+## Template Configuration {important}
+
+### Required Components
+
+Every template MUST include:
+
+1. **HRID Field** (TemplatedString)
+   ```json
+   "{{HRID_FIELD_ID}}": {
+     "component-namespace": "faims-custom",
+     "component-name": "TemplatedStringField",
+     "component-parameters": {
+       "template": "{{PROJECT_ABBREV}}-{{_YYYY}}-{{auto_increment}}"
+     }
+   }
+   ```
+   Without HRID, records display as UUIDs (e.g., `a7f3b2c1-d4e5-6789-0abc`)
+
+2. **Form Structure** (fviews layer)
+   ```json
+   "fviews": {
+     "{{FORM_ID}}": {
+       "fields": ["{{FIELD_ID_1}}", "{{FIELD_ID_2}}"],
+       "views": ["{{SECTION_ID_1}}", "{{SECTION_ID_2}}"]
+     }
+   }
+   ```
+
+3. **Field Name Parameters**
+   ```json
+   "component-parameters": {
+     "name": "{{FIELD_ID}}"  // Must match field key
+   }
+   ```
+
+### Validation Configuration {comprehensive}
+
+Templates support Yup validation schema:
+
+```json
+"validationSchema": [
+  ["yup.string"],
+  ["yup.required", "{{VALIDATION_MESSAGE}}"],
+  ["yup.min", 10, "Minimum 10 characters"],
+  ["yup.matches", "^[A-Z]", "Must start with capital"]
+]
+```
+
+Common validation patterns:
+- Required fields: `["yup.required", "Field is required"]`
+- String length: `["yup.min", 5]`, `["yup.max", 100]`
+- Number ranges: `["yup.min", 0]`, `["yup.max", 100]`
+- Date ranges: `["yup.min", ["yup.ref", "start_date"]]`
+- Pattern matching: `["yup.matches", "regex", "message"]`
+
+For parametric validation recipes:
+→ [Cookbook](../patterns/cookbook.md) - Date range validation, cascading selects
+→ [Dynamic Forms Guide](../patterns/dynamic-forms-guide.md) - Cross-field validation
+
+### Conditional Logic {comprehensive}
+
+Templates support field visibility conditions:
+
+```json
+"is_visible_when": [
+  {
+    "field": "{{TRIGGER_FIELD_ID}}",
+    "operator": "equals",
+    "value": "{{TRIGGER_VALUE}}"
+  }
+]
+```
+
+Supported operators:
+- `equals`: Exact match
+- `not_equals`: Not matching
+- `contains`: Substring present
+- `not_contains`: Substring absent
+- `greater_than`: Numeric comparison
+- `less_than`: Numeric comparison
+
+## Template Management {important}
+
+### Template Details View
+
+Accessed by clicking a template from the list:
+
+#### Available Tabs
+
+| Tab | Content | Actions |
+|-----|---------|---------|
+| **Details** | Metadata and info | Edit basic information |
+| **Notebooks** | Using this template | View deployed notebooks |
+| **History** | Version notes | Track manual versions |
+
+#### Available Actions
+
+- **Edit**: Opens Designer with template
+- **Clone**: Creates duplicate for modification
+- **Export**: Downloads as JSON file
+- **Delete**: Remove (if no active notebooks)
+
+### Template Testing {important}
+
+**Recommended Testing Workflow**:
+
+1. Save template in Designer
+2. Switch to Fieldmark web app tab
+3. Create test notebook from template
+4. Enter sample data
+5. Identify issues
+6. Return to Designer and modify
+7. Repeat until satisfied
+
+## JSON Export/Import {comprehensive}
+
+### Export Process
+```
+Template Details > Export > Download JSON
+```
+
+Exported JSON includes:
+- Complete field definitions
+- Validation schemas
+- UI configurations
+- Metadata
+
+### Import Process
+```
+Create Template > Choose File > Select JSON
+```
+
+Import requirements:
+- Valid JSON syntax
+- Unique field identifiers
+- Required fviews structure
+- Compatible component names
+
+### JSON Enhancement Requirements {comprehensive}
+
+You must edit JSON directly for:
+
+**Advanced Validation**:
+- Complex regex patterns
+- Cross-field validation
+- Custom error messages
+- Dynamic validation rules
+
+**Performance Optimisation**:
+- Large text field limits
+- Async validation
+- Debounced inputs
+- Lazy loading
+
+**Security Configurations**:
+- XSS prevention in templates
+- Input sanitisation
+- File upload restrictions
+- API endpoint security
+
+## Team-Owned Templates {important}
+
+When created from team context:
+
+### Ownership Benefits
+- Centralised management
+- Shared access for team members
+- Consistent project standards
+- Simplified permissions
+
+### Creation from Team
+```
+Teams > {{TEAM_NAME}} > Templates > Create Template
+```
+
+Automatically:
+- Assigns team ownership
+- Grants team admin edit rights
+- Makes visible to team members
+
+## Template Best Practices {important}
+
+### Naming Conventions
+```
+{{PROJECT}}-{{TYPE}}-{{VERSION}}
+Example: CSIRO-Survey-v2.1
+```
+
+### Version Management
+- Use semantic versioning (1.0.0)
+- Document changes in description
+- Never modify templates with active notebooks
+- Clone for major changes
+
+### Field Organisation
+- Group related fields in sections
+- Order by data collection flow
+- Provide clear help text
+- Use consistent naming patterns
+
+### Performance Considerations
+- Limit fields per section (<20)
+- Avoid deep nesting
+- Optimise conditional logic
+- Test on mobile devices
+
+## Common Issues {comprehensive}
+
+### Template Won't Import
+
+| Issue | Solution |
+|-------|----------|
+| Invalid JSON | Validate with JSON linter |
+| Missing fviews | Add form structure layer |
+| Duplicate IDs | Ensure unique field names |
+| Unknown components | Check component-name spelling |
+
+### Designer Limitations
+
+| Limitation | Workaround |
+|-----------|------------|
+| No preview | Use separate browser tab |
+| Can't set all properties | Edit JSON after export |
+| Complex logic not supported | Use JSON for advanced features |
+| No undo/redo | Save versions frequently |
+
+### Field Configuration Errors
+
+| Error | Cause | Fix |
+|-------|-------|-----|
+| Field not appearing | Not in fviews.fields | Add to form structure |
+| Validation not working | Missing name parameter | Ensure name matches ID |
+| Label not showing | Missing label parameter | Add to component-parameters |
+
+## Cross-References {important}
+
+For detailed field configuration:
+→ [Designer Component Mapping](../references/designer-component-mapping.md)
+
+For field selection guidance:
+→ [Field Selection Guide](../patterns/field-selection-guide.md)
+
+For JSON structure details:
+→ [Notebook Format Guide](../references/notebook-format-guide.md)
+
+For deployment:
+→ [Notebooks Interface](./notebooks-interface.md)
+
+<!-- concat:boundary:end section="templates-interface" -->
+
+<!-- concat:dashboard:notebooks-interface -->
+<!-- concat:boundary:start section="notebooks-interface" -->
+<!-- concat:metadata
+document_id: notebooks-interface
+category: data_collection
+deployment: true
+export_formats: ["CSV", "photo_archive"]
+last_updated: 2025-09-08
+-->
+
+<!-- discovery:metadata
+provides: [notebook-deployment, record-management, user-permissions, data-export, invitation-flow]
+see-also: [templates-interface, users-interface, teams-interface, dashboard-patterns]
+-->
+
+# Notebooks Interface
+
+<!-- structured:metadata
+meta:purpose: data-collection-management
+meta:summary: Deploy templates as notebooks, manage users and permissions, collect records, and export data.
+meta:generates: notebook-instances
+meta:requires: [template-selection, user-assignment]
+meta:version: 3.0.0
+meta:document: notebooks_interface
+meta:depth-tags: [essential, important, comprehensive]
+-->
+
+## Document Navigation {essential}
+<!-- concat:nav-mode:individual -->
+[← Templates Interface](./templates-interface.md) | **Notebooks Interface** | [Users Interface →](./users-interface.md)
+<!-- concat:nav-mode:concatenated -->
+<!-- When viewing in reference.md: [↑ Templates Interface](#templates-interface) | [Users Interface ↓](#users-interface) -->
+
+## Overview {essential}
+
+Notebooks are deployed instances of templates where actual data collection occurs. Each notebook:
+- Maintains its own user base
+- Enforces template-defined validation
+- Stores collected records
+- Tracks data provenance
+- Supports offline collection (mobile)
+
+## Main Notebooks List {essential}
+
+### Quick Filters
+
+The interface provides three filter views:
+
+| Filter | Description | Visibility |
+|--------|-------------|------------|
+| **Activated Notebooks** | Notebooks you're participating in | All users |
+| **Notebooks with roles** | Where you have specific permissions | All users |
+| **All Notebooks** | System-wide view | Admin only |
+
+### List Components
+
+| Element | Description | User Action |
+|---------|-------------|-------------|
+| **Search Bar** | Filter by name/metadata | Type to search |
+| **Create Notebook** | Deploy new instance | Opens creation dialog |
+| **Notebook Entries** | Individual notebooks | Click for details |
+
+### Notebook Entry Information
+
+Each entry displays:
+- Notebook name
+- Description
+- Status indicators (active/archived)
+- User count
+- Record count
+- Last activity timestamp
+- Team ownership (if applicable)
+
+## Notebook Creation {essential}
+
+### Creation Dialog
+
+The notebook creation process requires:
+
+| Field | Required | Description | Example |
+|-------|----------|-------------|---------|
+| **Notebook Name** | Yes | Unique identifier | {{NOTEBOOK_NAME}} |
+| **Template Selection** | No* | Choose existing template | {{TEMPLATE_NAME}} |
+| **JSON Upload** | No* | Alternative to template | {{JSON_FILE_PATH}} |
+| **Team Assignment** | Auto | If created from team context | {{TEAM_NAME}} |
+
+*One method required: template OR JSON OR proceed to Designer
+
+### Creation Pathways
+
+#### Path 1: From Template
+```
+Notebooks > Create Notebook > Select Template > {{TEMPLATE_NAME}}
+→ Configure settings → Deploy
+```
+
+#### Path 2: From JSON
+```
+Notebooks > Create Notebook > Upload JSON > Choose File
+→ Validate structure → Deploy
+```
+
+#### Path 3: From Team Context
+```
+Teams > {{TEAM_NAME}} > Notebooks > Create Notebook
+→ Automatic team ownership → Deploy
+```
+
+#### Path 4: Direct to Designer
+```
+Notebooks > Create Notebook > Leave blank
+→ Opens Designer → Build template → Deploy
+```
+
+## Individual Notebook View {important}
+
+Each notebook has a comprehensive management interface with tabs:
+
+### Details Tab {essential}
+
+Displays notebook metadata:
+
+| Field | Description | Editable |
+|-------|-------------|----------|
+| **Name** | Notebook identifier | Yes (Admin) |
+| **Description** | Purpose and notes | Yes (Admin) |
+| **Template** | Source template name | No |
+| **Created** | Deployment timestamp | No |
+| **Modified** | Last update time | No |
+| **Status** | Active/Archived | Yes (Admin) |
+| **Team** | Owning team | No |
+| **Statistics** | Users, records, activity | No |
+
+### Records Tab {important}
+
+The primary data collection interface:
+
+#### Record List Features
+
+| Feature | Description | Permissions |
+|---------|-------------|-------------|
+| **Filter** | Search records | All users |
+| **Sort** | By date, author, status | All users |
+| **View** | Open record details | Based on role |
+| **Edit** | Modify record | Owner or Admin |
+| **Delete** | Remove record | Owner or Admin |
+| **Export** | Download data | Based on role |
+
+#### Record Information
+
+Each record shows:
+- HRID (Human-Readable Identifier)
+- Creation timestamp
+- Author (username)
+- Status (draft/submitted/reviewed)
+- Last modified
+- Revision count
+
+#### Record Status Workflow
+
+| Status | Description | Who Can Transition |
+|--------|-------------|-------------------|
+| **Draft** | Work in progress | Author |
+| **Submitted** | Ready for review | Author → Reviewer |
+| **Reviewed** | Approved | Reviewer |
+| **Archived** | Historical | Administrator |
+
+#### Export Options {essential}
+
+Current export formats:
+
+1. **CSV Export**
+   - Structured tabular data
+   - All fields as columns
+   - UTF-8 encoding
+   - Includes metadata fields
+
+2. **Photo Archive**
+   - ZIP file containing images
+   - Photos renamed using HRIDs
+   - Fallback: Original filename if no HRID
+   - Maintains folder structure
+
+### Users Tab {important}
+
+Manages notebook participants:
+
+#### User List Display
+
+| Column | Description | Sortable |
+|--------|-------------|----------|
+| **Name** | Display name | Yes |
+| **Email** | Contact address | Yes |
+| **Roles** | Assigned permissions | No |
+| **Status** | Active/Invited | Yes |
+| **Last Activity** | Recent action | Yes |
+
+#### User Actions
+
+| Action | Permission Required | Description |
+|--------|-------------------|-------------|
+| **Add User** | Notebook Admin | Opens invitation dialog |
+| **Edit Role** | Notebook Admin | Modify permissions |
+| **Remove User** | Notebook Admin | Revoke access |
+| **View Activity** | Notebook Admin | See user actions |
+
+#### Notebook Roles {essential}
+
+| Role | Permissions | Use Case |
+|------|------------|----------|
+| **Notebook Administrator** | Full control | Project manager |
+| **Data Collector** | Create/edit own records | Field worker |
+| **Data Reviewer** | Review all records | Quality control |
+| **Data Viewer** | Read-only access | Stakeholder |
+
+### Invites Tab {important}
+
+Handles pending invitations:
+
+#### Invitation Management
+
+| Status | Description | Actions Available |
+|--------|-------------|------------------|
+| **Pending** | Awaiting response | Resend, Cancel |
+| **Accepted** | User joined | View in Users tab |
+| **Expired** | Time limit exceeded | Resend |
+| **Declined** | User rejected | Remove, Resend |
+
+#### Invitation Process
+
+1. **Create Invitation**
+   ```
+   Users Tab > Add User > Enter Email
+   → Select Role → Add Message (optional) → Send
+   ```
+
+2. **Email Sent**
+   - Contains acceptance link
+   - Shows notebook name
+   - Includes personal message
+   - Valid for 7 days
+
+3. **User Accepts**
+   - Clicks email link
+   - Creates/links account
+   - Gains immediate access
+
+4. **Invitation Complete**
+   - User appears in Users list
+   - Invitation removed from pending
+   - Activity logged
+
+## Data Collection Workflow {important}
+
+### Record Creation
+
+1. User navigates to notebook
+2. Clicks "Create Record" button
+3. Fills form fields per template
+4. Saves as draft or submits
+5. Record assigned HRID
+
+### Record Editing
+
+- Draft status: Full editing allowed
+- Submitted: Limited by role
+- Reviewed: Admin only
+- All edits create revisions
+
+### Data Validation
+
+Templates enforce:
+- Required fields
+- Format validation
+- Range constraints
+- Cross-field rules
+- Conditional requirements
+
+For validation implementation:
+→ [Dynamic Forms Guide](../patterns/dynamic-forms-guide.md) - Validation patterns
+→ [Field Selection Guide](../patterns/field-selection-guide.md) - Choosing validators
+→ [Implementation Patterns](../patterns/implementation-patterns-guide.md) - Best practices
+
+## Offline Capabilities {comprehensive}
+
+### Mobile App Features
+
+- Download notebook for offline use
+- Collect data without connection
+- Queue changes locally
+- Sync when connected
+- Conflict resolution
+
+### Sync Process
+
+1. **Download Phase**
+   - Template definition
+   - Existing records
+   - User permissions
+
+2. **Offline Work**
+   - Create new records
+   - Edit existing (if permitted)
+   - Queue all changes
+
+3. **Upload Phase**
+   - Send queued changes
+   - Receive updates
+   - Resolve conflicts
+   - Update local cache
+
+## Team-Owned Notebooks {important}
+
+### Benefits of Team Ownership
+
+- Centralised permission management
+- Automatic member access
+- Consistent project standards
+- Simplified onboarding
+
+### Team Context Creation
+
+When created from team:
+```
+Teams > {{TEAM_NAME}} > Notebooks > Create
+```
+
+Automatically:
+- Assigns team ownership
+- Grants team members access
+- Inherits team permissions
+- Appears in team's notebook list
+
+## Performance Considerations {comprehensive}
+
+### Large Datasets
+
+| Records | Performance Impact | Recommendations |
+|---------|-------------------|-----------------|
+| <1,000 | None | Standard usage |
+| 1,000-10,000 | Minor | Use filtering |
+| 10,000-50,000 | Noticeable | Pagination essential |
+| >50,000 | Significant | Consider archiving |
+
+### Optimisation Strategies
+
+- Regular data exports
+- Archive completed projects
+- Remove inactive users
+- Clean up draft records
+- Optimise photo storage
+
+## Common Issues and Solutions {comprehensive}
+
+### Notebook Creation Failures
+
+| Issue | Cause | Solution |
+|-------|-------|----------|
+| "Invalid template" | JSON syntax error | Validate JSON |
+| "Name already exists" | Duplicate notebook | Choose unique name |
+| "Permission denied" | Insufficient role | Request elevation |
+| "Template not found" | Deleted template | Use JSON backup |
+
+### Import/Export Issues
+
+| Issue | Cause | Solution |
+|-------|-------|----------|
+| CSV empty | No records | Create records first |
+| Photos missing | No media fields | Check template |
+| Export fails | Large dataset | Export in batches |
+| Import rejected | Wrong format | Check JSON structure |
+
+### Permission Problems
+
+| Issue | Cause | Solution |
+|-------|-------|----------|
+| Can't edit records | Wrong role | Request Collector role |
+| Can't invite users | Not admin | Contact notebook admin |
+| Can't see notebook | No access | Request invitation |
+| Can't delete | Not owner/admin | Contact administrator |
+
+## Best Practices {important}
+
+### Notebook Naming
+```
+{{PROJECT}}-{{LOCATION}}-{{YEAR}}-{{TYPE}}
+Example: CSIRO-Pilbara-2025-Survey
+```
+
+### User Management
+- Assign roles based on actual needs
+- Regular permission audits
+- Remove inactive users
+- Document role decisions
+
+### Data Management
+- Regular exports for backup
+- Test export formats early
+- Plan data retention
+- Archive completed projects
+
+### Quality Control
+- Implement review workflows
+- Use Data Reviewer role
+- Regular data validation
+- Document data standards
+
+## Cross-References {important}
+
+For template design:
+→ [Templates Interface](./templates-interface.md)
+
+For user roles:
+→ [Users Interface](./users-interface.md)
+
+For team management:
+→ [Teams Interface](./teams-interface.md)
+
+For workflows:
+→ [Dashboard Patterns](./dashboard-patterns.md)
+
+<!-- concat:boundary:end section="notebooks-interface" -->
+
+<!-- concat:dashboard:users-interface -->
+<!-- concat:boundary:start section="users-interface" -->
+<!-- concat:metadata
+document_id: users-interface  
+category: user_management
+permissions: role_based
+authentication: email_password
+last_updated: 2025-09-08
+-->
+
+<!-- discovery:metadata
+provides: [user-management, system-roles, permissions-matrix, activity-tracking]
+see-also: [notebooks-interface, teams-interface, dashboard-overview, dashboard-patterns]
+-->
+
+# Users Interface
+
+<!-- structured:metadata
+meta:purpose: user-administration
+meta:summary: System-wide user management, role assignment, activity tracking, and permission control.
+meta:generates: user-permissions
+meta:requires: [admin-role, user-database]
+meta:version: 3.0.0
+meta:document: users_interface
+meta:depth-tags: [essential, important, comprehensive]
+-->
+
+## Document Navigation {essential}
+<!-- concat:nav-mode:individual -->
+[← Notebooks Interface](./notebooks-interface.md) | **Users Interface** | [Teams Interface →](./teams-interface.md)
+<!-- concat:nav-mode:concatenated -->
+<!-- When viewing in reference.md: [↑ Notebooks Interface](#notebooks-interface) | [Teams Interface ↓](#teams-interface) -->
+
+## Overview {essential}
+
+The Users interface provides system-wide user management capabilities:
+- User account administration
+- System role assignment
+- Activity monitoring
+- Permission management
+- Account lifecycle control
+
+### Access Requirements {essential}
+
+| Operation | Required Role |
+|-----------|--------------|
+| View user list | Any authenticated user |
+| View user details | Any authenticated user |
+| Modify roles | System/Organisation Admin |
+| Delete users | System Administrator |
+| View activity logs | System/Organisation Admin |
+
+## Main Users List {essential}
+
+### List View Components
+
+| Element | Description | Functionality |
+|---------|-------------|--------------|
+| **Search/Filter** | Find users | By name, email, role |
+| **User Entries** | Individual users | Click for details |
+| **Pagination** | Navigate list | 10/25/50 per page |
+| **Sort Controls** | Order results | By name, date, activity |
+
+### User Entry Display
+
+Each user entry shows:
+- Display name
+- Email address
+- System roles (abbreviated)
+- Account status (active/suspended)
+- Last login timestamp
+- Registration date
+
+## System Roles {essential}
+
+### Role Hierarchy
+
+Fieldmark implements four hierarchical system-wide roles:
+
+| Role | Abbreviation | Permissions | Typical User |
+|------|--------------|-------------|--------------|
+| **System Administrator** | SysAdmin | Full system control | IT administrators |
+| **Organisation Administrator** | OrgAdmin | Manage teams and users | Project managers |
+| **Template Designer** | Designer | Create/modify templates | Field researchers |
+| **Standard User** | User | Basic access | Data collectors |
+
+### Permission Matrix {important}
+
+| Action | SysAdmin | OrgAdmin | Designer | User |
+|--------|----------|----------|----------|------|
+| Create users | ✓ | ✓ | ✗ | ✗ |
+| Assign system roles | ✓ | ✓* | ✗ | ✗ |
+| Create teams | ✓ | ✓ | ✗ | ✗ |
+| Create templates | ✓ | ✓ | ✓ | ✗ |
+| Deploy notebooks | ✓ | ✓ | ✓ | ✗ |
+| Access all notebooks | ✓ | ✗ | ✗ | ✗ |
+| View system logs | ✓ | ✓ | ✗ | ✗ |
+| System configuration | ✓ | ✗ | ✗ | ✗ |
+
+*Organisation Admins cannot assign System Administrator role
+
+### Role Assignment Rules {comprehensive}
+
+1. **Elevation Restrictions**
+   - Users cannot elevate above their own role
+   - Only SysAdmin can create other SysAdmins
+   - Role changes take effect immediately
+
+2. **Downgrade Protection**
+   - Cannot remove last SysAdmin
+   - Warning when removing admin roles
+   - Confirmation required for downgrades
+
+3. **Inheritance Behaviour**
+   - System roles provide baseline permissions
+   - Notebook roles can extend permissions
+   - Team roles apply to team resources only
+
+## Individual User View {important}
+
+### User Profile Display
+
+| Section | Information | Editable By |
+|---------|------------|-------------|
+| **Account Info** | Name, email, created date | User or Admin |
+| **System Roles** | Assigned system permissions | Admin only |
+| **Activity Summary** | Login history, actions | View only |
+| **Team Memberships** | Associated teams | Team/Org Admin |
+| **Notebook Access** | Participated notebooks | View only |
+| **Created Resources** | Templates, notebooks | View only |
+
+### User Actions Menu {important}
+
+Available actions depend on viewer's role:
+
+| Action | Who Can Perform | Description |
+|--------|-----------------|-------------|
+| **Edit Profile** | User or Admin | Modify name, contact |
+| **Change Roles** | Admin | Adjust system permissions |
+| **Reset Password** | User or Admin | Force password change |
+| **Suspend Account** | Admin | Temporary disable |
+| **Delete User** | SysAdmin | Permanent removal |
+| **View Activity** | Admin | Detailed action log |
+| **Export Data** | User or Admin | User's collected data |
+
+## User Management Operations {important}
+
+### Creating Users
+
+Users can be created through:
+
+1. **Direct Creation** (Admin)
+   ```
+   Users > Create User > Fill Form > Save
+   ```
+
+2. **Invitation Accept** (Self-service)
+   ```
+   Email Invitation > Accept > Create Account
+   ```
+
+3. **SSO Integration** (If configured)
+   ```
+   Login with SSO > Auto-create profile
+   ```
+
+### User Creation Form
+
+| Field | Required | Validation | Example |
+|-------|----------|------------|---------|
+| **Email** | Yes | Valid email format | {{USER_EMAIL}} |
+| **Display Name** | Yes | 2-50 characters | {{USER_NAME}} |
+| **Password** | Yes | Minimum 8 characters | {{TEMP_PASSWORD}} |
+| **System Role** | Yes | From available roles | {{SYSTEM_ROLE}} |
+| **Send Welcome Email** | No | Checkbox | {{SEND_WELCOME}} |
+
+### Modifying Users {comprehensive}
+
+#### Profile Updates
+- Display name changes
+- Contact information
+- Timezone preferences
+- Language settings
+- Notification preferences
+
+#### Role Modifications
+```
+User Profile > Roles > Edit > Select New Role > Save
+```
+
+Considerations:
+- Logged-in users see changes immediately
+- May affect access to current resources
+- Audit log entry created
+- Email notification sent
+
+#### Password Management
+
+| Method | Initiated By | Process |
+|--------|--------------|---------|
+| **User Reset** | User | Email link → New password |
+| **Admin Reset** | Admin | Force change on next login |
+| **Expired Password** | System | Prompt at login |
+| **Security Reset** | System | After suspicious activity |
+
+### Suspending Users {comprehensive}
+
+Suspension temporarily disables account:
+
+Effects:
+- Cannot login
+- Active sessions terminated
+- Retains all data and permissions
+- Can be reversed
+
+Process:
+```
+User Profile > Actions > Suspend Account > Confirm
+```
+
+Reasons for suspension:
+- Security investigation
+- Extended leave
+- Policy violation pending review
+- Account compromise
+
+### Deleting Users {comprehensive}
+
+⚠️ **Critical Operation** - Requires System Administrator
+
+#### Pre-Deletion Checklist
+
+- [ ] Export user's data
+- [ ] Transfer resource ownership
+- [ ] Document deletion reason
+- [ ] Notify affected teams
+- [ ] Archive activity logs
+
+#### Deletion Options
+
+| Option | Effect | Use Case |
+|--------|--------|----------|
+| **Soft Delete** | Mark as deleted, retain data | Compliance requirements |
+| **Hard Delete** | Remove all traces | GDPR request |
+| **Anonymise** | Replace PII with placeholders | Research continuity |
+
+#### Data Handling
+
+| Data Type | Soft Delete | Hard Delete | Anonymise |
+|-----------|-------------|-------------|-----------|
+| Profile | Hidden | Removed | Randomised |
+| Records | Retained | Removed | Author anonymised |
+| Activity Logs | Retained | Removed | User ID replaced |
+| Team Membership | Removed | Removed | Removed |
+
+## Activity Tracking {comprehensive}
+
+### Activity Log Contents
+
+Each log entry contains:
+- Timestamp (UTC)
+- User identifier
+- Action performed
+- Resource affected
+- IP address
+- Session ID
+- Result (success/failure)
+
+### Tracked Actions
+
+| Category | Examples |
+|----------|----------|
+| **Authentication** | Login, logout, password change |
+| **Data Operations** | Create, read, update, delete records |
+| **Permission Changes** | Role assignments, access grants |
+| **System Actions** | Template creation, notebook deployment |
+| **Administrative** | User management, system configuration |
+
+### Log Retention
+
+| Log Type | Retention Period | Purpose |
+|----------|-----------------|---------|
+| Authentication | 90 days | Security monitoring |
+| Data changes | 1 year | Audit trail |
+| Admin actions | 3 years | Compliance |
+| System errors | 30 days | Debugging |
+
+## Email Verification {important}
+
+### Verification Banner
+
+Unverified users see:
+```
+Your email is not verified!
+Check your emails for a verification request. Click here to send another request to {{USER_EMAIL}}.
+```
+
+### Verification Process
+
+1. **Initial Email** sent on account creation
+2. **Reminder Banner** appears on all pages
+3. **Resend Option** available via banner
+4. **Verification Link** valid for 24 hours
+5. **Confirmation** on successful verification
+
+### Restrictions for Unverified Users
+
+| Feature | Available | Restricted |
+|---------|-----------|------------|
+| View notebooks | ✓ | |
+| Create records | ✓ | |
+| Export data | | ✓ |
+| Create notebooks | | ✓ |
+| Invite users | | ✓ |
+| API access | | ✓ |
+
+## Best Practices {important}
+
+### Role Assignment Strategy
+
+1. **Principle of Least Privilege**
+   - Grant minimum necessary permissions
+   - Escalate only when required
+   - Regular permission reviews
+
+2. **Role Distribution**
+   ```
+   Recommended ratios:
+   - System Admins: 2-3 per organisation
+   - Org Admins: 1 per 10-20 users
+   - Designers: Based on template needs
+   - Standard Users: Majority
+   ```
+
+3. **Documentation**
+   - Document role assignment reasons
+   - Maintain role responsibility matrix
+   - Regular audit of permissions
+
+### User Onboarding {comprehensive}
+
+#### Standard Process
+
+1. **Account Creation**
+   - Admin creates or user self-registers
+   - Email verification sent
+   - Initial role assigned
+
+2. **Team Assignment**
+   - Add to relevant teams
+   - Configure team roles
+
+3. **Notebook Access**
+   - Send notebook invitations
+   - Assign notebook-specific roles
+
+4. **Training**
+   - Provide role-specific guides
+   - Share documentation links
+   - Assign mentor if needed
+
+5. **Verification**
+   - Confirm email verified
+   - Test access to resources
+   - Check permission levels
+
+### Security Considerations {comprehensive}
+
+#### Password Policy
+
+Enforce strong passwords:
+- Minimum 8 characters
+- Mixed case letters
+- Numbers and symbols
+- No common patterns
+- No recent reuse
+
+#### Account Monitoring
+
+Watch for:
+- Failed login attempts
+- Unusual access patterns
+- Permission escalation attempts
+- Dormant account reactivation
+- Geographic anomalies
+
+#### Regular Audits
+
+Monthly:
+- Review admin accounts
+- Check suspended users
+- Verify email addresses
+
+Quarterly:
+- Full permission audit
+- Remove inactive users
+- Update role assignments
+
+## Common Issues {comprehensive}
+
+### Access Problems
+
+| Issue | Cause | Solution |
+|-------|-------|----------|
+| Can't login | Suspended/deleted account | Check with admin |
+| Wrong permissions | Role not assigned | Request role update |
+| Missing notebooks | No invitation sent | Request notebook access |
+| Can't create resources | Insufficient system role | Need Designer role |
+
+### Email Issues
+
+| Issue | Cause | Solution |
+|-------|-------|----------|
+| No verification email | Spam filter | Check spam, resend |
+| Link expired | >24 hours old | Request new link |
+| Wrong email | Typo in address | Admin correction |
+| Email bouncing | Invalid address | Update email |
+
+### Role Conflicts
+
+| Situation | Resolution |
+|-----------|------------|
+| System vs Notebook role | Higher permission wins |
+| Team vs Notebook role | Notebook role takes precedence |
+| Multiple team roles | Most permissive applies |
+
+## Cross-References {important}
+
+For notebook-specific roles:
+→ [Notebooks Interface](./notebooks-interface.md)
+
+For team roles:
+→ [Teams Interface](./teams-interface.md)
+
+For permission workflows:
+→ [Dashboard Patterns](./dashboard-patterns.md)
+
+For troubleshooting:
+→ [Dashboard Troubleshooting](./dashboard-troubleshooting.md)
+
+<!-- concat:boundary:end section="users-interface" -->
+
+<!-- concat:dashboard:teams-interface -->
+<!-- concat:boundary:start section="teams-interface" -->
+<!-- concat:metadata
+document_id: teams-interface
+category: collaboration
+ownership_model: team_based
+resource_sharing: true
+last_updated: 2025-09-08
+-->
+
+<!-- discovery:metadata
+provides: [team-management, resource-ownership, member-roles, collaborative-workflows]
+see-also: [notebooks-interface, templates-interface, users-interface, dashboard-patterns]
+-->
+
+# Teams Interface
+
+<!-- structured:metadata
+meta:purpose: collaboration-management
+meta:summary: Organisational units for managing shared resources, team members, and collaborative field research projects.
+meta:generates: team-structures
+meta:requires: [org-admin-role, team-creation]
+meta:version: 3.0.0
+meta:document: teams_interface
+meta:depth-tags: [essential, important, comprehensive]
+-->
+
+## Document Navigation {essential}
+<!-- concat:nav-mode:individual -->
+[← Users Interface](./users-interface.md) | **Teams Interface** | [Dashboard Patterns →](./dashboard-patterns.md)
+<!-- concat:nav-mode:concatenated -->
+<!-- When viewing in reference.md: [↑ Users Interface](#users-interface) | [Dashboard Patterns ↓](#dashboard-patterns) -->
+
+## Overview {essential}
+
+Teams provide organisational structure for collaborative field research projects. They:
+- Own and manage notebooks and templates
+- Control member access and permissions
+- Facilitate resource sharing
+- Streamline project management
+- Simplify user onboarding
+
+### Key Benefits {essential}
+
+| Benefit | Description |
+|---------|-------------|
+| **Centralised Management** | Single point for resource control |
+| **Simplified Permissions** | Team-based rather than individual |
+| **Resource Sharing** | Templates and notebooks shared automatically |
+| **Collaborative Workflows** | Built-in team coordination |
+| **Scalable Structure** | Grows with project needs |
+
+## Main Teams List {essential}
+
+### List View Components
+
+| Element | Description | Actions |
+|---------|-------------|---------|
+| **Filter Bar** | Search teams | Type to filter |
+| **Create Team** | New team button | Opens dialog |
+| **Team Entries** | Individual teams | Click for details |
+| **Pagination** | Navigate list | 10/25/50 per page |
+
+### Team Entry Information
+
+Each team displays:
+- Team name
+- Description
+- Owner (creator)
+- Member count
+- Creation date
+- Last activity
+
+### Example Teams {important}
+
+Common team structures in Fieldmark:
+
+| Team Name | Purpose | Typical Size |
+|-----------|---------|--------------|
+| CSIRO Mineral Resources | Geological surveys | 10-20 members |
+| Fieldmark Demo Team | Training and demos | 5-10 members |
+| The Artefact Post | Archaeological recording | 15-25 members |
+| Heritage Forum Team | Cultural heritage | 20-30 members |
+
+## Team Creation {essential}
+
+### Creation Requirements
+
+| Requirement | Description |
+|-------------|-------------|
+| **System Role** | Organisation Admin or higher |
+| **Unique Name** | Not used by existing team |
+| **Description** | Recommended for clarity |
+
+### Creation Dialog
+
+Simple two-field form:
+
+| Field | Required | Description | Example |
+|-------|----------|-------------|---------|
+| **Team Name** | Yes | Unique identifier | {{TEAM_NAME}} |
+| **Description** | No | Purpose and scope | {{TEAM_DESC}} |
+
+```
+Teams > Create Team > Enter Details > Create
+```
+
+Initial setup:
+- Creator becomes Team Administrator
+- Team appears in list immediately
+- Ready for member additions
+- Can own resources immediately
+
+## Individual Team View {important}
+
+Team management interface with five tabs:
+
+### Details Tab {essential}
+
+Static team information:
+
+| Field | Description | Editable |
+|-------|-------------|----------|
+| **Name** | Team identifier | No |
+| **Description** | Team purpose | Yes (Admin) |
+| **Created By** | Original creator | No |
+| **Created At** | Timestamp | No |
+| **Updated At** | Last modification | No |
+
+Edit button available for Team Administrators.
+
+### Invites Tab {important}
+
+Manages team membership invitations:
+
+#### Invitation Process
+
+1. **Send Invitation**
+   ```
+   Invites > Invite User > Enter Email > Select Role > Send
+   ```
+
+2. **Pending State**
+   - Shows in invites list
+   - Can resend or cancel
+   - 7-day expiration
+
+3. **Acceptance**
+   - User clicks email link
+   - Joins team automatically
+   - Appears in Users tab
+
+#### Invite Management
+
+| Status | Description | Actions |
+|--------|-------------|---------|
+| **Pending** | Awaiting response | Resend, Cancel |
+| **Accepted** | User joined | View in Users |
+| **Expired** | Time limit passed | Resend |
+
+### Notebooks Tab {important}
+
+Team-owned notebooks management:
+
+#### Notebook List Features
+
+| Column | Description | Actions |
+|--------|-------------|---------|
+| **Name** | Notebook identifier | Click to open |
+| **Description** | Purpose | View only |
+| **Users** | Member count | View list |
+| **Records** | Data count | View records |
+| **Created** | Deployment date | Sort by date |
+
+#### Create Notebook from Team
+
+```
+Notebooks Tab > Create Notebook
+```
+
+Benefits of team creation:
+- Automatic team ownership
+- Members get immediate access
+- Inherits team permissions
+- Appears in team notebook list
+
+#### Notebook Creation Dialog
+
+| Field | Required | Auto-filled |
+|-------|----------|-------------|
+| **Name** | Yes | No |
+| **Template** | No* | No |
+| **JSON File** | No* | No |
+| **Team Owner** | Yes | {{TEAM_NAME}} |
+
+*Select template OR upload JSON OR proceed to Designer
+
+### Templates Tab {important}
+
+Team-owned templates:
+
+#### Template Management
+
+| Action | Permission | Description |
+|--------|-----------|-------------|
+| **View** | Team Member | See all team templates |
+| **Create** | Team Admin | New template for team |
+| **Edit** | Team Admin | Modify existing |
+| **Clone** | Team Member | Copy for modification |
+| **Delete** | Team Admin | Remove if unused |
+
+#### Create Template from Team
+
+```
+Templates Tab > Create Template
+```
+
+Process:
+1. Opens creation dialog
+2. Enter template name
+3. Optional: Upload JSON
+4. Creates with team ownership
+5. Available to all members
+
+#### Template Dialog
+
+| Field | Required | Description |
+|-------|----------|-------------|
+| **Template Name** | Yes | Display name |
+| **JSON File** | No | Pre-populate |
+
+Leave JSON blank to start from scratch in Designer.
+
+### Users Tab {important}
+
+Team member management:
+
+#### Member List Display
+
+| Column | Description | Sortable |
+|--------|-------------|----------|
+| **Name** | Member name | Yes |
+| **Email** | Contact | Yes |
+| **Roles** | Team permissions | No |
+| **Remove** | Delete button | No |
+
+#### Add User Process
+
+```
+Users Tab > Add User
+```
+
+Add User Dialog:
+
+| Field | Required | Options |
+|-------|----------|---------|
+| **User Email** | Yes | Valid email |
+| **Role** | Yes | Dropdown selection |
+
+#### Team Roles {essential}
+
+Only two team-specific roles:
+
+| Role | Permissions | Use Case |
+|------|------------|----------|
+| **Team Administrator** | Full team control | Team leaders |
+| **Team Member** | Access resources | Researchers |
+
+#### Role Capabilities {comprehensive}
+
+**Team Administrator can:**
+- Add/remove members
+- Change member roles
+- Create team resources
+- Edit team details
+- Delete team (if empty)
+
+**Team Member can:**
+- Access team notebooks
+- Use team templates
+- View member list
+- Clone templates
+- Create records
+
+#### Member Management Actions
+
+| Action | Who Can | Process |
+|--------|---------|---------|
+| **Add Member** | Team Admin | Email invitation |
+| **Change Role** | Team Admin | Click role > Select |
+| **Remove Member** | Team Admin | Click trash icon |
+
+## Resource Ownership {important}
+
+### Ownership Benefits
+
+Team ownership provides:
+- Centralised control
+- Persistent access
+- Simplified permissions
+- Clear accountability
+- Easy handover
+
+### Owned Resources
+
+Teams can own:
+- **Notebooks**: Data collection instances
+- **Templates**: Reusable designs
+
+### Ownership Rules {comprehensive}
+
+1. **Creation Context**
+   - Resources created from team inherit ownership
+   - Can't transfer existing resources to team
+   - Team deletion requires empty resources
+
+2. **Access Control**
+   - All team members access team resources
+   - Team admins manage all team resources
+   - Individual permissions still apply within notebooks
+
+3. **Persistence**
+   - Resources remain with team despite member changes
+   - Team admin role can be transferred
+   - Ownership survives creator departure
+
+## Team Workflows {important}
+
+### Standard Team Setup
+
+1. **Create Team**
+   ```
+   Teams > Create Team > {{TEAM_NAME}}
+   ```
+
+2. **Add Members**
+   ```
+   Team > Users > Add User > {{EMAIL}} > {{ROLE}}
+   ```
+
+3. **Create Template**
+   ```
+   Team > Templates > Create > Design
+   ```
+
+4. **Deploy Notebook**
+   ```
+   Team > Notebooks > Create > Select Template
+   ```
+
+5. **Begin Collection**
+   - Members access notebook
+   - Create records
+   - Collaborate on data
+
+### Team Handover Process {comprehensive}
+
+When team leadership changes:
+
+1. **Add New Administrator**
+   - Invite new leader
+   - Grant Team Administrator role
+
+2. **Knowledge Transfer**
+   - Document team practices
+   - Share resource passwords
+   - Explain workflows
+
+3. **Transition Period**
+   - Both admins active
+   - Gradual handover
+   - Verify access
+
+4. **Remove Old Administrator**
+   - Downgrade to member
+   - Or remove entirely
+
+## Best Practices {important}
+
+### Team Structure
+
+```
+{{ORGANISATION}}-{{PROJECT}}-{{YEAR}}
+Example: CSIRO-Minerals-2025
+```
+
+### Team Sizing
+
+| Team Size | Management Overhead | Recommended For |
+|-----------|-------------------|-----------------|
+| 2-5 members | Minimal | Small surveys |
+| 5-15 members | Moderate | Standard projects |
+| 15-30 members | Significant | Large expeditions |
+| 30+ members | High | Multi-site programs |
+
+### Permission Strategy
+
+1. **Minimal Administrators**
+   - 1-2 admins per team
+   - Clear succession plan
+   - Document decisions
+
+2. **Regular Reviews**
+   - Monthly member audit
+   - Remove inactive users
+   - Update roles as needed
+
+3. **Clear Documentation**
+   - Team purpose in description
+   - Role responsibilities documented
+   - Workflow guides maintained
+
+## Common Issues {comprehensive}
+
+### Team Management Issues
+
+| Issue | Cause | Solution |
+|-------|-------|----------|
+| Can't create team | Wrong system role | Need Org Admin |
+| Can't add members | Not team admin | Request elevation |
+| Can't see team | Not a member | Request invitation |
+| Can't delete team | Has resources | Delete notebooks first |
+
+### Member Issues
+
+| Issue | Cause | Solution |
+|-------|-------|----------|
+| Invitation not received | Email issues | Check spam, resend |
+| Wrong role assigned | Selection error | Team admin can change |
+| Can't access resources | Permissions | Check notebook roles |
+| Removed by mistake | Admin error | Re-invite |
+
+### Resource Issues
+
+| Issue | Cause | Solution |
+|-------|-------|----------|
+| Notebook not visible | Not deployed | Create from team |
+| Template locked | Being edited | Wait or contact admin |
+| Can't create resources | Member role only | Need admin role |
+
+## Integration with Other Components {important}
+
+### Teams → Notebooks
+- Team ownership simplifies permissions
+- Members automatically get access
+- Centralised notebook management
+
+### Teams → Templates
+- Shared template library
+- Consistent project standards
+- Version control at team level
+
+### Teams → Users
+- Role-based team membership
+- Simplified onboarding
+- Clear permission hierarchy
+
+## Cross-References {important}
+
+For notebook deployment:
+→ [Notebooks Interface](./notebooks-interface.md)
+
+For template creation:
+→ [Templates Interface](./templates-interface.md)
+
+For user roles:
+→ [Users Interface](./users-interface.md)
+
+For team workflows:
+→ [Dashboard Patterns](./dashboard-patterns.md)
+
+<!-- concat:boundary:end section="teams-interface" -->
+
+<!-- concat:dashboard:dashboard-patterns -->
+<!-- concat:boundary:start section="dashboard-patterns" -->
+<!-- concat:metadata
+document_id: dashboard-patterns
+category: workflow_recipes
+type: parametric_ui_instructions
+customisable: true
+last_updated: 2025-09-08
+-->
+
+<!-- discovery:metadata
+provides: [workflow-recipes, parametric-instructions, best-practices, project-setup]
+see-also: [dashboard-overview, teams-interface, notebooks-interface, dashboard-troubleshooting]
+-->
+
+# Dashboard Workflow Patterns
+
+<!-- structured:metadata
+meta:purpose: workflow-guidance
+meta:summary: Parametric UI workflow recipes for common dashboard operations that LLMs can customise for specific contexts.
+meta:generates: step-by-step-instructions
+meta:requires: [ui-access, appropriate-roles]
+meta:version: 3.0.0
+meta:document: dashboard_patterns
+meta:depth-tags: [essential, important, comprehensive]
+-->
+
+## Document Navigation {essential}
+<!-- concat:nav-mode:individual -->
+[← Teams Interface](./teams-interface.md) | **Dashboard Patterns** | [Dashboard Troubleshooting →](./dashboard-troubleshooting.md)
+<!-- concat:nav-mode:concatenated -->
+<!-- When viewing in reference.md: [↑ Teams Interface](#teams-interface) | [Dashboard Troubleshooting ↓](#dashboard-troubleshooting) -->
+
+## Overview {essential}
+
+This document provides parametric workflow recipes for common Dashboard operations. Each recipe:
+- Contains template markers ({{VARIABLE}}) for customisation
+- Provides step-by-step UI instructions
+- Includes validation checklists
+- Offers troubleshooting guidance
+
+### How to Use These Recipes {essential}
+
+1. Select appropriate recipe for task
+2. Replace template markers with actual values
+3. Follow steps sequentially
+4. Use checklists to verify completion
+5. Refer to troubleshooting if issues arise
+
+### Template Marker Reference {essential}
+
+| Marker | Description | Example Value |
+|--------|-------------|---------------|
+| {{PROJECT_NAME}} | Project identifier | "Pilbara Survey 2025" |
+| {{TEAM_NAME}} | Team identifier | "CSIRO Minerals" |
+| {{TEAM_SIZE}} | Number of members | "12" |
+| {{USER_EMAIL}} | User email address | "researcher@csiro.au" |
+| {{NOTEBOOK_NAME}} | Notebook identifier | "Site-A-Records" |
+| {{TEMPLATE_NAME}} | Template identifier | "Archaeological-Survey-v2" |
+| {{ROLE_NAME}} | Permission role | "Data Collector" |
+| {{NUM_SITES}} | Number of locations | "5" |
+| {{DATE_RANGE}} | Project timeline | "March-June 2025" |
+
+---
+
+## Recipe 1: Complete Project Setup {essential}
+
+**Purpose**: Set up a new field research project from scratch
+
+### Parameters
+- {{PROJECT_TYPE}}: Type of research (e.g., "Archaeological", "Geological", "Ecological")
+- {{PROJECT_NAME}}: Full project name
+- {{PROJECT_ABBREV}}: Short code (e.g., "PS2025")
+- {{TEAM_SIZE}}: Number of team members
+- {{NUM_SITES}}: Number of collection sites
+- {{START_DATE}}: Project start date
+
+### Prerequisites
+- [ ] Organisation Administrator or System Administrator role
+- [ ] List of team member emails
+- [ ] Template design completed or selected
+- [ ] Site list prepared
+
+### Steps
+
+#### Phase 1: Team Creation
+1. Navigate to **Teams** section
+2. Click **Create Team** button
+3. Enter details:
+   - Name: "{{PROJECT_NAME}} Team"
+   - Description: "{{PROJECT_TYPE}} research project running {{DATE_RANGE}}"
+4. Click **Create**
+5. ✓ Team created and visible in list
+
+#### Phase 2: Add Team Members
+6. Open team: Click **{{TEAM_NAME}}** from Teams list
+7. Go to **Users** tab
+8. For each of {{TEAM_SIZE}} members:
+   - Click **Add User**
+   - Enter email: {{USER_EMAIL}}
+   - Select role:
+     - Project leads → Team Administrator
+     - Others → Team Member
+   - Click **Add User**
+9. ✓ All members added to team
+
+#### Phase 3: Create or Select Template
+10. Go to **Templates** tab
+11. Either:
+    - **Option A**: Click existing "{{TEMPLATE_NAME}}"
+    - **Option B**: Click **Create Template** → Design new
+12. If creating new:
+    - Name: "{{PROJECT_ABBREV}}-Template"
+    - Build in Designer
+    - Include HRID field: "{{PROJECT_ABBREV}}-{{_YYYY}}-{{auto_increment}}"
+    - Save template
+13. ✓ Template ready for deployment
+
+#### Phase 4: Deploy Notebooks
+14. Go to **Notebooks** tab
+15. For each of {{NUM_SITES}} sites:
+    - Click **Create Notebook**
+    - Name: "{{PROJECT_ABBREV}}-Site-{{SITE_ID}}"
+    - Select template: {{TEMPLATE_NAME}}
+    - Team ownership: Auto-assigned
+    - Click **Create**
+16. ✓ All notebooks deployed
+
+#### Phase 5: Configure Permissions
+17. For each notebook:
+    - Open notebook
+    - Go to **Users** tab
+    - Verify team members have access
+    - Adjust roles if needed:
+      - Site supervisors → Notebook Administrator
+      - Field workers → Data Collector
+      - QA staff → Data Reviewer
+18. ✓ Permissions configured
+
+### Validation Checklist
+- [ ] Team visible in Teams list
+- [ ] All {{TEAM_SIZE}} members added
+- [ ] Template includes HRID field
+- [ ] {{NUM_SITES}} notebooks created
+- [ ] All notebooks show team ownership
+- [ ] Export test successful
+- [ ] Sample record creation works
+
+### Troubleshooting
+- **Can't create team**: Need Organisation Administrator role
+- **Members not receiving invites**: Check spam folders
+- **Template won't save**: Check for required HRID field
+- **Notebooks not visible**: Refresh page or check filters
+
+---
+
+## Recipe 2: Bulk User Onboarding {important}
+
+**Purpose**: Add multiple users to existing project infrastructure
+
+### Parameters
+- {{NUM_USERS}}: Number of new users
+- {{DEFAULT_ROLE}}: Standard role assignment
+- {{NOTEBOOK_LIST}}: Notebooks requiring access
+- {{TRAINING_NOTEBOOK}}: Practice notebook name
+
+### Prerequisites
+- [ ] Notebook Administrator role for target notebooks
+- [ ] User email list prepared
+- [ ] Roles determined for each user
+- [ ] Training materials ready
+
+### Steps
+
+#### Phase 1: Prepare User List
+1. Create spreadsheet with:
+   - Column A: Email addresses
+   - Column B: Display names
+   - Column C: Intended role
+   - Column D: Notebook assignments
+2. ✓ User data organised
+
+#### Phase 2: Send Invitations
+3. For each notebook in {{NOTEBOOK_LIST}}:
+   - Navigate to notebook
+   - Go to **Invites** tab
+   - For each of {{NUM_USERS}} users:
+     - Click **Invite User**
+     - Enter email from list
+     - Select role: {{DEFAULT_ROLE}}
+     - Add message: "Welcome to {{PROJECT_NAME}}. Training notebook: {{TRAINING_NOTEBOOK}}"
+     - Click **Send Invitation**
+4. ✓ All invitations sent
+
+#### Phase 3: Monitor Acceptance
+5. Daily for next 7 days:
+   - Check **Invites** tab
+   - Note accepted invitations
+   - Resend expired invitations
+   - Follow up via email if needed
+6. ✓ All users accepted invitations
+
+#### Phase 4: Verify Access
+7. For each notebook:
+   - Go to **Users** tab
+   - Confirm all {{NUM_USERS}} appear
+   - Verify correct roles assigned
+8. ✓ Access verified
+
+### Validation Checklist
+- [ ] All {{NUM_USERS}} invited
+- [ ] Acceptance rate >90%
+- [ ] Users appear in Users tab
+- [ ] Roles correctly assigned
+- [ ] Users can access notebooks
+- [ ] Training notebook accessible
+
+---
+
+## Recipe 3: Template Version Migration {important}
+
+**Purpose**: Migrate notebooks to updated template version
+
+### Parameters
+- {{OLD_VERSION}}: Current template version
+- {{NEW_VERSION}}: Target template version
+- {{NUM_NOTEBOOKS}}: Notebooks to migrate
+- {{BREAKING_CHANGES}}: List of incompatible changes
+- {{MIGRATION_DATE}}: Planned migration date
+
+### Prerequisites
+- [ ] New template version tested
+- [ ] Breaking changes documented
+- [ ] User communication sent
+- [ ] Backup exports completed
+
+### Steps
+
+#### Phase 1: Preparation
+1. Export all data from current notebooks:
+   - Open each notebook
+   - Go to **Records** tab
+   - Click **Export** → CSV
+   - Click **Export** → Photo Archive
+2. Document current template:
+   - Go to **Templates**
+   - Open {{OLD_VERSION}}
+   - Click **Export** → Download JSON
+3. ✓ Backups complete
+
+#### Phase 2: Create New Template
+4. Go to **Templates**
+5. Click **Create Template**
+6. Either:
+   - Upload modified JSON
+   - Clone and modify existing
+7. Name: "{{TEMPLATE_NAME}}-{{NEW_VERSION}}"
+8. Test thoroughly in separate notebook
+9. ✓ New template validated
+
+#### Phase 3: Deploy New Notebooks
+10. For each of {{NUM_NOTEBOOKS}}:
+    - Create new notebook with {{NEW_VERSION}}
+    - Name: "{{ORIGINAL_NAME}}-v{{NEW_VERSION}}"
+    - Configure same permissions
+11. ✓ New notebooks ready
+
+#### Phase 4: Data Migration
+12. If compatible structure:
+    - Import CSV data to new notebooks
+    - Verify data integrity
+13. If breaking changes:
+    - Manual data transfer required
+    - Document transformation rules
+14. ✓ Data migrated
+
+#### Phase 5: Cutover
+15. On {{MIGRATION_DATE}}:
+    - Archive old notebooks
+    - Redirect users to new versions
+    - Monitor for issues
+16. ✓ Migration complete
+
+### Validation Checklist
+- [ ] All data exported from old notebooks
+- [ ] New template thoroughly tested
+- [ ] {{NUM_NOTEBOOKS}} new notebooks created
+- [ ] Data successfully migrated
+- [ ] Users can access new notebooks
+- [ ] Old notebooks archived
+
+---
+
+## Recipe 4: Multi-Site Coordination {comprehensive}
+
+**Purpose**: Manage distributed data collection across multiple locations
+
+### Parameters
+- {{NUM_SITES}}: Number of sites
+- {{SITE_TEAMS}}: Teams per site
+- {{CENTRAL_TEAM}}: Coordinating team
+- {{SYNC_FREQUENCY}}: Data sync schedule
+- {{REPORTING_SCHEDULE}}: Progress report timing
+
+### Prerequisites
+- [ ] Site list with team assignments
+- [ ] Network connectivity plan
+- [ ] Data standards documented
+- [ ] Communication channels established
+
+### Steps
+
+#### Phase 1: Structure Setup
+1. Create central team:
+   - Name: "{{PROJECT_NAME}}-Central"
+   - Add coordination staff
+2. For each of {{NUM_SITES}}:
+   - Create site team: "{{PROJECT_NAME}}-{{SITE_ID}}"
+   - Add site personnel
+3. ✓ Team structure created
+
+#### Phase 2: Template Standardisation
+4. Create master template in central team
+5. Share with all site teams:
+   - Each team clones template
+   - No modifications allowed
+6. ✓ Consistent templates deployed
+
+#### Phase 3: Notebook Deployment
+7. Each site team creates notebooks:
+   - "{{SITE_ID}}-Daily-Records"
+   - "{{SITE_ID}}-Samples"
+   - "{{SITE_ID}}-Photos"
+8. ✓ All notebooks operational
+
+#### Phase 4: Cross-Site Access
+9. Grant central team members viewer access:
+   - Add to each site notebook
+   - Role: Data Viewer
+10. Create summary notebook for aggregation
+11. ✓ Central oversight enabled
+
+#### Phase 5: Synchronisation Protocol
+12. Establish {{SYNC_FREQUENCY}} sync:
+    - Sites export data
+    - Upload to central repository
+    - Central team validates
+    - Feedback provided
+13. ✓ Sync protocol active
+
+### Validation Checklist
+- [ ] {{NUM_SITES}} site teams created
+- [ ] All using identical template
+- [ ] Central team has viewer access
+- [ ] Sync tested successfully
+- [ ] Communication channels work
+- [ ] First report generated
+
+---
+
+## Recipe 5: Permission Audit {comprehensive}
+
+**Purpose**: Review and update all user permissions across project
+
+### Parameters
+- {{AUDIT_SCOPE}}: Teams, notebooks, or both
+- {{USER_COUNT}}: Total users to review
+- {{INACTIVE_THRESHOLD}}: Days before marking inactive
+- {{REVIEW_FREQUENCY}}: How often to audit
+
+### Steps
+
+#### Phase 1: Generate Reports
+1. For each team in {{AUDIT_SCOPE}}:
+   - Go to **Users** tab
+   - Screenshot or export member list
+2. For each notebook:
+   - Go to **Users** tab
+   - Document all users and roles
+3. ✓ Current state documented
+
+#### Phase 2: Review Activity
+4. For each user:
+   - Check last activity date
+   - Mark if >{{INACTIVE_THRESHOLD}} days
+   - Note unusual permission levels
+5. ✓ Activity reviewed
+
+#### Phase 3: Update Permissions
+6. Remove inactive users:
+   - Select user
+   - Click remove/trash icon
+   - Confirm removal
+7. Adjust incorrect roles:
+   - Click current role
+   - Select correct role
+   - Save changes
+8. ✓ Permissions updated
+
+#### Phase 4: Documentation
+9. Create audit report:
+   - Users removed: count and names
+   - Roles changed: before/after
+   - Recommendations for future
+10. Schedule next audit: {{REVIEW_FREQUENCY}}
+11. ✓ Audit complete
+
+### Validation Checklist
+- [ ] All teams reviewed
+- [ ] All notebooks reviewed
+- [ ] Inactive users removed
+- [ ] Roles match responsibilities
+- [ ] Report generated
+- [ ] Next audit scheduled
+
+---
+
+## Recipe 6: Emergency Data Recovery {comprehensive}
+
+**Purpose**: Recover from data loss or corruption
+
+### Parameters
+- {{AFFECTED_NOTEBOOK}}: Corrupted notebook
+- {{LAST_BACKUP}}: Most recent export
+- {{RECOVERY_METHOD}}: Restore or rebuild
+- {{DATA_LOSS_WINDOW}}: Time since backup
+
+### Prerequisites
+- [ ] Regular backups exist
+- [ ] System Administrator access
+- [ ] Users notified of issue
+- [ ] Recovery window scheduled
+
+### Steps
+
+#### Phase 1: Assessment
+1. Document the issue:
+   - What data is affected
+   - When corruption noticed
+   - Last known good state
+2. Check available backups:
+   - CSV exports
+   - Photo archives
+   - JSON templates
+3. ✓ Damage assessed
+
+#### Phase 2: Preparation
+4. Create recovery notebook:
+   - Name: "{{AFFECTED_NOTEBOOK}}-Recovery"
+   - Same template version
+   - Do not delete original yet
+5. ✓ Recovery environment ready
+
+#### Phase 3: Data Restoration
+6. Import from {{LAST_BACKUP}}:
+   - Upload CSV data
+   - Restore photo archive
+   - Verify record counts
+7. Identify gap: {{DATA_LOSS_WINDOW}}
+8. ✓ Bulk data restored
+
+#### Phase 4: Gap Recovery
+9. For missing records:
+   - Check user local storage
+   - Review email notifications
+   - Contact recent users
+   - Manually recreate if possible
+10. ✓ Gap minimised
+
+#### Phase 5: Validation
+11. Compare restored vs original:
+    - Record counts
+    - User access
+    - Data integrity
+12. When satisfied:
+    - Archive corrupted notebook
+    - Rename recovery to original
+13. ✓ Recovery complete
+
+### Validation Checklist
+- [ ] All backup data imported
+- [ ] Gap period addressed
+- [ ] Users can access notebook
+- [ ] Data integrity verified
+- [ ] Original archived safely
+- [ ] Incident documented
+
+---
+
+## Recipe 7: Project Handover {important}
+
+**Purpose**: Transfer project ownership and knowledge
+
+### Parameters
+- {{OUTGOING_ADMIN}}: Departing administrator
+- {{INCOMING_ADMIN}}: New administrator
+- {{HANDOVER_PERIOD}}: Transition timeline
+- {{PROJECT_RESOURCES}}: List of owned resources
+
+### Steps
+
+#### Phase 1: Access Grant
+1. Add {{INCOMING_ADMIN}} to all teams:
+   - Grant Team Administrator role
+2. Add to all notebooks:
+   - Grant Notebook Administrator role
+3. ✓ Full access provided
+
+#### Phase 2: Knowledge Transfer
+4. Document:
+   - Project workflows
+   - Template modifications
+   - Known issues
+   - User contacts
+5. Schedule training sessions
+6. ✓ Knowledge documented
+
+#### Phase 3: Transition Period
+7. For {{HANDOVER_PERIOD}}:
+   - Both admins active
+   - Incoming shadows outgoing
+   - Questions addressed
+8. ✓ Transition complete
+
+#### Phase 4: Access Removal
+9. Downgrade {{OUTGOING_ADMIN}}:
+   - To Team Member or remove
+   - To Data Viewer or remove
+10. Update documentation
+11. ✓ Handover finalised
+
+### Validation Checklist
+- [ ] New admin has all access
+- [ ] Documentation complete
+- [ ] Training provided
+- [ ] Old admin removed/downgraded
+- [ ] Team notified
+- [ ] No access gaps
+
+---
+
+## Best Practices Summary {important}
+
+### Planning
+- Document all workflows before starting
+- Test with small group first
+- Have rollback plan ready
+- Communicate changes clearly
+
+### Execution
+- Follow steps sequentially
+- Verify each phase before proceeding
+- Document deviations
+- Keep audit trail
+
+### Validation
+- Use checklists consistently
+- Test with real users
+- Verify data integrity
+- Confirm permissions work
+
+### Maintenance
+- Regular audits (monthly/quarterly)
+- Keep documentation updated
+- Archive old resources
+- Monitor system health
+
+## Cross-References {important}
+
+For interface details:
+→ [Dashboard Overview](./dashboard-overview.md)
+
+For specific components:
+→ [Templates Interface](./templates-interface.md)
+→ [Notebooks Interface](./notebooks-interface.md)
+→ [Users Interface](./users-interface.md)
+→ [Teams Interface](./teams-interface.md)
+
+For troubleshooting:
+→ [Dashboard Troubleshooting](./dashboard-troubleshooting.md)
+
+<!-- concat:boundary:end section="dashboard-patterns" -->
+
+<!-- concat:dashboard:dashboard-troubleshooting -->
+<!-- concat:boundary:start section="dashboard-troubleshooting" -->
+<!-- concat:metadata
+document_id: dashboard-troubleshooting
+category: problem_resolution
+type: diagnostic_guide
+solution_count: 45
+last_updated: 2025-09-08
+-->
+
+<!-- discovery:metadata
+provides: [error-solutions, diagnostic-flowcharts, common-issues, quick-fixes]
+see-also: [dashboard-overview, dashboard-patterns, troubleshooting-index]
+-->
+
+# Dashboard Troubleshooting Guide
+
+<!-- structured:metadata
+meta:purpose: problem-resolution
+meta:summary: Comprehensive troubleshooting guide for Dashboard UI issues with error-to-solution mappings and diagnostic flowcharts.
+meta:generates: solutions
+meta:requires: [error-identification, symptom-matching]
+meta:version: 3.0.0
+meta:document: dashboard_troubleshooting
+meta:depth-tags: [essential, important, comprehensive]
+-->
+
+## Document Navigation {essential}
+<!-- concat:nav-mode:individual -->
+[← Dashboard Patterns](./dashboard-patterns.md) | **Dashboard Troubleshooting** | [Production Docs →](../README.md)
+<!-- concat:nav-mode:concatenated -->
+<!-- When viewing in reference.md: [↑ Dashboard Patterns](#dashboard-patterns) | [Field Documentation ↓](#text-input-fields) -->
+
+## Quick Diagnosis Table {essential}
+
+| Symptom | Likely Cause | Solution | Section |
+|---------|--------------|----------|---------|
+| Can't login | Wrong credentials/suspended | Reset password | [Authentication](#authentication-issues) |
+| Can't see notebook | No permission | Request access | [Access](#access-permission-issues) |
+| Can't create team | Wrong role | Need Org Admin | [Teams](#team-management-issues) |
+| Template won't save | Missing HRID | Add HRID field | [Templates](#template-designer-issues) |
+| Invite not received | Email issues | Check spam | [Invitations](#invitation-email-issues) |
+| Export fails | Large dataset | Batch export | [Data](#data-export-issues) |
+| Can't edit record | Wrong status | Check workflow | [Records](#record-management-issues) |
+| Sync not working | Network issue | Check connection | [Sync](#synchronisation-issues) |
+
+---
+
+## Authentication Issues {essential}
+
+### Cannot Login
+
+#### Symptoms
+- "Invalid credentials" error
+- Page refreshes without login
+- "Account suspended" message
+
+#### Diagnostic Steps
+1. Verify email address spelling
+2. Check caps lock
+3. Try password reset
+4. Check with administrator
+
+#### Solutions
+
+| Cause | Solution | Prevention |
+|-------|----------|------------|
+| **Wrong password** | Click "Forgot Password" → Reset via email | Use password manager |
+| **Account suspended** | Contact administrator for reactivation | Regular activity |
+| **Email not verified** | Check email for verification link | Verify immediately |
+| **Account doesn't exist** | Request account creation | Maintain user list |
+| **Browser issues** | Clear cookies/cache, try different browser | Keep browser updated |
+
+### Session Timeout
+
+#### Symptoms
+- Suddenly logged out
+- "Session expired" message
+- Work lost warning
+
+#### Solutions
+```
+Immediate: Login again
+Long-term: Settings > Preferences > Extend session timeout
+Best practice: Save work frequently
+```
+
+---
+
+## Access & Permission Issues {important}
+
+### Cannot See Resources
+
+#### Diagnostic Flowchart
+```
+Can't see notebook/template?
+├─ Are you logged in?
+│  └─ No → Login first
+├─ Check "All Notebooks" filter
+│  └─ Still missing → You lack permission
+├─ Check team membership
+│  └─ Not member → Request team invitation
+└─ Contact notebook admin for access
+```
+
+#### Permission Resolution Matrix
+
+| Resource Type | Who to Contact | Required Info |
+|--------------|---------------|---------------|
+| **Notebook** | Notebook Administrator | Notebook name, purpose |
+| **Template** | Template owner or Team Admin | Template name, use case |
+| **Team** | Team Administrator | Team name, role needed |
+| **System Feature** | System Administrator | Feature, business need |
+
+### Wrong Permissions
+
+#### Symptoms
+- Can view but not edit
+- Missing action buttons
+- "Permission denied" errors
+
+#### Solutions by Role
+
+| Current Role | Need To | Solution |
+|-------------|---------|----------|
+| **Data Viewer** | Edit records | Request Data Collector role |
+| **Data Collector** | Review records | Request Data Reviewer role |
+| **Team Member** | Manage team | Request Team Administrator |
+| **Standard User** | Create templates | Request Template Designer role |
+
+---
+
+## Template & Designer Issues {important}
+
+### Template Won't Save
+
+#### Common Causes & Fixes
+
+| Error | Cause | Solution |
+|-------|-------|----------|
+| **"Invalid template"** | Missing HRID field | Add TemplatedStringField |
+| **"Duplicate field ID"** | Same ID used twice | Rename one field |
+| **"Missing fviews"** | No form structure | Add fviews layer in JSON |
+| **Silent failure** | Browser timeout | Check console, try again |
+
+#### HRID Field Template
+```json
+"record_hrid": {
+  "component-namespace": "faims-custom",
+  "component-name": "TemplatedStringField",
+  "component-parameters": {
+    "template": "{{PROJECT}}-{{_YYYY}}-{{auto_increment}}"
+  }
+}
+```
+
+### Designer Not Loading
+
+#### Symptoms
+- Blank screen
+- Spinning loader
+- Fields not draggable
+
+#### Solutions
+1. **Refresh page** (Ctrl+F5)
+2. **Clear browser cache**
+3. **Try different browser**
+4. **Check browser console** for errors
+5. **Disable browser extensions**
+
+### Field Configuration Lost
+
+#### Symptoms
+- Settings reset to default
+- Validation rules missing
+- Help text disappeared
+
+#### Prevention & Recovery
+- **Save frequently** (every 5-10 changes)
+- **Export JSON backup** before major changes
+- **Test in separate notebook** first
+- **Document complex configurations**
+
+---
+
+## Notebook Deployment Issues {important}
+
+### Notebook Creation Fails
+
+#### Error Messages & Solutions
+
+| Error | Meaning | Fix |
+|-------|---------|-----|
+| **"Name already exists"** | Duplicate notebook | Choose unique name |
+| **"Template not found"** | Template deleted | Use JSON backup |
+| **"Invalid JSON"** | Syntax error | Validate with linter |
+| **"Permission denied"** | Insufficient role | Need admin rights |
+
+### Notebook Not Accessible
+
+#### Diagnostic Steps
+```
+1. Verify notebook exists:
+   Notebooks > All Notebooks (admin only)
+   
+2. Check your access:
+   Notebook > Users tab > Find your email
+   
+3. Check invitation status:
+   Notebook > Invites tab
+   
+4. Request access:
+   Contact notebook admin with:
+   - Notebook name
+   - Required role
+   - Business justification
+```
+
+---
+
+## Team Management Issues {comprehensive}
+
+### Cannot Create Team
+
+| Issue | Requirement | Solution |
+|-------|------------|----------|
+| **No create button** | Need Org Admin role | Request role elevation |
+| **"Name exists"** | Unique name required | Modify team name |
+| **Creation fails** | System issue | Contact support |
+
+### Cannot Add Team Members
+
+#### Troubleshooting Checklist
+- [ ] Verify Team Administrator role
+- [ ] Check email address format
+- [ ] Ensure user not already member
+- [ ] Try resending invitation
+- [ ] Check spam filters
+- [ ] Verify email exists
+
+### Team Resources Not Visible
+
+| Resource | Location | Common Issue |
+|----------|----------|--------------|
+| **Notebooks** | Team > Notebooks tab | Not created from team context |
+| **Templates** | Team > Templates tab | Created individually |
+| **Members** | Team > Users tab | Invitations pending |
+
+---
+
+## Invitation & Email Issues {important}
+
+### Invitations Not Received
+
+#### Step-by-Step Resolution
+
+1. **Check spam/junk folder**
+2. **Verify email address**
+   - No typos
+   - Correct domain
+3. **Check email filters**
+   - Whitelist fieldmark domain
+4. **Resend invitation**
+   - Cancel original
+   - Send new invitation
+5. **Alternative method**
+   - Direct account creation
+   - Manual addition by admin
+
+### Invitation Expired
+
+| Action | Who Can Do | Process |
+|--------|-----------|---------|
+| **Resend** | Notebook/Team Admin | Invites tab > Resend |
+| **Cancel & Recreate** | Admin | Cancel > New invitation |
+| **Direct Add** | Admin | Users tab > Add directly |
+
+### Email Verification Issues
+
+#### Banner: "Your email is not verified!"
+
+Solutions:
+1. Click "Click here" in banner
+2. Check email for verification
+3. Check spam folder
+4. Request new verification
+5. Contact admin if persistent
+
+---
+
+## Data & Export Issues {comprehensive}
+
+### Export Fails or Empty
+
+#### Diagnostic Matrix
+
+| Symptom | Cause | Solution |
+|---------|-------|----------|
+| **CSV empty** | No records exist | Create records first |
+| **Photos missing** | No media fields | Check template design |
+| **Export hangs** | Large dataset | Export in batches |
+| **Format error** | Special characters | Clean data first |
+| **Permission denied** | Insufficient role | Request Viewer role minimum |
+
+### Data Not Saving
+
+#### Immediate Actions
+1. **Check network connection**
+2. **Look for error messages**
+3. **Try saving again**
+4. **Copy data to clipboard**
+5. **Screenshot as backup**
+
+#### Root Causes
+- Network interruption
+- Session timeout
+- Validation failures
+- Server issues
+- Browser crashes
+
+### Import Failures
+
+| Error | Meaning | Fix |
+|-------|---------|-----|
+| **"Invalid format"** | Wrong structure | Match template fields |
+| **"Type mismatch"** | Wrong data type | Convert data types |
+| **"Required field missing"** | Empty required | Fill required fields |
+| **"Duplicate HRID"** | ID exists | Use unique identifiers |
+
+---
+
+## Record Management Issues {important}
+
+### Cannot Edit Records
+
+#### Permission Hierarchy
+```
+Can edit if:
+├─ You created record (in draft)
+├─ You have Notebook Admin role
+├─ You have Data Collector role (own records)
+└─ Record not in "reviewed" status
+```
+
+### Record Status Workflow Issues
+
+| From Status | To Status | Who Can Change | Common Issue |
+|------------|-----------|---------------|--------------|
+| **Draft** | Submitted | Author/Collector | Validation errors |
+| **Submitted** | Reviewed | Reviewer only | Wrong role |
+| **Reviewed** | Draft | Admin only | Locked status |
+| **Any** | Deleted | Owner/Admin | Permission denied |
+
+### Records Not Visible
+
+1. Check filters (may be hiding records)
+2. Verify notebook access
+3. Check record status
+4. Confirm sync completed
+5. Look in correct notebook
+
+---
+
+## Synchronisation Issues {comprehensive}
+
+### Offline Sync Problems
+
+#### Mobile App Sync Failures
+
+| Issue | Check | Fix |
+|-------|-------|-----|
+| **No sync button** | Internet connection | Connect to network |
+| **Sync fails** | Server accessibility | Wait and retry |
+| **Partial sync** | Storage space | Clear device space |
+| **Conflicts** | Multiple edits | Choose version |
+| **Data loss** | Sync interrupted | Check local cache |
+
+#### Sync Conflict Resolution
+
+When conflicts occur:
+1. **Both versions shown**
+2. **Compare differences**
+3. **Choose version:**
+   - Keep local
+   - Keep server
+   - Merge manually
+4. **Confirm choice**
+5. **Document decision**
+
+---
+
+## Performance Issues {comprehensive}
+
+### Slow Loading
+
+#### Performance Optimisation Checklist
+
+- [ ] Clear browser cache
+- [ ] Reduce records per page (10 instead of 50)
+- [ ] Use filters to limit data
+- [ ] Close unnecessary tabs
+- [ ] Check network speed
+- [ ] Try different browser
+- [ ] Disable browser extensions
+- [ ] Archive old notebooks
+
+### Browser-Specific Issues
+
+| Browser | Common Issue | Solution |
+|---------|-------------|----------|
+| **Chrome** | Memory usage | Clear cache regularly |
+| **Firefox** | Slow scripts | Update browser |
+| **Safari** | Compatibility | Use Chrome/Firefox |
+| **Edge** | Extension conflicts | Disable extensions |
+
+---
+
+## Common Error Messages {comprehensive}
+
+### Error Message Decoder
+
+| Error | Meaning | Action |
+|-------|---------|--------|
+| **"400 Bad Request"** | Invalid data sent | Check form data |
+| **"401 Unauthorized"** | Not logged in | Login again |
+| **"403 Forbidden"** | No permission | Request access |
+| **"404 Not Found"** | Resource deleted | Verify existence |
+| **"500 Server Error"** | System issue | Wait and retry |
+| **"Network Error"** | Connection lost | Check internet |
+
+---
+
+## Emergency Procedures {important}
+
+### Data Recovery
+
+If data appears lost:
+1. **Don't panic** - Data often recoverable
+2. **Check filters** - May be hiding data
+3. **Check other notebooks** - May be wrong location
+4. **Check local storage** - Browser may have cache
+5. **Check exports** - Recent backups
+6. **Contact admin** - Server backups available
+
+### System Outage
+
+During outage:
+1. **Save work locally** (copy to document)
+2. **Screenshot important data**
+3. **Note time and issues**
+4. **Check status page**
+5. **Use offline mode** (mobile)
+6. **Wait for restoration**
+
+---
+
+## Preventive Measures {important}
+
+### Best Practices Checklist
+
+#### Daily
+- [ ] Save work frequently
+- [ ] Verify sync status
+- [ ] Check email for invitations
+
+#### Weekly
+- [ ] Export important data
+- [ ] Review permissions
+- [ ] Clear browser cache
+- [ ] Check for updates
+
+#### Monthly
+- [ ] Full data backup
+- [ ] Permission audit
+- [ ] Remove inactive users
+- [ ] Archive completed work
+
+---
+
+## Getting Help {essential}
+
+### Information to Provide
+
+When requesting help, include:
+
+1. **Error message** (exact text or screenshot)
+2. **Steps to reproduce** (what you did)
+3. **Expected result** (what should happen)
+4. **Actual result** (what happened)
+5. **Browser/device** (Chrome on Windows, etc.)
+6. **Notebook/Team name** (affected resources)
+7. **Time of issue** (when it occurred)
+8. **Your role** (permissions you have)
+
+### Support Channels
+
+| Channel | Use For | Response Time |
+|---------|---------|---------------|
+| **System Admin** | Permission issues | Same day |
+| **Team Admin** | Team resources | Hours |
+| **Help Docs** | How-to questions | Immediate |
+| **Community Forum** | Best practices | 1-2 days |
+
+## Cross-References {important}
+
+For general troubleshooting:
+→ [Troubleshooting Index](../references/troubleshooting-index.md) - Comprehensive error solutions
+→ [Operations Reference](../references/operations-reference.md) - Migration and recovery
+
+For workflow guidance:
+→ [Dashboard Patterns](./dashboard-patterns.md) - Parametric workflow recipes
+→ [Implementation Patterns](../patterns/implementation-patterns-guide.md) - Best practices
+
+For interface details:
+→ [Dashboard Overview](./dashboard-overview.md) - System architecture
+→ [Designer Component Mapping](../references/designer-component-mapping.md) - Field name issues
+
+For field-specific issues:
+→ [Text Fields](../field-categories/text-fields-v05.md#troubleshooting) - HRID and text issues
+→ [Media Fields](../field-categories/media-fields-v05.md#common-issues) - Upload problems
+→ [Location Fields](../field-categories/location-fields-v05.md#troubleshooting) - GPS issues
+→ [Constraints Reference](../references/constraints-reference.md) - Platform limitations
+
+<!-- concat:boundary:end section="dashboard-troubleshooting" -->
+
+<!-- ============================================ -->
 <!-- CROSS-FIELD PATTERNS -->
 <!-- ============================================ -->
 
@@ -24052,6 +27242,86 @@ see-also: [notebook-format-guide, component-reference, field-type-index]
 **Impact**: Slow import/export, UI lag.  
 **Solution**: Split into multiple viewsets.
 
+## Dashboard Terms
+
+### Dashboard
+**Definition**: Web-based administrative interface for managing Fieldmark projects.  
+**Contains**: Templates, Notebooks, Users, Teams sections.  
+**Access**: Browser-based, requires authentication.  
+**See**: [Dashboard Overview](../dashboard/dashboard-overview.md)
+
+### Team
+**Definition**: Organisational unit that owns and manages shared resources.  
+**Purpose**: Centralised permission management and resource sharing.  
+**Hierarchy**: Teams → Notebooks/Templates → Users.  
+**See**: [Teams Interface](../dashboard/teams-interface.md)
+
+### Notebook
+**Definition**: Deployed instance of a template where data collection occurs.  
+**Context**: Each notebook has its own users, permissions, and records.  
+**Creation**: From template or JSON definition.  
+**See**: [Notebooks Interface](../dashboard/notebooks-interface.md)
+
+### Template
+**Definition**: Reusable design defining notebook structure and validation.  
+**Components**: Fields, validation rules, UI configuration.  
+**Creation**: Via Designer interface or JSON import.  
+**See**: [Templates Interface](../dashboard/templates-interface.md)
+
+### Designer
+**Definition**: Visual interface for creating and editing templates.  
+**Panels**: Info (metadata), Form Builder (fields), Properties (configuration).  
+**Note**: No built-in preview - test in separate browser tab.  
+**See**: [Designer Component Mapping](./designer-component-mapping.md)
+
+### System Role
+**Definition**: Platform-wide permission level (SysAdmin, OrgAdmin, Designer, User).  
+**Scope**: Applies across all notebooks and teams.  
+**Inheritance**: Provides baseline permissions.  
+**See**: [Users Interface](../dashboard/users-interface.md)
+
+### Notebook Role
+**Definition**: Permissions within a specific notebook.  
+**Types**: Notebook Administrator, Data Collector, Data Reviewer, Data Viewer.  
+**Scope**: Single notebook only.  
+**See**: [Notebook Permissions](../dashboard/notebooks-interface.md#notebook-roles)
+
+### Team Role
+**Definition**: Permissions within a team context.  
+**Types**: Team Administrator, Team Member.  
+**Scope**: Team resources only.  
+**See**: [Team Roles](../dashboard/teams-interface.md#team-roles)
+
+### Invitation
+**Definition**: Email-based process for granting access to notebooks or teams.  
+**Workflow**: Send → Pending → Accept/Decline → Active.  
+**Expiry**: 7 days by default.  
+**See**: [Invitation Process](../dashboard/notebooks-interface.md#invitation-process)
+
+### Record Status
+**Definition**: Workflow state of collected data.  
+**States**: Draft → Submitted → Reviewed → Archived.  
+**Transitions**: Role-dependent permissions.  
+**See**: [Record Status Workflow](../dashboard/notebooks-interface.md#record-status-workflow)
+
+### Export Formats
+**Definition**: Available data output formats from notebooks.  
+**Types**: CSV (structured data), Photo Archive (ZIP with HRID-renamed images).  
+**Fallback**: Original filenames if no HRID present.  
+**See**: [Export Options](../dashboard/notebooks-interface.md#export-options)
+
+### Email Verification
+**Definition**: Required confirmation of user email address.  
+**Banner**: Persistent reminder until verified.  
+**Impact**: Limits certain features until complete.  
+**See**: [Email Verification](../dashboard/users-interface.md#email-verification)
+
+### Parametric Workflow
+**Definition**: Template-based UI instructions with customisable variables.  
+**Format**: Steps with {{VARIABLE}} markers for context-specific values.  
+**Purpose**: Enable LLMs to generate customised guidance.  
+**See**: [Dashboard Patterns](../dashboard/dashboard-patterns.md)
+
 ## Acronyms
 
 | Acronym | Full Term | Context |
@@ -24063,6 +27333,8 @@ see-also: [notebook-format-guide, component-reference, field-type-index]
 | UI | User Interface | Designer or app interface |
 | UUID | Universally Unique Identifier | System-generated IDs |
 | CRUD | Create, Read, Update, Delete | Database operations |
+| CSV | Comma-Separated Values | Export format |
+| ZIP | ZIP Archive | Compressed file format |
 
 ---
 
@@ -30127,8 +33399,8 @@ see-also: [llm-navigation-manifest, field-type-index]
 
 ## Document Metadata
 
-- **Generated**: 2025-09-07T16:20:54+10:00
-- **Total Lines**: 30130
+- **Generated**: 2025-09-08T10:50:47+10:00
+- **Total Lines**: 33402
 - **Field Documents**: 8
 - **Pattern Documents**: 5
 - **Reference Documents**: 13
