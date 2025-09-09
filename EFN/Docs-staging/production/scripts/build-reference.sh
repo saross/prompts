@@ -123,7 +123,10 @@ echo -e "${YELLOW}Adding consolidated technical references...${NC}"
 # Note: field-type-index is added separately at the beginning
 REFERENCE_DOCS=(
     "glossary"                    # Key terms and concepts
+    "roles-permissions-reference" # User roles and permission model
     "designer-component-mapping"  # Primary field mapping reference
+    "editor-form-settings"        # Form Settings panel configuration
+    "editor-notebook-info"        # Notebook Info page metadata
     "component-reference"          # Namespaces and types
     "constraints-reference"        # Limitations and security
     "operations-reference"         # Migration and troubleshooting

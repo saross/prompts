@@ -240,77 +240,150 @@ This plan outlines the creation of human-facing documentation to complement the 
 
 ## Part C: Draft Prompts for Documentation Generation
 
-### Prompt 1: Quickstart Guide for Notebook Creators
+### Prompt 1: Quickstart Guide for Notebook Creators (IMPROVED)
 
 ```
-Using the Fieldmark reference documentation, create a beginner-friendly quickstart guide that takes a new notebook creator from zero to a working data collection form in 15 minutes.
+Using the Fieldmark reference documentation, create a beginner-friendly quickstart guide that takes a new notebook creator from zero to a working notebook in 15 minutes.
+
+CRITICAL REQUIREMENTS:
+
+1. NAVIGATION SPECIFICITY
+   - Never say just "click Save" - specify WHERE (e.g., "top-right corner", "bottom of form")
+   - Provide multiple navigation options (Option A, B, C) for finding things
+   - Use [LOCATION: element] placeholders where positions are uncertain
+   - Include breadcrumb trails and landmarks
+
+2. COGNITIVE LOAD MANAGEMENT
+   - Break complex steps into Parts A, B, C (max 2-3 concepts per part)
+   - Add "Pause and Save" checkpoints between parts
+   - Include progress validation: "You should now see..."
+   - Time estimates for each part
+
+3. SUCCESS VALIDATION
+   - Add "✓ You'll Know It Worked When..." sections after key actions
+   - List 3-4 concrete visual indicators of success
+   - Include [VISUAL CHECK] placeholders for instructor verification
+   - Describe what users SEE, not just what happens
+
+4. NOTEBOOK-FIRST APPROACH
+   - Start with Create Notebook from Home (not templates)
+   - Build iteratively, test, then introduce templates as "leveling up"
+   - Emphasize that refinement is normal and expected
 
 Structure:
-1. Prerequisites (2 sentences max)
-2. Step 1: Access Dashboard and Designer (with [SCREENSHOT] placeholders)
-3. Step 2: Create Your First Project
-4. Step 3: Design Your First Notebook (use the minimal survey template)
-5. Step 4: Test Your Notebook
-6. Step 5: Deploy to Field Users
+1. Welcome & What You'll Achieve
+2. Prerequisites & Quick Terms to Know (define Editor, Dashboard, Records, Fields)
+3. Step 1: Access Dashboard (with login success indicators)
+4. Step 2: Create Your First Notebook (from Home, notebook-first)
+5. Step 3: Add Your Fields (break into 3 parts with pauses)
+6. Step 4: Test Your Notebook (with clear navigation out of Editor)
+7. Step 5: Refine and Share (iterate and improve)
 
-Requirements:
-- Use conversational, encouraging tone
-- Include "✨ Pro Tips" in highlighted boxes
-- Add "⚠️ Common Mistake" warnings
-- Provide exact JSON for a working 5-field notebook
-- Include troubleshooting checklist at end
-- Target length: 1500-2000 words
-- Use the glossary terms consistently
-- Add [SCREENSHOT: description] placeholders for visuals
+Required Elements:
+- ✨ Pro Tips - encouraging hints
+- ⚠️ Common Mistakes - with solutions
+- ✓ Success Checks - validation points
+- 📱 Platform Notes - mobile vs desktop differences
+- 📖 Terms box early in document
 
-The guide should make users feel confident they can create notebooks successfully.
+Placeholders to Include:
+- [SCREENSHOT: description]
+- [SCREENSHOT: description HIGHLIGHT: element to highlight CIRCLE: button to circle]
+- [LOCATION: Save button - specify exact position]
+- [VISUAL CHECK: what instructor should verify]
+- [PLATFORM NOTE: mobile vs desktop difference]
+
+Target: 2000-2500 words (clarity over brevity)
+Focus: Build confidence through successful completion, not comprehensive coverage
 ```
 
-### Prompt 2: Field User Guide
+### Prompt 2: Field User Guide (IMPROVED)
 
 ```
-Create a comprehensive but friendly guide for field workers who will use Fieldmark notebooks to collect data. Assume minimal technical knowledge.
+Create a comprehensive but friendly guide for field workers who will use Fieldmark notebooks to collect data. Assume minimal technical knowledge and mobile-first usage.
+
+CRITICAL REQUIREMENTS FOR FIELD USERS:
+
+1. MOBILE-FIRST APPROACH
+   - Assume small screen, touch interface
+   - Include [SCREENSHOT-MOBILE] for every major action
+   - Specify gestures: [GESTURE: tap/swipe/hold]
+   - Account for poor connectivity and outdoor conditions
+
+2. NAVIGATION FOR NON-TECHNICAL USERS
+   - Use visual landmarks: "blue button with camera icon"
+   - Never assume they know where things are
+   - Include [ICON: description] placeholders for visual cues
+   - Multiple ways to find each feature
+
+3. ERROR RECOVERY FOCUS
+   - What it looks like when things go wrong: [ERROR STATE: description]
+   - Step-by-step recovery with visuals
+   - When to work offline vs wait for connection
+   - [SUCCESS STATE: what fixed state looks like]
 
 Sections needed:
-1. Getting Started
-   - Downloading the app
-   - Creating your account
-   - Joining a project
-2. Your First Data Collection Session
-   - Opening a notebook
-   - Filling in fields
-   - Saving your work
+1. Getting Started (with app store screenshots)
+   - Downloading the app [SCREENSHOT-MOBILE: App store listing]
+   - Creating your account (what each field means)
+   - Joining a project (where to find invite code)
+   - ✓ You're Ready When... (success indicators)
+
+2. Your First Data Collection
+   - Opening a notebook (3 ways to find it)
+   - Understanding each field type (with examples)
+   - Saving your work (WHERE the save button is)
+   - ✓ Success Check: Your first record saved
+
 3. Working Offline in Remote Areas
-   - Preparing for offline work
-   - What works offline
-   - Syncing when connected
-4. Taking Photos and GPS Points
-   - Camera permissions
-   - Photo quality settings
-   - GPS accuracy tips
-5. Reviewing and Editing Records
-   - Finding your records
-   - Making corrections
-   - Adding notes
-6. Syncing Your Data
-   - Manual sync
-   - Auto-sync settings
-   - Troubleshooting sync issues
-7. Troubleshooting Common Issues
-   - App crashes
-   - Login problems
-   - Missing notebooks
+   - Pre-departure checklist
+   - What works/doesn't work offline [COMPARISON: online vs offline features]
+   - Sync indicators explained
+   - Recovery from sync failures
 
-Style requirements:
-- Write at 8th-grade reading level
-- Use bullet points liberally
-- Include emoji indicators (📱, ⚡, 📸, etc.)
-- Provide step-by-step numbered lists
-- Add "Quick Fix" boxes for common problems
-- Target: 2500 words
-- Add [SCREENSHOT] placeholders
+4. Photos and GPS
+   - Permission dialogs explained [SCREENSHOT-MOBILE: permission request]
+   - Taking good field photos (composition tips)
+   - GPS accuracy indicators
+   - What to do when GPS won't lock
 
-Focus on building confidence and reducing anxiety about technology.
+5. Managing Your Records
+   - Finding records (search, filter, sort)
+   - Editing safely (version control)
+   - Understanding sync status icons
+   - Bulk operations
+
+6. Troubleshooting
+   - Problem: "I can't..." format
+   - Visual problem identification
+   - Quick Fix (30 seconds) vs Full Fix (2 minutes)
+   - When to contact support
+
+Required Elements:
+- 📱 Mobile gesture indicators
+- ⚡ Offline capability markers
+- 📸 Visual guides for photos
+- ⚠️ Common mistakes (with visuals)
+- ✅ Success confirmations
+- 🔧 Quick Fix boxes
+
+Placeholders:
+- [SCREENSHOT-MOBILE: description]
+- [GESTURE: tap/swipe/hold/pinch]
+- [ICON: specific icon description]
+- [ERROR STATE: what error looks like]
+- [SUCCESS STATE: what success looks like]
+- [COMPARISON: before/after or online/offline]
+
+Style:
+- 8th-grade reading level
+- Short paragraphs (2-3 sentences)
+- Bullet points for options
+- Numbered lists for procedures
+- Celebration of success ("Great job!")
+
+Target: 2500-3000 words
+Focus: Task completion in challenging field conditions
 ```
 
 ### Prompt 3: Top 10 Notebook Patterns Cookbook

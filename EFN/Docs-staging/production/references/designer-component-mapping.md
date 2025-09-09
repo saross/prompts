@@ -284,6 +284,31 @@ def validate_component(namespace, component_name):
 
 ---
 
+## Form Settings Panel Mappings {important}
+
+The Form Settings panel in the Editor configures viewset-level properties:
+
+| Editor UI Label | JSON Property | Type | JSON Path | Default |
+|-----------------|---------------|------|-----------|---------|
+| **Finish Button Behavior** | `publishButtonBehaviour` | enum | `viewsets.*.publishButtonBehaviour` | `"always"` |
+| └─ Always Show | `"always"` | string | | Default option |
+| └─ Show Once All Sections Visited | `"visited"` | string | | Completeness check |
+| └─ Show Only When No Errors Exist | `"noErrors"` | string | | Validation required |
+| **Layout Style** | `layout` | enum | `viewsets.*.layout` | `"tabs"` |
+| └─ Tabs | `"tabs"` | string | | Horizontal sections |
+| └─ Inline | `"inline"` | string | | Vertical scroll |
+| **Summary Fields** | `summary_fields` | array | `viewsets.*.summary_fields` | `[]` |
+| **Human-Readable ID Field** | `hridField` | string | `viewsets.*.hridField` | `undefined` |
+
+### Form Settings Notes {important}
+- Settings are **per-viewset**, not global
+- Each form in a notebook can have different settings
+- Summary fields must reference existing field IDs in the form
+- HRID field must be a required string field (`type-returned: "faims-core::String"`)
+- See [Editor Form Settings](./editor-form-settings.md) for complete documentation
+
+---
+
 ## Summary {essential}
 
 This mapping reference is critical for understanding the relationship between:

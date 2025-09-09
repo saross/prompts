@@ -276,23 +276,54 @@ see-also: [notebook-format-guide, component-reference, field-type-index]
 **Note**: No built-in preview - test in separate browser tab.  
 **See**: [Designer Component Mapping](./designer-component-mapping.md)
 
-### System Role
-**Definition**: Platform-wide permission level (SysAdmin, OrgAdmin, Designer, User).  
-**Scope**: Applies across all notebooks and teams.  
-**Inheritance**: Provides baseline permissions.  
-**See**: [Users Interface](../dashboard/users-interface.md)
+### Global Role
+**Definition**: System-wide permission level.  
+**Types**: GENERAL_USER (default), GENERAL_CREATOR, GENERAL_ADMIN.  
+**Scope**: Applies across entire Fieldmark system.  
+**Inheritance**: Higher roles inherit lower role permissions.  
+**See**: [Roles & Permissions Reference](./roles-permissions-reference.md)
 
-### Notebook Role
-**Definition**: Permissions within a specific notebook.  
-**Types**: Notebook Administrator, Data Collector, Data Reviewer, Data Viewer.  
+### GENERAL_USER
+**Definition**: Default role for all registered users.  
+**Permissions**: Basic access, view lists, manage own tokens.  
+**Automatic**: Every user has this role.  
+**See**: [Global Roles](./roles-permissions-reference.md#1-global-roles-system-wide-essential)
+
+### GENERAL_CREATOR  
+**Definition**: Role for users who can create notebooks and templates.  
+**Permissions**: CREATE_PROJECT, CREATE_TEMPLATE actions.  
+**Key Role**: Required for notebook designers.  
+**See**: [Global Roles](./roles-permissions-reference.md#general-creator-content-creator-essential)
+
+### GENERAL_ADMIN
+**Definition**: System administrator with full control.  
+**Permissions**: All system operations, user management, override access.  
+**God Mode**: Inherits all other admin roles automatically.  
+**See**: [Global Roles](./roles-permissions-reference.md#general-admin-system-administrator-essential)
+
+### Project Role
+**Definition**: Permissions within a specific notebook (project).  
+**Types**: PROJECT_GUEST, PROJECT_CONTRIBUTOR, PROJECT_MANAGER, PROJECT_ADMIN.  
 **Scope**: Single notebook only.  
-**See**: [Notebook Permissions](../dashboard/notebooks-interface.md#notebook-roles)
+**See**: [Notebook Roles](./roles-permissions-reference.md#3-notebook-project-roles-important)
 
 ### Team Role
 **Definition**: Permissions within a team context.  
-**Types**: Team Administrator, Team Member.  
-**Scope**: Team resources only.  
-**See**: [Team Roles](../dashboard/teams-interface.md#team-roles)
+**Types**: TEAM_MEMBER, TEAM_MEMBER_CREATOR, TEAM_MANAGER, TEAM_ADMIN.  
+**Virtual Roles**: Automatically grants notebook permissions.  
+**See**: [Team Roles](./roles-permissions-reference.md#2-team-roles-team-specific-important)
+
+### Virtual Role
+**Definition**: Automatic permissions granted through team membership.  
+**Example**: TEAM_MEMBER gets PROJECT_CONTRIBUTOR on all team notebooks.  
+**Benefit**: Simplifies permission management.  
+**See**: [How Team Roles Work](./roles-permissions-reference.md#how-team-roles-work-essential)
+
+### Role Inheritance
+**Definition**: Higher roles automatically include lower role permissions.  
+**Example**: PROJECT_ADMIN inherits PROJECT_MANAGER permissions.  
+**Direction**: Flows from specific to general.  
+**See**: [Permission Hierarchy](./roles-permissions-reference.md#permission-hierarchy-essential)
 
 ### Invitation
 **Definition**: Email-based process for granting access to notebooks or teams.  
@@ -323,6 +354,78 @@ see-also: [notebook-format-guide, component-reference, field-type-index]
 **Format**: Steps with {{VARIABLE}} markers for context-specific values.  
 **Purpose**: Enable LLMs to generate customised guidance.  
 **See**: [Dashboard Patterns](../dashboard/dashboard-patterns.md)
+
+## Editor Terms
+
+### Notebook Info
+**Definition**: Editor page for configuring notebook-level metadata.  
+**Location**: Editor → Info tab.  
+**Contains**: Project name, lead, institution, description, custom fields.  
+**Purpose**: FAIR data compliance and metadata standards support.  
+**See**: [Editor Notebook Info](./editor-notebook-info.md)
+
+### Custom Metadata Fields
+**Definition**: User-defined key-value pairs for project-specific metadata.  
+**Creation**: Via Info page "Create New Field" interface.  
+**Use Cases**: Grant tracking, ethics approval, repository compliance.  
+**Format**: All values stored as strings in metadata object.  
+**See**: [Editor Notebook Info](./editor-notebook-info.md#custom-metadata-fields)
+
+### Three-tier Metadata System
+**Definition**: Fieldmark's hierarchical metadata architecture.  
+**Levels**: Notebook (Info) → Record (fields) → Field (annotation/uncertainty).  
+**Purpose**: Comprehensive data documentation for FAIR compliance.  
+**Implementation**: Info page, form fields, field-level metadata toggles.  
+**See**: [Editor Notebook Info](./editor-notebook-info.md#metadata-hierarchy)
+
+### RAiD (Research Activity Identifier)
+**Definition**: Persistent identifier system for research projects.  
+**Format**: `https://raid.org/10.25917/{{SUFFIX}}`.  
+**Integration**: Custom metadata fields in Info page.  
+**Purpose**: Project tracking and citation.  
+**See**: [Editor Notebook Info](./editor-notebook-info.md#research-activity-identifier-raid)
+
+### FAIR Data Principles
+**Definition**: Findable, Accessible, Interoperable, Reusable data standards.  
+**Implementation**: Through notebook metadata, permissions, standards compliance.  
+**Location**: Configured via Info page metadata.  
+**Components**: Identifiers, descriptions, standards, licenses.  
+**See**: [Editor Notebook Info](./editor-notebook-info.md#fair-data-implementation)
+
+### Form Settings
+**Definition**: Configuration panel in Editor controlling per-viewset behaviour.  
+**Location**: Editor → Design tab → Form Settings (expandable).  
+**Configures**: Finish button logic, layout style, summary fields, HRID.  
+**Scope**: Per-form, not global.  
+**See**: [Editor Form Settings](./editor-form-settings.md)
+
+### Record List Table  
+**Definition**: Primary interface displaying all notebook records in tabular format.  
+**Location**: Notebook → Records tab.  
+**Customisation**: Via Form Settings → Summary Fields.  
+**Default columns**: HRID or UUID if not configured.  
+**See**: [Editor Form Settings](./editor-form-settings.md#summary_fields)
+
+### Summary Fields
+**Definition**: Fields displayed as columns in record list table.  
+**Configuration**: Form Settings → Summary Fields (multi-select).  
+**Best Practice**: Select 2-4 most identifying fields.  
+**Fallback**: Shows HRID only if none selected.  
+**See**: [Editor Form Settings](./editor-form-settings.md#summary_fields)
+
+### publishButtonBehaviour
+**Definition**: Validation strategy controlling when forms can be completed.  
+**Options**: `always`, `visited`, `noErrors`.  
+**UI Label**: "Finish Button Behavior" in Form Settings.  
+**Default**: `"always"` (no restrictions).  
+**See**: [Editor Form Settings](./editor-form-settings.md#publishbuttonbehaviour)
+
+### Layout Style
+**Definition**: How form sections are displayed to users.  
+**Options**: `tabs` (horizontal), `inline` (vertical scroll).  
+**Configuration**: Form Settings → Layout Style.  
+**Platform**: Mobile often better with inline, desktop with tabs.  
+**See**: [Editor Form Settings](./editor-form-settings.md#layout)
 
 ## Acronyms
 

@@ -25,18 +25,28 @@ Following the successful completion of the LLM optimization project (95/100 scor
 
 ### 2. Content Enhancement
 
-#### Dashboard Documentation Tasks (Added 2025-09-08)
-- [ ] **Document roles/permissions/privileges**
+#### Dashboard Documentation Tasks (Added 2025-01-08)
+- [x] **Document roles/permissions/privileges** ✅ COMPLETED 2025-01-08
   - System-wide roles vs notebook-specific roles
   - Team roles and their capabilities
   - Permission inheritance and precedence
   - Create comprehensive matrix of all permissions
   - Priority: **HIGH** - Critical for user understanding
 
-- [ ] **Document notebook metadata/'Info' page in Designer**
+- [x] **Document notebook metadata/'Info' page in Designer** ✅ COMPLETED 2025-01-09
   - All fields available in the Info section
   - Version numbering approach (manual versioning)
   - Metadata that affects notebook behaviour
+
+#### FAIR Data Practices Documentation (Added 2025-01-09)
+- [ ] **Create comprehensive FAIR data best practices guide**
+  - Leverage three-tier metadata system (notebook/record/field)
+  - Document how to implement Findable principles using metadata
+  - Guide for Accessible data through proper permissions
+  - Interoperability through standards compliance (RAiD, Darwin Core, etc.)
+  - Reusability through versioning and documentation
+  - Include practical examples for different domains
+  - Priority: **HIGH** - Essential for research data management
   - How metadata is used in deployment
   - Priority: **HIGH** - Core functionality
 

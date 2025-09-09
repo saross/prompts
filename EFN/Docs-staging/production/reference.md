@@ -27274,23 +27274,54 @@ see-also: [notebook-format-guide, component-reference, field-type-index]
 **Note**: No built-in preview - test in separate browser tab.  
 **See**: [Designer Component Mapping](./designer-component-mapping.md)
 
-### System Role
-**Definition**: Platform-wide permission level (SysAdmin, OrgAdmin, Designer, User).  
-**Scope**: Applies across all notebooks and teams.  
-**Inheritance**: Provides baseline permissions.  
-**See**: [Users Interface](../dashboard/users-interface.md)
+### Global Role
+**Definition**: System-wide permission level.  
+**Types**: GENERAL_USER (default), GENERAL_CREATOR, GENERAL_ADMIN.  
+**Scope**: Applies across entire Fieldmark system.  
+**Inheritance**: Higher roles inherit lower role permissions.  
+**See**: [Roles & Permissions Reference](./roles-permissions-reference.md)
 
-### Notebook Role
-**Definition**: Permissions within a specific notebook.  
-**Types**: Notebook Administrator, Data Collector, Data Reviewer, Data Viewer.  
+### GENERAL_USER
+**Definition**: Default role for all registered users.  
+**Permissions**: Basic access, view lists, manage own tokens.  
+**Automatic**: Every user has this role.  
+**See**: [Global Roles](./roles-permissions-reference.md#1-global-roles-system-wide-essential)
+
+### GENERAL_CREATOR  
+**Definition**: Role for users who can create notebooks and templates.  
+**Permissions**: CREATE_PROJECT, CREATE_TEMPLATE actions.  
+**Key Role**: Required for notebook designers.  
+**See**: [Global Roles](./roles-permissions-reference.md#general-creator-content-creator-essential)
+
+### GENERAL_ADMIN
+**Definition**: System administrator with full control.  
+**Permissions**: All system operations, user management, override access.  
+**God Mode**: Inherits all other admin roles automatically.  
+**See**: [Global Roles](./roles-permissions-reference.md#general-admin-system-administrator-essential)
+
+### Project Role
+**Definition**: Permissions within a specific notebook (project).  
+**Types**: PROJECT_GUEST, PROJECT_CONTRIBUTOR, PROJECT_MANAGER, PROJECT_ADMIN.  
 **Scope**: Single notebook only.  
-**See**: [Notebook Permissions](../dashboard/notebooks-interface.md#notebook-roles)
+**See**: [Notebook Roles](./roles-permissions-reference.md#3-notebook-project-roles-important)
 
 ### Team Role
 **Definition**: Permissions within a team context.  
-**Types**: Team Administrator, Team Member.  
-**Scope**: Team resources only.  
-**See**: [Team Roles](../dashboard/teams-interface.md#team-roles)
+**Types**: TEAM_MEMBER, TEAM_MEMBER_CREATOR, TEAM_MANAGER, TEAM_ADMIN.  
+**Virtual Roles**: Automatically grants notebook permissions.  
+**See**: [Team Roles](./roles-permissions-reference.md#2-team-roles-team-specific-important)
+
+### Virtual Role
+**Definition**: Automatic permissions granted through team membership.  
+**Example**: TEAM_MEMBER gets PROJECT_CONTRIBUTOR on all team notebooks.  
+**Benefit**: Simplifies permission management.  
+**See**: [How Team Roles Work](./roles-permissions-reference.md#how-team-roles-work-essential)
+
+### Role Inheritance
+**Definition**: Higher roles automatically include lower role permissions.  
+**Example**: PROJECT_ADMIN inherits PROJECT_MANAGER permissions.  
+**Direction**: Flows from specific to general.  
+**See**: [Permission Hierarchy](./roles-permissions-reference.md#permission-hierarchy-essential)
 
 ### Invitation
 **Definition**: Email-based process for granting access to notebooks or teams.  
@@ -27322,6 +27353,78 @@ see-also: [notebook-format-guide, component-reference, field-type-index]
 **Purpose**: Enable LLMs to generate customised guidance.  
 **See**: [Dashboard Patterns](../dashboard/dashboard-patterns.md)
 
+## Editor Terms
+
+### Notebook Info
+**Definition**: Editor page for configuring notebook-level metadata.  
+**Location**: Editor → Info tab.  
+**Contains**: Project name, lead, institution, description, custom fields.  
+**Purpose**: FAIR data compliance and metadata standards support.  
+**See**: [Editor Notebook Info](./editor-notebook-info.md)
+
+### Custom Metadata Fields
+**Definition**: User-defined key-value pairs for project-specific metadata.  
+**Creation**: Via Info page "Create New Field" interface.  
+**Use Cases**: Grant tracking, ethics approval, repository compliance.  
+**Format**: All values stored as strings in metadata object.  
+**See**: [Editor Notebook Info](./editor-notebook-info.md#custom-metadata-fields)
+
+### Three-tier Metadata System
+**Definition**: Fieldmark's hierarchical metadata architecture.  
+**Levels**: Notebook (Info) → Record (fields) → Field (annotation/uncertainty).  
+**Purpose**: Comprehensive data documentation for FAIR compliance.  
+**Implementation**: Info page, form fields, field-level metadata toggles.  
+**See**: [Editor Notebook Info](./editor-notebook-info.md#metadata-hierarchy)
+
+### RAiD (Research Activity Identifier)
+**Definition**: Persistent identifier system for research projects.  
+**Format**: `https://raid.org/10.25917/{{SUFFIX}}`.  
+**Integration**: Custom metadata fields in Info page.  
+**Purpose**: Project tracking and citation.  
+**See**: [Editor Notebook Info](./editor-notebook-info.md#research-activity-identifier-raid)
+
+### FAIR Data Principles
+**Definition**: Findable, Accessible, Interoperable, Reusable data standards.  
+**Implementation**: Through notebook metadata, permissions, standards compliance.  
+**Location**: Configured via Info page metadata.  
+**Components**: Identifiers, descriptions, standards, licenses.  
+**See**: [Editor Notebook Info](./editor-notebook-info.md#fair-data-implementation)
+
+### Form Settings
+**Definition**: Configuration panel in Editor controlling per-viewset behaviour.  
+**Location**: Editor → Design tab → Form Settings (expandable).  
+**Configures**: Finish button logic, layout style, summary fields, HRID.  
+**Scope**: Per-form, not global.  
+**See**: [Editor Form Settings](./editor-form-settings.md)
+
+### Record List Table  
+**Definition**: Primary interface displaying all notebook records in tabular format.  
+**Location**: Notebook → Records tab.  
+**Customisation**: Via Form Settings → Summary Fields.  
+**Default columns**: HRID or UUID if not configured.  
+**See**: [Editor Form Settings](./editor-form-settings.md#summary_fields)
+
+### Summary Fields
+**Definition**: Fields displayed as columns in record list table.  
+**Configuration**: Form Settings → Summary Fields (multi-select).  
+**Best Practice**: Select 2-4 most identifying fields.  
+**Fallback**: Shows HRID only if none selected.  
+**See**: [Editor Form Settings](./editor-form-settings.md#summary_fields)
+
+### publishButtonBehaviour
+**Definition**: Validation strategy controlling when forms can be completed.  
+**Options**: `always`, `visited`, `noErrors`.  
+**UI Label**: "Finish Button Behavior" in Form Settings.  
+**Default**: `"always"` (no restrictions).  
+**See**: [Editor Form Settings](./editor-form-settings.md#publishbuttonbehaviour)
+
+### Layout Style
+**Definition**: How form sections are displayed to users.  
+**Options**: `tabs` (horizontal), `inline` (vertical scroll).  
+**Configuration**: Form Settings → Layout Style.  
+**Platform**: Mobile often better with inline, desktop with tabs.  
+**See**: [Editor Form Settings](./editor-form-settings.md#layout)
+
 ## Acronyms
 
 | Acronym | Full Term | Context |
@@ -27351,6 +27454,569 @@ For implementation details, see the referenced documentation sections.
 ---
 
 *This glossary defines ~60 critical terms for Fieldmark notebook development.*
+
+<!-- concat:reference:roles-permissions-reference -->
+<!-- concat:boundary:start section="roles-permissions" -->
+<!-- concat:metadata
+document_id: roles-permissions
+category: reference
+type: permission-model
+last_updated: 2025-01-08
+-->
+
+<!-- discovery:metadata
+provides: [role-definitions, permission-matrix, inheritance-model, administration-guide]
+requires: [dashboard-access, user-management]
+see-also: [users-interface, teams-interface, notebooks-interface, glossary, llm-navigation-manifest]
+-->
+
+<!-- structured:metadata
+meta:purpose: permission-reference
+meta:audience: [administrators, notebook-creators, documentation]
+meta:priority: essential
+meta:complexity: comprehensive
+meta:version: 1.0.0
+meta:document: roles_permissions_reference
+meta:depth-tags: [essential, important, comprehensive]
+-->
+
+# Roles and Permissions Reference
+
+## Document Navigation {essential}
+<!-- concat:nav-mode:individual -->
+[← Glossary](./glossary.md) | **Roles & Permissions** | [Navigation Manifest →](./llm-navigation-manifest.md)
+<!-- concat:nav-mode:concatenated -->
+<!-- When viewing in reference.md: [↑ Glossary](#glossary) | [Navigation Manifest ↓](#llm-navigation-manifest) -->
+
+## Overview {essential}
+
+Fieldmark implements a three-tier permission model with role inheritance and virtual role mapping. Understanding this system is essential for project administration and user management.
+
+### Permission Hierarchy {essential}
+```
+Global Roles (System-wide)
+    ↓
+Team Roles (Per team)
+    ↓
+Notebook Roles (Per notebook/project)
+```
+
+### Key Concepts {essential}
+
+| Concept | Description | Example |
+|---------|-------------|---------|
+| **Direct Assignment** | Roles explicitly granted to users | User gets PROJECT_ADMIN on Notebook A |
+| **Role Inheritance** | Higher roles include lower role permissions | PROJECT_ADMIN inherits PROJECT_MANAGER |
+| **Virtual Roles** | Automatic roles from team membership | TEAM_MEMBER gets PROJECT_CONTRIBUTOR on team notebooks |
+| **Permission Override** | More specific roles override general ones | PROJECT_ADMIN overrides TEAM_MEMBER |
+
+### Terminology Alignment
+
+| UI Term | Code Term | Description |
+|---------|-----------|-------------|
+| **Notebook** | Project | Data collection instance |
+| **Template** | Template | Reusable notebook design |
+| **Editor/Designer** | UI Specification | Notebook structure definition |
+| **Records** | Project Records | Collected data entries |
+| **Create Notebook** | CREATE_PROJECT | Action to make new notebook |
+| **Edit Notebook** | UPDATE_PROJECT_UISPEC | Action to modify structure |
+
+---
+
+## 1. Global Roles (System-wide) {essential}
+
+Global roles apply across the entire Fieldmark system and are managed through the Dashboard Users interface.
+
+### 📍 Dashboard Administration Location
+**Navigate to**: Dashboard → Users → [Select User] → System Roles  
+**Who can modify**: GENERAL_ADMIN only  
+**Interface**: Checkbox or dropdown selection per role
+
+### GENERAL_USER (Default Role) {essential}
+
+**Automatic for**: All registered users  
+**Purpose**: Basic system access  
+**Dashboard indicator**: No special badge (default)
+
+#### Permissions
+- View lists of accessible notebooks and templates
+- Create and manage own API tokens (long-lived tokens)
+- Verify email address
+- View own user profile
+
+#### Cannot
+- Create new notebooks or templates
+- Access system administration
+- Modify other users
+
+#### Common Use Case
+Every user has this role automatically. Field data collectors typically have GENERAL_USER + notebook-specific roles.
+
+### GENERAL_CREATOR (Content Creator) {essential}
+
+**Purpose**: Create notebooks and templates  
+**Dashboard indicator**: "{{CREATOR_BADGE_TEXT}}" badge  
+**Assignment**: Manual by administrator
+
+#### Additional Permissions
+- ✅ **CREATE new notebooks** anywhere in system
+- ✅ **CREATE new templates** anywhere in system  
+- List all templates in system
+- Convert notebooks to templates
+
+#### Inherits From
+- GENERAL_USER (all basic permissions)
+
+#### Common Use Case
+```
+{{RESEARCHER_NAME}} needs to design data collection forms.
+Grant: GENERAL_CREATOR
+Result: Can create notebooks and templates globally
+```
+
+#### Dashboard Creation Paths
+- **Create Notebook**: Home → Create Notebook button
+- **Create Template**: Templates → Create Template button
+
+### GENERAL_ADMIN (System Administrator) {essential}
+
+**Purpose**: Complete system control  
+**Dashboard indicator**: "{{ADMIN_BADGE_TEXT}}" badge (often {{ADMIN_BADGE_COLOR}})  
+**Assignment**: Manual by existing GENERAL_ADMIN only
+
+#### Exclusive Permissions
+- **User Management**
+  - View all users in system
+  - Add/remove any global role
+  - Reset any user password  
+  - Delete users permanently
+  - View user activity logs
+
+- **System Operations**
+  - Initialize system API
+  - Restore from backups
+  - Validate databases
+  - Send test emails
+  - View system logs
+
+- **Team Administration**
+  - Create teams without restrictions
+  - Add/remove team administrators (exclusive)
+  - Delete any team
+
+- **Override Permissions**
+  - ✅ **EDIT any notebook** structure or content
+  - ✅ **DELETE any notebook** regardless of ownership
+  - ✅ **ACCESS all notebooks** without invitation
+  - Manage any user's API tokens
+
+#### Inherits From
+- GENERAL_CREATOR (creation permissions)
+- All PROJECT_ADMIN permissions (on every notebook)
+- All TEAM_ADMIN permissions (on every team)
+- All TEMPLATE_ADMIN permissions (on every template)
+
+#### Dashboard Administration Paths
+- **User Management**: Dashboard → Users
+- **System Settings**: Dashboard → Settings (if available)
+- **All Notebooks**: Dashboard → Notebooks (sees all)
+
+#### Security Note
+⚠️ This role has unrestricted access. Limit to {{MAX_ADMINS}} users maximum.
+
+---
+
+## 2. Team Roles (Team-specific) {important}
+
+Team roles simplify permission management by automatically granting notebook access to team members.
+
+### 📍 Dashboard Administration Location
+**Navigate to**: Dashboard → Teams → [Select Team] → Users tab  
+**Who can modify**: TEAM_ADMIN, TEAM_MANAGER (limited), GENERAL_ADMIN  
+**Interface**: Add User button → Role dropdown
+
+### How Team Roles Work {essential}
+
+```
+User joins team with role
+    ↓
+Automatically receives "virtual roles"
+    ↓
+Gets permissions on all team resources
+```
+
+### TEAM_MEMBER (Team Contributor) {important}
+
+**Purpose**: Contribute data to team notebooks  
+**Dashboard indicator**: "Member" in team user list  
+**Assignment**: Via team invitation or direct add
+
+#### Direct Permissions
+- View team details and description
+- View team member list
+- Access team templates
+
+#### Virtual Roles Granted
+| Resource Type | Virtual Role | Result |
+|--------------|--------------|--------|
+| Team Notebooks | PROJECT_CONTRIBUTOR | Can view/edit all records |
+| Team Templates | TEMPLATE_GUEST | Can view/use templates |
+
+#### Common Use Case
+```
+{{FIELD_WORKER}} joins {{TEAM_NAME}}
+Role: TEAM_MEMBER
+Result: Automatically can contribute to all team notebooks
+```
+
+### TEAM_MEMBER_CREATOR (Creative Team Member) {important}
+
+**Purpose**: Create new notebooks within team  
+**Dashboard indicator**: "Member (Creator)" in team list  
+**Assignment**: Special variant of team member
+
+#### Additional Permissions
+- ✅ **CREATE notebooks** within the team
+- Does NOT automatically access all team notebooks
+
+#### Use Case
+Team member who creates project-specific notebooks but doesn't need access to all team data.
+
+### TEAM_MANAGER (Team Manager) {important}
+
+**Purpose**: Manage team resources and membership  
+**Dashboard indicator**: "{{MANAGER_BADGE_TEXT}}" badge in team list  
+**Assignment**: By TEAM_ADMIN or GENERAL_ADMIN
+
+#### Direct Permissions
+- Update team details (name, description)
+- ✅ **CREATE notebooks** in team
+- ✅ **CREATE templates** in team
+- Add/remove team members
+- Manage member and manager invitations
+- View all team invitations
+
+#### Virtual Roles Granted
+| Resource Type | Virtual Role | Result |
+|--------------|--------------|--------|
+| Team Notebooks | PROJECT_MANAGER | Can edit notebook structure |
+| Team Templates | TEMPLATE_GUEST | Can view/use templates |
+
+#### Cannot
+- Delete team
+- Add/remove team administrators
+
+#### Dashboard Management Paths
+- **Add Members**: Team → Users tab → Add User
+- **Create Notebook**: Team → Notebooks tab → Create Notebook
+- **Manage Invites**: Team → Invites tab
+
+### TEAM_ADMIN (Team Administrator) {important}
+
+**Purpose**: Full team control  
+**Dashboard indicator**: "{{TEAM_ADMIN_BADGE_TEXT}}" badge in team list  
+**Assignment**: By GENERAL_ADMIN only
+
+#### Additional Permissions
+- ✅ **DELETE team** (if no resources)
+- Add/remove team managers
+- Full control over team settings
+
+#### Virtual Roles Granted
+| Resource Type | Virtual Role | Result |
+|--------------|--------------|--------|
+| Team Notebooks | PROJECT_ADMIN | Full notebook control |
+| Team Templates | TEMPLATE_ADMIN | Full template control |
+
+#### Inherits From
+- TEAM_MANAGER (all management permissions)
+
+---
+
+## 3. Notebook (Project) Roles {important}
+
+Notebook roles provide granular permissions for specific data collection instances.
+
+### 📍 Dashboard Administration Location
+**Navigate to**: Dashboard → Notebooks → [Select Notebook] → Users tab  
+**Who can modify**: PROJECT_ADMIN, PROJECT_MANAGER (limited), GENERAL_ADMIN  
+**Interface**: Invite User button → Role selection
+
+### PROJECT_GUEST (Notebook Guest) {important}
+
+**Purpose**: Limited data contribution  
+**Dashboard indicator**: "Guest" in notebook user list  
+**Use case**: External collaborators with restricted access
+
+#### Permissions
+- View notebook metadata
+- Create own records
+- View/edit/delete ONLY own records
+- Cannot see other users' data
+
+### PROJECT_CONTRIBUTOR (Data Collector) {essential}
+
+**Purpose**: Standard field data collection  
+**Dashboard indicator**: "Contributor" in notebook user list  
+**Most common role**: For field workers
+
+#### Additional Permissions
+- View ALL records in notebook
+- Edit ALL records (including others')
+- Delete ALL records
+- Export own data
+- Bulk operations on records
+
+#### Inherits From
+- PROJECT_GUEST (own record management)
+
+### PROJECT_MANAGER (Notebook Manager) {important}
+
+**Purpose**: Manage notebook configuration  
+**Dashboard indicator**: "Manager" in notebook user list
+
+#### Additional Permissions
+- ✅ **EDIT notebook details** (name, description)
+- ✅ **EDIT notebook structure** (UPDATE_PROJECT_UISPEC)
+- Change notebook status (open/closed)
+- Export all notebook data
+- Manage all invitations (except admin)
+- Add/remove users (except admins)
+
+#### Dashboard Management Paths
+- **Edit Structure**: Notebook → Edit/Designer button
+- **Manage Users**: Notebook → Users tab
+- **Export Data**: Notebook → Records → Export
+
+#### Inherits From
+- PROJECT_CONTRIBUTOR (all data permissions)
+
+### PROJECT_ADMIN (Notebook Administrator) {essential}
+
+**Purpose**: Full notebook control  
+**Dashboard indicator**: "Administrator" in notebook user list
+
+#### Additional Permissions
+- ✅ **DELETE entire notebook**
+- Add/remove notebook administrators
+- Generate test/debug records
+- Change notebook team ownership
+- Access audit logs
+
+#### Inherits From
+- PROJECT_MANAGER (all management permissions)
+
+---
+
+## 4. Permission Quick Reference {essential}
+
+### Who Can Create Notebooks?
+
+| Role | Create Anywhere | Create in Team | Dashboard Location |
+|------|----------------|----------------|-------------------|
+| GENERAL_ADMIN | ✅ | ✅ | Home → Create Notebook |
+| GENERAL_CREATOR | ✅ | ✅* | Home → Create Notebook |
+| TEAM_MANAGER | ❌ | ✅ | Team → Notebooks → Create |
+| TEAM_MEMBER_CREATOR | ❌ | ✅ | Team → Notebooks → Create |
+| TEAM_MEMBER | ❌ | ❌ | No create button visible |
+| GENERAL_USER | ❌ | ❌ | No create button visible |
+
+*If also has team role
+
+### Who Can Edit Notebook Structure?
+
+| Role | Edit Any | Edit Team Notebooks | Edit Assigned | Dashboard Location |
+|------|----------|---------------------|---------------|-------------------|
+| GENERAL_ADMIN | ✅ | ✅ | ✅ | Notebook → Edit |
+| PROJECT_MANAGER | ❌ | ❌ | ✅ | Notebook → Edit |
+| PROJECT_ADMIN | ❌ | ❌ | ✅ | Notebook → Edit |
+| TEAM_MANAGER | ❌ | ✅ (virtual) | ❌ | Notebook → Edit |
+| TEAM_ADMIN | ❌ | ✅ (virtual) | ❌ | Notebook → Edit |
+
+### Who Can Delete Notebooks?
+
+| Role | Delete Any | Delete Team | Delete Assigned | Dashboard Location |
+|------|------------|-------------|-----------------|-------------------|
+| GENERAL_ADMIN | ✅ | ✅ | ✅ | Notebook → Settings → Delete |
+| PROJECT_ADMIN | ❌ | ❌ | ✅ | Notebook → Settings → Delete |
+| TEAM_ADMIN | ❌ | ✅ | ❌ | Notebook → Settings → Delete |
+
+---
+
+## 5. Common Permission Scenarios {important}
+
+### Scenario: Research Team Setup
+```
+Team: {{RESEARCH_TEAM}}
+Team Leader: {{TEAM_LEADER}}
+Researchers: {{NUM_RESEARCHERS}}
+Field Workers: {{NUM_FIELD_WORKERS}}
+
+Roles:
+- Team Leader: GENERAL_CREATOR + TEAM_ADMIN
+  → Can create notebooks and fully manage team
+
+- Researchers: GENERAL_CREATOR + TEAM_MANAGER  
+  → Can create/edit notebooks within team
+
+- Field Workers: GENERAL_USER + TEAM_MEMBER
+  → Can contribute data to all team notebooks
+```
+
+### Scenario: External Collaboration
+```
+External Partner: {{PARTNER_ORG}}
+Shared Notebook: {{NOTEBOOK_NAME}}
+
+Roles:
+- Partner Users: GENERAL_USER + PROJECT_GUEST on specific notebook
+  → Can only see and edit their own records
+
+- Partner Supervisor: GENERAL_USER + PROJECT_CONTRIBUTOR
+  → Can see all data but not change structure
+```
+
+### Scenario: Template Designer
+```
+Designer: {{DESIGNER_NAME}}
+Purpose: Create reusable templates for organization
+
+Roles:
+- GENERAL_CREATOR (global)
+- TEMPLATE_ADMIN on created templates
+  → Can create and modify template library
+```
+
+---
+
+## 6. Template Permissions {comprehensive}
+
+### Template Roles
+
+| Role | Permissions | Dashboard Location |
+|------|-------------|-------------------|
+| TEMPLATE_ADMIN | Full control, edit, delete | Templates → [Template] → Settings |
+| TEMPLATE_GUEST | View and use only | Templates list |
+
+### Who Can Create Templates?
+
+| Role | Create Anywhere | Create in Team |
+|------|----------------|----------------|
+| GENERAL_ADMIN | ✅ | ✅ |
+| GENERAL_CREATOR | ✅ | ✅* |
+| TEAM_MANAGER | ❌ | ✅ |
+
+*If has appropriate team role
+
+---
+
+## 7. Troubleshooting Permissions {important}
+
+### Common Issues and Solutions
+
+| Problem | Likely Cause | Solution | Check Location |
+|---------|--------------|----------|----------------|
+| "Can't create notebook" | Missing GENERAL_CREATOR | Grant GENERAL_CREATOR role | Users → [User] → Roles |
+| "Can't edit notebook structure" | Missing PROJECT_MANAGER | Add as notebook manager | Notebook → Users |
+| "Can't see team notebooks" | Not team member | Add to team | Team → Users → Add |
+| "Can't delete notebook" | Need PROJECT_ADMIN | Upgrade notebook role | Notebook → Users |
+| "Can't add team admin" | Need GENERAL_ADMIN | Only system admin can do this | Contact system admin |
+
+### Permission Debugging Checklist
+
+1. Check global roles: Dashboard → Users → [User]
+2. Check team membership: Teams → [Team] → Users
+3. Check notebook roles: Notebooks → [Notebook] → Users
+4. Check virtual roles from teams
+5. Verify email is confirmed (some features restricted)
+
+---
+
+## 8. API Token Permissions {comprehensive}
+
+Long-lived tokens inherit the permissions of the user who created them:
+
+| Token Creator Role | Token Permissions |
+|-------------------|-------------------|
+| GENERAL_USER | Basic read access only |
+| GENERAL_CREATOR | Can create resources via API |
+| GENERAL_ADMIN | Full API access |
+
+### Token Management
+
+- Users: Can create/revoke own tokens
+- GENERAL_ADMIN: Can manage any user's tokens
+- Dashboard: Users → [User] → API Tokens
+
+---
+
+## 9. Special Cases and Edge Conditions {comprehensive}
+
+### Orphaned Notebooks
+- Notebooks without team ownership
+- Only PROJECT roles apply (no team virtual roles)
+- GENERAL_ADMIN can reassign to team
+
+### Permission Conflicts
+Resolution order (highest priority first):
+1. Direct notebook role (PROJECT_*)
+2. Team virtual role (from TEAM_*)
+3. Global permissions (GENERAL_*)
+
+### Cross-Team Scenarios
+- Users can belong to multiple teams
+- Each team's virtual roles apply independently
+- No permission inheritance between teams
+
+---
+
+## Cross-References {important}
+
+For UI details:
+→ [Users Interface](../dashboard/users-interface.md) - System role management
+→ [Teams Interface](../dashboard/teams-interface.md) - Team role management  
+→ [Notebooks Interface](../dashboard/notebooks-interface.md) - Notebook role management
+
+For concepts:
+→ [Glossary](./glossary.md) - Role and permission definitions
+→ [Dashboard Patterns](../dashboard/dashboard-patterns.md) - Permission management workflows
+
+---
+
+## Complete Action Reference {comprehensive}
+
+### Project (Notebook) Actions
+
+| Action | Required Role | Description |
+|--------|---------------|-------------|
+| CREATE_PROJECT | GENERAL_CREATOR or TEAM_MANAGER | Create new notebook |
+| UPDATE_PROJECT_UISPEC | PROJECT_MANAGER | Edit notebook structure |
+| DELETE_PROJECT | PROJECT_ADMIN | Delete entire notebook |
+| READ_ALL_PROJECT_RECORDS | PROJECT_CONTRIBUTOR | View all data |
+| EXPORT_PROJECT_DATA | PROJECT_MANAGER | Export all records |
+
+### Team Actions
+
+| Action | Required Role | Description |
+|--------|---------------|-------------|
+| CREATE_TEAM | GENERAL_ADMIN | Create new team |
+| DELETE_TEAM | TEAM_ADMIN | Delete team |
+| ADD_ADMIN_TO_TEAM | GENERAL_ADMIN only | Appoint team admin |
+| CREATE_PROJECT_IN_TEAM | TEAM_MANAGER | Create team notebook |
+
+### System Actions
+
+| Action | Required Role | Description |
+|--------|---------------|-------------|
+| ADD_OR_REMOVE_GLOBAL_USER_ROLE | GENERAL_ADMIN | Manage system roles |
+| DELETE_USER | GENERAL_ADMIN | Remove user |
+| RESTORE_FROM_BACKUP | GENERAL_ADMIN | System restore |
+
+---
+
+*Last updated: 2025-01-08 | Based on FAIMS3 codebase analysis*
+
+<!-- concat:boundary:end section="roles-permissions" -->
 
 <!-- concat:reference:designer-component-mapping -->
 <!-- concat:boundary:start section="designer-mapping" -->
@@ -27639,6 +28305,31 @@ def validate_component(namespace, component_name):
 
 ---
 
+## Form Settings Panel Mappings {important}
+
+The Form Settings panel in the Editor configures viewset-level properties:
+
+| Editor UI Label | JSON Property | Type | JSON Path | Default |
+|-----------------|---------------|------|-----------|---------|
+| **Finish Button Behavior** | `publishButtonBehaviour` | enum | `viewsets.*.publishButtonBehaviour` | `"always"` |
+| └─ Always Show | `"always"` | string | | Default option |
+| └─ Show Once All Sections Visited | `"visited"` | string | | Completeness check |
+| └─ Show Only When No Errors Exist | `"noErrors"` | string | | Validation required |
+| **Layout Style** | `layout` | enum | `viewsets.*.layout` | `"tabs"` |
+| └─ Tabs | `"tabs"` | string | | Horizontal sections |
+| └─ Inline | `"inline"` | string | | Vertical scroll |
+| **Summary Fields** | `summary_fields` | array | `viewsets.*.summary_fields` | `[]` |
+| **Human-Readable ID Field** | `hridField` | string | `viewsets.*.hridField` | `undefined` |
+
+### Form Settings Notes {important}
+- Settings are **per-viewset**, not global
+- Each form in a notebook can have different settings
+- Summary fields must reference existing field IDs in the form
+- HRID field must be a required string field (`type-returned: "faims-core::String"`)
+- See [Editor Form Settings](./editor-form-settings.md) for complete documentation
+
+---
+
 ## Summary {essential}
 
 This mapping reference is critical for understanding the relationship between:
@@ -27659,6 +28350,1040 @@ Remember: **Designer field names ≠ Component names**. Always verify the actual
 - **Designer Fields**: ~35-40 user-facing options
 
 <!-- concat:boundary:end -->
+
+<!-- concat:reference:editor-form-settings -->
+<!-- concat:boundary:start section="editor-form-settings" -->
+<!-- concat:metadata
+document_id: editor-form-settings
+category: reference
+type: editor-configuration
+last_updated: 2025-01-09
+-->
+
+<!-- discovery:metadata
+provides: [form-settings-configuration, viewset-properties, finish-button-logic, summary-fields-setup, hrid-configuration]
+requires: [editor-access, viewset-structure, field-definitions]
+see-also: [form-structure-guide, designer-component-mapping, notebook-format-guide, glossary]
+-->
+
+<!-- structured:metadata
+meta:purpose: technical-reference
+meta:audience: [notebook-designers, developers, llm-agents]
+meta:priority: essential
+meta:complexity: intermediate
+meta:version: 1.0.0
+meta:document: editor_form_settings
+meta:depth-tags: [essential, important, comprehensive]
+-->
+
+# Editor Form Settings Reference
+
+## Document Navigation {essential}
+<!-- concat:nav-mode:individual -->
+[← Designer Mapping](./designer-component-mapping.md) | **Form Settings** | [Notebook Format →](./notebook-format-guide.md)
+<!-- concat:nav-mode:concatenated -->
+<!-- When viewing in reference.md: [↑ Designer Mapping](#designer-component-mapping) | [Notebook Format ↓](#notebook-format-guide) -->
+
+## Overview {essential}
+
+Form Settings is a configuration panel within the Notebook Editor that controls per-viewset (form) behaviour. Each form in a notebook can have independent settings, allowing different data collection strategies within the same notebook.
+
+**Location**: Editor → Design tab → Form Settings (expandable panel)  
+**Scope**: Per-viewset configuration (not global)  
+**JSON Path**: `ui-specification.viewsets.{{VIEWSET_ID}}`
+
+### Key Concepts {essential}
+
+| Concept | Description | Impact |
+|---------|-------------|--------|
+| **Viewset** | A form or data collection screen | Each has independent settings |
+| **Record List Table** | Table showing all collected records | Configured via summary_fields |
+| **HRID** | Human-Readable Identifier | Alternative to UUID display |
+| **Finish Button** | Form completion control | Governed by publishButtonBehaviour |
+
+---
+
+## Configuration Properties {essential}
+
+### publishButtonBehaviour {essential}
+
+**Purpose**: Controls when users can save and complete forms  
+**UI Label**: "Finish Button Behavior"  
+**Type**: `enum`  
+**Default**: `"always"`
+
+#### Available Options
+
+| Value | UI Display | Description | Use Case |
+|-------|------------|-------------|----------|
+| `"always"` | Always Show | Finish button always visible | Rapid data entry, drafts OK |
+| `"visited"` | Show Once All Sections Visited | Requires visiting all tabs/sections | Training, ensure completeness |
+| `"noErrors"` | Show Only When No Errors Exist | Requires valid data in all fields | Critical data, quality control |
+
+#### JSON Structure
+```json
+{
+  "viewsets": {
+    "{{VIEWSET_ID}}": {
+      "publishButtonBehaviour": "{{BEHAVIOUR_VALUE}}"
+    }
+  }
+}
+```
+
+#### Implementation Logic {important}
+```javascript
+const showFinishButton = 
+  publishButtonBehaviour === 'always' ||
+  (publishButtonBehaviour === 'visited' && allSectionsVisited) ||
+  (publishButtonBehaviour === 'noErrors' && !hasErrors);
+```
+
+#### Decision Matrix {important}
+
+| Data Type | Recommended Setting | Rationale |
+|-----------|-------------------|-----------|
+| Field observations | `"always"` | Speed critical, can edit later |
+| Archaeological finds | `"visited"` | Ensure all attributes recorded |
+| Laboratory measurements | `"noErrors"` | Data integrity paramount |
+| Training exercises | `"visited"` | Educational completeness |
+| Citizen science | `"noErrors"` | Prevent invalid submissions |
+
+### layout {important}
+
+**Purpose**: Controls how form sections are displayed  
+**UI Label**: "Layout Style"  
+**Type**: `enum`  
+**Default**: `"tabs"`
+
+#### Available Options
+
+| Value | Display Style | Description | Best For |
+|-------|--------------|-------------|----------|
+| `"tabs"` | Horizontal tabs | Sections as clickable tabs | Desktop, complex forms |
+| `"inline"` | Vertical scroll | All sections in single page | Mobile, simple forms |
+
+#### Platform Recommendations {important}
+
+| Platform | {{SECTION_COUNT}} < 4 | {{SECTION_COUNT}} ≥ 4 |
+|----------|----------------------|----------------------|
+| Desktop | Either | `"tabs"` recommended |
+| Tablet | Either | `"tabs"` recommended |
+| Mobile | `"inline"` recommended | `"inline"` recommended |
+
+#### JSON Structure
+```json
+{
+  "viewsets": {
+    "{{VIEWSET_ID}}": {
+      "layout": "{{LAYOUT_VALUE}}"
+    }
+  }
+}
+```
+
+### summary_fields {essential}
+
+**Purpose**: Defines which fields appear as columns in the record list table  
+**UI Label**: "Summary Fields"  
+**Type**: `Array<string>`  
+**Default**: `[]` (empty array)
+
+#### Configuration
+
+- **UI Control**: Multi-select dropdown showing all form fields
+- **Selection**: Choose 2-4 most identifying fields
+- **Display**: Selected fields become table columns
+- **Order**: Matches selection order in array
+
+#### Best Practices {important}
+
+| Field Type | Good for Summary | Avoid | Reason |
+|------------|-----------------|-------|--------|
+| {{HRID_FIELD}} | ✅ Always include | ❌ Never | Primary identifier |
+| Date fields | ✅ Recommended | | Temporal context |
+| Location name | ✅ Recommended | | Spatial context |
+| Short text | ✅ If identifying | | Quick identification |
+| Long text | | ❌ Avoid | Takes too much space |
+| Photos | | ❌ Avoid | Not displayable in table |
+
+#### JSON Structure
+```json
+{
+  "viewsets": {
+    "{{VIEWSET_ID}}": {
+      "summary_fields": [
+        "{{FIELD_ID_1}}",
+        "{{FIELD_ID_2}}",
+        "{{FIELD_ID_3}}"
+      ]
+    }
+  }
+}
+```
+
+#### Record List Table Behavior {important}
+
+1. **With summary_fields configured**:
+   - Shows HRID + selected fields as columns
+   - Field labels used as column headers
+   - Missing data shows placeholder: "—"
+
+2. **With empty summary_fields**:
+   - Shows HRID column only
+   - Simplified table view
+
+3. **Invalid field handling**:
+   - Gracefully ignores non-existent fields
+   - Console warning: "Found null/undefined field"
+   - Table still renders with valid fields
+
+### hridField {essential}
+
+**Purpose**: Specifies which field serves as the Human-Readable Identifier  
+**UI Label**: "Human-Readable ID Field"  
+**Type**: `string` (field ID)  
+**Default**: `undefined`
+
+#### Requirements {essential}
+
+Field must meet ALL criteria:
+1. `type-returned`: `"faims-core::String"`
+2. `component-parameters.required`: `true`
+3. Exists within the viewset's fields
+
+#### Validation Logic {important}
+```javascript
+const isValidHridField = (field) => {
+  return field['type-returned'] === 'faims-core::String' 
+    && field['component-parameters'].required === true;
+};
+```
+
+#### Fallback Chain {essential}
+
+System attempts to find HRID in this order:
+1. **Specified hridField**: Uses configured field if valid
+2. **Auto-detect TemplatedStringField**: First valid template field found
+3. **UUID fallback**: `"rec-{{UUID_FRAGMENT}}"` format
+
+Example UUID format: `"rec-5f8a9b3c"`
+
+#### JSON Structure
+```json
+{
+  "viewsets": {
+    "{{VIEWSET_ID}}": {
+      "hridField": "{{FIELD_ID}}"
+    }
+  }
+}
+```
+
+#### Common HRID Patterns {important}
+
+| Pattern | Template Example | Result Example |
+|---------|-----------------|----------------|
+| Sequential | `{{PROJECT}}-{{_INCREMENT}}` | `PROJ-001` |
+| Date-based | `{{_CREATED_DATE}}-{{_INCREMENT}}` | `2025-01-09-001` |
+| Location-based | `{{SITE}}-{{TRENCH}}-{{_INCREMENT}}` | `SITE1-T5-042` |
+| Type-based | `{{RECORD_TYPE}}-{{YYYY}}-{{_INCREMENT}}` | `FIND-2025-156` |
+
+---
+
+## Complete Configuration Example {comprehensive}
+
+```json
+{
+  "ui-specification": {
+    "viewsets": {
+      "archaeological-find": {
+        "views": ["basic-info", "context", "description"],
+        "label": "Archaeological Find",
+        "publishButtonBehaviour": "visited",
+        "layout": "tabs",
+        "summary_fields": [
+          "find-id",
+          "find-date", 
+          "context-number",
+          "material-type"
+        ],
+        "hridField": "find-id"
+      },
+      "site-survey": {
+        "views": ["location", "observations"],
+        "label": "Site Survey",
+        "publishButtonBehaviour": "noErrors",
+        "layout": "inline",
+        "summary_fields": [
+          "survey-id",
+          "survey-date",
+          "site-name"
+        ],
+        "hridField": "survey-id"
+      }
+    }
+  }
+}
+```
+
+---
+
+## Editor Interface Details {comprehensive}
+
+### Accessing Form Settings
+
+1. Open Notebook Editor
+2. Select Design tab
+3. Choose a form from tabs (e.g., "{{FORM_NAME}}")
+4. Click Form Settings gear icon to expand panel
+
+### UI Components
+
+#### Finish Button Behavior Dropdown
+- **Location**: Top of Form Settings panel
+- **Options**: Three radio buttons or dropdown
+- **Live preview**: Changes apply immediately to form preview
+
+#### Layout Style Selector
+- **Location**: Below Finish Button Behavior
+- **Options**: Tabs | Inline toggle or dropdown
+- **Visual feedback**: Form preview updates on change
+
+#### Summary Fields Multi-Select
+- **Location**: Middle of panel
+- **Type**: Autocomplete multi-select
+- **Search**: Type to filter available fields
+- **Chips**: Selected fields show as removable chips
+
+#### HRID Field Dropdown
+- **Location**: Bottom of panel
+- **Filter**: Only shows required string fields
+- **Warning**: Indicates if no valid fields available
+
+---
+
+## Common Issues and Solutions {important}
+
+### Issue: Finish button not appearing
+
+| Cause | Solution | Verification | Debug Command |
+| `publishButtonBehaviour: "visited"` | Visit all form sections | Check visited sections indicator | `console.log(visitedSections)` |
+| `publishButtonBehaviour: "noErrors"` | Fix validation errors | Review error messages | `console.log(formik.errors)` |
+| Missing configuration | Set to `"always"` temporarily | Check JSON structure | `console.log(viewset.publishButtonBehaviour)` |
+
+### Issue: HRID shows as "rec-xxxxx"
+
+| Cause | Solution | Prevention | Validation Check |
+| No hridField configured | Select valid field in Form Settings | Always configure HRID | `viewset.hridField !== undefined` |
+| Selected field not required | Make field required | Use TemplatedStringField | `field['component-parameters'].required` |
+| Field doesn't exist | Verify field ID matches | Use Editor dropdown | `fields[viewset.hridField] !== undefined` |
+
+### Issue: Summary fields not showing in table
+
+| Cause | Solution | Debugging | Console Check |
+| Empty summary_fields array | Select fields in Form Settings | Check viewset JSON | `viewset.summary_fields.length` |
+| Field IDs incorrect | Use Editor selection UI | Console shows warnings | `'Found null/undefined field'` |
+| Fields from different viewset | Only select current form's fields | Verify field ownership | `viewset.views.flatMap(v => fviews[v].fields)` |
+
+---
+
+## Performance Considerations {comprehensive}
+
+### Summary Fields Impact
+
+| Number of Fields | Performance | Recommendation |
+|-----------------|-------------|----------------|
+| 0-3 | Optimal | Best for most cases |
+| 4-6 | Good | Acceptable if needed |
+| 7-10 | Degraded | Avoid, consider redesign |
+| >10 | Poor | Table becomes unwieldy |
+
+### Record List Table Optimisation
+
+- **Lazy loading**: Only visible rows render
+- **Virtual scrolling**: For >100 records
+- **Column width**: Auto-calculated based on content
+- **Caching**: Summary data cached per session
+
+---
+
+## Migration and Compatibility {comprehensive}
+
+### Version Compatibility
+
+| Fieldmark Version | Form Settings Support | Notes |
+|------------------|----------------------|-------|
+| < 3.0 | Partial | Only hridField supported |
+| 3.0 - 3.2 | Full | All properties supported |
+| > 3.2 | Enhanced | Additional validation options |
+
+### Migration from Legacy Notebooks
+
+```javascript
+// Legacy format (pre-3.0)
+"viewsets": {
+  "form1": {
+    "hrid": "field-id" // Old property name
+  }
+}
+
+// Current format (3.0+)
+"viewsets": {
+  "form1": {
+    "hridField": "field-id", // New property name
+    "publishButtonBehaviour": "always",
+    "layout": "tabs",
+    "summary_fields": []
+  }
+}
+```
+
+---
+
+## LLM Quick Reference {essential}
+
+### Configuration Decision Tree
+```yaml
+form_type:
+  rapid_data_collection:
+    publishButtonBehaviour: "always"
+    layout: "inline" # Mobile-first
+    summary_fields: ["{{HRID}}", "{{DATE}}", "{{PRIMARY_FIELD}}"]
+    
+  validated_data_entry:
+    publishButtonBehaviour: "noErrors"
+    layout: "tabs" # Desktop-oriented
+    summary_fields: ["{{HRID}}", "{{DATE}}", "{{LOCATION}}", "{{STATUS}}"]
+    
+  training_exercise:
+    publishButtonBehaviour: "visited"
+    layout: "tabs"
+    summary_fields: ["{{HRID}}", "{{USER}}", "{{COMPLETION_STATUS}}"]
+```
+
+### Common Configurations
+| Use Case | publishButton | layout | summary_fields Count | HRID Type |
+|----------|--------------|--------|---------------------|------------|
+| Field Survey | `always` | `inline` | 2-3 | Date-based |
+| Lab Data | `noErrors` | `tabs` | 3-4 | Sequential |
+| Archaeological | `visited` | `tabs` | 3-4 | Context-based |
+| Citizen Science | `noErrors` | `inline` | 2-3 | Location-based |
+
+### Property Validation Rules
+```javascript
+// Essential validation for LLM code generation
+const validateFormSettings = (viewset) => ({
+  publishButtonBehaviour: ['always', 'visited', 'noErrors'].includes(viewset.publishButtonBehaviour),
+  layout: ['tabs', 'inline'].includes(viewset.layout),
+  summary_fields: Array.isArray(viewset.summary_fields) && viewset.summary_fields.every(f => fields[f]),
+  hridField: !viewset.hridField || (fields[viewset.hridField]?.['type-returned'] === 'faims-core::String')
+});
+```
+
+---
+
+## Enhanced Troubleshooting {important}
+
+### Diagnostic Decision Trees
+
+#### Problem: Finish Button Not Visible
+```yaml
+diagnosis:
+  check_setting:
+    - query: "viewsets.{{VIEWSET_ID}}.publishButtonBehaviour"
+    - if_undefined: "Set to 'always' as default"
+    - if_visited:
+      check: "All sections visited?"
+      solution: "Visit remaining sections or change to 'always'"
+    - if_noErrors:
+      check: "Form validation status"
+      solution: "Fix validation errors or temporarily set to 'always'"
+```
+
+#### Problem: HRID Shows UUID (rec-xxxxx)
+```yaml
+diagnosis:
+  check_hrid_field:
+    - query: "viewsets.{{VIEWSET_ID}}.hridField"
+    - if_undefined:
+      action: "Select valid field in Form Settings"
+      requirement: "Field must be required string"
+    - if_defined:
+      validate:
+        - "fields[hridField]['type-returned'] === 'faims-core::String'"
+        - "fields[hridField]['component-parameters'].required === true"
+      fallback: "Create TemplatedStringField for HRID"
+```
+
+#### Problem: Summary Fields Not Displaying
+```yaml
+diagnosis:
+  check_configuration:
+    - query: "viewsets.{{VIEWSET_ID}}.summary_fields"
+    - if_empty: "Select 2-4 fields in Form Settings"
+    - if_populated:
+      validate_each:
+        - "Field exists in viewset.views[*].fields"
+        - "Field ID matches exactly (case-sensitive)"
+      console_check: "Look for 'null/undefined field' warnings"
+```
+
+### Validation Checklist for LLMs
+```javascript
+// Use this for automated validation
+const formSettingsChecklist = {
+  required: [
+    'viewsets.{{VIEWSET_ID}}.views',
+    'viewsets.{{VIEWSET_ID}}.label'
+  ],
+  recommended: [
+    'viewsets.{{VIEWSET_ID}}.publishButtonBehaviour',
+    'viewsets.{{VIEWSET_ID}}.hridField',
+    'viewsets.{{VIEWSET_ID}}.summary_fields'
+  ],
+  optional: [
+    'viewsets.{{VIEWSET_ID}}.layout'
+  ]
+};
+```
+
+---
+
+## Cross-References {important}
+
+### Core Documentation
+→ [Form Structure Guide](../patterns/form-structure-guide.md) - Viewset architecture and hierarchy  
+→ [Designer Component Mapping](./designer-component-mapping.md) - UI to JSON property mappings  
+→ [Notebook Format Guide](./notebook-format-guide.md) - Complete JSON structure reference  
+→ [Glossary](./glossary.md) - Term definitions and concepts  
+→ [Troubleshooting Index](./troubleshooting-index.md) - General error solutions  
+
+### Field Configuration
+→ [Field Type Index](./field-type-index.md) - All available field types  
+→ [Text Fields](../field-categories/text-fields-v05.md) - TemplatedStringField for HRIDs  
+→ [Field Selection Guide](../patterns/field-selection-guide.md) - Choosing appropriate fields  
+
+### Related Patterns
+→ [Dynamic Forms Guide](../patterns/dynamic-forms-guide.md) - Conditional logic with form settings  
+→ [Implementation Patterns](../patterns/implementation-patterns-guide.md) - Common notebook patterns  
+→ [Notebook Templates](./notebook-templates.md) - Complete working examples  
+
+### Validation and Testing
+→ [Constraints Reference](./constraints-reference.md) - System limitations  
+→ [Operations Reference](./operations-reference.md) - Testing and deployment  
+
+---
+
+## Template Variable Reference {comprehensive}
+
+Variables used throughout this document for parametric generation:
+
+| Variable | Description | Example Value |
+|----------|-------------|---------------|
+| `{{VIEWSET_ID}}` | Unique viewset identifier | `"archaeological-find"` |
+| `{{FIELD_ID}}` | Field identifier | `"site-name"` |
+| `{{FIELD_ID_1}}` | First summary field | `"record-id"` |
+| `{{FIELD_ID_2}}` | Second summary field | `"date-collected"` |
+| `{{FIELD_ID_3}}` | Third summary field | `"location"` |
+| `{{FORM_NAME}}` | Display name of form | `"Site Survey"` |
+| `{{BEHAVIOUR_VALUE}}` | publishButtonBehaviour value | `"noErrors"` |
+| `{{LAYOUT_VALUE}}` | Layout style value | `"tabs"` |
+| `{{SECTION_COUNT}}` | Number of sections in form | `3` |
+| `{{UUID_FRAGMENT}}` | First 8 chars of UUID | `"5f8a9b3c"` |
+| `{{HRID_FIELD}}` | HRID field identifier | `"survey-id"` |
+| `{{PROJECT}}` | Project identifier for HRID | `"PROJ2025"` |
+| `{{SITE}}` | Site code for HRID | `"SITE1"` |
+| `{{TRENCH}}` | Trench identifier | `"T5"` |
+| `{{_INCREMENT}}` | Auto-incrementing number | `"001"` |
+| `{{_CREATED_DATE}}` | Record creation date | `"2025-01-09"` |
+| `{{YYYY}}` | Current year | `"2025"` |
+| `{{RECORD_TYPE}}` | Type of record | `"FIND"` |
+| `{{RESEARCHER_NAME}}` | Researcher identifier | `"JSmith"` |
+| `{{MAX_SUMMARY_FIELDS}}` | Recommended maximum | `4` |
+| `{{PLACEHOLDER_TEXT}}` | Missing data indicator | `"—"` |
+
+---
+
+*Last updated: 2025-01-09 | Based on Fieldmark 3.x Editor implementation*
+
+<!-- concat:boundary:end section="editor-form-settings" -->
+
+<!-- concat:reference:editor-notebook-info -->
+<!-- concat:boundary:start section="editor-notebook-info" -->
+<!-- concat:metadata
+document_id: editor-notebook-info
+category: reference
+type: editor-configuration
+last_updated: 2025-01-09
+-->
+
+<!-- discovery:metadata
+provides: [notebook-metadata, project-configuration, custom-metadata-fields, fair-data-support, metadata-standards]
+requires: [editor-access, notebook-structure]
+see-also: [notebook-format-guide, glossary, editor-form-settings, operations-reference]
+-->
+
+<!-- structured:metadata
+meta:purpose: technical-reference
+meta:audience: [notebook-designers, developers, llm-agents, data-managers]
+meta:priority: essential
+meta:complexity: intermediate
+meta:version: 1.0.0
+meta:document: editor_notebook_info
+meta:depth-tags: [essential, important, comprehensive]
+-->
+
+# Editor Notebook Info Reference
+
+## Document Navigation {essential}
+<!-- concat:nav-mode:individual -->
+[← Form Settings](./editor-form-settings.md) | **Notebook Info** | [Notebook Format →](./notebook-format-guide.md)
+<!-- concat:nav-mode:concatenated -->
+<!-- When viewing in reference.md: [↑ Form Settings](#editor-form-settings) | [Notebook Format ↓](#notebook-format-guide) -->
+
+## Overview {essential}
+
+The Notebook Info page in the Editor provides notebook-level metadata configuration, forming the top tier of Fieldmark's three-tier metadata system (notebook → record → field). This metadata enables FAIR data practices and supports compliance with domain-specific standards.
+
+**Location**: Editor → Info tab  
+**Scope**: Notebook-level (global to all forms)  
+**JSON Path**: Root level `metadata` object
+
+### Metadata Hierarchy {essential}
+
+| Level | Location | Purpose | Examples |
+|-------|----------|---------|----------|
+| **Notebook** | Info page | Project-wide metadata | Project name, lead, institution |
+| **Record** | Form fields | Instance-specific data | Collection date, observer, notes |
+| **Field** | Annotation/Uncertainty | Attribute-level metadata | Confidence, clarifications |
+
+---
+
+## Core Metadata Fields {essential}
+
+### Fixed Fields
+
+These fields have dedicated UI elements in the Info page:
+
+| Field | JSON Property | Type | Required | Description |
+|-------|--------------|------|----------|-------------|
+| **Project Name** | `name` | string | ✅ Yes | 2-100 characters, notebook identifier |
+| **Project Lead** | `project_lead` | string | ❌ No | Principal investigator or project manager |
+| **Lead Institution** | `lead_institution` | string | ❌ No | Primary organisation responsible |
+| **Description** | `pre_description` | string | ❌ No | Markdown-formatted project description |
+| **Enable QR Code Search** | `showQRCodeButton` | string | ❌ No | "true"/"false" for QR scanning |
+| **Notebook Version** | `notebook_version` | string | ❌ No | Semantic versioning (e.g., "1.0") |
+
+### JSON Structure {essential}
+```json
+{
+  "metadata": {
+    "name": "{{PROJECT_NAME}}",
+    "project_lead": "{{LEAD_NAME}}",
+    "lead_institution": "{{INSTITUTION}}",
+    "pre_description": "{{MARKDOWN_DESCRIPTION}}",
+    "showQRCodeButton": "{{TRUE_FALSE}}",
+    "notebook_version": "{{VERSION}}"
+  }
+}
+```
+
+---
+
+## Custom Metadata Fields {essential}
+
+### Key-Value Pair System
+
+The Info page allows creation of arbitrary metadata fields through a key-value interface:
+
+**UI Components**:
+- Metadata Field Name (text input)
+- Metadata Field Value (text input)
+- Create New Field (button)
+
+**Behaviour**:
+- No predefined schema constraints
+- All values stored as strings
+- Field names must be unique
+- Cannot override fixed fields
+
+### Use Cases for Custom Fields {important}
+
+| Use Case | Example Fields | Purpose |
+|----------|---------------|---------|
+| **Grant Compliance** | `grant_number`, `funding_body` | Funding attribution |
+| **Ethics Approval** | `ethics_number`, `approval_date` | Research compliance |
+| **Data Repository** | `repository_id`, `collection_code` | Archive preparation |
+| **Domain Standards** | `raid_id`, `darwin_core_type` | Standard compliance |
+| **Internal Tracking** | `cost_centre`, `department_code` | Administrative needs |
+
+### Example Custom Metadata
+```json
+{
+  "metadata": {
+    // Fixed fields
+    "name": "Archaeological Survey 2025",
+    "project_lead": "Dr. Smith",
+    "lead_institution": "University Example",
+    
+    // Custom fields for RAiD compliance
+    "raid_id": "https://raid.org/10.25917/{{RAID_SUFFIX}}",
+    "raid_status": "active",
+    
+    // Domain-specific (UK ADS)
+    "ads_project_id": "{{ADS_ID}}",
+    "ads_collection_type": "excavation",
+    
+    // Grant tracking
+    "grant_number": "{{GRANT_CODE}}",
+    "funding_body": "{{FUNDER_NAME}}",
+    
+    // Ethics
+    "ethics_approval": "{{ETHICS_NUMBER}}",
+    "ethics_expiry": "{{YYYY-MM-DD}}"
+  }
+}
+```
+
+---
+
+## Metadata Standards Integration {important}
+
+### Research Activity Identifier (RAiD)
+
+RAiD provides persistent identifiers for research projects:
+
+```yaml
+raid_integration:
+  required_fields:
+    - raid_id: "https://raid.org/10.25917/{{SUFFIX}}"
+    - raid_status: "active|inactive|withdrawn"
+    - raid_start_date: "{{YYYY-MM-DD}}"
+    - raid_end_date: "{{YYYY-MM-DD}}"
+  
+  optional_fields:
+    - raid_description: "{{PROJECT_DESCRIPTION}}"
+    - raid_contributors: "{{ORCID_LIST}}"
+    - raid_organisations: "{{ROR_LIST}}"
+```
+
+### Domain Repository Standards {important}
+
+#### Archaeological Data Service (UK ADS)
+```json
+{
+  "ads_project_id": "{{PROJECT_CODE}}",
+  "ads_monument_id": "{{MONUMENT_NUMBER}}",
+  "ads_period": "{{PERIOD_TERM}}",
+  "ads_sitetype": "{{SITE_CLASSIFICATION}}"
+}
+```
+
+#### tDAR (Digital Antiquity)
+```json
+{
+  "tdar_project_id": "{{TDAR_ID}}",
+  "tdar_resource_type": "{{RESOURCE_TYPE}}",
+  "tdar_culture_keywords": "{{CULTURE_TERMS}}",
+  "tdar_temporal_coverage": "{{TIME_PERIOD}}"
+}
+```
+
+#### Darwin Core (Biodiversity)
+```json
+{
+  "dwc_dataset_id": "{{DATASET_UUID}}",
+  "dwc_institution_code": "{{INSTITUTION_CODE}}",
+  "dwc_collection_code": "{{COLLECTION_CODE}}",
+  "dwc_basis_of_record": "HumanObservation|PreservedSpecimen"
+}
+```
+
+---
+
+## System Metadata Fields {comprehensive}
+
+These fields are managed by Fieldmark but visible in the metadata object:
+
+| Field | Purpose | Format | Editable |
+|-------|---------|--------|----------|
+| `schema_version` | JSON schema version | "1.0" | ❌ No |
+| `accesses` | Permission levels | Array | Via Dashboard |
+| `ispublic` | Public visibility | boolean | Via Dashboard |
+| `isrequest` | Request access enabled | boolean | Via Dashboard |
+| `project_status` | Workflow state | string | Via Dashboard |
+| `derived-from` | Template source | string | ❌ No (template) |
+
+---
+
+## LLM Quick Reference {essential}
+
+### Metadata Configuration Decision Tree
+```yaml
+notebook_type:
+  research_project:
+    fixed_fields:
+      name: "{{PROJECT_NAME}}"
+      project_lead: "{{PI_NAME}}"
+      lead_institution: "{{UNIVERSITY}}"
+      notebook_version: "1.0"
+    custom_fields:
+      grant_number: "{{GRANT_ID}}"
+      ethics_approval: "{{ETHICS_CODE}}"
+      
+  citizen_science:
+    fixed_fields:
+      name: "{{PROGRAM_NAME}}"
+      project_lead: "{{COORDINATOR}}"
+      showQRCodeButton: "true"
+    custom_fields:
+      program_website: "{{URL}}"
+      target_participants: "{{NUMBER}}"
+      
+  commercial_compliance:
+    fixed_fields:
+      name: "{{PROJECT_CODE}}"
+      lead_institution: "{{COMPANY}}"
+    custom_fields:
+      client_reference: "{{CLIENT_CODE}}"
+      compliance_standard: "{{STANDARD_NAME}}"
+      audit_frequency: "{{SCHEDULE}}"
+```
+
+### Common Metadata Patterns
+| Pattern | Fixed Fields | Custom Fields | Standards |
+|---------|-------------|---------------|-----------|
+| Academic Research | name, lead, institution | grant, ethics, repository | RAiD, ORCID |
+| Heritage Management | name, institution | site_id, monument_type | ADS, tDAR |
+| Environmental Monitoring | name, lead, version | station_id, protocol | Darwin Core |
+| Training/Education | name, lead, description | course_code, semester | None |
+
+### Validation Rules
+```javascript
+// Essential validation for metadata
+const validateMetadata = (metadata) => ({
+  required: metadata.name && metadata.name.length >= 2 && metadata.name.length <= 100,
+  qrCode: ['true', 'false', undefined].includes(metadata.showQRCodeButton),
+  version: !metadata.notebook_version || /^\d+\.\d+(\.\d+)?$/.test(metadata.notebook_version),
+  customFields: Object.keys(metadata).every(key => 
+    !['name', 'project_lead', 'lead_institution', 'pre_description', 
+     'showQRCodeButton', 'notebook_version'].includes(key) || 
+    typeof metadata[key] === 'string'
+  )
+});
+```
+
+---
+
+## Editor Interface Details {comprehensive}
+
+### UI Layout
+
+```
+┌─────────────────────────────────────────────────┐
+│ General Information                              │
+├─────────────────────────────────────────────────┤
+│ [Project Name*] [Project Lead] [Lead Institution]│
+│                                                   │
+│ ┌─────────────────────────────────────────────┐ │
+│ │ Description (Markdown Editor)                │ │
+│ │                                               │ │
+│ └─────────────────────────────────────────────┘ │
+│                                                   │
+│ ☐ Enable QR Code Search of Records               │
+│ [Notebook Version]                               │
+│                                                   │
+│ ┌─────────────────────────────────────────────┐ │
+│ │ Custom Metadata Fields                       │ │
+│ │ [Metadata Field Name  ]                      │ │
+│ │ [Metadata Field Value ]                      │ │
+│ │ [Create New Field]                           │ │
+│ │                                               │ │
+│ │ Existing Fields:                             │ │
+│ │ [grant_number    ][value]                    │ │
+│ │ [ethics_approval ][value]                    │ │
+│ └─────────────────────────────────────────────┘ │
+└─────────────────────────────────────────────────┘
+```
+
+### Description Editor Features
+- Rich text formatting (bold, italic, lists)
+- Markdown source mode
+- Link insertion
+- Code blocks
+- Tables support
+
+### QR Code Search Behavior
+When enabled (`showQRCodeButton: "true"`):
+- QR scanner button appears in app
+- Searches records by QR field content
+- Requires QRCodeFormField in notebook
+- Mobile-only feature
+
+---
+
+## FAIR Data Implementation {important}
+
+### Findable
+```yaml
+metadata_for_findability:
+  - name: Clear, descriptive title
+  - project_lead: Attribution for discovery
+  - custom_identifiers:
+    - doi: "10.xxxx/{{DOI}}"
+    - raid_id: "https://raid.org/{{ID}}"
+    - repository_id: "{{REPO_ID}}"
+```
+
+### Accessible
+```yaml
+metadata_for_accessibility:
+  - lead_institution: Contact organisation
+  - project_lead: Contact person
+  - custom_access:
+    - access_rights: "open|embargoed|restricted"
+    - embargo_date: "{{YYYY-MM-DD}}"
+    - license: "{{LICENSE_TYPE}}"
+```
+
+### Interoperable
+```yaml
+metadata_for_interoperability:
+  - schema_version: Version tracking
+  - custom_standards:
+    - metadata_standard: "{{STANDARD_NAME}}"
+    - vocabulary: "{{CONTROLLED_VOCAB}}"
+    - ontology: "{{ONTOLOGY_URI}}"
+```
+
+### Reusable
+```yaml
+metadata_for_reusability:
+  - pre_description: Detailed documentation
+  - notebook_version: Version control
+  - custom_reuse:
+    - methodology: "{{METHOD_DOI}}"
+    - protocol: "{{PROTOCOL_URL}}"
+    - quality_assurance: "{{QA_STANDARD}}"
+```
+
+---
+
+## Troubleshooting {important}
+
+### Issue: Custom field not saving
+
+| Cause | Solution | Validation |
+|-------|----------|------------|
+| Duplicate field name | Use unique name | Check existing fields list |
+| Reserved field name | Avoid fixed field names | See fixed fields table |
+| Empty field name | Provide valid name | Non-empty string required |
+| Special characters | Use alphanumeric + underscore | `^[a-zA-Z0-9_]+$` |
+
+### Issue: QR Code search not working
+
+| Cause | Solution | Check |
+|-------|----------|-------|
+| Not enabled in metadata | Set `showQRCodeButton: "true"` | Info page checkbox |
+| No QR field in notebook | Add QRCodeFormField | Check field definitions |
+| Desktop platform | Mobile-only feature | Test on iOS/Android |
+
+### Issue: Description formatting lost
+
+| Cause | Solution | Prevention |
+|-------|----------|------------|
+| Missing blank lines | Add lines before/after markdown | Use visual editor |
+| Invalid markdown | Check syntax | Preview before saving |
+| HTML stripped | Use markdown only | Avoid HTML tags |
+
+---
+
+## Migration Considerations {comprehensive}
+
+### From Version 2.x
+```javascript
+// Old format
+{
+  "metadata": {
+    "name": "Project",
+    "description": "Text only"  // Plain text
+  }
+}
+
+// New format (3.x)
+{
+  "metadata": {
+    "name": "Project",
+    "pre_description": "**Markdown** supported",  // Rich text
+    "project_lead": "New field",
+    "lead_institution": "New field",
+    "notebook_version": "3.0"
+  }
+}
+```
+
+### Template Derivation
+When `derived-from` is present:
+- Some fields may be read-only
+- Template updates can cascade
+- Custom fields always editable
+- Version tracking important
+
+---
+
+## Cross-References {important}
+
+### Core Documentation
+→ [Notebook Format Guide](./notebook-format-guide.md) - Complete JSON structure  
+→ [Editor Form Settings](./editor-form-settings.md) - Form-level configuration  
+→ [Glossary](./glossary.md) - Metadata terminology  
+→ [Operations Reference](./operations-reference.md) - Import/export procedures  
+
+### Standards and Compliance
+→ [Constraints Reference](./constraints-reference.md) - Metadata limitations  
+→ [Platform Reference](./platform-reference.md) - Platform-specific features  
+→ [File Organization Guide](./file-organization-guide.md) - Project structure  
+
+### Implementation Guides
+→ [Implementation Patterns](../patterns/implementation-patterns-guide.md) - Best practices  
+→ [Notebook Templates](./notebook-templates.md) - Example configurations  
+→ [Troubleshooting Index](./troubleshooting-index.md) - Common issues  
+
+---
+
+## Template Variable Reference {comprehensive}
+
+Variables for parametric documentation generation:
+
+| Variable | Description | Example |
+|----------|-------------|---------|
+| `{{PROJECT_NAME}}` | Notebook title | "Archaeological Survey 2025" |
+| `{{LEAD_NAME}}` | Project lead name | "Dr. Jane Smith" |
+| `{{INSTITUTION}}` | Lead institution | "University Example" |
+| `{{MARKDOWN_DESCRIPTION}}` | Project description | "## Overview\n\nProject details..." |
+| `{{TRUE_FALSE}}` | Boolean as string | "true" or "false" |
+| `{{VERSION}}` | Notebook version | "1.0.0" |
+| `{{RAID_SUFFIX}}` | RAiD identifier suffix | "5f8a9b3c" |
+| `{{ADS_ID}}` | ADS project code | "PROJ2025" |
+| `{{GRANT_CODE}}` | Funding reference | "ARC-DP250100123" |
+| `{{FUNDER_NAME}}` | Funding body | "Australian Research Council" |
+| `{{ETHICS_NUMBER}}` | Ethics approval | "2025/001" |
+| `{{YYYY-MM-DD}}` | Date format | "2025-01-09" |
+| `{{DOI}}` | Digital Object Identifier | "10.5281/zenodo.123456" |
+| `{{ORCID_LIST}}` | Researcher IDs | "0000-0001-2345-6789" |
+| `{{ROR_LIST}}` | Organisation IDs | "https://ror.org/01234567" |
+| `{{STANDARD_NAME}}` | Metadata standard | "Darwin Core" |
+| `{{LICENSE_TYPE}}` | Data license | "CC-BY-4.0" |
+| `{{REPO_ID}}` | Repository identifier | "DS-2025-001" |
+| `{{CUSTOM_KEY}}` | Custom field name | "program_code" |
+| `{{CUSTOM_VALUE}}` | Custom field value | "BIODIV-2025" |
+
+---
+
+*Last updated: 2025-01-09 | Based on Fieldmark 3.x Editor implementation*
+
+<!-- concat:boundary:end section="editor-notebook-info" -->
 
 <!-- concat:reference:component-reference -->
 <!-- concat:boundary:start section="component-reference" -->
@@ -33399,11 +35124,11 @@ see-also: [llm-navigation-manifest, field-type-index]
 
 ## Document Metadata
 
-- **Generated**: 2025-09-08T10:50:47+10:00
-- **Total Lines**: 33402
+- **Generated**: 2025-09-09T10:17:35+10:00
+- **Total Lines**: 35127
 - **Field Documents**: 8
 - **Pattern Documents**: 5
-- **Reference Documents**: 13
+- **Reference Documents**: 16
 - **Format**: LLM-optimized concatenated reference
 
 ## Quick Jump Index
