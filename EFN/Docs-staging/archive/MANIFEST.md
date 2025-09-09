@@ -1,194 +1,183 @@
 # Archive Manifest - Fieldmark Documentation
-**Last Updated**: 2025-01-06  
-**Purpose**: Complete inventory of archived documentation with consolidation mapping
+**Last Updated**: 2025-01-09  
+**Purpose**: Complete inventory of archived documentation materials from the LLM optimization project
+**Organization**: Restructured into logical categories for historical reference
 
 ## Archive Overview
 
-This archive contains 78 original documentation files that have been consolidated into the new documentation structure. All files retain their original content with added deprecation notices where applicable.
+This archive contains historical documentation, planning materials, scripts, and reports from the Fieldmark v3 documentation optimization project. Files are organized by type and chronology to preserve the project's evolution while keeping production documentation clean.
 
 ## Directory Structure
 
 ```
 archive/
-├── cross-field/              (10 files)  - Cross-field pattern documentation
-├── detail-singlefield-docs/  (21 files)  - Individual field detailed documentation
-├── planning/                 (4 files)   - Planning and architecture documents
-├── reference/                (4 files)   - Component-level reference docs  
-├── reference-docs/           (9 files)   - Platform & operational reference docs
-├── reports/                  (27 files)  - Analysis and optimization reports
-├── templates/                (1 file)    - Documentation templates
-├── README.md                 (1 file)    - Archive overview
-└── MANIFEST.md              (this file)  - Complete file inventory
+├── example-notebooks/        # Original example JSON notebooks
+├── json-generation/          # JSON generation analysis and samples
+│   ├── 2025-01-07-analysis/  # Analysis reports
+│   └── 2025-01-07-notebooks/ # Generated notebook samples
+├── planning/                 # Project planning and architecture docs
+├── reference-docs/           # Original reference documentation
+│   ├── cross-field/          # Cross-field patterns (consolidated)
+│   └── detail-singlefield-docs/ # Individual field docs (consolidated)
+├── reports/                  # Analysis and optimization reports
+│   └── dashboard-optimization/ # Dashboard-specific reports
+├── scripts/                  # Historical scripts
+│   ├── 2025-01-07-scripts/   # Date-stamped script versions
+│   └── implementation-scripts/ # One-time implementation scripts
+├── README.md                 # Archive overview
+└── MANIFEST.md              # This file
 ```
 
-## Complete File Inventory
+## Directory Contents
 
-### 1. Cross-Field Documentation (`/cross-field/`)
-**Purpose**: Original cross-field pattern and workflow documentation  
-**Status**: All consolidated into `/production/patterns/` directory
+### 1. Example Notebooks (`/example-notebooks/`)
+**Purpose**: Original user-contributed notebook examples used for validation  
+**Status**: Preserved for testing and validation purposes  
+**Count**: ~14 notebooks from real projects
 
-| Original File | Size | Consolidated Into | Purpose |
-|--------------|------|-------------------|---------|
-| conditional-logic.md | 37KB | patterns/dynamic-forms-guide.md | Conditional field display/validation |
-| field-selection-best-practices.md | 26KB | patterns/field-selection-guide.md | Choosing appropriate field types |
-| navigation.md | 19KB | patterns/form-structure-guide.md | Form navigation patterns |
-| notebook-structure.md | 34KB | patterns/form-structure-guide.md | Overall form architecture |
-| patterns.md | 18KB | patterns/implementation-patterns-guide.md | Common implementation patterns |
-| quick-start.md | 12KB | patterns/field-selection-guide.md | Getting started examples |
-| summary-table.md | 12KB | patterns/field-selection-guide.md | Field comparison matrix |
-| troubleshooting-framework-reference.md | 9KB | patterns/implementation-patterns-guide.md | Troubleshooting patterns |
-| validation.md | 33KB | patterns/dynamic-forms-guide.md | Validation strategies |
-| validation-timing-reference.md | 6KB | patterns/dynamic-forms-guide.md | Validation timing details |
+Key examples include:
+- Archaeological survey notebooks
+- Environmental monitoring templates
+- Geological sampling forms
+- Training exercise notebooks
 
-### 2. Single Field Documentation (`/detail-singlefield-docs/`)
-**Purpose**: Detailed third-draft documentation for individual field types  
-**Status**: Source material for field category documents in `/production/field-categories/`
+### 2. JSON Generation (`/json-generation/`)
+**Purpose**: Analysis and samples from JSON notebook generation efforts  
+**Organization**: Date-stamped subdirectories
 
-#### Choice Fields (5 files)
-| File | Component | Category Doc |
-|------|-----------|--------------|
-| advanced-select.md | AdvancedSelect | select-choice-fields-v05.md |
-| checkbox.md | Checkbox | select-choice-fields-v05.md |
-| multiselect.md | MultiSelect | select-choice-fields-v05.md |
-| radiogroup.md | RadioGroup | select-choice-fields-v05.md |
-| select.md | Select | select-choice-fields-v05.md |
+#### `/2025-01-07-analysis/`
+- JSON structure analysis reports
+- Generation strategy documents
+- Validation results
 
-#### DateTime Fields (3 files)
-| File | Component | Category Doc |
-|------|-----------|--------------|
-| datetime.md | DateTimeNow | datetime-fields-v05.md |
-| datetimepicker.md | DateTimePicker | datetime-fields-v05.md |
-| datepicker.md | DatePicker | datetime-fields-v05.md |
+#### `/2025-01-07-notebooks/`
+- Generated notebook samples
+- Test cases for validation
+- Template variations
 
-#### Location Fields (2 files)
-| File | Component | Category Doc |
-|------|-----------|--------------|
-| mapformfield.md | MapFormField | location-fields-v05.md |
-| takepoint.md | TakePoint | location-fields-v05.md |
+### 3. Planning (`/planning/`)
+**Purpose**: Project planning and architecture documents  
+**Status**: Historical reference for project evolution
 
-#### Media Fields (2 files)
-| File | Component | Category Doc |
-|------|-----------|--------------|
-| fileuploader.md | FileUploader | media-fields-v05.md |
-| takephoto.md | TakePhoto | media-fields-v05.md |
+Key documents:
+- `unified-documentation-architecture-plan.md` - Overall documentation strategy
+- `dashboard-documentation-scaffold.md` - Dashboard docs planning
+- `DESIGNER_TO_COMPONENT_MAPPING.md` - Original mapping strategy
+- `field-docs-unification-todo.md` - Consolidation checklist
+- `llm-optimized-field-doc-template.md` - Documentation template
+- `phase-3-consolidation-checklist.md` - Project phase planning
+- `TODO-v05-improvements.md` - Version 5 improvement plan
 
-#### Number Fields (2 files)
-| File | Component | Category Doc |
-|------|-----------|--------------|
-| basicautoincrementer.md | BasicAutoIncrementer | number-fields-v05.md |
-| numberinput.md | NumberInput | number-fields-v05.md |
+### 4. Reference Documentation (`/reference-docs/`)
+**Purpose**: Original reference documentation before consolidation  
+**Status**: Source material for production docs
 
-#### Text Fields (5 files)
-| File | Component | Category Doc |
-|------|-----------|--------------|
-| address.md | Address | text-fields-v05.md |
-| multilinetext.md | MultipleTextField | text-fields-v05.md |
-| qrcode.md | QRCodeFormField | text-fields-v05.md |
-| richtext.md | RichText | text-fields-v05.md |
-| textfield.md | TextField | text-fields-v05.md |
+#### `/cross-field/` (10 files)
+Consolidated into `/production/patterns/`:
+- `conditional-logic.md` (37KB) → `dynamic-forms-guide.md`
+- `validation.md` (33KB) → `dynamic-forms-guide.md`
+- `notebook-structure.md` (34KB) → `form-structure-guide.md`
+- `field-selection-best-practices.md` (26KB) → `field-selection-guide.md`
+- `navigation.md` (19KB) → `form-structure-guide.md`
+- `patterns.md` (18KB) → `implementation-patterns-guide.md`
+- Additional pattern and troubleshooting docs
 
-#### Other Fields (2 files)
-| File | Component | Category Doc |
-|------|-----------|--------------|
-| display.md | RichText (display) | display-field-v05.md |
-| relatedrecordselector.md | RelatedRecordSelector | relationship-field-v05.md |
+#### `/detail-singlefield-docs/` (21 files)
+Consolidated into `/production/field-categories/`:
+- 5 choice field documents → `select-choice-fields-v05.md`
+- 3 datetime field documents → `datetime-fields-v05.md`
+- 7 text field documents → `text-fields-v05.md`
+- 2 number field documents → `number-fields-v05.md`
+- 2 location field documents → `location-fields-v05.md`
+- 2 media field documents → `media-fields-v05.md`
 
-### 3. Planning Documents (`/planning/`)
-**Purpose**: Architecture and planning documents for documentation improvements  
-**Status**: Completed and archived
+### 5. Reports (`/reports/`)
+**Purpose**: Analysis, assessment, and optimization reports  
+**Status**: Project history and decision documentation
 
-| File | Purpose | Status |
-|------|---------|---------|
-| field-docs-unification-todo.md | Unification checklist | ✅ Completed |
-| phase-3-consolidation-checklist.md | Phase 3 tracking | ✅ Completed |
-| TODO-v05-improvements.md | Version 5 improvements | ✅ Completed |
-| unified-documentation-architecture-plan.md | Master architecture plan | ✅ Phases 1-4 Complete |
+Key reports include:
+- `accuracy-check-report.md` - Documentation accuracy validation
+- `centralization-summary-report.md` - Consolidation outcomes
+- `content-omissions-report.md` - Gap analysis
+- `crossfield-extraction-plan.md` - Cross-field pattern extraction
+- `LLM-SCORING-REPORT.md` - LLM optimization scoring
+- Multiple alignment and assessment reports
 
-### 4. Reference Documentation (`/reference/`)
-**Purpose**: Component-level reference documentation  
-**Status**: Consolidated into `/production/references/component-reference.md`
+#### `/dashboard-optimization/`
+Dashboard-specific optimization reports:
+- Navigation analysis
+- Interface documentation
+- Workflow patterns
 
-| File | Purpose | Consolidated Into |
-|------|---------|-------------------|
-| component-namespace-reference.md | Component namespaces | component-reference.md |
-| formik-integration-reference.md | Formik integration details | component-reference.md |
-| meta-properties-reference.md | Meta property configuration | component-reference.md |
-| type-system-reference.md | Type system documentation | component-reference.md |
+### 6. Scripts (`/scripts/`)
+**Purpose**: Historical build and processing scripts  
+**Organization**: Date-stamped and categorized
 
-### 5. Reference Docs (`/reference-docs/`)
-**Purpose**: Platform and operational reference documentation  
-**Status**: Consolidated into `/production/references/`
+#### `/2025-01-07-scripts/`
+Scripts from the January 7, 2025 optimization:
+- Build scripts
+- Validation scripts
+- Enhancement scripts
+- Processing utilities
 
-| File | Purpose | Consolidated Into |
-|------|---------|-------------------|
-| accessibility-reference.md | Accessibility guidelines | platform-reference.md |
-| data-export-reference.md | Export format details | operations-reference.md |
-| designer-limitations-reference.md | Designer constraints | constraints-reference.md |
-| migration-strategies-reference.md | Migration guidance | operations-reference.md |
-| performance-thresholds-reference.md | Performance limits | platform-reference.md |
-| platform-behaviors-reference.md | Platform-specific behavior | platform-reference.md |
-| security-considerations-reference.md | Security guidelines | constraints-reference.md |
-| troubleshooting-framework-reference.md | Troubleshooting guide | operations-reference.md |
-| validation-timing-reference.md | Validation behavior | constraints-reference.md |
+#### `/implementation-scripts/`
+One-time use implementation scripts:
+- Migration scripts
+- Batch processing tools
+- Consolidation utilities
 
-### 6. Reports (`/reports/`)
-**Purpose**: Analysis reports and optimization studies  
-**Status**: Reference material, not consolidated
+## Archive Statistics
 
-27 analysis and optimization reports including:
-- alignment-plan-for-existing-docs.md
-- centralization-summary-report.md
-- content-analysis-report.md
-- cross-references-added.md
-- field-selection-optimization-guide.md
-- llm-optimal-structure-v4.md
-- media-reference-updates-checklist.md
-- post-refactoring-qa-report.md
-- prompt-gap-analysis.md
-- prompt-restructuring-analysis.md
-- shareable-content-candidates.md
-- structure-comparison.md
-- structure-verification.md
-- template-application-report.md
-- (and 13 more analysis files)
+| Category | File Count | Total Size | Status |
+|----------|------------|------------|---------|
+| Example Notebooks | ~14 | ~200KB | Preserved |
+| JSON Generation | ~20 | ~150KB | Archived |
+| Planning Docs | 7 | ~100KB | Historical |
+| Reference Docs | ~31 | ~400KB | Consolidated |
+| Reports | ~30 | ~300KB | Historical |
+| Scripts | ~15 | ~100KB | Deprecated |
+| **Total** | **~117 files** | **~1.25MB** | **Archived** |
 
-### 7. Templates (`/templates/`)
-**Purpose**: Documentation templates  
-**Status**: Reference template
+## Consolidation Mapping
 
-| File | Purpose |
-|------|---------|
-| llm-optimized-field-doc-template.md | LLM-optimized documentation template |
+### Production Destinations
 
-## Consolidation Summary
+| Archive Location | Production Location | Document Type |
+|-----------------|-------------------|---------------|
+| `/cross-field/` | `/production/patterns/` | Pattern guides |
+| `/detail-singlefield-docs/` | `/production/field-categories/` | Field documentation |
+| Selected reports | `/production/` | `FUTURE-TASKS.md`, etc. |
+| Selected scripts | `/production/scripts/` | Active build scripts |
 
-### Original Structure (78 files)
-- 10 cross-field pattern docs
-- 21 single field detail docs
-- 4 planning documents
-- 4 component reference docs
-- 9 platform/operational reference docs
-- 27 analysis reports
-- 1 template
-- 2 readme/manifest files
+### Key Transformations
 
-### New Structure (17 production files)
-- 8 field category docs
-- 4 pattern guides
-- 4 reference guides
-- 1 master index
+1. **Field Documentation**: 21 individual files → 8 category documents
+2. **Cross-Field Patterns**: 10 files → 5 pattern guides
+3. **Scripts**: 15+ scripts → 9 production scripts
+4. **Reports**: 30+ reports → Consolidated into final reports
 
-## Recovery Instructions
+## Usage Guidelines
 
-If production documentation is lost:
-1. All source content exists in this archive
-2. Consolidation mappings show which files combine
-3. Deprecation notices can be removed
-4. Original structure can be restored if needed
+### When to Reference Archive
 
-## Notes
+- **Historical Context**: Understanding project evolution
+- **Validation**: Comparing against original documentation
+- **Recovery**: Retrieving specific examples or patterns
+- **Audit**: Tracking documentation decisions
 
-- All archived files retain original content
-- Deprecation notices added where applicable
-- Reports directory contains valuable analysis for future reference
-- Planning documents show complete project history
+### What Not to Use
+
+- **Scripts**: Use production scripts instead
+- **Old Templates**: Use current templates in production
+- **Draft Documentation**: Refer to production versions
+
+## Maintenance Notes
+
+- Archive is read-only (no active development)
+- Preserved for historical reference
+- Production documentation is authoritative
+- Date-stamp any future additions
+
+---
+
+*This archive represents the complete history of the Fieldmark v3 documentation optimization project, preserving ~117 files totaling ~1.25MB of project materials.*
