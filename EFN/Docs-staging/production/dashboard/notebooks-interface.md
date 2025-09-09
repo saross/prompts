@@ -132,55 +132,6 @@ Displays notebook metadata:
 | **Team** | Owning team | No |
 | **Statistics** | Users, records, activity | No |
 
-### Records Tab {important}
-
-The primary data collection interface:
-
-#### Record List Features
-
-| Feature | Description | Permissions |
-|---------|-------------|-------------|
-| **Filter** | Search records | All users |
-| **Sort** | By date, author, status | All users |
-| **View** | Open record details | Based on role |
-| **Edit** | Modify record | Owner or Admin |
-| **Delete** | Remove record | Owner or Admin |
-| **Export** | Download data | Based on role |
-
-#### Record Information
-
-Each record shows:
-- HRID (Human-Readable Identifier)
-- Creation timestamp
-- Author (username)
-- Status (draft/submitted/reviewed)
-- Last modified
-- Revision count
-
-#### Record Status Workflow
-
-| Status | Description | Who Can Transition |
-|--------|-------------|-------------------|
-| **Draft** | Work in progress | Author |
-| **Submitted** | Ready for review | Author → Reviewer |
-| **Reviewed** | Approved | Reviewer |
-| **Archived** | Historical | Administrator |
-
-#### Export Options {essential}
-
-Current export formats:
-
-1. **CSV Export**
-   - Structured tabular data
-   - All fields as columns
-   - UTF-8 encoding
-   - Includes metadata fields
-
-2. **Photo Archive**
-   - ZIP file containing images
-   - Photos renamed using HRIDs
-   - Fallback: Original filename if no HRID
-   - Maintains folder structure
 
 ### Users Tab {important}
 
@@ -250,6 +201,105 @@ Handles pending invitations:
    - User appears in Users list
    - Invitation removed from pending
    - Activity logged
+
+### Export Tab {essential}
+
+Provides data export functionality for notebook content:
+
+#### Export Options by Form/Entity
+
+The Export tab allows selective data export:
+- Choose specific forms/entities to export
+- Select date ranges for filtering
+- Export all data or filtered subsets
+
+#### Available Export Formats
+
+1. **CSV Export**
+   - Structured tabular data
+   - All fields as columns
+   - UTF-8 encoding
+   - Includes metadata fields
+   - One CSV file per form/entity type
+   - Human-readable column headers
+
+2. **Photo Archive**
+   - ZIP file containing all images
+   - Photos renamed using record HRIDs
+   - Organised by form/entity folders
+   - Preserves original file if no HRID
+   - Includes photo metadata CSV
+
+#### Export Process
+
+1. Navigate to notebook → Export tab
+2. Select forms/entities to include
+3. Choose export format (CSV or Photo Archive)
+4. Apply filters if needed (date range, status)
+5. Click "Export" button
+6. Download begins automatically
+
+#### Export Permissions
+
+| Export Type | Required Permission | Notes |
+|-------------|-------------------|--------|
+| CSV Data | PROJECT_MANAGER | Full data access |
+| Photo Archive | PROJECT_MANAGER | Includes all attachments |
+| Filtered Export | PROJECT_CONTRIBUTOR | Own records only |
+
+**Note**: Closed notebooks can still be exported (read-only access).
+
+### Actions Tab {essential}
+
+Provides administrative operations for notebook management:
+
+#### Available Actions
+
+| Action | Description | Permission Required | Notes |
+|--------|-------------|--------------------|---------|
+| **Edit Notebook** | Open in Notebook Editor | PROJECT_MANAGER | Modify structure and settings |
+| **Assign to Team** | Change team ownership | PROJECT_ADMIN | Reassign notebook to different team |
+| **Download JSON** | Export notebook definition | PROJECT_MANAGER | Downloads complete JSON configuration |
+| **Replace JSON File** | Update notebook structure | PROJECT_ADMIN | Replace entire notebook definition |
+| **Close/Open Notebook** | Change notebook status | PROJECT_ADMIN | Toggle between open and closed states |
+
+#### Notebook Status Management {important}
+
+**Status Display**:
+- Shows current status: "Open" or "Closed"
+- Provides explanatory text for each state
+
+**Status Definitions**:
+
+| Status | Description | User Impact | Data Collection |
+|--------|-------------|-------------|------------------|
+| **Open** | Notebook is active and available for data collection on users' devices | Full access | ✅ Enabled |
+| **Closed** | Notebook is read-only. Users will not be able to activate this notebook for data collection | View only | ❌ Disabled |
+
+**Close Notebook Process**:
+1. Navigate to notebook → Actions tab
+2. Review current status (shows "Open")
+3. Click "Close Notebook" button (red, at bottom)
+4. Confirm closure in dialog
+5. Status changes to "Closed"
+
+**Effects of Closing**:
+- Prevents new data collection
+- Existing data remains accessible (read-only)
+- Mobile app users cannot activate notebook
+- Can be reopened at any time
+
+**Reopening a Closed Notebook**:
+1. Navigate to closed notebook → Actions tab
+2. Status shows "Closed"
+3. Click "Open Notebook" button
+4. Notebook immediately available for data collection
+
+**Important Notes**:
+- No separate "archive" state - notebooks are either Open or Closed
+- Closing is reversible - notebooks can be reopened anytime
+- All existing data preserved when closed
+- Export functionality still available when closed
 
 ## Data Collection Workflow {important}
 

@@ -313,6 +313,219 @@ Check your emails for a verification request. Click here to send another request
 | Invite users | | ✓ |
 | API access | | ✓ |
 
+## User Profile Access {essential}
+
+### Accessing Your Profile
+
+Users can access their profile through the user menu:
+
+1. **Click your username** in the lower-left corner of any dashboard page
+2. **Select "Profile"** from the dropdown menu
+3. **View User Profile page** with account management options
+
+### User Profile Sections
+
+The User Profile page contains three main sections:
+
+| Section | Description | Actions Available |
+|---------|-------------|------------------|
+| **Account Information** | Email, name, verification status | View only |
+| **Password Management** | Password change functionality | Change Password button |
+| **API Token Management** | Long-lived tokens for automation | Manage Long-Lived Tokens button |
+
+### Password Management {important}
+
+Users can change their password directly from the profile:
+
+1. **Navigate to User Profile** (username → Profile)
+2. **Click "Change Password"** button
+3. **Enter current password** for verification
+4. **Enter new password** (must meet security requirements)
+5. **Confirm new password** and save
+
+Password requirements:
+- Minimum 8 characters
+- Mix of upper and lowercase letters
+- At least one number
+- At least one special character
+
+## API Token Management {essential}
+<!-- concat:reference:api-token-management -->
+
+### Overview
+
+Long-lived API tokens enable programmatic access to Fieldmark's APIs for automation, data integration, and external tool connectivity. These tokens are managed through the User Profile interface.
+
+### Accessing Token Management
+
+```
+User Menu (lower-left) → Profile → Manage Long-Lived Tokens
+```
+
+### Token Management Interface {important}
+
+The token management page displays:
+
+| Column | Description | Details |
+|--------|-------------|----------|
+| **Title** | Token name | User-defined identifier |
+| **Description** | Token purpose | What the token is used for |
+| **Status** | Enabled/Disabled | Active state of token |
+| **Created** | Creation timestamp | When token was generated |
+| **Last Used** | Usage timestamp | Most recent API call |
+| **Expires** | Expiry date | When token becomes invalid |
+| **Owner** | Token creator | User who created token |
+| **Actions** | Management options | Edit, Disable, Delete |
+
+### Creating API Tokens {important}
+
+#### Token Creation Process
+
+1. **Navigate to Token Management**
+   ```
+   User Profile → Manage Long-Lived Tokens → Create Long Lived Token
+   ```
+
+2. **Configure Token Settings**
+   
+   | Field | Required | Description | Example |
+   |-------|----------|-------------|----------|
+   | **Title** | Yes | Descriptive name | "Data Export Automation" |
+   | **Description** | Yes | Purpose and usage | "Daily export to analytics platform" |
+   | **Token Duration** | Yes | Expiry setting | 30 days, 60 days, 90 days, or custom |
+
+3. **Set Expiry Date**
+   - **Quick Select**: Predefined durations (30/60/90 days)
+   - **Custom Date**: Specific expiry date (max 90 days)
+   - **No Expiry**: Not available for security reasons
+
+4. **Generate Token**
+   - Click "Create Long-Lived Token"
+   - **CRITICAL**: Copy token immediately
+   - Token shown only once for security
+
+#### Token Display Screen {important}
+
+⚠️ **Important - Save Your Token**
+
+The token creation screen displays:
+- Red warning banner about one-time display
+- Token value with copy button
+- Usage instructions with code examples
+- API endpoint information
+
+Example usage shown:
+```bash
+POST /api/auth/exchange-long-lived-token
+Content-Type: application/json
+
+{"token": "hAeW0aTdbdHB0GMC83IGEop8Vx2ReYMx6lrapmCm..."}
+```
+
+Response format:
+```json
+{
+  "access_token": "Bearer token for API calls"
+}
+```
+
+### Managing Existing Tokens {comprehensive}
+
+#### Token Operations
+
+| Operation | Description | Process | Notes |
+|-----------|-------------|---------|--------|
+| **View Details** | See token information | Click token row | Shows metadata only |
+| **Edit Token** | Update title/description | Actions → Edit | Cannot change expiry |
+| **Disable Token** | Temporarily deactivate | Actions → Disable | Reversible action |
+| **Enable Token** | Reactivate disabled token | Actions → Enable | Restores access |
+| **Delete Token** | Permanently remove | Actions → Delete | Irreversible, requires confirmation |
+
+#### Token Security Features
+
+1. **One-Time Display**
+   - Token value shown only at creation
+   - Cannot be retrieved later
+   - Must be stored securely by user
+
+2. **Expiry Enforcement**
+   - Maximum duration: 90 days
+   - Automatic invalidation at expiry
+   - Cannot extend existing tokens
+
+3. **Activity Tracking**
+   - Last used timestamp updated
+   - Usage patterns monitored
+   - Suspicious activity flagged
+
+4. **Permission Requirements**
+   - Requires `CREATE_LONG_LIVED_TOKEN` permission
+   - Standard users may need admin approval
+   - Organisation policies apply
+
+### Token Usage Best Practices {comprehensive}
+
+#### Security Guidelines
+
+1. **Storage**
+   - Never commit tokens to version control
+   - Use environment variables or secure vaults
+   - Encrypt tokens at rest
+
+2. **Rotation**
+   - Regular token rotation (monthly recommended)
+   - Replace before expiry
+   - Delete unused tokens
+
+3. **Scope**
+   - Create separate tokens for different purposes
+   - Use descriptive names
+   - Document token usage
+
+4. **Monitoring**
+   - Review token activity regularly
+   - Investigate unusual patterns
+   - Disable suspicious tokens immediately
+
+#### Integration Patterns
+
+| Use Case | Token Strategy | Rotation Frequency |
+|----------|---------------|--------------------|
+| **CI/CD Pipeline** | Per-environment tokens | Monthly |
+| **Data Export** | Task-specific tokens | Quarterly |
+| **External Integration** | Per-service tokens | Monthly |
+| **Development Testing** | Short-lived tokens | Weekly |
+| **Production Automation** | Monitored tokens | Monthly |
+
+### Troubleshooting API Tokens {comprehensive}
+
+| Issue | Cause | Solution |
+|-------|-------|----------|
+| Token not working | Expired or disabled | Check status, create new if needed |
+| Cannot create token | Missing permission | Request `CREATE_LONG_LIVED_TOKEN` role |
+| Token limit reached | Maximum tokens exceeded | Delete unused tokens |
+| Authentication fails | Incorrect usage | Review API documentation |
+| Token compromised | Security breach | Delete immediately, audit usage |
+
+### API Token Permissions {important}
+
+Tokens inherit the permissions of the creating user:
+
+| User Role | Token Capabilities |
+|-----------|-------------------|
+| **System Admin** | Full API access |
+| **Organisation Admin** | Organisation-wide operations |
+| **Template Designer** | Template and notebook operations |
+| **Standard User** | Limited to user's permissions |
+
+**Note**: Tokens cannot exceed the creator's permission level.
+
+### Automation Guide
+
+For practical automation examples using API tokens:
+→ [Basic Automation Guide](../advanced/automation-basics.md) - Common tasks without programming
+→ {{cross-ref:automation-basics}} - Practical examples for power users
+
 ## Best Practices {important}
 
 ### Role Assignment Strategy

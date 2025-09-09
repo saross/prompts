@@ -244,6 +244,46 @@ see-also: [notebook-format-guide, component-reference, field-type-index]
 **Impact**: Slow import/export, UI lag.  
 **Solution**: Split into multiple viewsets.
 
+## API & Automation Terms
+
+### Long-Lived Token
+**Definition**: API authentication token with extended validity period.
+**Duration**: Maximum 90 days.
+**Usage**: Automation scripts and integrations.
+**Location**: User Profile → Manage Long-Lived Tokens.
+**Security**: Shown only once at creation.
+
+### Bearer Token
+**Definition**: Short-lived access token for API calls.
+**Duration**: 5 minutes default.
+**Obtained**: Exchange long-lived token via API.
+**Format**: `Authorization: Bearer <token>`
+
+### Token Rotation
+**Definition**: Security practice of regularly replacing API tokens.
+**Frequency**: Monthly recommended.
+**Purpose**: Limit exposure if token compromised.
+
+## Permission Terms
+
+### Virtual Role
+**Definition**: Automatic permission grant based on team membership.
+**Example**: TEAM_MEMBER gets PROJECT_CONTRIBUTOR on all team notebooks.
+**Purpose**: Simplify permission management.
+**Cascade**: Applied to all current and future team resources.
+
+### Close Status
+**Definition**: Notebook state preventing new data collection.
+**Effect**: Read-only access, exports still available.
+**Reversible**: Can reopen anytime.
+**Note**: No separate "archive" state exists.
+
+### Invitation
+**Types**: Team invites (broad access) or Notebook invites (specific).
+**Duration**: 7 days validity.
+**Permissions**: Determined by role offered.
+**Templates**: Only accessible via team membership.
+
 ## Dashboard Terms
 
 ### Dashboard

@@ -56,8 +56,8 @@ see-also: [field-type-index, all-documents]
 | **dashboard-overview.md** | System architecture | • Navigation structure<br>• Role hierarchy<br>• Permission inheritance<br>• Platform overview | 312 |
 | **templates-interface.md** | Template management | • Designer usage<br>• Field configuration<br>• Version control<br>• JSON export/import | 446 |
 | **notebooks-interface.md** | Data collection | • Deployment process<br>• User management<br>• Record workflow<br>• Export options | 525 |
-| **users-interface.md** | User administration | • System roles<br>• Permission matrix<br>• Activity tracking<br>• Email verification | 498 |
-| **teams-interface.md** | Team collaboration | • Resource ownership<br>• Member management<br>• Team roles<br>• Shared templates | 456 |
+| **users-interface.md** | User administration | • System roles<br>• Permission matrix<br>• API token management<br>• Profile access | 850+ |
+| **teams-interface.md** | Team collaboration | • Virtual roles<br>• Team vs notebook invites<br>• 6 tabs documented<br>• Template access | 580+ |
 | **dashboard-patterns.md** | Workflow recipes | • 7 parametric workflows<br>• Project setup<br>• User onboarding<br>• Migration patterns | 578 |
 | **dashboard-troubleshooting.md** | Problem resolution | • 45+ common issues<br>• Error decoder<br>• Diagnostic flowcharts<br>• Emergency procedures | 305 |
 
@@ -82,6 +82,7 @@ see-also: [field-type-index, all-documents]
 | **form-structure-guide.md** | Build multi-section forms | • Viewsets configuration<br>• Navigation patterns<br>• Parent-child forms | 401 |
 | **dynamic-forms-guide.md** | Implement conditional logic | • Visibility rules<br>• Validation patterns<br>• Computed values | 462 |
 | **implementation-patterns-guide.md** | Common patterns | • Error handling<br>• Performance optimisation<br>• Best practices | 419 |
+| **permission-patterns.md** | Access control patterns | • Virtual roles<br>• Token rotation<br>• Invitation strategies<br>• Close/reopen workflow | 250+ |
 
 ### Technical References (`references/`)
 
@@ -95,7 +96,7 @@ see-also: [field-type-index, all-documents]
 | **notebook-format-guide.md** | JSON structure requirements | HIGH | 198 |
 | **editor-form-settings.md** | Form behaviour configuration | HIGH | 655 |
 | **editor-notebook-info.md** | Metadata and FAIR compliance | HIGH | 610 |
-| **roles-permissions-reference.md** | Complete permission system | HIGH | 561 |
+| **roles-permissions-reference.md** | Complete permission system<br>40+ actions documented | CRITICAL | 650+ |
 | **troubleshooting-index.md** | Error resolution matrix | HIGH | 630 |
 | **file-organization-guide.md** | Project structure | LOW | 135 |
 | **field-type-index.md** | Navigation only | LOW | 81 |

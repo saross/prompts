@@ -280,7 +280,7 @@ This document provides parametric workflow recipes for common Dashboard operatio
 
 #### Phase 5: Cutover
 15. On {{MIGRATION_DATE}}:
-    - Archive old notebooks
+    - Close old notebooks
     - Redirect users to new versions
     - Monitor for issues
 16. ✓ Migration complete
@@ -477,7 +477,7 @@ This document provides parametric workflow recipes for common Dashboard operatio
     - User access
     - Data integrity
 12. When satisfied:
-    - Archive corrupted notebook
+    - Close corrupted notebook
     - Rename recovery to original
 13. ✓ Recovery complete
 

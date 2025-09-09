@@ -401,7 +401,7 @@ When conflicts occur:
 - [ ] Check network speed
 - [ ] Try different browser
 - [ ] Disable browser extensions
-- [ ] Archive old notebooks
+- [ ] Close unused notebooks
 
 ### Browser-Specific Issues
 

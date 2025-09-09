@@ -157,6 +157,50 @@ Manages team membership invitations:
 | **Accepted** | User joined | View in Users |
 | **Expired** | Time limit passed | Resend |
 
+#### Understanding Team vs Notebook Invites {essential}
+
+**When to use Team Invites:**
+- Grant access to ALL team resources (notebooks, templates)
+- Provide template access (only available through teams)
+- Establish organisational hierarchy
+- Manage groups of related notebooks
+
+**When to use Notebook Invites:**
+- Grant access to specific notebooks only
+- Temporary or limited collaboration
+- External users who shouldn't see other team resources
+- Fine-grained permission control
+
+**Critical**: Templates can ONLY be accessed through team membership.
+
+#### Virtual Roles - Automatic Access {essential}
+
+Team membership automatically grants virtual roles on ALL team resources:
+
+| Team Role | Virtual Notebook Role | Virtual Template Role | Effect |
+|-----------|----------------------|----------------------|--------|
+| **Team Member** | PROJECT_CONTRIBUTOR | TEMPLATE_GUEST | Create/edit records in all team notebooks |
+| **Team Manager** | PROJECT_MANAGER | TEMPLATE_GUEST | Manage all team notebook structures |
+| **Team Admin** | PROJECT_ADMIN | TEMPLATE_ADMIN | Full control of all team resources |
+
+**Example**: Adding someone as Team Member to a team with 5 notebooks automatically grants PROJECT_CONTRIBUTOR on all 5, plus any future notebooks.
+
+#### Permission Requirements for Invites
+
+| Inviting Role | Who Can Send | Notes |
+|---------------|--------------|--------|
+| Team Member | Team Manager+ | Standard collaboration |
+| Team Manager | Team Manager+ | Delegation allowed |
+| Team Admin | GENERAL_ADMIN only | Elevation restricted |
+
+#### Best Practices
+
+- **Default to Team Member** role (least privilege)
+- **Review team resources** before inviting (user gets access to all)
+- **Use team invites** for template access and consistent permissions
+- **Use notebook invites** for granular, temporary access
+- **Document** admin/manager role assignments
+
 ### Notebooks Tab {important}
 
 Team-owned notebooks management:
@@ -280,6 +324,35 @@ Only two team-specific roles:
 - View member list
 - Clone templates
 - Create records
+
+### Edit Tab {important}
+
+Allows team administrators to modify team properties:
+
+#### Editable Fields
+
+| Field | Description | Validation |
+|-------|-------------|------------|
+| **Team Name** | Display name | Must be unique |
+| **Description** | Team purpose and details | Optional, markdown supported |
+| **Team Settings** | Configuration options | Based on permissions |
+
+#### Edit Permissions
+
+- Only Team Administrators can access Edit tab
+- Changes take effect immediately
+- Name changes update all references
+- Activity logged for audit trail
+
+#### Edit Process
+
+1. Navigate to team → Edit tab
+2. Modify desired fields
+3. Click "Save Changes"
+4. Confirmation message appears
+5. Changes reflected across system
+
+**Note**: Team name changes affect all associated notebooks and templates.
 
 #### Member Management Actions
 

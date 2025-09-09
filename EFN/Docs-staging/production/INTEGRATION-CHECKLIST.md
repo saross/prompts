@@ -1,6 +1,34 @@
 # Documentation Integration Checklist
 **Created**: 2025-01-09  
+**Last Updated**: 2025-01-09 Session 2
 **Purpose**: Ensure complete integration of new Editor and permissions documentation
+
+## Session 2 Dashboard Updates - NEW ITEMS
+
+### Dashboard Documentation Updates (Session 2)
+
+#### API Token Management
+- [ ] Add {{cross-ref:api-token-management}} markers
+- [ ] Link from api-automation-guide.md (when created)
+- [ ] Add to security best practices
+- [ ] Cross-reference with permission requirements
+
+#### Close/Open Notebook Status
+- [ ] Update all "archive" references to "close"
+- [ ] Link from workflow documentation
+- [ ] Add to notebook lifecycle docs
+- [ ] Ensure status effects documented consistently
+
+#### Virtual Roles Documentation
+- [ ] Link team invites to permission matrix
+- [ ] Add virtual role examples to patterns
+- [ ] Cross-reference with team management
+- [ ] Document cascading permissions clearly
+
+#### Tab Structure Verification
+- [x] Notebooks: 5 tabs (Details, Invites, Users, Export, Actions)
+- [x] Templates: 3 tabs (Details, Notebooks, Actions) 
+- [x] Teams: 6 tabs (Details, Invites, Notebooks, Templates, Users, Edit)
 
 ## Immediate Integration Tasks
 

@@ -1,8 +1,8 @@
 # Fieldmark v3 Production Documentation
 
 **Status**: ✅ Fully Integrated with Cross-References  
-**Last Updated**: 2025-01-09  
-**Size**: 35,156+ lines (1.2 MB)
+**Last Updated**: 2025-01-10  
+**Size**: ~40,000 lines (1.4 MB)
 
 ## Quick Start
 
@@ -20,8 +20,9 @@ Start with:
 - **[glossary.md](references/glossary.md)** - Key terms and concepts (~80 definitions)
 - **[field-type-index.md](references/field-type-index.md)** - Master navigation index
 - **[troubleshooting-index.md](references/troubleshooting-index.md)** - Error-to-solution mapping
-- **[editor-form-settings.md](references/editor-form-settings.md)** - Form configuration guide
-- **[roles-permissions-reference.md](references/roles-permissions-reference.md)** - Permission system
+- **[editor-form-settings.md](references/editor-form-settings.md)** - Form completion and validation settings
+- **[editor-notebook-info.md](references/editor-notebook-info.md)** 🆕 - Metadata configuration and FAIR compliance  
+- **[roles-permissions-reference.md](references/roles-permissions-reference.md)** - Complete permission system (40+ actions)
 
 ### To Rebuild Reference
 ```bash
@@ -65,18 +66,33 @@ This is the **authoritative documentation for Fieldmark v3's field system**, opt
 | **Relationship field** | RelationshipField (1) | 103 |
 
 ### 📁 `/patterns/` - Cross-Field Patterns
-**5 guides** showing how fields work together:
+**6 guides** showing how fields work together:
 - **field-selection-guide.md** - Decision trees for choosing field types
 - **form-structure-guide.md** - Three-tier architecture (fields→fviews→viewsets)
 - **dynamic-forms-guide.md** - Conditional logic and validation patterns
 - **implementation-patterns-guide.md** - Common workflows and integrations
-- **cookbook.md** 🆕 - 10 parametric recipes for generation
+- **permission-patterns.md** 🆕 - Access control and virtual role patterns
+- **cookbook.md** - 10 parametric recipes for generation
+
+### 📁 `/dashboard/` - Dashboard Interface Documentation 🆕
+**7 comprehensive guides** covering the Fieldmark dashboard:
+- **dashboard-overview.md** - System architecture and navigation
+- **templates-interface.md** - Template Designer and management
+- **notebooks-interface.md** - Notebook deployment and operations
+- **users-interface.md** - User administration and API tokens
+- **teams-interface.md** - Team collaboration and virtual roles
+- **dashboard-patterns.md** - 7 parametric workflow recipes
+- **dashboard-troubleshooting.md** - 45+ common issues with solutions
+
+### 📁 `/advanced/` - Advanced Features 🆕
+**1 guide** for power users:
+- **automation-basics.md** - API automation with curl, Excel, Google Sheets
 
 ### 📁 `/references/` - Technical References
-**13 reference documents** including:
+**14 reference documents** including:
 
-#### New Additions
-- **glossary.md** - ~60 term definitions for consistency
+#### Recent Additions
+- **glossary.md** - ~80 term definitions for consistency (expanded with API/permission terms)
 - **notebook-templates.md** - 5 complete working templates
 - **troubleshooting-index.md** - 95% error coverage with solutions
 - **llm-navigation-manifest.md** - Purpose-driven content discovery
@@ -167,7 +183,18 @@ Organized archive of:
 - Update glossary when adding terms
 - Document patterns in cookbook
 
-## Recent Updates (2025-01-07)
+## Recent Updates (2025-01-10)
+
+### Session 2 Additions
+- ✅ Added complete dashboard documentation (7 guides)
+- ✅ Documented API Token Management system
+- ✅ Created automation basics guide for power users
+- ✅ Enhanced permission patterns documentation
+- ✅ Expanded glossary with API and permission terms
+- ✅ Fixed tab structure documentation across all interfaces
+- ✅ Clarified Close/Archive terminology (same operation)
+
+## Previous Updates (2025-01-07)
 
 ### Completed
 - ✅ LLM optimization project (Phases 1-5)

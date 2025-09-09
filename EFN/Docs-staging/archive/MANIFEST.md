@@ -1,5 +1,5 @@
 # Archive Manifest - Fieldmark Documentation
-**Last Updated**: 2025-01-09  
+**Last Updated**: 2025-01-10  
 **Purpose**: Complete inventory of archived documentation materials from the LLM optimization project
 **Organization**: Restructured into logical categories for historical reference
 
@@ -11,19 +11,15 @@ This archive contains historical documentation, planning materials, scripts, and
 
 ```
 archive/
+├── cross-field/              # Original cross-field pattern docs
+├── detail-crossfield-docs/   # Detailed cross-field documentation
+├── detail-singlefield-docs/  # Individual field documentation
 ├── example-notebooks/        # Original example JSON notebooks
+├── implementation-scripts/   # One-time implementation scripts
+├── interim-reports/          # Progress tracking reports
 ├── json-generation/          # JSON generation analysis and samples
-│   ├── 2025-01-07-analysis/  # Analysis reports
-│   └── 2025-01-07-notebooks/ # Generated notebook samples
-├── planning/                 # Project planning and architecture docs
-├── reference-docs/           # Original reference documentation
-│   ├── cross-field/          # Cross-field patterns (consolidated)
-│   └── detail-singlefield-docs/ # Individual field docs (consolidated)
+├── planning-docs/            # Project planning and architecture
 ├── reports/                  # Analysis and optimization reports
-│   └── dashboard-optimization/ # Dashboard-specific reports
-├── scripts/                  # Historical scripts
-│   ├── 2025-01-07-scripts/   # Date-stamped script versions
-│   └── implementation-scripts/ # One-time implementation scripts
 ├── README.md                 # Archive overview
 └── MANIFEST.md              # This file
 ```
@@ -55,7 +51,7 @@ Key examples include:
 - Test cases for validation
 - Template variations
 
-### 3. Planning (`/planning/`)
+### 3. Planning (`/planning-docs/`)
 **Purpose**: Project planning and architecture documents  
 **Status**: Historical reference for project evolution
 
@@ -68,11 +64,11 @@ Key documents:
 - `phase-3-consolidation-checklist.md` - Project phase planning
 - `TODO-v05-improvements.md` - Version 5 improvement plan
 
-### 4. Reference Documentation (`/reference-docs/`)
-**Purpose**: Original reference documentation before consolidation  
-**Status**: Source material for production docs
+### 4. Cross-Field Documentation
 
-#### `/cross-field/` (10 files)
+#### `/cross-field/` (Original patterns, 10 files)
+**Purpose**: Original cross-field pattern documentation  
+**Status**: Consolidated into production patterns
 Consolidated into `/production/patterns/`:
 - `conditional-logic.md` (37KB) → `dynamic-forms-guide.md`
 - `validation.md` (33KB) → `dynamic-forms-guide.md`
@@ -82,7 +78,18 @@ Consolidated into `/production/patterns/`:
 - `patterns.md` (18KB) → `implementation-patterns-guide.md`
 - Additional pattern and troubleshooting docs
 
+#### `/detail-crossfield-docs/` (Detailed patterns)
+**Purpose**: In-depth cross-field analysis  
+**Status**: Consolidated into production patterns
+
+Key documents:
+- Advanced conditional logic patterns
+- Complex validation scenarios
+- Multi-field relationships
+
 #### `/detail-singlefield-docs/` (21 files)
+**Purpose**: Individual field documentation  
+**Status**: Consolidated into production field-categories
 Consolidated into `/production/field-categories/`:
 - 5 choice field documents → `select-choice-fields-v05.md`
 - 3 datetime field documents → `datetime-fields-v05.md`
@@ -109,22 +116,26 @@ Dashboard-specific optimization reports:
 - Interface documentation
 - Workflow patterns
 
-### 6. Scripts (`/scripts/`)
-**Purpose**: Historical build and processing scripts  
-**Organization**: Date-stamped and categorized
-
-#### `/2025-01-07-scripts/`
-Scripts from the January 7, 2025 optimization:
-- Build scripts
-- Validation scripts
-- Enhancement scripts
-- Processing utilities
+### 6. Scripts
 
 #### `/implementation-scripts/`
-One-time use implementation scripts:
-- Migration scripts
-- Batch processing tools
-- Consolidation utilities
+**Purpose**: One-time implementation scripts from Phases 1-5  
+**Status**: Deprecated (production scripts in `/production/scripts/`)
+Phase implementation scripts:
+- Phase 1: Structure and metadata scripts
+- Phase 2: Template marker addition
+- Phase 3: Consolidation and validation
+- Phase 4: Cross-reference building
+- Phase 5: Final optimization
+
+### 7. Interim Reports (`/interim-reports/`)
+**Purpose**: Progress tracking during optimization phases  
+**Status**: Historical reference
+
+Key reports:
+- Phase completion summaries
+- Interim validation results
+- Progress metrics
 
 ## Archive Statistics
 
@@ -133,6 +144,8 @@ One-time use implementation scripts:
 | Example Notebooks | ~14 | ~200KB | Preserved |
 | JSON Generation | ~20 | ~150KB | Archived |
 | Planning Docs | 7 | ~100KB | Historical |
+| Cross-Field Docs | ~15 | ~250KB | Consolidated |
+| Interim Reports | ~10 | ~100KB | Historical |
 | Reference Docs | ~31 | ~400KB | Consolidated |
 | Reports | ~30 | ~300KB | Historical |
 | Scripts | ~15 | ~100KB | Deprecated |

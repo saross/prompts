@@ -247,16 +247,59 @@ Accessed by clicking a template from the list:
 
 | Tab | Content | Actions |
 |-----|---------|---------|
-| **Details** | Metadata and info | Edit basic information |
+| **Details** | Metadata and info | View template properties |
 | **Notebooks** | Using this template | View deployed notebooks |
-| **History** | Version notes | Track manual versions |
+| **Actions** | Management operations | Edit, Clone, Export, Delete |
 
-#### Available Actions
+#### Details Tab Content
+- Template name and identifier
+- Description of purpose
+- Version number (manually maintained)
+- Author information
+- Creation and modification timestamps
+- Associated team (if applicable)
 
-- **Edit**: Opens Designer with template
-- **Clone**: Creates duplicate for modification
-- **Export**: Downloads as JSON file
-- **Delete**: Remove (if no active notebooks)
+#### Notebooks Tab Content
+- List of all notebooks using this template
+- Notebook names (clickable links)
+- Status indicators (Open/Closed)
+- Record counts
+- Team ownership
+- Deployment dates
+
+#### Actions Tab Operations
+
+1. **Edit Template**
+   - Opens template in the Notebook Editor
+   - Requires TEMPLATE_ADMIN or GENERAL_CREATOR permission
+   - Button label: "Open in Editor"
+
+2. **Assign Template to Team**
+   - Associates template with a team for management
+   - Requires appropriate team permissions
+   - Button label: "Assign Template to Team"
+
+3. **Download JSON**
+   - Exports the complete template definition
+   - Available to all authenticated users
+   - Downloads as .json file
+
+4. **Replace Template JSON File**
+   - Upload new JSON to update template structure
+   - Requires TEMPLATE_ADMIN permission
+   - Validates JSON before replacement
+
+5. **Create Notebook**
+   - Deploy new notebook from this template
+   - Requires GENERAL_CREATOR or team permissions
+   - Button label: "Create Notebook"
+
+6. **Archive Template**
+   - Mark template as archived/inactive
+   - Requires TEMPLATE_ADMIN permission
+   - Archived templates remain accessible but not in active lists
+
+**Note**: Clone operation may be available through Edit or as separate action depending on permissions.
 
 ### Template Testing {important}
 

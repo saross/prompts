@@ -158,6 +158,49 @@ Breadcrumb navigation shows current location:
 Home > Teams > {{TEAM_NAME}} > Notebooks
 ```
 
+### User Menu {essential}
+
+The user menu provides account management and personalisation options:
+
+#### Location
+- **Position**: Lower-left corner of dashboard
+- **Display**: Shows username and email
+- **Access**: Click username to open menu
+
+#### Menu Options
+
+| Option | Description | Navigation Path |
+|--------|-------------|----------------|
+| **Profile** | Access user profile and settings | Username → Profile |
+| **Log out** | End current session | Username → Log out |
+
+#### User Profile Page
+
+Accessing the Profile option opens the User Profile management page with:
+
+1. **Account Information Section**
+   - Email address (read-only)
+   - Display name
+   - Email verification status
+   - Warning banner if email unverified
+
+2. **Password Management Section**
+   - "Change Password" button
+   - Secure password update form
+   - Password requirements displayed
+
+3. **API Token Management Section**
+   - "Manage Long-Lived Tokens" button
+   - Access to API token creation and management
+   - View existing tokens and their status
+
+**Navigation Example**:
+```
+Click Username (lower-left) → Select "Profile" → View User Profile page
+                                             → Click "Manage Long-Lived Tokens"
+                                             → Create/manage API tokens
+```
+
 ### Action Patterns
 
 Primary actions consistently positioned:

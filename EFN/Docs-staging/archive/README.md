@@ -1,7 +1,7 @@
 # Archive - Fieldmark Documentation History
 
 **Status**: 📦 Historical Archive  
-**Last Updated**: 2025-01-09  
+**Last Updated**: 2025-01-10  
 **Purpose**: Preserve project evolution and source materials
 
 ## Quick Navigation
@@ -19,7 +19,14 @@ This archive contains the complete history of the Fieldmark v3 documentation opt
 | **`example-notebooks/`** | Real user notebooks | Validation samples |
 | **`json-generation/`** | JSON analysis & samples | Generation strategies |
 | **`planning/`** | Project architecture | Historical decisions |
-| **`reference-docs/`** | Original documentation | Pre-consolidation sources |
+| **`cross-field/`** | Cross-field patterns | Original pattern docs |
+| **`detail-crossfield-docs/`** | Detailed cross-field docs | In-depth pattern analysis |
+| **`detail-singlefield-docs/`** | Individual field docs | Original field documentation |
+| **`example-notebooks/`** | Real user notebooks | Validation samples |
+| **`implementation-scripts/`** | One-time scripts | Phase 1-5 migration tools |
+| **`interim-reports/`** | Progress tracking | Phase completion reports |
+| **`json-generation/`** | JSON analysis & samples | Generation strategies |
+| **`planning-docs/`** | Project architecture | Historical decisions |
 | **`reports/`** | Analysis & assessments | Project evolution |
 | **`scripts/`** | Historical scripts | Deprecated tools |
 
@@ -88,8 +95,9 @@ Optimization Score: 6/10 → 9.5/10
 - [LLM Optimization Template](planning/llm-optimized-field-doc-template.md)
 
 ### Original Sources
-- [Cross-Field Patterns](reference-docs/cross-field/)
-- [Individual Field Docs](reference-docs/detail-singlefield-docs/)
+- [Cross-Field Patterns](cross-field/)
+- [Detailed Cross-Field Docs](detail-crossfield-docs/)
+- [Individual Field Docs](detail-singlefield-docs/)
 
 ### Project Reports
 - [LLM Scoring Report](reports/LLM-SCORING-REPORT.md)
@@ -98,12 +106,15 @@ Optimization Score: 6/10 → 9.5/10
 ## Relationship to Production
 
 ```
-archive/                          production/
-├── reference-docs/               ├── field-categories/  [CONSOLIDATED]
-│   ├── cross-field/        →     ├── patterns/         [OPTIMIZED]
-│   └── detail-singlefield/ →     └── references/       [ENHANCED]
-├── scripts/                 →     scripts/              [REFINED]
-└── reports/                 →     [Project complete]
+archive/                              production/
+├── cross-field/              →       patterns/          [OPTIMIZED]
+├── detail-crossfield-docs/   →       patterns/          [CONSOLIDATED]
+├── detail-singlefield-docs/  →       field-categories/  [CONSOLIDATED]
+├── implementation-scripts/   →       scripts/           [REFINED]
+├── interim-reports/          →       [Project complete]
+├── json-generation/          →       working-notebooks/ [TEMPLATES]
+├── planning-docs/            →       [Historical reference]
+└── reports/                  →       [Project complete]
 ```
 
 ## Maintenance Policy

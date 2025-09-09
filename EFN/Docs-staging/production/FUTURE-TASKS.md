@@ -8,6 +8,43 @@
 
 Following the successful completion of the LLM optimization project (95/100 score achieved), this document consolidates all remaining and future tasks for the Fieldmark documentation system. These tasks focus on content enhancement, maintenance, and continuous improvement rather than structural changes.
 
+## Session 2 Decisions (2025-01-09)
+
+### API & Developer Documentation Strategy
+
+#### Agreed Approach:
+1. **Basic Automation Guide** (automation-basics.md)
+   - Location: Under "Advanced Usage" in main docs
+   - Content: Token usage for common tasks
+   - Audience: Power users, research support staff
+   - Depth tag: {comprehensive} only
+   - 3-5 practical examples (no complex programming)
+   - Focus on curl/wget, Excel integration
+
+2. **Developer Mode**: NOT documented in user docs
+   - Server configuration only
+   - Not user-accessible
+   - Would confuse regular users
+
+3. **Full API Documentation**: FUTURE TASK
+   - Create separate developer documentation later
+   - Needed for integration developers (RSpace, QGIS, ArcGIS)
+   - Include full REST API reference
+   - Target: Software developers, not researchers
+
+### SSO Documentation (Future)
+- Brief documentation needed
+- Wait for second enterprise client implementation
+- Likely Australian Access Federation RapidID
+- Current support: Google SSO
+- Add to user authentication section when ready
+
+### Integration Requirements
+- RSpace electronic lab notebook round-trip
+- QGIS integration (planned)
+- ArcGIS integration (potential)
+- Focus on safe data round-trips
+
 ## Priority Tasks
 
 ### 1. Production Testing & Validation

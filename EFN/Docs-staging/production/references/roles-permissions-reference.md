@@ -535,33 +535,120 @@ For operations requiring permissions:
 
 ### Project (Notebook) Actions
 
-| Action | Required Role | Description |
-|--------|---------------|-------------|
-| CREATE_PROJECT | GENERAL_CREATOR or TEAM_MANAGER | Create new notebook |
-| UPDATE_PROJECT_UISPEC | PROJECT_MANAGER | Edit notebook structure |
-| DELETE_PROJECT | PROJECT_ADMIN | Delete entire notebook |
-| READ_ALL_PROJECT_RECORDS | PROJECT_CONTRIBUTOR | View all data |
-| EXPORT_PROJECT_DATA | PROJECT_MANAGER | Export all records |
+| Action | Required Role | Description | UI/API |
+|--------|---------------|-------------|--------|
+| CREATE_PROJECT | GENERAL_CREATOR or TEAM_MANAGER | Create new notebook | Both |
+| UPDATE_PROJECT_UISPEC | PROJECT_MANAGER | Edit notebook structure | Both |
+| DELETE_PROJECT | PROJECT_ADMIN | Delete entire notebook | Both |
+| READ_ALL_PROJECT_RECORDS | PROJECT_CONTRIBUTOR | View all data | Both |
+| EXPORT_PROJECT_DATA | PROJECT_MANAGER | Export all records | Both |
+| VIEW_PROJECT_INVITES | PROJECT_MANAGER | View pending invites | Both |
+| CREATE_PROJECT_INVITES | PROJECT_MANAGER | Send notebook invitations | Both |
+| REVOKE_PROJECT_INVITES | PROJECT_MANAGER | Cancel pending invites | Both |
+| CHANGE_PROJECT_STATUS | PROJECT_ADMIN | Close/reopen notebook | API |
+| REASSIGN_PROJECT_TEAM | PROJECT_ADMIN | Change notebook team ownership | API |
+| GENERATE_RANDOM_PROJECT_RECORDS | PROJECT_ADMIN + DEVELOPER_MODE | Generate test data | API |
 
 ### Team Actions
 
-| Action | Required Role | Description |
-|--------|---------------|-------------|
-| CREATE_TEAM | GENERAL_ADMIN | Create new team |
-| DELETE_TEAM | TEAM_ADMIN | Delete team |
-| ADD_ADMIN_TO_TEAM | GENERAL_ADMIN only | Appoint team admin |
-| CREATE_PROJECT_IN_TEAM | TEAM_MANAGER | Create team notebook |
+| Action | Required Role | Description | UI/API |
+|--------|---------------|-------------|--------|
+| CREATE_TEAM | GENERAL_ADMIN | Create new team | Both |
+| DELETE_TEAM | TEAM_ADMIN | Delete team (soft delete) | Both |
+| ADD_ADMIN_TO_TEAM | GENERAL_ADMIN only | Appoint team admin | Both |
+| CREATE_PROJECT_IN_TEAM | TEAM_MANAGER | Create team notebook | Both |
+| VIEW_TEAM_DETAILS | TEAM_MEMBER | View team information | Both |
+| VIEW_TEAM_INVITES | TEAM_MANAGER | View pending team invites | Both |
+| CREATE_TEAM_INVITES | TEAM_MANAGER | Send team invitations | Both |
+| REVOKE_TEAM_INVITES | TEAM_MANAGER | Cancel team invites | Both |
+| MANAGE_TEAM_MEMBERS | TEAM_MANAGER | Add/remove team members | Both |
 
-### System Actions
+### User & Authentication Actions
 
-| Action | Required Role | Description |
-|--------|---------------|-------------|
-| ADD_OR_REMOVE_GLOBAL_USER_ROLE | GENERAL_ADMIN | Manage system roles |
-| DELETE_USER | GENERAL_ADMIN | Remove user |
-| RESTORE_FROM_BACKUP | GENERAL_ADMIN | System restore |
+| Action | Required Role | Description | UI/API |
+|--------|---------------|-------------|--------|
+| ADD_OR_REMOVE_GLOBAL_USER_ROLE | GENERAL_ADMIN | Manage system roles | Both |
+| DELETE_USER | GENERAL_ADMIN | Remove user permanently | Both |
+| VIEW_USER_LIST | GENERAL_ADMIN | View all system users | Both |
+| RESET_USER_PASSWORD | GENERAL_ADMIN | Force password reset | Both |
+| VERIFY_EMAIL | GENERAL_USER (self) | Verify email address | Both |
+| RESEND_VERIFICATION | GENERAL_USER (self) | Request new verification | Both |
+
+### API Token Actions
+
+| Action | Required Role | Description | UI/API |
+|--------|---------------|-------------|--------|
+| CREATE_LONG_LIVED_TOKEN | GENERAL_USER | Create API tokens | UI |
+| READ_MY_LONG_LIVED_TOKENS | GENERAL_USER | View own tokens | UI |
+| EDIT_MY_LONG_LIVED_TOKEN | GENERAL_USER | Update own token details | UI |
+| REVOKE_MY_LONG_LIVED_TOKEN | GENERAL_USER | Disable own tokens | UI |
+| READ_ANY_LONG_LIVED_TOKENS | GENERAL_ADMIN | View all users' tokens | API |
+| EDIT_ANY_LONG_LIVED_TOKEN | GENERAL_ADMIN | Edit any user's tokens | API |
+| REVOKE_ANY_LONG_LIVED_TOKEN | GENERAL_ADMIN | Revoke any user's tokens | API |
+
+### System Administration Actions
+
+| Action | Required Role | Description | UI/API |
+|--------|---------------|-------------|--------|
+| RESTORE_FROM_BACKUP | GENERAL_ADMIN | System restore | API |
+| INITIALIZE_ADMIN | First user only | Create initial admin | API |
+| VIEW_SYSTEM_LOGS | GENERAL_ADMIN | Access system logs | Both |
+| SEND_TEST_EMAIL | GENERAL_ADMIN | Test email configuration | API |
+| VALIDATE_DATABASE | GENERAL_ADMIN | Check database integrity | API |
+
+## Virtual Roles & Permission Inheritance {comprehensive}
+
+### Virtual Role Mapping
+
+Virtual roles are automatically assigned based on team membership and provide default permissions on team resources:
+
+| Team Role | Virtual Notebook Role | Automatic Permissions |
+|-----------|----------------------|----------------------|
+| TEAM_MEMBER | PROJECT_CONTRIBUTOR | Create/edit records in team notebooks |
+| TEAM_MANAGER | PROJECT_MANAGER | Manage structure of team notebooks |
+| TEAM_ADMIN | PROJECT_ADMIN | Full control of team notebooks |
+
+### Permission Inheritance Hierarchy
+
+```
+GENERAL_ADMIN
+    ├── Inherits all PROJECT_ADMIN permissions (every notebook)
+    ├── Inherits all TEAM_ADMIN permissions (every team)
+    └── Inherits all TEMPLATE_ADMIN permissions (every template)
+
+PROJECT_ADMIN
+    └── Inherits PROJECT_MANAGER
+        └── Inherits PROJECT_CONTRIBUTOR
+
+TEAM_ADMIN
+    └── Inherits TEAM_MANAGER
+        └── Inherits TEAM_MEMBER
+```
+
+### Permission Resolution Order
+
+When a user has multiple roles, permissions are resolved in this order:
+
+1. **Direct notebook role** (highest priority)
+   - Explicitly assigned PROJECT_* role
+2. **Virtual role from team**
+   - Automatic role from team membership
+3. **Global system role**
+   - GENERAL_* permissions
+4. **Inherited permissions**
+   - From higher roles in same hierarchy
+
+### Example Permission Scenarios
+
+| Scenario | User Roles | Effective Permission | Reason |
+|----------|------------|---------------------|--------|
+| User in team + direct role | TEAM_MEMBER + PROJECT_ADMIN | PROJECT_ADMIN | Direct role overrides virtual |
+| Admin accessing any notebook | GENERAL_ADMIN | PROJECT_ADMIN | Global admin has full access |
+| Team manager creating notebook | TEAM_MANAGER | Can create in team | Team role grants creation |
+| Multiple team memberships | TEAM_MEMBER in A, TEAM_ADMIN in B | Different per team | Team roles independent |
 
 ---
 
-*Last updated: 2025-01-08 | Based on FAIMS3 codebase analysis*
+*Last updated: 2025-01-09 | Based on FAIMS3 codebase analysis*
 
 <!-- concat:boundary:end section="roles-permissions" -->
