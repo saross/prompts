@@ -397,9 +397,16 @@ see-also: [notebook-format-guide, component-reference, field-type-index]
 
 ## Editor Terms
 
+### Notebook Editor
+**Definition**: The visual interface for creating and modifying notebooks and templates.  
+**Usage**: Same editor used for both templates and notebooks.  
+**Interface**: Drag-and-drop field placement with configuration panels.  
+**Access**: Available to team members based on their team role.  
+**Note**: Sometimes referred to as just "Editor" in the interface.
+
 ### Notebook Info
-**Definition**: Editor page for configuring notebook-level metadata.  
-**Location**: Editor → Info tab.  
+**Definition**: Notebook Editor page for configuring notebook-level metadata.  
+**Location**: Notebook Editor → Info tab.  
 **Contains**: Project name, lead, institution, description, custom fields.  
 **Purpose**: FAIR data compliance and metadata standards support.  
 **See**: [Editor Notebook Info](./editor-notebook-info.md)
@@ -433,8 +440,8 @@ see-also: [notebook-format-guide, component-reference, field-type-index]
 **See**: [Editor Notebook Info](./editor-notebook-info.md#fair-data-implementation)
 
 ### Form Settings
-**Definition**: Configuration panel in Editor controlling per-viewset behaviour.  
-**Location**: Editor → Design tab → Form Settings (expandable).  
+**Definition**: Configuration panel in Notebook Editor controlling per-viewset behaviour.  
+**Location**: Notebook Editor → Design tab → Form Settings (expandable).  
 **Configures**: Finish button logic, layout style, summary fields, HRID.  
 **Scope**: Per-form, not global.  
 **See**: [Editor Form Settings](./editor-form-settings.md)

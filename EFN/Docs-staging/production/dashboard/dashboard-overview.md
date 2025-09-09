@@ -98,7 +98,7 @@ Fieldmark implements four hierarchical system roles:
 |------|------------|--------------|
 | **System Administrator** | Full system control, all operations | IT administrators |
 | **Organisation Administrator** | Manage teams and users | Project managers |
-| **Template Designer** | Create and modify templates | Field researchers |
+| **Standard User** | Create and modify templates using Notebook Editor | Field researchers |
 | **Standard User** | Access assigned notebooks | Data collectors |
 
 ### Notebook-Specific Roles

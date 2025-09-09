@@ -41,7 +41,7 @@ Templates define the structure and behaviour of data collection notebooks. They 
 
 ### Access Requirements {essential}
 
-- **System Role**: Template Designer or higher
+- **Team Role**: Team members can create/edit templates based on their team role
 - **Team Context**: Team Administrator (for team templates)
 - **Permissions**: Create, edit, clone templates
 
