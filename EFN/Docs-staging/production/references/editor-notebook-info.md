@@ -420,13 +420,124 @@ When `derived-from` is present:
 
 ---
 
+## Complete JSON Examples {important}
+
+### Archaeological Research Notebook
+Full metadata configuration for standards compliance:
+
+```json
+{
+  "metadata": {
+    "name": "Excavation Season 2025",
+    "description": "Systematic excavation of Bronze Age settlement",
+    "lead_institution": "University Archaeological Department",
+    "contributors": ["Dr. Jane Smith", "Archaeological Survey Team"],
+    "raid": "https://raid.org/10.XXXXX/raid.2025.archaeology",
+    "access": {
+      "access_type": "open",
+      "embargo_date": null,
+      "license": "CC-BY-4.0"
+    },
+    "notebook_metadata": {
+      "ADS_Section": "Excavation",
+      "ADS_Period": "Bronze Age",
+      "ADS_Monument_Type": "Settlement",
+      "custom_project_code": "BA2025-SITE01"
+    },
+    "record_metadata": {
+      "default_observer": "{{current_user}}",
+      "default_institution": "University Archaeological Department",
+      "coordinate_system": "WGS84"
+    },
+    "field_metadata": {
+      "material_vocabulary": "Getty AAT",
+      "period_thesaurus": "PeriodO",
+      "custom_classification": "Internal typology v2.3"
+    }
+  }
+}
+```
+
+### Environmental Monitoring
+Metadata for repository integration:
+
+```json
+{
+  "metadata": {
+    "name": "Wetland Biodiversity Survey",
+    "description": "Long-term monitoring of wetland ecosystem health",
+    "lead_institution": "Environmental Research Institute",
+    "contributors": ["Ecology Team", "Citizen Scientists"],
+    "raid": null,
+    "access": {
+      "access_type": "embargoed",
+      "embargo_date": "2026-12-31",
+      "license": "CC-BY-NC"
+    },
+    "notebook_metadata": {
+      "Darwin_Core_BasisOfRecord": "HumanObservation",
+      "GBIF_Dataset_Type": "OCCURRENCE",
+      "custom_permit_number": "ENV-2025-WET-001"
+    },
+    "record_metadata": {
+      "default_location_precision": "10m",
+      "coordinate_reference_system": "EPSG:4326"
+    },
+    "field_metadata": {
+      "species_authority": "WoRMS",
+      "habitat_classification": "EUNIS"
+    }
+  }
+}
+```
+
+### Cultural Heritage Documentation
+Metadata for FAIR compliance:
+
+```json
+{
+  "metadata": {
+    "name": "Indigenous Knowledge Documentation",
+    "description": "Collaborative heritage recording project",
+    "lead_institution": "Cultural Heritage Foundation",
+    "contributors": ["Community Elders", "Heritage Team"],
+    "raid": "https://raid.org/10.XXXXX/raid.2025.heritage",
+    "access": {
+      "access_type": "restricted",
+      "access_details": "Community permission required",
+      "license": "Traditional Knowledge License"
+    },
+    "notebook_metadata": {
+      "tDAR_Resource_Type": "Ethnographic Field Records",
+      "custom_community_protocol": "TCP-2025-v1",
+      "ethical_clearance": "HEC-2025-0142"
+    },
+    "record_metadata": {
+      "consent_obtained": true,
+      "anonymization_applied": true
+    },
+    "field_metadata": {
+      "language_codes": "ISO 639-3",
+      "cultural_protocols": "Local Traditional Knowledge System"
+    },
+    "derived-from": {
+      "notebook-id": "template-heritage-v2",
+      "created": "2025-01-01T00:00:00Z"
+    }
+  }
+}
+```
+
+---
+
 ## Cross-References {important}
 
 ### Core Documentation
 → [Notebook Format Guide](./notebook-format-guide.md) - Complete JSON structure  
 → [Editor Form Settings](./editor-form-settings.md) - Form-level configuration  
+→ {{cross-ref:roles-permissions-reference}} - Required permissions for metadata editing  
 → [Glossary](./glossary.md) - Metadata terminology  
-→ [Operations Reference](./operations-reference.md) - Import/export procedures  
+→ [Operations Reference](./operations-reference.md) - Import/export procedures that use metadata  
 
 ### Standards and Compliance
 → [Constraints Reference](./constraints-reference.md) - Metadata limitations  

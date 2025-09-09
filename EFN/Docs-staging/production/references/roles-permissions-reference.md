@@ -523,6 +523,12 @@ For concepts:
 → [Glossary](./glossary.md) - Role and permission definitions
 → [Dashboard Patterns](../dashboard/dashboard-patterns.md) - Permission management workflows
 
+For operations requiring permissions:
+→ {{cross-ref:editor-form-settings}} - Editor access requires PROJECT_CONTRIBUTOR
+→ {{cross-ref:editor-notebook-info}} - Metadata editing requires PROJECT_MANAGER
+→ [Operations Reference](./operations-reference.md) - Import/export requires PROJECT_MANAGER
+→ {{cross-ref:notebook-templates}} - Template creation requires GENERAL_CREATOR or TEMPLATE_CREATOR
+
 ---
 
 ## Complete Action Reference {comprehensive}

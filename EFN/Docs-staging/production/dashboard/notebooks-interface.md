@@ -87,6 +87,8 @@ The notebook creation process requires:
 
 ### Creation Pathways
 
+**Required Role**: `GENERAL_CREATOR` or team member with notebook creation rights ({{cross-ref:roles-permissions-reference}})
+
 #### Path 1: From Template
 ```
 Notebooks > Create Notebook > Select Template > {{TEMPLATE_NAME}}
@@ -371,12 +373,13 @@ Automatically:
 
 ### Permission Problems
 
-| Issue | Cause | Solution |
-|-------|-------|----------|
-| Can't edit records | Wrong role | Request Collector role |
-| Can't invite users | Not admin | Contact notebook admin |
-| Can't see notebook | No access | Request invitation |
-| Can't delete | Not owner/admin | Contact administrator |
+| Issue | Required Role | Solution |
+|-------|--------------|----------|
+| Can't edit records | `PROJECT_CONTRIBUTOR` | Request role from notebook admin ({{cross-ref:roles-permissions-reference}}) |
+| Can't invite users | `PROJECT_ADMIN` | Contact notebook admin ({{cross-ref:roles-permissions-reference}}) |
+| Can't see notebook | Any notebook role | Request invitation from admin |
+| Can't delete notebook | `PROJECT_ADMIN` | Contact notebook administrator |
+| Can't export data | `PROJECT_MANAGER` | Request manager role ({{cross-ref:roles-permissions-reference}}) |
 
 ## Best Practices {important}
 

@@ -438,6 +438,38 @@ Automatically escaped per JSON specification:
 - Large exports: Use pagination
 - Binary data: Never inline
 
+### Notebook Metadata in Export/Import {important}
+
+{{cross-ref:editor-notebook-info}} Metadata configured in the Notebook Info page affects export operations:
+
+#### Metadata Preservation During Export
+| Metadata Type | CSV Export | JSON Export | Preserved? |
+|--------------|------------|-------------|------------|
+| **Notebook metadata** | Header comments | Top-level object | Partial/Full |
+| **Record metadata** | Not included | Included per record | No/Yes |
+| **Field metadata** | Column headers only | Field properties | Partial/Full |
+| **Custom fields** | Not exported | Included if set | No/Yes |
+| **RAiD identifier** | Comment header | metadata.raid | Partial/Full |
+| **Access settings** | Not exported | metadata.access | No/Yes |
+
+#### Metadata Requirements for Import
+- **Minimum Required**: `metadata.name` field
+- **Recommended**: All fixed metadata fields
+- **Custom Fields**: Preserved if matching schema
+- **Template Derivation**: `derived-from` links maintained
+
+#### FAIR Compliance in Export
+When exporting for repository submission:
+1. Ensure all required metadata fields populated (see {{cross-ref:editor-notebook-info}})
+2. Include RAiD if available
+3. Set appropriate access levels
+4. Verify standard compliance fields (ADS, Darwin Core, tDAR)
+
+**Required Permissions**: 
+- Export data: `PROJECT_MANAGER` or higher (see {{cross-ref:roles-permissions-reference}})
+- Export with metadata: `PROJECT_MANAGER` or higher
+- Bulk export: `GENERAL_ADMIN`
+
 ### Export Validation Checklist
 - [ ] Null values export correctly
 - [ ] Special characters preserved
@@ -447,6 +479,9 @@ Automatically escaped per JSON specification:
 - [ ] Meta properties included
 - [ ] Unicode preserved
 - [ ] Large datasets work
+- [ ] Notebook metadata preserved (JSON only)
+- [ ] FAIR compliance fields included
+- [ ] Access restrictions honored
 
 ---
 

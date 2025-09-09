@@ -75,7 +75,7 @@ This document provides parametric workflow recipes for common Dashboard operatio
 - {{START_DATE}}: Project start date
 
 ### Prerequisites
-- [ ] Organisation Administrator or System Administrator role
+- [ ] Organisation Administrator or System Administrator role ({{cross-ref:roles-permissions-reference:GENERAL_ADMIN}})
 - [ ] List of team member emails
 - [ ] Template design completed or selected
 - [ ] Site list prepared
@@ -83,6 +83,7 @@ This document provides parametric workflow recipes for common Dashboard operatio
 ### Steps
 
 #### Phase 1: Team Creation
+**Required Role**: `GENERAL_ADMIN` (see {{cross-ref:roles-permissions-reference}})
 1. Navigate to **Teams** section
 2. Click **Create Team** button
 3. Enter details:
@@ -92,6 +93,7 @@ This document provides parametric workflow recipes for common Dashboard operatio
 5. ✓ Team created and visible in list
 
 #### Phase 2: Add Team Members
+**Required Role**: `TEAM_ADMIN` or `GENERAL_ADMIN` (see {{cross-ref:roles-permissions-reference}})
 6. Open team: Click **{{TEAM_NAME}}** from Teams list
 7. Go to **Users** tab
 8. For each of {{TEAM_SIZE}} members:
@@ -104,6 +106,7 @@ This document provides parametric workflow recipes for common Dashboard operatio
 9. ✓ All members added to team
 
 #### Phase 3: Create or Select Template
+**Required Role**: `TEMPLATE_CREATOR` or `GENERAL_CREATOR` (see {{cross-ref:roles-permissions-reference}})
 10. Go to **Templates** tab
 11. Either:
     - **Option A**: Click existing "{{TEMPLATE_NAME}}"
@@ -116,6 +119,7 @@ This document provides parametric workflow recipes for common Dashboard operatio
 13. ✓ Template ready for deployment
 
 #### Phase 4: Deploy Notebooks
+**Required Role**: `GENERAL_CREATOR` or team member with notebook creation rights (see {{cross-ref:roles-permissions-reference}})
 14. Go to **Notebooks** tab
 15. For each of {{NUM_SITES}} sites:
     - Click **Create Notebook**
@@ -126,14 +130,15 @@ This document provides parametric workflow recipes for common Dashboard operatio
 16. ✓ All notebooks deployed
 
 #### Phase 5: Configure Permissions
+**Required Role**: `PROJECT_ADMIN` on each notebook (see {{cross-ref:roles-permissions-reference}})
 17. For each notebook:
     - Open notebook
     - Go to **Users** tab
     - Verify team members have access
     - Adjust roles if needed:
-      - Site supervisors → Notebook Administrator
-      - Field workers → Data Collector
-      - QA staff → Data Reviewer
+      - Site supervisors → `PROJECT_ADMIN`
+      - Field workers → `PROJECT_CONTRIBUTOR`
+      - QA staff → `PROJECT_MANAGER`
 18. ✓ Permissions configured
 
 ### Validation Checklist
@@ -164,7 +169,7 @@ This document provides parametric workflow recipes for common Dashboard operatio
 - {{TRAINING_NOTEBOOK}}: Practice notebook name
 
 ### Prerequisites
-- [ ] Notebook Administrator role for target notebooks
+- [ ] `PROJECT_ADMIN` role for target notebooks ({{cross-ref:roles-permissions-reference}})
 - [ ] User email list prepared
 - [ ] Roles determined for each user
 - [ ] Training materials ready

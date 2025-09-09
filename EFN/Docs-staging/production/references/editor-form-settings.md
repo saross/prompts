@@ -58,13 +58,15 @@ Form Settings is a configuration panel within the Notebook Editor that controls 
 **Type**: `enum`  
 **Default**: `"always"`
 
+{{cross-ref:dynamic-forms-guide:validation-timing}} The `publishButtonBehaviour` setting directly affects when validation rules are enforced and how conditional logic interacts with form completion.
+
 #### Available Options
 
 | Value | UI Display | Description | Use Case |
 |-------|------------|-------------|----------|
 | `"always"` | Always Show | Finish button always visible | Rapid data entry, drafts OK |
 | `"visited"` | Show Once All Sections Visited | Requires visiting all tabs/sections | Training, ensure completeness |
-| `"noErrors"` | Show Only When No Errors Exist | Requires valid data in all fields | Critical data, quality control |
+| `"noErrors"` | Show Only When No Errors Exist | Requires valid data in all fields {{cross-ref:dynamic-forms-guide:validation-rules}} | Critical data, quality control |
 
 #### JSON Structure
 ```json
@@ -496,12 +498,108 @@ const formSettingsChecklist = {
 
 ---
 
+## Complete JSON Examples {important}
+
+### Archaeological Survey Notebook
+Complete viewset configuration for field data collection:
+
+```json
+{
+  "ui-specification": {
+    "viewsets": {
+      "archaeological-finds": {
+        "publishButtonBehaviour": "visited",
+        "layout": "tabs",
+        "summary_fields": ["find-id", "find-type", "location", "date"],
+        "hridField": "find-id"
+      },
+      "site-context": {
+        "publishButtonBehaviour": "noErrors",
+        "layout": "inline",
+        "summary_fields": ["context-id", "trench", "layer"],
+        "hridField": "context-id"
+      }
+    }
+  }
+}
+```
+
+### Environmental Monitoring
+Configuration for data quality-critical monitoring:
+
+```json
+{
+  "ui-specification": {
+    "viewsets": {
+      "water-quality": {
+        "publishButtonBehaviour": "noErrors",
+        "layout": "inline",
+        "summary_fields": ["sample-id", "location", "ph", "timestamp"],
+        "hridField": "sample-id"
+      },
+      "observations": {
+        "publishButtonBehaviour": "always",
+        "layout": "tabs",
+        "summary_fields": ["obs-id", "observer", "species", "count"],
+        "hridField": null
+      }
+    }
+  }
+}
+```
+
+### Training Notebook
+Settings ensuring complete data collection during training:
+
+```json
+{
+  "ui-specification": {
+    "viewsets": {
+      "practice-form": {
+        "publishButtonBehaviour": "visited",
+        "layout": "tabs",
+        "summary_fields": ["trainee", "exercise", "score"],
+        "hridField": null
+      }
+    }
+  }
+}
+```
+
+### Integration with Field Definitions
+Form Settings work in conjunction with field properties:
+
+```json
+{
+  "fields": {
+    "survey-id": {
+      "type-name": "TemplatedStringField",
+      "template": "{{PROJECT}}-{{SITE}}-{{_INCREMENT}}",
+      "is_identifier": true
+    }
+  },
+  "ui-specification": {
+    "viewsets": {
+      "survey-form": {
+        "hridField": "survey-id",
+        "publishButtonBehaviour": "visited",
+        "summary_fields": ["survey-id", "date", "team-leader"]
+      }
+    }
+  }
+}
+```
+
+---
+
 ## Cross-References {important}
 
 ### Core Documentation
 → [Form Structure Guide](../patterns/form-structure-guide.md) - Viewset architecture and hierarchy  
 → [Designer Component Mapping](./designer-component-mapping.md) - UI to JSON property mappings  
 → [Notebook Format Guide](./notebook-format-guide.md) - Complete JSON structure reference  
+→ {{cross-ref:editor-notebook-info}} - Metadata configuration for notebooks  
+→ {{cross-ref:roles-permissions-reference}} - Required permissions for Editor access  
 → [Glossary](./glossary.md) - Term definitions and concepts  
 → [Troubleshooting Index](./troubleshooting-index.md) - General error solutions  
 
@@ -511,9 +609,9 @@ const formSettingsChecklist = {
 → [Field Selection Guide](../patterns/field-selection-guide.md) - Choosing appropriate fields  
 
 ### Related Patterns
-→ [Dynamic Forms Guide](../patterns/dynamic-forms-guide.md) - Conditional logic with form settings  
+→ [Dynamic Forms Guide](../patterns/dynamic-forms-guide.md) - Validation rules and conditional logic that interact with `publishButtonBehaviour`  
 → [Implementation Patterns](../patterns/implementation-patterns-guide.md) - Common notebook patterns  
-→ [Notebook Templates](./notebook-templates.md) - Complete working examples  
+→ [Notebook Templates](./notebook-templates.md) - Complete working examples showing Form Settings in context  
 
 ### Validation and Testing
 → [Constraints Reference](./constraints-reference.md) - System limitations  

@@ -694,6 +694,8 @@ console.log(`Validation took ${performance.now() - start}ms`);
 
 - [Form Structure Guide](./form-structure-guide.md) - Form architecture and navigation
 - [Field Selection Guide](./field-selection-guide.md) - Choosing appropriate fields
+- {{cross-ref:editor-form-settings}} - Form Settings configuration including `publishButtonBehaviour` which controls validation enforcement
+- {{cross-ref:editor-notebook-info}} - Notebook metadata that can be used in conditional logic
 - [Implementation Patterns Guide](./implementation-patterns-guide.md) - Common patterns
 - [Component Reference](../references/component-reference.md) - Technical details
 - [Platform Reference](../references/platform-reference.md) - Device-specific behavior

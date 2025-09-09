@@ -31,8 +31,11 @@ see-also: [field-type-index, all-documents]
 | **Decision trees for field selection** | field-selection-guide.md | patterns/ |
 | **Complete notebook structure** | notebook-format-guide.md | references/ |
 | **Platform-specific limitations** | platform-reference.md | references/ |
-| **Error messages and solutions** | troubleshooting-index.md | references/ (to be created) |
+| **Error messages and solutions** | troubleshooting-index.md | references/ |
 | **Working notebook examples** | notebook-templates.md | references/ (to be created) |
+| **Form completion settings** | editor-form-settings.md | references/ |
+| **Notebook metadata config** | editor-notebook-info.md | references/ |
+| **Permission system** | roles-permissions-reference.md | references/ |
 | **Security vulnerabilities** | constraints-reference.md | references/ |
 | **Migration procedures** | operations-reference.md | references/ |
 | **Form structure patterns** | form-structure-guide.md | patterns/ |
@@ -90,6 +93,10 @@ see-also: [field-type-index, all-documents]
 | **operations-reference.md** | Migration & troubleshooting | MEDIUM | 787 |
 | **platform-reference.md** | Platform-specific issues | MEDIUM | 656 |
 | **notebook-format-guide.md** | JSON structure requirements | HIGH | 198 |
+| **editor-form-settings.md** | Form behaviour configuration | HIGH | 655 |
+| **editor-notebook-info.md** | Metadata and FAIR compliance | HIGH | 610 |
+| **roles-permissions-reference.md** | Complete permission system | HIGH | 561 |
+| **troubleshooting-index.md** | Error resolution matrix | HIGH | 630 |
 | **file-organization-guide.md** | Project structure | LOW | 135 |
 | **field-type-index.md** | Navigation only | LOW | 81 |
 
@@ -107,6 +114,10 @@ see-also: [field-type-index, all-documents]
 | **Mobile Support** | platform-reference | media-fields, location-fields |
 | **Relationships** | relationship-field | form-structure-guide |
 | **Templates** | text-fields (TemplatedString) | implementation-patterns |
+| **Form Completion** | editor-form-settings | dynamic-forms-guide |
+| **Metadata Standards** | editor-notebook-info | FAIR compliance guides |
+| **Permissions** | roles-permissions-reference | dashboard interfaces |
+| **Troubleshooting** | troubleshooting-index | All field docs |
 
 ### By Task
 
@@ -117,6 +128,10 @@ see-also: [field-type-index, all-documents]
 | **Implement validation** | dynamic-forms-guide + field-specific docs |
 | **Add GPS capture** | location-fields-v05 + platform-reference |
 | **Set up new project** | dashboard-patterns + teams-interface + templates-interface |
+| **Configure form completion** | editor-form-settings + dynamic-forms-guide |
+| **Set up metadata** | editor-notebook-info + FAIR standards |
+| **Manage permissions** | roles-permissions-reference + users-interface |
+| **Debug errors** | troubleshooting-index + field-specific docs |
 | **Manage user permissions** | users-interface + notebooks-interface |
 | **Deploy template** | templates-interface + notebooks-interface |
 | **Troubleshoot UI issues** | dashboard-troubleshooting + troubleshooting-index |
@@ -151,6 +166,26 @@ platform-reference.md
 constraints-reference.md
     ├── Security context for all fields
     └── Designer limitations affect all components
+
+editor-form-settings.md
+    ├── Controls form completion behaviour
+    ├── Integrates with dynamic-forms-guide
+    └── Affects validation enforcement
+
+editor-notebook-info.md
+    ├── Defines metadata standards
+    ├── Enables FAIR compliance
+    └── Controls QR search and access
+
+roles-permissions-reference.md
+    ├── Defines all access control
+    ├── Referenced by all dashboard docs
+    └── Virtual roles from team membership
+
+troubleshooting-index.md
+    ├── Aggregates all error solutions
+    ├── References all field docs
+    └── Links to platform-specific issues
 ```
 
 ## Navigation Keywords
@@ -170,12 +205,19 @@ constraints-reference.md
 - "validation not working", "conditional visibility"
 - "GPS not available", "photo upload failed"
 - "Designer vs JSON names", "component namespace"
+- "finish button not appearing", "HRID shows as rec-xxxxx"
+- "can't create notebook", "permission denied"
+- "custom field not saving", "QR code not working"
 
 ### Key Concepts
 - fviews, viewsets, ui-specification
 - component-namespace, component-name, type-returned
 - validationSchema, initialValue, component-parameters
 - HRID, TemplatedString, Mustache syntax
+- publishButtonBehaviour, summary_fields, hridField
+- notebook_metadata, record_metadata, field_metadata
+- GENERAL_CREATOR, PROJECT_MANAGER, virtual roles
+- FAIR compliance, RAiD, Darwin Core, ADS standards
 
 ## Usage in LLM Context
 

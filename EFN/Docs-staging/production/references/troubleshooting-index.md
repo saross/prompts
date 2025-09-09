@@ -36,6 +36,14 @@ see-also: [notebook-format-guide, constraints-reference, platform-reference]
 | "Network error" | Offline with online-only field | Check platform requirements | [Platform Issues](#platform-issues) |
 | "GPS not available" | Web browser limitation | Use mobile app for GPS | [Mobile-Only Features](#mobile-only-features) |
 | "File too large" | Exceeds upload limit | Reduce file size or compress | [File Upload Issues](#file-upload-issues) |
+| "Finish button not appearing" | publishButtonBehaviour config | Check Form Settings configuration | [Form Settings Issues](#form-settings-issues) |
+| "HRID shows as rec-xxxxx" | No hridField configured | Configure HRID in Form Settings | [Form Settings Issues](#form-settings-issues) |
+| "Summary fields not showing" | Empty summary_fields array | Select fields in Form Settings | [Form Settings Issues](#form-settings-issues) |
+| "Custom field not saving" | Duplicate or reserved name | Use unique field name | [Notebook Info Issues](#notebook-info-issues) |
+| "QR Code search not working" | Not enabled in metadata | Enable in Notebook Info page | [Notebook Info Issues](#notebook-info-issues) |
+| "Can't create notebook" | Missing GENERAL_CREATOR role | Grant role in Users interface | [Permission Issues](#permission-issues) |
+| "Can't edit notebook structure" | Missing PROJECT_MANAGER role | Add as notebook manager | [Permission Issues](#permission-issues) |
+| "Can't see team notebooks" | Not team member | Add user to team | [Permission Issues](#permission-issues) |
 
 ---
 
@@ -346,6 +354,177 @@ Features that ONLY work on mobile apps:
 "hridField": "record-id"
 ```
 
+### Form Settings Issues
+
+#### Problem: Finish button not appearing
+**Symptom**: Can't complete/save form despite filling all fields  
+**Causes and Solutions**:
+
+| publishButtonBehaviour Setting | Solution |
+|-------------------------------|----------|
+| `"visited"` | Visit all form sections/tabs |
+| `"noErrors"` | Fix all validation errors (check console) |
+| Missing/undefined | Set to `"always"` in Form Settings |
+
+**Debug Commands**:
+```javascript
+console.log(viewset.publishButtonBehaviour);  // Check current setting
+console.log(visitedSections);  // For "visited" mode
+console.log(formik.errors);  // For "noErrors" mode
+```
+
+#### Problem: HRID shows as "rec-xxxxx"
+**Symptom**: Records display with UUID fragments instead of human-readable IDs  
+**Solutions**:
+
+1. **Configure hridField in Form Settings**:
+   - Editor → Design → Form Settings
+   - Select field from "HRID Field" dropdown
+   
+2. **Ensure selected field is required**:
+   ```json
+   {
+     "survey-id": {
+       "component-parameters": {
+         "required": true,
+         "name": "survey-id"
+       }
+     }
+   }
+   ```
+
+3. **Use TemplatedStringField for auto-generation**:
+   ```json
+   {
+     "component-name": "TemplatedStringField",
+     "component-parameters": {
+       "template": "{{PROJECT}}-{{_INCREMENT}}"
+     }
+   }
+   ```
+
+#### Problem: Summary fields not showing in record table
+**Symptom**: Record list table has no columns or wrong columns  
+**Solutions**:
+
+1. Check summary_fields configuration:
+   ```javascript
+   console.log(viewset.summary_fields);  // Should be array of field IDs
+   ```
+
+2. Verify field IDs are correct:
+   - Must match exact field IDs from current viewset
+   - Cannot reference fields from other viewsets
+   
+3. Use Editor UI to select fields:
+   - Editor → Design → Form Settings → Summary Fields
+   - Maximum 4 fields recommended for performance
+
+### Notebook Info Issues
+
+#### Problem: Custom metadata field not saving
+**Symptom**: Added custom field disappears or shows error  
+**Causes and Solutions**:
+
+| Cause | Solution | Example |
+|-------|----------|---------|
+| Duplicate field name | Use unique name | `custom_project_code` not `name` |
+| Reserved field name | Avoid fixed fields | Don't use `raid`, `contributors` |
+| Special characters | Use alphanumeric + underscore | `project_2025` not `project-2025` |
+| Empty field name | Provide valid name | Cannot be blank |
+
+**Valid Field Name Pattern**: `^[a-zA-Z0-9_]+$`
+
+#### Problem: QR Code search not working
+**Symptom**: QR button missing or disabled  
+**Solutions**:
+
+1. **Enable in Notebook Info page**:
+   ```json
+   {
+     "metadata": {
+       "showQRCodeButton": "true"
+     }
+   }
+   ```
+
+2. **Add QRCodeFormField to notebook**:
+   ```json
+   {
+     "barcode-field": {
+       "component-name": "QRCodeFormField",
+       "component-namespace": "faims-custom"
+     }
+   }
+   ```
+
+3. **Platform limitations**:
+   - Mobile-only feature (iOS/Android)
+   - Desktop: Provide TextField fallback
+
+#### Problem: Description formatting lost
+**Symptom**: Markdown not rendering, appears as plain text  
+**Solutions**:
+
+| Issue | Fix | Example |
+|-------|-----|---------|
+| Missing blank lines | Add before/after markdown blocks | `\n\n## Heading\n\n` |
+| Invalid markdown | Check syntax | Use `**bold**` not `<b>bold</b>` |
+| HTML stripped | Use markdown only | Convert HTML to markdown |
+
+### Permission Issues
+
+#### Problem: Can't create notebook
+**Symptom**: No "Create Notebook" button or fails with permission error  
+**Solution Path**:
+
+1. Check global roles: Dashboard → Users → [Your User]
+2. Need: `GENERAL_CREATOR` or `TEMPLATE_CREATOR`
+3. Request from: System administrator
+
+#### Problem: Can't edit notebook structure
+**Symptom**: Editor tab missing or read-only  
+**Solution Path**:
+
+1. Check notebook role: Notebooks → [Notebook] → Users
+2. Need: `PROJECT_MANAGER` or higher
+3. Request from: Notebook admin or creator
+
+#### Problem: Can't see team notebooks
+**Symptom**: Team notebooks not appearing in list  
+**Causes and Solutions**:
+
+| Cause | Check | Solution |
+|-------|-------|----------|
+| Not team member | Teams → [Team] → Users | Request team membership |
+| Team role too low | Check team role | Need TEAM_CONTRIBUTOR+ |
+| Notebook not shared | Notebook → Users | Ask notebook owner to add team |
+
+#### Problem: Permission debugging flowchart
+```
+Permission denied?
+│
+├─ Global role issue?
+│  └─ Dashboard → Users → [User] → Roles
+│
+├─ Team role issue?
+│  └─ Teams → [Team] → Users → Check role
+│
+├─ Notebook role issue?
+│  └─ Notebooks → [Notebook] → Users → Check role
+│
+└─ Virtual role from team?
+   └─ Check if team has notebook access
+```
+
+**Quick Permission Check Commands** (for developers):
+```javascript
+// Check current user permissions
+console.log(currentUser.roles);  // Global roles
+console.log(currentUser.teams);  // Team memberships
+console.log(notebook.users[currentUser.id]);  // Notebook role
+```
+
 ---
 
 ## Validation Error Decoder
@@ -415,11 +594,21 @@ Features that ONLY work on mobile apps:
 
 ## Related Documentation
 
+### Core References
 - [Notebook Format Guide](./notebook-format-guide.md) - Complete structure requirements
 - [Complete Notebook Templates](./notebook-templates.md) - Working examples
 - [Designer Component Mapping](./designer-component-mapping.md) - Component reference
 - [Platform Reference](./platform-reference.md) - Platform-specific issues
 - [Constraints Reference](./constraints-reference.md) - System limitations
+
+### Editor Configuration
+- {{cross-ref:editor-form-settings}} - Form Settings troubleshooting source
+- {{cross-ref:editor-notebook-info}} - Notebook Info troubleshooting source
+- {{cross-ref:roles-permissions-reference}} - Permission issues source
+
+### Patterns and Guides
+- [Dynamic Forms Guide](../patterns/dynamic-forms-guide.md) - Validation and conditional logic
+- [Form Structure Guide](../patterns/form-structure-guide.md) - Form architecture issues
 
 ---
 
