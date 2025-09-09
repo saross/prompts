@@ -120,8 +120,11 @@ see-also: [field-type-index, all-documents]
 | **Decision trees for field selection** | field-selection-guide.md | patterns/ |
 | **Complete notebook structure** | notebook-format-guide.md | references/ |
 | **Platform-specific limitations** | platform-reference.md | references/ |
-| **Error messages and solutions** | troubleshooting-index.md | references/ (to be created) |
+| **Error messages and solutions** | troubleshooting-index.md | references/ |
 | **Working notebook examples** | notebook-templates.md | references/ (to be created) |
+| **Form completion settings** | editor-form-settings.md | references/ |
+| **Notebook metadata config** | editor-notebook-info.md | references/ |
+| **Permission system** | roles-permissions-reference.md | references/ |
 | **Security vulnerabilities** | constraints-reference.md | references/ |
 | **Migration procedures** | operations-reference.md | references/ |
 | **Form structure patterns** | form-structure-guide.md | patterns/ |
@@ -142,8 +145,8 @@ see-also: [field-type-index, all-documents]
 | **dashboard-overview.md** | System architecture | • Navigation structure<br>• Role hierarchy<br>• Permission inheritance<br>• Platform overview | 312 |
 | **templates-interface.md** | Template management | • Designer usage<br>• Field configuration<br>• Version control<br>• JSON export/import | 446 |
 | **notebooks-interface.md** | Data collection | • Deployment process<br>• User management<br>• Record workflow<br>• Export options | 525 |
-| **users-interface.md** | User administration | • System roles<br>• Permission matrix<br>• Activity tracking<br>• Email verification | 498 |
-| **teams-interface.md** | Team collaboration | • Resource ownership<br>• Member management<br>• Team roles<br>• Shared templates | 456 |
+| **users-interface.md** | User administration | • System roles<br>• Permission matrix<br>• API token management<br>• Profile access | 850+ |
+| **teams-interface.md** | Team collaboration | • Virtual roles<br>• Team vs notebook invites<br>• 6 tabs documented<br>• Template access | 580+ |
 | **dashboard-patterns.md** | Workflow recipes | • 7 parametric workflows<br>• Project setup<br>• User onboarding<br>• Migration patterns | 578 |
 | **dashboard-troubleshooting.md** | Problem resolution | • 45+ common issues<br>• Error decoder<br>• Diagnostic flowcharts<br>• Emergency procedures | 305 |
 
@@ -168,6 +171,7 @@ see-also: [field-type-index, all-documents]
 | **form-structure-guide.md** | Build multi-section forms | • Viewsets configuration<br>• Navigation patterns<br>• Parent-child forms | 401 |
 | **dynamic-forms-guide.md** | Implement conditional logic | • Visibility rules<br>• Validation patterns<br>• Computed values | 462 |
 | **implementation-patterns-guide.md** | Common patterns | • Error handling<br>• Performance optimisation<br>• Best practices | 419 |
+| **permission-patterns.md** | Access control patterns | • Virtual roles<br>• Token rotation<br>• Invitation strategies<br>• Close/reopen workflow | 250+ |
 
 ### Technical References (`references/`)
 
@@ -179,6 +183,10 @@ see-also: [field-type-index, all-documents]
 | **operations-reference.md** | Migration & troubleshooting | MEDIUM | 787 |
 | **platform-reference.md** | Platform-specific issues | MEDIUM | 656 |
 | **notebook-format-guide.md** | JSON structure requirements | HIGH | 198 |
+| **editor-form-settings.md** | Form behaviour configuration | HIGH | 655 |
+| **editor-notebook-info.md** | Metadata and FAIR compliance | HIGH | 610 |
+| **roles-permissions-reference.md** | Complete permission system<br>40+ actions documented | CRITICAL | 650+ |
+| **troubleshooting-index.md** | Error resolution matrix | HIGH | 630 |
 | **file-organization-guide.md** | Project structure | LOW | 135 |
 | **field-type-index.md** | Navigation only | LOW | 81 |
 
@@ -196,6 +204,10 @@ see-also: [field-type-index, all-documents]
 | **Mobile Support** | platform-reference | media-fields, location-fields |
 | **Relationships** | relationship-field | form-structure-guide |
 | **Templates** | text-fields (TemplatedString) | implementation-patterns |
+| **Form Completion** | editor-form-settings | dynamic-forms-guide |
+| **Metadata Standards** | editor-notebook-info | FAIR compliance guides |
+| **Permissions** | roles-permissions-reference | dashboard interfaces |
+| **Troubleshooting** | troubleshooting-index | All field docs |
 
 ### By Task
 
@@ -206,6 +218,10 @@ see-also: [field-type-index, all-documents]
 | **Implement validation** | dynamic-forms-guide + field-specific docs |
 | **Add GPS capture** | location-fields-v05 + platform-reference |
 | **Set up new project** | dashboard-patterns + teams-interface + templates-interface |
+| **Configure form completion** | editor-form-settings + dynamic-forms-guide |
+| **Set up metadata** | editor-notebook-info + FAIR standards |
+| **Manage permissions** | roles-permissions-reference + users-interface |
+| **Debug errors** | troubleshooting-index + field-specific docs |
 | **Manage user permissions** | users-interface + notebooks-interface |
 | **Deploy template** | templates-interface + notebooks-interface |
 | **Troubleshoot UI issues** | dashboard-troubleshooting + troubleshooting-index |
@@ -240,6 +256,26 @@ platform-reference.md
 constraints-reference.md
     ├── Security context for all fields
     └── Designer limitations affect all components
+
+editor-form-settings.md
+    ├── Controls form completion behaviour
+    ├── Integrates with dynamic-forms-guide
+    └── Affects validation enforcement
+
+editor-notebook-info.md
+    ├── Defines metadata standards
+    ├── Enables FAIR compliance
+    └── Controls QR search and access
+
+roles-permissions-reference.md
+    ├── Defines all access control
+    ├── Referenced by all dashboard docs
+    └── Virtual roles from team membership
+
+troubleshooting-index.md
+    ├── Aggregates all error solutions
+    ├── References all field docs
+    └── Links to platform-specific issues
 ```
 
 ## Navigation Keywords
@@ -259,12 +295,19 @@ constraints-reference.md
 - "validation not working", "conditional visibility"
 - "GPS not available", "photo upload failed"
 - "Designer vs JSON names", "component namespace"
+- "finish button not appearing", "HRID shows as rec-xxxxx"
+- "can't create notebook", "permission denied"
+- "custom field not saving", "QR code not working"
 
 ### Key Concepts
 - fviews, viewsets, ui-specification
 - component-namespace, component-name, type-returned
 - validationSchema, initialValue, component-parameters
 - HRID, TemplatedString, Mustache syntax
+- publishButtonBehaviour, summary_fields, hridField
+- notebook_metadata, record_metadata, field_metadata
+- GENERAL_CREATOR, PROJECT_MANAGER, virtual roles
+- FAIR compliance, RAiD, Darwin Core, ADS standards
 
 ## Usage in LLM Context
 
@@ -21404,6 +21447,49 @@ Breadcrumb navigation shows current location:
 Home > Teams > {{TEAM_NAME}} > Notebooks
 ```
 
+### User Menu {essential}
+
+The user menu provides account management and personalisation options:
+
+#### Location
+- **Position**: Lower-left corner of dashboard
+- **Display**: Shows username and email
+- **Access**: Click username to open menu
+
+#### Menu Options
+
+| Option | Description | Navigation Path |
+|--------|-------------|----------------|
+| **Profile** | Access user profile and settings | Username → Profile |
+| **Log out** | End current session | Username → Log out |
+
+#### User Profile Page
+
+Accessing the Profile option opens the User Profile management page with:
+
+1. **Account Information Section**
+   - Email address (read-only)
+   - Display name
+   - Email verification status
+   - Warning banner if email unverified
+
+2. **Password Management Section**
+   - "Change Password" button
+   - Secure password update form
+   - Password requirements displayed
+
+3. **API Token Management Section**
+   - "Manage Long-Lived Tokens" button
+   - Access to API token creation and management
+   - View existing tokens and their status
+
+**Navigation Example**:
+```
+Click Username (lower-left) → Select "Profile" → View User Profile page
+                                             → Click "Manage Long-Lived Tokens"
+                                             → Create/manage API tokens
+```
+
 ### Action Patterns
 
 Primary actions consistently positioned:
@@ -21799,16 +21885,59 @@ Accessed by clicking a template from the list:
 
 | Tab | Content | Actions |
 |-----|---------|---------|
-| **Details** | Metadata and info | Edit basic information |
+| **Details** | Metadata and info | View template properties |
 | **Notebooks** | Using this template | View deployed notebooks |
-| **History** | Version notes | Track manual versions |
+| **Actions** | Management operations | Edit, Clone, Export, Delete |
 
-#### Available Actions
+#### Details Tab Content
+- Template name and identifier
+- Description of purpose
+- Version number (manually maintained)
+- Author information
+- Creation and modification timestamps
+- Associated team (if applicable)
 
-- **Edit**: Opens Designer with template
-- **Clone**: Creates duplicate for modification
-- **Export**: Downloads as JSON file
-- **Delete**: Remove (if no active notebooks)
+#### Notebooks Tab Content
+- List of all notebooks using this template
+- Notebook names (clickable links)
+- Status indicators (Open/Closed)
+- Record counts
+- Team ownership
+- Deployment dates
+
+#### Actions Tab Operations
+
+1. **Edit Template**
+   - Opens template in the Notebook Editor
+   - Requires TEMPLATE_ADMIN or GENERAL_CREATOR permission
+   - Button label: "Open in Editor"
+
+2. **Assign Template to Team**
+   - Associates template with a team for management
+   - Requires appropriate team permissions
+   - Button label: "Assign Template to Team"
+
+3. **Download JSON**
+   - Exports the complete template definition
+   - Available to all authenticated users
+   - Downloads as .json file
+
+4. **Replace Template JSON File**
+   - Upload new JSON to update template structure
+   - Requires TEMPLATE_ADMIN permission
+   - Validates JSON before replacement
+
+5. **Create Notebook**
+   - Deploy new notebook from this template
+   - Requires GENERAL_CREATOR or team permissions
+   - Button label: "Create Notebook"
+
+6. **Archive Template**
+   - Mark template as archived/inactive
+   - Requires TEMPLATE_ADMIN permission
+   - Archived templates remain accessible but not in active lists
+
+**Note**: Clone operation may be available through Edit or as separate action depending on permissions.
 
 ### Template Testing {important}
 
@@ -22048,6 +22177,8 @@ The notebook creation process requires:
 
 ### Creation Pathways
 
+**Required Role**: `GENERAL_CREATOR` or team member with notebook creation rights ({{cross-ref:roles-permissions-reference}})
+
 #### Path 1: From Template
 ```
 Notebooks > Create Notebook > Select Template > {{TEMPLATE_NAME}}
@@ -22091,55 +22222,6 @@ Displays notebook metadata:
 | **Team** | Owning team | No |
 | **Statistics** | Users, records, activity | No |
 
-### Records Tab {important}
-
-The primary data collection interface:
-
-#### Record List Features
-
-| Feature | Description | Permissions |
-|---------|-------------|-------------|
-| **Filter** | Search records | All users |
-| **Sort** | By date, author, status | All users |
-| **View** | Open record details | Based on role |
-| **Edit** | Modify record | Owner or Admin |
-| **Delete** | Remove record | Owner or Admin |
-| **Export** | Download data | Based on role |
-
-#### Record Information
-
-Each record shows:
-- HRID (Human-Readable Identifier)
-- Creation timestamp
-- Author (username)
-- Status (draft/submitted/reviewed)
-- Last modified
-- Revision count
-
-#### Record Status Workflow
-
-| Status | Description | Who Can Transition |
-|--------|-------------|-------------------|
-| **Draft** | Work in progress | Author |
-| **Submitted** | Ready for review | Author → Reviewer |
-| **Reviewed** | Approved | Reviewer |
-| **Archived** | Historical | Administrator |
-
-#### Export Options {essential}
-
-Current export formats:
-
-1. **CSV Export**
-   - Structured tabular data
-   - All fields as columns
-   - UTF-8 encoding
-   - Includes metadata fields
-
-2. **Photo Archive**
-   - ZIP file containing images
-   - Photos renamed using HRIDs
-   - Fallback: Original filename if no HRID
-   - Maintains folder structure
 
 ### Users Tab {important}
 
@@ -22209,6 +22291,105 @@ Handles pending invitations:
    - User appears in Users list
    - Invitation removed from pending
    - Activity logged
+
+### Export Tab {essential}
+
+Provides data export functionality for notebook content:
+
+#### Export Options by Form/Entity
+
+The Export tab allows selective data export:
+- Choose specific forms/entities to export
+- Select date ranges for filtering
+- Export all data or filtered subsets
+
+#### Available Export Formats
+
+1. **CSV Export**
+   - Structured tabular data
+   - All fields as columns
+   - UTF-8 encoding
+   - Includes metadata fields
+   - One CSV file per form/entity type
+   - Human-readable column headers
+
+2. **Photo Archive**
+   - ZIP file containing all images
+   - Photos renamed using record HRIDs
+   - Organised by form/entity folders
+   - Preserves original file if no HRID
+   - Includes photo metadata CSV
+
+#### Export Process
+
+1. Navigate to notebook → Export tab
+2. Select forms/entities to include
+3. Choose export format (CSV or Photo Archive)
+4. Apply filters if needed (date range, status)
+5. Click "Export" button
+6. Download begins automatically
+
+#### Export Permissions
+
+| Export Type | Required Permission | Notes |
+|-------------|-------------------|--------|
+| CSV Data | PROJECT_MANAGER | Full data access |
+| Photo Archive | PROJECT_MANAGER | Includes all attachments |
+| Filtered Export | PROJECT_CONTRIBUTOR | Own records only |
+
+**Note**: Closed notebooks can still be exported (read-only access).
+
+### Actions Tab {essential}
+
+Provides administrative operations for notebook management:
+
+#### Available Actions
+
+| Action | Description | Permission Required | Notes |
+|--------|-------------|--------------------|---------|
+| **Edit Notebook** | Open in Notebook Editor | PROJECT_MANAGER | Modify structure and settings |
+| **Assign to Team** | Change team ownership | PROJECT_ADMIN | Reassign notebook to different team |
+| **Download JSON** | Export notebook definition | PROJECT_MANAGER | Downloads complete JSON configuration |
+| **Replace JSON File** | Update notebook structure | PROJECT_ADMIN | Replace entire notebook definition |
+| **Close/Open Notebook** | Change notebook status | PROJECT_ADMIN | Toggle between open and closed states |
+
+#### Notebook Status Management {important}
+
+**Status Display**:
+- Shows current status: "Open" or "Closed"
+- Provides explanatory text for each state
+
+**Status Definitions**:
+
+| Status | Description | User Impact | Data Collection |
+|--------|-------------|-------------|------------------|
+| **Open** | Notebook is active and available for data collection on users' devices | Full access | ✅ Enabled |
+| **Closed** | Notebook is read-only. Users will not be able to activate this notebook for data collection | View only | ❌ Disabled |
+
+**Close Notebook Process**:
+1. Navigate to notebook → Actions tab
+2. Review current status (shows "Open")
+3. Click "Close Notebook" button (red, at bottom)
+4. Confirm closure in dialog
+5. Status changes to "Closed"
+
+**Effects of Closing**:
+- Prevents new data collection
+- Existing data remains accessible (read-only)
+- Mobile app users cannot activate notebook
+- Can be reopened at any time
+
+**Reopening a Closed Notebook**:
+1. Navigate to closed notebook → Actions tab
+2. Status shows "Closed"
+3. Click "Open Notebook" button
+4. Notebook immediately available for data collection
+
+**Important Notes**:
+- No separate "archive" state - notebooks are either Open or Closed
+- Closing is reversible - notebooks can be reopened anytime
+- All existing data preserved when closed
+- Export functionality still available when closed
 
 ## Data Collection Workflow {important}
 
@@ -22332,12 +22513,13 @@ Automatically:
 
 ### Permission Problems
 
-| Issue | Cause | Solution |
-|-------|-------|----------|
-| Can't edit records | Wrong role | Request Collector role |
-| Can't invite users | Not admin | Contact notebook admin |
-| Can't see notebook | No access | Request invitation |
-| Can't delete | Not owner/admin | Contact administrator |
+| Issue | Required Role | Solution |
+|-------|--------------|----------|
+| Can't edit records | `PROJECT_CONTRIBUTOR` | Request role from notebook admin ({{cross-ref:roles-permissions-reference}}) |
+| Can't invite users | `PROJECT_ADMIN` | Contact notebook admin ({{cross-ref:roles-permissions-reference}}) |
+| Can't see notebook | Any notebook role | Request invitation from admin |
+| Can't delete notebook | `PROJECT_ADMIN` | Contact notebook administrator |
+| Can't export data | `PROJECT_MANAGER` | Request manager role ({{cross-ref:roles-permissions-reference}}) |
 
 ## Best Practices {important}
 
@@ -22697,6 +22879,219 @@ Check your emails for a verification request. Click here to send another request
 | Invite users | | ✓ |
 | API access | | ✓ |
 
+## User Profile Access {essential}
+
+### Accessing Your Profile
+
+Users can access their profile through the user menu:
+
+1. **Click your username** in the lower-left corner of any dashboard page
+2. **Select "Profile"** from the dropdown menu
+3. **View User Profile page** with account management options
+
+### User Profile Sections
+
+The User Profile page contains three main sections:
+
+| Section | Description | Actions Available |
+|---------|-------------|------------------|
+| **Account Information** | Email, name, verification status | View only |
+| **Password Management** | Password change functionality | Change Password button |
+| **API Token Management** | Long-lived tokens for automation | Manage Long-Lived Tokens button |
+
+### Password Management {important}
+
+Users can change their password directly from the profile:
+
+1. **Navigate to User Profile** (username → Profile)
+2. **Click "Change Password"** button
+3. **Enter current password** for verification
+4. **Enter new password** (must meet security requirements)
+5. **Confirm new password** and save
+
+Password requirements:
+- Minimum 8 characters
+- Mix of upper and lowercase letters
+- At least one number
+- At least one special character
+
+## API Token Management {essential}
+<!-- concat:reference:api-token-management -->
+
+### Overview
+
+Long-lived API tokens enable programmatic access to Fieldmark's APIs for automation, data integration, and external tool connectivity. These tokens are managed through the User Profile interface.
+
+### Accessing Token Management
+
+```
+User Menu (lower-left) → Profile → Manage Long-Lived Tokens
+```
+
+### Token Management Interface {important}
+
+The token management page displays:
+
+| Column | Description | Details |
+|--------|-------------|----------|
+| **Title** | Token name | User-defined identifier |
+| **Description** | Token purpose | What the token is used for |
+| **Status** | Enabled/Disabled | Active state of token |
+| **Created** | Creation timestamp | When token was generated |
+| **Last Used** | Usage timestamp | Most recent API call |
+| **Expires** | Expiry date | When token becomes invalid |
+| **Owner** | Token creator | User who created token |
+| **Actions** | Management options | Edit, Disable, Delete |
+
+### Creating API Tokens {important}
+
+#### Token Creation Process
+
+1. **Navigate to Token Management**
+   ```
+   User Profile → Manage Long-Lived Tokens → Create Long Lived Token
+   ```
+
+2. **Configure Token Settings**
+   
+   | Field | Required | Description | Example |
+   |-------|----------|-------------|----------|
+   | **Title** | Yes | Descriptive name | "Data Export Automation" |
+   | **Description** | Yes | Purpose and usage | "Daily export to analytics platform" |
+   | **Token Duration** | Yes | Expiry setting | 30 days, 60 days, 90 days, or custom |
+
+3. **Set Expiry Date**
+   - **Quick Select**: Predefined durations (30/60/90 days)
+   - **Custom Date**: Specific expiry date (max 90 days)
+   - **No Expiry**: Not available for security reasons
+
+4. **Generate Token**
+   - Click "Create Long-Lived Token"
+   - **CRITICAL**: Copy token immediately
+   - Token shown only once for security
+
+#### Token Display Screen {important}
+
+⚠️ **Important - Save Your Token**
+
+The token creation screen displays:
+- Red warning banner about one-time display
+- Token value with copy button
+- Usage instructions with code examples
+- API endpoint information
+
+Example usage shown:
+```bash
+POST /api/auth/exchange-long-lived-token
+Content-Type: application/json
+
+{"token": "hAeW0aTdbdHB0GMC83IGEop8Vx2ReYMx6lrapmCm..."}
+```
+
+Response format:
+```json
+{
+  "access_token": "Bearer token for API calls"
+}
+```
+
+### Managing Existing Tokens {comprehensive}
+
+#### Token Operations
+
+| Operation | Description | Process | Notes |
+|-----------|-------------|---------|--------|
+| **View Details** | See token information | Click token row | Shows metadata only |
+| **Edit Token** | Update title/description | Actions → Edit | Cannot change expiry |
+| **Disable Token** | Temporarily deactivate | Actions → Disable | Reversible action |
+| **Enable Token** | Reactivate disabled token | Actions → Enable | Restores access |
+| **Delete Token** | Permanently remove | Actions → Delete | Irreversible, requires confirmation |
+
+#### Token Security Features
+
+1. **One-Time Display**
+   - Token value shown only at creation
+   - Cannot be retrieved later
+   - Must be stored securely by user
+
+2. **Expiry Enforcement**
+   - Maximum duration: 90 days
+   - Automatic invalidation at expiry
+   - Cannot extend existing tokens
+
+3. **Activity Tracking**
+   - Last used timestamp updated
+   - Usage patterns monitored
+   - Suspicious activity flagged
+
+4. **Permission Requirements**
+   - Requires `CREATE_LONG_LIVED_TOKEN` permission
+   - Standard users may need admin approval
+   - Organisation policies apply
+
+### Token Usage Best Practices {comprehensive}
+
+#### Security Guidelines
+
+1. **Storage**
+   - Never commit tokens to version control
+   - Use environment variables or secure vaults
+   - Encrypt tokens at rest
+
+2. **Rotation**
+   - Regular token rotation (monthly recommended)
+   - Replace before expiry
+   - Delete unused tokens
+
+3. **Scope**
+   - Create separate tokens for different purposes
+   - Use descriptive names
+   - Document token usage
+
+4. **Monitoring**
+   - Review token activity regularly
+   - Investigate unusual patterns
+   - Disable suspicious tokens immediately
+
+#### Integration Patterns
+
+| Use Case | Token Strategy | Rotation Frequency |
+|----------|---------------|--------------------|
+| **CI/CD Pipeline** | Per-environment tokens | Monthly |
+| **Data Export** | Task-specific tokens | Quarterly |
+| **External Integration** | Per-service tokens | Monthly |
+| **Development Testing** | Short-lived tokens | Weekly |
+| **Production Automation** | Monitored tokens | Monthly |
+
+### Troubleshooting API Tokens {comprehensive}
+
+| Issue | Cause | Solution |
+|-------|-------|----------|
+| Token not working | Expired or disabled | Check status, create new if needed |
+| Cannot create token | Missing permission | Request `CREATE_LONG_LIVED_TOKEN` role |
+| Token limit reached | Maximum tokens exceeded | Delete unused tokens |
+| Authentication fails | Incorrect usage | Review API documentation |
+| Token compromised | Security breach | Delete immediately, audit usage |
+
+### API Token Permissions {important}
+
+Tokens inherit the permissions of the creating user:
+
+| User Role | Token Capabilities |
+|-----------|-------------------|
+| **System Admin** | Full API access |
+| **Organisation Admin** | Organisation-wide operations |
+| **Template Designer** | Template and notebook operations |
+| **Standard User** | Limited to user's permissions |
+
+**Note**: Tokens cannot exceed the creator's permission level.
+
+### Automation Guide
+
+For practical automation examples using API tokens:
+→ [Basic Automation Guide](../advanced/automation-basics.md) - Common tasks without programming
+→ {{cross-ref:automation-basics}} - Practical examples for power users
+
 ## Best Practices {important}
 
 ### Role Assignment Strategy
@@ -22983,6 +23378,50 @@ Manages team membership invitations:
 | **Accepted** | User joined | View in Users |
 | **Expired** | Time limit passed | Resend |
 
+#### Understanding Team vs Notebook Invites {essential}
+
+**When to use Team Invites:**
+- Grant access to ALL team resources (notebooks, templates)
+- Provide template access (only available through teams)
+- Establish organisational hierarchy
+- Manage groups of related notebooks
+
+**When to use Notebook Invites:**
+- Grant access to specific notebooks only
+- Temporary or limited collaboration
+- External users who shouldn't see other team resources
+- Fine-grained permission control
+
+**Critical**: Templates can ONLY be accessed through team membership.
+
+#### Virtual Roles - Automatic Access {essential}
+
+Team membership automatically grants virtual roles on ALL team resources:
+
+| Team Role | Virtual Notebook Role | Virtual Template Role | Effect |
+|-----------|----------------------|----------------------|--------|
+| **Team Member** | PROJECT_CONTRIBUTOR | TEMPLATE_GUEST | Create/edit records in all team notebooks |
+| **Team Manager** | PROJECT_MANAGER | TEMPLATE_GUEST | Manage all team notebook structures |
+| **Team Admin** | PROJECT_ADMIN | TEMPLATE_ADMIN | Full control of all team resources |
+
+**Example**: Adding someone as Team Member to a team with 5 notebooks automatically grants PROJECT_CONTRIBUTOR on all 5, plus any future notebooks.
+
+#### Permission Requirements for Invites
+
+| Inviting Role | Who Can Send | Notes |
+|---------------|--------------|--------|
+| Team Member | Team Manager+ | Standard collaboration |
+| Team Manager | Team Manager+ | Delegation allowed |
+| Team Admin | GENERAL_ADMIN only | Elevation restricted |
+
+#### Best Practices
+
+- **Default to Team Member** role (least privilege)
+- **Review team resources** before inviting (user gets access to all)
+- **Use team invites** for template access and consistent permissions
+- **Use notebook invites** for granular, temporary access
+- **Document** admin/manager role assignments
+
 ### Notebooks Tab {important}
 
 Team-owned notebooks management:
@@ -23106,6 +23545,35 @@ Only two team-specific roles:
 - View member list
 - Clone templates
 - Create records
+
+### Edit Tab {important}
+
+Allows team administrators to modify team properties:
+
+#### Editable Fields
+
+| Field | Description | Validation |
+|-------|-------------|------------|
+| **Team Name** | Display name | Must be unique |
+| **Description** | Team purpose and details | Optional, markdown supported |
+| **Team Settings** | Configuration options | Based on permissions |
+
+#### Edit Permissions
+
+- Only Team Administrators can access Edit tab
+- Changes take effect immediately
+- Name changes update all references
+- Activity logged for audit trail
+
+#### Edit Process
+
+1. Navigate to team → Edit tab
+2. Modify desired fields
+3. Click "Save Changes"
+4. Confirmation message appears
+5. Changes reflected across system
+
+**Note**: Team name changes affect all associated notebooks and templates.
 
 #### Member Management Actions
 
@@ -23374,7 +23842,7 @@ This document provides parametric workflow recipes for common Dashboard operatio
 - {{START_DATE}}: Project start date
 
 ### Prerequisites
-- [ ] Organisation Administrator or System Administrator role
+- [ ] Organisation Administrator or System Administrator role ({{cross-ref:roles-permissions-reference:GENERAL_ADMIN}})
 - [ ] List of team member emails
 - [ ] Template design completed or selected
 - [ ] Site list prepared
@@ -23382,6 +23850,7 @@ This document provides parametric workflow recipes for common Dashboard operatio
 ### Steps
 
 #### Phase 1: Team Creation
+**Required Role**: `GENERAL_ADMIN` (see {{cross-ref:roles-permissions-reference}})
 1. Navigate to **Teams** section
 2. Click **Create Team** button
 3. Enter details:
@@ -23391,6 +23860,7 @@ This document provides parametric workflow recipes for common Dashboard operatio
 5. ✓ Team created and visible in list
 
 #### Phase 2: Add Team Members
+**Required Role**: `TEAM_ADMIN` or `GENERAL_ADMIN` (see {{cross-ref:roles-permissions-reference}})
 6. Open team: Click **{{TEAM_NAME}}** from Teams list
 7. Go to **Users** tab
 8. For each of {{TEAM_SIZE}} members:
@@ -23403,6 +23873,7 @@ This document provides parametric workflow recipes for common Dashboard operatio
 9. ✓ All members added to team
 
 #### Phase 3: Create or Select Template
+**Required Role**: `TEMPLATE_CREATOR` or `GENERAL_CREATOR` (see {{cross-ref:roles-permissions-reference}})
 10. Go to **Templates** tab
 11. Either:
     - **Option A**: Click existing "{{TEMPLATE_NAME}}"
@@ -23415,6 +23886,7 @@ This document provides parametric workflow recipes for common Dashboard operatio
 13. ✓ Template ready for deployment
 
 #### Phase 4: Deploy Notebooks
+**Required Role**: `GENERAL_CREATOR` or team member with notebook creation rights (see {{cross-ref:roles-permissions-reference}})
 14. Go to **Notebooks** tab
 15. For each of {{NUM_SITES}} sites:
     - Click **Create Notebook**
@@ -23425,14 +23897,15 @@ This document provides parametric workflow recipes for common Dashboard operatio
 16. ✓ All notebooks deployed
 
 #### Phase 5: Configure Permissions
+**Required Role**: `PROJECT_ADMIN` on each notebook (see {{cross-ref:roles-permissions-reference}})
 17. For each notebook:
     - Open notebook
     - Go to **Users** tab
     - Verify team members have access
     - Adjust roles if needed:
-      - Site supervisors → Notebook Administrator
-      - Field workers → Data Collector
-      - QA staff → Data Reviewer
+      - Site supervisors → `PROJECT_ADMIN`
+      - Field workers → `PROJECT_CONTRIBUTOR`
+      - QA staff → `PROJECT_MANAGER`
 18. ✓ Permissions configured
 
 ### Validation Checklist
@@ -23463,7 +23936,7 @@ This document provides parametric workflow recipes for common Dashboard operatio
 - {{TRAINING_NOTEBOOK}}: Practice notebook name
 
 ### Prerequisites
-- [ ] Notebook Administrator role for target notebooks
+- [ ] `PROJECT_ADMIN` role for target notebooks ({{cross-ref:roles-permissions-reference}})
 - [ ] User email list prepared
 - [ ] Roles determined for each user
 - [ ] Training materials ready
@@ -23574,7 +24047,7 @@ This document provides parametric workflow recipes for common Dashboard operatio
 
 #### Phase 5: Cutover
 15. On {{MIGRATION_DATE}}:
-    - Archive old notebooks
+    - Close old notebooks
     - Redirect users to new versions
     - Monitor for issues
 16. ✓ Migration complete
@@ -23771,7 +24244,7 @@ This document provides parametric workflow recipes for common Dashboard operatio
     - User access
     - Data integrity
 12. When satisfied:
-    - Archive corrupted notebook
+    - Close corrupted notebook
     - Rename recovery to original
 13. ✓ Recovery complete
 
@@ -24283,7 +24756,7 @@ When conflicts occur:
 - [ ] Check network speed
 - [ ] Try different browser
 - [ ] Disable browser extensions
-- [ ] Archive old notebooks
+- [ ] Close unused notebooks
 
 ### Browser-Specific Issues
 
@@ -26306,6 +26779,8 @@ console.log(`Validation took ${performance.now() - start}ms`);
 
 - [Form Structure Guide](./form-structure-guide.md) - Form architecture and navigation
 - [Field Selection Guide](./field-selection-guide.md) - Choosing appropriate fields
+- {{cross-ref:editor-form-settings}} - Form Settings configuration including `publishButtonBehaviour` which controls validation enforcement
+- {{cross-ref:editor-notebook-info}} - Notebook metadata that can be used in conditional logic
 - [Implementation Patterns Guide](./implementation-patterns-guide.md) - Common patterns
 - [Component Reference](../references/component-reference.md) - Technical details
 - [Platform Reference](../references/platform-reference.md) - Device-specific behavior
@@ -26990,6 +27465,359 @@ async function writeData(doc) {
 
 <!-- concat:boundary:end section="implementation-patterns-guide" -->
 
+<!-- concat:pattern:permission-patterns -->
+# Permission Patterns
+
+**Purpose**: Common permission and access control patterns in Fieldmark  
+**Audience**: Administrators, notebook managers  
+**Category**: Security and access management
+
+## Virtual Role Pattern {important}
+
+### Context
+When users join teams, they need appropriate access to all team resources without individual configuration.
+
+### Solution
+Virtual roles automatically grant permissions on team resources:
+
+```
+Team Membership → Virtual Roles → Resource Access
+
+TEAM_MEMBER → PROJECT_CONTRIBUTOR (all team notebooks)
+           → TEMPLATE_GUEST (all team templates)
+
+TEAM_MANAGER → PROJECT_MANAGER (all team notebooks)
+            → TEMPLATE_GUEST (all team templates)
+
+TEAM_ADMIN → PROJECT_ADMIN (all team notebooks)
+          → TEMPLATE_ADMIN (all team templates)
+```
+
+### Implementation
+1. Add user to team with appropriate role
+2. Virtual roles apply immediately
+3. No manual notebook permissions needed
+4. Future notebooks inherit permissions
+
+### When to Use
+- Managing research groups
+- Consistent permissions across resources
+- Template access requirements
+- Long-term collaborations
+
+### When NOT to Use
+- Single notebook access
+- External reviewers
+- Temporary access
+- Different permissions per notebook
+
+## Least Privilege Pattern {essential}
+
+### Context
+Users should have minimum permissions necessary for their work.
+
+### Solution
+Start with lowest role and escalate only when needed:
+
+1. **Default to Team Member** for new collaborators
+2. **Document reasons** for elevated roles
+3. **Regular audits** to remove unnecessary permissions
+4. **Time-bound elevation** for temporary needs
+
+### Example Workflow
+```
+New User Request
+    ↓
+Start as TEAM_MEMBER
+    ↓
+Monitor for 2 weeks
+    ↓
+Elevate if justified
+    ↓
+Document decision
+    ↓
+Schedule review
+```
+
+## Token Rotation Pattern {comprehensive}
+
+### Context
+Long-lived API tokens pose security risks if compromised.
+
+### Solution
+Implement regular token rotation:
+
+1. **Monthly Rotation Schedule**
+   - Create new token before old expires
+   - Update automation scripts
+   - Delete old token after verification
+
+2. **Separate Tokens per Task**
+   ```
+   Daily Export → "export-token" (30 days)
+   Backup Script → "backup-token" (60 days)
+   Integration → "integration-token" (90 days)
+   ```
+
+3. **Monitoring**
+   - Check "Last Used" timestamps weekly
+   - Investigate dormant tokens
+   - Disable suspicious activity immediately
+
+## Invitation Strategy Pattern {important}
+
+### Context
+Choosing between team and notebook invitations affects access scope.
+
+### Decision Matrix
+
+| Scenario | Use Team Invite | Use Notebook Invite |
+|----------|-----------------|---------------------|
+| Need template access | ✅ | ❌ |
+| Multiple notebooks | ✅ | ❌ |
+| Single notebook only | ❌ | ✅ |
+| External collaborator | ❌ | ✅ |
+| Research group member | ✅ | ❌ |
+| Temporary access | ❌ | ✅ |
+| Consistent permissions | ✅ | ❌ |
+| Granular control | ❌ | ✅ |
+
+### Implementation Guidelines
+
+**Team Invites**:
+1. Review all team resources first
+2. Choose appropriate team role
+3. Send invite with clear expectations
+4. Monitor resource usage
+
+**Notebook Invites**:
+1. Confirm single notebook suffices
+2. Set specific notebook role
+3. Include access duration
+4. Plan removal process
+
+## Close/Reopen Pattern {essential}
+
+### Context
+Notebooks complete data collection but need preservation.
+
+### Solution
+Use Close status instead of deletion:
+
+1. **Closing Process**
+   ```
+   Active Collection → Review Data → Close Notebook
+                                   ↓
+                            Status: CLOSED
+                            Data: Read-only
+                            Export: Available
+   ```
+
+2. **Benefits**
+   - Data preserved
+   - Exports still work
+   - Can reopen if needed
+   - Clear completion status
+
+3. **Reopening Process**
+   ```
+   Closed Notebook → New Requirements → Reopen
+                                      ↓
+                                Status: OPEN
+                                Collection: Enabled
+   ```
+
+### When to Close
+- Data collection complete
+- Project ended
+- Archival required
+- Prevent accidental changes
+
+### When NOT to Close
+- Temporary pause
+- Seasonal collection
+- Ongoing project
+- Active analysis
+
+## Related Documentation
+
+- [Roles & Permissions Reference](../references/roles-permissions-reference.md)
+- [Teams Interface](../dashboard/teams-interface.md)
+- [API Token Management](../dashboard/users-interface.md#api-token-management)
+- [Automation Basics](../advanced/automation-basics.md)
+
+<!-- ============================================ -->
+<!-- ADVANCED FEATURES -->
+<!-- ============================================ -->
+
+
+<!-- concat:advanced:automation-basics -->
+# Basic Automation with API Tokens {comprehensive}
+
+**Purpose**: Enable power users to automate common Fieldmark tasks without programming knowledge  
+**Audience**: Research support staff, data managers, IT support  
+**Prerequisites**: API token created via User Profile
+
+## Overview {comprehensive}
+
+Fieldmark's API tokens enable automated data operations without manual dashboard interaction. This guide covers practical automation scenarios using simple tools.
+
+## Creating Your API Token {comprehensive}
+
+Before automation, create a long-lived token:
+
+1. Navigate to User Profile (click username, lower-left)
+2. Click "Manage Long-Lived Tokens"
+3. Click "Create Long Lived Token"
+4. Set duration (max 90 days)
+5. **Copy token immediately** (shown only once)
+6. Store securely (password manager recommended)
+
+## Common Automation Scenarios {comprehensive}
+
+### 1. Daily Data Export to CSV
+
+Export all notebook records automatically:
+
+```bash
+# Using curl (Linux/Mac)
+TOKEN="your-token-here"
+NOTEBOOK_ID="notebook-id-here"
+SERVER="https://your-fieldmark-server.edu.au"
+
+# Exchange token for access token
+ACCESS_TOKEN=$(curl -s -X POST "$SERVER/api/auth/exchange-long-lived-token" \
+  -H "Content-Type: application/json" \
+  -d "{\"token\": \"$TOKEN\"}" | jq -r '.access_token')
+
+# Export data
+curl -H "Authorization: Bearer $ACCESS_TOKEN" \
+  "$SERVER/api/notebooks/$NOTEBOOK_ID/records.csv" \
+  -o "export-$(date +%Y%m%d).csv"
+```
+
+### 2. Excel Power Query Integration
+
+Connect Excel directly to Fieldmark data:
+
+1. Open Excel → Data → Get Data → From Web
+2. Enter API URL: `https://your-server/api/notebooks/NOTEBOOK_ID/records.csv`
+3. Choose "Advanced" and add header:
+   - Key: `Authorization`
+   - Value: `Bearer YOUR_ACCESS_TOKEN`
+4. Data refreshes automatically when opened
+
+### 3. Scheduled Backup Script
+
+Windows batch file for weekly backups:
+
+```batch
+@echo off
+set TOKEN=your-token-here
+set SERVER=https://your-fieldmark-server.edu.au
+set NOTEBOOK=notebook-id-here
+
+REM Get current date
+for /f "tokens=2 delims==" %%a in ('wmic OS Get localdatetime /value') do set "dt=%%a"
+set "date=%dt:~0,8%"
+
+REM Download backup
+curl -H "Authorization: Bearer %TOKEN%" ^
+  "%SERVER%/api/notebooks/%NOTEBOOK%/export" ^
+  -o "backup-%date%.json"
+```
+
+### 4. Google Sheets Integration
+
+Import Fieldmark data into Google Sheets:
+
+```javascript
+function importFieldmarkData() {
+  var token = 'your-token-here';
+  var notebookId = 'notebook-id-here';
+  var server = 'https://your-fieldmark-server.edu.au';
+  
+  var response = UrlFetchApp.fetch(
+    server + '/api/notebooks/' + notebookId + '/records.csv',
+    {
+      headers: {
+        'Authorization': 'Bearer ' + token
+      }
+    }
+  );
+  
+  var csvData = Utilities.parseCsv(response.getContentText());
+  var sheet = SpreadsheetApp.getActiveSheet();
+  sheet.getRange(1, 1, csvData.length, csvData[0].length).setValues(csvData);
+}
+```
+
+### 5. Photo Archive Download
+
+Download all photos from a notebook:
+
+```bash
+# Linux/Mac script
+TOKEN="your-token-here"
+NOTEBOOK_ID="notebook-id-here"
+SERVER="https://your-fieldmark-server.edu.au"
+
+# Download photo archive
+curl -H "Authorization: Bearer $TOKEN" \
+  "$SERVER/api/notebooks/$NOTEBOOK_ID/photos.zip" \
+  -o "photos-$(date +%Y%m%d).zip"
+
+# Extract to dated folder
+unzip -d "photos-$(date +%Y%m%d)" "photos-$(date +%Y%m%d).zip"
+```
+
+## Security Best Practices {comprehensive}
+
+### Token Storage
+- **Never** commit tokens to version control
+- **Never** share tokens via email or chat
+- Use environment variables or secure vaults
+- Rotate tokens monthly
+
+### Access Control
+- Create separate tokens for different tasks
+- Use descriptive names (e.g., "Daily Export Script")
+- Delete unused tokens immediately
+- Monitor "Last Used" timestamps
+
+### Error Handling
+- Check for HTTP 401 (unauthorised) - token may be expired
+- HTTP 429 (rate limited) - add delays between requests
+- Log errors for troubleshooting
+
+## Troubleshooting {comprehensive}
+
+| Issue | Cause | Solution |
+|-------|-------|----------|
+| 401 Unauthorised | Token expired or disabled | Create new token |
+| 403 Forbidden | Insufficient permissions | Check notebook access rights |
+| 404 Not Found | Wrong notebook ID | Verify ID in dashboard URL |
+| 500 Server Error | Server issue | Contact administrator |
+| Empty response | No data in notebook | Verify records exist |
+
+## Limitations {comprehensive}
+
+- Tokens expire after maximum 90 days
+- Rate limits apply (100 requests/minute)
+- Large exports may timeout (>1000 records)
+- Binary attachments require separate download
+
+## Next Steps
+
+For more complex integrations:
+- Contact IT support for assistance
+- Consider dedicated integration development
+- See future developer documentation (planned)
+
+---
+
+**Note**: This guide covers basic automation only. Complex integrations requiring data modification or real-time sync should be developed with IT support.
+
 <!-- ============================================ -->
 <!-- TECHNICAL REFERENCES -->
 <!-- ============================================ -->
@@ -27241,6 +28069,46 @@ see-also: [notebook-format-guide, component-reference, field-type-index]
 **Definition**: Practical limit of ~100 fields per notebook.  
 **Impact**: Slow import/export, UI lag.  
 **Solution**: Split into multiple viewsets.
+
+## API & Automation Terms
+
+### Long-Lived Token
+**Definition**: API authentication token with extended validity period.
+**Duration**: Maximum 90 days.
+**Usage**: Automation scripts and integrations.
+**Location**: User Profile → Manage Long-Lived Tokens.
+**Security**: Shown only once at creation.
+
+### Bearer Token
+**Definition**: Short-lived access token for API calls.
+**Duration**: 5 minutes default.
+**Obtained**: Exchange long-lived token via API.
+**Format**: `Authorization: Bearer <token>`
+
+### Token Rotation
+**Definition**: Security practice of regularly replacing API tokens.
+**Frequency**: Monthly recommended.
+**Purpose**: Limit exposure if token compromised.
+
+## Permission Terms
+
+### Virtual Role
+**Definition**: Automatic permission grant based on team membership.
+**Example**: TEAM_MEMBER gets PROJECT_CONTRIBUTOR on all team notebooks.
+**Purpose**: Simplify permission management.
+**Cascade**: Applied to all current and future team resources.
+
+### Close Status
+**Definition**: Notebook state preventing new data collection.
+**Effect**: Read-only access, exports still available.
+**Reversible**: Can reopen anytime.
+**Note**: No separate "archive" state exists.
+
+### Invitation
+**Types**: Team invites (broad access) or Notebook invites (specific).
+**Duration**: 7 days validity.
+**Permissions**: Determined by role offered.
+**Templates**: Only accessible via team membership.
 
 ## Dashboard Terms
 
@@ -27981,40 +28849,133 @@ For concepts:
 → [Glossary](./glossary.md) - Role and permission definitions
 → [Dashboard Patterns](../dashboard/dashboard-patterns.md) - Permission management workflows
 
+For operations requiring permissions:
+→ {{cross-ref:editor-form-settings}} - Editor access requires PROJECT_CONTRIBUTOR
+→ {{cross-ref:editor-notebook-info}} - Metadata editing requires PROJECT_MANAGER
+→ [Operations Reference](./operations-reference.md) - Import/export requires PROJECT_MANAGER
+→ {{cross-ref:notebook-templates}} - Template creation requires GENERAL_CREATOR or TEMPLATE_CREATOR
+
 ---
 
 ## Complete Action Reference {comprehensive}
 
 ### Project (Notebook) Actions
 
-| Action | Required Role | Description |
-|--------|---------------|-------------|
-| CREATE_PROJECT | GENERAL_CREATOR or TEAM_MANAGER | Create new notebook |
-| UPDATE_PROJECT_UISPEC | PROJECT_MANAGER | Edit notebook structure |
-| DELETE_PROJECT | PROJECT_ADMIN | Delete entire notebook |
-| READ_ALL_PROJECT_RECORDS | PROJECT_CONTRIBUTOR | View all data |
-| EXPORT_PROJECT_DATA | PROJECT_MANAGER | Export all records |
+| Action | Required Role | Description | UI/API |
+|--------|---------------|-------------|--------|
+| CREATE_PROJECT | GENERAL_CREATOR or TEAM_MANAGER | Create new notebook | Both |
+| UPDATE_PROJECT_UISPEC | PROJECT_MANAGER | Edit notebook structure | Both |
+| DELETE_PROJECT | PROJECT_ADMIN | Delete entire notebook | Both |
+| READ_ALL_PROJECT_RECORDS | PROJECT_CONTRIBUTOR | View all data | Both |
+| EXPORT_PROJECT_DATA | PROJECT_MANAGER | Export all records | Both |
+| VIEW_PROJECT_INVITES | PROJECT_MANAGER | View pending invites | Both |
+| CREATE_PROJECT_INVITES | PROJECT_MANAGER | Send notebook invitations | Both |
+| REVOKE_PROJECT_INVITES | PROJECT_MANAGER | Cancel pending invites | Both |
+| CHANGE_PROJECT_STATUS | PROJECT_ADMIN | Close/reopen notebook | API |
+| REASSIGN_PROJECT_TEAM | PROJECT_ADMIN | Change notebook team ownership | API |
+| GENERATE_RANDOM_PROJECT_RECORDS | PROJECT_ADMIN + DEVELOPER_MODE | Generate test data | API |
 
 ### Team Actions
 
-| Action | Required Role | Description |
-|--------|---------------|-------------|
-| CREATE_TEAM | GENERAL_ADMIN | Create new team |
-| DELETE_TEAM | TEAM_ADMIN | Delete team |
-| ADD_ADMIN_TO_TEAM | GENERAL_ADMIN only | Appoint team admin |
-| CREATE_PROJECT_IN_TEAM | TEAM_MANAGER | Create team notebook |
+| Action | Required Role | Description | UI/API |
+|--------|---------------|-------------|--------|
+| CREATE_TEAM | GENERAL_ADMIN | Create new team | Both |
+| DELETE_TEAM | TEAM_ADMIN | Delete team (soft delete) | Both |
+| ADD_ADMIN_TO_TEAM | GENERAL_ADMIN only | Appoint team admin | Both |
+| CREATE_PROJECT_IN_TEAM | TEAM_MANAGER | Create team notebook | Both |
+| VIEW_TEAM_DETAILS | TEAM_MEMBER | View team information | Both |
+| VIEW_TEAM_INVITES | TEAM_MANAGER | View pending team invites | Both |
+| CREATE_TEAM_INVITES | TEAM_MANAGER | Send team invitations | Both |
+| REVOKE_TEAM_INVITES | TEAM_MANAGER | Cancel team invites | Both |
+| MANAGE_TEAM_MEMBERS | TEAM_MANAGER | Add/remove team members | Both |
 
-### System Actions
+### User & Authentication Actions
 
-| Action | Required Role | Description |
-|--------|---------------|-------------|
-| ADD_OR_REMOVE_GLOBAL_USER_ROLE | GENERAL_ADMIN | Manage system roles |
-| DELETE_USER | GENERAL_ADMIN | Remove user |
-| RESTORE_FROM_BACKUP | GENERAL_ADMIN | System restore |
+| Action | Required Role | Description | UI/API |
+|--------|---------------|-------------|--------|
+| ADD_OR_REMOVE_GLOBAL_USER_ROLE | GENERAL_ADMIN | Manage system roles | Both |
+| DELETE_USER | GENERAL_ADMIN | Remove user permanently | Both |
+| VIEW_USER_LIST | GENERAL_ADMIN | View all system users | Both |
+| RESET_USER_PASSWORD | GENERAL_ADMIN | Force password reset | Both |
+| VERIFY_EMAIL | GENERAL_USER (self) | Verify email address | Both |
+| RESEND_VERIFICATION | GENERAL_USER (self) | Request new verification | Both |
+
+### API Token Actions
+
+| Action | Required Role | Description | UI/API |
+|--------|---------------|-------------|--------|
+| CREATE_LONG_LIVED_TOKEN | GENERAL_USER | Create API tokens | UI |
+| READ_MY_LONG_LIVED_TOKENS | GENERAL_USER | View own tokens | UI |
+| EDIT_MY_LONG_LIVED_TOKEN | GENERAL_USER | Update own token details | UI |
+| REVOKE_MY_LONG_LIVED_TOKEN | GENERAL_USER | Disable own tokens | UI |
+| READ_ANY_LONG_LIVED_TOKENS | GENERAL_ADMIN | View all users' tokens | API |
+| EDIT_ANY_LONG_LIVED_TOKEN | GENERAL_ADMIN | Edit any user's tokens | API |
+| REVOKE_ANY_LONG_LIVED_TOKEN | GENERAL_ADMIN | Revoke any user's tokens | API |
+
+### System Administration Actions
+
+| Action | Required Role | Description | UI/API |
+|--------|---------------|-------------|--------|
+| RESTORE_FROM_BACKUP | GENERAL_ADMIN | System restore | API |
+| INITIALIZE_ADMIN | First user only | Create initial admin | API |
+| VIEW_SYSTEM_LOGS | GENERAL_ADMIN | Access system logs | Both |
+| SEND_TEST_EMAIL | GENERAL_ADMIN | Test email configuration | API |
+| VALIDATE_DATABASE | GENERAL_ADMIN | Check database integrity | API |
+
+## Virtual Roles & Permission Inheritance {comprehensive}
+
+### Virtual Role Mapping
+
+Virtual roles are automatically assigned based on team membership and provide default permissions on team resources:
+
+| Team Role | Virtual Notebook Role | Automatic Permissions |
+|-----------|----------------------|----------------------|
+| TEAM_MEMBER | PROJECT_CONTRIBUTOR | Create/edit records in team notebooks |
+| TEAM_MANAGER | PROJECT_MANAGER | Manage structure of team notebooks |
+| TEAM_ADMIN | PROJECT_ADMIN | Full control of team notebooks |
+
+### Permission Inheritance Hierarchy
+
+```
+GENERAL_ADMIN
+    ├── Inherits all PROJECT_ADMIN permissions (every notebook)
+    ├── Inherits all TEAM_ADMIN permissions (every team)
+    └── Inherits all TEMPLATE_ADMIN permissions (every template)
+
+PROJECT_ADMIN
+    └── Inherits PROJECT_MANAGER
+        └── Inherits PROJECT_CONTRIBUTOR
+
+TEAM_ADMIN
+    └── Inherits TEAM_MANAGER
+        └── Inherits TEAM_MEMBER
+```
+
+### Permission Resolution Order
+
+When a user has multiple roles, permissions are resolved in this order:
+
+1. **Direct notebook role** (highest priority)
+   - Explicitly assigned PROJECT_* role
+2. **Virtual role from team**
+   - Automatic role from team membership
+3. **Global system role**
+   - GENERAL_* permissions
+4. **Inherited permissions**
+   - From higher roles in same hierarchy
+
+### Example Permission Scenarios
+
+| Scenario | User Roles | Effective Permission | Reason |
+|----------|------------|---------------------|--------|
+| User in team + direct role | TEAM_MEMBER + PROJECT_ADMIN | PROJECT_ADMIN | Direct role overrides virtual |
+| Admin accessing any notebook | GENERAL_ADMIN | PROJECT_ADMIN | Global admin has full access |
+| Team manager creating notebook | TEAM_MANAGER | Can create in team | Team role grants creation |
+| Multiple team memberships | TEAM_MEMBER in A, TEAM_ADMIN in B | Different per team | Team roles independent |
 
 ---
 
-*Last updated: 2025-01-08 | Based on FAIMS3 codebase analysis*
+*Last updated: 2025-01-09 | Based on FAIMS3 codebase analysis*
 
 <!-- concat:boundary:end section="roles-permissions" -->
 
@@ -28412,13 +29373,15 @@ Form Settings is a configuration panel within the Notebook Editor that controls 
 **Type**: `enum`  
 **Default**: `"always"`
 
+{{cross-ref:dynamic-forms-guide:validation-timing}} The `publishButtonBehaviour` setting directly affects when validation rules are enforced and how conditional logic interacts with form completion.
+
 #### Available Options
 
 | Value | UI Display | Description | Use Case |
 |-------|------------|-------------|----------|
 | `"always"` | Always Show | Finish button always visible | Rapid data entry, drafts OK |
 | `"visited"` | Show Once All Sections Visited | Requires visiting all tabs/sections | Training, ensure completeness |
-| `"noErrors"` | Show Only When No Errors Exist | Requires valid data in all fields | Critical data, quality control |
+| `"noErrors"` | Show Only When No Errors Exist | Requires valid data in all fields {{cross-ref:dynamic-forms-guide:validation-rules}} | Critical data, quality control |
 
 #### JSON Structure
 ```json
@@ -28850,12 +29813,108 @@ const formSettingsChecklist = {
 
 ---
 
+## Complete JSON Examples {important}
+
+### Archaeological Survey Notebook
+Complete viewset configuration for field data collection:
+
+```json
+{
+  "ui-specification": {
+    "viewsets": {
+      "archaeological-finds": {
+        "publishButtonBehaviour": "visited",
+        "layout": "tabs",
+        "summary_fields": ["find-id", "find-type", "location", "date"],
+        "hridField": "find-id"
+      },
+      "site-context": {
+        "publishButtonBehaviour": "noErrors",
+        "layout": "inline",
+        "summary_fields": ["context-id", "trench", "layer"],
+        "hridField": "context-id"
+      }
+    }
+  }
+}
+```
+
+### Environmental Monitoring
+Configuration for data quality-critical monitoring:
+
+```json
+{
+  "ui-specification": {
+    "viewsets": {
+      "water-quality": {
+        "publishButtonBehaviour": "noErrors",
+        "layout": "inline",
+        "summary_fields": ["sample-id", "location", "ph", "timestamp"],
+        "hridField": "sample-id"
+      },
+      "observations": {
+        "publishButtonBehaviour": "always",
+        "layout": "tabs",
+        "summary_fields": ["obs-id", "observer", "species", "count"],
+        "hridField": null
+      }
+    }
+  }
+}
+```
+
+### Training Notebook
+Settings ensuring complete data collection during training:
+
+```json
+{
+  "ui-specification": {
+    "viewsets": {
+      "practice-form": {
+        "publishButtonBehaviour": "visited",
+        "layout": "tabs",
+        "summary_fields": ["trainee", "exercise", "score"],
+        "hridField": null
+      }
+    }
+  }
+}
+```
+
+### Integration with Field Definitions
+Form Settings work in conjunction with field properties:
+
+```json
+{
+  "fields": {
+    "survey-id": {
+      "type-name": "TemplatedStringField",
+      "template": "{{PROJECT}}-{{SITE}}-{{_INCREMENT}}",
+      "is_identifier": true
+    }
+  },
+  "ui-specification": {
+    "viewsets": {
+      "survey-form": {
+        "hridField": "survey-id",
+        "publishButtonBehaviour": "visited",
+        "summary_fields": ["survey-id", "date", "team-leader"]
+      }
+    }
+  }
+}
+```
+
+---
+
 ## Cross-References {important}
 
 ### Core Documentation
 → [Form Structure Guide](../patterns/form-structure-guide.md) - Viewset architecture and hierarchy  
 → [Designer Component Mapping](./designer-component-mapping.md) - UI to JSON property mappings  
 → [Notebook Format Guide](./notebook-format-guide.md) - Complete JSON structure reference  
+→ {{cross-ref:editor-notebook-info}} - Metadata configuration for notebooks  
+→ {{cross-ref:roles-permissions-reference}} - Required permissions for Editor access  
 → [Glossary](./glossary.md) - Term definitions and concepts  
 → [Troubleshooting Index](./troubleshooting-index.md) - General error solutions  
 
@@ -28865,9 +29924,9 @@ const formSettingsChecklist = {
 → [Field Selection Guide](../patterns/field-selection-guide.md) - Choosing appropriate fields  
 
 ### Related Patterns
-→ [Dynamic Forms Guide](../patterns/dynamic-forms-guide.md) - Conditional logic with form settings  
+→ [Dynamic Forms Guide](../patterns/dynamic-forms-guide.md) - Validation rules and conditional logic that interact with `publishButtonBehaviour`  
 → [Implementation Patterns](../patterns/implementation-patterns-guide.md) - Common notebook patterns  
-→ [Notebook Templates](./notebook-templates.md) - Complete working examples  
+→ [Notebook Templates](./notebook-templates.md) - Complete working examples showing Form Settings in context  
 
 ### Validation and Testing
 → [Constraints Reference](./constraints-reference.md) - System limitations  
@@ -29332,13 +30391,124 @@ When `derived-from` is present:
 
 ---
 
+## Complete JSON Examples {important}
+
+### Archaeological Research Notebook
+Full metadata configuration for standards compliance:
+
+```json
+{
+  "metadata": {
+    "name": "Excavation Season 2025",
+    "description": "Systematic excavation of Bronze Age settlement",
+    "lead_institution": "University Archaeological Department",
+    "contributors": ["Dr. Jane Smith", "Archaeological Survey Team"],
+    "raid": "https://raid.org/10.XXXXX/raid.2025.archaeology",
+    "access": {
+      "access_type": "open",
+      "embargo_date": null,
+      "license": "CC-BY-4.0"
+    },
+    "notebook_metadata": {
+      "ADS_Section": "Excavation",
+      "ADS_Period": "Bronze Age",
+      "ADS_Monument_Type": "Settlement",
+      "custom_project_code": "BA2025-SITE01"
+    },
+    "record_metadata": {
+      "default_observer": "{{current_user}}",
+      "default_institution": "University Archaeological Department",
+      "coordinate_system": "WGS84"
+    },
+    "field_metadata": {
+      "material_vocabulary": "Getty AAT",
+      "period_thesaurus": "PeriodO",
+      "custom_classification": "Internal typology v2.3"
+    }
+  }
+}
+```
+
+### Environmental Monitoring
+Metadata for repository integration:
+
+```json
+{
+  "metadata": {
+    "name": "Wetland Biodiversity Survey",
+    "description": "Long-term monitoring of wetland ecosystem health",
+    "lead_institution": "Environmental Research Institute",
+    "contributors": ["Ecology Team", "Citizen Scientists"],
+    "raid": null,
+    "access": {
+      "access_type": "embargoed",
+      "embargo_date": "2026-12-31",
+      "license": "CC-BY-NC"
+    },
+    "notebook_metadata": {
+      "Darwin_Core_BasisOfRecord": "HumanObservation",
+      "GBIF_Dataset_Type": "OCCURRENCE",
+      "custom_permit_number": "ENV-2025-WET-001"
+    },
+    "record_metadata": {
+      "default_location_precision": "10m",
+      "coordinate_reference_system": "EPSG:4326"
+    },
+    "field_metadata": {
+      "species_authority": "WoRMS",
+      "habitat_classification": "EUNIS"
+    }
+  }
+}
+```
+
+### Cultural Heritage Documentation
+Metadata for FAIR compliance:
+
+```json
+{
+  "metadata": {
+    "name": "Indigenous Knowledge Documentation",
+    "description": "Collaborative heritage recording project",
+    "lead_institution": "Cultural Heritage Foundation",
+    "contributors": ["Community Elders", "Heritage Team"],
+    "raid": "https://raid.org/10.XXXXX/raid.2025.heritage",
+    "access": {
+      "access_type": "restricted",
+      "access_details": "Community permission required",
+      "license": "Traditional Knowledge License"
+    },
+    "notebook_metadata": {
+      "tDAR_Resource_Type": "Ethnographic Field Records",
+      "custom_community_protocol": "TCP-2025-v1",
+      "ethical_clearance": "HEC-2025-0142"
+    },
+    "record_metadata": {
+      "consent_obtained": true,
+      "anonymization_applied": true
+    },
+    "field_metadata": {
+      "language_codes": "ISO 639-3",
+      "cultural_protocols": "Local Traditional Knowledge System"
+    },
+    "derived-from": {
+      "notebook-id": "template-heritage-v2",
+      "created": "2025-01-01T00:00:00Z"
+    }
+  }
+}
+```
+
+---
+
 ## Cross-References {important}
 
 ### Core Documentation
 → [Notebook Format Guide](./notebook-format-guide.md) - Complete JSON structure  
 → [Editor Form Settings](./editor-form-settings.md) - Form-level configuration  
+→ {{cross-ref:roles-permissions-reference}} - Required permissions for metadata editing  
 → [Glossary](./glossary.md) - Metadata terminology  
-→ [Operations Reference](./operations-reference.md) - Import/export procedures  
+→ [Operations Reference](./operations-reference.md) - Import/export procedures that use metadata  
 
 ### Standards and Compliance
 → [Constraints Reference](./constraints-reference.md) - Metadata limitations  
@@ -31589,6 +32759,38 @@ Automatically escaped per JSON specification:
 - Large exports: Use pagination
 - Binary data: Never inline
 
+### Notebook Metadata in Export/Import {important}
+
+{{cross-ref:editor-notebook-info}} Metadata configured in the Notebook Info page affects export operations:
+
+#### Metadata Preservation During Export
+| Metadata Type | CSV Export | JSON Export | Preserved? |
+|--------------|------------|-------------|------------|
+| **Notebook metadata** | Header comments | Top-level object | Partial/Full |
+| **Record metadata** | Not included | Included per record | No/Yes |
+| **Field metadata** | Column headers only | Field properties | Partial/Full |
+| **Custom fields** | Not exported | Included if set | No/Yes |
+| **RAiD identifier** | Comment header | metadata.raid | Partial/Full |
+| **Access settings** | Not exported | metadata.access | No/Yes |
+
+#### Metadata Requirements for Import
+- **Minimum Required**: `metadata.name` field
+- **Recommended**: All fixed metadata fields
+- **Custom Fields**: Preserved if matching schema
+- **Template Derivation**: `derived-from` links maintained
+
+#### FAIR Compliance in Export
+When exporting for repository submission:
+1. Ensure all required metadata fields populated (see {{cross-ref:editor-notebook-info}})
+2. Include RAiD if available
+3. Set appropriate access levels
+4. Verify standard compliance fields (ADS, Darwin Core, tDAR)
+
+**Required Permissions**: 
+- Export data: `PROJECT_MANAGER` or higher (see {{cross-ref:roles-permissions-reference}})
+- Export with metadata: `PROJECT_MANAGER` or higher
+- Bulk export: `GENERAL_ADMIN`
+
 ### Export Validation Checklist
 - [ ] Null values export correctly
 - [ ] Special characters preserved
@@ -31598,6 +32800,9 @@ Automatically escaped per JSON specification:
 - [ ] Meta properties included
 - [ ] Unicode preserved
 - [ ] Large datasets work
+- [ ] Notebook metadata preserved (JSON only)
+- [ ] FAIR compliance fields included
+- [ ] Access restrictions honored
 
 ---
 
@@ -34283,6 +35488,14 @@ see-also: [notebook-format-guide, constraints-reference, platform-reference]
 | "Network error" | Offline with online-only field | Check platform requirements | [Platform Issues](#platform-issues) |
 | "GPS not available" | Web browser limitation | Use mobile app for GPS | [Mobile-Only Features](#mobile-only-features) |
 | "File too large" | Exceeds upload limit | Reduce file size or compress | [File Upload Issues](#file-upload-issues) |
+| "Finish button not appearing" | publishButtonBehaviour config | Check Form Settings configuration | [Form Settings Issues](#form-settings-issues) |
+| "HRID shows as rec-xxxxx" | No hridField configured | Configure HRID in Form Settings | [Form Settings Issues](#form-settings-issues) |
+| "Summary fields not showing" | Empty summary_fields array | Select fields in Form Settings | [Form Settings Issues](#form-settings-issues) |
+| "Custom field not saving" | Duplicate or reserved name | Use unique field name | [Notebook Info Issues](#notebook-info-issues) |
+| "QR Code search not working" | Not enabled in metadata | Enable in Notebook Info page | [Notebook Info Issues](#notebook-info-issues) |
+| "Can't create notebook" | Missing GENERAL_CREATOR role | Grant role in Users interface | [Permission Issues](#permission-issues) |
+| "Can't edit notebook structure" | Missing PROJECT_MANAGER role | Add as notebook manager | [Permission Issues](#permission-issues) |
+| "Can't see team notebooks" | Not team member | Add user to team | [Permission Issues](#permission-issues) |
 
 ---
 
@@ -34593,6 +35806,177 @@ Features that ONLY work on mobile apps:
 "hridField": "record-id"
 ```
 
+### Form Settings Issues
+
+#### Problem: Finish button not appearing
+**Symptom**: Can't complete/save form despite filling all fields  
+**Causes and Solutions**:
+
+| publishButtonBehaviour Setting | Solution |
+|-------------------------------|----------|
+| `"visited"` | Visit all form sections/tabs |
+| `"noErrors"` | Fix all validation errors (check console) |
+| Missing/undefined | Set to `"always"` in Form Settings |
+
+**Debug Commands**:
+```javascript
+console.log(viewset.publishButtonBehaviour);  // Check current setting
+console.log(visitedSections);  // For "visited" mode
+console.log(formik.errors);  // For "noErrors" mode
+```
+
+#### Problem: HRID shows as "rec-xxxxx"
+**Symptom**: Records display with UUID fragments instead of human-readable IDs  
+**Solutions**:
+
+1. **Configure hridField in Form Settings**:
+   - Editor → Design → Form Settings
+   - Select field from "HRID Field" dropdown
+   
+2. **Ensure selected field is required**:
+   ```json
+   {
+     "survey-id": {
+       "component-parameters": {
+         "required": true,
+         "name": "survey-id"
+       }
+     }
+   }
+   ```
+
+3. **Use TemplatedStringField for auto-generation**:
+   ```json
+   {
+     "component-name": "TemplatedStringField",
+     "component-parameters": {
+       "template": "{{PROJECT}}-{{_INCREMENT}}"
+     }
+   }
+   ```
+
+#### Problem: Summary fields not showing in record table
+**Symptom**: Record list table has no columns or wrong columns  
+**Solutions**:
+
+1. Check summary_fields configuration:
+   ```javascript
+   console.log(viewset.summary_fields);  // Should be array of field IDs
+   ```
+
+2. Verify field IDs are correct:
+   - Must match exact field IDs from current viewset
+   - Cannot reference fields from other viewsets
+   
+3. Use Editor UI to select fields:
+   - Editor → Design → Form Settings → Summary Fields
+   - Maximum 4 fields recommended for performance
+
+### Notebook Info Issues
+
+#### Problem: Custom metadata field not saving
+**Symptom**: Added custom field disappears or shows error  
+**Causes and Solutions**:
+
+| Cause | Solution | Example |
+|-------|----------|---------|
+| Duplicate field name | Use unique name | `custom_project_code` not `name` |
+| Reserved field name | Avoid fixed fields | Don't use `raid`, `contributors` |
+| Special characters | Use alphanumeric + underscore | `project_2025` not `project-2025` |
+| Empty field name | Provide valid name | Cannot be blank |
+
+**Valid Field Name Pattern**: `^[a-zA-Z0-9_]+$`
+
+#### Problem: QR Code search not working
+**Symptom**: QR button missing or disabled  
+**Solutions**:
+
+1. **Enable in Notebook Info page**:
+   ```json
+   {
+     "metadata": {
+       "showQRCodeButton": "true"
+     }
+   }
+   ```
+
+2. **Add QRCodeFormField to notebook**:
+   ```json
+   {
+     "barcode-field": {
+       "component-name": "QRCodeFormField",
+       "component-namespace": "faims-custom"
+     }
+   }
+   ```
+
+3. **Platform limitations**:
+   - Mobile-only feature (iOS/Android)
+   - Desktop: Provide TextField fallback
+
+#### Problem: Description formatting lost
+**Symptom**: Markdown not rendering, appears as plain text  
+**Solutions**:
+
+| Issue | Fix | Example |
+|-------|-----|---------|
+| Missing blank lines | Add before/after markdown blocks | `\n\n## Heading\n\n` |
+| Invalid markdown | Check syntax | Use `**bold**` not `<b>bold</b>` |
+| HTML stripped | Use markdown only | Convert HTML to markdown |
+
+### Permission Issues
+
+#### Problem: Can't create notebook
+**Symptom**: No "Create Notebook" button or fails with permission error  
+**Solution Path**:
+
+1. Check global roles: Dashboard → Users → [Your User]
+2. Need: `GENERAL_CREATOR` or `TEMPLATE_CREATOR`
+3. Request from: System administrator
+
+#### Problem: Can't edit notebook structure
+**Symptom**: Editor tab missing or read-only  
+**Solution Path**:
+
+1. Check notebook role: Notebooks → [Notebook] → Users
+2. Need: `PROJECT_MANAGER` or higher
+3. Request from: Notebook admin or creator
+
+#### Problem: Can't see team notebooks
+**Symptom**: Team notebooks not appearing in list  
+**Causes and Solutions**:
+
+| Cause | Check | Solution |
+|-------|-------|----------|
+| Not team member | Teams → [Team] → Users | Request team membership |
+| Team role too low | Check team role | Need TEAM_CONTRIBUTOR+ |
+| Notebook not shared | Notebook → Users | Ask notebook owner to add team |
+
+#### Problem: Permission debugging flowchart
+```
+Permission denied?
+│
+├─ Global role issue?
+│  └─ Dashboard → Users → [User] → Roles
+│
+├─ Team role issue?
+│  └─ Teams → [Team] → Users → Check role
+│
+├─ Notebook role issue?
+│  └─ Notebooks → [Notebook] → Users → Check role
+│
+└─ Virtual role from team?
+   └─ Check if team has notebook access
+```
+
+**Quick Permission Check Commands** (for developers):
+```javascript
+// Check current user permissions
+console.log(currentUser.roles);  // Global roles
+console.log(currentUser.teams);  // Team memberships
+console.log(notebook.users[currentUser.id]);  // Notebook role
+```
+
 ---
 
 ## Validation Error Decoder
@@ -34662,11 +36046,21 @@ Features that ONLY work on mobile apps:
 
 ## Related Documentation
 
+### Core References
 - [Notebook Format Guide](./notebook-format-guide.md) - Complete structure requirements
 - [Complete Notebook Templates](./notebook-templates.md) - Working examples
 - [Designer Component Mapping](./designer-component-mapping.md) - Component reference
 - [Platform Reference](./platform-reference.md) - Platform-specific issues
 - [Constraints Reference](./constraints-reference.md) - System limitations
+
+### Editor Configuration
+- {{cross-ref:editor-form-settings}} - Form Settings troubleshooting source
+- {{cross-ref:editor-notebook-info}} - Notebook Info troubleshooting source
+- {{cross-ref:roles-permissions-reference}} - Permission issues source
+
+### Patterns and Guides
+- [Dynamic Forms Guide](../patterns/dynamic-forms-guide.md) - Validation and conditional logic
+- [Form Structure Guide](../patterns/form-structure-guide.md) - Form architecture issues
 
 ---
 
@@ -35124,10 +36518,10 @@ see-also: [llm-navigation-manifest, field-type-index]
 
 ## Document Metadata
 
-- **Generated**: 2025-09-09T10:17:35+10:00
-- **Total Lines**: 35127
+- **Generated**: 2025-09-09T18:17:54+10:00
+- **Total Lines**: 36521
 - **Field Documents**: 8
-- **Pattern Documents**: 5
+- **Pattern Documents**: 6
 - **Reference Documents**: 16
 - **Format**: LLM-optimized concatenated reference
 

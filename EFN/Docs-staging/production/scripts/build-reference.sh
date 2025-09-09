@@ -99,6 +99,7 @@ PATTERN_DOCS=(
     "form-structure-guide"
     "dynamic-forms-guide"
     "implementation-patterns-guide"
+    "permission-patterns"
 )
 
 for doc in "${PATTERN_DOCS[@]}"; do
@@ -108,6 +109,27 @@ for doc in "${PATTERN_DOCS[@]}"; do
         cat "$BASE_DIR/patterns/${doc}.md" >> "$OUTPUT_FILE"
     else
         echo "  ⚠ Warning: ${doc}.md not found in patterns"
+    fi
+done
+
+# Add separator
+echo -e "\n\n<!-- ============================================ -->" >> "$OUTPUT_FILE"
+echo "<!-- ADVANCED FEATURES -->" >> "$OUTPUT_FILE"
+echo "<!-- ============================================ -->" >> "$OUTPUT_FILE"
+
+# Add advanced features documentation
+echo -e "${YELLOW}Adding advanced features...${NC}"
+ADVANCED_DOCS=(
+    "automation-basics"
+)
+
+for doc in "${ADVANCED_DOCS[@]}"; do
+    if [ -f "$BASE_DIR/advanced/${doc}.md" ]; then
+        echo "  - Adding ${doc}.md"
+        echo -e "\n\n<!-- concat:advanced:${doc} -->" >> "$OUTPUT_FILE"
+        cat "$BASE_DIR/advanced/${doc}.md" >> "$OUTPUT_FILE"
+    else
+        echo "  ⚠ Warning: ${doc}.md not found in advanced"
     fi
 done
 
