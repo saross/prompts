@@ -45,8 +45,8 @@ This is the **authoritative documentation for Fieldmark v3's field system**, opt
 | Document | Purpose | Key Value |
 |----------|---------|-----------|
 | **reference.md** | Main LLM-consumable documentation | 35,156 lines with 1,600+ template markers |
-| **LLM-OPTIMIZATION-FINAL-REPORT.md** | Project completion report | Comprehensive documentation of transformation |
-| **FUTURE-TASKS.md** | Forward-looking tasks | Prioritized roadmap for enhancements |
+| **llm-optimization-final-report.md** | Project completion report | Comprehensive documentation of transformation |
+| **future-tasks.md** | Forward-looking tasks | Prioritized roadmap for enhancements |
 
 ### 📁 `/field-categories/` - Field Type Documentation
 **8 comprehensive guides** covering all 29 field components with:
@@ -205,7 +205,7 @@ Organized archive of:
 - ✅ Added summary metadata to all files
 
 ### Next Steps
-See [FUTURE-TASKS.md](FUTURE-TASKS.md) for:
+See [future-tasks.md](future-tasks.md) for:
 - Production testing priorities
 - Content enhancement plans
 - Maintenance schedule
@@ -215,7 +215,7 @@ See [FUTURE-TASKS.md](FUTURE-TASKS.md) for:
 For issues or questions:
 1. Check [troubleshooting-index.md](references/troubleshooting-index.md)
 2. Review [glossary.md](references/glossary.md) for terminology
-3. See [FUTURE-TASKS.md](FUTURE-TASKS.md) for known work items
+3. See [future-tasks.md](future-tasks.md) for known work items
 
 ---
 

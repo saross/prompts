@@ -56,7 +56,7 @@ production/
 ├── field-type-index.md     # Navigation index
 ├── reference.md            # Concatenated full documentation
 ├── README.md              # Project overview
-├── MANIFEST.md            # File inventory
+├── manifest.md            # File inventory
 └── test-notebook-fixed.json  # Working test notebook
 ```
 
@@ -134,7 +134,7 @@ scripts/
 
 ### Supporting Files (3 files)
 - README.md
-- MANIFEST.md
+- manifest.md
 - reference.md (generated)
 
 ### Temporary Analysis Files (12 files)
@@ -145,7 +145,7 @@ scripts/
 
 ### Files to Track in Git
 - All files in production structure
-- README.md, MANIFEST.md
+- README.md, manifest.md
 - This FILE_ORGANIZATION_GUIDE.md
 
 ### Files to Exclude (.gitignore)
@@ -165,7 +165,7 @@ reference.md
 ## Next Steps
 
 1. **Archive temporary files** - Move analysis files to archive/
-2. **Update MANIFEST.md** - Reflect new organization
+2. **Update manifest.md** - Reflect new organization
 3. **Clean scripts directory** - Organize by purpose
 4. **Update .gitignore** - Exclude temporary files
 5. **Commit production files** - Version control essential docs
