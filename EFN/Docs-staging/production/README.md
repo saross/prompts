@@ -88,6 +88,12 @@ This is the **authoritative documentation for Fieldmark v3's field system**, opt
 **1 guide** for power users:
 - **automation-basics.md** - API automation with curl, Excel, Google Sheets
 
+### 📁 `/prompts/` - Documentation Generation Prompts 🆕
+**2 prompt templates** for maintaining documentation:
+- **llm-assessment-prompt.md** - Systematic documentation quality assessment
+- **quickstart-generation-prompt.md** - Quickstart guide generation/updates
+- **README.md** - Instructions for using prompt templates
+
 ### 📁 `/references/` - Technical References
 **14 reference documents** including:
 
