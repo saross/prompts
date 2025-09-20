@@ -311,9 +311,9 @@ see-also: [notebook-format-guide, component-reference, field-type-index]
 **See**: [Templates Interface](../dashboard/templates-interface.md)
 
 ### Designer
-**Definition**: Visual interface for creating and editing templates.  
-**Panels**: Info (metadata), Form Builder (fields), Properties (configuration).  
-**Note**: No built-in preview - test in separate browser tab.  
+**Definition**: Visual interface for creating and editing templates (alternate name for Notebook Editor).  
+**Panels**: DESIGN tab (form builder with "+" buttons), INFO tab (metadata).  
+**Note**: No built-in preview - test in separate browser tab. Uses buttons and forms, not drag-and-drop.  
 **See**: [Designer Component Mapping](./designer-component-mapping.md)
 
 ### Global Role
@@ -400,7 +400,7 @@ see-also: [notebook-format-guide, component-reference, field-type-index]
 ### Notebook Editor
 **Definition**: The visual interface for creating and modifying notebooks and templates.  
 **Usage**: Same editor used for both templates and notebooks.  
-**Interface**: Drag-and-drop field placement with configuration panels.  
+**Interface**: Form builder with "+" buttons to add forms/sections, "ADD NEW FORM" button, and configuration panels for field settings.  
 **Access**: Available to team members based on their team role.  
 **Note**: Sometimes referred to as just "Editor" in the interface.
 

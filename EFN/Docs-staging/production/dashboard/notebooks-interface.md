@@ -78,12 +78,12 @@ The notebook creation process requires:
 
 | Field | Required | Description | Example |
 |-------|----------|-------------|---------|
-| **Notebook Name** | Yes | Unique identifier | {{NOTEBOOK_NAME}} |
-| **Template Selection** | No* | Choose existing template | {{TEMPLATE_NAME}} |
-| **JSON Upload** | No* | Alternative to template | {{JSON_FILE_PATH}} |
-| **Team Assignment** | Auto | If created from team context | {{TEAM_NAME}} |
+| **Name** | Yes | Unique identifier | {{NOTEBOOK_NAME}} |
+| **Existing Notebook Template** | No* | Choose existing template | {{TEMPLATE_NAME}} |
+| **JSON File** | No* | Alternative to template | {{JSON_FILE_PATH}} |
+| **Create notebook in this team** | Yes | Select team from dropdown | {{TEAM_NAME}} |
 
-*One method required: template OR JSON OR proceed to Designer
+*Template and JSON fields are optional - leaving both blank creates an empty notebook
 
 ### Creation Pathways
 
@@ -107,11 +107,14 @@ Teams > {{TEAM_NAME}} > Notebooks > Create Notebook
 → Automatic team ownership → Deploy
 ```
 
-#### Path 4: Direct to Designer
+#### Path 4: Create Empty Notebook  
 ```
-Notebooks > Create Notebook > Leave blank
-→ Opens Designer → Build template → Deploy
+Notebooks > Create Notebook > Leave optional fields blank > Select team
+→ Creates empty notebook → Returns to notebooks list
+→ Navigate to new notebook > Actions tab > Open in Editor
 ```
+
+**Note**: After clicking "Create Notebook", you are returned to the notebooks list. To edit your new notebook, locate it in the list (typically at the end), click on it, go to the Actions tab, and click "Open in Editor".
 
 ## Individual Notebook View {important}
 

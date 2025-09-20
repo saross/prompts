@@ -113,8 +113,8 @@ The Designer is the visual interface for building templates:
 
 #### Centre Panel: Form Builder
 - **Sections**: Logical groupings of fields
-- **Fields**: Drag-and-drop from palette
-- **Field Order**: Drag to reorder
+- **Fields**: Add using "+" button or "ADD NEW FORM" button
+- **Field Order**: Use interface controls to reorder
 - **Field Actions**: Configure, duplicate, delete
 
 📝 **Preview Note**: No built-in preview. Keep Fieldmark web app open in separate tab for testing. Updates reflect quickly after saving.
