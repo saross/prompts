@@ -1,7 +1,8 @@
 # To-Do Next: Fieldmark Documentation Session Handover
 
 **Created**: 2025-09-20
-**Last Session Summary**: Fixed critical errors in production documentation and planned screenshot integration workflow
+**Last Updated**: 2025-10-01
+**Last Session Summary**: Continued quickstart manual pilot - fixed Editor description and removed all drag-and-drop references
 
 ## Session Context
 
@@ -44,16 +45,21 @@ The quickstart-notebook-creators-edited.md needs corrections at each workflow st
    4. Click **Open in Editor**
    ```
 
-3. **Editor Description** (Lines 94-112) ✅ Text provided, needs implementation:
-   - Remove three-panel description
-   - Describe actual interface: DESIGN/INFO tabs, "+" button, "ADD NEW FORM" button
-   - Fix save behavior (manual SAVE button, not automatic)
+3. **Editor Description** (Lines 94-112) ✅ COMPLETED (2025-10-01):
+   - ✅ Fixed save behavior references (lines 107, 159) - changed from "auto-save" to manual SAVE button
+   - ✅ Interface description accurate: DESIGN/INFO tabs, "+" button, "ADD NEW FORM" button
 
-4. **Remaining Sections** - Need screenshot verification:
-   - Adding fields workflow
-   - Field configuration
+4. **Adding Fields Workflow** (Lines 128-203) ✅ COMPLETED (2025-10-01):
+   - ✅ Removed ALL drag-and-drop references (5 instances fixed)
+   - ✅ Changed to "Click on field type to add it to your form"
+   - ✅ Updated all 5 field examples: TextField, Select, DateTime, MultipleTextField, TakePhoto
+   - ✅ Fixed screenshot placeholder (line 77) from "Templates interface" to "Notebooks interface"
+
+5. **Remaining Sections** - Need screenshot verification:
+   - Field configuration details (verify actual configuration panel behavior)
    - Preview/testing process
-   - Publishing/deployment
+   - Publishing/deployment workflow (Step 4, lines 230-301)
+   - Template editing workflow (Step 5, line 340+)
 
 ## Best Practices for Teaching LLMs About Screenshots
 
@@ -136,20 +142,56 @@ Docs-staging/
 4. **No Description field in notebook creation**
 5. **Creating empty notebook doesn't open Editor** - Returns to list
 
-## Next Session Starting Point
+## Session Log: 2025-10-01
 
-1. Open quickstart-notebook-creators-edited.md
-2. Continue corrections from "Adding Your First Field" section
-3. Use screenshot best practices above
-4. Show Claude Code each screenshot before writing instructions
-5. Verify each workflow step against actual UI
+### Completed Today
+- ✅ Fixed Editor save behavior (2 references: lines 107, 159)
+- ✅ Removed all drag-and-drop references from field addition instructions (5 fixes)
+- ✅ Corrected screenshot placeholder mislabeling (Templates → Notebooks)
+- ✅ Verified field type names in use: FAIMSTextField, Select, DateTime with Now button, MultipleTextField, TakePhoto
+
+### Key Lessons Learned
+1. **Critical Error Pattern**: Original quickstart made systemic assumption of drag-and-drop UI when actual interface uses click-to-add buttons
+2. **Auto-save Assumption**: Multiple references to auto-save when Editor requires manual SAVE button clicks
+3. **Terminology Consistency**: Need to verify ALL UI element references against actual interface, not assumptions
+
+### Verified UI Behaviors (From Documentation Fixes)
+- ✅ Editor uses SAVE button (not auto-save)
+- ✅ Editor uses click-to-add fields (not drag-and-drop)
+- ✅ Notebook Editor has DESIGN/INFO tabs, SAVE/CANCEL buttons, UNDO/REDO
+- ✅ Field palette uses consistent naming: FAIMSTextField, MultipleTextField, TakePhoto
+
+### Still Needs Verification (For Next Session)
+- [ ] Field configuration panel: How does it open? What's the actual interaction?
+- [ ] Form Settings: Where is it? Gear icon or menu?
+- [ ] Deploy/publish workflow: Actual button names and sequence
+- [ ] Template vs Notebook relationship: Can you edit notebooks directly or only through templates?
+- [ ] Records view: How to access after creating a record?
+
+## Next Session Starting Point (2025-10-02)
+
+1. **Review today's changes** in quickstart-notebook-creators-edited.md
+2. **Continue with Step 4** (Deploy and Test, lines 230-301):
+   - Verify "Deploy" button existence and location
+   - Check notebook access workflow after deployment
+   - Validate record creation and save process
+3. **Step 5 verification** (Collaborate and Refine, lines 303+):
+   - Verify template editing workflow
+   - Check if changes to templates really don't affect existing notebooks
+4. **Use screenshot best practices** documented below
+5. **Document any new UI discoveries** in this file
 
 ## Files Changed This Session
 
+### Session 2025-09-20 (Initial)
 - `/home/shawn/Code/prompts/EFN/Docs-staging/production/dashboard/notebooks-interface.md`
 - `/home/shawn/Code/prompts/EFN/Docs-staging/production/references/glossary.md`
 - `/home/shawn/Code/prompts/EFN/Docs-staging/production/dashboard/templates-interface.md`
 - `/home/shawn/Code/prompts/EFN/Docs-staging/production/human-facing/quickstart-notebook-creators-edited.md` (working copy)
+
+### Session 2025-10-01 (Today)
+- `/home/shawn/Code/prompts/EFN/Docs-staging/production/human-facing/quickstart-notebook-creators-edited.md` (7 edits)
+- `/home/shawn/Code/prompts/EFN/Docs-staging/to-do-next.md` (updated with session log)
 
 ## Contact for Questions
 Continue work with Claude Code, providing screenshots at each step for verification.

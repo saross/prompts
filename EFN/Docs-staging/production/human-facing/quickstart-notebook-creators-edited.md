@@ -74,7 +74,7 @@ From the Dashboard:
 1. Click **Notebooks** in the left navigation
 2. Click **+ Create Notebook**
 
-[SCREENSHOT: Templates interface showing Create Template button]
+[SCREENSHOT: Notebooks interface showing Create Notebook button]
 
 ### Name Your Creation
 
@@ -98,22 +98,87 @@ Fantastic! You're now in the Notebook Editor. This is where the magic happens.
 
 [SCREENSHOT: Notebook Editor interface showing the form builder layout]
 
-You'll see the main areas:
-- Top navigation: DESIGN and INFO tabs, with CANCEL and SAVE buttons
-- Main canvas: Your form building area with a "+" button to add sections
-- Form controls: "ADD NEW FORM" button to create new forms
-- Top right: UNDO and REDO buttons for quick correction
+You'll see the main interface elements:
+- **Top bar (right side)**: CANCEL (gray) and SAVE (green) buttons
+- **Tab bar (left side)**: DESIGN (active, green underline) and INFO tabs
+- **Right side**: UNDO and REDO buttons
+- **Blue info box**: Instructions explaining forms and sections
+- **"+" button (below info box)**: Click to add a new form
+- **Form editing area**: Shows "Form Name" field with "Form 1" pre-filled
+- **ADD NEW FORM button**: Green button to the right of the form name field
 
-> ⚠️ **Common Mistake**: Don't worry if it looks empty - that's normal! We're about to fill it with useful fields. The Notebook Editor saves automatically as you work.
+> ⚠️ **Common Mistake**: Don't worry if it looks empty - that's normal! We're about to fill it with useful fields. Remember to click the green SAVE button in the top-right when you want to save your work.
 
 ### ✓ You'll Know It Worked When...
-- The Notebook Editor opens with "Form 1" ready for editing
-- You see the helpful instruction text about adding forms and sections
-- The "+" button is visible for adding new elements
-- The DESIGN tab is selected and active
+- The Notebook Editor opens with "Form 1" in the Form Name field
+- You see the blue info box with UI instruction text
+- The "+" button is visible below the info box (for adding new forms)
+- The Form Name field (showing "Form 1") is visible to the left of the green "ADD NEW FORM" button
+- The DESIGN tab is selected and shows a green underline
+- SAVE and CANCEL buttons are visible in the top-right
 - No error messages appear
 
 > 📱 **Mobile Users**: The Notebook Editor works best on tablets or computers. If you're on a phone, you might want to switch devices for this setup phase. Once created, your notebook will work perfectly on mobile for data collection!
+
+### Understanding Notebooks Structure
+
+Before we add fields, let's understand how Fieldmark organizes your data:
+
+**Notebooks** contain **Forms** → **Forms** contain **Sections** → **Sections** contain **Form Fields** (where you enter data)
+
+Think of it like this:
+- 📓 **Notebook** = Your entire survey or data collection project ("My First Survey")
+- 📋 **Form** = A specific data entry screen ("Site Details", "Environmental Observations", etc.)
+- 📂 **Section** = A group of related fields within a form (optional, for organization)
+- ✏️ **Form Field** = Individual data entry points (text boxes, dropdowns, etc.)
+
+Right now, we have a notebook with one empty form called "Form 1". Let's make it more meaningful!
+
+### Name Your Form
+
+Let's give "Form 1" a descriptive name:
+
+1. **Click in the Form Name field** (where it says "Form 1")
+2. **Clear the text** and type **"Site Details"** (or another name that describes what data you'll collect)
+3. **Press the green "ADD NEW FORM" button** to create the form
+
+[SCREENSHOT: Form Name field being edited to "Site Details", ADD NEW FORM button highlighted]
+
+> ✨ **Pro Tip**: Use descriptive form names like "Daily Observations", "Specimen Collection", or "Interview Notes" - they'll make it easier to navigate your data later.
+
+### ✓ You'll Know It Worked When...
+- The form name has changed from "Form 1" to your chosen name ("Site Details")
+- You see the form badge showing "FORM: SITE DETAILS" in the editing area
+- A green success message appears: "Form has been created. Add a section to get started."
+- Form controls are visible: DELETE FORM and EDIT FORM NAME options
+- Form Settings panel is visible below
+
+[SCREENSHOT: Created form showing "Site Details" with success message and Section Name field]
+
+Now you're ready to add a section to organize your fields!
+
+### Create Your First Section
+
+Sections help organize related fields within a form. Let's create one:
+
+1. **Scroll down** to find the "Section Name" field (it should be visible below the success message)
+2. **Click in the Section Name field** and type **"Basic Information"** (or another name that groups your first set of fields)
+3. **Click the "+" button** next to the Section Name field to create the section
+
+[SCREENSHOT: Section Name field being edited to "Basic Information", "+" button highlighted]
+
+> ✨ **Pro Tip**: Use section names like "Location Details", "Measurements", or "Photos" to group related fields - this makes forms easier to navigate, especially on mobile devices.
+
+### ✓ You'll Know It Worked When...
+- The interface changes to show your section: "Basic Information" with a green badge showing "1" (representing "first section")
+- Section controls appear: DELETE SECTION, DUPLICATE SECTION, MOVE SECTION, EDIT SECTION NAME, ADD NEW SECTION
+- You see the **"ADD A FIELD"** button (with green plus icon)
+- "Visible Fields" and "Hidden Fields" areas are shown below
+- The section is ready to receive form fields
+
+[SCREENSHOT: Created section showing "Basic Information" with editing controls and "ADD A FIELD" button visible]
+
+Perfect! Now your form has a section, and we're in the main editing interface where we'll add fields!
 
 ---
 
@@ -127,24 +192,33 @@ Let's start with the basics - a text field and a dropdown. These are the bread a
 
 #### Field 1: Site Name (Text Field)
 
-1. **Find the field**: In the left panel, look for **FAIMSTextField** (or just **TextField**)
-2. **Add it**: Drag it onto the centre canvas
-3. **Configure it** by clicking on the field:
-   - **Field Label**: Type "Site Name"
-   - **Field Name**: Auto-generates as "site_name" (perfect!)
-   - **Required**: Toggle this on ✓
-   - **Helper Text**: Add "Enter the official site designation"
+1. **Click the "ADD A FIELD" button** (green button with plus icon)
+2. **In the "Add a field" dialog that opens**:
+   - **Field name**: Change "New Field" to **"Site Name"**
+   - **Field type**: Click on **"FAIMS Text Field"** (single-line text input)
+   - Click **"ADD FIELD"** button at bottom
 
-[SCREENSHOT: Adding a TextField with configuration panel open]
+[SCREENSHOT: "Add a field" dialog showing field name changed to "Site Name" and "FAIMS Text Field" selected]
 
-> ✓ **Check Your Progress**: You should see "Site Name" appear in the centre panel with a red asterisk (*) indicating it's required.
+3. **The field appears collapsed** - click anywhere on the grey bar to expand it
+4. **Configure the field**:
+   - **Label**: Already shows "Site Name" ✓
+   - **Field ID**: Auto-generated as "Site-Name" ✓
+   - **Helper Text**: Type "Enter the official site designation or name"
+   - **Required**: Toggle ON ☑
+
+[SCREENSHOT: Expanded "Site Name" field showing configuration options with Required toggled on]
+
+> ✓ **Check Your Progress**: The "Site Name" field is now in the "Visible Fields" area, configured as required, with helper text set.
+
+> 💡 **More Options**: Fields can also have Advanced Helper Text (formatted popup help), Conditions (show/hide based on other fields), Annotations, or "Copy value to new records" for smart defaults. We'll keep it simple for now!
 
 #### Field 2: Site Type (Dropdown)
 
 Now let's add a dropdown for selecting options.
 
 1. **Find it**: Look for **Select** in the left panel
-2. **Drag it** below your Site Name field
+2. **Add it**: Click on **Select** to add it to your form (it will appear below your Site Name field)
 3. **Configure it**:
    - **Field Label**: Type "Site Type"
    - **Options**: Click "Add Option" and add these one by one:
@@ -156,7 +230,7 @@ Now let's add a dropdown for selecting options.
 
 > 💡 **Platform Note**: On mobile devices, Select fields automatically adapt to native pickers for better usability.
 
-**Quick Save**: The Notebook Editor auto-saves, but you can manually save by clicking **Save** in the top toolbar.
+**Quick Save**: Click the **Save** button in the top navigation to save your progress.
 
 ### Part B: Date and Long Text (2 minutes)
 
@@ -167,7 +241,7 @@ Now let's add fields for capturing when and what happened.
 Every record needs a date!
 
 1. **Find it**: Look for **DateTime with Now button** (captures current date/time automatically)
-2. **Drag it** below Site Type
+2. **Add it**: Click on the field type to add it to your form
 3. **Configure it**:
    - **Field Label**: Type "Visit Date"
    - **Required**: Toggle on ✓
@@ -179,8 +253,8 @@ Every record needs a date!
 
 For longer descriptions, we need a multiline text field.
 
-1. **Find it**: Use **MultipleTextField** (designed for longer text)
-2. **Drag it** below Visit Date
+1. **Find it**: Look for **MultipleTextField** (designed for longer text)
+2. **Add it**: Click on the field type to add it to your form
 3. **Configure it**:
    - **Field Label**: Type "Observations"
    - **Number of Rows**: Set to 4
@@ -194,8 +268,8 @@ Let's add the ability to capture photos - essential for field documentation!
 
 #### Field 5: Site Photo (Camera)
 
-1. **Find it**: Look for **TakePhoto** in the palette
-2. **Drag it** to the bottom of your form
+1. **Find it**: Look for **TakePhoto** in the field palette
+2. **Add it**: Click on the field type to add it to your form
 3. **Configure it**:
    - **Field Label**: Type "Site Photo"
    - **Required**: Leave off (photos optional)
