@@ -115,16 +115,17 @@ Fantastic! You're now in the Notebook Editor. This is where the magic happens.
 [SCREENSHOT: Notebook Editor interface showing the form builder layout]
 
 You'll see the main interface elements:
-- **Top bar**: CANCEL and SAVE buttons on the right; UNDO and REDO buttons
+- **Top bar**: CANCEL and SAVE buttons on the right
+- **Action buttons**: UNDO and REDO buttons (below the top bar, above the tabs)
 - **Tab bar**: DESIGN and INFO tabs on the left
 - **"+" button**: Click to add a new form
 - **Form editing area**: Shows "Form Name" field with "Form 1" pre-filled, and "ADD NEW FORM" button
 
 > ⚠️ **Common Mistake**: Don't worry if it looks empty - that's normal! We're about to fill it with useful fields. Remember to click the green SAVE button in the top-right when you want to save your work.
 
-> 💡 **Tip**: Notice the UNDO and REDO buttons in the top-right corner of the Editor. Use these to recover from accidental deletions or changes. They're your safety net while building forms!
+> 💡 **Tip**: Notice the UNDO and REDO buttons below the top bar. Use these to recover from accidental deletions or changes. They're your safety net while building forms!
 
-[SCREENSHOT: Close-up of Editor top-right corner showing UNDO and REDO buttons with cursor hovering]
+[SCREENSHOT: Close-up of Editor showing UNDO and REDO buttons below top bar, above tabs]
 
 ### ✓ You'll Know It Worked When...
 - The Notebook Editor opens with "Form 1" in the Form Name field
@@ -487,7 +488,7 @@ Now let's open your notebook to start collecting data:
 
 You'll see the record list interface:
 - **ADD NEW SITE DETAILS** button (orange) - for creating new records
-- **REFRESH RECORDS** button (green) - to sync with server
+- **REFRESH RECORDS** button (green) - refreshes the displayed list from local database (useful to see records synced in the background)
 - **MY SITE DETAILSS (0)** tab - shows your record list (currently empty)
 - Additional tabs: DETAILS, SETTINGS, MAP
 - **Empty table** showing column headers for your data (Site Name, Site Type, Created, Last Updated, etc.)
@@ -574,9 +575,9 @@ You're automatically returned to the record list view. Here's what you'll see:
   - **Last Updated By**: Your username
 - **Pagination** at bottom shows "1-1 of 1"
 
-> 💡 **About Sync**: Fieldmark automatically syncs records when you're online. The orange icon with three dots means the record hasn't synced to the server yet. Once synced, it will turn into a green cloud icon with a checkmark. To manually refresh and see the latest records from the server, click the **REFRESH RECORDS** button.
+> 💡 **About Sync**: Fieldmark automatically syncs records when you're online. The orange icon with three dots means the record hasn't synced to the server yet. Once synced, it will turn into a green cloud icon with a checkmark. If other team members have added records, click the **REFRESH RECORDS** button to update your view with records that synced in the background.
 >
-> If multiple team members edit the same record, Fieldmark has a conflict resolution workflow to help you merge changes. (See the Collaboration Guide for details.)
+> If multiple team members edit the same record while offline, Fieldmark has a conflict resolution workflow to help you merge changes.
 
 [SCREENSHOT: Record list showing green cloud with checkmark icon in Sync column, indicating successful sync]
 
