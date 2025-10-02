@@ -17,11 +17,18 @@ By the end of this guide, you'll have:
 
 **Browser**: Works best with Chrome, Firefox, or Safari. Make sure you're using a recent version.
 
+**URLs you'll use**:
+- **Control Centre URL**: Usually `https://api.fieldmark.app` (for designing notebooks)
+- **Data Collection App URL**: Usually `https://app.fieldmark.app` (for entering records)
+- Note: Your organization may have custom URLs - check with your administrator
+
+[SCREENSHOT: Two browser windows side by side showing Control Centre (api.fieldmark.app) and Data Collection App (app.fieldmark.app) URLs with labels]
+
 ### 📖 Quick Terms to Know
 
 Before we dive in, here are five terms you'll see:
 
-- **Dashboard**: Your home screen after logging in - think of it as mission control
+- **Control Centre**: Your home screen after logging in - think of it as mission control (also called the Dashboard)
 - **Notebook**: A data collection form you create and customise
 - **Notebook Editor**: The visual tool where you build and modify notebooks and templates (sometimes just called "Editor")
 - **Records**: The actual data entries people create using your notebook
@@ -29,33 +36,33 @@ Before we dive in, here are five terms you'll see:
 
 ---
 
-## Step 1: Access Your Dashboard (2 minutes)
+## Step 1: Access Your Control Centre (2 minutes)
 
 Let's begin by logging into Fieldmark and finding our way around.
 
 ### Login to Fieldmark
 
-1. Open your browser and go to your Fieldmark URL (usually something like `https://api.fieldmark.app`)
+1. Open your browser and go to your Fieldmark Control Centre URL (usually `https://api.fieldmark.app`)
 2. Enter your email and password (or select the appropriate SSO provider, e.g., Google)
 3. Click **Sign In**
 
 [SCREENSHOT: Login page with email and password fields]
 
-### Welcome to Your Dashboard!
+### Welcome to Your Control Centre!
 
-After logging in, you'll see the Dashboard Overview. This is your command centre where you can:
+After logging in, you'll see the Control Centre Overview. This is your command centre where you can:
 - Create new notebooks (from scratch or from templates)
 - Access and edit existing notebooks
 - Create and edit templates
 - Manage teams and users
 
-[SCREENSHOT: Dashboard Overview showing the main navigation and Create buttons]
+[SCREENSHOT: Control Centre Overview showing the main navigation and Create buttons]
 
 > ✨ **Pro Tip**: Bookmark this page! You'll be coming back here often. In most browsers, press `Ctrl+D` (Windows/Linux) or `Cmd+D` (Mac) to bookmark.
 
 ### ✓ You'll Know It Worked When...
 - You see your name or email in the bottom-left user menu
-- The dashboard (right pane) shows navigation options like Notebooks, Templates, Users, Teams
+- The Control Centre (right pane) shows navigation options like Notebooks, Templates, Users, Teams
 - You see a list of notebooks in the main window
 - No error messages or login prompts appear
 
@@ -69,7 +76,7 @@ Creating a notebook is easy. Let's do it!
 
 ### Create a New Notebook
 
-From the Dashboard:
+From the Control Centre:
 
 1. Click **Notebooks** in the left navigation
 2. Click **+ Create Notebook**
@@ -80,17 +87,26 @@ From the Dashboard:
 
 In the creation dialog:
 1. **Template/Notebook Name**: Type "My First Survey" (or any name you like!)
-2. **Select team**: Use the dropdown to select the team the notebook belongs to (usually there will only be one option) 
+2. **Select team**: Use the dropdown (required)
+   - If you have only one team, it will be pre-selected
+   - If you have multiple teams, choose the appropriate one for this notebook
 3. Ignore the 'optional' fields
 4. Click **Create Notebook**
 
 ### Navigating to your new, blank notebook
 
 After you click 'Create Notebook', you will return to the list of notebooks, where you should:
-1. Go to the end of the list, clicking through to later pages if needed
-3. Click on the name of the notebook you just created (last in the list)
-4. Click on the **Actions** tab
-5. Click **Open in Editor**
+1. **Find your new notebook**:
+   - It will appear at the end of the notebook list
+   - **If you have many notebooks**: Look for pagination controls at the bottom of the list (showing "1-10 of X notebooks" with arrow buttons)
+   - **Quick tip**: Use the search bar at the top of the list to search for "My First Survey"
+   - Scroll down and click through pages until you see your notebook
+
+[SCREENSHOT: Notebook list showing pagination controls at bottom ("< 1 2 3 >") and search bar at top, with arrow pointing to "My First Survey" at end of list]
+
+2. Click on the name of the notebook you just created (last in the list)
+3. Click on the **Actions** tab
+4. Click **Open in Editor**
 
 ### Hello, Notebook Editor!
 
@@ -99,15 +115,16 @@ Fantastic! You're now in the Notebook Editor. This is where the magic happens.
 [SCREENSHOT: Notebook Editor interface showing the form builder layout]
 
 You'll see the main interface elements:
-- **Top bar (right side)**: CANCEL (gray) and SAVE (green) buttons
-- **Tab bar (left side)**: DESIGN (active, green underline) and INFO tabs
-- **Right side**: UNDO and REDO buttons
-- **Blue info box**: Instructions explaining forms and sections
-- **"+" button (below info box)**: Click to add a new form
-- **Form editing area**: Shows "Form Name" field with "Form 1" pre-filled
-- **ADD NEW FORM button**: Green button to the right of the form name field
+- **Top bar**: CANCEL and SAVE buttons on the right; UNDO and REDO buttons
+- **Tab bar**: DESIGN and INFO tabs on the left
+- **"+" button**: Click to add a new form
+- **Form editing area**: Shows "Form Name" field with "Form 1" pre-filled, and "ADD NEW FORM" button
 
 > ⚠️ **Common Mistake**: Don't worry if it looks empty - that's normal! We're about to fill it with useful fields. Remember to click the green SAVE button in the top-right when you want to save your work.
+
+> 💡 **Tip**: Notice the UNDO and REDO buttons in the top-right corner of the Editor. Use these to recover from accidental deletions or changes. They're your safety net while building forms!
+
+[SCREENSHOT: Close-up of Editor top-right corner showing UNDO and REDO buttons with cursor hovering]
 
 ### ✓ You'll Know It Worked When...
 - The Notebook Editor opens with "Form 1" in the Form Name field
@@ -200,7 +217,7 @@ Let's start with the basics - a text field and a dropdown. These are the bread a
 
 [SCREENSHOT: "Add a field" dialog showing field name changed to "Site Name" and "FAIMS Text Field" selected]
 
-3. **The field appears collapsed** - click anywhere on the grey bar to expand it
+3. **Click on the grey bar** to expand the field
 4. **Configure the field**:
    - **Label**: Already shows "Site Name" ✓
    - **Field ID**: Auto-generated as "Site-Name" ✓
@@ -231,7 +248,7 @@ Now let's add a choice field where users select one option from a list.
 
 [SCREENSHOT: "Add a field" dialog showing CHOICE category with "Select one option" highlighted]
 
-4. **If the field appears collapsed** - click on the grey bar to expand it
+4. **Click on the grey bar** to expand the field
 5. **Add your options** - these are the choices users will see:
    - You'll see one default option "1" in the list
    - Click the **pencil icon** (edit) next to "1" to open the "Edit Option" dialog
@@ -286,7 +303,7 @@ While Fieldmark automatically timestamps all records, explicitly capturing dates
 
 [SCREENSHOT: "Add a field" dialog showing DATE & TIME tab with "Date and Time with Now button" highlighted]
 
-4. **If the field appears collapsed** - click on the grey bar to expand it
+4. **Click on the grey bar** to expand the field
 5. **Configure the field**:
    - **Label**: Already shows "Survey Date" ✓
    - **Field ID**: Auto-generated as "Survey-Date" ✓
@@ -316,7 +333,7 @@ For longer descriptions, we need a multiline text field.
 
 [SCREENSHOT: "Add a field" dialog showing TEXT tab with "Text Field" highlighted]
 
-4. **If the field appears collapsed** - click on the grey bar to expand it
+4. **Click on the grey bar** to expand the field
 5. **Configure the field**:
    - **Label**: Already shows "Observations" ✓
    - **Field ID**: Auto-generated as "Observations" ✓
@@ -348,7 +365,7 @@ Let's add the ability to capture photos - essential for field documentation!
 
 [SCREENSHOT: "Add a field" dialog showing MEDIA tab with "Take Photo" highlighted]
 
-4. **If the field appears collapsed** - click on the grey bar to expand it
+4. **Click on the grey bar** to expand the field
 5. **Configure the field**:
    - **Label**: Already shows "Site Photo" ✓
    - **Field ID**: Auto-generated as "Site-Photo" ✓
@@ -380,7 +397,7 @@ Now let's configure how the form behaves when collecting data.
    - **Finish Button Behavior**: Leave as **"Always Show"** (users can save records anytime)
    - **Layout Style**: Leave as **"Tabs"** (sections display as tabs for organized navigation)
    - **Summary Fields**: Click the dropdown and select both **"Site Name"** and **"Site Type"** (these will show in the record list table)
-   - **Human-Readable ID Field**: Select **"Site Name"** (provides meaningful record labels instead of UUID)
+   - **Human-Readable ID Field**: Select **"Site Name"** (provides meaningful record labels instead of opaque, computer-generated identifiers (UUIDs))
 
 [SCREENSHOT: Form Settings panel showing configured selections - Always Show, Tabs, Site Name + Site Type selected, Site Name as HRID]
 
@@ -398,10 +415,12 @@ Now let's configure how the form behaves when collecting data.
 **Important:** The Notebook Editor does not auto-save. Let's save your progress now.
 
 1. **Click the green SAVE button** in the top-right corner
-2. **You'll be returned to the Dashboard** - this is expected behavior
-3. **To continue editing later**, simply click **"Open in Editor"** again from the Dashboard
+2. **You'll be returned to the Control Centre** - this is expected behavior
+3. **To continue editing later**, simply click **"Open in Editor"** again from the Control Centre
 
-> ⚠️ **Remember to Save**: Get in the habit of clicking SAVE periodically as you work. The Editor will close and return you to the Dashboard each time you save, but you can immediately click "Open in Editor" to resume editing.
+> ⚠️ **Remember to Save**: Get in the habit of clicking SAVE periodically as you work. The Editor will close and return you to the Control Centre each time you save, but you can immediately click "Open in Editor" to resume editing.
+
+> 💡 **Tip**: You can always resume editing your notebook at any time by returning to the Control Centre, selecting your notebook from the list, clicking the **Actions** tab, and choosing **Open in Editor**. Your work is saved and ready to continue.
 
 > ✨ **Pro Tip**: Start simple like we just did. You can always come back to add more fields, validation rules, or conditional logic. Most successful notebooks begin with 5-10 fields and evolve based on actual use. Once you're comfortable with the basics, explore the **INFO tab** to add project metadata like project lead, organization, and custom key-value pairs.
 
@@ -415,7 +434,7 @@ Time to see your creation in action! Let's activate your notebook in the Fieldma
 
 Your notebook has been saved in the Editor. Now let's activate it for data collection:
 
-1. **Open a new browser tab** and navigate to your Fieldmark app URL (e.g., `https://app.fieldmark.app`)
+1. **Open a new browser tab** and navigate to your Fieldmark data collection app URL (usually `https://app.fieldmark.app`)
 2. **Log in** with the same credentials you used to access the Editor
 
 [SCREENSHOT: Fieldmark app "My Notebooks" home screen showing ACTIVE (0) and NOT ACTIVE tabs]
@@ -452,21 +471,29 @@ When the app opens, you'll see the "My Notebooks" screen:
 - Your notebook appears in the list under the ACTIVE tab
 - You can now click on the notebook name to open it
 
+### Understanding Offline-First Design
+
+Before we continue, here's an important feature: Fieldmark is designed to work offline.
+
+> 💡 **Offline-First**: No network connection is needed for data collection in the field. Your data is saved locally to your device, and it automatically syncs to the server when you have connectivity (unless you've disabled sync in Settings). This means you can collect data anywhere, anytime.
+
+This is why we "activate" notebooks - the activation process downloads the notebook structure to your device so you can work without internet.
+
 ### Open Your Notebook
 
 Now let's open your notebook to start collecting data:
 
 1. **Click on your notebook's name** in the ACTIVE tab (e.g., "Quickstart-test" or "My First Survey")
 
-[SCREENSHOT: Empty notebook view showing "ADD NEW SITE DETAILS" button, tabs (MY SITE DETAILSS (0), DETAILS, SETTINGS, MAP), search bar, and empty table with columns: Sync, Site Name, Site Type, Created, Created By, Last Updated, Last Updated By - displaying "No rows"]
-
 You'll see the record list interface:
 - **ADD NEW SITE DETAILS** button (orange) - for creating new records
 - **REFRESH RECORDS** button (green) - to sync with server
 - **MY SITE DETAILSS (0)** tab - shows your record list (currently empty)
 - Additional tabs: DETAILS, SETTINGS, MAP
-- Table with columns including "Site Name" and "Site Type" (the Summary Fields we configured)
+- **Empty table** showing column headers for your data (Site Name, Site Type, Created, Last Updated, etc.)
 - "No rows" message - because this is a brand new notebook
+
+[SCREENSHOT: Empty notebook view showing interface elements and empty table with column headers]
 
 ### Create Your First Record
 
@@ -548,6 +575,8 @@ You're automatically returned to the record list view. Here's what you'll see:
 - **Pagination** at bottom shows "1-1 of 1"
 
 > 💡 **About Sync**: Fieldmark automatically syncs records when you're online. The orange icon with three dots means the record hasn't synced to the server yet. Once synced, it will turn into a green cloud icon with a checkmark. To manually refresh and see the latest records from the server, click the **REFRESH RECORDS** button.
+>
+> If multiple team members edit the same record, Fieldmark has a conflict resolution workflow to help you merge changes. (See the Collaboration Guide for details.)
 
 [SCREENSHOT: Record list showing green cloud with checkmark icon in Sync column, indicating successful sync]
 
