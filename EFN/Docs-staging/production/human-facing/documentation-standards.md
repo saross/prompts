@@ -1,8 +1,9 @@
 # Human-Facing Documentation Standards
 
-**Created**: 2025-01-08  
-**Purpose**: Standards and templates for creating effective human-facing documentation  
-**Based on**: Lessons learned from quickstart guide development and assessment
+**Created**: 2025-01-08
+**Last Updated**: 2025-10-02
+**Purpose**: Standards and templates for creating effective human-facing documentation
+**Based on**: Lessons learned from quickstart guide development, screenshot verification pilot, and effectiveness assessment
 
 ## Key Learnings from Quickstart Guide
 
@@ -11,13 +12,26 @@
 - Consistent terminology
 - Encouraging tone
 - Comprehensive coverage
+- Progressive disclosure of concepts
+- Confidence building through celebration
 
-### What LLMs Miss
+### What LLMs Miss (Without Screenshot Verification)
 - **Navigation specificity** - WHERE buttons are located
 - **Visual continuity** - Assuming users remember previous screens
 - **Cognitive load** - Too many concepts at once
 - **Platform variations** - Mobile vs desktop differences
 - **Success validation** - How users know they succeeded
+- **Actual UI workflows** - Assumptions about drag-and-drop, auto-save, panel locations
+- **Modal dialogs vs panels** - Interface interaction patterns
+- **Realistic time estimates** - Optimistic assumptions about completion time
+
+### Critical Discovery: Screenshot Verification is Essential
+
+**2025-10-02 Pilot Findings**:
+- Initial quickstart had systemic errors about UI workflows (assumed drag-and-drop when actual UI uses modal dialogs)
+- LLM made incorrect assumptions about auto-save, panel locations, and navigation patterns
+- **Solution**: Screenshot-driven iterative development where each workflow step is verified against actual UI
+- **Outcome**: 8.5/10 effectiveness score after screenshot verification vs. likely 5/10 with assumptions
 
 ---
 

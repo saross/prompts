@@ -11,11 +11,13 @@ This folder contains user-oriented documentation designed for human readers lear
 
 ### 📚 Completed Documents
 
-1. **quickstart-notebook-creators.md**
+1. **quickstart-creation-and-collection.md** (formerly quickstart-notebook-creators.md)
    - Target: New notebook creators
-   - Goal: First successful notebook in 15 minutes
-   - Style: Conversational, encouraging
-   - Length: ~2,000 words
+   - Goal: Complete creation-to-collection workflow in 30 minutes
+   - Scope: Notebook creation, form/section/field setup, activation, and first record collection
+   - Style: Conversational, encouraging, screenshot-verified
+   - Length: ~5,000 words
+   - Assessment: 8.5/10 effectiveness (see quickstart-effectiveness-assessment-2025-10-02.md)
 
 ### 📝 Planned Documents
 
