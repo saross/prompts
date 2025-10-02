@@ -1,8 +1,8 @@
 # To-Do Next: Fieldmark Documentation Session Handover
 
 **Created**: 2025-09-20
-**Last Updated**: 2025-10-01
-**Last Session Summary**: Continued quickstart manual pilot - fixed Editor description and removed all drag-and-drop references
+**Last Updated**: 2025-10-02
+**Last Session Summary**: Completed quickstart manual pilot through screenshot verification - all steps now accurate
 
 ## Session Context
 
@@ -168,18 +168,62 @@ Docs-staging/
 - [ ] Template vs Notebook relationship: Can you edit notebooks directly or only through templates?
 - [ ] Records view: How to access after creating a record?
 
-## Next Session Starting Point (2025-10-02)
+## Session Log: 2025-10-02
 
-1. **Review today's changes** in quickstart-notebook-creators-edited.md
-2. **Continue with Step 4** (Deploy and Test, lines 230-301):
-   - Verify "Deploy" button existence and location
-   - Check notebook access workflow after deployment
-   - Validate record creation and save process
-3. **Step 5 verification** (Collaborate and Refine, lines 303+):
-   - Verify template editing workflow
-   - Check if changes to templates really don't affect existing notebooks
-4. **Use screenshot best practices** documented below
-5. **Document any new UI discoveries** in this file
+### Completed Today
+- ✅ Added missing Form and Section creation workflow (between Step 2 and Step 3)
+- ✅ Fixed all 5 field instructions with modal dialog workflow (not "left panel")
+- ✅ Updated Field 2 (Site Type) with radio button option editing workflow
+- ✅ Added annotation and uncertainty feature documentation with "dog ear icon" terminology
+- ✅ Fixed Form Settings section with actual UI (top panel, Summary Fields, HRID)
+- ✅ Added "Save Your Work" section explaining manual SAVE and Dashboard return behavior
+- ✅ Completely rewrote Step 4 (Activate and Test) with actual Fieldmark app workflow
+- ✅ Added activation modal dialog confirmation step
+- ✅ Updated data entry form with all field types and progress bar
+- ✅ Added sync status icons explanation (orange dots → green cloud with checkmark)
+- ✅ Added Notebook Settings section (Sync toggle, attachments, deactivate)
+- ✅ Replaced Step 5 with concise "Next Steps" pointing to Control Centre
+- ✅ Removed incorrect collaboration/permissions sections (Control Centre only)
+
+### Critical UI Discoveries (Screenshot-Verified)
+1. **Modal Dialog Workflow**: Field selection uses "Add a field" modal dialog with category tabs (ALL, TEXT, NUMBERS, DATE & TIME, MEDIA, LOCATION, CHOICE), NOT a left panel
+2. **Dog Ear Icon**: Blue folded-corner icon for annotations/uncertainty (standard UI pattern)
+3. **Form Settings Location**: At top of form (click grey area to expand), NOT below fields
+4. **Activation Workflow**: NOT ACTIVE tab → ACTIVATE button → Confirmation modal → Auto-switch to ACTIVE tab
+5. **App vs Editor Separation**: Notebook Editor (design) is separate from Fieldmark app (data collection)
+6. **Summary Fields Display**: Selected fields (Site Name, Site Type) appear as columns in record list table
+7. **Sync Icons**: Orange 3-dot icon = not synced, green cloud with checkmark = synced
+8. **Settings Tab Controls**: Sync Notebook toggle, Get attachments from other devices toggle, Deactivate button
+9. **Save Behavior**: SAVE button returns to Dashboard (expected behavior), click "Open in Editor" to resume
+10. **Finish Buttons**: FINISH AND CLOSE (returns to list), FINISH AND NEW (immediate new record), CANCEL
+
+### Verified Field Types and Configurations
+- **FAIMS Text Field**: Single-line text (Site Name)
+- **Select one option** (RadioGroup): Radio buttons with editable options (Site Type)
+  - Edit default "1" option to "Habitation" via pencil icon
+  - Add remaining options via "Add Option" field
+  - Annotation and Uncertainty available (dog ear icon)
+- **Date and Time with Now button**: Auto-populated datetime with calendar picker (Survey Date)
+  - NOW button updates to current time
+  - Calendar icon opens date/time picker with Clear/Today buttons
+- **Text Field** (MultipleTextField): Multi-line text area (Observations)
+  - Default 4 rows (no need to mention)
+- **Take Photo**: Camera field with "TAKE FIRST PHOTO" button (Site Photo)
+  - Custom annotation label: "Photo notes"
+
+### Screenshot Workflow Established
+- Text accuracy priority for v1 release
+- Screenshot placeholders in place with detailed descriptions
+- Batch screenshot organization for v2 (after v1 text complete)
+- Naming convention: `{section-number}-{component}-{state}.png`
+- User has AMD Strix Halo with 72B vision model capability for future automation
+
+### Next Steps (Post-Pilot)
+1. **Batch organize screenshots** into `screenshots/quickstart/` folder
+2. **Update all screenshot placeholders** with actual image links
+3. **Run vision model pipeline** (llama3.2-vision:11b or qwen2.5-vl:72b) for automated verification
+4. **Create v1 release** with text-complete quickstart
+5. **Plan v2** with comprehensive screenshot integration
 
 ## Files Changed This Session
 
@@ -189,9 +233,13 @@ Docs-staging/
 - `/home/shawn/Code/prompts/EFN/Docs-staging/production/dashboard/templates-interface.md`
 - `/home/shawn/Code/prompts/EFN/Docs-staging/production/human-facing/quickstart-notebook-creators-edited.md` (working copy)
 
-### Session 2025-10-01 (Today)
+### Session 2025-10-01
 - `/home/shawn/Code/prompts/EFN/Docs-staging/production/human-facing/quickstart-notebook-creators-edited.md` (7 edits)
 - `/home/shawn/Code/prompts/EFN/Docs-staging/to-do-next.md` (updated with session log)
+
+### Session 2025-10-02 (Today)
+- `/home/shawn/Code/prompts/EFN/Docs-staging/production/human-facing/quickstart-notebook-creators-edited.md` (30+ edits - complete rewrite of Steps 3-5)
+- `/home/shawn/Code/prompts/EFN/Docs-staging/to-do-next.md` (final session log)
 
 ## Contact for Questions
 Continue work with Claude Code, providing screenshots at each step for verification.

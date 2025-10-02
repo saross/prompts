@@ -209,58 +209,128 @@ Let's start with the basics - a text field and a dropdown. These are the bread a
 
 [SCREENSHOT: Expanded "Site Name" field showing configuration options with Required toggled on]
 
-> ✓ **Check Your Progress**: The "Site Name" field is now in the "Visible Fields" area, configured as required, with helper text set.
+### ✓ You'll Know It Worked When...
+- The "Site Name" field appears in the "Visible Fields" area
+- Helper text displays: "Enter the official site designation or name"
+- Required ☑ is checked
+- The field is ready for data collection!
 
 > 💡 **More Options**: Fields can also have Advanced Helper Text (formatted popup help), Conditions (show/hide based on other fields), Annotations, or "Copy value to new records" for smart defaults. We'll keep it simple for now!
 
-#### Field 2: Site Type (Dropdown)
+#### Field 2: Site Type (Radio Buttons)
 
-Now let's add a dropdown for selecting options.
+Now let's add a choice field where users select one option from a list.
 
-1. **Find it**: Look for **Select** in the left panel
-2. **Add it**: Click on **Select** to add it to your form (it will appear below your Site Name field)
-3. **Configure it**:
-   - **Field Label**: Type "Site Type"
-   - **Options**: Click "Add Option" and add these one by one:
-     - Archaeological
-     - Geological  
-     - Ecological
-     - Other
-   - **Required**: Toggle on ✓
+1. **Collapse the Site Name field** - click on the grey bar to collapse it
+2. **Click the "ADD A FIELD" button**
+3. **In the "Add a field" dialog**:
+   - **Field name**: Change "New Field" to **"Site Type"**
+   - **Navigate to Choice fields**: Click the right chevron (>) next to the category tabs to see more options
+   - **Field type**: Click on **"Select one option"** (creates radio buttons)
+   - Click **"ADD FIELD"**
 
-> 💡 **Platform Note**: On mobile devices, Select fields automatically adapt to native pickers for better usability.
+[SCREENSHOT: "Add a field" dialog showing CHOICE category with "Select one option" highlighted]
 
-**Quick Save**: Click the **Save** button in the top navigation to save your progress.
+4. **If the field appears collapsed** - click on the grey bar to expand it
+5. **Add your options** - these are the choices users will see:
+   - You'll see one default option "1" in the list
+   - Click the **pencil icon** (edit) next to "1" to open the "Edit Option" dialog
+   - Change "1" to **"Habitation"** and click **SAVE**
+   - Now use **"Add Option"** field to add the remaining options:
+     - Type **"Mortuary"** and click **"Add"**
+     - Repeat for: **"Ceremonial"**, **"Workshop/Industrial"**, **"Defensive"**, **"Agricultural"**, **"Other"**
+   - Use the drag handles (⋮⋮) or up/down arrows to reorder if needed
+
+[SCREENSHOT: Edit Option dialog showing changing "1" to "Habitation"]
+
+6. **Configure the field**:
+   - **Label**: Already shows "Site Type" ✓
+   - **Field ID**: Auto-generated as "Site-Type" ✓
+   - **Helper Text**: Type "Select the primary function of this site"
+   - **Required**: Toggle ON ☑
+   - **Annotation**: Toggle ON ☑ (allows margin notes for qualifications)
+   - **Uncertainty**: Toggle ON ☑ (allows flagging uncertain observations)
+
+[SCREENSHOT: Expanded "Site Type" field showing options list and Required/Annotation/Uncertainty enabled]
+
+### ✓ You'll Know It Worked When...
+- The "Site Type" field shows a green "Required" badge in the header
+- All 7 options are visible in the list: Habitation, Mortuary, Ceremonial, Workshop/Industrial, Defensive, Agricultural, Other
+- Helper text displays: "Select the primary function of this site"
+- Required ☑, Annotation ☑, and Uncertainty ☑ are all checked with green checkmarks
+- The field is ready for data collection!
+
+> ✨ **Fieldmark Feature**: The **Annotation** and **Uncertainty** toggles are unique to Fieldmark! They help capture data quality nuances:
+> - **Annotation**: Add contextual notes (e.g., when selecting "Other", use annotation to describe what type of site it actually is)
+> - **Uncertainty**: Flag observations you're unsure about for later review
+
+> 💡 **Pro Tip**: You can use markdown in option text - try `**Important Option**` to make text bold!
+
+**Quick Save**: Click the **SAVE** button in the top-right to save your progress.
 
 ### Part B: Date and Long Text (2 minutes)
 
 Now let's add fields for capturing when and what happened.
 
-#### Field 3: Visit Date (Date Picker)
+#### Field 3: Survey Date (Date and Time)
 
-Every record needs a date!
+While Fieldmark automatically timestamps all records, explicitly capturing dates as field data is important: it affirms from human input when information was collected and makes data easier to work with when exported.
 
-1. **Find it**: Look for **DateTime with Now button** (captures current date/time automatically)
-2. **Add it**: Click on the field type to add it to your form
-3. **Configure it**:
-   - **Field Label**: Type "Visit Date"
-   - **Required**: Toggle on ✓
-   - **Hide Time**: Toggle on if you only need the date
+1. **Collapse the Site Type field** - click on the grey bar to collapse it
+2. **Click the "ADD A FIELD" button**
+3. **In the "Add a field" dialog**:
+   - **Field name**: Change "New Field" to **"Survey Date"**
+   - **Field type**: Click on the **DATE & TIME** tab (already visible on first page)
+   - Select **"Date and Time with Now button"** (auto-populates with current date/time)
+   - Click **"ADD FIELD"**
 
-> ✓ **Check Your Progress**: You now have three fields in your form. The date field shows it will auto-populate with "now".
+[SCREENSHOT: "Add a field" dialog showing DATE & TIME tab with "Date and Time with Now button" highlighted]
 
-#### Field 4: Observations (Text Area)
+4. **If the field appears collapsed** - click on the grey bar to expand it
+5. **Configure the field**:
+   - **Label**: Already shows "Survey Date" ✓
+   - **Field ID**: Auto-generated as "Survey-Date" ✓
+   - **Helper Text**: Type "Date and time when this site was surveyed"
+   - **Time pre-populated**: Toggle ON ☑ (auto-fills with current date/time when record is created; date/time can still be changed)
+   - **Required**: Toggle ON ☑
+
+[SCREENSHOT: Expanded "Survey Date" field showing configuration with Time pre-populated and Required enabled]
+
+### ✓ You'll Know It Worked When...
+- The "Survey Date" field appears in the Visible Fields list with "DateTimeNow" badge
+- Helper text displays: "Date and time when this site was surveyed"
+- Time pre-populated ☑ and Required ☑ are both checked
+- The field is ready to auto-populate when users create records!
+
+#### Field 4: Observations (Multi-line Text)
 
 For longer descriptions, we need a multiline text field.
 
-1. **Find it**: Look for **MultipleTextField** (designed for longer text)
-2. **Add it**: Click on the field type to add it to your form
-3. **Configure it**:
-   - **Field Label**: Type "Observations"
-   - **Number of Rows**: Set to 4
-   - **Helper Text**: "Describe site conditions and notable features"
+1. **Collapse the Survey Date field** - click on the grey bar to collapse it
+2. **Click the "ADD A FIELD" button**
+3. **In the "Add a field" dialog**:
+   - **Field name**: Change "New Field" to **"Observations"**
+   - **Field type**: Click on the **TEXT** tab (already visible on first page)
+   - Select **"Text Field"** (multi-line text area for longer notes)
+   - Click **"ADD FIELD"**
 
-> 📱 **Mobile Tip**: MultipleTextField automatically expands on mobile devices as users type more content.
+[SCREENSHOT: "Add a field" dialog showing TEXT tab with "Text Field" highlighted]
+
+4. **If the field appears collapsed** - click on the grey bar to expand it
+5. **Configure the field**:
+   - **Label**: Already shows "Observations" ✓
+   - **Field ID**: Auto-generated as "Observations" ✓
+   - **Helper Text**: Type "Describe site conditions, features, and any notable characteristics"
+   - Leave **Required** unchecked (observations can be optional)
+
+[SCREENSHOT: Expanded "Observations" field showing configuration]
+
+### ✓ You'll Know It Worked When...
+- The "Observations" field appears in the Visible Fields list with "TextField" badge
+- Helper text displays: "Describe site conditions, features, and any notable characteristics"
+- The field is ready for longer text entries!
+
+> 📱 **Mobile Tip**: Text Field automatically expands on mobile devices as users type more content, making it perfect for field notes!
 
 ### Part C: Adding Photo Capability (1 minute)
 
@@ -268,279 +338,295 @@ Let's add the ability to capture photos - essential for field documentation!
 
 #### Field 5: Site Photo (Camera)
 
-1. **Find it**: Look for **TakePhoto** in the field palette
-2. **Add it**: Click on the field type to add it to your form
-3. **Configure it**:
-   - **Field Label**: Type "Site Photo"
-   - **Required**: Leave off (photos optional)
-   - **Multiple Photos**: Leave off for now
+1. **Collapse the Observations field** - click on the grey bar to collapse it
+2. **Click the "ADD A FIELD" button**
+3. **In the "Add a field" dialog**:
+   - **Field name**: Change "New Field" to **"Site Photo"**
+   - **Field type**: Click on the **MEDIA** tab
+   - Select **"Take Photo"** (enables camera capture)
+   - Click **"ADD FIELD"**
 
-[SCREENSHOT: Completed form showing all five fields in the Notebook Editor]
+[SCREENSHOT: "Add a field" dialog showing MEDIA tab with "Take Photo" highlighted]
 
-### Adding Form Completion Settings
+4. **If the field appears collapsed** - click on the grey bar to expand it
+5. **Configure the field**:
+   - **Label**: Already shows "Site Photo" ✓
+   - **Field ID**: Auto-generated as "Site-Photo" ✓
+   - **Helper Text**: Type "Photograph the site for documentation"
+   - Leave **Required** unchecked (photos can be optional)
+   - **Annotation**: Toggle ON ☑
+   - **Annotation Label**: Change from "annotation" to **"Photo notes"**
 
-One crucial step - let's ensure records can be properly saved:
+[SCREENSHOT: Expanded "Site Photo" field showing configuration]
 
-1. Click on **Form Settings** (gear icon or settings button)
-2. Find **Form Completion**:
-   - **Submit Button Label**: Set to "Save Record"
-   - **Show Summary**: Toggle on
-3. Find **Record Identification**:
-   - Enable **Auto-generate HRID** (Human Readable ID)
-   - Pattern: Leave as default or set to "SITE-{{YYYY}}-{{autoincrement}}"
+### ✓ You'll Know It Worked When...
+- The "Site Photo" field appears in the Visible Fields list with "TakePhoto" badge
+- Helper text displays: "Photograph the site for documentation"
+- Annotation ☑ is checked with custom label "Photo notes"
+- All 5 fields are now visible: Site Name, Site Type, Survey Date, Observations, Site Photo
+- Your form is ready for data collection!
 
-### ✓ Final Check: You'll Know It Worked When...
+[SCREENSHOT: All five fields visible in Visible Fields list]
 
-Before moving on, verify:
-- You can see 5 fields in the centre panel
-- They appear in order: Site Name, Site Type, Visit Date, Observations, Site Photo
-- Required fields show red asterisks (*)
-- Form settings show "Save Record" button configured
+### Configure Form Settings
 
-> ✨ **Pro Tip**: Start simple like we just did. You can always come back to add more fields, validation rules, or conditional logic. Most successful notebooks begin with 5-10 fields and evolve based on actual use.
+Now let's configure how the form behaves when collecting data.
+
+[SCREENSHOT: Form Settings panel at the top showing configuration options]
+
+1. **Find the Form Settings panel** at the top of the form editor (below "FORM: SITE DETAILS")
+2. **Click anywhere in the grey "Form Settings" bar** to expand the settings if collapsed
+3. **Configure the settings**:
+   - **Finish Button Behavior**: Leave as **"Always Show"** (users can save records anytime)
+   - **Layout Style**: Leave as **"Tabs"** (sections display as tabs for organized navigation)
+   - **Summary Fields**: Click the dropdown and select both **"Site Name"** and **"Site Type"** (these will show in the record list table)
+   - **Human-Readable ID Field**: Select **"Site Name"** (provides meaningful record labels instead of UUID)
+
+[SCREENSHOT: Form Settings panel showing configured selections - Always Show, Tabs, Site Name + Site Type selected, Site Name as HRID]
+
+> 💡 **Advanced Option**: The "Finish Button Behavior" can be changed to "Show Only When No Errors Exist" to ensure all required fields are completed before allowing save, or "Show Once All Sections Visited" to guide users through multi-section forms.
+
+### ✓ You'll Know It Worked When...
+
+- Form Settings panel shows all four settings configured
+- Summary Fields displays "Site Name ×" and "Site Type ×" (× removes item)
+- Human-Readable ID Field shows "Site Name"
+- All 5 fields are visible in your "Basic Information" section below
+
+### Save Your Work
+
+**Important:** The Notebook Editor does not auto-save. Let's save your progress now.
+
+1. **Click the green SAVE button** in the top-right corner
+2. **You'll be returned to the Dashboard** - this is expected behavior
+3. **To continue editing later**, simply click **"Open in Editor"** again from the Dashboard
+
+> ⚠️ **Remember to Save**: Get in the habit of clicking SAVE periodically as you work. The Editor will close and return you to the Dashboard each time you save, but you can immediately click "Open in Editor" to resume editing.
+
+> ✨ **Pro Tip**: Start simple like we just did. You can always come back to add more fields, validation rules, or conditional logic. Most successful notebooks begin with 5-10 fields and evolve based on actual use. Once you're comfortable with the basics, explore the **INFO tab** to add project metadata like project lead, organization, and custom key-value pairs.
 
 ---
 
-## Step 4: Deploy and Test Your Notebook (3 minutes)
+## Step 4: Activate and Test Your Notebook (3 minutes)
 
-Time to see your creation in action! Let's deploy your template as a notebook and enter test data.
+Time to see your creation in action! Let's activate your notebook in the Fieldmark mobile app and enter test data.
 
-### Deploy Your Template
+### Open the Fieldmark App
 
-1. **Save the Template**: Click **Save** one more time to ensure everything is saved
-2. **Create Notebook from Template**:
-   - Look for **Deploy** or **Create Notebook** button
-   - Or go to the **Actions** menu and select "Create Notebook"
-3. **Name Your Notebook**: 
-   - Keep "My First Survey" or rename it
-   - Click **Create**
+Your notebook has been saved in the Editor. Now let's activate it for data collection:
 
-### Access Your Notebook
+1. **Open a new browser tab** and navigate to your Fieldmark app URL (e.g., `https://app.fieldmark.app`)
+2. **Log in** with the same credentials you used to access the Editor
 
-After deployment, you'll either:
-- Be redirected to the notebook automatically, OR
-- Need to navigate to **Notebooks** and find "My First Survey"
+[SCREENSHOT: Fieldmark app "My Notebooks" home screen showing ACTIVE (0) and NOT ACTIVE tabs]
 
-Click on your notebook to open it.
+### Activate Your Notebook
 
-[SCREENSHOT: Notebook interface showing the data entry form]
+When the app opens, you'll see the "My Notebooks" screen:
 
-### ✓ You'll Know You're Ready When...
-- You see your form without the Notebook Editor interface
-- The fields are ready for data entry
-- There's a "New Record" or "+" button visible
+[SCREENSHOT: NOT ACTIVE tab showing list of notebooks with ACTIVATE buttons]
+
+1. **Click on the "NOT ACTIVE" tab** - you'll see a list of notebooks that need activation
+2. **Find your notebook** in the list (look for "My First Survey" or whatever name you chose)
+   - If you have many notebooks, scroll through the list to locate yours
+3. **Click the green "ACTIVATE" button** next to your notebook
+4. **A modal dialog appears** explaining activation
+
+[SCREENSHOT: "Activating Notebooks" modal dialog with warning and ACTIVATE/CANCEL buttons]
+
+5. **Read the information** in the modal:
+   - Explains that activating downloads existing records to your device
+   - Warns that you need a stable internet connection
+   - Notes that you currently cannot de-activate notebooks (feature coming soon)
+6. **Click the green "ACTIVATE" button** in the modal to confirm
+7. **You'll be automatically taken to the "ACTIVE" tab** - your notebook now appears in the Active list
+
+[SCREENSHOT: ACTIVE (1) tab showing "Quickstart-test" notebook in the list]
+
+> 💡 **What does Active mean?** When a notebook is "Active", all data you collect will be saved to your device for offline work. Activating downloads existing notebook records to your device. We recommend completing this while you have a stable internet connection.
+
+> ⚠️ **Don't see your notebook?** If your notebook doesn't appear in the NOT ACTIVE list, make sure you're logged in with the same credentials you used in the Editor. If you still don't see it, contact your Fieldmark administrator about permissions.
+
+### ✓ You'll Know It Worked When...
+- The view automatically switches to the "ACTIVE" tab showing "ACTIVE (1)"
+- Your notebook appears in the list under the ACTIVE tab
+- You can now click on the notebook name to open it
+
+### Open Your Notebook
+
+Now let's open your notebook to start collecting data:
+
+1. **Click on your notebook's name** in the ACTIVE tab (e.g., "Quickstart-test" or "My First Survey")
+
+[SCREENSHOT: Empty notebook view showing "ADD NEW SITE DETAILS" button, tabs (MY SITE DETAILSS (0), DETAILS, SETTINGS, MAP), search bar, and empty table with columns: Sync, Site Name, Site Type, Created, Created By, Last Updated, Last Updated By - displaying "No rows"]
+
+You'll see the record list interface:
+- **ADD NEW SITE DETAILS** button (orange) - for creating new records
+- **REFRESH RECORDS** button (green) - to sync with server
+- **MY SITE DETAILSS (0)** tab - shows your record list (currently empty)
+- Additional tabs: DETAILS, SETTINGS, MAP
+- Table with columns including "Site Name" and "Site Type" (the Summary Fields we configured)
+- "No rows" message - because this is a brand new notebook
 
 ### Create Your First Record
 
-Let's fill in some test data:
+Let's add your first record:
 
-1. Click **New Record** or the **+** button
-2. Fill in your fields:
-   - **Site Name**: Enter "Test Location Alpha"
-   - **Site Type**: Select "Archaeological" from the dropdown
-   - **Visit Date**: Will auto-fill with today's date/time
-   - **Observations**: Type "This is my first Fieldmark record! The site shows interesting features worth documenting."
-   - **Site Photo**: 
-     - Click the camera/photo button
-     - Allow camera permissions if asked
-     - Take any photo (even of your desk - this is just practice!)
+1. **Click the orange "ADD NEW SITE DETAILS" button**
 
-[SCREENSHOT: Filled form with sample data]
+[SCREENSHOT: Data entry form showing Site Name and Site Type fields with progress bar at 33%]
+
+You'll see the data entry form with a progress bar at the top. Notice that required fields are marked with a red asterisk (*).
+
+2. **Fill in Site Name**:
+   - Type **"Test Location Alpha"** in the Site Name field
+   - Helper text shows: "Enter the official site designation or name"
+
+3. **Fill in Site Type**:
+   - Select **"Habitation"** from the radio button options
+   - Notice the **blue dog ear icon** on the right - this opens annotation and uncertainty fields
+
+[SCREENSHOT: Site Type with annotation interface expanded showing "annotation" text area with "This site is likely a dwelling but may be a workshop." and "uncertainty" checkbox checked]
+
+4. **Optional: Try the Annotation feature** (if you want to explore it):
+   - Click the **blue dog ear icon** next to Site Type
+   - An annotation text area and uncertainty checkbox appear below
+   - Type a note like: "This site is likely a dwelling but may be a workshop."
+   - Check the **uncertainty** checkbox to flag this observation as uncertain
+   - This is a powerful feature for capturing data quality context!
+
+5. **Fill in Survey Date**:
+   - The field auto-fills with the current date/time (e.g., "02/10/2025, 18:17:14")
+   - You can click the **calendar icon** to open a date/time picker if you need to change it
+   - Or click **NOW** button to update to the current time
+   - Click "Clear" or "Today" in the picker as needed
+
+6. **Fill in Observations**:
+   - Type in the multi-line text area: "I looked at the site and it's a dwelling"
+   - This field is optional (no red asterisk)
+   - Helper text shows: "Describe site conditions, features, and any notable characteristics"
+
+7. **Add a Site Photo**:
+   - Scroll to the Site Photo section
+   - You'll see "No Photos Yet" with a **"TAKE FIRST PHOTO"** button
+   - Click the green photo button
+   - Allow camera permissions if asked
+   - Take any photo (even of your desk - this is just practice!)
+   - Note: Site Photo also has a blue dog ear icon for "Photo notes" annotation
+
+[SCREENSHOT: Complete filled form showing all fields populated, 100% completion bar, with "TAKE FIRST PHOTO" button visible]
 
 ### Save Your Record
 
-Look for the **Save Record** button (as we configured):
-- It should be at the bottom of the form
-- Click it!
+At the bottom of the form, you'll see three buttons:
 
-Congratulations! 🎉 You've just created your first record!
+- **FINISH AND CLOSE SITE-DETAILS** (green) - saves the record and returns to the record list
+- **FINISH AND NEW SITE-DETAILS** (orange text) - saves the record and immediately opens a new blank form (useful for entering multiple records in a row)
+- **CANCEL** (orange) - discards the record without saving
+
+**Click "FINISH AND CLOSE SITE-DETAILS"** to save your first record!
+
+[SCREENSHOT: Bottom of form showing date/time picker open and three action buttons]
+
+Congratulations! 🎉 You've just created your first Fieldmark record!
 
 ### ✓ You'll Know It Saved When...
-- You see a success message
-- The form shows your record summary
-- You're given options to create another record or view all records
 
-### View Your Success
+You're automatically returned to the record list view. Here's what you'll see:
 
-1. Navigate to the **Records** section (might be a tab or menu option)
-2. You should see your record listed:
-   - Shows "Test Location Alpha"
-   - Shows today's date
-   - Has a unique ID like "SITE-2025-0001"
-3. Click on the record to view full details
+[SCREENSHOT: Record list showing "MY SITE DETAILSS (1)" tab with table displaying one row: orange sync icon, "Test Location Alpha", "Habitation", creation timestamp, username]
 
-[SCREENSHOT: Records list showing the saved record]
+- **MY SITE DETAILSS (1)** tab now shows 1 record (changed from "(0)")
+- Your record appears in the table with the following columns:
+  - **Sync**: Orange icon with three dots (indicates not yet synced to server)
+  - **Site Name**: "Test Location Alpha" (Summary Field #1)
+  - **Site Type**: "Habitation" (Summary Field #2)
+  - **Created**: Timestamp like "2025-10-02 18:32:49"
+  - **Created By**: Your username (e.g., "shawn@fieldnote.com.au")
+  - **Last Updated**: Same as Created for a new record
+  - **Last Updated By**: Your username
+- **Pagination** at bottom shows "1-1 of 1"
 
-> ⚠️ **Can't See Records?** Make sure you're in the notebook view, not the template. Templates are for design; notebooks are for data collection.
+> 💡 **About Sync**: Fieldmark automatically syncs records when you're online. The orange icon with three dots means the record hasn't synced to the server yet. Once synced, it will turn into a green cloud icon with a checkmark. To manually refresh and see the latest records from the server, click the **REFRESH RECORDS** button.
 
----
+[SCREENSHOT: Record list showing green cloud with checkmark icon in Sync column, indicating successful sync]
 
-## Step 5: Collaborate and Refine (2 minutes)
+### Notebook Settings
 
-Your notebook works! Now let's share it with others and learn about permissions.
+Before we finish, let's explore the SETTINGS tab to understand sync and data management options.
 
-### Understanding Permissions
+1. **Click on the SETTINGS tab** (next to MY SITE DETAILSS, DETAILS, and MAP tabs)
 
-Fieldmark uses a role-based permission system. As the notebook creator, you're automatically the **Notebook Administrator**. Here's what each role can do:
+[SCREENSHOT: SETTINGS tab showing "Sync Notebook" toggle ON, "Get attachments from other devices" toggle Off, and "Deactivate Notebook" section]
 
-| Role | Can Do |
-|------|--------|
-| **Data Collector** | Add and edit their own records |
-| **Data Reviewer** | Review and approve records |
-| **Data Viewer** | View records only (read-only) |
-| **Notebook Admin** | Everything, including inviting users |
+You'll see several important controls:
 
-### Invite a Team Member
+**Sync Notebook**
+- Toggle switch (currently ON)
+- Controls whether this notebook syncs to the server
+- Turn this OFF to save mobile data when working in the field
+- Your data is still saved locally; it will sync when you turn it back ON
 
-1. In your notebook, find the **Users** or **Invites** tab
-2. Click **Invite User**
-3. Enter their details:
-   - **Email**: Their email address
-   - **Role**: Choose "Data Collector" to start
-   - **Message**: Optional welcome message
-4. Click **Send Invitation**
+**Get attachments from other devices**
+- Toggle switch (currently Off)
+- When enabled, Fieldmark automatically downloads photos and attachments created by other team members
+- **Trade-off**: Lets you see what your team is documenting, but uses more storage and mobile data
+- **Important**: Your uploads always go to the server regardless of this setting
+- Recommended: Keep OFF to minimize data usage, turn ON when on WiFi if you want to review team photos
 
-[SCREENSHOT: Invite users dialog]
+**Deactivate Notebook**
+- Removes the notebook from your active list
+- **Warning**: Make sure all your data has synced before deactivating (check for green cloud icons!)
+- Click **DEACTIVATE NOTEBOOK** button (red text) only if you're done using this notebook on this device
 
-They'll receive an email invitation to join your notebook!
-
-> 💡 **Team Tip**: If you're part of a team, team members automatically get access through virtual roles - no individual invitations needed!
-
-### Make an Improvement
-
-Let's add one enhancement based on what we learned:
-
-1. Return to **Templates** section
-2. Find your "My First Survey" template
-3. Click **Edit** to reopen the Notebook Editor
-4. Select the "Observations" field
-5. Add **Validation**:
-   - Minimum length: 10 characters
-   - Validation message: "Please provide at least 10 characters"
-6. **Save** the template
-
-> ✨ **Pro Tip**: Changes to templates don't affect existing notebooks. You'll need to create a new notebook from the updated template or manually update the existing one.
+> 💡 **Data Management Tip**: If you're working in areas with limited connectivity or want to conserve mobile data, turn OFF "Sync Notebook" while collecting data. Turn it back ON when you have WiFi to upload your records to the server.
 
 ---
 
-## 🎯 Success Checklist
+## 🎯 You Did It!
 
-Let's confirm you've accomplished everything:
+Congratulations! You've successfully created your first Fieldmark notebook and collected your first record. In less than 15 minutes, you've:
 
-- ✅ Logged into Fieldmark successfully
-- ✅ Created a template with 5 fields
-- ✅ Configured form completion settings
-- ✅ Deployed template as a notebook
-- ✅ Entered and saved a test record
-- ✅ Viewed your record with its HRID
-- ✅ Understood permission roles
-- ✅ Invited a user (optional)
+- ✅ Created a notebook in the Notebook Editor
+- ✅ Added forms, sections, and fields with proper configuration
+- ✅ Configured Form Settings (Summary Fields, HRID)
+- ✅ Activated the notebook in the Fieldmark app
+- ✅ Created and saved your first record
+- ✅ Learned about sync settings and data management
 
-**If you checked all these boxes - you did it!** 🎉
+**This is a major milestone!** You now understand the core Fieldmark workflow from design to data collection.
 
 ---
 
-## Quick Troubleshooting
+## Next Steps
 
-Running into issues? Here are solutions to common problems:
+Ready to take your notebook further? All of these features are managed through the **Control Centre** after selecting your notebook from the list:
 
-### "I can't find the Notebook Editor"
-**Solution**: Check that you're a member of a team with appropriate permissions. Team members can access the Notebook Editor based on their team role.
+- **Invite team members** - Share your notebook and assign roles (Data Collector, Reviewer, Viewer, Admin)
+- **Add more forms, sections, and fields** - Build out your data collection structure
+- **Export your data** - Download records as CSV, JSON, or other formats for analysis
+- **Turn your notebook into a template** - Reuse and modify your design for similar projects
+- **Explore conditional logic** - Make forms that adapt based on user input
+- **Try advanced field types** - Geolocation, related records, auto-incrementers, and more
 
-### "My Save button isn't appearing"
-**Solution**: Check Form Settings → Form Completion → Publish Button Behaviour. Make sure it's configured properly.
-
-### "The person I invited hasn't received an email"
-**Solution**: 
-1. Check their spam/junk folder
-2. Verify the email address is correct
-3. Check the Invites tab for status
-4. Resend if needed
-
-### "I can't take a photo"
-**Solution**: 
-- **Mobile**: Check app permissions in device settings
-- **Desktop**: Ensure browser has camera access
-- **All platforms**: HTTPS connection required for camera access
-
-### "My record ID looks weird (like rec_xxxxx)"
-**Solution**: You need to configure an HRID field. Go to Form Settings and set up the human-readable ID pattern.
-
-### "Changes to my template aren't showing in the notebook"
-**Solution**: Templates and notebooks are separate. Create a new notebook from the updated template, or manually update the existing notebook's configuration.
+> 💡 **Control Centre Access**: Log into the Control Centre, select your notebook from the list, and explore the management options available to you based on your permissions.
 
 ---
 
-## 🚀 Power User Tips
+## Get Help
 
-Now that you've mastered the basics, here are some advanced features to explore:
-
-### Virtual Roles Through Teams
-If your organisation uses teams:
-- Team members automatically get notebook access
-- No need for individual invitations
-- Permissions cascade from team roles
-
-### API Automation
-Once comfortable with the interface:
-- Generate API tokens from your User Profile
-- Automate data exports
-- Integrate with Excel or Google Sheets
-- See the automation guide for examples
-
-### Conditional Logic
-Make smart forms that adapt:
-- Show/hide fields based on answers
-- Skip irrelevant sections
-- Validate related fields together
-
-### Template Library
-Build once, deploy many:
-- Save successful notebooks as templates
-- Share templates with your team
-- Create template variants for different scenarios
+- **Documentation**: Comprehensive guides for all Fieldmark features
+- **Team Support**: Ask your team administrator for organization-specific guidance
+- **In-app Help**: Look for the help icon (?) throughout the interface
 
 ---
 
-## What's Next?
+## Keep Learning
 
-You've completed your first notebook - fantastic work! Here are your next adventures:
+You've mastered the basics - now it's time to experiment! Try creating a notebook for a real use case, test it on mobile devices, and explore the features that matter most to your work.
 
-### Immediate Next Steps
-- **Experiment**: Try different field types (RadioGroup, AdvancedSelect, MapField)
-- **Explore**: Check out existing templates in your system
-- **Practice**: Create a notebook for a real use case
-
-### Recommended Learning Path
-1. 📱 **Mobile Data Collection** - Test your notebook on a phone/tablet
-2. 🔄 **Data Export** - Learn to export records as CSV/JSON
-3. ⚙️ **Advanced Fields** - Explore RelatedRecordSelector, BasicAutoIncrementer
-4. 📊 **Automation Basics** - Simple scripts for daily exports
-
-### Get Help
-- **In-app**: Look for the help icon (?)
-- **Documentation**: Check the comprehensive reference guide
-- **Team Support**: Ask your team administrator
-- **Virtual Roles**: If in a team, you already have access to team resources!
-
----
-
-## You Did It! 🎊
-
-In just 15 minutes, you've mastered the fundamental Fieldmark workflow:
-
-1. **Design** in the Notebook Editor
-2. **Deploy** as a notebook
-3. **Collect** data with proper structure
-4. **Collaborate** with role-based permissions
-5. **Iterate** based on real needs
-
-This template-first approach means you can start simple and grow as you learn. Your notebooks will evolve with your project needs.
-
-**Welcome to the Fieldmark community!** We can't wait to see what you'll create.
+**Welcome to the Fieldmark community!** 🎉
 
 ---
 
 *Remember: Every expert was once a beginner. You've taken your first steps, and that's the hardest part. Keep experimenting, keep learning, and most importantly - keep collecting great data!*
-
-*P.S. - Did you know? Fieldmark was formerly known as FAIMS3. If you see old documentation mentioning FAIMS, that's us!*
