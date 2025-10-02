@@ -18,17 +18,17 @@ By the end of this guide, you'll have:
 **Browser**: Works best with Chrome, Firefox, or Safari. Make sure you're using a recent version.
 
 **URLs you'll use**:
-- **Control Centre URL**: Usually `https://api.fieldmark.app` (for designing notebooks)
+- **Dashboard URL**: Usually `https://dashboard.fieldmark.app` (for designing and managing notebooks)
 - **Data Collection App URL**: Usually `https://app.fieldmark.app` (for entering records)
 - Note: Your organization may have custom URLs - check with your administrator
 
-[SCREENSHOT: Two browser windows side by side showing Control Centre (api.fieldmark.app) and Data Collection App (app.fieldmark.app) URLs with labels]
+[SCREENSHOT: Two browser windows side by side showing Dashboard (api.fieldmark.app) and Data Collection App (app.fieldmark.app) URLs with labels]
 
 ### 📖 Quick Terms to Know
 
 Before we dive in, here are five terms you'll see:
 
-- **Control Centre**: Your home screen after logging in - think of it as mission control (also called the Dashboard)
+- **Dashboard**: Your home screen after logging in - think of it as mission control
 - **Notebook**: A data collection form you create and customise
 - **Notebook Editor**: The visual tool where you build and modify notebooks and templates (sometimes just called "Editor")
 - **Records**: The actual data entries people create using your notebook
@@ -36,33 +36,33 @@ Before we dive in, here are five terms you'll see:
 
 ---
 
-## Step 1: Access Your Control Centre (2 minutes)
+## Step 1: Access Your Dashboard (2 minutes)
 
 Let's begin by logging into Fieldmark and finding our way around.
 
 ### Login to Fieldmark
 
-1. Open your browser and go to your Fieldmark Control Centre URL (usually `https://api.fieldmark.app`)
+1. Open your browser and go to your Fieldmark Dashboard URL (usually `https://api.fieldmark.app`)
 2. Enter your email and password (or select the appropriate SSO provider, e.g., Google)
 3. Click **Sign In**
 
 [SCREENSHOT: Login page with email and password fields]
 
-### Welcome to Your Control Centre!
+### Welcome to Your Dashboard!
 
-After logging in, you'll see the Control Centre Overview. This is your command centre where you can:
+After logging in, you'll see the Dashboard Overview. This is your command centre where you can:
 - Create new notebooks (from scratch or from templates)
 - Access and edit existing notebooks
 - Create and edit templates
 - Manage teams and users
 
-[SCREENSHOT: Control Centre Overview showing the main navigation and Create buttons]
+[SCREENSHOT: Dashboard Overview showing the main navigation and Create buttons]
 
 > ✨ **Pro Tip**: Bookmark this page! You'll be coming back here often. In most browsers, press `Ctrl+D` (Windows/Linux) or `Cmd+D` (Mac) to bookmark.
 
 ### ✓ You'll Know It Worked When...
 - You see your name or email in the bottom-left user menu
-- The Control Centre (right pane) shows navigation options like Notebooks, Templates, Users, Teams
+- The Dashboard (right pane) shows navigation options like Notebooks, Templates, Users, Teams
 - You see a list of notebooks in the main window
 - No error messages or login prompts appear
 
@@ -76,7 +76,7 @@ Creating a notebook is easy. Let's do it!
 
 ### Create a New Notebook
 
-From the Control Centre:
+From the Dashboard:
 
 1. Click **Notebooks** in the left navigation
 2. Click **+ Create Notebook**
@@ -415,12 +415,12 @@ Now let's configure how the form behaves when collecting data.
 **Important:** The Notebook Editor does not auto-save. Let's save your progress now.
 
 1. **Click the green SAVE button** in the top-right corner
-2. **You'll be returned to the Control Centre** - this is expected behavior
-3. **To continue editing later**, simply click **"Open in Editor"** again from the Control Centre
+2. **You'll be returned to the Dashboard** - this is expected behavior
+3. **To continue editing later**, simply click **"Open in Editor"** again from the Dashboard
 
-> ⚠️ **Remember to Save**: Get in the habit of clicking SAVE periodically as you work. The Editor will close and return you to the Control Centre each time you save, but you can immediately click "Open in Editor" to resume editing.
+> ⚠️ **Remember to Save**: Get in the habit of clicking SAVE periodically as you work. The Editor will close and return you to the Dashboard each time you save, but you can immediately click "Open in Editor" to resume editing.
 
-> 💡 **Tip**: You can always resume editing your notebook at any time by returning to the Control Centre, selecting your notebook from the list, clicking the **Actions** tab, and choosing **Open in Editor**. Your work is saved and ready to continue.
+> 💡 **Tip**: You can always resume editing your notebook at any time by returning to the Dashboard, selecting your notebook from the list, clicking the **Actions** tab, and choosing **Open in Editor**. Your work is saved and ready to continue.
 
 > ✨ **Pro Tip**: Start simple like we just did. You can always come back to add more fields, validation rules, or conditional logic. Most successful notebooks begin with 5-10 fields and evolve based on actual use. Once you're comfortable with the basics, explore the **INFO tab** to add project metadata like project lead, organization, and custom key-value pairs.
 
