@@ -22,7 +22,7 @@ By the end of this guide, you'll have:
 - **Data Collection App URL**: Usually `https://app.fieldmark.app` (for entering records)
 - Note: Your organization may have custom URLs - check with your administrator
 
-[SCREENSHOT: Two browser windows side by side showing Dashboard (api.fieldmark.app) and Data Collection App (app.fieldmark.app) URLs with labels]
+<!-- URLs comparison explained in text above - no screenshot needed -->
 
 ### 📖 Quick Terms to Know
 
@@ -46,7 +46,7 @@ Let's begin by logging into Fieldmark and finding our way around.
 2. Enter your email and password (or select the appropriate SSO provider, e.g., Google)
 3. Click **Sign In**
 
-[SCREENSHOT: Login page with email and password fields]
+![Fieldmark login page with Email Address and Password fields, along with Sign in button and Continue with Google option](../screenshots/quickstart/final/quickstart-001-login.png)
 
 ### Welcome to Your Dashboard!
 
@@ -56,7 +56,7 @@ After logging in, you'll see the Dashboard Overview. This is your command centre
 - Create and edit templates
 - Manage teams and users
 
-[SCREENSHOT: Dashboard Overview showing the main navigation and Create buttons]
+![Fieldmark Dashboard showing left sidebar with Notebooks, Templates navigation and main content area with notebook list and Create Notebook button](../screenshots/quickstart/final/quickstart-002-dashboard-overview.png)
 
 > ✨ **Pro Tip**: Bookmark this page! You'll be coming back here often. In most browsers, press `Ctrl+D` (Windows/Linux) or `Cmd+D` (Mac) to bookmark.
 
@@ -81,7 +81,7 @@ From the Dashboard:
 1. Click **Notebooks** in the left navigation
 2. Click **+ Create Notebook**
 
-[SCREENSHOT: Notebooks interface showing Create Notebook button]
+![Dashboard Notebooks view showing the notebook list table and Create Notebook button in the upper right](../screenshots/quickstart/final/quickstart-002-dashboard-overview.png)
 
 ### Name Your Creation
 
@@ -102,7 +102,7 @@ After you click 'Create Notebook', you will return to the list of notebooks, whe
    - **Quick tip**: Use the search bar at the top of the list to search for "My First Survey"
    - Scroll down and click through pages until you see your notebook
 
-[SCREENSHOT: Notebook list showing pagination controls at bottom ("< 1 2 3 >") and search bar at top, with arrow pointing to "My First Survey" at end of list]
+![Dashboard notebook list showing pagination controls at bottom (Page 1 of 6) and Filter results search bar at top of the table](../screenshots/quickstart/final/quickstart-003-notebooks-pagination.png)
 
 2. Click on the name of the notebook you just created (last in the list)
 3. Click on the **Actions** tab
@@ -112,7 +112,7 @@ After you click 'Create Notebook', you will return to the list of notebooks, whe
 
 Fantastic! You're now in the Notebook Editor. This is where the magic happens.
 
-[SCREENSHOT: Notebook Editor interface showing the form builder layout]
+![Notebook Editor showing DESIGN and INFO tabs, UNDO/REDO buttons, Form Name field with "Form 1", ADD NEW FORM button, and blue info box explaining the form building process](../screenshots/quickstart/final/quickstart-004-editor-interface.png)
 
 You'll see the main interface elements:
 - **Top bar**: CANCEL and SAVE buttons on the right
@@ -125,7 +125,7 @@ You'll see the main interface elements:
 
 > 💡 **Tip**: Notice the UNDO and REDO buttons below the top bar. Use these to recover from accidental deletions or changes. They're your safety net while building forms!
 
-[SCREENSHOT: Close-up of Editor showing UNDO and REDO buttons below top bar, above tabs]
+![Close-up view of Notebook Editor showing UNDO and REDO buttons positioned below the top bar (with CANCEL and SAVE) and above the DESIGN/INFO tabs](../screenshots/quickstart/final/quickstart-004-editor-interface.png)
 
 ### ✓ You'll Know It Worked When...
 - The Notebook Editor opens with "Form 1" in the Form Name field
@@ -160,7 +160,7 @@ Let's give "Form 1" a descriptive name:
 2. **Clear the text** and type **"Site Details"** (or another name that describes what data you'll collect)
 3. **Press the green "ADD NEW FORM" button** to create the form
 
-[SCREENSHOT: Form Name field being edited to "Site Details", ADD NEW FORM button highlighted]
+![Notebook Editor with EDIT FORM NAME active, showing inline editor with "Site Details" entered and checkmark/X buttons for confirming or canceling the edit](../screenshots/quickstart/final/quickstart-005-form-name-editing.png)
 
 > ✨ **Pro Tip**: Use descriptive form names like "Daily Observations", "Specimen Collection", or "Interview Notes" - they'll make it easier to navigate your data later.
 
@@ -171,7 +171,7 @@ Let's give "Form 1" a descriptive name:
 - Form controls are visible: DELETE FORM and EDIT FORM NAME options
 - Form Settings panel is visible below
 
-[SCREENSHOT: Created form showing "Site Details" with success message and Section Name field]
+![Form successfully created showing "FORM: SITE DETAILS" badge, green success message "Form has been created. Add a section to get started", DELETE FORM and EDIT FORM NAME options, Form Settings panel, and Section Name input field](../screenshots/quickstart/final/quickstart-006-form-created.png)
 
 Now you're ready to add a section to organize your fields!
 
@@ -183,7 +183,7 @@ Sections help organize related fields within a form. Let's create one:
 2. **Click in the Section Name field** and type **"Basic Information"** (or another name that groups your first set of fields)
 3. **Click the "+" button** next to the Section Name field to create the section
 
-[SCREENSHOT: Section Name field being edited to "Basic Information", "+" button highlighted]
+![Section Name field with "Basic Information" entered and green "+" button next to it for creating the section](../screenshots/quickstart/final/quickstart-007-section-name-editing.png)
 
 > ✨ **Pro Tip**: Use section names like "Location Details", "Measurements", or "Photos" to group related fields - this makes forms easier to navigate, especially on mobile devices.
 
@@ -194,7 +194,7 @@ Sections help organize related fields within a form. Let's create one:
 - "Visible Fields" and "Hidden Fields" areas are shown below
 - The section is ready to receive form fields
 
-[SCREENSHOT: Created section showing "Basic Information" with editing controls and "ADD A FIELD" button visible]
+![Section successfully created showing numbered badge "1", section title "Basic Information", section editing controls (DELETE SECTION, DUPLICATE SECTION, MOVE SECTION, EDIT SECTION NAME, ADD NEW SECTION), ADD CONDITION button, green ADD A FIELD button, and Visible Fields/Hidden Fields areas](../screenshots/quickstart/final/quickstart-008-section-created.png)
 
 Perfect! Now your form has a section, and we're in the main editing interface where we'll add fields!
 
@@ -216,7 +216,7 @@ Let's start with the basics - a text field and a dropdown. These are the bread a
    - **Field type**: Click on **"FAIMS Text Field"** (single-line text input)
    - Click **"ADD FIELD"** button at bottom
 
-[SCREENSHOT: "Add a field" dialog showing field name changed to "Site Name" and "FAIMS Text Field" selected]
+![Add a field modal dialog with "Site Name" entered in the Field name box, TEXT tab active, and "FAIMS Text Field" option highlighted with green border](../screenshots/quickstart/final/quickstart-009-add-field-site-name.png)
 
 3. **Click on the grey bar** to expand the field
 4. **Configure the field**:
@@ -225,7 +225,7 @@ Let's start with the basics - a text field and a dropdown. These are the bread a
    - **Helper Text**: Type "Enter the official site designation or name"
    - **Required**: Toggle ON ☑
 
-[SCREENSHOT: Expanded "Site Name" field showing configuration options with Required toggled on]
+![Expanded Site Name field showing Label "Site Name", Field ID "Site-Name", Helper Text "Enter the official site designation or name", Required checkbox checked with green checkmark, and additional options like Annotation, Uncertainty, Copy value to new records](../screenshots/quickstart/final/quickstart-010-site-name-expanded.png)
 
 ### ✓ You'll Know It Worked When...
 - The "Site Name" field appears in the "Visible Fields" area
@@ -247,7 +247,7 @@ Now let's add a choice field where users select one option from a list.
    - **Field type**: Click on **"Select one option"** (creates radio buttons)
    - Click **"ADD FIELD"**
 
-[SCREENSHOT: "Add a field" dialog showing CHOICE category with "Select one option" highlighted]
+![Add a field modal dialog showing CHOICE tab active with field types including Checkbox, Select Multiple, and "Select one option" (radio buttons) highlighted with green border](../screenshots/quickstart/final/quickstart-011-add-field-choice.png)
 
 4. **Click on the grey bar** to expand the field
 5. **Add your options** - these are the choices users will see:
@@ -259,7 +259,7 @@ Now let's add a choice field where users select one option from a list.
      - Repeat for: **"Ceremonial"**, **"Workshop/Industrial"**, **"Defensive"**, **"Agricultural"**, **"Other"**
    - Use the drag handles (⋮⋮) or up/down arrows to reorder if needed
 
-[SCREENSHOT: Edit Option dialog showing changing "1" to "Habitation"]
+![Edit Option modal dialog with Option Text field showing "1" being changed to "Habitation", and CANCEL/SAVE buttons at bottom](../screenshots/quickstart/final/quickstart-012-edit-option-habitation.png)
 
 6. **Configure the field**:
    - **Label**: Already shows "Site Type" ✓
@@ -269,7 +269,7 @@ Now let's add a choice field where users select one option from a list.
    - **Annotation**: Toggle ON ☑ (allows margin notes for qualifications)
    - **Uncertainty**: Toggle ON ☑ (allows flagging uncertain observations)
 
-[SCREENSHOT: Expanded "Site Type" field showing options list and Required/Annotation/Uncertainty enabled]
+![Expanded Site Type field showing complete options list (Habitation, Mortuary, Ceremonial, Workshop/Industrial, Defensive, Agricultural, Other) with drag handles, Required checkbox checked, Annotation checkbox checked with label "annotation", and Uncertainty checkbox checked with label "uncertainty"](../screenshots/quickstart/final/quickstart-013-site-type-expanded.png)
 
 ### ✓ You'll Know It Worked When...
 - The "Site Type" field shows a green "Required" badge in the header
@@ -302,7 +302,7 @@ While Fieldmark automatically timestamps all records, explicitly capturing dates
    - Select **"Date and Time with Now button"** (auto-populates with current date/time)
    - Click **"ADD FIELD"**
 
-[SCREENSHOT: "Add a field" dialog showing DATE & TIME tab with "Date and Time with Now button" highlighted]
+![Add a field modal dialog with DATE & TIME tab active showing field types including Date time picker, Date picker, Month picker, and "Date and Time with Now button" highlighted with green border](../screenshots/quickstart/final/quickstart-014-add-field-datetime.png)
 
 4. **Click on the grey bar** to expand the field
 5. **Configure the field**:
@@ -312,7 +312,7 @@ While Fieldmark automatically timestamps all records, explicitly capturing dates
    - **Time pre-populated**: Toggle ON ☑ (auto-fills with current date/time when record is created; date/time can still be changed)
    - **Required**: Toggle ON ☑
 
-[SCREENSHOT: Expanded "Survey Date" field showing configuration with Time pre-populated and Required enabled]
+![Expanded Survey Date field showing Label "Survey Date", Field ID "Survey-Date", Helper Text "Date and time when this site was surveyed" with green highlight, Time pre-populated checkbox checked with green checkmark and explanation text, Required checkbox checked, and other configuration options](../screenshots/quickstart/final/quickstart-015-survey-date-expanded.png)
 
 ### ✓ You'll Know It Worked When...
 - The "Survey Date" field appears in the Visible Fields list with "DateTimeNow" badge
@@ -332,7 +332,7 @@ For longer descriptions, we need a multiline text field.
    - Select **"Text Field"** (multi-line text area for longer notes)
    - Click **"ADD FIELD"**
 
-[SCREENSHOT: "Add a field" dialog showing TEXT tab with "Text Field" highlighted]
+![Add a field modal dialog with "Observations" entered as field name, TEXT tab active, showing field types including FAIMS Text Field, Email, "Text Field" highlighted, and other text-based options](../screenshots/quickstart/final/quickstart-016-add-field-text.png)
 
 4. **Click on the grey bar** to expand the field
 5. **Configure the field**:
@@ -341,7 +341,7 @@ For longer descriptions, we need a multiline text field.
    - **Helper Text**: Type "Describe site conditions, features, and any notable characteristics"
    - Leave **Required** unchecked (observations can be optional)
 
-[SCREENSHOT: Expanded "Observations" field showing configuration]
+![Expanded Observations field showing Label "Observations", Field ID "Observations", Helper Text "Describe site conditions, features, and any notable characteristics", Rows to display set to 4, and configuration checkboxes for Required, Annotation, Uncertainty](../screenshots/quickstart/final/quickstart-017-observations-expanded.png)
 
 ### ✓ You'll Know It Worked When...
 - The "Observations" field appears in the Visible Fields list with "TextField" badge
@@ -364,7 +364,7 @@ Let's add the ability to capture photos - essential for field documentation!
    - Select **"Take Photo"** (enables camera capture)
    - Click **"ADD FIELD"**
 
-[SCREENSHOT: "Add a field" dialog showing MEDIA tab with "Take Photo" highlighted]
+![Add a field modal dialog with "Site Photo" entered as field name, MEDIA tab active, showing "Upload a File" and "Take Photo" options with Take Photo highlighted with green border](../screenshots/quickstart/final/quickstart-018-add-field-media.png)
 
 4. **Click on the grey bar** to expand the field
 5. **Configure the field**:
@@ -375,7 +375,7 @@ Let's add the ability to capture photos - essential for field documentation!
    - **Annotation**: Toggle ON ☑
    - **Annotation Label**: Change from "annotation" to **"Photo notes"**
 
-[SCREENSHOT: Expanded "Site Photo" field showing configuration]
+![Expanded Site Photo field in collapsed list view and detailed configuration view showing Label "Site Photo", Field ID "Site-Photo", Helper Text "Photograph the site for documentation", Annotation checkbox checked with custom label "Photo notes", and other configuration options](../screenshots/quickstart/final/quickstart-019-site-photo-expanded.png)
 
 ### ✓ You'll Know It Worked When...
 - The "Site Photo" field appears in the Visible Fields list with "TakePhoto" badge
@@ -384,13 +384,13 @@ Let's add the ability to capture photos - essential for field documentation!
 - All 5 fields are now visible: Site Name, Site Type, Survey Date, Observations, Site Photo
 - Your form is ready for data collection!
 
-[SCREENSHOT: All five fields visible in Visible Fields list]
+![Visible Fields section showing all five collapsed fields in order: Site Name (FAIMSTextField, Required badge), Site Type (RadioGroup, Required badge), Survey Date (DateTimeNow, Required badge), Observations (MultipleTextField), Site Photo (TakePhoto)](../screenshots/quickstart/final/quickstart-020-all-fields-visible.png)
 
 ### Configure Form Settings
 
 Now let's configure how the form behaves when collecting data.
 
-[SCREENSHOT: Form Settings panel at the top showing configuration options]
+![Form Settings panel showing configuration options including Finish Button Behavior, Layout Style, Summary Fields, and Human-Readable ID Field dropdowns](../screenshots/quickstart/final/quickstart-021-form-settings-panel.png)
 
 1. **Find the Form Settings panel** at the top of the form editor (below "FORM: SITE DETAILS")
 2. **Click anywhere in the grey "Form Settings" bar** to expand the settings if collapsed
@@ -400,7 +400,7 @@ Now let's configure how the form behaves when collecting data.
    - **Summary Fields**: Click the dropdown and select both **"Site Name"** and **"Site Type"** (these will show in the record list table)
    - **Human-Readable ID Field**: Select **"Site Name"** (provides meaningful record labels instead of opaque, computer-generated identifiers (UUIDs))
 
-[SCREENSHOT: Form Settings panel showing configured selections - Always Show, Tabs, Site Name + Site Type selected, Site Name as HRID]
+![Form Settings panel fully configured showing Finish Button Behavior set to "Always Show", Layout Style set to "Tabs", Summary Fields showing "Site Name ×" and "Site Type ×" tags, and Human-Readable ID Field set to "Site Name"](../screenshots/quickstart/final/quickstart-022-form-settings-configured.png)
 
 > 💡 **Advanced Option**: The "Finish Button Behavior" can be changed to "Show Only When No Errors Exist" to ensure all required fields are completed before allowing save, or "Show Once All Sections Visited" to guide users through multi-section forms.
 
@@ -438,13 +438,13 @@ Your notebook has been saved in the Editor. Now let's activate it for data colle
 1. **Open a new browser tab** and navigate to your Fieldmark data collection app URL (usually `https://app.fieldmark.app`)
 2. **Log in** with the same credentials you used to access the Editor
 
-[SCREENSHOT: Fieldmark app "My Notebooks" home screen showing ACTIVE (0) and NOT ACTIVE tabs]
+![Fieldmark mobile app My Notebooks screen showing ACTIVE (0) tab selected with empty state message explaining notebooks need to be activated, and NOT ACTIVE (90) tab visible, plus REFRESH NOTEBOOKS button](../screenshots/quickstart/final/quickstart-023-active-zero.png)
 
 ### Activate Your Notebook
 
 When the app opens, you'll see the "My Notebooks" screen:
 
-[SCREENSHOT: NOT ACTIVE tab showing list of notebooks with ACTIVATE buttons]
+![NOT ACTIVE tab showing list of available notebooks with green ACTIVATE buttons next to each, including notebooks like "Map Tester May", "Groundwater", "NIMY Nathan", and others, with horizontal scroll for pagination](../screenshots/quickstart/final/quickstart-024-not-active-tab.png)
 
 1. **Click on the "NOT ACTIVE" tab** - you'll see a list of notebooks that need activation
 2. **Find your notebook** in the list (look for "My First Survey" or whatever name you chose)
@@ -452,7 +452,7 @@ When the app opens, you'll see the "My Notebooks" screen:
 3. **Click the green "ACTIVATE" button** next to your notebook
 4. **A modal dialog appears** explaining activation
 
-[SCREENSHOT: "Activating Notebooks" modal dialog with warning and ACTIVATE/CANCEL buttons]
+![Activating Notebooks modal dialog with blue information icon, explanation text about offline functionality and data downloading, warning about stable internet connection, note about de-activation not being available yet, and green ACTIVATE and CANCEL buttons at bottom](../screenshots/quickstart/final/quickstart-025-activating-modal.png)
 
 5. **Read the information** in the modal:
    - Explains that activating downloads existing records to your device
@@ -461,7 +461,7 @@ When the app opens, you'll see the "My Notebooks" screen:
 6. **Click the green "ACTIVATE" button** in the modal to confirm
 7. **You'll be automatically taken to the "ACTIVE" tab** - your notebook now appears in the Active list
 
-[SCREENSHOT: ACTIVE (1) tab showing "Quickstart-test" notebook in the list]
+![ACTIVE (1) tab showing Quickstart-test notebook in the list with Name column header and pagination showing 1-1 of 1](../screenshots/quickstart/final/quickstart-026-active-one.png)
 
 > 💡 **What does Active mean?** When a notebook is "Active", all data you collect will be saved to your device for offline work. Activating downloads existing notebook records to your device. We recommend completing this while you have a stable internet connection.
 
@@ -494,7 +494,7 @@ You'll see the record list interface:
 - **Empty table** showing column headers for your data (Site Name, Site Type, Created, Last Updated, etc.)
 - "No rows" message - because this is a brand new notebook
 
-[SCREENSHOT: Empty notebook view showing interface elements and empty table with column headers]
+![Empty Quickstart-test notebook showing ADD NEW SITE DETAILS button (orange), REFRESH RECORDS button (green), MY SITE DETAILSS (0) tab, DETAILS, SETTINGS, and MAP tabs, empty table with column headers (Sync, Site Name, Site Type, Created, Created By, Last Updated, Last Updated By), "No rows" message, search bar, Filters button, and pagination showing 0-0 of 0](../screenshots/quickstart/final/quickstart-027-empty-notebook.png)
 
 ### Create Your First Record
 
@@ -502,7 +502,7 @@ Let's add your first record:
 
 1. **Click the orange "ADD NEW SITE DETAILS" button**
 
-[SCREENSHOT: Data entry form showing Site Name and Site Type fields with progress bar at 33%]
+![Data entry form for Site Details showing 33% Completed progress bar at top, Site Name field (required, marked with red asterisk) with helper text, Site Type radio button field (required) showing options Habitation through Other with blue dog ear annotation icon, checkmark and save icons in top right](../screenshots/quickstart/final/quickstart-028-form-33-percent.png)
 
 You'll see the data entry form with a progress bar at the top. Notice that required fields are marked with a red asterisk (*).
 
@@ -514,7 +514,7 @@ You'll see the data entry form with a progress bar at the top. Notice that requi
    - Select **"Habitation"** from the radio button options
    - Notice the **blue dog ear icon** on the right - this opens annotation and uncertainty fields
 
-[SCREENSHOT: Site Type with annotation interface expanded showing "annotation" text area with "This site is likely a dwelling but may be a workshop." and "uncertainty" checkbox checked]
+![Site Type field with annotation interface expanded below, showing annotation text area containing "This site is likely a dwelling but may be a workshop." and uncertainty checkbox checked below it](../screenshots/quickstart/final/quickstart-029-annotation-interface.png)
 
 4. **Optional: Try the Annotation feature** (if you want to explore it):
    - Click the **blue dog ear icon** next to Site Type
@@ -542,7 +542,7 @@ You'll see the data entry form with a progress bar at the top. Notice that requi
    - Take any photo (even of your desk - this is just practice!)
    - Note: Site Photo also has a blue dog ear icon for "Photo notes" annotation
 
-[SCREENSHOT: Complete filled form showing all fields populated, 100% completion bar, with "TAKE FIRST PHOTO" button visible]
+![Complete data entry form showing 100% Completed progress bar, all fields filled including Site Name "Test Location Alpha", Site Type "Habitation" selected with annotation, Survey Date populated "02/10/2025, 18:17:14", Observations text entered, Site Photo section showing "No Photos Yet" with green TAKE FIRST PHOTO button](../screenshots/quickstart/final/quickstart-030-form-100-percent.png)
 
 ### Save Your Record
 
@@ -554,7 +554,7 @@ At the bottom of the form, you'll see three buttons:
 
 **Click "FINISH AND CLOSE SITE-DETAILS"** to save your first record!
 
-[SCREENSHOT: Bottom of form showing date/time picker open and three action buttons]
+![Bottom of form showing Survey Date field with calendar picker open displaying October 2025 month view with time selectors (18, 24, 55), Clear and Today links, and form action buttons below: FINISH AND CLOSE SITE-DETAILS (green), FINISH AND NEW SITE-DETAILS (orange text), and CANCEL (orange)](../screenshots/quickstart/final/quickstart-031-datetime-picker.png)
 
 Congratulations! 🎉 You've just created your first Fieldmark record!
 
@@ -562,7 +562,7 @@ Congratulations! 🎉 You've just created your first Fieldmark record!
 
 You're automatically returned to the record list view. Here's what you'll see:
 
-[SCREENSHOT: Record list showing "MY SITE DETAILSS (1)" tab with table displaying one row: orange sync icon, "Test Location Alpha", "Habitation", creation timestamp, username]
+![Record list showing MY SITE DETAILSS (1) tab with table containing one record: orange three-dot sync icon in Sync column, "Test Location Alpha" in Site Name, "Habitation" in Site Type, "2025-10-02 18:32:49" in Created, "shawn@fieldnote.com.au" in Created By and Last Updated By columns, pagination showing 1-1 of 1](../screenshots/quickstart/final/quickstart-032-record-not-synced.png)
 
 - **MY SITE DETAILSS (1)** tab now shows 1 record (changed from "(0)")
 - Your record appears in the table with the following columns:
@@ -579,7 +579,7 @@ You're automatically returned to the record list view. Here's what you'll see:
 >
 > If multiple team members edit the same record while offline, Fieldmark has a conflict resolution workflow to help you merge changes.
 
-[SCREENSHOT: Record list showing green cloud with checkmark icon in Sync column, indicating successful sync]
+![Record list showing same record with green cloud and checkmark icon in Sync column indicating successful synchronization to server](../screenshots/quickstart/final/quickstart-033-record-synced.png)
 
 ### Notebook Settings
 
@@ -587,7 +587,7 @@ Before we finish, let's explore the SETTINGS tab to understand sync and data man
 
 1. **Click on the SETTINGS tab** (next to MY SITE DETAILSS, DETAILS, and MAP tabs)
 
-[SCREENSHOT: SETTINGS tab showing "Sync Notebook" toggle ON, "Get attachments from other devices" toggle Off, and "Deactivate Notebook" section]
+![SETTINGS tab showing Sync Notebook section with toggle switch ON and explanation text, Get attachments from other devices section with toggle Off and detailed explanation about trade-offs, and Deactivate Notebook section with warning text and red DEACTIVATE NOTEBOOK button](../screenshots/quickstart/final/quickstart-034-settings-tab.png)
 
 You'll see several important controls:
 

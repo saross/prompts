@@ -2,24 +2,42 @@
 
 ## Directory Structure
 
+### 📁 production/ ⭐
+**Active production documentation** - See [production/README.md](production/README.md)
+- LLM-optimized field system reference (~40K lines)
+- Dashboard interface documentation
+- Human-facing quickstart guide with screenshots
+- UI interaction patterns and principles
+- Parametric generation templates
+
+### 📁 planning/ 🆕
+**Active planning documents**:
+- `ui-documentation-master-strategy.md` - Systematic UI documentation roadmap
+- `ui-documentation-integration-plan.md` - Phase-by-phase integration plan
+- `human-facing-documentation-plan.md` - Human-readable docs strategy
+- `future-tasks.md` - Prioritized enhancement roadmap
+- `PLAN-REFINEMENT-2025-10-04.md` - Template workflow clarifications
+
+### 📁 reports/ 🆕
+**Recent reports and session summaries**:
+- `llm-optimization-session2-report.md` - Dashboard documentation completion
+- `SESSION-3-SUMMARY.md` - Screenshot integration session
+
+### 📁 archive/
+**Historical and superseded content**:
+- `/planning/` - Superseded planning documents
+- `/reports/` - Old session states
+- `/session-notes/` - Completed todos and checklists
+- `/example-notebooks/` - Early notebook examples
+- `/json-generation/` - Legacy generation scripts
+- `/reference-docs/` - Earlier reference documentation
+
 ### 📁 field-categories/
-Main field category documentation (v05 - LLM-optimized):
+Field category documentation (v05 - LLM-optimized):
 - `text-fields-v05.md` - Text input fields (134KB)
-- `number-fields-v05.md` - Numeric input fields (105KB)  
+- `number-fields-v05.md` - Numeric input fields (105KB)
 - `datetime-fields-v05.md` - Date and time fields (105KB)
 - `select-choice-fields-v05.md` - Selection fields (135KB)
-
-### 📁 reference-docs/
-Centralized reference documentation (extracted common content):
-- `accessibility-reference.md` - WCAG compliance and touch targets
-- `component-namespace-reference.md` - Component naming and troubleshooting
-- `data-export-reference.md` - CSV/JSON export behavior
-- `designer-limitations-reference.md` - Designer UI constraints
-- `formik-integration-reference.md` - Formik state management
-- `meta-properties-reference.md` - Annotation and uncertainty
-- `performance-thresholds-reference.md` - Performance estimates
-- `security-considerations-reference.md` - XSS and security
-- `validation-timing-reference.md` - Universal validation behavior
 
 ### 📁 detail-singlefield-docs/
 Source documentation for individual fields:
@@ -45,10 +63,17 @@ Cross-cutting documentation:
 ### 📁 prompts/
 Consolidation prompts for documentation generation
 
-### 📁 reports/
-Analysis, planning, and historical documentation
+## Recent Updates (2025-10-04)
 
-## Recent Updates (2025-09-03)
+### ✅ Completed - UI Documentation & Screenshot Integration
+1. Integrated 34 screenshots into quickstart guide with accessibility-focused alt text
+2. Extracted 15 core UI interaction principles from screenshot analysis
+3. Created systematic UI documentation strategy (3 tiers, ~42-50 hours total)
+4. Documented template workflow principle (templates are advanced feature, not primary)
+5. Reorganized folder structure with top-level planning/ and reports/ directories
+6. Created UI-aware documentation integration plan (4 phases, maintains 96/100 LLM score)
+
+## Previous Updates (2025-09-03)
 
 ### ✅ Completed - Documentation Centralization
 1. Created 9 reference documents extracting ~2,000 lines of redundant content per field doc
