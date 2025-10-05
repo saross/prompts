@@ -55,6 +55,8 @@ Teams (Organisational Units)
 
 **Users**: System participants with role-based permissions at both system and notebook levels.
 
+**Notebook Editor**: Modal overlay interface within Dashboard for creating and modifying notebooks and templates. Opens when clicking "Open in Editor" from notebook/template Actions tab. Does NOT auto-save - clicking SAVE closes Editor and returns to Dashboard.
+
 ## Navigation Structure {essential}
 
 The Dashboard provides five main navigation sections:
@@ -87,6 +89,17 @@ All main interfaces follow consistent patterns:
    - Required fields marked with asterisks
    - Cancel/confirm buttons
    - Validation feedback inline
+
+4. **Notebook Editor (Modal Overlay)**
+   - Opens as modal overlay within Dashboard (same URL)
+   - Triggered by "Open in Editor" button in Actions tab
+   - SAVE button (top-right) closes Editor and returns to Dashboard
+   - CANCEL button discards changes and returns to Dashboard
+   - Does NOT auto-save - users must click SAVE to preserve work
+
+**Critical Workflow Note**: When editing notebooks or templates, the Editor opens as a modal overlay. After clicking SAVE, the Editor closes automatically and you return to the Dashboard list view. This is the intended behaviour - to continue editing, navigate back to the notebook/template → Actions → "Open in Editor".
+
+**See**: [UI Interaction Patterns](../references/ui-interaction-patterns.md#14-save-behaviour-in-notebook-editor) for complete save workflow details.
 
 ## Role-Based Access Control {important}
 

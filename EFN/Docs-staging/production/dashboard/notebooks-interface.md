@@ -107,14 +107,30 @@ Teams > {{TEAM_NAME}} > Notebooks > Create Notebook
 → Automatic team ownership → Deploy
 ```
 
-#### Path 4: Create Empty Notebook  
+#### Path 4: Create Empty Notebook
 ```
 Notebooks > Create Notebook > Leave optional fields blank > Select team
 → Creates empty notebook → Returns to notebooks list
 → Navigate to new notebook > Actions tab > Open in Editor
 ```
 
-**Note**: After clicking "Create Notebook", you are returned to the notebooks list. To edit your new notebook, locate it in the list (typically at the end), click on it, go to the Actions tab, and click "Open in Editor".
+**Post-Creation Navigation**: After clicking "Create Notebook", you return to the notebooks list. New notebooks appear at the END of the list, not the top.
+
+**To Access Your New Notebook**:
+1. **Option A - Search**: Use the search/filter bar at the top of the list to search by notebook name
+2. **Option B - Pagination**: Navigate to the last page using pagination controls at the bottom (shows "1-10 of X notebooks")
+3. **Option C - Scroll**: If the list is short, scroll to the bottom
+
+**Once Located**:
+1. Click on the notebook name
+2. Click the **Actions** tab
+3. Click **"Open in Editor"** button
+4. Notebook Editor opens as a modal overlay within Dashboard
+5. Make your changes (add forms, fields, configure settings)
+6. Click green **SAVE** button (top-right) to save and close Editor
+7. You return to Dashboard notebook list
+
+**Critical**: The Notebook Editor does NOT auto-save. Clicking SAVE closes the Editor and returns you to the Dashboard. This is the intended behaviour. To resume editing, repeat steps 1-4 above.
 
 ## Individual Notebook View {important}
 
@@ -260,7 +276,7 @@ Provides administrative operations for notebook management:
 
 | Action | Description | Permission Required | Notes |
 |--------|-------------|--------------------|---------|
-| **Edit Notebook** | Open in Notebook Editor | PROJECT_MANAGER | Modify structure and settings |
+| **Edit Notebook** | Open in Notebook Editor (modal overlay) | PROJECT_MANAGER | Modify structure and settings. Editor does NOT auto-save - click SAVE to preserve changes |
 | **Assign to Team** | Change team ownership | PROJECT_ADMIN | Reassign notebook to different team |
 | **Download JSON** | Export notebook definition | PROJECT_MANAGER | Downloads complete JSON configuration |
 | **Replace JSON File** | Update notebook structure | PROJECT_ADMIN | Replace entire notebook definition |

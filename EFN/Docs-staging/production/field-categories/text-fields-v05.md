@@ -453,9 +453,9 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 | email | `["yup.email", "Invalid email"]` | Email validation | TextField with type="email", Email field |
 | object | `["yup.object"]` | JSON structure | Address field |
 
-#### Validation Behavior {important}
+#### Validation Behaviour {important}
 
-For universal validation timing behavior, see [Validation Timing Reference](validation-timing-reference.md).
+For universal validation timing behaviour, see [Validation Timing Reference](validation-timing-reference.md).
 
 **Text Field-Specific Behaviors**:
 - **Keystroke validation**: Text fields validate on EVERY character entry (performance impact)
@@ -519,7 +519,7 @@ For universal validation timing behavior, see [Validation Timing Reference](vali
 - MDX Editor accepts invalid markdown without warning (RichText)
 - Table Editor available but tables removed at runtime (RichText)
 
-#### Export Behavior {important}
+#### Export Behaviour {important}
 
 See [Data Export Reference](data-export-reference.md) for comprehensive export documentation including CSV/JSON formats, special character handling, and Excel issues.
 
@@ -556,7 +556,7 @@ See [Data Export Reference](data-export-reference.md) for comprehensive export d
 - Keyboard navigation support
 - Screen reader compatibility
 - Error message announcement
-- Sufficient color contrast (3:1 minimum)
+- Sufficient colour contrast (3:1 minimum)
 
 **Non-Compliant Fields**:
 - Address: Edit button below WCAG minimum touch target
@@ -1307,7 +1307,7 @@ df['postcode'] = df['address_data'].apply(lambda x: x['address']['postcode'])
 }
 ```
 
-#### RichText-Specific Behavior {important}
+#### RichText-Specific Behaviour {important}
 
 **Rendering Pipeline**:
 1. markdown-it processes content with `typographer: true`
@@ -1478,7 +1478,7 @@ Before deploying any notebook:
 | Invalid Mustache template | TemplatedString | Silent failure - no output generated | Check {{}} syntax, field references |
 | QR scan not accepting | QRCodeFormField | Camera needs 10 consecutive identical reads for confidence (~0.3 sec) | Hold steady on code until accepted |
 | Address malformed JSON | Address | Field may not save properly | Use Designer interface |
-| RichText not exporting | RichText | By design - display only, never exports | Not an error - expected behavior |
+| RichText not exporting | RichText | By design - display only, never exports | Not an error - expected behaviour |
 | Character limits | TextField/MultipleTextField | No hard limits in code (notebook-specific) | Check notebook's validation schema |
 | Form won't submit on web | Required QRCodeFormField | Web platform cannot scan | Remove required validation or add fallback TextField |
 
@@ -1491,7 +1491,7 @@ Before deploying any notebook:
 | "Maximum characters" error | Switch to MultipleTextField | Split content | Reduce content |
 | QR scan won't complete | Hold steady ~0.3 sec | Check code quality | Use manual entry |
 | Email validation fails | Check @ and domain | Remove special characters | Use TextField |
-| Address field shows JSON | Expected behavior in CSV | Use JSON parser | Manual extraction |
+| Address field shows JSON | Expected behaviour in CSV | Use JSON parser | Manual extraction |
 | RichText not exporting | By design - display only | Document separately | Screenshot |
 | Template not generating | Check field references | Verify syntax {{}} | Check field names |
 | Whitespace becomes empty | Enter actual content | Check validation | Make field optional |
@@ -1504,7 +1504,7 @@ Before deploying any notebook:
 **Symptom**: Required field not showing error  
 **Cause**: Field hasn't been "touched"  
 **Solution**: Field must gain focus then blur to show errors  
-See [Common Characteristics > Validation Patterns > Validation Behavior]
+See [Common Characteristics > Validation Patterns > Validation Behaviour]
 
 #### Cannot Submit Form on Web {important}
 **Affects**: QRCodeFormField  
@@ -1536,7 +1536,7 @@ See [Common Characteristics > Validation Patterns > Validation Behavior]
 | Tables/blockquotes disappear | RichText at runtime | DOMPurify strips unsupported elements | Use formatted lists or Base64 images | Create image of complex content | Document runtime limitations |
 | External images don't display | RichText content | Security blocks external URLs | Convert to Base64 embedded images | Use images <100KB only | Train on image requirements |
 | Line breaks lost in export | MultilineText CSV export | Reader settings issue | Configure CSV reader for multiline | Use specific delimiter settings | Document export requirements |
-| JSON in single column | Address CSV export | Complex object export behavior | Post-process with Python/scripts | Extract needed fields only | Provide extraction scripts |
+| JSON in single column | Address CSV export | Complex object export behaviour | Post-process with Python/scripts | Extract needed fields only | Provide extraction scripts |
 | @ symbol missing on keyboard | Email field mobile | Wrong keyboard type | Ensure InputProps.type="email" | Type @ manually | Test on target devices |
 | Performance degrades | >30 text fields per section | Form evaluation overhead | Paginate form sections | Reduce fields per section | Design with limits in mind |
 | No character counter shown | TextField/MultilineText | Not built into component | Add count to helperText | Use FAIMSTextField variant | Set expectations clearly |
@@ -2794,7 +2794,7 @@ if (violations.length > 0) {
 ### Implementation Notes {comprehensive}
 
 #### TextField/MultilineText Implementation {comprehensive}
-Standard formik-material-ui components with predictable behavior across platforms.
+Standard formik-material-ui components with predictable behaviour across platforms.
 
 #### TemplatedString Implementation {comprehensive}
 Critical for notebook functionality. Must be in same form as referenced fields. Updates automatically when source fields change. Deep equality comparison for complex fields. Cannot reference other TemplatedStrings.
@@ -2927,7 +2927,7 @@ Requirement for full field definition despite non-participation in data operatio
   - Never use TextField values directly in templates
 - `FIX` Test templates systematically:
   1. In Designer > Preview, enter test values:
-     - Empty fields: verify fallback behavior
+     - Empty fields: verify fallback behaviour
      - Special chars: test with &, <, >, ", '
      - Max length: use expected maximum values
   2. Export test records to verify output format
@@ -3029,7 +3029,7 @@ Requirement for full field definition despite non-participation in data operatio
   "condition": {"field": "is-mobile", "operator": "equal", "value": "mobile"}
   ```
 - `TEST` Scan confidence: Hold camera steady on code - should accept after ~0.3 seconds (10 consecutive reads)
-- `TEST` Web platform behavior: Open on desktop browser - verify field shows disabled state with message
+- `TEST` Web platform behaviour: Open on desktop browser - verify field shows disabled state with message
 - `TEST` Different code interference: While scanning code A, briefly show code B - validation counter resets
 - `TEST` Required field validation: Set as required, open on web - form should be unsubmittable
 - `TEST` Barcode format support: Test with QR, Code128, EAN13 - all should scan successfully
@@ -3822,7 +3822,7 @@ Anti-patterns have been distributed to their respective field sections for bette
 - **DateTime Fields**: For structured temporal data capture
 - **Select/Choice Fields**: For controlled vocabularies and predefined options
 - **Reference Documents**:
-  - [Validation Timing Reference](validation-timing-reference.md) - Universal validation behavior
+  - [Validation Timing Reference](validation-timing-reference.md) - Universal validation behaviour
   - [Security Considerations Reference](security-considerations-reference.md) - XSS prevention for TemplatedString
   - [Data Export Reference](data-export-reference.md) - CSV/JSON export handling
   - [Accessibility Reference](accessibility-reference.md) - Touch targets and WCAG compliance

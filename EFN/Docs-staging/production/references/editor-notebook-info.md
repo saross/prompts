@@ -34,9 +34,13 @@ meta:depth-tags: [essential, important, comprehensive]
 
 The Notebook Info page in the Editor provides notebook-level metadata configuration, forming the top tier of Fieldmark's three-tier metadata system (notebook → record → field). This metadata enables FAIR data practices and supports compliance with domain-specific standards.
 
-**Location**: Editor → Info tab  
-**Scope**: Notebook-level (global to all forms)  
+**Location**: Notebook Editor (modal overlay in Dashboard) → INFO tab
+**Access Pattern**: Dashboard → Notebook → Actions tab → "Open in Editor" → INFO tab
+**Scope**: Notebook-level (global to all forms)
 **JSON Path**: Root level `metadata` object
+**Save Behaviour**: Click SAVE (top-right) to preserve changes and close Editor
+
+**See**: [UI Interaction Patterns](./ui-interaction-patterns.md#14-save-behaviour-in-notebook-editor) for Editor workflow details.
 
 ### Metadata Hierarchy {essential}
 
@@ -95,6 +99,7 @@ The Info page allows creation of arbitrary metadata fields through a key-value i
 - All values stored as strings
 - Field names must be unique
 - Cannot override fixed fields
+- Click SAVE to preserve custom field additions
 
 ### Use Cases for Custom Fields {important}
 

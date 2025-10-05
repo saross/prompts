@@ -316,7 +316,7 @@ Both media fields support:
 
 Note: Annotations apply to entire field, not individual files.
 
-### Export Behavior {important}
+### Export Behaviour {important}
 See [Data Export Reference](../reference-docs/data-export-reference.md) for universal patterns.
 
 **Media-Specific Export:**
@@ -401,8 +401,8 @@ Provides comprehensive file attachment capabilities accepting any file type with
 }
 ```
 
-#### Platform-Specific Behaviors
-- **Desktop:** Drag-and-drop with hover states, click-to-select
+#### Platform-Specific Behaviours
+- **Desktop:** Click to select files, or drag-and-drop (in Data Collection App)
 - **iOS:** Document picker accessing iCloud Drive, local storage
 - **Android:** Storage Access Framework, no permissions required
 - **Web:** Standard HTML file input element

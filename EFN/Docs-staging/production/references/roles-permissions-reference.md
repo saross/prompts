@@ -421,7 +421,7 @@ Roles:
 ### Scenario: Template Designer
 ```
 Designer: {{DESIGNER_NAME}}
-Purpose: Create reusable templates for organization
+Purpose: Create reusable templates for organisation
 
 Roles:
 - GENERAL_CREATOR (global)

@@ -35,6 +35,8 @@ meta:depth-tags: [essential]
 
 This comprehensive reference consolidates all technical details about Fieldmark v3 component configuration, including namespaces, type systems, meta properties, and Formik integration. It serves as the authoritative source for component implementation and troubleshooting.
 
+**UI Context**: When adding fields via the Notebook Editor interface, components are selected through a modal dialog with 6 categorised tabs. This reference documents the underlying JSON structure. For UI interaction patterns, see [UI Interaction Patterns](./ui-interaction-patterns.md).
+
 ## Component Namespace System {essential}
 
 ### The Golden Rule
@@ -97,6 +99,29 @@ Over 90% of Fieldmark components use the `faims-custom` namespace. Only basic te
 **Basic Text Only:**
 - `TextField` - Standard Material-UI text field
 - `MultipleTextField` - Multi-line text area
+
+### Notebook Editor Field Categories {important}
+
+When adding fields via the Notebook Editor interface, components are organised into 6 categorised tabs in the field selection modal dialog:
+
+| Tab Category | Components Available | Card Count |
+|--------------|---------------------|------------|
+| **TEXT** | TextField, MultipleTextField, SingleLineTextField, TemplatedStringField, Address | 1-6 cards |
+| **CHOICE** | Select, MultiSelect, Checkbox, RadioGroup (deprecated), AdvancedSelect | 1-6 cards |
+| **DATE & TIME** | DateTime, DateTimeNow | 1-6 cards |
+| **MEDIA** | TakePhoto, FileUploader | 1-6 cards |
+| **LOCATION** | TakePoint, MapFormField | 1-6 cards |
+| **STRUCTURED** | RelatedRecordSelector | 1-6 cards |
+
+**UI Workflow**:
+1. Click "ADD A FIELD" button in Notebook Editor
+2. Modal dialog opens with 6 tabs
+3. Select tab category (TEXT, CHOICE, etc.)
+4. Click component card (each has hover helper text)
+5. Modal closes, field appears in collapsed state in "Visible Fields" list
+6. Click grey bar to expand and configure field settings
+
+**See**: [UI Interaction Patterns](./ui-interaction-patterns.md#1-configuration-patterns-modal-dialogs-and-inline-editing) for complete workflow details.
 
 ### Common Namespace Errors
 
@@ -967,7 +992,7 @@ schema.validateSync(value);  // See validation result
 
 ### Formik Configuration in Notebooks
 
-Notebooks configure Formik behavior at the form level:
+Notebooks configure Formik behaviour at the form level:
 
 ```json
 {
@@ -1037,7 +1062,7 @@ When fields aren't behaving correctly with Formik:
 - [ ] Field updates trigger Formik state changes
 - [ ] Touched state managed correctly
 - [ ] Validation errors display appropriately
-- [ ] Submit behavior validated
+- [ ] Submit behaviour validated
 - [ ] Performance optimizations applied where needed
 
 ## Performance Optimization Guidelines {comprehensive}
@@ -1101,7 +1126,7 @@ Designer preserves JSON properties it doesn't understand, but:
 - Limited debugging capabilities
 
 ### PWA
-- Identical namespace behavior
+- Identical namespace behaviour
 - Offline capability doesn't affect namespaces
 - Formik state persists across offline/online transitions
 
@@ -1154,7 +1179,7 @@ Designer preserves JSON properties it doesn't understand, but:
 Only for these specific cases:
 - Basic single-line text input without special features
 - Multi-line text area without special features
-- When explicitly avoiding custom validation or behavior
+- When explicitly avoiding custom validation or behaviour
 
 ### Test Configuration
 ```json

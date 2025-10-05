@@ -329,7 +329,7 @@ What type of selection do you need?
 **Project and Team Management**:
 - **Project phases** → Select with controlled workflow states (Planning/Fieldwork/Analysis/Reporting/Complete). Include "On hold" and "Cancelled" for project lifecycle management.
 - **Team member assignments** → MultiSelect for multiple specialists involved. Use "Team leader" option as exclusive when single responsibility model applies.
-- **Institutional affiliations** → Select with organization codes. Use Designer value=label pattern to maintain human-readable exports without lookup tables.
+- **Institutional affiliations** → Select with organisation codes. Use Designer value=label pattern to maintain human-readable exports without lookup tables.
 
 **Quality Assurance and Review**:
 - **Data quality flags** → Checkbox series for quality indicators (peer reviewed, supervisor approved, external validation completed). Boolean states enable automated workflow triggers.
@@ -422,14 +422,14 @@ For complete meta properties documentation, see [Meta Properties Reference](meta
 - ✅ Basic conditional logic setup
 
 **MultiSelect**:
-- ✅ Option list with drag-drop reordering
+- ✅ Option list with reordering controls
 - ✅ Expanded checklist mode toggle
 - ✅ Per-option exclusive configuration via checkbox (exclusive options CAN be set in Designer)
 - ✅ Label and helper text
 - ✅ Markdown syntax support in option labels
 
 **RadioGroup (Deprecated)**:
-- ✅ Manual option entry with drag-drop
+- ✅ Manual option entry with reordering controls
 - ✅ Basic field properties
 - ✅ Required validation checkbox
 - ❌ NO preview capability (must deploy to test)
@@ -454,7 +454,7 @@ For complete meta properties documentation, see [Meta Properties Reference](meta
 - **AdvancedSelect**: JSON required for any non-empty initial state
 
 **Performance and Display Properties** [affects: All fields]:
-- `fullWidth` control for field width behavior
+- `fullWidth` control for field width behaviour
 - `variant` styling (outlined, filled, standard)
 - `disabled` state for entire field
 - Component-specific props (`FormControlLabelProps`, `SelectProps`)
@@ -574,7 +574,7 @@ All selection fields require predefined option lists configured at design time. 
 
 **Standard Optional Properties**:
 - `helperText`: Guidance text displayed near field
-- `required`: Boolean flag for validation (behavior varies by field)
+- `required`: Boolean flag for validation (behaviour varies by field)
 - `id`: Field identifier (defaults to name if not specified)
 - `disabled`: Boolean flag to disable entire field
 - `meta`: Object containing annotation, uncertainty, persistence settings
@@ -605,24 +605,24 @@ All selection fields require predefined option lists configured at design time. 
 - **MultiSelect**: `["yup.array"]` - Validates array structure
 
 **Required Validation** (Optional but common):
-- **Behavior varies significantly by field type**
+- **Behaviour varies significantly by field type**
 - **Checkbox**: `["yup.required"]` allows `false` (unchecked) as valid
 - **Select/RadioGroup**: `["yup.required"]` prevents empty string submission
 - **MultiSelect**: `["yup.required"]` allows empty array `[]` as valid (use `yup.min` instead)
 - **AdvancedSelect**: `["yup.required"]` prevents empty selection but shows no error message
 
-#### Validation Behavior [affects: specific fields] {important}
+#### Validation Behaviour [affects: specific fields] {important}
 
 **Error Message Display Capability**:
 - **Checkbox**: ✅ **Full error display** - Shows error text and red styling
 - **Select**: ❌ **No error display** - Validation runs but messages never shown
 - **MultiSelect**: ❌ **No error display** - Silent validation failures
-- **RadioGroup**: ⚠️ **Color only** - Red styling but no error text
+- **RadioGroup**: ⚠️ **Colour only** - Red styling but no error text
 - **AdvancedSelect**: ❌ **No error display** - Silent validation failures
 
-#### Validation Timing Behavior [affects: All fields] {important}
+#### Validation Timing Behaviour [affects: All fields] {important}
 
-See [Validation Timing Reference](validation-timing-reference.md) for complete universal validation behavior.
+See [Validation Timing Reference](validation-timing-reference.md) for complete universal validation behaviour.
 
 **Selection Field-Specific Notes**:
 - **Binary state changes**: Selection fields validate on discrete state changes rather than keystroke
@@ -680,7 +680,7 @@ See [Performance Thresholds Reference](performance-thresholds-reference.md) for 
 **Rendering Engine Consistency** [affects: All fields]:
 All choice fields use Material-UI components consistently across platforms rather than native controls. This design choice prioritizes consistent user experience over platform conventions:
 
-- **Benefit**: Identical appearance and behavior across iOS, Android, and desktop
+- **Benefit**: Identical appearance and behaviour across iOS, Android, and desktop
 - **Trade-off**: Users may expect native iOS picker or Android dropdown patterns
 - **Training requirement**: Users must learn Material-UI interaction patterns regardless of platform familiarity
 
@@ -699,7 +699,7 @@ All choice fields use Material-UI components consistently across platforms rathe
 - **Keyboard**: Not applicable (checkbox not keyboard-accessible in mobile Safari)
 
 **Select** [affects: Select]:
-- **Dropdown behavior**: Uses Material-UI portal dropdown, not iOS native picker wheel
+- **Dropdown behaviour**: Uses Material-UI portal dropdown, not iOS native picker wheel
 - **Touch interaction**: Tap to open, tap option to select, behaves like desktop
 - **Scrolling**: Standard touch scroll within dropdown list
 - **Selection feedback**: Immediate display of selected value
@@ -714,7 +714,7 @@ All choice fields use Material-UI components consistently across platforms rathe
 **RadioGroup:
 - **Touch targets**: ~42px radio buttons (below iOS 44px recommendation)
 - **Label interaction**: NOT tappable (same issue as Checkbox)
-- **Deselection**: Can tap selected radio to deselect (mouse behavior on touch)
+- **Deselection**: Can tap selected radio to deselect (mouse behaviour on touch)
 - **Accessibility**: Major VoiceOver violations, screen reader support broken
 
 **AdvancedSelect** [affects: AdvancedSelect] 🔴 BETA:
@@ -732,10 +732,10 @@ All choice fields use Material-UI components consistently across platforms rathe
 - **Visual consistency**: Proper Material-UI theming matches Android design language
 
 **Select** [affects: Select]:
-- **Dropdown behavior**: Material-UI dropdown with proper Material Design styling
-- **Touch interaction**: Standard tap behavior with Material ripple effects
+- **Dropdown behaviour**: Material-UI dropdown with proper Material Design styling
+- **Touch interaction**: Standard tap behaviour with Material ripple effects
 - **Back button**: Android back button closes dropdown without selection
-- **Scrolling**: Smooth scroll with momentum, familiar Android behavior
+- **Scrolling**: Smooth scroll with momentum, familiar Android behaviour
 
 **MultiSelect** [affects: MultiSelect]:
 - **Material consistency**: Proper Material Design checkbox styling in both modes
@@ -757,8 +757,8 @@ All choice fields use Material-UI components consistently across platforms rathe
 **Mouse Interaction Patterns** [affects: All fields]:
 - **Hover states**: All fields provide visual feedback on mouse hover
 - **Precise clicking**: Exact pixel clicking allows smaller touch targets than mobile
-- **Scroll behavior**: Mouse wheel scrolling in dropdown lists and hierarchies
-- **Context menus**: Right-click behavior varies by field type (some suppress, others allow)
+- **Scroll behaviour**: Mouse wheel scrolling in dropdown lists and hierarchies
+- **Context menus**: Right-click behaviour varies by field type (some suppress, others allow)
 
 **Keyboard Navigation** [affects: All fields]:
 - **Tab order**: All fields participate in logical tab sequence through form
@@ -793,7 +793,7 @@ All choice fields use Material-UI components consistently across platforms rathe
 - **No option validation**: Designer doesn't verify option values are unique or contain safe characters
 - **Performance warnings missing**: No indication when option counts will cause performance issues
 
-#### Export Behavior {important}
+#### Export Behaviour {important}
 
 See [Data Export Reference](data-export-reference.md) for comprehensive export documentation including CSV/JSON formats, special character handling, and Excel issues.
 
@@ -844,7 +844,7 @@ See [Data Export Reference](data-export-reference.md) for comprehensive export d
 - **All fields**: Validation error messages not announced when validation fails
 
 **Visual Accessibility** [affects: Select, MultiSelect, RadioGroup, AdvancedSelect]:
-- **Color-only error indication**: Error states shown only through color changes
+- **Colour-only error indication**: Error states shown only through colour changes
 - **No high contrast mode**: Limited support for high contrast themes
 - **Small touch targets**: Some fields don't meet minimum 44px/48px touch target requirements
 
@@ -864,7 +864,7 @@ See [Data Export Reference](data-export-reference.md) for comprehensive export d
 - [ ] Verify touch targets adequate on mobile screens
 - [ ] Test keyboard navigation on desktop
 - [ ] Check screen reader compatibility where required
-- [ ] Validate consistent behavior across target browsers
+- [ ] Validate consistent behaviour across target browsers
 
 **Performance Testing**:
 - [ ] Monitor form load time with full field configuration
@@ -875,14 +875,14 @@ See [Data Export Reference](data-export-reference.md) for comprehensive export d
 **Accessibility Testing**:
 - [ ] Test with screen reader (NVDA/JAWS on Windows, VoiceOver on Mac)
 - [ ] Verify keyboard-only navigation works
-- [ ] Check color contrast meets WCAG requirements
+- [ ] Check colour contrast meets WCAG requirements
 - [ ] Test with high contrast and zoom settings
 
 **Data Integrity Testing**:
 - [ ] Verify submitted values match expected format
 - [ ] Test edge cases (empty submissions, special characters)
 - [ ] Validate export/import round-trip data integrity
-- [ ] Check conditional field behavior with various selections
+- [ ] Check conditional field behaviour with various selections
 
 ## Field Reference {essential}
 
@@ -940,7 +940,7 @@ The Checkbox field provides binary state capture through a Material-UI checkbox 
 ### Key Features {essential}
 
 - ✅ **Boolean primitive values** - Returns true/false, not strings
-- ✅ **Best error display** - Only choice field showing both red color and error messages
+- ✅ **Best error display** - Only choice field showing both red colour and error messages
 - ✅ **Immediate validation feedback** - Errors appear on change event after interaction
 - ✅ **Conditional logic support** - Works with boolean operators (equal: true/false)
 - ⚠️ **Label not clickable** - Must click 24×24px checkbox icon directly, not label text (iOS requires 44×44px minimum)
@@ -993,7 +993,7 @@ The Checkbox field provides binary state capture through a Material-UI checkbox 
 
 ### Checkbox-Specific Issues {important}
 
-- **Label not clickable** - Users must tap/click the small checkbox target, violating standard checkbox behavior
+- **Label not clickable** - Users must tap/click the small checkbox target, violating standard checkbox behaviour
 - **Touch target too small** - 24×24px checkbox on mobile when 44×48px recommended
 - **No haptic feedback** - No tactile response on mobile interactions
 - **Accessibility failures** - Missing aria-required, aria-invalid, aria-describedby attributes
@@ -1251,13 +1251,13 @@ The MultiSelect field enables multiple value selection from predefined option li
 | Validation Type | Configuration | Behaviour | Critical Note |
 |-----------------|---------------|-----------|---------------|
 | Required field | `["yup.required"]` | Checks not null/undefined | ⚠️ **Empty array [] PASSES** - not what users expect |
-| Minimum selection | `["yup.min", 1, "Select at least one"]` | Enforces minimum items | Use this for "required" behavior, NOT yup.required |
+| Minimum selection | `["yup.min", 1, "Select at least one"]` | Enforces minimum items | Use this for "required" behaviour, NOT yup.required |
 | Maximum selection | `["yup.max", 5, "Maximum 5 selections"]` | Limits selection count | Not enforced during interaction, only on submit |
 | Array type | `["yup.array"]` | Ensures array type | Default, always included |
 | Specific values | `["yup.array"], ["yup.of", ["yup.oneOf", ["val1", "val2"]]]` | Restricts to subset | Complex syntax for value validation |
 | Min and max | `["yup.array"], ["yup.min", 2], ["yup.max", 5]` | Range constraint | Between 2-5 selections required |
 
-**Critical Validation Behavior:**
+**Critical Validation Behaviour:**
 - **NO ERROR DISPLAY**: Validation runs but messages never appear in UI
 - **Empty array gotcha**: `["yup.required"]` considers `[]` as valid (field exists)
 - **No proactive enforcement**: Max selection limit not prevented during interaction
@@ -1282,7 +1282,7 @@ The MultiSelect field enables multiple value selection from predefined option li
 | CSV export breaks | Commas in option values | Remove commas from all option values | Use semicolons or pipes if separation needed |
 | Can't see validation errors | No error display implementation | Check form submission prevention | Document validation in helperText |
 | Labels not clickable | Wrong mode or version | Ensure expandedChecklist mode enabled | Test both modes |
-| Can't select after choosing "None" | Exclusive option behavior | Deselect exclusive option first | Document exclusive behavior |
+| Can't select after choosing "None" | Exclusive option behaviour | Deselect exclusive option first | Document exclusive behaviour |
 | No keyboard multi-select | Not implemented | Use Space/Enter on each item | Train users on individual selection |
 | Options don't load dynamically | Static vocabularies only | Define all options at design time | Plan vocabulary completely upfront |
 
@@ -1475,7 +1475,7 @@ The MultiSelect field enables multiple value selection from predefined option li
 | Component Name | RadioGroup |
 | Namespace | faims-custom |
 | Type Returned | faims-core::String |
-| Error Display | ❌ Red color only, no error messages |
+| Error Display | ❌ Red colour only, no error messages |
 | Mobile Support | ⚠️ Limited (problematic deselection, performance issues) |
 | Accessibility | ❌ Critical violations (no ARIA, keyboard issues) |
 | Touch Targets | 42px radio buttons (below iOS 44px standard) |
@@ -1484,7 +1484,7 @@ The MultiSelect field enables multiple value selection from predefined option li
 
 ### Purpose {essential}
 
-The RadioGroup field provides single selection from 2–10 mutually exclusive options through radio button interface, returning `faims-core::String` values. **However, this component suffers from severe limitations that make it unsuitable for production use:** no error message display (only color changes), critical accessibility violations, problematic deselection behavior, and severe performance degradation with >10 options.
+The RadioGroup field provides single selection from 2–10 mutually exclusive options through radio button interface, returning `faims-core::String` values. **However, this component suffers from severe limitations that make it unsuitable for production use:** no error message display (only colour changes), critical accessibility violations, problematic deselection behaviour, and severe performance degradation with >10 options.
 
 **Historical use cases (now deprecated):**
 - Condition assessments - Rating heritage fabric condition (use Select instead)
@@ -1535,7 +1535,7 @@ The RadioGroup field provides single selection from 2–10 mutually exclusive op
 - ✅ **Vertical layout** - All options visible simultaneously
 - ⚠️ **Toggle deselection (broken)** - Can deselect via mouse/touch but NOT keyboard
 - ⚠️ **Performance issues** - Severe lag with >10 options due to markdown parsing
-- ❌ **No error message display** - Critical UX failure, only red color shown
+- ❌ **No error message display** - Critical UX failure, only red colour shown
 - ❌ **No ARIA attributes** - Fails WCAG 2.1 Level A requirements
 - ❌ **No Designer preview** - Cannot see appearance before deployment
 - 🐛 **Keyboard deselection broken** - Accessibility barrier
@@ -1560,13 +1560,13 @@ The RadioGroup field provides single selection from 2–10 mutually exclusive op
 
 | Validation Type | Configuration | Error Message | Actual Display | Designer Support |
 |-----------------|---------------|---------------|----------------|------------------|
-| Required field | `["yup.required", "Selection required"]` | "Selection required" | ❌ Red color only | ✅ Checkbox |
+| Required field | `["yup.required", "Selection required"]` | "Selection required" | ❌ Red colour only | ✅ Checkbox |
 | String type | `["yup.string"]` | Automatic | ❌ No message | ✅ Default |
 | One of values | `["yup.oneOf", ["yes","no"], "Invalid"]` | "Invalid" | ❌ No message | ❌ JSON only |
 | Not null | `["yup.notOneOf", [null], "Must select"]` | "Must select" | ❌ No message | ❌ JSON only |
 | Conditional required | Not supported | - | - | ❌ Not possible |
 
-**⚠️ MAJOR BUG**: RadioGroup displays NO error messages - only shows red color when invalid. Users receive no text feedback about validation failures.
+**⚠️ MAJOR BUG**: RadioGroup displays NO error messages - only shows red colour when invalid. Users receive no text feedback about validation failures.
 
 ### RadioGroup-Specific Issues {important}
 
@@ -1760,7 +1760,7 @@ The RadioGroup field provides single selection from 2–10 mutually exclusive op
 **Designer → JSON mappings:**
 - Designer "Required" → `required: true` + `["yup.required"]` (won't display error)
 - Designer option values → Exported as technical values (not labels)
-- Designer drag-drop → Option order in JSON array
+- Designer option ordering → Option order in JSON array
 - Designer no preview → Must deploy to test
 
 **Migration mappings (RadioGroup → Select):**
@@ -1876,7 +1876,7 @@ The Select field provides single-choice selection from a dropdown list, offering
 | Pattern Match | `["yup.matches", "pattern"]` | Validates against regex | No error display |
 | Custom Message | `["yup.required", "Please select"]` | Custom error text | Not displayed to user |
 
-**Validation Behavior:**
+**Validation Behaviour:**
 - **On change**: Validation runs but errors not displayed
 - **On blur**: No validation triggered
 - **On submit**: Final validation blocks submission silently
@@ -2062,7 +2062,7 @@ The Select field provides single-choice selection from a dropdown list, offering
 
 **Migration from RadioGroup:**
 - Add empty option for null state capability
-- Remove toggle deselection behavior
+- Remove toggle deselection behaviour
 - Same string-based conditional logic works
 - Better error handling (though still no display)
 
@@ -2303,7 +2303,7 @@ interface TreeNode {
   }
 }
 ```
-**Behavior**: Stores full path like "Animalia > Chordata > Mammalia > Primates > Hominidae > Homo > Homo sapiens". No error display despite required validation.
+**Behaviour**: Stores full path like "Animalia > Chordata > Mammalia > Primates > Hominidae > Homo > Homo sapiens". No error display despite required validation.
 
 #### Archaeological Context Hierarchy (Child Storage)
 ```json
@@ -2359,7 +2359,7 @@ interface TreeNode {
   }
 }
 ```
-**Behavior**: With valuetype: "child", stores only selected node like "Context 002-A" without path.
+**Behaviour**: With valuetype: "child", stores only selected node like "Context 002-A" without path.
 
 #### Geographic Hierarchy with Clear Workaround
 ```json
@@ -3478,7 +3478,7 @@ Current Field Type?
 
 4. **Test validation display**
    - Verify error messages now appear
-   - Check required field behavior
+   - Check required field behaviour
 
 5. **Update user documentation**
 
@@ -3685,7 +3685,7 @@ function migrateCheckboxesToMultiSelect(checkboxFields) {
 ### Browser-Specific Quirks
 - **iOS**: Select may show native picker
 - **Android**: MultiSelect may show modal
-- **Desktop**: Dropdown behavior varies
+- **Desktop**: Dropdown behaviour varies
 
 ## Performance Thresholds Summary {important}
 

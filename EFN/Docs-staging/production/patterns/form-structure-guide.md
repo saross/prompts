@@ -59,7 +59,7 @@ This architecture scales from simple single-form checklists to sophisticated mul
 
 ### Navigation Mode Selection {#navigation-modes}
 
-#### Vertical Organization (Inline Mode)
+#### Vertical Organisation (Inline Mode)
 Best for linear data collection workflows with <5 sections:
 
 ```json
@@ -85,7 +85,7 @@ Best for linear data collection workflows with <5 sections:
 - No lazy loading - entire form in DOM
 - Section headers NOT sticky
 
-#### Horizontal Organization (Tabs Mode)
+#### Horizontal Organisation (Tabs Mode)
 Best for complex multi-step workflows or forms with many sections:
 
 ```json
@@ -113,7 +113,7 @@ Best for complex multi-step workflows or forms with many sections:
 
 ### Platform-Specific Navigation {#platform-navigation}
 
-#### Desktop Behavior
+#### Desktop Behaviour
 - **Inline mode**: Smooth scroll anchors to section starts
 - **Tabs mode**: Horizontal stepper with full section names
   - Previous/Next buttons flank stepper
@@ -122,14 +122,14 @@ Best for complex multi-step workflows or forms with many sections:
   - Visited sections show checkmark indicator
   - Error sections show red badge with count
 
-#### Mobile Behavior
+#### Mobile Behaviour
 - **iOS**: 
   - Tabs compact to numbered stepper (1/5 format)
   - Swipe gestures may conflict with system gestures
   - Momentum scrolling in inline mode
 - **Android**:
   - Material Design stepper in tabs mode
-  - Hardware back button behavior inconsistent
+  - Hardware back button behaviour inconsistent
   - FAB for save action (when implemented)
 
 ### Responsive Breakpoints
@@ -191,7 +191,7 @@ xl: > 1200px    // Large desktop
 **Critical**: Section IDs must be globally unique across ALL forms, not just within their form.
 
 #### Optional Properties
-| Property | Type | Default | Description | Behavior |
+| Property | Type | Default | Description | Behaviour |
 |----------|------|---------|-------------|----------|
 | `condition` | object | null | Visibility condition | Malformed conditions crash form |
 | `description` | string | null | Help text (not widely supported) | May not display |
@@ -419,7 +419,7 @@ Navigation is never blocked by validation errors:
 
 1. User can navigate freely between sections
 2. Errors shown but don't prevent movement
-3. Save button behavior controlled by `publishButtonBehaviour`
+3. Save button behaviour controlled by `publishButtonBehaviour`
 4. Submit attempt jumps to first error
 
 ### Visual Error Indicators
@@ -579,6 +579,6 @@ Various improvements are being considered for the roadmap, including navigation 
 - [Dynamic Forms Guide](./dynamic-forms-guide.md) - Validation and conditional logic
 - [Implementation Patterns Guide](./implementation-patterns-guide.md) - Common patterns
 - [Component Reference](../references/component-reference.md) - Technical details
-- [Platform Reference](../references/platform-reference.md) - Device-specific behavior
+- [Platform Reference](../references/platform-reference.md) - Device-specific behaviour
 
 <!-- concat:boundary:end section="form-structure-guide" -->

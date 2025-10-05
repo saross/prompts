@@ -23,14 +23,35 @@ meta:depth-tags: [essential]
 
 ## Overview {essential}
 
-This reference provides the critical translation between what users see in the Fieldmark Designer interface and the actual component implementations in JSON. Understanding this mapping is essential for:
+This reference provides the critical translation between what users see in the Fieldmark Designer (Notebook Editor) interface and the actual component implementations in JSON. Understanding this mapping is essential for:
 - Converting Designer notebooks to JSON
-- Debugging field behavior differences
+- Debugging field behaviour differences
 - Understanding why certain Designer options create specific components
 - Recognizing that Designer field names ≠ component names
 
+**UI Context**: Field types are selected via a modal dialog in the Notebook Editor with 6 categorised tabs (TEXT, CHOICE, DATE & TIME, MEDIA, LOCATION, STRUCTURED). Each tab contains component cards with hover helper text.
+
+**Access Pattern**: Dashboard → Notebook → Actions → "Open in Editor" → DESIGN tab → "ADD A FIELD" button → Modal dialog opens
+
+**See**: [UI Interaction Patterns](./ui-interaction-patterns.md#1-configuration-patterns-modal-dialogs-and-inline-editing) for complete modal dialog workflow.
+
 ### Key Insight {essential}
 The Designer interface presents user-friendly "field types" that are often configurations of base components, not distinct components themselves. For example, "Controlled Number" in Designer is actually a TextField component with numeric configuration.
+
+### Field Selection Categories {important}
+
+When you click "ADD A FIELD" in the Notebook Editor, a modal dialog opens with these 6 tabs:
+
+| Tab Name | Field Types Available | Designer Names Listed |
+|----------|---------------------|----------------------|
+| **TEXT** | Text input fields | FAIMS Text Field, Text Field, Multiline Text, Email, Unique ID, Address |
+| **CHOICE** | Selection fields | Select, Multi-Select, Hierarchical Select, Checkbox, Radio Group |
+| **DATE & TIME** | Date/time pickers | Date Picker, Date Time Picker, Month Picker, Date/Time with Now |
+| **MEDIA** | File and photo fields | Take Photo, File Upload |
+| **LOCATION** | GPS and map fields | Take Point, Map Input |
+| **STRUCTURED** | Complex fields | Related Record, Rich Text, QR Code Scanner |
+
+**Interaction**: Click tab → Click component card → Modal closes → Field appears in collapsed state → Click grey bar to expand and configure.
 
 ---
 
@@ -201,7 +222,7 @@ Designer shows "Email" but creates:
 
 ### Debugging Tips
 1. Check actual component namespace - Designer may show wrong namespace
-2. Look for InputProps configuration - Often determines field behavior
+2. Look for InputProps configuration - Often determines field behaviour
 3. Verify type-returned matches expectations - May affect data storage
 4. Test validation schemas separately - Designer may not show all validation
 

@@ -394,7 +394,7 @@ Automatically escaped per JSON specification:
 | Empty array | `[]` | Empty array |
 | Empty object | `{}` | Empty object |
 
-### Array Export Behavior
+### Array Export Behaviour
 
 #### MultiSelect Arrays
 **CSV**: Comma-joined with issues
@@ -522,7 +522,7 @@ When exporting for repository submission:
 
 #### Silent Failures
 **Indicators:**
-- No error message but unexpected behavior
+- No error message but unexpected behaviour
 - Console warnings without errors
 - Partial functionality
 - Platform-specific differences

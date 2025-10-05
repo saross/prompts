@@ -4,16 +4,16 @@ document_id: platform-reference
 category: references
 version: 1.0
 last_updated: 2025-01-06
-purpose: Comprehensive technical reference for platform behaviors, performance thresholds, accessibility, and troubleshooting
+purpose: Comprehensive technical reference for platform behaviours, performance thresholds, accessibility, and troubleshooting
 source_documents:
-  - platform-behaviors-reference.md (9KB)
+  - platform-behaviours-reference.md (9KB)
   - performance-thresholds-reference.md (18KB)
   - accessibility-reference.md (13KB)
   - troubleshooting-framework-reference.md (9KB) - platform issues only
 -->
 
 <!-- discovery:metadata
-provides: [platform-behaviors, mobile-issues, browser-differences, offline-support]
+provides: [platform-behaviours, mobile-issues, browser-differences, offline-support]
 see-also: [location-fields, media-fields, constraints-reference]
 -->
 
@@ -23,7 +23,7 @@ see-also: [location-fields, media-fields, constraints-reference]
 
 <!-- structured:metadata
 meta:purpose: technical-reference
-meta:summary: Platform-specific behaviors for web, iOS, and Android deployments.
+meta:summary: Platform-specific behaviours for web, iOS, and Android deployments.
 meta:generates: lookup-tables
 meta:requires: [fieldmark-knowledge]
 meta:version: 3.0.0
@@ -33,7 +33,7 @@ meta:depth-tags: [essential]
 
 ## Overview {essential}
 
-This comprehensive reference consolidates all platform-specific technical details for Fieldmark v3, including behaviors across iOS, Android, Web Desktop, and Web Mobile platforms, performance thresholds, accessibility standards, and platform-specific troubleshooting. All performance thresholds are estimates based on empirical observations and code analysis - they are advisory only and should be tested with your specific hardware and use cases. We welcome performance feedback to improve these estimates.
+This comprehensive reference consolidates all platform-specific technical details for Fieldmark v3, including behaviours across iOS, Android, Web Desktop, and Web Mobile platforms, performance thresholds, accessibility standards, and platform-specific troubleshooting. All performance thresholds are estimates based on empirical observations and code analysis - they are advisory only and should be tested with your specific hardware and use cases. We welcome performance feedback to improve these estimates.
 
 ## Platform Characteristics Summary {essential}
 
@@ -203,7 +203,7 @@ Runtime Permission Model:
 
 ### Characteristics
 - Limited memory (similar to native apps)
-- Touch-optimized UI required
+- Touch-optimised UI required
 - No app store distribution
 - PWA capabilities available
 - Viewport management critical
@@ -212,7 +212,7 @@ Runtime Permission Model:
 - Safari iOS: Most restrictive
 - Chrome Android: Most capable
 - Firefox Mobile: Limited usage
-- Samsung Internet: Custom behaviors
+- Samsung Internet: Custom behaviours
 
 ### Limitations
 - No background processing
@@ -220,6 +220,87 @@ Runtime Permission Model:
 - Reduced performance vs native
 - No push notifications (iOS)
 - Share API limited
+
+## Dashboard and Notebook Editor Platform Recommendations {essential}
+
+### Platform Context
+
+The Fieldmark system consists of three distinct interfaces with different platform requirements:
+
+| Interface | URL Pattern | Platform Recommendation | Rationale |
+|-----------|-------------|------------------------|-----------|
+| **Dashboard** | `dashboard.fieldmark.app` | Desktop/laptop **recommended** | Complex navigation, list management, pagination |
+| **Notebook Editor** | Modal overlay in Dashboard | Desktop/laptop **recommended** | Modal dialogs, inline editing, keyboard input |
+| **Data Collection App** | `app.fieldmark.app` | Mobile or desktop | Optimised for both, mobile preferred for GPS/camera |
+
+**Note**: Dashboard and Notebook Editor are **recommended** for desktop/laptop use, not **required**. They are accessible from mobile browsers if needed, but the user experience is optimised for larger screens and mouse/keyboard input.
+
+### Notebook Editor Architecture {essential}
+
+**Modal Overlay Model**: The Notebook Editor opens as a modal overlay within the Dashboard interface, not as a separate page or application.
+
+**Key Characteristics**:
+- Same URL as Dashboard (`dashboard.fieldmark.app`)
+- Opens when user clicks "Open in Editor" from notebook/template Actions tab
+- Overlay dims the Dashboard in the background
+- Clicking SAVE or CANCEL closes the modal and returns to Dashboard
+
+### Save Behaviour and Session Model {critical}
+
+**Non-Auto-Save Design**: The Notebook Editor does **NOT** automatically save changes.
+
+**Save Workflow**:
+1. User makes changes in Editor (add fields, configure settings, etc.)
+2. Click green SAVE button (top-right corner)
+3. All changes are saved to database
+4. Editor modal closes automatically
+5. User returns to Dashboard notebook/template list
+
+**Implications**:
+- Users must click SAVE to preserve their work
+- Closing browser or tab before saving = lost work
+- Each save closes the Editor (by design, not a bug)
+- To continue editing: Navigate back to notebook → Actions → "Open in Editor"
+- Best practice: Save frequently (after adding each form or every few fields)
+
+**Cancel Behaviour**:
+- CANCEL button discards all unsaved changes
+- Returns to Dashboard without saving
+
+### Data Collection App Platform Features {important}
+
+**Mobile-Only Features**:
+- **Barcode/QR code scanning**: Only available in mobile apps (iOS/Android), not in web browsers
+- **Camera integration**: More convenient on mobile devices with built-in cameras
+- **GPS/location capture**: More accurate and convenient on mobile devices
+
+**Cross-Platform Features**:
+- All field types work on both mobile and web
+- Offline data collection supported on all platforms
+- Automatic sync when connection restored
+
+### Platform Selection Guide {important}
+
+**Use Desktop/Laptop For**:
+- Creating and editing notebooks (Notebook Editor)
+- Creating and editing templates
+- Managing team members and permissions
+- Reviewing collected data (better for large tables)
+- Exporting data (CSV, photo archives)
+- Navigating paginated notebook lists
+
+**Use Mobile For**:
+- Field data collection (Data Collection App)
+- Barcode/QR scanning
+- GPS/location capture with high accuracy
+- Photo capture in the field
+- Offline data entry
+
+**Either Platform Works For**:
+- Reviewing existing records
+- Simple text data entry
+- Notebook activation
+- Viewing project metadata
 
 ## Performance Thresholds {important}
 
@@ -353,7 +434,7 @@ Runtime Permission Model:
   min-height: 44px !important;
 }
 
-/* Field-optimized (gloves, fatigue) */
+/* Field-optimised (gloves, fatigue) */
 .MuiInputBase-root {
   min-height: 56px !important;
   font-size: 16px !important; /* Prevents zoom on iOS */
@@ -377,7 +458,7 @@ Runtime Permission Model:
 |-----------|-------------|------------------|--------|
 | **1.1.1** | Non-text Content | ✅ Pass | Icons have labels |
 | **1.3.1** | Info and Relationships | ⚠️ Partial | Some fields lack proper ARIA |
-| **1.4.1** | Use of Color | ✅ Pass | Not solely color-dependent |
+| **1.4.1** | Use of Colour | ✅ Pass | Not solely colour-dependent |
 | **2.1.1** | Keyboard | ✅ Pass | All fields keyboard accessible |
 | **2.4.3** | Focus Order | ✅ Pass | Logical tab order |
 | **3.1.1** | Language of Page | ✅ Pass | HTML lang attribute set |
@@ -651,7 +732,7 @@ console.timeEnd('Operation');
 1. **Increase touch targets** to 44×44px minimum
 2. **Ensure keyboard navigation** for all features
 3. **Add ARIA labels** for screen readers
-4. **Maintain color contrast** ratios
+4. **Maintain colour contrast** ratios
 5. **Provide text alternatives** for images
 6. **Support browser zoom** to 200%
 7. **Test with assistive technology**
@@ -696,7 +777,7 @@ console.timeEnd('Operation');
 - [Operations Reference](./operations-reference.md) - Operational procedures
 - [Constraints Reference](./constraints-reference.md) - System limitations
 - [Implementation Patterns Guide](../patterns/implementation-patterns-guide.md) - Common patterns
-- Individual field documentation for field-specific platform behaviors
+- Individual field documentation for field-specific platform behaviours
 
 ## Version Information {comprehensive}
 

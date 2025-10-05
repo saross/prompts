@@ -37,9 +37,9 @@ Understanding these constraints is essential for successful and secure notebook 
 #### Limited Designer Preview
 - **Field appearance**: No preview of how fields will render on different platforms
 - **Conditional logic**: Conditions must be tested in deployed notebooks, not Designer preview
-- **Validation behavior**: Cannot verify validation schemas work as intended
+- **Validation behaviour**: Cannot verify validation schemas work as intended
 - **Mobile usability**: No way to test touch interactions or mobile-specific behaviors
-- **Export formats**: Cannot preview CSV/JSON export behavior with sample data
+- **Export formats**: Cannot preview CSV/JSON export behaviour with sample data
 
 #### Effective Testing Workflow
 While the Designer lacks built-in preview, a practical workflow exists:
@@ -84,7 +84,7 @@ Designer provides no warnings when configurations will cause issues:
 
 #### Missing Accessibility Warnings
 - No WCAG compliance indicators
-- No color contrast warnings
+- No colour contrast warnings
 - No touch target size validation (44×44px minimum)
 - No screen reader compatibility checks
 - No keyboard navigation testing
@@ -92,7 +92,7 @@ Designer provides no warnings when configurations will cause issues:
 #### Platform-Specific Issues Not Flagged
 - QRCodeFormField required on web (will block form submission)
 - Browser-specific validation conflicts
-- Mobile keyboard behavior issues
+- Mobile keyboard behaviour issues
 
 ### Field Management Restrictions
 

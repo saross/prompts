@@ -287,9 +287,11 @@ see-also: [notebook-format-guide, component-reference, field-type-index]
 ## Dashboard Terms
 
 ### Dashboard
-**Definition**: Web-based administrative interface for managing Fieldmark projects.  
-**Contains**: Templates, Notebooks, Users, Teams sections.  
-**Access**: Browser-based, requires authentication.  
+**Definition**: Web-based administrative interface for managing Fieldmark projects.
+**URL**: Usually `https://dashboard.fieldmark.app` (or organisation-specific URL).
+**Contains**: Templates, Notebooks, Users, Teams sections.
+**Access**: Browser-based, requires authentication. Desktop/laptop recommended for Notebook Editor use.
+**Notebook Editor**: Opens as modal overlay within Dashboard, not a separate page.
 **See**: [Dashboard Overview](../dashboard/dashboard-overview.md)
 
 ### Team
@@ -311,10 +313,13 @@ see-also: [notebook-format-guide, component-reference, field-type-index]
 **See**: [Templates Interface](../dashboard/templates-interface.md)
 
 ### Designer
-**Definition**: Visual interface for creating and editing templates (alternate name for Notebook Editor).  
-**Panels**: DESIGN tab (form builder with "+" buttons), INFO tab (metadata).  
-**Note**: No built-in preview - test in separate browser tab. Uses buttons and forms, not drag-and-drop.  
-**See**: [Designer Component Mapping](./designer-component-mapping.md)
+**Definition**: Alternate name for Notebook Editor - visual interface for creating and editing templates.
+**Architecture**: Modal overlay within Dashboard.
+**Panels**: DESIGN tab (form builder with "ADD A FIELD" button), INFO tab (metadata).
+**Interaction Pattern**: Uses modal dialogs for field selection and inline editing for configuration - NOT drag-and-drop.
+**Save Behaviour**: Does NOT auto-save. Clicking SAVE closes Editor and returns to Dashboard.
+**Note**: No built-in preview - test in separate browser tab.
+**See**: [Designer Component Mapping](./designer-component-mapping.md), [UI Interaction Patterns](./ui-interaction-patterns.md)
 
 ### Global Role
 **Definition**: System-wide permission level.  
@@ -397,12 +402,23 @@ see-also: [notebook-format-guide, component-reference, field-type-index]
 
 ## Editor Terms
 
+### Data Collection App
+**Definition**: Mobile and web application for entering data into activated notebooks.
+**URL**: Usually `https://app.fieldmark.app` (separate from Dashboard).
+**Platform**: Works on both mobile devices and web browsers.
+**Mobile-Only Features**: Barcode/QR code scanning (not available in web browser).
+**Offline**: Full offline support for data entry and sync when connection restored.
+**See**: [Platform Reference](./platform-reference.md), [UI Interaction Patterns](./ui-interaction-patterns.md)
+
 ### Notebook Editor
-**Definition**: The visual interface for creating and modifying notebooks and templates.  
-**Usage**: Same editor used for both templates and notebooks.  
-**Interface**: Form builder with "+" buttons to add forms/sections, "ADD NEW FORM" button, and configuration panels for field settings.  
-**Access**: Available to team members based on their team role.  
-**Note**: Sometimes referred to as just "Editor" in the interface.
+**Definition**: Modal overlay interface for creating and modifying notebooks and templates, spawned from Dashboard.
+**Architecture**: Opens as a modal overlay within Dashboard (same URL), not a separate page or application.
+**Usage**: Same editor used for both templates and notebooks.
+**Interface**: Form builder using modal dialogs (field type selection) and inline editing (form names, field configuration).
+**Save Behaviour**: Does NOT auto-save. Clicking SAVE closes the Editor and returns to Dashboard.
+**Access**: Available to team members based on their team role.
+**Note**: Sometimes referred to as just "Editor" or "Designer" in the interface.
+**See**: [UI Interaction Patterns](./ui-interaction-patterns.md)
 
 ### Notebook Info
 **Definition**: Notebook Editor page for configuring notebook-level metadata.  
@@ -463,16 +479,30 @@ see-also: [notebook-format-guide, component-reference, field-type-index]
 ### publishButtonBehaviour
 **Definition**: Validation strategy controlling when forms can be completed.  
 **Options**: `always`, `visited`, `noErrors`.  
-**UI Label**: "Finish Button Behavior" in Form Settings.  
+**UI Label**: "Finish Button Behaviour" in Form Settings.  
 **Default**: `"always"` (no restrictions).  
 **See**: [Editor Form Settings](./editor-form-settings.md#publishbuttonbehaviour)
 
 ### Layout Style
-**Definition**: How form sections are displayed to users.  
-**Options**: `tabs` (horizontal), `inline` (vertical scroll).  
-**Configuration**: Form Settings → Layout Style.  
-**Platform**: Mobile often better with inline, desktop with tabs.  
+**Definition**: How form sections are displayed to users.
+**Options**: `tabs` (horizontal), `inline` (vertical scroll).
+**Configuration**: Form Settings → Layout Style.
+**Platform**: Mobile often better with inline, desktop with tabs.
 **See**: [Editor Form Settings](./editor-form-settings.md#layout)
+
+### Modal Dialog Pattern
+**Definition**: UI interaction pattern using pop-up dialogs for complex selections in Notebook Editor.
+**Used For**: Field type selection (6-tab categorised modal), conditional logic configuration, templated strings.
+**Behaviour**: Opens overlay, user makes selection, modal closes and returns to editor.
+**Field Categories**: TEXT, CHOICE, DATE & TIME, MEDIA, LOCATION, STRUCTURED (6 tabs with 1-6 cards each).
+**See**: [UI Interaction Patterns](./ui-interaction-patterns.md#1-configuration-patterns-modal-dialogs-and-inline-editing)
+
+### Inline Editing Pattern
+**Definition**: UI interaction pattern for direct text and configuration editing in Notebook Editor.
+**Used For**: Form names, section names, field configuration settings, Form Settings panel.
+**Behaviour**: Click element → edit in place → confirm with checkmark or cancel with X.
+**Collapsible Panels**: Form Settings, individual field configuration, Hidden Fields (click grey bar to expand/collapse).
+**See**: [UI Interaction Patterns](./ui-interaction-patterns.md#1-configuration-patterns-modal-dialogs-and-inline-editing)
 
 ## Acronyms
 

@@ -39,6 +39,8 @@ Templates define the structure and behaviour of data collection notebooks. They 
 - Conditional logic and relationships
 - Human-readable identifier patterns
 
+**Template Editor Context**: Templates are created and edited using the Notebook Editor, which opens as a modal overlay within the Dashboard. The Editor does NOT auto-save - clicking SAVE closes the Editor and returns to the Dashboard template list.
+
 ### Access Requirements {essential}
 
 - **Team Role**: Team members can create/edit templates based on their team role
@@ -72,8 +74,27 @@ Each template shows:
 ### Method 1: From Scratch
 ```
 Templates > Create Template > Start from scratch
-→ Opens Designer/Editor
+→ Creates empty template → Returns to templates list
+→ Navigate to new template > Actions tab > Open in Editor
 ```
+
+**Post-Creation Navigation**: After creating a template, you return to the templates list. New templates appear at the END of the list, not the top.
+
+**To Access Your New Template**:
+1. **Option A - Search**: Use the search/filter bar at the top of the list to search by template name
+2. **Option B - Scroll**: Navigate to the end of the list
+3. **Option C - Pagination**: If applicable, navigate to the last page
+
+**Once Located**:
+1. Click on the template name
+2. Click the **Actions** tab
+3. Click **"Open in Editor"** button
+4. Notebook Editor opens as a modal overlay within Dashboard
+5. Build your template (add forms, fields, configure validation)
+6. Click green **SAVE** button (top-right) to save and close Editor
+7. You return to Dashboard template list
+
+**Critical**: The Notebook Editor does NOT auto-save. Clicking SAVE closes the Editor and returns you to the Dashboard. This is the intended behaviour. To resume editing, repeat steps 1-4 above.
 
 ### Method 2: From JSON File
 ```
@@ -98,7 +119,13 @@ Templates > View Template > Clone
 
 ## Designer/Editor Interface {important}
 
-The Designer is the visual interface for building templates:
+The Notebook Editor (also called "Designer") is a modal overlay interface for building templates. It opens within the Dashboard when you click "Open in Editor" from a template's Actions tab.
+
+**Architecture**: Modal overlay within Dashboard (same URL), not a separate page or application.
+
+**Save Behaviour**: Does NOT auto-save. Clicking SAVE closes the Editor and returns to Dashboard.
+
+**See**: [UI Interaction Patterns](../references/ui-interaction-patterns.md#14-save-behaviour-in-notebook-editor) for complete workflow details.
 
 ### Interface Structure
 
@@ -112,20 +139,31 @@ The Designer is the visual interface for building templates:
 ⚠️ **Version Control Note**: Version numbers are manually maintained metadata, not automated versioning.
 
 #### Centre Panel: Form Builder
-- **Sections**: Logical groupings of fields
-- **Fields**: Add using "+" button or "ADD NEW FORM" button
+- **Forms**: Add using "ADD NEW FORM" button
+- **Sections**: Logical groupings of fields within forms
+- **Fields**: Add using "ADD A FIELD" button (opens modal dialog with 6 categorised tabs)
 - **Field Order**: Use interface controls to reorder
-- **Field Actions**: Configure, duplicate, delete
+- **Field Actions**: Click grey bar to expand/collapse, configure, duplicate, delete
 
 📝 **Preview Note**: No built-in preview. Keep Fieldmark web app open in separate tab for testing. Updates reflect quickly after saving.
 
-#### Right Panel: Field Properties
+**Field Addition Workflow**:
+1. Click "ADD A FIELD" button
+2. Modal dialog opens with 6 tabs: TEXT, CHOICE, DATE & TIME, MEDIA, LOCATION, STRUCTURED
+3. Select tab category, then click component card (hover for helper text)
+4. Modal closes, field appears in collapsed state in "Visible Fields" list
+5. Click grey bar to expand field and configure settings inline
+
+**See**: [UI Interaction Patterns](../references/ui-interaction-patterns.md#1-configuration-patterns-modal-dialogs-and-inline-editing) for complete interaction details.
+
+#### Right Panel: Field Properties (Inline Editing)
+When a field is expanded, configure properties inline:
 - **Field Identifier**: Unique field name (JSON key)
 - **Display Label**: User-visible text
-- **Field Type**: Component selection
+- **Field Type**: Component selection (from modal)
 - **Validation**: Rules and constraints
 - **Help Text**: User guidance
-- **Conditional Logic**: Show/hide rules
+- **Conditional Logic**: Show/hide rules (configured via modal dialog)
 
 ### Designer Field Selection {important}
 

@@ -83,7 +83,7 @@ See [Designer Limitations Reference](../reference-docs/designer-limitations-refe
 ### When to Use RichText
 RichText is the **only** display field option in Fieldmark. Use it when:
 - Providing static instructions or methodological guidance
-- Adding section headers and visual organization
+- Adding section headers and visual organisation
 - Displaying safety warnings or important notices
 - Including formatted help text with emphasis
 - Creating visual separation between form sections
@@ -323,7 +323,7 @@ See [Meta Properties Reference](../reference-docs/meta-properties-reference.md) 
 
 **Note:** RichText fields do not support annotations or uncertainty (display-only purpose)
 
-### Export Behavior {important}
+### Export Behaviour {important}
 See [Data Export Reference](../reference-docs/data-export-reference.md) for universal patterns.
 
 **Display-Specific Export:**
@@ -360,7 +360,7 @@ See [Data Export Reference](../reference-docs/data-export-reference.md) for univ
 3. **Use semantic markdown**:
    - Proper heading hierarchy (##, ###)
    - Bulleted lists for requirements
-   - Bold for emphasis (not color)
+   - Bold for emphasis (not colour)
 
 ### Keyboard Navigation
 **Problem**: RichText content not focusable
@@ -376,10 +376,10 @@ See [Data Export Reference](../reference-docs/data-export-reference.md) for univ
 **Problem**: No control over contrast or text size
 - Fixed font sizes
 - No dark mode support
-- Color-dependent information lost
+- Colour-dependent information lost
 
 **Workarounds**:
-- Avoid color as sole differentiator
+- Avoid colour as sole differentiator
 - Use symbols (⚠️, ✓, ✗) for emphasis
 - Structure with headers and lists
 - Keep line length under 80 characters

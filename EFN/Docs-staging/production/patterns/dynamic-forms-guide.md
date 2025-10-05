@@ -216,7 +216,7 @@ Annotations and uncertainty markers bypass the validation system entirely:
 - **No required status**: Cannot make annotations mandatory through validation
 - **No character limits**: Even if main field has limits, annotation doesn't
 - **Always optional**: Users decide when context/exceptions worth noting
-- **Hidden field behavior**: Annotations remain even when main field hidden
+- **Hidden field behaviour**: Annotations remain even when main field hidden
 
 **Best Practices for Annotations:**
 ```json
@@ -486,11 +486,11 @@ Combine AND and OR for sophisticated patterns:
 }
 ```
 
-## Save Button Behavior {important}
+## Save Button Behaviour {important}
 
 ### publishButtonBehaviour Configuration {#save-button}
 
-| Mode | Behavior | When to Use | Issues |
+| Mode | Behaviour | When to Use | Issues |
 |------|----------|-------------|--------|
 | `"always"` | Save always enabled | Quick data entry | No validation enforcement |
 | `"visited"` | Enabled after all sections viewed | Ensures complete review | Doesn't check validity |
@@ -698,6 +698,6 @@ console.log(`Validation took ${performance.now() - start}ms`);
 - {{cross-ref:editor-notebook-info}} - Notebook metadata that can be used in conditional logic
 - [Implementation Patterns Guide](./implementation-patterns-guide.md) - Common patterns
 - [Component Reference](../references/component-reference.md) - Technical details
-- [Platform Reference](../references/platform-reference.md) - Device-specific behavior
+- [Platform Reference](../references/platform-reference.md) - Device-specific behaviour
 
 <!-- concat:boundary:end section="dynamic-forms-guide" -->

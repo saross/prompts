@@ -170,7 +170,7 @@ See [Security Considerations Reference](../reference-docs/security-consideration
 - **Handle 200+ relationships** - Performance collapse
 - **Auto-cleanup orphans** - Manual intervention needed
 - **Provide conflict resolution** - Last-write-wins only
-- **Support gesture controls** - No swipe/drag actions
+- **Support gesture controls** - No swipe/drag actions in UI
 
 ## Common Use Cases {important}
 - **Site hierarchies** - Site→Trench→Context→Find structures
@@ -304,7 +304,7 @@ Relationships support annotations and uncertainty:
 - Annotation: Document relationship rationale
 - Uncertainty: Flag tentative associations
 
-### Export Behavior {important}
+### Export Behaviour {important}
 See [Data Export Reference](../reference-docs/data-export-reference.md) for universal patterns.
 
 **Relationship-Specific Export:**
@@ -329,7 +329,7 @@ Enables bidirectional connections between records, supporting both hierarchical 
 | Designer | ⚠️ Limited support |
 | JSON Required | Vocabulary pairs |
 | Performance Limit | 50 relationships |
-| Offline Behavior | Delayed reciprocals |
+| Offline Behaviour | Delayed reciprocals |
 | Touch Target | 36px (suboptimal) |
 | Cascade Delete | Orphans (Child only) |
 
@@ -460,7 +460,7 @@ Enables bidirectional connections between records, supporting both hierarchical 
 ### Issue 3: Orphaned Records After Deletion
 **Symptoms**: Child records exist without parent, shown as "orphaned"
 
-**Understanding the Behavior**:
+**Understanding the Behaviour**:
 - Deleting parent with Child relationships creates orphans
 - Orphaned records remain in database
 - No automatic cascade delete
@@ -1156,7 +1156,7 @@ Enables bidirectional connections between records, supporting both hierarchical 
    ```
 3. Manually redistribute relationships across new fields
 4. Add validation to enforce maximum of 50 per field
-5. Update form documentation with new field organization
+5. Update form documentation with new field organisation
 
 **Solution/Workaround**: Split relationships into semantically meaningful groups (e.g., "direct-relationships", "indirect-relationships") with clear documentation of the separation criteria.
 
@@ -1357,7 +1357,7 @@ Note: Vocabulary is immutable - must plan before deployment
 | Can't delete relationship | UI limitation | Edit JSON | All | Known issue |
 | Performance lag | Network latency | Work offline | All | Local-first |
 | Touch targets small | 36px height | Use desktop | Mobile | WCAG issue |
-| Back button closes | Android behavior | Save first | Android | Platform quirk |
+| Back button closes | Android behaviour | Save first | Android | Platform quirk |
 
 ## Field Interaction Matrix (2025-01-03) {important}
 
@@ -1376,7 +1376,7 @@ Note: Vocabulary is immutable - must plan before deployment
 2. **Type conversion loses data** - Child↔Linked migration
 3. **Performance degradation** - Plan for <50 relationships
 4. **No conflict resolution** - Last-write-wins only
-5. **Orphan accumulation** - Soft-delete behavior
+5. **Orphan accumulation** - Soft-delete behaviour
 6. **No re-import** - CSV export one-way
 7. **Touch target issues** - Mobile accessibility
 
@@ -1418,7 +1418,7 @@ Note: Vocabulary is immutable - must plan before deployment
 - **Source Document**: relationship.md (Third Draft)
 - **Platform Version**: Fieldmark v3 (January 2025)
 - **Field Count**: 1 (RelatedRecordSelector)
-- **Key Limitations**: 50 relationship limit, immutable vocabulary, orphan behavior
+- **Key Limitations**: 50 relationship limit, immutable vocabulary, orphan behaviour
 - **Performance Critical**: Yes - degrades rapidly
 - **Reference Docs**: 9 linked documents
 ---

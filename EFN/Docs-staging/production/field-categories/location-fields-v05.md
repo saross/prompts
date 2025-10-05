@@ -300,7 +300,7 @@ See [Validation System Documentation](../detail-crossfield-docs/validation.md) f
 - **Coordinate range**: NOT validated (accepts invalid lat/lon beyond ±90/±180)
 - **GPS accuracy**: Cannot enforce minimum accuracy thresholds
 - **Geofencing**: No boundary validation available
-- **Required behavior**: Works for TakePoint, silently fails for MapFormField
+- **Required behaviour**: Works for TakePoint, silently fails for MapFormField
 - **Geometry**: No self-intersection or validity checks for polygons/lines
 
 ### Platform Behaviors {important}
@@ -320,7 +320,7 @@ Both location fields support:
 
 Critical for location fields due to accuracy variability.
 
-### Export Behavior {important}
+### Export Behaviour {important}
 See [Data Export Reference](../reference-docs/data-export-reference.md) for universal patterns.
 
 **Location-Specific Export:**
@@ -509,8 +509,8 @@ Interactive geometry creation through web-based mapping, enabling spatial featur
 }
 ```
 
-#### Platform-Specific Behaviors
-- **Desktop:** Drag-drop interface, scroll zoom
+#### Platform-Specific Behaviours
+- **Desktop:** Click-based interface, scroll zoom
 - **iOS:** Pinch zoom smooth, rapid tap vertex bug
 - **Android:** Progressive slowdown after 300 vertices
 - **All:** Single feature limit, no undo capability
@@ -1073,7 +1073,7 @@ Interactive geometry creation through web-based mapping, enabling spatial featur
 ### Map Best Practices (MapFormField)
 1. **Pre-download tiles** - Use Offline Maps feature
 2. **Limit vertices** - Stay under 500 for mobile
-3. **Save frequently** - No auto-save available
+3. **Save frequently** - Click SAVE button to preserve changes (Editor does not auto-save)
 4. **Train users** - Explain single-feature limit
 5. **Plan post-processing** - GeoJSON extraction needed
 

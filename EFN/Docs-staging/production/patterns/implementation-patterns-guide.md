@@ -208,14 +208,14 @@ This guide consolidates implementation patterns, troubleshooting strategies, and
 
 ```json
 {
-  "soil-color": {
+  "soil-colour": {
     "component-name": "Select",
     "component-parameters": {
-      "label": "Munsell Soil Color",
+      "label": "Munsell Soil Colour",
       "ElementProps": {"options": ["10YR 3/3", "10YR 4/3", "7.5YR 3/2"]}
     },
     "meta": {
-      "annotation": {"include": true, "label": "Color notes"},
+      "annotation": {"include": true, "label": "Colour notes"},
       "uncertainty": {"include": true, "label": "Provisional"}
     }
   }
@@ -224,7 +224,7 @@ This guide consolidates implementation patterns, troubleshooting strategies, and
 
 **Real-World Annotation Examples**:
 - Soil compaction: "Compaction difficult to measure because most of the context is gravel"
-- Color assessment: "Soil color may be inaccurate due to poor lighting (early morning/heavy overcast) - re-classify later"
+- Colour assessment: "Soil colour may be inaccurate due to poor lighting (early morning/heavy overcast) - re-classify later"
 - Serendipitous discovery: "This feature is a kiln, which is not on our list of feature types since it was unexpected, please add it"
 - Measurement qualification: "Depth measurement taken from highest point of sloping surface"
 - Environmental context: "Strong wind affecting sieve results"
@@ -509,10 +509,11 @@ if (validateAgainstSchema(newDoc, schema)) {
   "parent": "excavation-unit",
   "children": ["contexts", "samples", "finds"],
   "navigation": "tabs",
-  "sticky_fields": ["unit_id", "date"],
-  "auto_save": true
+  "sticky_fields": ["unit_id", "date"]
 }
 ```
+
+**Note**: The Notebook Editor does NOT currently support auto-save. Click SAVE button to preserve changes.
 
 **When to use**: One-to-many relationships, repeated child creation
 
@@ -547,7 +548,7 @@ if (validateAgainstSchema(newDoc, schema)) {
 
 ### Sync Conflict Resolution
 
-**Pattern**: While last-write-wins is the default behavior, conflicts are flagged to users after sync.
+**Pattern**: While last-write-wins is the default behaviour, conflicts are flagged to users after sync.
 
 **Conflict Resolution Process**:
 1. Concurrent edits create conflicts during sync

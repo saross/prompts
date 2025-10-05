@@ -522,7 +522,7 @@ See [Accessibility Reference](accessibility-reference.md) for comprehensive WCAG
 - No aria-live regions for validation state changes
 - Tremors/gloves make precise spinner interaction difficult
 
-### Export Behavior {important}
+### Export Behaviour {important}
 
 See [Data Export Reference](data-export-reference.md) for comprehensive export documentation including CSV/JSON formats, special character handling, and Excel issues.
 
@@ -1053,7 +1053,7 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
 | **Voice input fails** | NumberInput, ControlledNumber | "one thousand" → NaN | Train exact format | Medium |
 | **Spinner too small** | NumberInput, ControlledNumber | Miss-clicks on mobile | Custom CSS sizing | Low |
 | **No thousands separator** | NumberInput, ControlledNumber | Hard to read 1000000 | Feature pending | Low |
-| **Paste validation timing** | All fields | Error doesn't appear immediately | Known HTML5 behavior | Low |
+| **Paste validation timing** | All fields | Error doesn't appear immediately | Known HTML5 behaviour | Low |
 | **Scientific notation confusion** | NumberInput | Users don't understand 1.23e5 | Training required | Medium |
 | **Null vs empty string** | ControlledNumber | Cannot represent "not measured" | Use NumberInput | High |
 | **Browser autofill** | NumberInput | Fills with strings | Clear and retype | Low |
@@ -1144,7 +1144,7 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
 - [ ] Overflow values rejected (>1.8e308)
 - [ ] Precision truncation documented (>17 digits)
 - [ ] iOS negative entry workaround tested
-- [ ] Android minus key behavior documented
+- [ ] Android minus key behaviour documented
 - [ ] Voice input format documented
 - [ ] Conditional logic with null values
 - [ ] CSV export preserves scientific notation
@@ -1816,7 +1816,7 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
      ]
    }
    ```
-3. Test null vs zero behavior thoroughly
+3. Test null vs zero behaviour thoroughly
 4. Update user documentation about the naming paradox
 5. Verify calculations still work correctly
 
@@ -2258,9 +2258,9 @@ Desktop-LAB,Lab Team,accession_register,20000,29999,2024-01-01,Reserved,2025 all
   - `TEST` Use browser password manager on numeric field
   - See [Troubleshooting](../references/troubleshooting-index.md)
 - `QUIRK` Desktop spinner controls respect bounds, mobile doesn't
-  - `ERROR` Inconsistent validation behavior
+  - `ERROR` Inconsistent validation behaviour
   - `FIX` Document platform differences
-  - `TEST` Compare spinner behavior desktop vs mobile
+  - `TEST` Compare spinner behaviour desktop vs mobile
   - See [Platform-Specific Behaviors](../references/platform-reference.md)
 - `VERSION` 2025-08
 
@@ -3299,7 +3299,7 @@ Anti-patterns have been distributed to their respective field sections for bette
 | Autofill inserts text | Chrome/Firefox | NumberInput | Clear and retype | Disable autofill |
 | No spinner controls | Safari | NumberInput | Browser limitation | Custom buttons |
 | Different decimal separator | European locale | All numeric | Force US locale | Server-side handling |
-| Copy-paste validation delay | All browsers | All fields | Expected HTML5 behavior | Wait for blur |
+| Copy-paste validation delay | All browsers | All fields | Expected HTML5 behaviour | Wait for blur |
 | Memory leak | Chrome | >1000 fields | Restart browser | Pagination |
 
 ### When Range Management Issues Occur
@@ -3317,7 +3317,7 @@ Anti-patterns have been distributed to their respective field sections for bette
 | Symptom | Field Type | During | Fix | Best Practice |
 |---------|------------|--------|-----|---------------|
 | "00042" becomes 42 | BasicAutoIncrementer | Excel open | Import as text column | Use TemplatedString |
-| Null becomes 0 | ControlledNumber | Any export | Expected behavior - no null | Use NumberInput |
+| Null becomes 0 | ControlledNumber | Any export | Expected behaviour - no null | Use NumberInput |
 | Scientific notation | NumberInput | Large number export | Format column in Excel | Document threshold |
 | Trailing zeros lost | All numeric | Storage/export | Expected (42.0 → 42) | Use TextField if critical |
 | CSV has quotes | BasicAutoIncrementer | Export | Normal for strings | No action needed |

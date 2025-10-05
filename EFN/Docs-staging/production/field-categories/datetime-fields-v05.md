@@ -576,7 +576,7 @@ See [Accessibility Reference](accessibility-reference.md) for comprehensive WCAG
 - UTC display notation may confuse users
 - Native pickers generally meet touch target requirements
 
-### Export Behavior {important}
+### Export Behaviour {important}
 
 See [Data Export Reference](data-export-reference.md) for comprehensive export documentation including CSV/JSON formats, special character handling, and Excel issues.
 
@@ -1069,8 +1069,8 @@ Common date field error messages and their meanings:
 | Auto-pick not working | Check JSON has `is_auto_pick: true` | Verify DateTimeNow component | Manual timestamp |
 | Dates off by one day | Check timezone boundaries | Verify UTC conversion | Use DatePicker if time irrelevant |
 | Cannot enter historical date | Verify no min date constraint | Check browser support | Use text field with validation |
-| Month picker shows day | Expected behavior - ignore day | Add helper text explanation | Use custom component |
-| iOS picker blocks form | Known iOS behavior | Train users to expect it | Consider alternative UI |
+| Month picker shows day | Expected behaviour - ignore day | Add helper text explanation | Use custom component |
+| iOS picker blocks form | Known iOS behaviour | Train users to expect it | Consider alternative UI |
 | "Now" button missing | Check component is DateTimeNow | Verify mobile browser | Manual entry |
 | Form won't submit | Check required date populated | Verify field touched | Remove required validation |
 ### Quick Reference Table {important}
@@ -1109,7 +1109,7 @@ Common date field error messages and their meanings:
 | Symptom | Field Type | Likely Cause | Quick Fix | Prereq | Speed | Freq | Admin | Prevention | Version |
 |---------|------------|--------------|-----------|--------|-------|------|-------|------------|---------|
 | Picker doesn't appear | All date fields | Browser incompatibility | Update browser | Browser update | 🟡 | 💧 | 👤 | Test browsers first | 2025-08 |
-| Wrong picker type | DateTimeNow | Platform default | Expected behavior | None | 🟢 | 🔥 | 👤 | Train expectations | 2025-08 |
+| Wrong picker type | DateTimeNow | Platform default | Expected behaviour | None | 🟢 | 🔥 | 👤 | Train expectations | 2025-08 |
 | Picker covers form | Mobile all | Full-screen mode | Rotate device | None | 🟢 | 🔥 | 👤 | Design for mobile | 2025-08 |
 | Can't find "Now" | DateTimeNow | Platform location varies | Look bottom-right | None | 🟢 | 🔥 | 👤 | Platform training | 2025-08 |
 | Wheels confusing | iOS all | Platform convention | Swipe to scroll | iOS device | 🟢 | 🔥 | 👤 | iOS-specific guide | 2025-08 |
@@ -1832,7 +1832,7 @@ Common date field error messages and their meanings:
 
 ### Platform-Specific Configurations {important}
 
-Optimize date field behavior for specific platforms:
+Optimize date field behaviour for specific platforms:
 
 #### iOS-Optimized Configuration
 ```json
@@ -3050,7 +3050,7 @@ For ancient history and archaeology spanning BCE/CE, use numeric fields rather t
 - `FIX` Excel import: use Text Import Wizard, never open CSV directly
 - `TEST` Locale issues: Enter 01/02/2024, verify interpretation (Jan 2 vs Feb 1)
 - `TEST` Excel corruption: Export dates to CSV, open in Excel, check format changes
-- `TEST` iOS picker: Open on iPhone, verify full-screen behavior blocks form
+- `TEST` iOS picker: Open on iPhone, verify full-screen behaviour blocks form
 - See [DatePicker Configuration](#datepicker-configuration)
 - See [Excel Export Issues](#excel-export-issues)
 - `VERSION` 2025-08
@@ -3193,7 +3193,7 @@ Anti-patterns have been distributed to their respective field sections for bette
 
 ### Anti-pattern Categories by Field
 
-- **DateTimeNow**: Component namespace, timezone format, Now button behavior → [DateTimeNow Anti-patterns](#datetimenow)
+- **DateTimeNow**: Component namespace, timezone format, Now button behaviour → [DateTimeNow Anti-patterns](#datetimenow)
 - **DateTimePicker**: Deprecation warnings, migration guidance → [DateTimePicker Anti-patterns](#datetimepicker)
 - **DatePicker**: Date format, ISO 8601 compliance → [DatePicker Anti-patterns](#datepicker)
 - **MonthPicker**: Month format, YYYY-MM pattern → [MonthPicker Anti-patterns](#monthpicker)
@@ -3620,7 +3620,7 @@ Anti-patterns have been distributed to their respective field sections for bette
 ### Documentation Coverage
 - **Designer Capabilities**: ✅ Basic field creation
 - **JSON Enhancement**: ✅ All configuration options documented
-- **Platform Variations**: ✅ Comprehensive platform behavior matrix
+- **Platform Variations**: ✅ Comprehensive platform behaviour matrix
 - **Known Issues**: ✅ All quirks and limitations documented
 - **Migration Paths**: ✅ Complete migration procedures with code examples
 - **Performance Metrics**: ✅ Specific thresholds and optimization strategies documented
@@ -3644,7 +3644,7 @@ Anti-patterns have been distributed to their respective field sections for bette
 - ✔ Testing guidelines tagged {comprehensive}
 - ✔ All cross-references validated and working
 - ✔ Accessibility compliance section added
-- ✔ Export behavior comprehensively documented
+- ✔ Export behaviour comprehensively documented
 - ✔ Version markers (2025-08) consistent throughout
 
 ### Revision History

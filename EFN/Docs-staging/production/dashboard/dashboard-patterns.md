@@ -62,6 +62,61 @@ This document provides parametric workflow recipes for common Dashboard operatio
 
 ---
 
+## Common UI Patterns {essential}
+
+These patterns apply across all recipes and Dashboard workflows:
+
+### Notebook Editor Modal Overlay Pattern {important}
+
+**Architecture**: The Notebook Editor opens as a modal overlay within the Dashboard, not a separate page.
+
+**Key Characteristics**:
+- Same URL as Dashboard
+- Opens when clicking "Open in Editor" from Actions tab
+- Dims Dashboard background while open
+- Clicking SAVE or CANCEL closes the modal
+
+**Save Behaviour** (CRITICAL):
+- Does NOT auto-save
+- Clicking SAVE: saves changes + closes Editor + returns to Dashboard
+- Clicking CANCEL: discards changes + closes Editor + returns to Dashboard
+- Closing browser/tab before saving = lost work
+
+**Workflow Implication**:
+- To resume editing after save: navigate back to item → Actions tab → "Open in Editor"
+- Best practice: Save frequently (after adding each form or every few fields)
+
+**See**: [UI Interaction Patterns](../references/ui-interaction-patterns.md#14-save-behaviour-in-notebook-editor)
+
+### List Navigation Pattern {important}
+
+**New Item Location**: Newly created notebooks and templates appear at the END of lists, not at the top.
+
+**Navigation Options**:
+1. **Search/Filter Bar** (fastest): Type item name in filter bar at top of list
+2. **Pagination**: Navigate to last page using controls at bottom (shows "1-10 of X items")
+3. **Scroll**: Scroll to bottom if list is short
+
+**Typical Workflow**:
+```
+Create Item → Returns to list → Item at END → Navigate to find → Click to open
+```
+
+### Form Settings and Field Configuration {important}
+
+**Collapsible Panels**: Many configuration options are hidden in collapsible grey panels.
+
+**Common Collapsed Elements**:
+- Form Settings (contains finish button behaviour, layout, summary fields, HRID)
+- Individual field configuration (click grey bar to expand)
+- Hidden Fields list
+
+**Interaction**: Click anywhere on grey bar to expand/collapse panel.
+
+**See**: [UI Interaction Patterns](../references/ui-interaction-patterns.md#2-collapsible-configuration-panels)
+
+---
+
 ## Recipe 1: Complete Project Setup {essential}
 
 **Purpose**: Set up a new field research project from scratch

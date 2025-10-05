@@ -32,11 +32,17 @@ meta:depth-tags: [essential, important, comprehensive]
 
 ## Overview {essential}
 
-Form Settings is a configuration panel within the Notebook Editor that controls per-viewset (form) behaviour. Each form in a notebook can have independent settings, allowing different data collection strategies within the same notebook.
+Form Settings is a collapsible grey panel within the Notebook Editor that controls per-viewset (form) behaviour. Each form in a notebook can have independent settings, allowing different data collection strategies within the same notebook.
 
-**Location**: Editor → Design tab → Form Settings (expandable panel)  
-**Scope**: Per-viewset configuration (not global)  
+**Location**: Notebook Editor (modal overlay in Dashboard) → DESIGN tab → Form Settings collapsible panel
+**Access Pattern**: Dashboard → Notebook → Actions → "Open in Editor" → DESIGN tab → Click grey "Form Settings" bar
+**Scope**: Per-viewset configuration (not global)
 **JSON Path**: `ui-specification.viewsets.{{VIEWSET_ID}}`
+**Save Behaviour**: Click SAVE (top-right) to preserve changes and close Editor
+
+**UI Interaction Pattern**: Form Settings is a collapsible grey panel below the form name. Click anywhere on the grey bar to expand/collapse. When expanded, shows 4 configuration options (dropdown selectors).
+
+**See**: [UI Interaction Patterns](./ui-interaction-patterns.md#10-form-settings-collapsible-panel) for complete collapse/expand details.
 
 ### Key Concepts {essential}
 
@@ -53,9 +59,9 @@ Form Settings is a configuration panel within the Notebook Editor that controls 
 
 ### publishButtonBehaviour {essential}
 
-**Purpose**: Controls when users can save and complete forms  
-**UI Label**: "Finish Button Behavior"  
-**Type**: `enum`  
+**Purpose**: Controls when users can save and complete forms
+**UI Label**: "Finish Button Behaviour"
+**Type**: `enum`
 **Default**: `"always"`
 
 {{cross-ref:dynamic-forms-guide:validation-timing}} The `publishButtonBehaviour` setting directly affects when validation rules are enforced and how conditional logic interacts with form completion.

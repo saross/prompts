@@ -1,4 +1,4 @@
-# File Organization Guide - Fieldmark Documentation
+# File Organisation Guide - Fieldmark Documentation
 
 <!-- discovery:metadata
 
@@ -12,7 +12,7 @@ meta:document: file_organization_guide
 meta:depth-tags: [essential]
 -->
 
-provides: [project-structure, file-layout, documentation-organization]
+provides: [project-structure, file-layout, documentation-organisation]
 see-also: [manifest]
 -->
 
@@ -165,12 +165,12 @@ reference.md
 ## Next Steps
 
 1. **Archive temporary files** - Move analysis files to archive/
-2. **Update manifest.md** - Reflect new organization
+2. **Update manifest.md** - Reflect new organisation
 3. **Clean scripts directory** - Organize by purpose
 4. **Update .gitignore** - Exclude temporary files
 5. **Commit production files** - Version control essential docs
 
 ---
 
-*Organization Guide Created: 2025-01-07*
+*Organisation Guide Created: 2025-01-07*
 *Purpose: Clarify production vs temporary file structure*

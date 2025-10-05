@@ -98,7 +98,7 @@ see-also: [field-type-index, all-documents]
 | **editor-notebook-info.md** | Metadata and FAIR compliance | HIGH | 610 |
 | **roles-permissions-reference.md** | Complete permission system<br>40+ actions documented | CRITICAL | 650+ |
 | **troubleshooting-index.md** | Error resolution matrix | HIGH | 630 |
-| **file-organization-guide.md** | Project structure | LOW | 135 |
+| **file-organisation-guide.md** | Project structure | LOW | 135 |
 | **field-type-index.md** | Navigation only | LOW | 81 |
 
 ## Content Coverage Matrix

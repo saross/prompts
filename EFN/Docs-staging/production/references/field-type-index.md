@@ -55,7 +55,7 @@ Core technical documentation:
 - `operations-reference.md` - Migration and troubleshooting
 - `platform-reference.md` - Platform-specific behaviors
 - `notebook-format-guide.md` - Notebook JSON structure
-- `file-organization-guide.md` - Project structure
+- `file-organisation-guide.md` - Project structure
 
 ### For Complete Field Information
 
