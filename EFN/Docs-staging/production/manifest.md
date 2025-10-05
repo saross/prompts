@@ -1,8 +1,8 @@
 # Production Manifest - Fieldmark Documentation
 
-**Last Updated**: 2025-01-09 (Integration Complete)  
-**Purpose**: Complete inventory of production documentation  
-**Status**: Fully integrated with cross-references and permissions
+**Last Updated**: 2025-10-05 (Quality Cascade & Build Consolidation Complete)
+**Purpose**: Complete inventory of production documentation
+**Status**: Fully integrated with cross-references and UI patterns
 
 ## Production Overview
 
@@ -34,7 +34,8 @@ production/
 
 | File | Purpose | Size | Status |
 |------|---------|------|--------|
-| **reference.md** | Main LLM-consumable concatenated documentation | 30,160 lines | ✅ Optimized |
+| **reference.md** | Main LLM-consumable concatenated documentation | 38,481 lines | ✅ Optimised |
+| **CLAUDE.md** | Project standards (UK spelling, markdown, git) | ~150 lines | ✅ New |
 | **LLM-OPTIMIZATION-FINAL-REPORT.md** | Comprehensive project completion report | 500+ lines | ✅ Complete |
 | **FUTURE-TASKS.md** | Consolidated future work items | 193 lines | 📋 Active |
 
@@ -64,7 +65,8 @@ production/
 | **form-structure-guide.md** | Three-tier architecture patterns | ✅ Enhanced |
 | **dynamic-forms-guide.md** | Conditional logic and validation | ✅ Enhanced |
 | **implementation-patterns-guide.md** | Common patterns and workflows | ✅ Enhanced |
-| **cookbook.md** | 10 parametric generation recipes | ✅ NEW |
+| **permission-patterns.md** | Access control and virtual role patterns | ✅ Complete |
+| **cookbook.md** | 10 parametric generation recipes | ✅ Complete |
 
 ### 3. Technical References (`/references/`)
 **Purpose**: Comprehensive reference documentation and guides
@@ -79,13 +81,15 @@ production/
 | **platform-reference.md** | Platform-specific behaviors | ✅ Enhanced |
 | **notebook-format-guide.md** | JSON structure specification | ✅ Enhanced |
 | **notebook-templates.md** | 5 complete templates | ✅ NEW |
-| **troubleshooting-index.md** | Error-to-solution mapping | ✅ UPDATED |
-| **editor-form-settings.md** | Form completion configuration | ✅ NEW |
-| **editor-notebook-info.md** | Metadata and FAIR compliance | ✅ NEW |
-| **roles-permissions-reference.md** | Complete permission system | ✅ NEW |
+| **troubleshooting-index.md** | Error-to-solution mapping | ✅ Updated |
+| **editor-form-settings.md** | Form completion configuration | ✅ Complete |
+| **editor-notebook-info.md** | Metadata and FAIR compliance | ✅ Complete |
+| **roles-permissions-reference.md** | Complete permission system | ✅ Complete |
+| **ui-interaction-patterns.md** | UI behaviour patterns (15 principles) | ✅ New |
+| **template-workflow-principle.md** | Template usage guidance | ✅ New |
 | **file-organization-guide.md** | Project structure | ✅ Complete |
-| **navigation-index.md** | Bidirectional links | ✅ NEW |
-| **llm-navigation-manifest.md** | Purpose-driven discovery | ✅ UPDATED |
+| **navigation-index.md** | Bidirectional links | ✅ Complete |
+| **llm-navigation-manifest.md** | Purpose-driven discovery | ✅ Updated |
 | **field-type-index.md** | Master navigation index | ✅ Complete |
 
 ### 4. Scripts (`/scripts/`)
@@ -93,15 +97,18 @@ production/
 
 | Script | Purpose | Type |
 |--------|---------|------|
-| **build-reference.sh** | Primary build script | Essential |
-| **build-reference-enhanced.sh** | Build with validation | Enhanced |
-| **final-validation.py** | Comprehensive validation | Testing |
+| **build-reference.sh** | Build with integrated validation (merged) | Essential |
+| **final-validation.py** | Comprehensive JSON validation | Testing |
 | **add-discovery-metadata.py** | Discovery tags | Enhancement |
 | **add-structured-metadata.py** | Semantic metadata | Enhancement |
 | **add-summary-metadata.py** | Summary tags | Enhancement |
 | **add-template-markers.py** | Parametric markers | Enhancement |
 | **add-notebook-reference.py** | Context addition | Enhancement |
 | **validate-and-extract-notebooks.py** | Template validation | Testing |
+| **resize-screenshots.sh** | Screenshot processing | Utility |
+| **update-screenshots.py** | Screenshot documentation | Utility |
+
+**Note**: build-reference-enhanced.sh has been deprecated and moved to archive/scripts/. All validation features are now integrated into build-reference.sh.
 
 ### 5. Working Notebooks (`/working-notebooks/`)
 **Purpose**: Ready-to-import JSON templates
@@ -141,14 +148,16 @@ production/
 
 | Metric | Value |
 |--------|-------|
-| **Total Active Files** | ~65 |
-| **Total Archived Files** | ~10 |
-| **Reference.md Size** | 30,160 lines |
-| **Template Markers** | 1,509 |
-| **JSON Examples** | 514 |
-| **Glossary Terms** | ~60 |
+| **Total Active Files** | ~70 |
+| **Total Archived Files** | ~12 |
+| **Reference.md Size** | 38,481 lines |
+| **Template Markers** | 1,738 |
+| **JSON Examples** | 520+ |
+| **Glossary Terms** | ~80 |
 | **Error Coverage** | 95% |
-| **LLM Score** | 95/100 |
+| **Build Errors** | 0 |
+| **Build Warnings** | 0 |
+| **LLM Score** | 96/100 |
 
 ## Validation Status
 

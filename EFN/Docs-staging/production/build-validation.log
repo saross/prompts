@@ -1,3 +1,33 @@
-Build Validation Report - 2025-09-07T16:03:18+10:00
+Build Validation Report - 2025-10-05T20:07:54+11:00
 ========================================
   - text-fields-v05.md: Found 83 JSON blocks
+  - select-choice-fields-v05.md: Found 66 JSON blocks
+  - datetime-fields-v05.md: Found 68 JSON blocks
+  - number-fields-v05.md: Found 52 JSON blocks
+  - display-field-v05.md: Found 25 JSON blocks
+  - location-fields-v05.md: Found 28 JSON blocks
+  - media-fields-v05.md: Found 34 JSON blocks
+  - relationship-field-v05.md: Found 29 JSON blocks
+  - templates-interface.md: Found 2 JSON blocks
+  - users-interface.md: Found 1 JSON blocks
+  - dashboard-troubleshooting.md: Found 1 JSON blocks
+  - form-structure-guide.md: Found 8 JSON blocks
+  - dynamic-forms-guide.md: Found 16 JSON blocks
+  - implementation-patterns-guide.md: Found 12 JSON blocks
+  - cookbook.md: Found 19 JSON blocks
+  - designer-component-mapping.md: Found 4 JSON blocks
+  - editor-form-settings.md: Found 9 JSON blocks
+  - editor-notebook-info.md: Found 8 JSON blocks
+  - component-reference.md: Found 18 JSON blocks
+  - constraints-reference.md: Found 3 JSON blocks
+  - operations-reference.md: Found 4 JSON blocks
+  - notebook-format-guide.md: Found 7 JSON blocks
+  - notebook-templates.md: Found 5 JSON blocks
+  - troubleshooting-index.md: Found 9 JSON blocks
+
+Build Summary
+=============
+Errors: 0
+Warnings: 0
+Template Markers: 1738
+Output Size: 38481 lines

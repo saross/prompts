@@ -1,8 +1,8 @@
 # Fieldmark v3 Production Documentation
 
-**Status**: ✅ Fully Integrated with Cross-References  
-**Last Updated**: 2025-01-10  
-**Size**: ~40,000 lines (1.4 MB)
+**Status**: ✅ Fully Integrated with Cross-References
+**Last Updated**: 2025-10-05
+**Size**: 38,481 lines (1.4 MB)
 
 ## Quick Start
 
@@ -26,15 +26,17 @@ Start with:
 
 ### To Rebuild Reference
 ```bash
-# Standard build
+# Build with integrated validation (merged script)
 ./scripts/build-reference.sh
 
-# With validation
-./scripts/build-reference-enhanced.sh
+# Check validation log
+cat build-validation.log
 
-# Validate only
+# Validate JSON structure
 python3 scripts/final-validation.py
 ```
+
+**Note**: build-reference-enhanced.sh has been deprecated and archived. The standard build script now includes all validation features.
 
 ## What's Here
 
@@ -107,12 +109,15 @@ This is the **authoritative documentation for Fieldmark v3's field system**, opt
 - `/analysis/` - Screenshot mapping and quality reports
 
 ### 📁 `/references/` - Technical References
-**15 reference documents** including:
+**17 reference documents** including:
 
 #### Recent Additions
 - **ui-interaction-patterns.md** 🆕 - 15 core UI principles extracted from screenshot analysis
 - **template-workflow-principle.md** 🆕 - Templates as advanced feature documentation
 - **glossary.md** - ~80 term definitions for consistency (expanded with API/permission terms)
+- **roles-permissions-reference.md** - Complete permission system (40+ actions)
+- **editor-form-settings.md** - Form Settings panel configuration
+- **editor-notebook-info.md** - Metadata configuration and FAIR compliance
 - **notebook-templates.md** - 5 complete working templates
 - **troubleshooting-index.md** - 95% error coverage with solutions
 - **llm-navigation-manifest.md** - Purpose-driven content discovery
@@ -177,13 +182,15 @@ Organized archive of:
 | Metric | Value | Target | Status |
 |--------|-------|--------|--------|
 | LLM Score | 96/100 | >90 | ✅ |
-| Template Markers | 1,509 | >1,000 | ✅ |
+| Template Markers | 1,738 | >1,000 | ✅ |
 | Error Coverage | 95% | >90% | ✅ |
-| JSON Examples | 514 | >300 | ✅ |
+| JSON Examples | 520+ | >300 | ✅ |
 | Glossary Terms | ~80 | >50 | ✅ |
-| Cross-references | 175 | N/A | ✅ |
+| Cross-references | 175+ | N/A | ✅ |
 | UI Screenshots | 34 | N/A | ✅ |
 | UI Principles | 15 | N/A | ✅ |
+| Build Errors | 0 | 0 | ✅ |
+| Build Warnings | 0 | 0 | ✅ |
 
 ## Usage Guidelines
 
@@ -205,14 +212,26 @@ Organized archive of:
 - Update glossary when adding terms
 - Document patterns in cookbook
 
-## Recent Updates (2025-10-04)
+## Recent Updates (2025-10-05)
+
+### Session 4 - Documentation Quality Cascade & Build System Consolidation
+- ✅ Cascaded quickstart guide corrections into 27 upstream LLM-first documentation files
+- ✅ Fixed systemic errors: modal overlay architecture, save behaviour, new item placement
+- ✅ Corrected field selection workflow (6-tab modal dialog pattern)
+- ✅ Added collapsible panel interaction patterns throughout
+- ✅ Applied UK/Australian English spelling consistently across all files
+- ✅ Fixed all markdown linting compliance issues (MD032 blanks-around-lists)
+- ✅ Consolidated build scripts: merged features into single build-reference.sh
+- ✅ Added validation infrastructure: JSON counting, XREF checking, template marker tracking
+- ✅ Created CLAUDE.md project standards document (spelling, markdown, git conventions)
+- ✅ Rebuilt reference.md: 38,481 lines, 1,738 template markers, 0 errors/warnings
 
 ### Session 3 Additions - UI Documentation & Screenshot Integration
 - ✅ Integrated 34 screenshots into quickstart guide with accessibility alt text
 - ✅ Extracted 15 core UI interaction principles from visual analysis
 - ✅ Created ui-interaction-patterns.md reference (Modal-First Architecture discovery)
 - ✅ Documented template-workflow-principle.md (templates are advanced feature)
-- ✅ Reorganized folder structure with top-level /planning/ and /reports/ directories
+- ✅ Reorganised folder structure with top-level /planning/ and /reports/ directories
 - ✅ Created systematic UI documentation strategy (3-tier roadmap)
 - ✅ Developed UI integration plan (4 phases, maintains 96/100 LLM score)
 
