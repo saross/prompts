@@ -1,4 +1,5 @@
 # Fieldmark UI Principles - Extracted from Screenshot Analysis
+
 **Generated**: 2025-10-04
 **Source**: Quickstart screenshot integration pilot (46 screenshots analysed)
 **Coverage**: Notebook Editor + Data Collection App interfaces
@@ -20,21 +21,25 @@ This document captures fundamental UI interaction principles extracted from syst
 **Applies to**: Notebook Editor (modal overlay in Dashboard)
 
 **Principle**: The Notebook Editor uses two distinct configuration patterns:
+
 1. **Modal dialogs** for complex selections (field types, conditionals, templated strings)
 2. **Inline editing** for simple text and settings (form names, section names, field configuration, form settings)
 
 **Modal Dialog Pattern - Used for**:
+
 - Field type selection (tabbed categories: TEXT, CHOICE, DATE & TIME, MEDIA, LOCATION, STRUCTURED, RELATIONSHIP)
 - Complex field configuration (conditionals, templated strings)
 - Component selection that requires browsing options
 
 **Inline Editing Pattern - Used for**:
+
 - Form name editing (click "EDIT FORM NAME" → inline text field with ✓/✗ buttons)
 - Section name editing (type in field → click "+" to confirm)
 - Field configuration (click grey bar to expand → configure options in place)
 - Form Settings (click grey bar to expand → configure dropdowns in place)
 
 **Impact on Documentation**:
+
 - ❌ WRONG: "In the right sidebar, select FAIMS Text Field"
 - ✅ RIGHT (Modal): "In the 'Add a field' dialog, click the TEXT tab and select 'FAIMS Text Field'"
 - ✅ RIGHT (Inline): "Click 'EDIT FORM NAME', type the new name, then click the checkmark (✓) to confirm"
@@ -50,12 +55,14 @@ This document captures fundamental UI interaction principles extracted from syst
 **Principle**: Collapsible grey bars are used for Fields (Visible and Hidden), Form Settings, and when present, Hidden Fields. Users must click the grey bar to expand configuration options.
 
 **What uses this pattern**:
+
 - **Visible Fields**: Collapsed by default, click grey bar to expand field configuration
 - **Hidden Fields** (if any are added): Same collapse/expand pattern as Visible Fields
 - **Form Settings**: Collapsed grey bar below form name, expands to show settings (Finish Button Behaviour, Layout Style, Summary Fields, Human-Readable ID Field)
 - **"Expand All Fields" button**: Located immediately to the right of "ADD A FIELD" button, expands all fields at once
 
 **Evidence**:
+
 - All fields appear as collapsed grey bars initially
 - Clicking the grey bar reveals full configuration form
 - Expanded view shows: Label, Field ID, Helper Text, Required checkbox, other options
@@ -70,6 +77,7 @@ This document captures fundamental UI interaction principles extracted from syst
 4. Repeat for next field OR click "EXPAND ALL FIELDS" to expand all at once
 
 **Impact on Documentation**:
+
 - Every field addition requires explicit "Click on the grey bar to expand the field" instruction (unless using "EXPAND ALL FIELDS")
 - Cannot skip this step - configuration is invisible when collapsed
 - Same pattern applies to Form Settings, Hidden Fields
@@ -108,7 +116,8 @@ This document captures fundamental UI interaction principles extracted from syst
 **Principle**: Primary actions live in specific, consistent locations.
 
 **Layout Hierarchy** (top to bottom):
-```
+
+```text
 ┌─────────────────────────────────────────┐
 │ Top Bar: CANCEL (left) | SAVE (right)   │
 ├─────────────────────────────────────────┤
@@ -121,10 +130,12 @@ This document captures fundamental UI interaction principles extracted from syst
 ```
 
 **Critical Correction**:
+
 - UNDO/REDO buttons are **below the top bar**, **above the tabs** (not in the top bar itself)
 - This was a key user correction during screenshot review
 
 **Impact on Documentation**:
+
 - Visual hierarchy must be described accurately for non-sighted users
 - "Below the top bar, above the tabs" language is precise
 
@@ -139,19 +150,22 @@ This document captures fundamental UI interaction principles extracted from syst
 **Principle**: Simple text edits (form names, section names) use inline editors with checkmark/X confirmation buttons, not modal dialogs.
 
 **Evidence**:
+
 - Click "EDIT FORM NAME" → inline text field appears with ✓ and ✗ buttons
 - Section Name field → type name → click "+" button to confirm
 - No modal dialog for simple text edits
 - Confirmation required before changes apply
 
 **Pattern**:
-```
+
+```text
 [Edit Mode ON] → [Text Field] [✓] [✗]
                     ↓ click ✓
 [Edit Mode OFF] → [Updated Text Displayed]
 ```
 
 **Impact on Documentation**:
+
 - Distinguish between inline edits (checkmark/X) and modal dialogs (SAVE/CANCEL buttons)
 - "Click the checkmark to confirm" vs "Click the ADD FIELD button"
 
@@ -226,6 +240,7 @@ This document captures fundamental UI interaction principles extracted from syst
 **Principle**: Data entry forms show a percentage completion bar at the top, calculated from required fields.
 
 **Behaviour**:
+
 - Progress bar shows "X% Completed"
 - Percentage increases as required fields are filled
 - Reaches 100% when all required fields have values
@@ -233,11 +248,13 @@ This document captures fundamental UI interaction principles extracted from syst
 - Required fields marked with red asterisk (*)
 
 **User Experience**:
+
 - Provides feedback on form completion status
 - Helps users know if they can save/submit
 - Visible at all times during data entry
 
 **Impact on Documentation**:
+
 - Progress bar is visual feedback, not interactive
 - Can be used as "You'll Know It Worked" indicator
 - "Progress bar should show 33%" = specific milestone
@@ -253,16 +270,19 @@ This document captures fundamental UI interaction principles extracted from syst
 **Principle**: Record sync status is communicated through colour-coded icons in the "Sync" column.
 
 **Icon States**:
+
 - **Orange three-dot icon**: Record not yet synced to server (local only)
 - **Green cloud with checkmark**: Record successfully synced to server
 - Icons appear in leftmost "Sync" column of record list table
 
 **Sync Behaviour**:
+
 - Automatic when online (no user action required)
 - "REFRESH RECORDS" button refreshes view from local database (doesn't trigger sync)
 - Offline-first: data saved locally even without connection
 
 **Impact on Documentation**:
+
 - "Orange icon" and "green cloud icon" are precise visual indicators
 - Must clarify REFRESH RECORDS ≠ sync trigger
 - Sync happens automatically in background
@@ -278,6 +298,7 @@ This document captures fundamental UI interaction principles extracted from syst
 **Principle**: Form Settings is a collapsible grey panel, not a separate screen or modal.
 
 **Location & Behaviour**:
+
 - Located below "FORM: [NAME]" badge in Editor
 - Expands/collapses by clicking anywhere on grey bar
 - Contains 4 key settings:
@@ -287,10 +308,12 @@ This document captures fundamental UI interaction principles extracted from syst
   - Human-Readable ID Field (dropdown)
 
 **Visual Pattern**:
+
 - Collapsed: Grey bar with "Form Settings" text and chevron icon
 - Expanded: Shows all four configuration options with labels
 
 **Impact on Documentation**:
+
 - Users might miss this if not told to expand
 - "Click anywhere in the grey 'Form Settings' bar to expand" is necessary instruction
 - Settings are critical for usability (Summary Fields, HRID) but hidden by default
@@ -339,6 +362,7 @@ This document captures fundamental UI interaction principles extracted from syst
 **Principle**: Notebook activation uses a confirmation modal with detailed explanation, not a simple "Are you sure?" dialog.
 
 **Modal Contents**:
+
 - Blue information icon
 - Explanation text (offline functionality, data download)
 - Warning about internet connection requirements
@@ -347,11 +371,13 @@ This document captures fundamental UI interaction principles extracted from syst
 - Secondary action: "CANCEL" button
 
 **Context**:
+
 - Appears when user clicks "ACTIVATE" button next to notebook in NOT ACTIVE tab
 - Modal explains what activation means (downloads notebook structure for offline use)
 - After confirmation, automatically switches to ACTIVE tab
 
 **Impact on Documentation**:
+
 - Activation is two-step (button → modal → confirm)
 - Modal provides educational content, not just confirmation
 - Users need to understand offline-first implications
@@ -408,6 +434,7 @@ This document captures fundamental UI interaction principles extracted from syst
 **Principle**: Notebook Editor does NOT auto-save. Clicking SAVE closes the Editor and returns to Dashboard.
 
 **Behaviour**:
+
 - Green SAVE button in top-right corner
 - Clicking SAVE:
   1. Saves all changes
@@ -417,12 +444,14 @@ This document captures fundamental UI interaction principles extracted from syst
 - CANCEL button discards changes and returns to Dashboard
 
 **User Implications**:
+
 - Must click SAVE periodically (every few fields added)
 - Editor will close after each save
 - Immediate re-entry is possible but requires navigation
 - Lost work if browser closes without saving
 
 **Impact on Documentation**:
+
 - Must warn about non-auto-save behaviour
 - Explain expected "return to Dashboard" behaviour
 - Provide "resume editing" instructions
@@ -478,11 +507,13 @@ This document captures fundamental UI interaction principles extracted from syst
 **Platform-Specific Features**:
 
 **Dashboard and Notebook Editor**:
+
 - Accessible from any device (web app)
 - Desktop/laptop recommended for better screen size and mouse/keyboard input
 - Can be accessed from mobile devices if needed
 
 **Data Collection App**:
+
 - Accessible from both mobile and web browsers
 - **Barcode/QR code scanning**: Mobile-only (not yet available in web app)
 - Camera integration: More convenient on mobile devices
@@ -505,7 +536,7 @@ This document captures fundamental UI interaction principles extracted from syst
 
 ### Vertical Structure (Notebook Editor)
 
-```
+```text
 ┌─────────────────────────────────────────┐
 │ LEVEL 1: Top Bar (always visible)       │
 │   Left: "Notebook Editor" title         │
@@ -534,6 +565,7 @@ This document captures fundamental UI interaction principles extracted from syst
 ```
 
 **Critical Spatial Relationships**:
+
 - UNDO/REDO ≠ in top bar (they're below it)
 - Blue info box = guidance, not error message
 - Form tabs appear if multiple forms exist (tabbed interface)
@@ -572,7 +604,7 @@ This document captures fundamental UI interaction principles extracted from syst
 
 **Applies to**: Notebook Editor (modal overlay in Dashboard)
 
-```
+```text
 1. Click "ADD A FIELD" button (green, with + icon)
 2. Modal dialog opens with tabbed categories
 3. Navigate to appropriate tab (TEXT, CHOICE, etc.)
@@ -586,6 +618,7 @@ This document captures fundamental UI interaction principles extracted from syst
 ```
 
 **Key Points**:
+
 - 10 distinct steps for one field
 - Modal → List → Expand → Configure is the flow
 - Cannot skip "expand" step to access configuration
@@ -594,7 +627,7 @@ This document captures fundamental UI interaction principles extracted from syst
 
 **Applies to**: Notebook Editor (modal overlay in Dashboard)
 
-```
+```text
 1. Click "EDIT [NAME]" button OR type in name field
 2. Inline text editor appears with checkmark (✓) and X buttons
 3. Enter or modify text
@@ -604,6 +637,7 @@ This document captures fundamental UI interaction principles extracted from syst
 ```
 
 **Key Points**:
+
 - Inline editing, not modal
 - Must confirm with checkmark
 - X cancels changes (doesn't save)
@@ -612,7 +646,7 @@ This document captures fundamental UI interaction principles extracted from syst
 
 **Applies to**: Dashboard
 
-```
+```text
 1. Dashboard → Click "Notebooks" in left sidebar
 2. Click "+ Create Notebook" button
 3. Modal dialog opens
@@ -627,6 +661,7 @@ This document captures fundamental UI interaction principles extracted from syst
 ```
 
 **Key Points**:
+
 - New items appear at END of list
 - Must navigate pagination to find
 - Search is faster for location
