@@ -684,3 +684,261 @@ This integration plan provides a structured approach to adding UI interaction kn
 **Expected ROI**: 30% faster documentation generation, 50% reduction in UI-related confusion, 100% accuracy in UI descriptions
 
 Ready to proceed with Phase 1 (Foundation) implementation.
+
+---
+
+## Additional Recommendations from UI Interaction Patterns Analysis
+
+**Added**: 2025-10-05
+**Source**: Detailed review and refinement of ui-interaction-patterns.md
+
+### 1. Create UI Interaction Reference Document
+
+**Proposed Location**: `/production/references/ui-interaction-patterns.md` ✅ COMPLETE
+
+**Content Structure**:
+- Comprehensive list of interaction patterns by task type
+- Screenshots referenced for each pattern
+- Step-by-step procedural descriptions
+- Common mistakes and corrections
+- Cross-references to dashboard documentation
+
+**Integration Points**:
+- Reference from `dashboard-overview.md`
+- Link from quickstart guide
+- Include in `llm-navigation-manifest.md`
+
+### 2. Enhance Existing Dashboard Documentation
+
+**Add to Each Dashboard Document**:
+
+```markdown
+<!-- discovery:provides:[ui-patterns, interaction-models] -->
+<!-- discovery:see-also:[ui-interaction-patterns] -->
+
+## UI Interaction Patterns {essential}
+
+### Modal Dialog Workflow
+[Detailed description of modal-based interactions]
+
+### Inline Editing Workflow
+[Detailed description of inline editing with checkmark/X]
+
+### Tab Navigation
+[Tab structure and navigation instructions]
+```
+
+### 3. Create UI Principles Glossary Section
+
+**Proposed Addition to `/production/references/glossary.md`**:
+
+```markdown
+## UI Interaction Terms {essential}
+
+**Modal Dialog**: Centred overlay window that appears above the main interface for focused tasks (e.g., "Add a field"). Requires user action to close. Not a sidebar.
+
+**Inline Editor**: Text editing mode that appears directly in the interface with checkmark (✓) and X confirmation buttons. Used for simple text edits like form names.
+
+**Grey Bar**: Clickable header element for collapsed fields in the Visible Fields list. Click to expand and access field configuration.
+
+**Blue Dog Ear Icon**: Visual indicator on fields that reveals annotation and uncertainty input areas when clicked. Only appears when Annotation or Uncertainty is enabled in field configuration.
+
+**Collapse/Expand Pattern**: UI pattern where configuration options are hidden by default (collapsed) and revealed by clicking the grey bar (expanded). Essential for field configuration workflow.
+```
+
+### 4. Add Visual Hierarchy Diagrams
+
+**Proposed Addition**: ASCII diagrams showing spatial relationships
+
+Example (already shown in ui-interaction-patterns.md):
+```
+┌─────────────────────────────────────────┐
+│ Top Bar: CANCEL | SAVE                  │
+├─────────────────────────────────────────┤
+│ Action Buttons: UNDO | REDO             │  ← BELOW top bar
+├─────────────────────────────────────────┤
+│ Tabs: DESIGN | INFO                     │
+└─────────────────────────────────────────┘
+```
+
+**Benefits**:
+- Non-visual users understand spatial relationships
+- LLMs can reference precise locations
+- Eliminates ambiguity like "top right" (is SAVE in top bar or above it?)
+
+### 5. Integration with Existing Cookbook
+
+**Proposed Addition to `/production/patterns/cookbook.md`**:
+
+```markdown
+## Recipe: Modal Dialog Field Configuration
+
+### UI Pattern
+This recipe demonstrates the standard field addition workflow using modal dialogs.
+
+### Steps with UI Elements
+1. **Click** "ADD A FIELD" button (green, with + icon)
+   - Location: Below section editing controls
+   - Appearance: Green background, white text, plus icon left
+
+2. **Navigate** "Add a field" modal dialog
+   - Modal appears: Centre of screen, white background
+   - Tabs visible: ALL, TEXT, NUMBERS, DATE & TIME, MEDIA, LOCATION
+   - Additional tabs: Click right chevron (>) for CHOICE, STRUCTURED, RELATIONSHIP
+
+3. **Select** field type
+   - Click appropriate tab (e.g., TEXT for text fields)
+   - Click field type card (shows green border when selected)
+   - Examples: "FAIMS Text Field", "Text Field", "Email"
+
+4. **Configure** field name
+   - Auto-filled: "New Field"
+   - Change to: Descriptive field name (e.g., "Site Name")
+
+5. **Confirm** selection
+   - Click "ADD FIELD" button (bottom of modal)
+   - Modal closes
+   - Field appears collapsed in "Visible Fields" list
+
+6. **Access** configuration
+   - Click grey bar to expand field
+   - Configuration form appears below grey bar
+
+7. **Set** field options
+   - Label: User-visible field name
+   - Field ID: Auto-generated from label
+   - Helper Text: Guidance for data entry
+   - Required: Toggle ON for mandatory fields
+   - Additional options: Annotation, Uncertainty, etc.
+```
+
+---
+
+## 🚀 Updated Next Steps for UI Documentation Integration
+
+### Immediate Actions (High Priority) - UPDATED
+
+1. **✅ Create `/production/references/ui-interaction-patterns.md`** - COMPLETE
+   - Comprehensive UI interaction reference
+   - Include all 15 principles from this document
+   - Add screenshot references for each pattern
+   - Include step-by-step procedures
+   - Add common mistakes section
+   - Actual: ~900 lines
+
+2. **Enhance `/production/references/glossary.md`**
+   - Add "UI Interaction Terms" section
+   - Define modal dialog, inline editor, grey bar, blue dog ear icon, collapse/expand
+   - Cross-reference to ui-interaction-patterns.md
+   - Estimated: +100 lines
+
+3. **Update `/production/dashboard/dashboard-overview.md`**
+   - Add "UI Architecture Principles" section
+   - Describe modal-first approach
+   - Include visual hierarchy diagram
+   - Cross-reference ui-interaction-patterns.md
+   - Estimated: +150 lines
+
+4. **Update `/production/references/llm-navigation-manifest.md`**
+   - Add entry for ui-interaction-patterns.md
+   - Update "When You Need..." table with UI guidance scenarios
+   - Example: "Need: Modal dialog workflow → Use: ui-interaction-patterns.md"
+   - Estimated: +20 lines
+
+5. **Update `/production/scripts/build-reference.sh`**
+   - Include ui-interaction-patterns.md in build
+   - Position after glossary, before dashboard docs
+   - Preserve cross-reference anchors
+   - Estimated: 1 line change
+
+### Medium Priority Actions
+
+6. **Enhance `/production/dashboard/templates-interface.md`**
+   - Add UI interaction examples for Template Designer
+   - Reference modal patterns from ui-interaction-patterns.md
+   - Include visual indicators section
+   - Estimated: +100 lines
+
+7. **Enhance `/production/dashboard/notebooks-interface.md`**
+   - Add Notebook Editor UI workflow descriptions
+   - Reference collapse/expand patterns
+   - Include SAVE behaviour warnings
+   - Estimated: +100 lines
+
+8. **Create `/production/patterns/ui-generation-patterns.md`**
+   - Templates for generating UI-accurate instructions
+   - Parametric patterns for modal workflows
+   - Examples: `{{MODAL_NAME}}`, `{{TAB_NAME}}`, `{{BUTTON_COLOR}}`
+   - Estimated: 300-400 lines
+
+### Low Priority Actions (Future Enhancement)
+
+9. **Add Screenshots Section to Cookbook**
+   - Visual examples of each cookbook recipe
+   - Screenshot references for step-by-step workflows
+   - Estimated: +200 lines
+
+10. **Create Interactive Troubleshooting**
+    - Decision trees based on UI state
+    - "What do you see?" → "Do this" guidance
+    - Example: "If modal won't close..." → Solutions
+    - Estimated: 300-400 lines
+
+---
+
+## 📊 Success Metrics for UI Documentation
+
+### Coverage Metrics
+
+| Metric | Target | Notes |
+|--------|--------|-------|
+| UI Patterns Documented | 15+ | All major interaction types |
+| Screenshot References | 46+ | Every pattern has visual evidence |
+| Cross-References Added | 25+ | Link UI docs to dashboard docs |
+| Glossary Terms Added | 10+ | UI-specific terminology |
+| Procedural Examples | 20+ | Step-by-step workflows |
+
+### Quality Metrics
+
+| Metric | Target | Assessment Method |
+|--------|--------|-------------------|
+| LLM Comprehension | 95%+ | Test with generation tasks |
+| Terminology Consistency | 100% | Validation script check |
+| Cross-Reference Accuracy | 100% | Link validation |
+| Screenshot Accuracy | 100% | Match text to visuals |
+
+### Impact Metrics
+
+| Metric | Target | Measurement |
+|--------|--------|-------------|
+| Reduced Ambiguity | 50%+ | Track "which sidebar?" type questions |
+| Faster Documentation Gen | 30%+ | Time to generate quickstart-style content |
+| Error Reduction | 40%+ | UI-related errors in generated docs |
+
+---
+
+## 🎯 Key Takeaways for LLM Content Generation
+
+### When Generating Instructions, Always:
+
+1. ✅ Specify **modal dialog** vs **inline editor** vs **panel**
+2. ✅ Include exact button text: "Click **'ADD A FIELD'**" (not "click add field button")
+3. ✅ Describe spatial relationships: "below the top bar, above the tabs"
+4. ✅ Mention interaction requirements: "Click the grey bar to expand the field"
+5. ✅ Use correct colour indicators: "green SAVE button", "orange sync icon"
+6. ✅ Specify tab navigation: "In the 'Add a field' dialog, click the TEXT tab"
+7. ✅ Warn about non-obvious behaviours: "Clicking SAVE closes the Editor and returns to Dashboard"
+8. ✅ Distinguish applications: "In the Dashboard" vs "In the Data Collection App"
+9. ✅ Reference visual indicators: "blue dog ear icon", "green checkmark badge"
+10. ✅ Provide confirmation patterns: "You'll know it worked when the progress bar shows 33%"
+
+### Never Assume:
+
+1. ❌ Sidebar exists for field selection (it's a modal)
+2. ❌ Configuration is visible without expanding (grey bar must be clicked)
+3. ❌ Auto-save in Notebook Editor (must click SAVE)
+4. ❌ REFRESH RECORDS triggers sync (it only refreshes view)
+5. ❌ UNDO/REDO are in the top bar (they're below it)
+6. ❌ Field types can be searched (must navigate tabs)
+7. ❌ New notebooks appear at top of list (they're at the end)
+8. ❌ Single application (Dashboard and Data Collection App are separate)
