@@ -124,3 +124,14 @@ When asked to generate template-related documentation:
 ---
 
 **Remember**: Templates are powerful but optional. Most users start with notebooks, not templates.
+
+---
+
+## Implementation for LLM Documentation
+
+When generating quickstart or beginner documentation:
+
+1. **ALWAYS direct users to Notebooks → Create Notebook** (not Templates)
+2. **Mark template creation as "Advanced" or "Optional"**
+3. **Show template conversion at end as next step**, not as primary workflow
+4. **Use inline markers**: "RECOMMENDED FOR BEGINNERS" vs "Advanced Workflow"

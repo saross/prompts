@@ -6,6 +6,21 @@
 - Apply UK/Australian spelling to all documentation, code comments, and file names
 - Convert US spellings to UK/Australian equivalents when editing existing files
 
+## Documentation System Architecture
+
+### CRITICAL: Never Edit Concatenated Files Directly
+
+- `production/reference.md` is a CONCATENATED file built from source files
+- **NEVER update reference.md directly** - always update the source files
+- Source files are located in `production/` subdirectories:
+  - `production/dashboard/` - Dashboard interface documentation
+  - `production/field-categories/` - Field type documentation
+  - `production/references/` - Cross-cutting references and patterns
+  - `production/patterns/` - UI and workflow patterns
+  - `production/human-facing/` - User-facing guides
+- After updating source files, rebuild reference.md using the build script
+- **Violation of this rule corrupts the entire documentation system**
+
 ## Markdown Standards
 
 - All markdown files must pass markdownlint validation

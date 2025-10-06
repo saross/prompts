@@ -14,9 +14,9 @@
 **Active planning documents**:
 - `ui-documentation-master-strategy.md` - Systematic UI documentation roadmap
 - `ui-documentation-integration-plan.md` - Phase-by-phase integration plan
-- `human-facing-documentation-plan.md` - Human-readable docs strategy
+- `human-facing-documentation-plan.md` - Human-readable docs strategy (Phase 1 complete - quickstart guide)
 - `future-tasks.md` - Prioritized enhancement roadmap
-- `PLAN-REFINEMENT-2025-10-04.md` - Template workflow clarifications
+- `quickstart-regeneration-test-protocol.md` - Automated generation QA protocol
 
 ### 📁 reports/ 🆕
 **Recent reports and session summaries**:
@@ -63,7 +63,18 @@ Cross-cutting documentation:
 ### 📁 prompts/
 Consolidation prompts for documentation generation
 
-## Recent Updates (2025-10-04)
+## Recent Updates (2025-10-06)
+
+### ✅ Completed - Screenshot Quality Improvement & Documentation Cleanup
+1. Replaced 11 of 34 quickstart screenshots with fresh captures from production Dashboard
+2. Corrected screenshot content accuracy (removed legacy Control Centre references, ensured correct workflow states)
+3. Generated comprehensive alt text for all replaced screenshots (accessibility-focused descriptions)
+4. Fixed markdown linting errors in quickstart guide (list numbering, image indentation)
+5. Archived 8 superseded planning and test documents to appropriate locations
+6. Created .gitignore for build artifacts
+7. Verified Site Type field options consistency across text and screenshots
+
+## Previous Updates (2025-10-04)
 
 ### ✅ Completed - UI Documentation & Screenshot Integration
 1. Integrated 34 screenshots into quickstart guide with accessibility-focused alt text

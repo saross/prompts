@@ -1,0 +1,13 @@
+# Build artifacts
+production/build-validation.log
+*.log
+
+# Temporary files
+*.tmp
+*.bak
+*~
+
+# Editor files
+.DS_Store
+.vscode/
+.idea/

@@ -21681,6 +21681,18 @@ meta:depth-tags: [essential, important, comprehensive]
 <!-- concat:nav-mode:concatenated -->
 <!-- When viewing in reference.md: [↑ Dashboard Overview](#dashboard-overview) | [Notebooks Interface ↓](#notebooks-interface) -->
 
+## Pedagogical Note for Documentation Writers {meta}
+
+**For NEW USERS**: We recommend creating notebooks directly first, then converting proven
+notebooks to templates later. Template-first creation is an advanced workflow for experienced
+users building reusable patterns.
+
+**Beginner Path**: Notebooks → Create Notebook → Field-test → Convert to Template (optional)
+**Advanced Path**: Templates → Create Template → Deploy Notebooks
+
+See [template-workflow-principle.md](../references/template-workflow-principle.md) for
+detailed rationale.
+
 ## Overview {essential}
 
 Templates define the structure and behaviour of data collection notebooks. They contain:
@@ -22171,6 +22183,14 @@ meta:depth-tags: [essential, important, comprehensive]
 <!-- concat:nav-mode:concatenated -->
 <!-- When viewing in reference.md: [↑ Templates Interface](#templates-interface) | [Users Interface ↓](#users-interface) -->
 
+## Recommended Workflow for Beginners {important}
+
+**This is the RECOMMENDED starting point for new users.** Creating notebooks directly allows
+immediate field-testing and iterative refinement. Once you've proven your design, you can
+optionally convert it to a template for reuse.
+
+**Workflow**: Create Notebook → Test in field → Refine → Optional: Convert to Template
+
 ## Overview {essential}
 
 Notebooks are deployed instances of templates where actual data collection occurs. Each notebook:
@@ -22460,6 +22480,15 @@ Provides administrative operations for notebook management:
 - Closing is reversible - notebooks can be reopened anytime
 - All existing data preserved when closed
 - Export functionality still available when closed
+
+## Deploying Notebooks for Data Collection
+
+After creating a notebook in the Editor, you must **activate** it in the mobile app
+to collect data.
+
+**See**: [Activation Workflow](./activation-workflow.md) for complete activation process.
+
+**Important**: Activation occurs in the mobile app (app.fieldmark.app), NOT in the Dashboard.
 
 ## Data Collection Workflow {important}
 
@@ -30290,6 +30319,36 @@ Form Settings is a collapsible grey panel within the Notebook Editor that contro
 
 **See**: [UI Interaction Patterns](./ui-interaction-patterns.md#10-form-settings-collapsible-panel) for complete collapse/expand details.
 
+## Editor Workflow: Form → Section → Field Hierarchy {essential}
+
+### Structure Overview
+
+Notebooks contain:
+
+- **Forms** (viewsets) → organise different data entry screens
+- **Sections** → group related fields within a form
+- **Fields** → individual data entry points
+
+### Creation Sequence
+
+1. **Create Form**:
+   - Enter form name in "Form Name" field
+   - Click green "ADD NEW FORM" button
+   - Form created with badge showing form name
+
+2. **Create Section** (within form):
+   - Enter section name in "Section Name" field
+   - Click "+" button
+   - Section created with numbered badge (1, 2, 3...)
+
+3. **Add Fields** (within section):
+   - Click "ADD A FIELD" button
+   - Modal dialogue opens with field type categories
+   - Select field type, configure, click "ADD FIELD"
+
+**Critical for Documentation**: Don't skip the section creation step. Users need to explicitly
+create a section before adding fields.
+
 ### Key Concepts {essential}
 
 | Concept | Description | Impact |
@@ -31886,7 +31945,49 @@ This document captures fundamental UI interaction principles extracted from syst
 
 ---
 
-### 13. Dashboard vs Data Collection App Distinction {essential}
+## 13. List Item Placement Behaviour {important}
+
+### New Items Appear at End of Lists
+
+When creating new notebooks or templates in the Dashboard, the newly created item appears
+at the **END of the list**, not at the beginning (top).
+
+**User Impact**:
+
+- Users with many notebooks (50+) will need to navigate to find their new item
+- Pagination controls required for long lists
+- Search functionality is essential
+
+### Finding Newly Created Items
+
+**Recommend documenting these steps**:
+
+1. **Use Search**: Type the notebook name in the search bar at top of list
+2. **Use Pagination**: Click through pages to reach the end of the list
+3. **Check Counter**: "Page X of Y" shows total pages to navigate
+
+**Example for Quickstart**:
+
+```text
+After clicking "Create Notebook", you return to the notebook list. Your new notebook
+appears at the END of the list.
+
+**To find it**:
+- If you have many notebooks: Use pagination controls at bottom ("1-10 of 50 notebooks")
+- Click through to last page, or use search bar to search for "My First Survey"
+```
+
+### Pagination Controls
+
+Located at bottom-right of list tables:
+
+- "1-10 of 50 notebooks" (shows current range and total)
+- Arrow buttons (< >) to navigate pages
+- Rows per page selector (25, 50, 100)
+
+---
+
+### 14. Dashboard vs Data Collection App Distinction {essential}
 
 **Applies to**: Both Dashboard and Data Collection App
 
@@ -31927,7 +32028,7 @@ This document captures fundamental UI interaction principles extracted from syst
 
 ---
 
-### 14. Save Behaviour in Notebook Editor {critical}
+### 15. Save Behaviour in Notebook Editor {critical}
 
 **Applies to**: Notebook Editor (modal overlay in Dashboard)
 
@@ -31961,7 +32062,7 @@ This document captures fundamental UI interaction principles extracted from syst
 
 ---
 
-### 15. Pagination Controls in Dashboard {important}
+### 16. Pagination Controls in Dashboard {important}
 
 **Applies to**: Dashboard (Notebooks, Templates, Users, and Teams all use the same pagination controls)
 
@@ -32350,6 +32451,17 @@ When asked to generate template-related documentation:
 ---
 
 **Remember**: Templates are powerful but optional. Most users start with notebooks, not templates.
+
+---
+
+## Implementation for LLM Documentation
+
+When generating quickstart or beginner documentation:
+
+1. **ALWAYS direct users to Notebooks → Create Notebook** (not Templates)
+2. **Mark template creation as "Advanced" or "Optional"**
+3. **Show template conversion at end as next step**, not as primary workflow
+4. **Use inline markers**: "RECOMMENDED FOR BEGINNERS" vs "Advanced Workflow"
 
 
 <!-- concat:reference:component-reference -->
@@ -38422,9 +38534,9 @@ see-also: [llm-navigation-manifest, field-type-index]
 ## Document Metadata
 
 ### Build Information
-- **Generated**: 2025-10-05T20:07:54+11:00
-- **Total Lines**: 38425
-- **File Size**: 1.3M
+- **Generated**: 2025-10-06T08:23:09+11:00
+- **Total Lines**: 38537
+- **File Size**: 1.4M
 - **Format Version**: 3.0.0
 
 ### Content Statistics

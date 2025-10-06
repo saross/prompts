@@ -1,21 +1,21 @@
 # Quickstart Guide Generation Prompt
 
 ## Purpose
-This prompt template generates or updates the "Your First Notebook in 15 Minutes" quickstart guide for Fieldmark notebook creators.
+This prompt template generates or updates the "Your First Notebook in 25-30 Minutes" quickstart guide for Fieldmark notebook creators.
 
 ---
 
 ## Generation Prompt
 
-Generate a comprehensive quickstart guide for first-time Fieldmark users to create their first notebook in 15 minutes. Use the following specifications:
+Generate a comprehensive quickstart guide for first-time Fieldmark users to create their first notebook in 25-30 minutes. Use the following specifications:
 
 ### Document Structure Requirements
 
-1. **Title**: "Your First Notebook in 15 Minutes 🚀"
-2. **Opening**: Welcoming paragraph emphasizing no experience needed
-3. **Time Limit**: Must be completable in 15 minutes by a novice
+1. **Title**: "Your First Notebook in 25-30 Minutes 🚀"
+2. **Opening**: Welcoming paragraph emphasising no experience needed
+3. **Time Limit**: Realistic 25-30 minute completion time for novices
 4. **Tone**: Friendly, encouraging, non-technical
-5. **Length**: ~400-450 lines (comprehensive but scannable)
+5. **Length**: ~500-600 lines (comprehensive but scannable)
 
 ### Required Sections (in order)
 
@@ -34,7 +34,7 @@ Generate a comprehensive quickstart guide for first-time Fieldmark users to crea
   - Records
   - Fields
 
-#### 3. Step 1: Access Your Dashboard (2 minutes)
+#### 3. Step 1: Access Your Dashboard (3-5 minutes)
 Include:
 - Login process
 - Dashboard overview
@@ -44,56 +44,94 @@ Include:
 - "You'll Know It Worked When..." checklist
 - Common issue: where to find user menu (bottom-left)
 
-#### 4. Step 2: Create Your First Notebook (3 minutes)
+#### 4. Step 2: Create Your First Notebook (5-8 minutes)
 Include:
-- Two paths: via Templates or direct Notebooks
+- **CRITICAL**: Direct notebook creation only (NOT via Templates)
+- Navigate to Notebooks → Create Notebook (never Templates → Create Template)
 - Notebook Editor introduction
 - [SCREENSHOT] placeholder for editor interface
 - Three-panel layout explanation
 - Mobile device warning
 - "You'll Know It Worked When..." checklist
 
-#### 5. Step 3: Add Your Fields (5-7 minutes)
-Break into parts A, B, C:
+#### 5. Step 3: Add Your Fields (8-12 minutes)
+**CRITICAL**: Use only 3 fields to demonstrate core field categories:
 
-**Part A: First Two Fields (2 min)**
+**Field 1: Text Field**
 - Text field (use correct component name from reference.md)
-- Dropdown/Select field
-- Configuration details for each
-- Progress check
-
-**Part B: Date and Long Text (2 min)**
-- Date field (use "DateTime with Now button" → DateTimeNow)
-- Multiline text field
 - Configuration details
 - Progress check
 
-**Part C: Photo Capability (1 min)**
+**Field 2: Choice Field**
+- Dropdown/Select field (radio buttons)
+- Configuration details
+- Progress check
+
+**Field 3: Photo Field**
 - Photo field (TakePhoto)
 - Configuration details
 - [SCREENSHOT] placeholder for completed form
 
-**Critical Addition**: Form Completion Settings
-- Must include HRID configuration
+**CRITICAL: Form Settings Configuration**
+- **MUST include dramatic HRID warning** with before/after examples
+- Show records displaying as "rec_xxxxx" vs meaningful names
+- This is a very common and serious mistake - emphasise heavily
+- Summary Fields configuration
 - Submit button setup
-- This prevents the "rec_xxxxx" ID problem
 
-#### 6. Step 4: Deploy and Test Your Notebook (3 minutes)
+#### 6. Step 4: Activate and Test Your Notebook (5-8 minutes)
 Include:
-- Deployment from template
+- **CRITICAL**: Activation in mobile/data collection app (app.fieldmark.app)
+- **NOT** in Dashboard or Editor
+- Navigate to separate data collection app URL
+- Click NOT ACTIVE tab → find notebook → ACTIVATE button
 - Entering first record
 - Saving the record
 - Viewing in records list
-- [SCREENSHOT] placeholders for form and records
+- [SCREENSHOT] placeholders for activation and records
 - "You'll Know It Worked When..." checklist
 
-#### 7. Step 5: Collaborate and Refine (2 minutes)
-Include:
-- Permission roles table
-- Invitation process
-- Making an improvement
-- Virtual roles mention for teams
-- [SCREENSHOT] placeholder for invite dialog
+### ⚠️ CRITICAL WORKFLOW CONSTRAINTS ⚠️
+
+**These constraints are based on QA testing that revealed critical documentation gaps. Violating these will create workflow-breaking errors for users.**
+
+#### 1. Notebook-First Workflow for Beginners (NOT Template-First)
+- **For quickstart/beginner documentation**: NEVER direct users to Templates → Create Template
+- **ALWAYS** use: Notebooks → Create Notebook for first-time users
+- Templates are an **advanced feature** for experienced users who need reusable patterns
+- **Pedagogical rationale**: Novices need to field-test notebooks before converting to templates
+- **Advanced users**: May use template-first workflow when appropriate for their needs
+- Document template conversion as optional "next step" after field-testing
+- Cross-reference: template-workflow-principle.md
+
+#### 2. Activation Architecture
+- Activation occurs in the **mobile/data collection app** (app.fieldmark.app)
+- **NOT** in the Dashboard or Editor
+- **NO** "Active" toggle exists in Editor's Info tab
+- Process: Navigate to app.fieldmark.app → NOT ACTIVE tab → ACTIVATE button → modal confirmation
+- Cross-reference: activation-workflow.md
+
+#### 3. List Behaviour (New Items at End)
+- New notebooks appear at **END of list**, not beginning
+- **MUST** document pagination controls ("1-10 of X notebooks")
+- **MUST** document search bar for finding notebooks
+- Users with many notebooks need explicit navigation guidance
+- Cross-reference: ui-interaction-patterns.md Section 13
+
+#### 4. Save Behaviour (No Auto-Save)
+- Editor **does NOT auto-save**
+- Clicking SAVE **closes Editor and returns to Dashboard**
+- This is **expected behaviour**, not a bug
+- Must document: "You'll be returned to the Dashboard - this is expected"
+- Must explain: Click "Open in Editor" again to resume editing
+- Cross-reference: ui-interaction-patterns.md Section 15
+
+#### 5. Form → Section → Field Hierarchy
+- Creation sequence: **Form FIRST, then Section, then Fields**
+- **CANNOT** add fields without creating a section first
+- Must explicitly show section creation step
+- "Don't skip the section creation step" warning required
+- Cross-reference: editor-form-settings.md
 
 ### Required Elements Throughout
 
@@ -117,29 +155,26 @@ After each major step, include common issues:
 ### Required Subsections at End
 
 #### Success Checklist
-- 8-10 items with checkboxes
+- 8-10 items with checkboxes ([ ] format for markdown)
 - Comprehensive coverage of all steps
 - Victory message when complete
+- **MUST include**: "Configured the Human-Readable ID Field (critical step!)"
 
-#### Quick Troubleshooting
-5-6 most common problems:
-- Can't find Notebook Editor
-- Fields not showing
-- Save button missing
-- Invitation issues
-- Photo problems
-- HRID configuration
+#### Troubleshooting {optional-reference}
+**MUST be clearly marked as optional reference material**
 
-#### Power User Tips
-Brief mentions of:
-- Virtual roles through teams
-- API automation possibility
-- Conditional logic
-- Template library concept
+7 most common problems with solutions:
+- Can't Find the Notebook Editor
+- Notebook Not in List After Creation (END of list issue)
+- Fields Not Showing in the Form
+- Editor Closed After Clicking Save (expected behaviour)
+- Records Show "rec_xxxxx" Instead of Readable Names (HRID issue - very common!)
+- Notebook Not Appearing in Mobile App
+- Photos Won't Upload
 
 #### What's Next
-- Immediate next steps (3 items)
-- Learning path (4 items)
+- Immediate next steps (5-6 items)
+- Brief mention of template conversion (as advanced feature)
 - Help resources
 
 #### Closing
@@ -183,12 +218,13 @@ Pull current information from reference.md for:
 [SCREENSHOT: Brief description of what should be shown]
 ```
 
-### Common Mistakes to Address
-- Empty form confusion
-- Template vs Notebook distinction
-- HRID configuration missing
-- Mobile editing attempts
-- Permission confusion
+### Common Mistakes to Address (with Preventative Solutions)
+- **Template-first workflow** → Direct to Notebooks, mark Templates as advanced
+- **HRID configuration missing** → Dramatic warning box with before/after examples
+- **Activation confusion** → Explicit mobile app URL, clear NOT ACTIVE tab instructions
+- **List navigation** → Document pagination and search bar upfront
+- **Save behaviour** → "Expected behaviour" messaging
+- **Section creation skipped** → Explicit section creation step with warning
 
 ### Version Notes
 - Mention Fieldmark (not FAIMS3) throughout
@@ -213,19 +249,21 @@ Pull current information from reference.md for:
    - Maintain existing screenshot placeholders
 
 3. **Quality Checks**:
-   - Verify 15-minute completion feasible
-   - Ensure all checkpoints included
+   - Verify 25-30 minute completion realistic
+   - Ensure all checkpoints included (checkbox format)
    - Confirm troubleshooting covers real issues
-   - Test navigation paths are current
+   - Test navigation paths against Critical Workflow Constraints
+   - **Verify HRID warning is dramatic and prominent**
+   - **Verify notebook-first workflow (never template-first)**
 
 ---
 
 ## Example Opening
 
 ```markdown
-# Your First Notebook in 15 Minutes 🚀
+# Your First Notebook in 25-30 Minutes 🚀
 
-*Welcome to Fieldmark! In the next 15 minutes, you'll create your first data collection notebook and enter your first record. No experience needed - just follow along!*
+*Welcome to Fieldmark! In the next 25-30 minutes, you'll create your first data collection notebook and enter your first record. No experience needed - just follow along!*
 
 ## What You'll Achieve
 

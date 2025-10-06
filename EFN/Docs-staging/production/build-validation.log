@@ -1,4 +1,4 @@
-Build Validation Report - 2025-10-05T20:07:54+11:00
+Build Validation Report - 2025-10-06T08:23:09+11:00
 ========================================
   - text-fields-v05.md: Found 83 JSON blocks
   - select-choice-fields-v05.md: Found 66 JSON blocks
@@ -30,4 +30,4 @@ Build Summary
 Errors: 0
 Warnings: 0
 Template Markers: 1738
-Output Size: 38481 lines
+Output Size: 38593 lines

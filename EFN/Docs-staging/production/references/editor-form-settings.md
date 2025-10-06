@@ -44,6 +44,36 @@ Form Settings is a collapsible grey panel within the Notebook Editor that contro
 
 **See**: [UI Interaction Patterns](./ui-interaction-patterns.md#10-form-settings-collapsible-panel) for complete collapse/expand details.
 
+## Editor Workflow: Form → Section → Field Hierarchy {essential}
+
+### Structure Overview
+
+Notebooks contain:
+
+- **Forms** (viewsets) → organise different data entry screens
+- **Sections** → group related fields within a form
+- **Fields** → individual data entry points
+
+### Creation Sequence
+
+1. **Create Form**:
+   - Enter form name in "Form Name" field
+   - Click green "ADD NEW FORM" button
+   - Form created with badge showing form name
+
+2. **Create Section** (within form):
+   - Enter section name in "Section Name" field
+   - Click "+" button
+   - Section created with numbered badge (1, 2, 3...)
+
+3. **Add Fields** (within section):
+   - Click "ADD A FIELD" button
+   - Modal dialogue opens with field type categories
+   - Select field type, configure, click "ADD FIELD"
+
+**Critical for Documentation**: Don't skip the section creation step. Users need to explicitly
+create a section before adding fields.
+
 ### Key Concepts {essential}
 
 | Concept | Description | Impact |

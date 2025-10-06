@@ -386,7 +386,49 @@ This document captures fundamental UI interaction principles extracted from syst
 
 ---
 
-### 13. Dashboard vs Data Collection App Distinction {essential}
+## 13. List Item Placement Behaviour {important}
+
+### New Items Appear at End of Lists
+
+When creating new notebooks or templates in the Dashboard, the newly created item appears
+at the **END of the list**, not at the beginning (top).
+
+**User Impact**:
+
+- Users with many notebooks (50+) will need to navigate to find their new item
+- Pagination controls required for long lists
+- Search functionality is essential
+
+### Finding Newly Created Items
+
+**Recommend documenting these steps**:
+
+1. **Use Search**: Type the notebook name in the search bar at top of list
+2. **Use Pagination**: Click through pages to reach the end of the list
+3. **Check Counter**: "Page X of Y" shows total pages to navigate
+
+**Example for Quickstart**:
+
+```text
+After clicking "Create Notebook", you return to the notebook list. Your new notebook
+appears at the END of the list.
+
+**To find it**:
+- If you have many notebooks: Use pagination controls at bottom ("1-10 of 50 notebooks")
+- Click through to last page, or use search bar to search for "My First Survey"
+```
+
+### Pagination Controls
+
+Located at bottom-right of list tables:
+
+- "1-10 of 50 notebooks" (shows current range and total)
+- Arrow buttons (< >) to navigate pages
+- Rows per page selector (25, 50, 100)
+
+---
+
+### 14. Dashboard vs Data Collection App Distinction {essential}
 
 **Applies to**: Both Dashboard and Data Collection App
 
@@ -427,7 +469,7 @@ This document captures fundamental UI interaction principles extracted from syst
 
 ---
 
-### 14. Save Behaviour in Notebook Editor {critical}
+### 15. Save Behaviour in Notebook Editor {critical}
 
 **Applies to**: Notebook Editor (modal overlay in Dashboard)
 
@@ -461,7 +503,7 @@ This document captures fundamental UI interaction principles extracted from syst
 
 ---
 
-### 15. Pagination Controls in Dashboard {important}
+### 16. Pagination Controls in Dashboard {important}
 
 **Applies to**: Dashboard (Notebooks, Templates, Users, and Teams all use the same pagination controls)
 

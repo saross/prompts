@@ -30,6 +30,14 @@ meta:depth-tags: [essential, important, comprehensive]
 <!-- concat:nav-mode:concatenated -->
 <!-- When viewing in reference.md: [↑ Templates Interface](#templates-interface) | [Users Interface ↓](#users-interface) -->
 
+## Recommended Workflow for Beginners {important}
+
+**This is the RECOMMENDED starting point for new users.** Creating notebooks directly allows
+immediate field-testing and iterative refinement. Once you've proven your design, you can
+optionally convert it to a template for reuse.
+
+**Workflow**: Create Notebook → Test in field → Refine → Optional: Convert to Template
+
 ## Overview {essential}
 
 Notebooks are deployed instances of templates where actual data collection occurs. Each notebook:
@@ -319,6 +327,15 @@ Provides administrative operations for notebook management:
 - Closing is reversible - notebooks can be reopened anytime
 - All existing data preserved when closed
 - Export functionality still available when closed
+
+## Deploying Notebooks for Data Collection
+
+After creating a notebook in the Editor, you must **activate** it in the mobile app
+to collect data.
+
+**See**: [Activation Workflow](./activation-workflow.md) for complete activation process.
+
+**Important**: Activation occurs in the mobile app (app.fieldmark.app), NOT in the Dashboard.
 
 ## Data Collection Workflow {important}
 

@@ -30,6 +30,18 @@ meta:depth-tags: [essential, important, comprehensive]
 <!-- concat:nav-mode:concatenated -->
 <!-- When viewing in reference.md: [↑ Dashboard Overview](#dashboard-overview) | [Notebooks Interface ↓](#notebooks-interface) -->
 
+## Pedagogical Note for Documentation Writers {meta}
+
+**For NEW USERS**: We recommend creating notebooks directly first, then converting proven
+notebooks to templates later. Template-first creation is an advanced workflow for experienced
+users building reusable patterns.
+
+**Beginner Path**: Notebooks → Create Notebook → Field-test → Convert to Template (optional)
+**Advanced Path**: Templates → Create Template → Deploy Notebooks
+
+See [template-workflow-principle.md](../references/template-workflow-principle.md) for
+detailed rationale.
+
 ## Overview {essential}
 
 Templates define the structure and behaviour of data collection notebooks. They contain:
